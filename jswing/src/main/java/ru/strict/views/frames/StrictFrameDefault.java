@@ -1,6 +1,6 @@
 package ru.strict.views.frames;
 
-import ru.strict.StrictUtilLogger;
+import ru.strict.utils.StrictUtilLogger;
 import ru.strict.models.frames.StrictModelFrameDefault;
 import ru.strict.enums.StrictEnumColors;
 import ru.strict.views.components.StrictPanelContent;

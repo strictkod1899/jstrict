@@ -1,10 +1,10 @@
 package ru.strict.utils;
 
-import  org.junit.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import ru.strict.StrictUtilHash;
+import ru.strict.utils.StrictUtilHash;
 
 @RunWith(JUnit4.class)
 public class TestStrictUtilHash {

@@ -1,6 +1,7 @@
 package ru.strict;
 
 import ru.strict.enums.StrictEnumDbTypes;
+import ru.strict.utils.StrictUtilLogger;
 
 import java.sql.Connection;
 import java.sql.Driver;

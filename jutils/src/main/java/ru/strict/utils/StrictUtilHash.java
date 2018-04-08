@@ -1,4 +1,4 @@
-package ru.strict;
+package ru.strict.utils;
 
 import java.io.UnsupportedEncodingException;
 

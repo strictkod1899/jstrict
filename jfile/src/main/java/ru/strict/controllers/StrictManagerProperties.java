@@ -1,6 +1,6 @@
 package ru.strict.controllers;
 
-import ru.strict.StrictUtilLogger;
+import ru.strict.utils.StrictUtilLogger;
 
 import java.io.File;
 import java.io.FileInputStream;

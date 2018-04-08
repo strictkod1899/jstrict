@@ -1,6 +1,6 @@
 package ru.strict.controllers.views;
 
-import ru.strict.StrictUtilLogger;
+import ru.strict.utils.StrictUtilLogger;
 import ru.strict.controllers.views.dialogs.StrictControllerDialogDefault;
 import ru.strict.controllers.views.frames.StrictControllerFrameDefault;
 import ru.strict.controllers.views.panels.StrictControllerPanelContent;

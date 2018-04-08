@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import ru.strict.StrictUtilCollections;
+import ru.strict.utils.StrictUtilCollections;
 
 import java.util.ArrayList;
 import java.util.Arrays;

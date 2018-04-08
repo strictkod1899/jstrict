@@ -1,6 +1,6 @@
 package ru.strict.views.components;
 
-import ru.strict.StrictUtilLogger;
+import ru.strict.utils.StrictUtilLogger;
 import ru.strict.models.panels.StrictModelPanelState;
 
 import javax.swing.JMenuBar;

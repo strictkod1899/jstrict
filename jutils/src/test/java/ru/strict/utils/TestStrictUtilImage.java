@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import ru.strict.StrictUtilImage;
+import ru.strict.utils.StrictUtilImage;
 
 import java.io.File;
 

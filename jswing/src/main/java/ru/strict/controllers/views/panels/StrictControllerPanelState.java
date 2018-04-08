@@ -1,13 +1,13 @@
 package ru.strict.controllers.views.panels;
 
-import ru.strict.StrictUtilLogger;
-import ru.strict.StrictUtilResources;
+import ru.strict.utils.StrictUtilLogger;
+import ru.strict.utils.StrictUtilResources;
 import ru.strict.models.panels.StrictModelPanelState;
 import ru.strict.enums.StrictEnumColors;
 import ru.strict.enums.StrictEnumFonts;
 import ru.strict.enums.StrictEnumIcons;
-import ru.strict.StrictUtilFrame;
-import ru.strict.StrictUtilImage;
+import ru.strict.utils.StrictUtilFrame;
+import ru.strict.utils.StrictUtilImage;
 import ru.strict.validates.StrictValidateBaseValue;
 import ru.strict.views.StrictFormBase;
 import ru.strict.views.components.StrictPanelState;

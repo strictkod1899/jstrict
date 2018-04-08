@@ -1,4 +1,4 @@
-package ru.strict;
+package ru.strict.utils;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;

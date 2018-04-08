@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import ru.strict.StrictUtilConfigLog4j;
+import ru.strict.utils.StrictUtilConfigLog4j;
 
 @RunWith(JUnit4.class)
 public class TestStrictUtilConfigLog4J {

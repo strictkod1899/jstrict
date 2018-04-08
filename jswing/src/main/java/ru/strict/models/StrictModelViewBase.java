@@ -2,7 +2,7 @@ package ru.strict.models;
 
 import ru.strict.enums.StrictEnumColors;
 import ru.strict.enums.StrictEnumFonts;
-import ru.strict.StrictUtilFrame;
+import ru.strict.utils.StrictUtilFrame;
 
 import java.awt.*;
 

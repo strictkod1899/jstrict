@@ -1,4 +1,4 @@
-package ru.strict;
+package ru.strict.utils;
 
 import java.util.Calendar;
 import java.util.Date;

@@ -2,7 +2,7 @@ package ru.strict.models.frames;
 
 //import ru.strict.jdbc.entities.StrictEntityUser;
 import ru.strict.enums.StrictEnumFonts;
-import ru.strict.StrictUtilFrame;
+import ru.strict.utils.StrictUtilFrame;
 
 import java.awt.*;
 import java.awt.event.ActionListener;

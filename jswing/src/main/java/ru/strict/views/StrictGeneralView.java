@@ -1,6 +1,6 @@
 package ru.strict.views;
 
-import ru.strict.StrictUtilLogger;
+import ru.strict.utils.StrictUtilLogger;
 import ru.strict.models.StrictModelFormBase;
 import ru.strict.views.dialogs.StrictDialogDefault;
 import ru.strict.views.frames.StrictFrameDefault;
