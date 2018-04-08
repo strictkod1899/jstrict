@@ -23,4 +23,15 @@
         <module>jdb</module>
         <module>jfile</module>
     </modules>
+
+    <!-- Перенести блок properties в корневой модуль проекта-->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jdk.version>1.8</jdk.version>
+        <plugin.compiler.version>2.5.1</plugin.compiler.version>
+        <plugin.jar.version>2.4</plugin.jar.version>
+        <plugin.dependency.version>2.5.1</plugin.dependency.version>
+        <plugin.surefire.version>2.12.4</plugin.surefire.version>
+        <plugin.war.version>3.2.0</plugin.war.version>
+    </properties>
 </project>
