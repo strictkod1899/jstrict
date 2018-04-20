@@ -3,13 +3,12 @@ package ru.strict.db.repositories;
 import ru.strict.db.connections.StrictCreateConnectionAny;
 import ru.strict.db.dto.StrictDtoBase;
 import ru.strict.db.enums.StrictDataState;
-import ru.strict.db.mappers.StrictBaseMapper;
+import ru.strict.db.mappers.StrictMapperBase;
 import ru.strict.db.requests.StrictDbRequests;
 import ru.strict.db.entities.StrictEntityBase;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,7 +27,7 @@ public abstract class StrictRepositoryBase
     /**
      * Маппер связанной сущности/dto
      */
-    private StrictBaseMapper<E, DTO> mapper;
+    private StrictMapperBase<E, DTO> mapper;
 
     /**
      * Кэшированный список объектов
@@ -41,34 +40,13 @@ public abstract class StrictRepositoryBase
     private StrictDataState state;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public StrictRepositoryBase(SOURCE connectionSource, StrictBaseMapper<E, DTO> mapper) {
+    public StrictRepositoryBase(SOURCE connectionSource, StrictMapperBase<E, DTO> mapper) {
         this.connectionSource = connectionSource;
         this.mapper = mapper;
         objects = new LinkedList<>();
         state = StrictDataState.NONE;
     }
     //</editor-fold>
-
-    /**
-     * TODO: Удалить метод: перенести в модуль jdbc
-     * Получение списка объектов через запрос к базе данных
-     * @return
-     */
-    private List<E> createObjects(StrictDbRequests wheres){
-        Statement statement;
-        ResultSet resultSet;
-        List<E> result = new LinkedList<>();
-        /*try {
-            statement = createConnection().createStatement();
-
-            resultSet = statement.executeQuery(getSqlSelect() + (wheres==null?"":wheres.toString()));
-            while(resultSet.next())
-                result.add(initObject(resultSet));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }*/
-        return result;
-    }
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
     /**
@@ -83,7 +61,7 @@ public abstract class StrictRepositoryBase
         return connectionSource;
     }
 
-    public StrictBaseMapper<E, DTO> getMapper() {
+    public StrictMapperBase<E, DTO> getMapper() {
         return mapper;
     }
 
@@ -91,8 +69,17 @@ public abstract class StrictRepositoryBase
         return objects;
     }
 
+    public void setObjects(List<DTO> objects) {
+        this.objects = objects;
+    }
+
     public StrictDataState getState() {
         return state;
     }
+
+    public void setState(StrictDataState state) {
+        this.state = state;
+    }
+
     //</editor-fold>
 }

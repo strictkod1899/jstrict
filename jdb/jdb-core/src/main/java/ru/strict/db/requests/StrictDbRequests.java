@@ -4,6 +4,7 @@ import java.util.*;
 
 /**
  * Набор условий для добавления к запросу
+ * //
  *
  * Пример использования:
  * StrictDbRequests wheres = new StrictDbRequests(false);
@@ -19,6 +20,26 @@ public class StrictDbRequests extends LinkedList<StrictDbRequest> {
 
     public StrictDbRequests(boolean boolAnd) {
         this.boolAnd = boolAnd;
+    }
+
+    public String getSql(){
+        String result = "";
+        if(!isEmpty())
+            result+=" WHERE ";
+
+        String symbol;
+        if(boolAnd)
+            symbol = "AND";
+        else
+            symbol = "OR";
+
+        if(size()>0)
+            result += get(0).toString() + " ";
+
+        for(int i=1; i<size(); i++)
+            result += symbol + " " + get(i).toString() + " ";
+
+        return result;
     }
 
     @Override

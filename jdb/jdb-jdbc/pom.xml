@@ -17,6 +17,13 @@
     <name>jdb-jdbc</name>
     <url>http://maven.apache.org</url>
 
+    <dependencies>
+        <dependency>
+            <groupId>ru.strict</groupId>
+            <artifactId>jdb-core</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
