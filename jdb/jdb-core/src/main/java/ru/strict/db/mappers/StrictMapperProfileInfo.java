@@ -3,7 +3,7 @@ package ru.strict.db.mappers;
 import ru.strict.db.dto.StrictDtoProfileInfo;
 import ru.strict.db.entities.StrictEntityProfileInfo;
 
-public class StrictMapperProfileInfo extends StrictBaseMapper<StrictEntityProfileInfo, StrictDtoProfileInfo>{
+public class StrictMapperProfileInfo extends StrictMapperBase<StrictEntityProfileInfo, StrictDtoProfileInfo> {
 
     @Override
     protected StrictEntityProfileInfo implementMap(StrictDtoProfileInfo dto) {

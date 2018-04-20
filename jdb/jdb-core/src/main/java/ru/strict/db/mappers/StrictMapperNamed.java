@@ -3,7 +3,7 @@ package ru.strict.db.mappers;
 import ru.strict.db.dto.StrictDtoNamed;
 import ru.strict.db.entities.StrictEntityNamed;
 
-public class StrictMapperNamed extends StrictBaseMapper<StrictEntityNamed, StrictDtoNamed>{
+public class StrictMapperNamed extends StrictMapperBase<StrictEntityNamed, StrictDtoNamed> {
 
     @Override
     protected StrictEntityNamed implementMap(StrictDtoNamed dto) {

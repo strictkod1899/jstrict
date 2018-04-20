@@ -3,7 +3,7 @@ package ru.strict.db.mappers;
 import ru.strict.db.dto.StrictDtoUser;
 import ru.strict.db.entities.StrictEntityUser;
 
-public class StrictMapperUser extends StrictBaseMapper<StrictEntityUser, StrictDtoUser>{
+public class StrictMapperUser extends StrictMapperBase<StrictEntityUser, StrictDtoUser> {
 
     private StrictMapperRoleuser mapperRoleuser;
 

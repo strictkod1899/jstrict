@@ -3,7 +3,7 @@ package ru.strict.db.mappers;
 import ru.strict.db.dto.StrictDtoRoleuser;
 import ru.strict.db.entities.StrictEntityRoleuser;
 
-public class StrictMapperRoleuser extends StrictBaseMapper<StrictEntityRoleuser, StrictDtoRoleuser>{
+public class StrictMapperRoleuser extends StrictMapperBase<StrictEntityRoleuser, StrictDtoRoleuser> {
 
     @Override
     protected StrictEntityRoleuser implementMap(StrictDtoRoleuser dto) {

@@ -3,7 +3,7 @@ package ru.strict.db.mappers;
 import ru.strict.db.dto.StrictDtoBase;
 import ru.strict.db.entities.StrictEntityBase;
 
-public abstract class StrictBaseMapper<E extends StrictEntityBase, DTO extends StrictDtoBase>
+public abstract class StrictMapperBase<E extends StrictEntityBase, DTO extends StrictDtoBase>
         implements StrictMapperAny<E, DTO> {
     protected abstract E implementMap(DTO dto);
     protected abstract DTO implementMap(E entity);
