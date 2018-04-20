@@ -1,5 +1,6 @@
 package ru.strict.db.repositories;
 
+import ru.strict.db.connections.StrictCreateConnectionAny;
 import ru.strict.db.dto.StrictDtoBase;
 import ru.strict.db.enums.StrictDataState;
 import ru.strict.db.mappers.StrictBaseMapper;
@@ -14,12 +15,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class StrictRepositoryBase
-        <ID, SOURCE, E extends StrictEntityBase, DTO extends StrictDtoBase>
+        <ID, SOURCE extends StrictCreateConnectionAny, E extends StrictEntityBase, DTO extends StrictDtoBase>
         implements StrictRepositoryAny<ID, E, DTO>{
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
-     * например, DataSource, StringConnectionInfo и др.
+     * является реализацией интерфейса StrictCreateConnectionAny,
+     * например, StrictCreateConnectionByDataSource, StrictCreateConnectionByConnectionInfo и др.
      */
     private SOURCE connectionSource;
 
@@ -48,12 +50,6 @@ public abstract class StrictRepositoryBase
     //</editor-fold>
 
     /**
-     * Создать соединение с базой даннных
-     * @return
-     */
-    protected abstract Connection createConnection();
-
-    /**
      * TODO: Удалить метод: перенести в модуль jdbc
      * Получение списка объектов через запрос к базе данных
      * @return
@@ -63,7 +59,7 @@ public abstract class StrictRepositoryBase
         ResultSet resultSet;
         List<E> result = new LinkedList<>();
         /*try {
-            statement = getConnection().createStatement();
+            statement = createConnection().createStatement();
 
             resultSet = statement.executeQuery(getSqlSelect() + (wheres==null?"":wheres.toString()));
             while(resultSet.next())
@@ -75,6 +71,14 @@ public abstract class StrictRepositoryBase
     }
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
+    /**
+     * Создать соединение с базой даннных
+     * @return
+     */
+    protected Connection createConnection(){
+        return connectionSource.createConnection();
+    }
+
     public SOURCE getConnectionSource() {
         return connectionSource;
     }
