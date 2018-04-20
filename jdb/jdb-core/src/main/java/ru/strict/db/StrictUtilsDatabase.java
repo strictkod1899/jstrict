@@ -1,12 +1,9 @@
-package ru.strict;
+package ru.strict.db;
 
-import ru.strict.enums.StrictEnumDbTypes;
+import ru.strict.db.enums.StrictConnectionByDbType;
 import ru.strict.utils.StrictUtilLogger;
 
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -18,7 +15,6 @@ public class StrictUtilsDatabase {
 
 	/**
      * Получить объект DataSource с базой данных
-     *
      * @param nameLookUp      Строка получения DataSource
      * @return
      */
@@ -35,7 +31,6 @@ public class StrictUtilsDatabase {
 
     /**
      * Получить объект соединения с базой данных
-     *
      * @param nameLookUp      Строка получения DataSource
      * @return
      */
@@ -59,7 +54,7 @@ public class StrictUtilsDatabase {
      * @param user      пользователь базы данных
      * @param password  пароль для подключения к базе данных
      */
-    public static Connection createConnection(String dbCaption, StrictEnumDbTypes dbType, String user, String password) {
+    public static Connection createConnection(String dbCaption, StrictConnectionByDbType dbType, String user, String password) {
         StrictUtilLogger.info(StrictUtilsDatabase.class, "createConnection - started");
         try {
             // Путь к базе данных
@@ -74,5 +69,22 @@ public class StrictUtilsDatabase {
             StrictUtilLogger.error(StrictUtilsDatabase.class, ex.getClass().toString(), ex.getMessage());
         }
         return null;
+    }
+
+    /**
+     * Выполнить запрос на выборку данных
+     * @param connection Соединение с базой данных
+     * @param sql Sql запрос на выборку данных
+     * @return
+     */
+    public ResultSet qSelectValue(Connection connection, String sql){
+        ResultSet rs = null;
+
+        try {
+            rs = connection.createStatement().executeQuery(sql);
+        } catch (SQLException ex) {
+            StrictUtilLogger.error(StrictManagerDatabase.class, ex.getClass().toString(), ex.getMessage());
+        }
+        return rs;
     }
 }

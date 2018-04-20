@@ -1,9 +1,9 @@
-package ru.strict.enums;
+package ru.strict.db.enums;
 
 /**
  * Доступные к использованию типы базы данных
  */
-public enum StrictEnumDbTypes {
+public enum StrictConnectionByDbType {
 
     /**
      * Информация для подключения к базе данных Postgresql
@@ -42,7 +42,7 @@ public enum StrictEnumDbTypes {
      */
     private String driver;
 
-    private StrictEnumDbTypes(String url, String driver) {
+    private StrictConnectionByDbType(String url, String driver) {
         this.url = url;
         this.driver = driver;
     }

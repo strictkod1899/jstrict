@@ -1,14 +1,11 @@
-package ru.strict.entities;
+package ru.strict.db.dto;
 
 import java.util.Date;
 
-/**
- * Класс определяет entity человека, с набором информационных полей
- */
-public class StrictEntityProfileInfo extends StrictEntityProfile<Long> {
+public class StrictDtoProfileInfo<ID> extends StrictDtoProfile<ID> {
 
     /**
-     * Возраст
+     * Дата рождения
      */
     private Date dateBirth;
 
@@ -32,11 +29,17 @@ public class StrictEntityProfileInfo extends StrictEntityProfile<Long> {
      */
     private String address;
 
-    public StrictEntityProfileInfo(){
+    //<editor-fold defaultState="collapsed" desc="constructors">
+    public StrictDtoProfileInfo(){
         super();
+        dateBirth = null;
+        phone = null;
+        counrty = null;
+        city = null;
+        address = null;
     }
 
-    public StrictEntityProfileInfo(String name, String surname, String lastname, Date dateBirth, String phone, String counrty, String city, String address) {
+    public StrictDtoProfileInfo(String name, String surname, String lastname, Date dateBirth, String phone, String counrty, String city, String address) {
         super(name, surname, lastname);
         this.dateBirth = dateBirth;
         this.phone = phone;
@@ -45,7 +48,7 @@ public class StrictEntityProfileInfo extends StrictEntityProfile<Long> {
         this.address = address;
     }
 
-    public StrictEntityProfileInfo(Long id, String name, String surname, String lastname, Date dateBirth, String phone, String counrty, String city, String address) {
+    public StrictDtoProfileInfo(ID id, String name, String surname, String lastname, Date dateBirth, String phone, String counrty, String city, String address) {
         super(id, name, surname, lastname);
         this.dateBirth = dateBirth;
         this.phone = phone;
@@ -53,7 +56,9 @@ public class StrictEntityProfileInfo extends StrictEntityProfile<Long> {
         this.city = city;
         this.address = address;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultState="collapsed" desc="Get/Set">
     public Date getDateBirth() {
         return dateBirth;
     }
@@ -93,4 +98,21 @@ public class StrictEntityProfileInfo extends StrictEntityProfile<Long> {
     public void setAddress(String address) {
         this.address = address;
     }
+    //</editor-fold>
+
+    //<editor-fold defaultState="collapsed" desc="Base override">
+    public String toString(){
+        return String.format("s%\n%tD, phone: %s, %s %s %s", super.toString(), dateBirth, phone, counrty, city, address);
+    }
+
+    public boolean equals(Object obj){
+        if(obj instanceof StrictDtoProfileInfo){
+            StrictDtoProfileInfo entity = (StrictDtoProfileInfo) obj;
+            return super.equals(entity) && dateBirth==entity.getDateBirth() && phone.equals(entity.getPhone())
+                    && counrty.equals(entity.getCounrty()) && city.equals(entity.getCity())
+                    && address.equals(entity.getAddress());
+        }else
+            return false;
+    }
+    //</editor-fold>
 }

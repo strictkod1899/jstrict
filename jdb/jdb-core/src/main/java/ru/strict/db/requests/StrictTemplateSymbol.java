@@ -1,6 +1,6 @@
-package ru.strict.requests;
+package ru.strict.db.requests;
 
-import ru.strict.enums.StrictEnumTemplateSymbol;
+import ru.strict.db.enums.StrictEnumTemplateSymbol;
 
 /**
  * Шаблонный символ сравнения строк

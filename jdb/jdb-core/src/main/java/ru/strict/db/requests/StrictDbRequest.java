@@ -1,12 +1,12 @@
-package ru.strict.requests;
+package ru.strict.db.requests;
 
-import ru.strict.enums.StrictEnumTemplateSymbol;
+import ru.strict.db.enums.StrictEnumTemplateSymbol;
 
 /**
  * Условие WHERE
  * @param <V> Тип сравниваемого значения
  */
-public class StrictDbWhere<V extends Object> {
+public class StrictDbRequest<V> {
 
     /**
      * Наименование столбца
@@ -30,7 +30,7 @@ public class StrictDbWhere<V extends Object> {
      */
     private boolean ignoreCase;
 
-    public StrictDbWhere(String columnName, V columnValue, String operator, StrictTemplateSymbol templateSymbol, boolean ignoreCase) {
+    public StrictDbRequest(String columnName, V columnValue, String operator, StrictTemplateSymbol templateSymbol, boolean ignoreCase) {
         this.columnName = columnName;
         this.columnValue = columnValue;
         this.operator = operator;

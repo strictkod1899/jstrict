@@ -1,9 +1,6 @@
-package ru.strict.entities;
+package ru.strict.db.entities;
 
-/**
- * Класс описывает entity человека
- */
-public class StrictEntityProfile<ID extends Long> extends StrictEntityBase<ID> {
+public class StrictEntityProfile<ID> extends StrictEntityBase<ID> {
 
     /**
      * Имя
@@ -20,8 +17,12 @@ public class StrictEntityProfile<ID extends Long> extends StrictEntityBase<ID> {
      */
     private String middlename;
 
+    //<editor-fold defaultState="collapsed" desc="constructors">
     public StrictEntityProfile() {
         super();
+        name = null;
+        surname = null;
+        middlename = null;
     }
 
     public StrictEntityProfile(String name, String surname, String middlename) {
@@ -37,7 +38,9 @@ public class StrictEntityProfile<ID extends Long> extends StrictEntityBase<ID> {
         this.surname = surname;
         this.middlename = middlename;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultState="collapsed" desc="Get/Set">
     /**
      * Получить имя
      * @return
@@ -85,4 +88,21 @@ public class StrictEntityProfile<ID extends Long> extends StrictEntityBase<ID> {
     public void setMiddlename(String middlename) {
         this.middlename = middlename;
     }
+    //</editor-fold>
+
+    //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
+    public String toString(){
+        return String.format("s%: %s %s %s", super.toString(), surname, name, middlename);
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof StrictEntityProfile) {
+            StrictEntityProfile entity = (StrictEntityProfile) obj;
+            return super.equals(entity) && name.equals(entity.getName()) && surname.equals(entity.getSurname()) && middlename.equals(entity.getMiddlename());
+        }else
+            return false;
+    }
+    //</editor-fold>
 }

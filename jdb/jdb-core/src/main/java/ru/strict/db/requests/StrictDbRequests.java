@@ -1,4 +1,4 @@
-package ru.strict.requests;
+package ru.strict.db.requests;
 
 import java.util.*;
 
@@ -6,18 +6,18 @@ import java.util.*;
  * Набор условий для добавления к запросу
  *
  * Пример использования:
- * StrictDbWheres wheres = new StrictDbWheres(false);
+ * StrictDbRequests wheres = new StrictDbRequests(false);
  * // Считаются все значения книг, наименование которых начинается с буквы "И"
- * wheres.add(new StrictDbWhere("books.name", "И", "LIKE", new StrictTemplateSymbol("%", StrictEnumTemplateSymbol.END), true));
+ * wheres.add(new StrictDbRequest("books.name", "И", "LIKE", new StrictTemplateSymbol("%", StrictEnumTemplateSymbol.END), true));
  */
-public class StrictDbWheres extends LinkedList<StrictDbWhere> {
+public class StrictDbRequests extends LinkedList<StrictDbRequest> {
 
     /**
      * Добавлять AND между условиями
      */
     private boolean boolAnd;
 
-    public StrictDbWheres(boolean boolAnd) {
+    public StrictDbRequests(boolean boolAnd) {
         this.boolAnd = boolAnd;
     }
 
