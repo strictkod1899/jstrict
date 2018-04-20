@@ -4,9 +4,24 @@ import ru.strict.db.enums.StrictConnectionByDbType;
 
 public class StrictConnectionInfo {
 
+    /**
+     * Наименование базы данных, к которой производится подключение
+     */
     private String dbCaption;
+
+    /**
+     * Тип подключаемой базы данных
+     */
     private StrictConnectionByDbType dbType;
+
+    /**
+     * Пользователь базы данных
+     */
     private String username;
+
+    /**
+     * Пароль для подключения к базе данных
+     */
     private String password;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

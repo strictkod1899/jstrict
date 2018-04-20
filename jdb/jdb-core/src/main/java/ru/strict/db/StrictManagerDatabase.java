@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Управление базой данных
  */
-public abstract class StrictManagerDatabase<SOURCE> {
+public class StrictManagerDatabase<SOURCE> {
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),

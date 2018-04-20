@@ -48,6 +48,12 @@ public abstract class StrictRepositoryBase
     //</editor-fold>
 
     /**
+     * Создать соединение с базой даннных
+     * @return
+     */
+    protected abstract Connection createConnection();
+
+    /**
      * TODO: Удалить метод: перенести в модуль jdbc
      * Получение списка объектов через запрос к базе данных
      * @return
