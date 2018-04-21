@@ -14,6 +14,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Базовый класс репозитория с использованием Jdbc
+ */
 public abstract class StrictRepositoryJdbc
         <ID, SOURCE extends StrictCreateConnectionAny, E extends StrictEntityBase, DTO extends StrictDtoBase>
         extends StrictRepositoryBase<ID, SOURCE, E, DTO>{

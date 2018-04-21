@@ -13,6 +13,13 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Базовый класс репозитория
+ * @param <ID> Тип идентификатора
+ * @param <SOURCE> Источник для получения соединения с базой данных
+ * @param <E> Тип сущности базы данных (entity)
+ * @param <DTO> Тип Dto-сущности базы данных
+ */
 public abstract class StrictRepositoryBase
         <ID, SOURCE extends StrictCreateConnectionAny, E extends StrictEntityBase, DTO extends StrictDtoBase>
         implements StrictRepositoryAny<ID, E, DTO>{
@@ -80,6 +87,5 @@ public abstract class StrictRepositoryBase
     public void setState(StrictDataState state) {
         this.state = state;
     }
-
     //</editor-fold>
 }

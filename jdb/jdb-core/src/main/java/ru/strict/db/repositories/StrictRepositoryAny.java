@@ -8,6 +8,9 @@ import java.util.List;
 
 /**
  * Базовое описание репозитория
+ * @param <ID> Тип идентификатора
+ * @param <E> Тип сущности базы данных (entity)
+ * @param <DTO> Тип Dto-сущности базы данных
  */
 public interface StrictRepositoryAny<ID, E extends StrictEntityBase, DTO extends StrictDtoBase> {
 
