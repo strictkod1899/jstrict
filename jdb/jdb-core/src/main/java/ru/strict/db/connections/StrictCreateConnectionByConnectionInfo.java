@@ -1,6 +1,5 @@
 package ru.strict.db.connections;
 
-import ru.strict.db.StrictConnectionInfo;
 import ru.strict.utils.StrictUtilLogger;
 
 import java.sql.Connection;

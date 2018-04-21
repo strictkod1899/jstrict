@@ -1,4 +1,4 @@
-package ru.strict.db;
+package ru.strict.db.connections;
 
 import ru.strict.db.enums.StrictConnectionByDbType;
 
