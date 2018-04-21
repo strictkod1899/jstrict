@@ -1,72 +1,59 @@
 package ru.strict.db.dto;
 
-public class StrictDtoUser<ID> extends StrictDtoBase<ID>{
+public class StrictDtoUser<ID> extends StrictDtoUserBase<ID>{
 
-    private String username;
-    private String passwordmd5;
-    private StrictDtoRoleuser roleuser;
+    private String passwordEncode;
+    private String token;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public StrictDtoUser() {
         super();
-        this.username = null;
-        this.passwordmd5 = null;
-        this.roleuser = null;
+        this.passwordEncode = null;
+        this.token = null;
     }
 
-    public StrictDtoUser(String username, String passwordmd5, StrictDtoRoleuser roleuser) {
-        super();
-        this.username = username;
-        this.passwordmd5 = passwordmd5;
-        this.roleuser = roleuser;
+    public StrictDtoUser(String username, String passwordEncode, StrictDtoRoleuser roleuser, String token) {
+        super(username, roleuser);
+        this.passwordEncode = passwordEncode;
+        this.token = token;
     }
 
-    public StrictDtoUser(ID id, String username, String passwordmd5, StrictDtoRoleuser roleuser) {
-        super(id);
-        this.username = username;
-        this.passwordmd5 = passwordmd5;
-        this.roleuser = roleuser;
+    public StrictDtoUser(ID id, String username, String passwordEncode, StrictDtoRoleuser roleuser, String token) {
+        super(id, username, roleuser);
+        this.passwordEncode = passwordEncode;
+        this.token = token;
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public String getUsername() {
-        return username;
+    public String getPasswordEncode() {
+        return passwordEncode;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setPasswordEncode(String passwordEncode) {
+        this.passwordEncode = passwordEncode;
     }
 
-    public String getPasswordmd5() {
-        return passwordmd5;
+    public String getToken() {
+        return token;
     }
 
-    public void setPasswordmd5(String passwordmd5) {
-        this.passwordmd5 = passwordmd5;
-    }
-
-    public StrictDtoRoleuser getRoleuser() {
-        return roleuser;
-    }
-
-    public void setRoleuser(StrictDtoRoleuser roleuser) {
-        this.roleuser = roleuser;
+    public void setToken(String token) {
+        this.token = token;
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("%s: %s (%s). Password: %s", super.toString(), username, roleuser.getSymbols(), passwordmd5);
+        return String.format("%s. Token: %s. Password: %s", super.toString(), token, passwordEncode);
     }
 
     @Override
     public boolean equals(Object obj){
         if(obj instanceof StrictDtoUser) {
             StrictDtoUser entity = (StrictDtoUser) obj;
-            return super.equals(entity) && username.equals(entity.getUsername())
-                    && passwordmd5.equals(entity.getPasswordmd5()) && roleuser.equals(entity.getRoleuser());
+            return super.equals(entity) && passwordEncode.equals(entity.getPasswordEncode()) && token.equals(entity.getToken());
         }else
             return false;
     }

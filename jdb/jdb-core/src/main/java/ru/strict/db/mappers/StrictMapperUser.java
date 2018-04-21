@@ -3,31 +3,25 @@ package ru.strict.db.mappers;
 import ru.strict.db.dto.StrictDtoUser;
 import ru.strict.db.entities.StrictEntityUser;
 
-public class StrictMapperUser extends StrictMapperBase<StrictEntityUser, StrictDtoUser> {
-
-    private StrictMapperRoleuser mapperRoleuser;
+public class StrictMapperUser extends StrictMapperUserBase<StrictDtoUser> {
 
     public StrictMapperUser(StrictMapperRoleuser mapperRoleuser){
-        this.mapperRoleuser = mapperRoleuser;
+        super(mapperRoleuser);
     }
 
     @Override
     protected StrictEntityUser implementMap(StrictDtoUser dto) {
-        StrictEntityUser entity = new StrictEntityUser();
-        entity.setId(dto.getId());
-        entity.setUsername(dto.getUsername());
-        entity.setPasswordmd5(dto.getPasswordmd5());
-        entity.setRoleuser(mapperRoleuser.map(dto.getRoleuser()));
+        StrictEntityUser entity = super.implementMap(dto);
+        entity.setPasswordEncode(dto.getPasswordEncode());
+        entity.setToken(dto.getToken());
         return entity;
     }
 
     @Override
     protected StrictDtoUser implementMap(StrictEntityUser entity) {
-        StrictDtoUser dto = new StrictDtoUser();
-        dto.setId(entity.getId());
-        dto.setUsername(entity.getUsername());
-        dto.setPasswordmd5(entity.getPasswordmd5());
-        dto.setRoleuser(mapperRoleuser.map(entity.getRoleuser()));
+        StrictDtoUser dto = super.implementMap(entity);
+        dto.setPasswordEncode(entity.getPasswordEncode());
+        dto.setToken(entity.getToken());
         return dto;
     }
 }
