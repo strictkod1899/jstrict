@@ -1,18 +1,21 @@
 package ru.strict.db.mappers;
 
-public abstract class StrictMapperBase<E extends MapSource, DTO extends MapTarget>
-        implements StrictMapperAny<E, DTO> {
+/**
+ * Базовая реализация маппера
+ */
+public abstract class StrictMapperBase<S extends MapSource, T extends MapTarget>
+        implements StrictMapperAny<S, T> {
 
-    protected abstract E implementMap(DTO dto);
-    protected abstract DTO implementMap(E entity);
+    protected abstract S implementMap(T t);
+    protected abstract T implementMap(S entity);
 
     @Override
-    public E map(DTO dto){
-        return dto==null ? null : implementMap(dto);
+    public S map(T t){
+        return t ==null ? null : implementMap(t);
     }
 
     @Override
-    public DTO map(E entity){
+    public T map(S entity){
         return entity==null ? null : implementMap(entity);
     }
 }

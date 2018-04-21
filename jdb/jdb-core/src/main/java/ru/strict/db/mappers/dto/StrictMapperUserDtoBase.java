@@ -3,7 +3,7 @@ package ru.strict.db.mappers.dto;
 import ru.strict.db.dto.StrictDtoUserBase;
 import ru.strict.db.entities.StrictEntityUser;
 
-public class StrictMapperUserDtoBase<DTO extends StrictDtoUserBase> extends StrictMapperDtoBase<StrictEntityUser, DTO> {
+public class StrictMapperUserDtoBase<T extends StrictDtoUserBase> extends StrictMapperDtoBase<StrictEntityUser, T> {
 
     private StrictMapperDtoRoleuser mapperRoleuser;
 
@@ -12,7 +12,7 @@ public class StrictMapperUserDtoBase<DTO extends StrictDtoUserBase> extends Stri
     }
 
     @Override
-    protected StrictEntityUser implementMap(DTO dto) {
+    protected StrictEntityUser implementMap(T dto) {
         StrictEntityUser entity = new StrictEntityUser();
         entity.setId(dto.getId());
         entity.setUsername(dto.getUsername());
@@ -21,8 +21,8 @@ public class StrictMapperUserDtoBase<DTO extends StrictDtoUserBase> extends Stri
     }
 
     @Override
-    protected DTO implementMap(StrictEntityUser entity) {
-        DTO dto = (DTO) new StrictDtoUserBase();
+    protected T implementMap(StrictEntityUser entity) {
+        T dto = (T) new StrictDtoUserBase();
         dto.setId(entity.getId());
         dto.setUsername(entity.getUsername());
         dto.setRoleuser(mapperRoleuser.map(entity.getRoleuser()));
