@@ -1,10 +1,13 @@
 package ru.strict.db.dto;
 
+import ru.strict.db.mappers.MapSource;
+import ru.strict.db.mappers.MapTarget;
+
 /**
  * Класс определяет базовый функционал dto
  * @param <ID> Тип поля ID
  */
-public abstract class StrictDtoBase<ID> {
+public abstract class StrictDtoBase<ID>  implements MapSource, MapTarget {
 
     /**
      * id записи

@@ -1,13 +1,13 @@
-package ru.strict.db.mappers;
+package ru.strict.db.mappers.dto;
 
 import ru.strict.db.dto.StrictDtoUserBase;
 import ru.strict.db.entities.StrictEntityUser;
 
-public class StrictMapperUserBase<DTO extends StrictDtoUserBase> extends StrictMapperBase<StrictEntityUser, DTO> {
+public class StrictMapperUserDtoBase<DTO extends StrictDtoUserBase> extends StrictMapperDtoBase<StrictEntityUser, DTO> {
 
-    private StrictMapperRoleuser mapperRoleuser;
+    private StrictMapperDtoRoleuser mapperRoleuser;
 
-    public StrictMapperUserBase(StrictMapperRoleuser mapperRoleuser){
+    public StrictMapperUserDtoBase(StrictMapperDtoRoleuser mapperRoleuser){
         this.mapperRoleuser = mapperRoleuser;
     }
 

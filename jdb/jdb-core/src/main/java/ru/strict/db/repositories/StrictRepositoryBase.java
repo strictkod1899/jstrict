@@ -4,12 +4,9 @@ import ru.strict.db.connections.StrictCreateConnectionAny;
 import ru.strict.db.dto.StrictDtoBase;
 import ru.strict.db.enums.StrictDataState;
 import ru.strict.db.mappers.StrictMapperBase;
-import ru.strict.db.requests.StrictDbRequests;
 import ru.strict.db.entities.StrictEntityBase;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 

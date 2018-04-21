@@ -71,16 +71,16 @@ public abstract class StrictRepositoryJdbc
 
     /**
      * Получение списка объектов через запрос к базе данных
-     * @param wheres Условия для выборки из базы данных
+     * @param requests Условия для выборки из базы данных
      * @return
      */
-    private List<DTO> createObjects(StrictDbRequests wheres){
+    private List<DTO> createObjects(StrictDbRequests requests){
         PreparedStatement statement;
         ResultSet resultSet;
         List<DTO> result = new LinkedList<>();
         try {
             statement = createConnection().prepareStatement(getSqlSelect() + "?");
-            statement.setString(1, wheres==null?"":wheres.getSql());
+            statement.setString(1, requests ==null?"": requests.getSql());
             resultSet = statement.executeQuery();
             while(resultSet.next())
                 result.add(createObject(resultSet));
