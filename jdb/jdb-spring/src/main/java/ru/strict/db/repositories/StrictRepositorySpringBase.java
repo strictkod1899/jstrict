@@ -50,7 +50,7 @@ public abstract class StrictRepositorySpringBase
         String sql = String.format("%s WHERE id = :entityId", getSqlSelect());
         SqlParameterSource parameters = new MapSqlParameterSource("entityId", id);
         E entity = springJdbc.queryForObject(sql, parameters, springMapper);
-        return getMapper().map(entity);
+        return getDtoMapper().map(entity);
     }
 
     @Override
@@ -59,7 +59,7 @@ public abstract class StrictRepositorySpringBase
         List<DTO> result = new LinkedList<>();
         List<E> entities = springJdbc.query(sql, springMapper);
         for(E entity : entities)
-            result.add(getMapper().map(entity));
+            result.add(getDtoMapper().map(entity));
         return result;
     }
 

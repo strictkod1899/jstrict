@@ -31,7 +31,7 @@ public abstract class StrictRepositoryBase
     /**
      * Маппер связанной сущности/dto
      */
-    private StrictMapperBase<E, DTO> mapper;
+    private StrictMapperBase<E, DTO> dtoMapper;
 
     /**
      * Кэшированный список объектов
@@ -44,9 +44,9 @@ public abstract class StrictRepositoryBase
     private StrictDataState state;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public StrictRepositoryBase(SOURCE connectionSource, StrictMapperBase<E, DTO> mapper) {
+    public StrictRepositoryBase(SOURCE connectionSource, StrictMapperBase<E, DTO> dtoMapper) {
         this.connectionSource = connectionSource;
-        this.mapper = mapper;
+        this.dtoMapper = dtoMapper;
         objects = new LinkedList<>();
         state = StrictDataState.NONE;
     }
@@ -65,8 +65,8 @@ public abstract class StrictRepositoryBase
         return connectionSource;
     }
 
-    public StrictMapperBase<E, DTO> getMapper() {
-        return mapper;
+    public StrictMapperBase<E, DTO> getDtoMapper() {
+        return dtoMapper;
     }
 
     public List<DTO> getObjects() {

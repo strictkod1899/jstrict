@@ -7,9 +7,9 @@ import java.util.*;
  * //
  *
  * Пример использования:
- * StrictDbRequests wheres = new StrictDbRequests(false);
+ * StrictDbRequests requests = new StrictDbRequests(false);
  * // Считаются все значения книг, наименование которых начинается с буквы "И"
- * wheres.add(new StrictDbRequest("books.name", "И", "LIKE", new StrictTemplateSymbol("%", StrictEnumTemplateSymbol.END), true));
+ * requests.add(new StrictDbRequest("books.name", "И", "LIKE", new StrictTemplateSymbol("%", StrictEnumTemplateSymbol.END), true));
  */
 public class StrictDbRequests extends LinkedList<StrictDbRequest> {
 

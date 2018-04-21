@@ -3,7 +3,7 @@ package ru.strict.db.mappers;
 /**
  * Базовая реализация маппера
  */
-public abstract class StrictMapperBase<S extends MapSource, T extends MapTarget>
+public abstract class StrictMapperBase<S, T extends MapTarget>
         implements StrictMapperAny<S, T> {
 
     protected abstract S implementMap(T t);
