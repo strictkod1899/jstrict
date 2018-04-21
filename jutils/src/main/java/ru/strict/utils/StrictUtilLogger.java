@@ -9,29 +9,45 @@ import static org.apache.log4j.Logger.getLogger;
  */
 public class StrictUtilLogger {
 
+    /**
+     * Информационное сообщение логирования для Debug-режима
+     * @param clazz Класс, в котором производится логирование
+     * @param message Сообщение исключения
+     */
     public static void trace(Class clazz, String message){
         Logger logger = getLogger(clazz);
         logger.trace(message);
     }
 
+    /**
+     * Информационное сообщение логирования
+     * @param clazz Класс, в котором производится логирование
+     * @param message Сообщение исключения
+     */
     public static void info(Class clazz, String message){
         Logger logger = getLogger(clazz);
         logger.info(message);
     }
 
+    /**
+     * Логирование исключения
+     * @param clazz Класс, в котором производится логирование
+     * @param message Сообщение исключения
+     */
     public static void error(Class clazz, String message){
         Logger logger = getLogger(clazz);
         logger.error(message);
     }
 
     /**
+     * Логирование исключения
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
      * StrictUtilLogger.error(MyClass.class, ex.getClass().toString(), ex.getMessage());
      * </pre></code>
-     * @param clazz
-     * @param type
-     * @param message
+     * @param clazz Класс, в котором производится логирование
+     * @param type Тип исключения
+     * @param message Сообщение исключения
      */
     public static void error(Class clazz, String type,  String message){
         Logger logger = getLogger(clazz);
@@ -39,14 +55,15 @@ public class StrictUtilLogger {
     }
 
     /**
+     * Логирование исключения
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
      * StrictUtilLogger.error(MyClass.class, "My message", ex.getClass().toString(), ex.getMessage());
      * </pre></code>
-     * @param clazz
-     * @param customMessage
-     * @param type
-     * @param message
+     * @param clazz Класс, в котором производится логирование
+     * @param customMessage Пользовательское (дополнительное) сообщение
+     * @param type Тип исключения
+     * @param message Сообщение исключения
      */
     public static void error(Class clazz, String customMessage, String type,  String message){
         Logger logger = getLogger(clazz);
