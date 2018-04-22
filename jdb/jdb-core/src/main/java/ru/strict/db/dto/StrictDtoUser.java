@@ -12,14 +12,14 @@ public class StrictDtoUser<ID> extends StrictDtoUserBase<ID>{
         this.token = null;
     }
 
-    public StrictDtoUser(String username, String passwordEncode, StrictDtoRoleuser roleuser, String token) {
-        super(username, roleuser);
+    public StrictDtoUser(String username, String passwordEncode, ID roleuserId, String token) {
+        super(username, roleuserId);
         this.passwordEncode = passwordEncode;
         this.token = token;
     }
 
-    public StrictDtoUser(ID id, String username, String passwordEncode, StrictDtoRoleuser roleuser, String token) {
-        super(id, username, roleuser);
+    public StrictDtoUser(ID id, String username, String passwordEncode, ID roleuserId, String token) {
+        super(id, username, roleuserId);
         this.passwordEncode = passwordEncode;
         this.token = token;
     }

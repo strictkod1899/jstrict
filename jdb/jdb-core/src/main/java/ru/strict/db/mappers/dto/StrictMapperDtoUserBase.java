@@ -3,11 +3,11 @@ package ru.strict.db.mappers.dto;
 import ru.strict.db.dto.StrictDtoUserBase;
 import ru.strict.db.entities.StrictEntityUser;
 
-public class StrictMapperUserDtoBase<T extends StrictDtoUserBase> extends StrictMapperDtoBase<StrictEntityUser, T> {
+public class StrictMapperDtoUserBase<T extends StrictDtoUserBase> extends StrictMapperDtoBase<StrictEntityUser, T> {
 
     private StrictMapperDtoRoleuser mapperRoleuser;
 
-    public StrictMapperUserDtoBase(StrictMapperDtoRoleuser mapperRoleuser){
+    public StrictMapperDtoUserBase(StrictMapperDtoRoleuser mapperRoleuser){
         this.mapperRoleuser = mapperRoleuser;
     }
 
@@ -16,6 +16,7 @@ public class StrictMapperUserDtoBase<T extends StrictDtoUserBase> extends Strict
         StrictEntityUser entity = new StrictEntityUser();
         entity.setId(dto.getId());
         entity.setUsername(dto.getUsername());
+        entity.setRoleuserId(dto.getRoleuserId());
         entity.setRoleuser(mapperRoleuser.map(dto.getRoleuser()));
         return entity;
     }
@@ -25,6 +26,7 @@ public class StrictMapperUserDtoBase<T extends StrictDtoUserBase> extends Strict
         T dto = (T) new StrictDtoUserBase();
         dto.setId(entity.getId());
         dto.setUsername(entity.getUsername());
+        dto.setRoleuserId(entity.getRoleuserId());
         dto.setRoleuser(mapperRoleuser.map(entity.getRoleuser()));
         return dto;
     }

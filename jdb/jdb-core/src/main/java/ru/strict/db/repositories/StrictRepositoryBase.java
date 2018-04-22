@@ -3,8 +3,8 @@ package ru.strict.db.repositories;
 import ru.strict.db.connections.StrictCreateConnectionAny;
 import ru.strict.db.dto.StrictDtoBase;
 import ru.strict.db.enums.StrictDataState;
-import ru.strict.db.mappers.StrictMapperBase;
 import ru.strict.db.entities.StrictEntityBase;
+import ru.strict.db.mappers.dto.StrictMapperDtoBase;
 
 import java.sql.Connection;
 import java.util.LinkedList;
@@ -31,7 +31,7 @@ public abstract class StrictRepositoryBase
     /**
      * Маппер связанной сущности/dto
      */
-    private StrictMapperBase<E, DTO> dtoMapper;
+    private StrictMapperDtoBase<E, DTO> dtoMapper;
 
     /**
      * Кэшированный список объектов
@@ -43,12 +43,19 @@ public abstract class StrictRepositoryBase
      */
     private StrictDataState state;
 
+    /**
+     * Метка: если значение true, то идентификатор должен генерироваться на стороне базы данных,
+     * иначе при создании записи id будет взято из dto-объекта
+     */
+    private boolean isGenerateId;
+
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public StrictRepositoryBase(SOURCE connectionSource, StrictMapperBase<E, DTO> dtoMapper) {
+    public StrictRepositoryBase(SOURCE connectionSource, StrictMapperDtoBase<E, DTO> dtoMapper, boolean isGenerateId) {
         this.connectionSource = connectionSource;
         this.dtoMapper = dtoMapper;
         objects = new LinkedList<>();
         state = StrictDataState.NONE;
+        this.isGenerateId = isGenerateId;
     }
     //</editor-fold>
 
@@ -65,7 +72,7 @@ public abstract class StrictRepositoryBase
         return connectionSource;
     }
 
-    public StrictMapperBase<E, DTO> getDtoMapper() {
+    public StrictMapperDtoBase<E, DTO> getDtoMapper() {
         return dtoMapper;
     }
 
@@ -83,6 +90,10 @@ public abstract class StrictRepositoryBase
 
     public void setState(StrictDataState state) {
         this.state = state;
+    }
+
+    public boolean isGenerateId() {
+        return isGenerateId;
     }
     //</editor-fold>
 }

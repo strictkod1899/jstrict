@@ -4,6 +4,7 @@ public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
 
     private String username;
     private String passwordEncode;
+    private ID roleuserId;
     private StrictEntityRoleuser roleuser;
     private String token;
 
@@ -12,23 +13,26 @@ public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
         super();
         this.username = null;
         this.passwordEncode = null;
+        this.roleuserId = null;
         this.roleuser = null;
         this.token = null;
     }
 
-    public StrictEntityUser(String username, String passwordEncode, StrictEntityRoleuser roleuser, String token) {
+    public StrictEntityUser(String username, String passwordEncode, ID roleuserId, String token) {
         super();
         this.username = username;
         this.passwordEncode = passwordEncode;
-        this.roleuser = roleuser;
+        this.roleuserId = roleuserId;
+        this.roleuser = null;
         this.token = token;
     }
 
-    public StrictEntityUser(ID id, String username, String passwordEncode, StrictEntityRoleuser roleuser, String token) {
+    public StrictEntityUser(ID id, String username, String passwordEncode, ID roleuserId, String token) {
         super(id);
         this.username = username;
         this.passwordEncode = passwordEncode;
-        this.roleuser = roleuser;
+        this.roleuserId = roleuserId;
+        this.roleuser = null;
         this.token = token;
     }
     //</editor-fold>
@@ -48,6 +52,14 @@ public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
 
     public void setPasswordEncode(String passwordEncode) {
         this.passwordEncode = passwordEncode;
+    }
+
+    public ID getRoleuserId() {
+        return roleuserId;
+    }
+
+    public void setRoleuserId(ID roleuserId) {
+        this.roleuserId = roleuserId;
     }
 
     public StrictEntityRoleuser getRoleuser() {
@@ -70,8 +82,8 @@ public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("%s: %s (%s). Token: %s; Password: %s",
-                super.toString(), username, roleuser.getSymbols(), token, passwordEncode);
+        return String.format("%s: %s (role: %s). Token: %s; Password: %s",
+                super.toString(), username, roleuserId, token, passwordEncode);
     }
 
     @Override
@@ -80,7 +92,7 @@ public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
             StrictEntityUser entity = (StrictEntityUser) obj;
             return super.equals(entity) && username.equals(entity.getUsername())
                     && passwordEncode.equals(entity.getPasswordEncode()) && roleuser.equals(entity.getRoleuser())
-                    && token.equals(entity.getToken());
+                    && roleuserId.equals(entity.getRoleuserId()) && token.equals(entity.getToken());
         }else
             return false;
     }

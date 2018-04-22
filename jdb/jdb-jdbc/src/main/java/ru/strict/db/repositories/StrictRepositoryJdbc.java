@@ -3,7 +3,7 @@ package ru.strict.db.repositories;
 import ru.strict.db.connections.StrictCreateConnectionAny;
 import ru.strict.db.dto.StrictDtoBase;
 import ru.strict.db.entities.StrictEntityBase;
-import ru.strict.db.mappers.StrictMapperBase;
+import ru.strict.db.mappers.dto.StrictMapperDtoBase;
 import ru.strict.db.mappers.sql.StrictMapperSqlBase;
 import ru.strict.db.requests.StrictDbRequests;
 import ru.strict.utils.StrictUtilLogger;
@@ -33,9 +33,9 @@ public abstract class StrictRepositoryJdbc
     private StrictMapperSqlBase<E> sqlMapper;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public StrictRepositoryJdbc(SOURCE connectionSource, StrictMapperBase<E, DTO> mapper, String sqlSelect,
-                                StrictMapperSqlBase<E> sqlMapper) {
-        super(connectionSource, mapper);
+    public StrictRepositoryJdbc(SOURCE connectionSource, StrictMapperDtoBase<E, DTO> mapper, boolean isGenerateId,
+                                String sqlSelect, StrictMapperSqlBase<E> sqlMapper) {
+        super(connectionSource, mapper, isGenerateId);
         this.sqlSelect = sqlSelect;
         this.sqlMapper = sqlMapper;
     }
@@ -92,6 +92,10 @@ public abstract class StrictRepositoryJdbc
     //<editor-fold defaultState="collapsed" desc="Get/Set">
     public String getSqlSelect() {
         return sqlSelect;
+    }
+
+    public StrictMapperSqlBase<E> getSqlMapper() {
+        return sqlMapper;
     }
     //</editor-fold>
 }

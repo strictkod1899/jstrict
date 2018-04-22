@@ -48,10 +48,10 @@ public interface StrictRepositoryAny<ID, E extends StrictEntityBase, DTO extends
     /**
      * Удалить объект из базы данных
      *
-     * @param dto Удаляемый объект
+     * @param id Идентификатор удаляемого объекта
      * @return При успешном удалении возвращает true, иначе false
      */
-    boolean delete(DTO dto);
+    boolean delete(ID id);
 
     /**
      * Cоздать или обновить запись в таблице базы данных на основе dto-объекта, переданного в параметрах метода.

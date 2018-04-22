@@ -10,13 +10,13 @@ public class StrictDtoUserToken<ID> extends StrictDtoUserBase<ID>{
         this.token = null;
     }
 
-    public StrictDtoUserToken(String username, String token, StrictDtoRoleuser roleuser) {
-        super(username, roleuser);
+    public StrictDtoUserToken(String username, String token, ID roleuserId) {
+        super(username, roleuserId);
         this.token = token;
     }
 
-    public StrictDtoUserToken(ID id, String username, String token, StrictDtoRoleuser roleuser) {
-        super(id, username, roleuser);
+    public StrictDtoUserToken(ID id, String username, String token, ID roleuserId) {
+        super(id, username, roleuserId);
         this.token = token;
     }
     //</editor-fold>

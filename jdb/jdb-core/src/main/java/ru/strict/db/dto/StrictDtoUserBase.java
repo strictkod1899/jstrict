@@ -3,25 +3,29 @@ package ru.strict.db.dto;
 public class StrictDtoUserBase<ID> extends StrictDtoBase<ID>{
 
     private String username;
+    private ID roleuserId;
     private StrictDtoRoleuser roleuser;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public StrictDtoUserBase() {
         super();
         this.username = null;
+        this.roleuserId = null;
         this.roleuser = null;
     }
 
-    public StrictDtoUserBase(String username, StrictDtoRoleuser roleuser) {
+    public StrictDtoUserBase(String username, ID roleuserId) {
         super();
         this.username = username;
-        this.roleuser = roleuser;
+        this.roleuserId = roleuserId;
+        this.roleuser = null;
     }
 
-    public StrictDtoUserBase(ID id, String username, StrictDtoRoleuser roleuser) {
+    public StrictDtoUserBase(ID id, String username, ID roleuserId) {
         super(id);
         this.username = username;
-        this.roleuser = roleuser;
+        this.roleuserId = roleuserId;
+        this.roleuser = null;
     }
     //</editor-fold>
 
@@ -32,6 +36,14 @@ public class StrictDtoUserBase<ID> extends StrictDtoBase<ID>{
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public ID getRoleuserId() {
+        return roleuserId;
+    }
+
+    public void setRoleuserId(ID roleuserId) {
+        this.roleuserId = roleuserId;
     }
 
     public StrictDtoRoleuser getRoleuser() {
@@ -46,14 +58,15 @@ public class StrictDtoUserBase<ID> extends StrictDtoBase<ID>{
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("%s: %s (%s)", super.toString(), username, roleuser.getSymbols());
+        return String.format("%s: %s (role: %s)", super.toString(), username, roleuserId);
     }
 
     @Override
     public boolean equals(Object obj){
         if(obj instanceof StrictDtoUserBase) {
             StrictDtoUserBase entity = (StrictDtoUserBase) obj;
-            return super.equals(entity) && username.equals(entity.getUsername()) && roleuser.equals(entity.getRoleuser());
+            return super.equals(entity) && username.equals(entity.getUsername()) && roleuser.equals(entity.getRoleuser())
+                    && roleuserId.equals(entity.getRoleuserId());
         }else
             return false;
     }
