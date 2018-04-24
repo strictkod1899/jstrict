@@ -82,8 +82,8 @@ public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("%s: %s (role: %s). Token: %s; Password: %s",
-                super.toString(), username, roleuserId, token, passwordEncode);
+        return String.format("entity[%s]: %s (role: %s).\nToken: %s. Password: %s", String.valueOf(getId()), getUsername(), getRoleuserId(),
+                token, passwordEncode);
     }
 
     @Override

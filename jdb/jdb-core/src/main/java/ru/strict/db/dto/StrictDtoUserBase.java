@@ -58,7 +58,7 @@ public class StrictDtoUserBase<ID> extends StrictDtoBase<ID>{
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("%s: %s (role: %s)", super.toString(), username, roleuserId);
+        return String.format("dto[%s]: %s (role: %s)", String.valueOf(getId()), username, roleuserId);
     }
 
     @Override

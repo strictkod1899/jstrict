@@ -46,7 +46,8 @@ public class StrictDtoUser<ID> extends StrictDtoUserBase<ID>{
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("%s. Token: %s. Password: %s", super.toString(), token, passwordEncode);
+        return String.format("dto[%s]: %s (role: %s).\nToken: %s. Password: %s", String.valueOf(getId()), getUsername(), getRoleuserId(),
+                token, passwordEncode);
     }
 
     @Override

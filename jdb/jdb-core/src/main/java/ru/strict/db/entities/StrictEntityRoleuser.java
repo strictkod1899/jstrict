@@ -53,7 +53,7 @@ public class StrictEntityRoleuser<ID> extends StrictEntityBase<ID>{
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("%s: %s (%s)", super.toString(), symbols, description);
+        return String.format("entity[%s]: %s (%s)", String.valueOf(getId()), symbols, description);
     }
 
     @Override

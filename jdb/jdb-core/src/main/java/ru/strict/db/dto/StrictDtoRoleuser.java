@@ -53,7 +53,7 @@ public class StrictDtoRoleuser<ID> extends StrictDtoBase<ID>{
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("%s: %s (%s)", super.toString(), symbols, description);
+        return String.format("dto[%s]: %s (%s)", String.valueOf(getId()), symbols, description);
     }
 
     @Override

@@ -45,7 +45,7 @@ public class StrictEntityNamed<ID> extends StrictEntityBase<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("%s: %s", super.toString(), caption);
+        return String.format("entity[%s]: %s", String.valueOf(getId()), caption);
     }
 
     @Override
