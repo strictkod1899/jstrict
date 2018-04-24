@@ -2,7 +2,7 @@ package ru.strict.db.repositories;
 
 import ru.strict.db.connections.StrictCreateConnectionAny;
 import ru.strict.db.dto.StrictDtoBase;
-import ru.strict.db.enums.StrictDataState;
+import ru.strict.db.enums.StrictRepositoryDataState;
 import ru.strict.db.entities.StrictEntityBase;
 import ru.strict.db.mappers.dto.StrictMapperDtoBase;
 
@@ -41,7 +41,7 @@ public abstract class StrictRepositoryBase
     /**
      * Текущее состояние кэшированный значений
      */
-    private StrictDataState state;
+    private StrictRepositoryDataState state;
 
     /**
      * Метка: если значение true, то идентификатор должен генерироваться на стороне базы данных,
@@ -54,7 +54,7 @@ public abstract class StrictRepositoryBase
         this.connectionSource = connectionSource;
         this.dtoMapper = dtoMapper;
         objects = new LinkedList<>();
-        state = StrictDataState.NONE;
+        state = StrictRepositoryDataState.NONE;
         this.isGenerateId = isGenerateId;
     }
     //</editor-fold>
@@ -84,11 +84,11 @@ public abstract class StrictRepositoryBase
         this.objects = objects;
     }
 
-    public StrictDataState getState() {
+    public StrictRepositoryDataState getState() {
         return state;
     }
 
-    public void setState(StrictDataState state) {
+    public void setState(StrictRepositoryDataState state) {
         this.state = state;
     }
 
