@@ -2,6 +2,10 @@ package ru.strict.db.dto;
 
 import java.util.Date;
 
+/**
+ * Расширенная информация профиля пользователя (имя, фамилия, отчество, дата рождения, телефон,
+ * старана, город, адрес)
+ */
 public class StrictDtoProfileInfo<ID> extends StrictDtoProfile<ID> {
 
     /**
@@ -102,7 +106,8 @@ public class StrictDtoProfileInfo<ID> extends StrictDtoProfile<ID> {
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     public String toString(){
-        return String.format("s%\n%tD, phone: %s, %s %s %s", super.toString(), dateBirth, phone, counrty, city, address);
+        return String.format("dto[%s]: %s %s %s\n%tD, phone: %s, %s %s %s", String.valueOf(getId()), getSurname(), getName(), getMiddlename(),
+                dateBirth, phone, counrty, city, address);
     }
 
     public boolean equals(Object obj){

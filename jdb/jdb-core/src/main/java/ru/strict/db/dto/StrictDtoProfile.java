@@ -1,5 +1,8 @@
 package ru.strict.db.dto;
 
+/**
+ * Основная информация профиля пользователя (имя, фамилия, отчество)
+ */
 public class StrictDtoProfile<ID> extends StrictDtoBase<ID> {
 
     /**
@@ -93,7 +96,7 @@ public class StrictDtoProfile<ID> extends StrictDtoBase<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("s%: %s %s %s", super.toString(), surname, name, middlename);
+        return String.format("dto[%s]: %s %s %s", String.valueOf(getId()), surname, name, middlename);
     }
 
     @Override

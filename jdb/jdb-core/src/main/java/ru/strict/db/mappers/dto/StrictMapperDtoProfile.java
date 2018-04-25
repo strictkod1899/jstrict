@@ -1,9 +1,12 @@
-package ru.strict.db.mappers;
+package ru.strict.db.mappers.dto;
 
 import ru.strict.db.dto.StrictDtoProfile;
 import ru.strict.db.entities.StrictEntityProfile;
 
-public class StrictMapperProfile extends StrictMapperBase<StrictEntityProfile, StrictDtoProfile> {
+/**
+ * Двухсторонний маппинг объектов типа StrictEntityProfile и StrictDtoProfile
+ */
+public class StrictMapperDtoProfile extends StrictMapperDtoBase<StrictEntityProfile, StrictDtoProfile> {
 
     @Override
     protected StrictEntityProfile implementMap(StrictDtoProfile dto) {

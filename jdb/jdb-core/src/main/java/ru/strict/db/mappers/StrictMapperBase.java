@@ -1,20 +1,31 @@
 package ru.strict.db.mappers;
 
-import ru.strict.db.dto.StrictDtoBase;
-import ru.strict.db.entities.StrictEntityBase;
+/**
+ * Базовая реализация маппера
+ */
+public abstract class StrictMapperBase<S, T extends MapTarget>
+        implements StrictMapperAny<S, T> {
 
-public abstract class StrictMapperBase<E extends StrictEntityBase, DTO extends StrictDtoBase>
-        implements StrictMapperAny<E, DTO> {
-    protected abstract E implementMap(DTO dto);
-    protected abstract DTO implementMap(E entity);
+    /**
+     * Реализация маппинга объекта
+     * @param target Объект, который необходимо преобразовать в другой тип
+     * @return
+     */
+    protected abstract S implementMap(T target);
+    /**
+     * Реализация маппинга объекта
+     * @param source Объект, который необходимо преобразовать в другой тип
+     * @return
+     */
+    protected abstract T implementMap(S source);
 
     @Override
-    public E map(DTO dto){
-        return dto==null ? null : implementMap(dto);
+    public S map(T t){
+        return t ==null ? null : implementMap(t);
     }
 
     @Override
-    public DTO map(E entity){
+    public T map(S entity){
         return entity==null ? null : implementMap(entity);
     }
 }

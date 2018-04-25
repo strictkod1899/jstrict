@@ -1,10 +1,12 @@
 package ru.strict.db.entities;
 
+import ru.strict.db.mappers.MapTarget;
+
 /**
- * Класс определяет базовый функционал entity
+ * Базовый entity-класс
  * @param <ID> Тип поля ID
  */
-public abstract class StrictEntityBase<ID> {
+public abstract class StrictEntityBase<ID> implements MapTarget {
 
     /**
      * id записи

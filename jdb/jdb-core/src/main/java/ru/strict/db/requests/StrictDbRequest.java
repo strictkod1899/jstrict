@@ -2,8 +2,9 @@ package ru.strict.db.requests;
 
 import ru.strict.db.enums.StrictEnumTemplateSymbol;
 
+// TODO: Разобраться как работает этот объект
 /**
- * Условие WHERE
+ * Условие Where для добавления к sql-запросу
  * @param <V> Тип сравниваемого значения
  */
 public class StrictDbRequest<V> {

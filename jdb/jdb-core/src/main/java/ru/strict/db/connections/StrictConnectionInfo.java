@@ -1,7 +1,8 @@
-package ru.strict.db;
+package ru.strict.db.connections;
 
-import ru.strict.db.enums.StrictConnectionByDbType;
-
+/**
+ * Требуемая инфорамция для получения соединения с базой данных
+ */
 public class StrictConnectionInfo {
 
     /**
@@ -10,9 +11,14 @@ public class StrictConnectionInfo {
     private String dbCaption;
 
     /**
-     * Тип подключаемой базы данных
+     * Строка драйвера подключаемой базы данных
      */
-    private StrictConnectionByDbType dbType;
+    private String driver;
+
+    /**
+     * Строка url подключаемой базы данных
+     */
+    private String url;
 
     /**
      * Пользователь базы данных
@@ -25,12 +31,15 @@ public class StrictConnectionInfo {
     private String password;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public StrictConnectionInfo(String dbCaption, StrictConnectionByDbType dbType, String username, String password) {
+
+    public StrictConnectionInfo(String dbCaption, String driver, String url, String username, String password) {
         this.dbCaption = dbCaption;
-        this.dbType = dbType;
+        this.driver = driver;
+        this.url = url;
         this.username = username;
         this.password = password;
     }
+
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
@@ -38,8 +47,12 @@ public class StrictConnectionInfo {
         return dbCaption;
     }
 
-    public StrictConnectionByDbType getDbType() {
-        return dbType;
+    public String getDriver() {
+        return driver;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public String getUsername() {
@@ -54,7 +67,7 @@ public class StrictConnectionInfo {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("%s [%s] - %s/%s", dbCaption, dbType.name(), username, password);
+        return String.format("%s [%s] - %s/%s", dbCaption, driver, username, password);
     }
 
     @Override
@@ -62,7 +75,8 @@ public class StrictConnectionInfo {
         if(obj instanceof StrictConnectionInfo) {
             StrictConnectionInfo info = (StrictConnectionInfo) obj;
             return dbCaption.equals(info.getDbCaption()) && password.equals(info.getPassword())
-                    && username.equals(info.getUsername()) && dbType.equals(info.getDbType());
+                    && username.equals(info.getUsername()) && driver.equals(info.getDriver())
+                    && url.equals(info.getUrl());
         }else
             return false;
     }

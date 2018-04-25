@@ -1,7 +1,7 @@
 package ru.strict.db.enums;
 
 /**
- * Доступные к использованию типы базы данных
+ * Данные (driver и url) для получения соединения с базой данных в зависимости от ее производителя
  */
 public enum StrictConnectionByDbType {
 
@@ -42,7 +42,7 @@ public enum StrictConnectionByDbType {
      */
     private String driver;
 
-    private StrictConnectionByDbType(String url, String driver) {
+    StrictConnectionByDbType(String url, String driver) {
         this.url = url;
         this.driver = driver;
     }

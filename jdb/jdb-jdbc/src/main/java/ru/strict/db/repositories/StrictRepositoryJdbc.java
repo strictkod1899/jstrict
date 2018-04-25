@@ -3,7 +3,8 @@ package ru.strict.db.repositories;
 import ru.strict.db.connections.StrictCreateConnectionAny;
 import ru.strict.db.dto.StrictDtoBase;
 import ru.strict.db.entities.StrictEntityBase;
-import ru.strict.db.mappers.StrictMapperBase;
+import ru.strict.db.mappers.dto.StrictMapperDtoBase;
+import ru.strict.db.mappers.sql.StrictMapperSqlBase;
 import ru.strict.db.requests.StrictDbRequests;
 import ru.strict.utils.StrictUtilLogger;
 
@@ -14,6 +15,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Базовый класс репозитория с использованием Jdbc
+ */
 public abstract class StrictRepositoryJdbc
         <ID, SOURCE extends StrictCreateConnectionAny, E extends StrictEntityBase, DTO extends StrictDtoBase>
         extends StrictRepositoryBase<ID, SOURCE, E, DTO>{
@@ -23,10 +27,17 @@ public abstract class StrictRepositoryJdbc
      */
     private String sqlSelect;
 
+    /**
+     * Объект для преобразования полученных данных из sql-запроса в объект сущности азы данных (entity)
+     */
+    private StrictMapperSqlBase<E> sqlMapper;
+
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public StrictRepositoryJdbc(SOURCE connectionSource, StrictMapperBase<E, DTO> mapper, String sqlSelect) {
-        super(connectionSource, mapper);
+    public StrictRepositoryJdbc(SOURCE connectionSource, StrictMapperDtoBase<E, DTO> mapper, boolean isGenerateId,
+                                String sqlSelect, StrictMapperSqlBase<E> sqlMapper) {
+        super(connectionSource, mapper, isGenerateId);
         this.sqlSelect = sqlSelect;
+        this.sqlMapper = sqlMapper;
     }
     //</editor-fold>
 
@@ -51,7 +62,7 @@ public abstract class StrictRepositoryJdbc
             }
 
             resultSet = statement.executeQuery();
-            return createObject(resultSet);
+            return getDtoMapper().map(sqlMapper.map(resultSet));
         } catch (SQLException ex) {
             StrictUtilLogger.error(StrictRepositoryJdbc.class, ex.getClass().toString(), ex.getMessage());
             return null;
@@ -59,45 +70,32 @@ public abstract class StrictRepositoryJdbc
     }
 
     @Override
-    public List<DTO> readAll(StrictDbRequests wheres) {
-        List<DTO> objects = createObjects(wheres);
-        setObjects(objects);
-
-        return objects;
-    }
-
-    /**
-     * Получение списка объектов через запрос к базе данных
-     * @param wheres Условия для выборки из базы данных
-     * @return
-     */
-    private List<DTO> createObjects(StrictDbRequests wheres){
+    public List<DTO> readAll(StrictDbRequests requests) {
         PreparedStatement statement;
         ResultSet resultSet;
         List<DTO> result = new LinkedList<>();
         try {
             statement = createConnection().prepareStatement(getSqlSelect() + "?");
-            statement.setString(1, wheres==null?"":wheres.getSql());
+            statement.setString(1, requests ==null?"": requests.getSql());
             resultSet = statement.executeQuery();
             while(resultSet.next())
-                result.add(createObject(resultSet));
+                result.add(getDtoMapper().map(sqlMapper.map(resultSet)));
         } catch (SQLException ex) {
             StrictUtilLogger.error(StrictRepositoryJdbc.class, ex.getClass().toString(), ex.getMessage());
             return null;
         }
+        setObjects(result);
+
         return result;
     }
-
-    /**
-     * Создать единичный объект базы данных используя результат выборки из базы данных
-     * @param data Результат выборки из базы данных
-     * @return
-     */
-    protected abstract DTO createObject(ResultSet data);
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
     public String getSqlSelect() {
         return sqlSelect;
+    }
+
+    public StrictMapperSqlBase<E> getSqlMapper() {
+        return sqlMapper;
     }
     //</editor-fold>
 }

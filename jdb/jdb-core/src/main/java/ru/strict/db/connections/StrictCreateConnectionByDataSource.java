@@ -6,6 +6,9 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * Конструктор соединения с базой данных, на основе объекта класса DataSource
+ */
 public class StrictCreateConnectionByDataSource extends StrictCreateConnectionBase<DataSource> {
 
     public StrictCreateConnectionByDataSource(DataSource connectionSource) {

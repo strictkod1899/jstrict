@@ -8,8 +8,10 @@ import java.util.List;
 
 /**
  * Базовое описание репозитория
+ * @param <ID> Тип идентификатора
+ * @param <DTO> Тип Dto-сущности базы данных
  */
-public interface StrictRepositoryAny<ID, E extends StrictEntityBase, DTO extends StrictDtoBase> {
+public interface StrictRepositoryAny<ID, DTO extends StrictDtoBase> {
 
     /**
      * Добавить в базу данных новый объект, переданный в качестве параметра
@@ -45,10 +47,10 @@ public interface StrictRepositoryAny<ID, E extends StrictEntityBase, DTO extends
     /**
      * Удалить объект из базы данных
      *
-     * @param dto Удаляемый объект
+     * @param id Идентификатор удаляемого объекта
      * @return При успешном удалении возвращает true, иначе false
      */
-    boolean delete(DTO dto);
+    boolean delete(ID id);
 
     /**
      * Cоздать или обновить запись в таблице базы данных на основе dto-объекта, переданного в параметрах метода.

@@ -9,7 +9,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 /**
- * Класс-утилита операций с базой данных
+ * Класс-утилита операций над базой данных
  */
 public class StrictUtilsDatabase {
 

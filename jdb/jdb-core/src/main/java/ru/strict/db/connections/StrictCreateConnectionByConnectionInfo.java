@@ -1,6 +1,5 @@
 package ru.strict.db.connections;
 
-import ru.strict.db.StrictConnectionInfo;
 import ru.strict.utils.StrictUtilLogger;
 
 import java.sql.Connection;
@@ -8,6 +7,9 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Конструктор соединения с базой данных, на основе информации переданной в объекте класса StrictConnectionInfo
+ */
 public class StrictCreateConnectionByConnectionInfo extends StrictCreateConnectionBase<StrictConnectionInfo> {
 
     public StrictCreateConnectionByConnectionInfo(StrictConnectionInfo connectionSource) {

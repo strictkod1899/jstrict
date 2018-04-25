@@ -1,5 +1,9 @@
 package ru.strict.db.connections;
 
+/**
+ * Конструктор соединения с базой данных
+ * @param <SOURCE> Тип источника подключения к базе данных (например, DataSource, StrictConnectionInfo и др.)
+ */
 public abstract class StrictCreateConnectionBase<SOURCE> implements StrictCreateConnectionAny {
 
     /**

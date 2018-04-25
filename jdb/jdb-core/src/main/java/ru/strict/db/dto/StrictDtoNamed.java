@@ -1,5 +1,8 @@
 package ru.strict.db.dto;
 
+/**
+ * Именованный entity (содержит строку заголовка)
+ */
 public class StrictDtoNamed<ID> extends StrictDtoBase<ID> {
 
     /**
@@ -45,7 +48,7 @@ public class StrictDtoNamed<ID> extends StrictDtoBase<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("%s: %s", super.toString(), caption);
+        return String.format("dto[%s]: %s", String.valueOf(getId()), caption);
     }
 
     @Override
