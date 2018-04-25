@@ -1,5 +1,8 @@
 package ru.strict.db.dto;
 
+/**
+ * Базовая информация о пользователе системы (логин, роль)
+ */
 public class StrictDtoUserBase<ID> extends StrictDtoBase<ID>{
 
     private String username;

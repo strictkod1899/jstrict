@@ -1,5 +1,8 @@
 package ru.strict.db.dto;
 
+/**
+ * Информация и токене пользователя системы
+ */
 public class StrictDtoUserToken<ID> extends StrictDtoUserBase<ID>{
 
     private String token;

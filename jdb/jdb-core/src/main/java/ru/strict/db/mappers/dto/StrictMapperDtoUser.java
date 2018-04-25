@@ -3,6 +3,9 @@ package ru.strict.db.mappers.dto;
 import ru.strict.db.dto.StrictDtoUser;
 import ru.strict.db.entities.StrictEntityUser;
 
+/**
+ * Двухсторонний маппинг объектов типа StrictEntityUser и StrictDtoUser
+ */
 public class StrictMapperDtoUser extends StrictMapperDtoUserBase<StrictDtoUser> {
 
     public StrictMapperDtoUser(StrictMapperDtoRoleuser mapperRoleuser){

@@ -1,5 +1,8 @@
 package ru.strict.db.dto;
 
+/**
+ * Основная информация профиля пользователя (имя, фамилия, отчество)
+ */
 public class StrictDtoProfile<ID> extends StrictDtoBase<ID> {
 
     /**

@@ -1,5 +1,8 @@
 package ru.strict.db.entities;
 
+/**
+ * Основная информация профиля пользователя (имя, фамилия, отчество)
+ */
 public class StrictEntityProfile<ID> extends StrictEntityBase<ID> {
 
     /**

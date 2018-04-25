@@ -2,6 +2,10 @@ package ru.strict.db.dto;
 
 import java.util.Date;
 
+/**
+ * Расширенная информация профиля пользователя (имя, фамилия, отчество, дата рождения, телефон,
+ * старана, город, адрес)
+ */
 public class StrictDtoProfileInfo<ID> extends StrictDtoProfile<ID> {
 
     /**

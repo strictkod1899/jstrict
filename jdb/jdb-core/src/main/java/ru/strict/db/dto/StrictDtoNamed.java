@@ -1,5 +1,8 @@
 package ru.strict.db.dto;
 
+/**
+ * Именованный entity (содержит строку заголовка)
+ */
 public class StrictDtoNamed<ID> extends StrictDtoBase<ID> {
 
     /**

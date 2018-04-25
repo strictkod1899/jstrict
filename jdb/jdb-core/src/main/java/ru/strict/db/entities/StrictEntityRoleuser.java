@@ -1,5 +1,8 @@
 package ru.strict.db.entities;
 
+/**
+ * Роль пользователя в системе (например, администратор, пользователь, неавторизированный пользователь и др.)
+ */
 public class StrictEntityRoleuser<ID> extends StrictEntityBase<ID>{
 
     /**

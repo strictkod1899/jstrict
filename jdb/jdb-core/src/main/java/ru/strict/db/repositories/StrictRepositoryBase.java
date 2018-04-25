@@ -13,13 +13,14 @@ import java.util.List;
 /**
  * Базовый класс репозитория
  * @param <ID> Тип идентификатора
- * @param <SOURCE> Источник для получения соединения с базой данных
+ * @param <SOURCE> Источник для получения соединения с базой данных,
+ *                например, StrictCreateConnectionByDataSource, StrictCreateConnectionByConnectionInfo и др.
  * @param <E> Тип сущности базы данных (entity)
  * @param <DTO> Тип Dto-сущности базы данных
  */
 public abstract class StrictRepositoryBase
         <ID, SOURCE extends StrictCreateConnectionAny, E extends StrictEntityBase, DTO extends StrictDtoBase>
-        implements StrictRepositoryAny<ID, E, DTO>{
+        implements StrictRepositoryAny<ID, DTO>{
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),

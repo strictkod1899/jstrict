@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Управление базой данных
+ * Управление соединением с базой данных
  */
 public class StrictManagerDatabase<SOURCE> {
 

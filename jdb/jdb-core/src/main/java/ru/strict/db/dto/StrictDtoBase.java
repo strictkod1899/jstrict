@@ -3,7 +3,7 @@ package ru.strict.db.dto;
 import ru.strict.db.mappers.MapTarget;
 
 /**
- * Класс определяет базовый функционал dto
+ * Базовый entity-класс
  * @param <ID> Тип поля ID
  */
 public abstract class StrictDtoBase<ID>  implements MapTarget {

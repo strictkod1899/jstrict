@@ -1,5 +1,8 @@
 package ru.strict.db.entities;
 
+/**
+ * Пользователь системы
+ */
 public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
 
     private String username;

@@ -6,8 +6,18 @@ package ru.strict.db.mappers;
 public abstract class StrictMapperBase<S, T extends MapTarget>
         implements StrictMapperAny<S, T> {
 
-    protected abstract S implementMap(T t);
-    protected abstract T implementMap(S entity);
+    /**
+     * Реализация маппинга объекта
+     * @param target Объект, который необходимо преобразовать в другой тип
+     * @return
+     */
+    protected abstract S implementMap(T target);
+    /**
+     * Реализация маппинга объекта
+     * @param source Объект, который необходимо преобразовать в другой тип
+     * @return
+     */
+    protected abstract T implementMap(S source);
 
     @Override
     public S map(T t){

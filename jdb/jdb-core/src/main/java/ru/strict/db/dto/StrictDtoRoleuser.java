@@ -1,5 +1,8 @@
 package ru.strict.db.dto;
 
+/**
+ * Роль пользователя в системе (например, администратор, пользователь, неавторизированный пользователь и др.)
+ */
 public class StrictDtoRoleuser<ID> extends StrictDtoBase<ID>{
 
     /**

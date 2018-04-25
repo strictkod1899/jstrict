@@ -7,6 +7,9 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Конструктор соединения с базой данных, на основе информации переданной в объекте класса StrictConnectionInfo
+ */
 public class StrictCreateConnectionByConnectionInfo extends StrictCreateConnectionBase<StrictConnectionInfo> {
 
     public StrictCreateConnectionByConnectionInfo(StrictConnectionInfo connectionSource) {

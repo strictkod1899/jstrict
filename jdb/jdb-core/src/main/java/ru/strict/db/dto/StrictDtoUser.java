@@ -1,5 +1,8 @@
 package ru.strict.db.dto;
 
+/**
+ * Пользователь системы
+ */
 public class StrictDtoUser<ID> extends StrictDtoUserBase<ID>{
 
     private String passwordEncode;

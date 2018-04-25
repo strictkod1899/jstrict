@@ -4,7 +4,6 @@ import java.util.*;
 
 /**
  * Набор условий для добавления к запросу
- * //
  *
  * Пример использования:
  * StrictDbRequests requests = new StrictDbRequests(false);

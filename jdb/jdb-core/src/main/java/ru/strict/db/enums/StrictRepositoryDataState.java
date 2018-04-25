@@ -1,5 +1,8 @@
 package ru.strict.db.enums;
 
+/**
+ * Возможные состояния кэшированных данных в репозитории
+ */
 public enum StrictRepositoryDataState {
     /**
      * Кэшированные данные в актуальном состоянии

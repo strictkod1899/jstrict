@@ -1,5 +1,8 @@
 package ru.strict.db.entities;
 
+/**
+ * Именованный entity (содержит строку заголовка)
+ */
 public class StrictEntityNamed<ID> extends StrictEntityBase<ID> {
 
     /**
