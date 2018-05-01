@@ -4,61 +4,66 @@ import java.util.*;
 
 /**
  * Набор условий для добавления к запросу
- *
- * Пример использования:
- * StrictDbRequests requests = new StrictDbRequests(false);
- * // Считаются все значения книг, наименование которых начинается с буквы "И"
- * requests.add(new StrictDbRequest("books.name", "И", "LIKE", new StrictTemplateSymbol("%", StrictEnumTemplateSymbol.END), true));
  */
-public class StrictDbRequests extends LinkedList<StrictDbRequest> {
+public class StrictDbRequests extends LinkedList<StrictDbRequestBase> {
 
     /**
      * Добавлять AND между условиями
      */
-    private boolean boolAnd;
+    private boolean isAnd;
 
-    public StrictDbRequests(boolean boolAnd) {
-        this.boolAnd = boolAnd;
+    /**
+     * Наименование таблицы из основной конструкции select
+     */
+    private String selectTableName;
+
+    public StrictDbRequests(String selectTableName, boolean isAnd) {
+        this.selectTableName = selectTableName;
+        this.isAnd = isAnd;
     }
 
     public String getSql(){
         String result = "";
+
+        Collection<String> tableNames = new LinkedList<>();
+
+        for(StrictDbRequestBase request : this){
+            if(!tableNames.contains(request.getTableName()) && !request.getTableName().equals(selectTableName))
+                tableNames.add(request.getTableName());
+        }
+
+        for(String tableName : tableNames)
+            result+=", " + tableName;
+
         if(!isEmpty())
             result+=" WHERE ";
+        else
+            return "";
 
         String symbol;
-        if(boolAnd)
+        if(isAnd)
             symbol = "AND";
         else
             symbol = "OR";
 
-        if(size()>0)
-            result += get(0).toString() + " ";
+        result += get(0).getSql() + " ";
 
         for(int i=1; i<size(); i++)
-            result += symbol + " " + get(i).toString() + " ";
+            result += symbol + " " + get(i).getSql() + " ";
 
         return result;
     }
 
+    public String getSelectTableName() {
+        return selectTableName;
+    }
+
+    public boolean isAnd() {
+        return isAnd;
+    }
+
     @Override
     public String toString(){
-        String result = "";
-        if(!isEmpty())
-            result+=" WHERE ";
-
-        String symbol;
-        if(boolAnd)
-            symbol = "AND";
-        else
-            symbol = "OR";
-
-        if(size()>0)
-            result += get(0).toString() + " ";
-
-        for(int i=1; i<size(); i++)
-            result += symbol + " " + get(i).toString() + " ";
-
-        return result;
+        return getSql();
     }
 }

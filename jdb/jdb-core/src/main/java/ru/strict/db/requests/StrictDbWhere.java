@@ -2,12 +2,10 @@ package ru.strict.db.requests;
 
 import ru.strict.db.enums.StrictEnumTemplateSymbol;
 
-// TODO: Разобраться как работает этот объект
 /**
  * Условие Where для добавления к sql-запросу
- * @param <V> Тип сравниваемого значения
  */
-public class StrictDbRequest<V> {
+public class StrictDbWhere extends StrictDbRequestBase {
 
     /**
      * Наименование столбца
@@ -16,7 +14,7 @@ public class StrictDbRequest<V> {
     /**
      * Значение столбца
      */
-    private V columnValue;
+    private Object columnValue;
     /**
      * Оператор
      */
@@ -26,24 +24,26 @@ public class StrictDbRequest<V> {
      */
     private StrictTemplateSymbol templateSymbol;
 
-    /**
-     * Игнорирование регистра при сравнении
-     */
-    private boolean ignoreCase;
+    public StrictDbWhere(String tableName, String columnName, Object columnValue, String operator) {
+        super(tableName);
+        this.columnName = columnName;
+        this.columnValue = columnValue;
+        this.operator = operator;
+    }
 
-    public StrictDbRequest(String columnName, V columnValue, String operator, StrictTemplateSymbol templateSymbol, boolean ignoreCase) {
+    public StrictDbWhere(String tableName, String columnName, Object columnValue, String operator, StrictTemplateSymbol templateSymbol) {
+        super(tableName);
         this.columnName = columnName;
         this.columnValue = columnValue;
         this.operator = operator;
         this.templateSymbol = templateSymbol;
-        this.ignoreCase = ignoreCase;
     }
 
     public String getColumnName() {
         return columnName;
     }
 
-    public V getColumnValue() {
+    public Object getColumnValue() {
         return columnValue;
     }
 
@@ -55,27 +55,22 @@ public class StrictDbRequest<V> {
         return templateSymbol;
     }
 
-    public boolean isIgnoreCase() {
-        return ignoreCase;
-    }
-
     @Override
-    public String toString(){
+    public String getSql(){
         String result;
 
         if(columnValue instanceof String)
-            result = (ignoreCase?"lower(":"")
-                    + columnName + (ignoreCase?")":"") + " "
-                    + operator + " " + (ignoreCase?"lower(":"") + "'"
+            result = getTableName() + "." + columnName + " "
+                    + operator + " " + "'"
                     + (templateSymbol.getEnumTemplateSymbol()== StrictEnumTemplateSymbol.BEGIN
                     || templateSymbol.getEnumTemplateSymbol()== StrictEnumTemplateSymbol.BETWEEN
                     ?templateSymbol.getTemplateSymbol():"")
                     + columnValue
                     + (templateSymbol.getEnumTemplateSymbol()== StrictEnumTemplateSymbol.END
                     || templateSymbol.getEnumTemplateSymbol()== StrictEnumTemplateSymbol.BETWEEN
-                    ?templateSymbol.getTemplateSymbol():"") + "'" + (ignoreCase?")":"");
+                    ?templateSymbol.getTemplateSymbol():"") + "'";
         else
-            result = columnName + " " + operator + " " + columnValue;
+            result = getTableName() + "." + columnName + " " + operator + " " + columnValue;
         return result;
     }
 }

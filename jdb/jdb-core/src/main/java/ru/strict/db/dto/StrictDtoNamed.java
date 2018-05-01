@@ -48,14 +48,14 @@ public class StrictDtoNamed<ID> extends StrictDtoBase<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("dto[%s]: %s", String.valueOf(getId()), caption);
+        return String.format("dto named [%s]: %s", String.valueOf(getId()), caption);
     }
 
     @Override
     public boolean equals(Object obj){
         if(obj instanceof StrictDtoNamed) {
-            StrictDtoNamed entity = (StrictDtoNamed) obj;
-            return super.equals(entity) && caption.equals(entity.getCaption());
+            StrictDtoNamed dto = (StrictDtoNamed) obj;
+            return super.equals(dto) && caption.equals(dto.getCaption());
         }else
             return false;
     }

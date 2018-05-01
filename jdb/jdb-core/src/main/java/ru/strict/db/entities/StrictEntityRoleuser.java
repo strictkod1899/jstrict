@@ -1,5 +1,8 @@
 package ru.strict.db.entities;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 /**
  * Роль пользователя в системе (например, администратор, пользователь, неавторизированный пользователь и др.)
  */
@@ -56,7 +59,7 @@ public class StrictEntityRoleuser<ID> extends StrictEntityBase<ID>{
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("entity[%s]: %s (%s)", String.valueOf(getId()), symbols, description);
+        return String.format("entity roleuser [%s]: %s (%s)", String.valueOf(getId()), symbols, description);
     }
 
     @Override

@@ -21,6 +21,7 @@ public class StrictMapperSqlProfile implements RowMapper<StrictEntityProfile> {
         entity.setName(resultSet.getString(COLUMNS_NAME[0]));
         entity.setSurname(resultSet.getString(COLUMNS_NAME[1]));
         entity.setMiddlename(resultSet.getString(COLUMNS_NAME[2]));
+        entity.setUserId(resultSet.getObject(COLUMNS_NAME[3]));
         return entity;
     }
 }

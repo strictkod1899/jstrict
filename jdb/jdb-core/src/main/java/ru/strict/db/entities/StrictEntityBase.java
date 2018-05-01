@@ -42,7 +42,7 @@ public abstract class StrictEntityBase<ID> implements MapTarget {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("entity[%s]", String.valueOf(id));
+        return String.format("entity base [%s]", String.valueOf(id));
     }
 
     @Override

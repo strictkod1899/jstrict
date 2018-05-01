@@ -1,34 +1,33 @@
 package ru.strict.db.dto;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 /**
  * Базовая информация о пользователе системы (логин, роль)
  */
 public class StrictDtoUserBase<ID> extends StrictDtoBase<ID>{
 
     private String username;
-    private ID roleuserId;
-    private StrictDtoRoleuser roleuser;
+    private Collection<StrictDtoRoleuser> rolesuser;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public StrictDtoUserBase() {
         super();
         this.username = null;
-        this.roleuserId = null;
-        this.roleuser = null;
+        this.rolesuser = new LinkedList<>();
     }
 
-    public StrictDtoUserBase(String username, ID roleuserId) {
+    public StrictDtoUserBase(String username) {
         super();
         this.username = username;
-        this.roleuserId = roleuserId;
-        this.roleuser = null;
+        this.rolesuser = new LinkedList<>();
     }
 
-    public StrictDtoUserBase(ID id, String username, ID roleuserId) {
+    public StrictDtoUserBase(ID id, String username) {
         super(id);
         this.username = username;
-        this.roleuserId = roleuserId;
-        this.roleuser = null;
+        this.rolesuser = new LinkedList<>();
     }
     //</editor-fold>
 
@@ -41,35 +40,27 @@ public class StrictDtoUserBase<ID> extends StrictDtoBase<ID>{
         this.username = username;
     }
 
-    public ID getRoleuserId() {
-        return roleuserId;
+    public Collection<StrictDtoRoleuser> getRolesuser() {
+        return rolesuser;
     }
 
-    public void setRoleuserId(ID roleuserId) {
-        this.roleuserId = roleuserId;
-    }
-
-    public StrictDtoRoleuser getRoleuser() {
-        return roleuser;
-    }
-
-    public void setRoleuser(StrictDtoRoleuser roleuser) {
-        this.roleuser = roleuser;
+    public void addRoleuser(StrictDtoRoleuser roleuser){
+        rolesuser.add(roleuser);
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("dto[%s]: %s (role: %s)", String.valueOf(getId()), username, roleuserId);
+        return String.format("dto userbase [%s]: %s", String.valueOf(getId()), username);
     }
 
     @Override
     public boolean equals(Object obj){
         if(obj instanceof StrictDtoUserBase) {
-            StrictDtoUserBase entity = (StrictDtoUserBase) obj;
-            return super.equals(entity) && username.equals(entity.getUsername()) && roleuser.equals(entity.getRoleuser())
-                    && roleuserId.equals(entity.getRoleuserId());
+            StrictDtoUserBase dto = (StrictDtoUserBase) obj;
+            return super.equals(dto) && username.equals(dto.getUsername())
+                    && (rolesuser.size() == dto.getRolesuser().size() && rolesuser.containsAll(dto.getRolesuser()));
         }else
             return false;
     }

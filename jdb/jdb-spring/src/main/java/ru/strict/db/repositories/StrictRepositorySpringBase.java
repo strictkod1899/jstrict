@@ -36,25 +36,13 @@ public abstract class StrictRepositorySpringBase
      */
     private RowMapper<E> springMapper;
 
-    /**
-     * Наименование таблицы
-     */
-    private String tableName;
-
-    /**
-     * Наименование столбцов таблицы в базе данных
-     */
-    private String[] columnsName;
-
     //<editor-fold defaultState="collapsed" desc="constructors">
     public StrictRepositorySpringBase(String tableName, String[] columnsName,
                                       StrictCreateConnectionByDataSource connectionSource,
-                                      StrictMapperDtoBase dtoMapper, boolean isGenerateId, RowMapper<E> springMapper) {
-        super(connectionSource, dtoMapper, isGenerateId);
+                                      StrictMapperDtoBase<E, DTO> dtoMapper, boolean isGenerateId, RowMapper<E> springMapper) {
+        super(tableName, columnsName, connectionSource, dtoMapper, isGenerateId);
         this.springJdbc = new NamedParameterJdbcTemplate(getConnectionSource().getConnectionSource());
         this.springMapper = springMapper;
-        this.tableName = tableName;
-        this.columnsName = columnsName;
     }
     //</editor-fold>
 
@@ -123,34 +111,15 @@ public abstract class StrictRepositorySpringBase
         else
             return false;
     }
-
-    @Override
-    public DTO createOrUpdate(DTO dto) {
-        if(IsRowExists((ID)dto.getId()))
-            return update(dto);
-        else
-            return create(dto);
-    }
-
-    @Override
-    public DTO createOrRead(DTO dto) {
-        if(IsRowExists((ID)dto.getId()))
-            return read((ID)dto.getId());
-        else
-            return create(dto);
-    }
     //</editor-fold>
 
-    /**
-     * Проверить существование записи в базе данных с переданным идентификатором
-     * @param id
-     * @return
-     */
+    //<editor-fold defaultState="collapsed" desc="IsRowExists">
+    @Override
     public boolean IsRowExists(ID id){
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("id", id);
         return springJdbc
-                .<Boolean>execute("SELECT COUNT(*) FROM " + tableName + " WHERE id = :id;",
+                .<Boolean>execute("SELECT COUNT(*) FROM " + getTableName() + " WHERE id = :id;",
                         parameters,
                         new CallbackIsExists());
     }
@@ -170,6 +139,7 @@ public abstract class StrictRepositorySpringBase
                 return false;
         }
     }
+    //</editor-fold>
 
     /**
      * Сопоставить номер столбца базы данных с полем dto-объекта. Отсчет номера столбца начинать с нуля.
@@ -209,9 +179,9 @@ public abstract class StrictRepositorySpringBase
      * @return
      */
     private String createSqlSelect(){
-        StringBuilder sql = new StringBuilder("SELECT id, ");
+        StringBuilder sql = new StringBuilder("SELECT " + getTableName() + ".id, ");
         for(String columnName : getColumnsName())
-            sql.append(columnName + ", ");
+            sql.append(getTableName() + "."  + columnName + ", ");
         sql.replace(sql.length()-2, sql.length(), "");
         sql.append(" FROM " + getTableName());
 
@@ -276,7 +246,7 @@ public abstract class StrictRepositorySpringBase
      */
     private String createSqlDelete(){
         StringBuilder sql = new StringBuilder("DELETE FROM ");
-        sql.append(tableName);
+        sql.append(getTableName());
         sql.append(" WHERE id = :id");
 
         return sql.toString();
@@ -290,14 +260,6 @@ public abstract class StrictRepositorySpringBase
 
     protected RowMapper<E> getSpringMapper() {
         return springMapper;
-    }
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public String[] getColumnsName() {
-        return columnsName;
     }
     //</editor-fold>
 }

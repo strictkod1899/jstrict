@@ -1,5 +1,8 @@
 package ru.strict.db.entities;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 /**
  * Пользователь системы
  */
@@ -7,8 +10,7 @@ public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
 
     private String username;
     private String passwordEncode;
-    private ID roleuserId;
-    private StrictEntityRoleuser roleuser;
+    private Collection<StrictEntityRoleuser> rolesuser;
     private String token;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
@@ -16,26 +18,23 @@ public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
         super();
         this.username = null;
         this.passwordEncode = null;
-        this.roleuserId = null;
-        this.roleuser = null;
+        this.rolesuser = new LinkedList<>();
         this.token = null;
     }
 
-    public StrictEntityUser(String username, String passwordEncode, ID roleuserId, String token) {
+    public StrictEntityUser(String username, String passwordEncode, String token) {
         super();
         this.username = username;
         this.passwordEncode = passwordEncode;
-        this.roleuserId = roleuserId;
-        this.roleuser = null;
+        this.rolesuser = new LinkedList<>();
         this.token = token;
     }
 
-    public StrictEntityUser(ID id, String username, String passwordEncode, ID roleuserId, String token) {
+    public StrictEntityUser(ID id, String username, String passwordEncode, String token) {
         super(id);
         this.username = username;
         this.passwordEncode = passwordEncode;
-        this.roleuserId = roleuserId;
-        this.roleuser = null;
+        this.rolesuser = new LinkedList<>();
         this.token = token;
     }
     //</editor-fold>
@@ -57,20 +56,16 @@ public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
         this.passwordEncode = passwordEncode;
     }
 
-    public ID getRoleuserId() {
-        return roleuserId;
+    public Collection<StrictEntityRoleuser> getRolesuser() {
+        return rolesuser;
     }
 
-    public void setRoleuserId(ID roleuserId) {
-        this.roleuserId = roleuserId;
+    public void setRolesuser(Collection<StrictEntityRoleuser> rolesuser) {
+        this.rolesuser = rolesuser;
     }
 
-    public StrictEntityRoleuser getRoleuser() {
-        return roleuser;
-    }
-
-    public void setRoleuser(StrictEntityRoleuser roleuser) {
-        this.roleuser = roleuser;
+    public void addRoleuser(StrictEntityRoleuser roleuser){
+        rolesuser.add(roleuser);
     }
 
     public String getToken() {
@@ -85,7 +80,7 @@ public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("entity[%s]: %s (role: %s).\nToken: %s. Password: %s", String.valueOf(getId()), getUsername(), getRoleuserId(),
+        return String.format("entity user [%s]: %s.\nToken: %s. Password: %s", String.valueOf(getId()), getUsername(),
                 token, passwordEncode);
     }
 
@@ -94,8 +89,9 @@ public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
         if(obj instanceof StrictEntityUser) {
             StrictEntityUser entity = (StrictEntityUser) obj;
             return super.equals(entity) && username.equals(entity.getUsername())
-                    && passwordEncode.equals(entity.getPasswordEncode()) && roleuser.equals(entity.getRoleuser())
-                    && roleuserId.equals(entity.getRoleuserId()) && token.equals(entity.getToken());
+                    && passwordEncode.equals(entity.getPasswordEncode()) && rolesuser.equals(entity.getRolesuser())
+                    && (rolesuser.size() == entity.getRolesuser().size() && rolesuser.containsAll(entity.getRolesuser()))
+                    && token.equals(entity.getToken());
         }else
             return false;
     }

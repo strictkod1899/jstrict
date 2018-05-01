@@ -20,12 +20,13 @@ public class StrictMapperSqlProfileInfo implements RowMapper<StrictEntityProfile
         entity.setId(resultSet.getObject("id"));
         entity.setName(resultSet.getString(COLUMNS_NAME[0]));
         entity.setSurname(resultSet.getString(COLUMNS_NAME[1]));
-        entity.setMiddlename(COLUMNS_NAME[2]);
-        entity.setDateBirth(resultSet.getDate(COLUMNS_NAME[3]));
-        entity.setPhone(resultSet.getString(COLUMNS_NAME[4]));
-        entity.setCounrty(resultSet.getString(COLUMNS_NAME[5]));
-        entity.setCity(resultSet.getString(COLUMNS_NAME[6]));
-        entity.setAddress(resultSet.getString(COLUMNS_NAME[7]));
+        entity.setMiddlename(resultSet.getString(COLUMNS_NAME[2]));
+        entity.setUserId(resultSet.getObject(COLUMNS_NAME[3]));
+        entity.setDateBirth(resultSet.getDate(COLUMNS_NAME[4]));
+        entity.setPhone(resultSet.getString(COLUMNS_NAME[5]));
+        entity.setCountry(resultSet.getString(COLUMNS_NAME[6]));
+        entity.setCity(resultSet.getString(COLUMNS_NAME[7]));
+        entity.setAddress(resultSet.getString(COLUMNS_NAME[8]));
         return entity;
     }
 }

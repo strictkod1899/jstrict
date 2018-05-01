@@ -20,26 +20,42 @@ public class StrictEntityProfile<ID> extends StrictEntityBase<ID> {
      */
     private String middlename;
 
+    /**
+     * Идентификатор пользователя
+     */
+    private ID userId;
+
+    /**
+     * Пользователь
+     */
+    private StrictEntityUser user;
+
     //<editor-fold defaultState="collapsed" desc="constructors">
     public StrictEntityProfile() {
         super();
         name = null;
         surname = null;
         middlename = null;
+        userId = null;
+        user = null;
     }
 
-    public StrictEntityProfile(String name, String surname, String middlename) {
+    public StrictEntityProfile(String name, String surname, String middlename, ID userId) {
         super();
         this.name = name;
         this.surname = surname;
         this.middlename = middlename;
+        this.userId = userId;
+        user = null;
     }
 
-    public StrictEntityProfile(ID id, String name, String surname, String middlename) {
+    public StrictEntityProfile(ID id, String name, String surname, String middlename, ID userId) {
         super(id);
         this.name = name;
         this.surname = surname;
         this.middlename = middlename;
+        this.userId = userId;
+        user = null;
     }
     //</editor-fold>
 
@@ -91,19 +107,37 @@ public class StrictEntityProfile<ID> extends StrictEntityBase<ID> {
     public void setMiddlename(String middlename) {
         this.middlename = middlename;
     }
+
+    public ID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(ID userId) {
+        this.userId = userId;
+    }
+
+    public StrictEntityUser getUser() {
+        return user;
+    }
+
+    public void setUser(StrictEntityUser user) {
+        this.user = user;
+    }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("entity[%s]: %s %s %s", String.valueOf(getId()), surname, name, middlename);
+        return String.format("entity profile [%s]: %s %s %s", String.valueOf(getId()), surname, name, middlename);
     }
 
     @Override
     public boolean equals(Object obj){
         if(obj instanceof StrictEntityProfile) {
             StrictEntityProfile entity = (StrictEntityProfile) obj;
-            return super.equals(entity) && name.equals(entity.getName()) && surname.equals(entity.getSurname()) && middlename.equals(entity.getMiddlename());
+            return super.equals(entity) && name.equals(entity.getName()) && surname.equals(entity.getSurname())
+                    && middlename.equals(entity.getMiddlename()) && userId.equals(entity.getUserId())
+                    && user.equals(entity.getUser());
         }else
             return false;
     }
