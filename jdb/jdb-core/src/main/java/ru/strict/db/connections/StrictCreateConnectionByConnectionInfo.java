@@ -21,8 +21,8 @@ public class StrictCreateConnectionByConnectionInfo extends StrictCreateConnecti
         StrictUtilLogger.info(StrictCreateConnectionByConnectionInfo.class, "createConnection - started");
         try {
             // Путь к базе данных
-            String connectUrl = getConnectionSource().getDbType().getUrl() + getConnectionSource().getDbCaption();
-            Driver jdbcDriver = (Driver) Class.forName(getConnectionSource().getDbType().getDriver()).
+            String connectUrl = getConnectionSource().getUrl() + getConnectionSource().getDbCaption();
+            Driver jdbcDriver = (Driver) Class.forName(getConnectionSource().getDriver()).
                     newInstance();
             // Регистрация данного драйвера
             DriverManager.registerDriver(jdbcDriver);

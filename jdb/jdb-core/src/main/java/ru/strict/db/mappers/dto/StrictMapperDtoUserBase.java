@@ -1,13 +1,15 @@
 package ru.strict.db.mappers.dto;
 
+import ru.strict.db.dto.StrictDtoRoleuser;
 import ru.strict.db.dto.StrictDtoUserBase;
+import ru.strict.db.entities.StrictEntityRoleuser;
 import ru.strict.db.entities.StrictEntityUser;
 
 /**
  * Двухсторонний маппинг объектов типа StrictEntityUser и StrictDtoUserBase
  */
-public class StrictMapperDtoUserBase<T extends StrictDtoUserBase>
-        extends StrictMapperDtoBase<StrictEntityUser, T> {
+public class StrictMapperDtoUserBase
+        extends StrictMapperDtoBase<StrictEntityUser, StrictDtoUserBase> {
 
     private StrictMapperDtoRoleuser mapperRoleuser;
 
@@ -16,22 +18,20 @@ public class StrictMapperDtoUserBase<T extends StrictDtoUserBase>
     }
 
     @Override
-    protected StrictEntityUser implementMap(T dto) {
+    protected StrictEntityUser implementMap(StrictDtoUserBase dto) {
         StrictEntityUser entity = new StrictEntityUser();
         entity.setId(dto.getId());
         entity.setUsername(dto.getUsername());
-        entity.setRoleuserId(dto.getRoleuserId());
-        entity.setRoleuser(mapperRoleuser.map(dto.getRoleuser()));
+        dto.getRolesuser().stream().forEach(r -> entity.addRoleuser(mapperRoleuser.map((StrictDtoRoleuser) r)));
         return entity;
     }
 
     @Override
-    protected T implementMap(StrictEntityUser entity) {
-        T dto = (T) new StrictDtoUserBase();
+    protected StrictDtoUserBase implementMap(StrictEntityUser entity) {
+        StrictDtoUserBase dto = new StrictDtoUserBase();
         dto.setId(entity.getId());
         dto.setUsername(entity.getUsername());
-        dto.setRoleuserId(entity.getRoleuserId());
-        dto.setRoleuser(mapperRoleuser.map(entity.getRoleuser()));
+        entity.getRolesuser().stream().forEach(r -> dto.addRoleuser(mapperRoleuser.map((StrictEntityRoleuser) r)));
         return dto;
     }
 }

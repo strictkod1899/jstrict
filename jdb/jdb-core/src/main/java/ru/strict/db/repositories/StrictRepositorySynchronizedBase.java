@@ -23,8 +23,9 @@ public abstract class StrictRepositorySynchronizedBase
         extends StrictRepositoryBase<ID, SOURCE, E, DTO>{
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public StrictRepositorySynchronizedBase(SOURCE connectionSource, StrictMapperDtoBase<E, DTO> dtoMapper, boolean isGenerateId) {
-        super(connectionSource, dtoMapper, isGenerateId);
+    public StrictRepositorySynchronizedBase(String tableName, String[] columnsName, SOURCE connectionSource
+            , StrictMapperDtoBase<E, DTO> dtoMapper, boolean isGenerateId) {
+        super(tableName, columnsName, connectionSource, dtoMapper, isGenerateId);
     }
     //</editor-fold>
 

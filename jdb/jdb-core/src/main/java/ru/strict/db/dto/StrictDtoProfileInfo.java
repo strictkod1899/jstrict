@@ -21,7 +21,7 @@ public class StrictDtoProfileInfo<ID> extends StrictDtoProfile<ID> {
     /**
      * Страна
      */
-    private String counrty;
+    private String country;
 
     /**
      * Город
@@ -38,25 +38,27 @@ public class StrictDtoProfileInfo<ID> extends StrictDtoProfile<ID> {
         super();
         dateBirth = null;
         phone = null;
-        counrty = null;
+        country = null;
         city = null;
         address = null;
     }
 
-    public StrictDtoProfileInfo(String name, String surname, String lastname, Date dateBirth, String phone, String counrty, String city, String address) {
-        super(name, surname, lastname);
+    public StrictDtoProfileInfo(String name, String surname, String middlename, ID userId, Date dateBirth, String phone,
+                                String country, String city, String address) {
+        super(name, surname, middlename, userId);
         this.dateBirth = dateBirth;
         this.phone = phone;
-        this.counrty = counrty;
+        this.country = country;
         this.city = city;
         this.address = address;
     }
 
-    public StrictDtoProfileInfo(ID id, String name, String surname, String lastname, Date dateBirth, String phone, String counrty, String city, String address) {
-        super(id, name, surname, lastname);
+    public StrictDtoProfileInfo(ID id, String name, String surname, String middlename, ID userId,
+                                Date dateBirth, String phone, String country, String city, String address) {
+        super(id, name, surname, middlename, userId);
         this.dateBirth = dateBirth;
         this.phone = phone;
-        this.counrty = counrty;
+        this.country = country;
         this.city = city;
         this.address = address;
     }
@@ -79,12 +81,12 @@ public class StrictDtoProfileInfo<ID> extends StrictDtoProfile<ID> {
         this.phone = phone;
     }
 
-    public String getCounrty() {
-        return counrty;
+    public String getCountry() {
+        return country;
     }
 
-    public void setCounrty(String counrty) {
-        this.counrty = counrty;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getCity() {
@@ -106,16 +108,16 @@ public class StrictDtoProfileInfo<ID> extends StrictDtoProfile<ID> {
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     public String toString(){
-        return String.format("dto[%s]: %s %s %s\n%tD, phone: %s, %s %s %s", String.valueOf(getId()), getSurname(), getName(), getMiddlename(),
-                dateBirth, phone, counrty, city, address);
+        return String.format("dto profileinfo [%s]: %s %s %s\n%tD, phone: %s, %s %s %s", String.valueOf(getId()), getSurname(), getName(), getMiddlename(),
+                dateBirth, phone, country, city, address);
     }
 
     public boolean equals(Object obj){
         if(obj instanceof StrictDtoProfileInfo){
-            StrictDtoProfileInfo entity = (StrictDtoProfileInfo) obj;
-            return super.equals(entity) && dateBirth==entity.getDateBirth() && phone.equals(entity.getPhone())
-                    && counrty.equals(entity.getCounrty()) && city.equals(entity.getCity())
-                    && address.equals(entity.getAddress());
+            StrictDtoProfileInfo dto = (StrictDtoProfileInfo) obj;
+            return super.equals(dto) && dateBirth==dto.getDateBirth() && phone.equals(dto.getPhone())
+                    && country.equals(dto.getCountry()) && city.equals(dto.getCity())
+                    && address.equals(dto.getAddress());
         }else
             return false;
     }

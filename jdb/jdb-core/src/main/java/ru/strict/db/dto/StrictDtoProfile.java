@@ -20,26 +20,42 @@ public class StrictDtoProfile<ID> extends StrictDtoBase<ID> {
      */
     private String middlename;
 
+    /**
+     * Идентификатор пользователя
+     */
+    private ID userId;
+
+    /**
+     * Пользователь
+     */
+    private StrictDtoUser user;
+
     //<editor-fold defaultState="collapsed" desc="constructors">
     public StrictDtoProfile() {
         super();
         name = null;
         surname = null;
         middlename = null;
+        userId = null;
+        user = null;
     }
 
-    public StrictDtoProfile(String name, String surname, String middlename) {
+    public StrictDtoProfile(String name, String surname, String middlename, ID userId) {
         super();
         this.name = name;
         this.surname = surname;
         this.middlename = middlename;
+        this.userId = userId;
+        user = null;
     }
 
-    public StrictDtoProfile(ID id, String name, String surname, String middlename) {
+    public StrictDtoProfile(ID id, String name, String surname, String middlename, ID userId) {
         super(id);
         this.name = name;
         this.surname = surname;
         this.middlename = middlename;
+        this.userId = userId;
+        user = null;
     }
     //</editor-fold>
 
@@ -91,19 +107,37 @@ public class StrictDtoProfile<ID> extends StrictDtoBase<ID> {
     public void setMiddlename(String middlename) {
         this.middlename = middlename;
     }
+
+    public ID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(ID userId) {
+        this.userId = userId;
+    }
+
+    public StrictDtoUser getUser() {
+        return user;
+    }
+
+    public void setUser(StrictDtoUser user) {
+        this.user = user;
+    }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("dto[%s]: %s %s %s", String.valueOf(getId()), surname, name, middlename);
+        return String.format("dto profile [%s]: %s %s %s", String.valueOf(getId()), surname, name, middlename);
     }
 
     @Override
     public boolean equals(Object obj){
         if(obj instanceof StrictDtoProfile) {
-            StrictDtoProfile entity = (StrictDtoProfile) obj;
-            return super.equals(entity) && name.equals(entity.getName()) && surname.equals(entity.getSurname()) && middlename.equals(entity.getMiddlename());
+            StrictDtoProfile dto = (StrictDtoProfile) obj;
+            return super.equals(dto) && name.equals(dto.getName()) && surname.equals(dto.getSurname())
+                    && middlename.equals(dto.getMiddlename()) && userId.equals(dto.getUserId())
+                    && user.equals(dto.getUser());
         }else
             return false;
     }

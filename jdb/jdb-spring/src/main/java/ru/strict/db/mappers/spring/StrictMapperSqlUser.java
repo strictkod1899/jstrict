@@ -20,8 +20,7 @@ public class StrictMapperSqlUser implements RowMapper<StrictEntityUser> {
         entity.setId(resultSet.getObject("id"));
         entity.setUsername(resultSet.getString(COLUMNS_NAME[0]));
         entity.setPasswordEncode(resultSet.getString(COLUMNS_NAME[1]));
-        entity.setRoleuserId(resultSet.getObject(COLUMNS_NAME[2]));
-        entity.setToken(resultSet.getString(COLUMNS_NAME[3]));
+        entity.setToken(resultSet.getString(COLUMNS_NAME[2]));
         return entity;
     }
 }

@@ -2,11 +2,18 @@ package ru.strict.db.repositories;
 
 import ru.strict.db.connections.StrictCreateConnectionByDataSource;
 import ru.strict.db.dto.StrictDtoRoleuser;
+import ru.strict.db.dto.StrictDtoUser;
+import ru.strict.db.dto.StrictDtoUserOnRole;
 import ru.strict.db.entities.StrictEntityRoleuser;
+import ru.strict.db.entities.StrictEntityUserOnRole;
 import ru.strict.db.mappers.dto.StrictMapperDtoRoleuser;
+import ru.strict.db.mappers.dto.StrictMapperDtoUser;
 import ru.strict.db.mappers.spring.StrictMapperSqlRoleuser;
+import ru.strict.db.requests.StrictDbRequests;
+import ru.strict.db.requests.StrictDbWhere;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StrictRepositoryRoleuser<ID>
@@ -14,7 +21,7 @@ public class StrictRepositoryRoleuser<ID>
 
     private static final String[] COLUMNS_NAME = new String[] {"symbols", "description"};
 
-    public StrictRepositoryRoleuser(StrictCreateConnectionByDataSource connectionSource, boolean isGenerateId) {
+    public StrictRepositoryRoleuser(StrictCreateConnectionByDataSource connectionSource, Boolean isGenerateId) {
         super("roleuser", COLUMNS_NAME, connectionSource, new StrictMapperDtoRoleuser(), isGenerateId,
                 new StrictMapperSqlRoleuser(COLUMNS_NAME));
     }
@@ -25,5 +32,10 @@ public class StrictRepositoryRoleuser<ID>
         valuesByColumn.put(0, dto.getSymbols());
         valuesByColumn.put(1, dto.getDescription());
         return valuesByColumn;
+    }
+
+    @Override
+    protected StrictDtoRoleuser fill(StrictDtoRoleuser dto){
+        return dto;
     }
 }

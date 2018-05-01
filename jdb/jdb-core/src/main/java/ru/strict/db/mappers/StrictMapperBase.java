@@ -6,6 +6,8 @@ package ru.strict.db.mappers;
 public abstract class StrictMapperBase<S, T extends MapTarget>
         implements StrictMapperAny<S, T> {
 
+    // TODO: Добавить trim() при установке string-значений
+
     /**
      * Реализация маппинга объекта
      * @param target Объект, который необходимо преобразовать в другой тип

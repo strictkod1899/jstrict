@@ -1,5 +1,8 @@
 package ru.strict.db.dto;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 /**
  * Роль пользователя в системе (например, администратор, пользователь, неавторизированный пользователь и др.)
  */
@@ -56,14 +59,14 @@ public class StrictDtoRoleuser<ID> extends StrictDtoBase<ID>{
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("dto[%s]: %s (%s)", String.valueOf(getId()), symbols, description);
+        return String.format("dto roleuser [%s]: %s (%s)", String.valueOf(getId()), symbols, description);
     }
 
     @Override
     public boolean equals(Object obj){
         if(obj instanceof StrictDtoRoleuser) {
-            StrictDtoRoleuser entity = (StrictDtoRoleuser) obj;
-            return super.equals(entity) && symbols.equals(entity.getSymbols()) && description.equals(entity.getDescription());
+            StrictDtoRoleuser dto = (StrictDtoRoleuser) obj;
+            return super.equals(dto) && symbols.equals(dto.getSymbols()) && description.equals(dto.getDescription());
         }else
             return false;
     }

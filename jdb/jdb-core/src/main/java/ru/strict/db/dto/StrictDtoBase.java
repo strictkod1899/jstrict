@@ -42,14 +42,14 @@ public abstract class StrictDtoBase<ID>  implements MapTarget {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("dto[%s]", String.valueOf(id));
+        return String.format("dto base [%s]", String.valueOf(id));
     }
 
     @Override
     public boolean equals(Object obj){
         if(obj instanceof StrictDtoBase) {
-            StrictDtoBase entity = (StrictDtoBase) obj;
-            return entity.id.equals(id);
+            StrictDtoBase dto = (StrictDtoBase) obj;
+            return dto.getId().equals(id);
         }else
             return false;
     }
