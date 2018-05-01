@@ -1,18 +1,17 @@
 package ru.strict.db;
 
+import ru.strict.db.connections.StrictCreateConnectionAny;
+import ru.strict.db.migration.StrictMigration;
+import ru.strict.db.migration.components.StrictMigrationTable;
 import ru.strict.db.repositories.StrictRepositoryAny;
-import ru.strict.utils.StrictUtilLogger;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Управление соединением с базой данных
  */
-public class StrictManagerDatabase<SOURCE> {
+public class StrictManagerDatabase<SOURCE extends StrictCreateConnectionAny> {
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
@@ -25,14 +24,32 @@ public class StrictManagerDatabase<SOURCE> {
      */
     private Map<String, StrictRepositoryAny> repositories;
 
+    /**
+     * Поддережка играции базы данных
+     */
+    private StrictMigration migration;
+
     //<editor-fold defaultState="collapsed" desc="constructors">
     public StrictManagerDatabase(SOURCE connectionSource) {
         this.connectionSource = connectionSource;
         repositories = new LinkedHashMap<>();
+        migration = new StrictMigration(connectionSource);
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
+    public void addMigrationTable(StrictMigrationTable table){
+        migration.addTable(table);
+    }
+
+    public StrictMigration getMigration() {
+        return migration;
+    }
+
+    public void migration(){
+        migration.migration();
+    }
+
     /**
      * Добавить новый репозиторий
      * @param key Ключ доступа к репозиторию
