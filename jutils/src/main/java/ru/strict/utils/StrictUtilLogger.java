@@ -14,6 +14,10 @@ public class StrictUtilLogger {
         return new StrictLogger(getLogger(clazz));
     }
 
+    public static StrictLogger createLogger(String className){
+        return new StrictLogger(getLogger(className));
+    }
+
     /**
      * Информационное сообщение логирования для Debug-режима
      * @param clazz Класс, в котором производится логирование

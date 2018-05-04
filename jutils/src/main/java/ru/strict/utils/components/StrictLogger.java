@@ -7,10 +7,18 @@ import org.apache.log4j.Logger;
  */
 public class StrictLogger {
 
-    private final Logger logger;
+    private final Logger wrappedObject;
 
     public StrictLogger(Logger logger) {
-        this.logger = logger;
+        this.wrappedObject = logger;
+    }
+
+    public StrictLogger(Class clazz) {
+        this.wrappedObject = Logger.getLogger(clazz);;
+    }
+
+    public StrictLogger(String className) {
+        this.wrappedObject = Logger.getLogger(className);
     }
 
     /**
@@ -18,7 +26,7 @@ public class StrictLogger {
      * @param message Сообщение исключения
      */
     public void trace(String message){
-        logger.trace(message);
+        wrappedObject.trace(message);
     }
 
     /**
@@ -26,7 +34,7 @@ public class StrictLogger {
      * @param message Сообщение исключения
      */
     public void info(String message){
-        logger.info(message);
+        wrappedObject.info(message);
     }
 
     /**
@@ -34,7 +42,7 @@ public class StrictLogger {
      * @param message Сообщение исключения
      */
     public void warn(String message){
-        logger.warn(message);
+        wrappedObject.warn(message);
     }
 
     /**
@@ -42,7 +50,7 @@ public class StrictLogger {
      * @param message Сообщение исключения
      */
     public void error(String message){
-        logger.error(message);
+        wrappedObject.error(message);
     }
 
     /**
@@ -55,7 +63,7 @@ public class StrictLogger {
      * @param message Сообщение исключения
      */
     public void error(String type,  String message){
-        logger.error(String.format("%s - %s", type, message));
+        wrappedObject.error(String.format("%s - %s", type, message));
     }
 
     /**
@@ -69,26 +77,26 @@ public class StrictLogger {
      * @param message Сообщение исключения
      */
     public void error(String customMessage, String type,  String message){
-        logger.error(String.format("%s \n %s - %s", customMessage, type, message));
+        wrappedObject.error(String.format("%s \n %s - %s", customMessage, type, message));
     }
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public Logger getLogger() {
-        return logger;
+    public Logger getWrappedObject() {
+        return wrappedObject;
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("Logger: %s", logger.getName());
+        return String.format("Logger: %s", wrappedObject.getName());
     }
 
     @Override
     public boolean equals(Object obj){
         if(obj instanceof StrictLogger) {
             StrictLogger object = (StrictLogger) obj;
-            return logger.equals(object.getLogger());
+            return wrappedObject.equals(object.getWrappedObject());
         }else
             return false;
     }
