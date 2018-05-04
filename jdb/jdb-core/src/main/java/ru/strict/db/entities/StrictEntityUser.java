@@ -89,7 +89,7 @@ public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
         if(obj instanceof StrictEntityUser) {
             StrictEntityUser entity = (StrictEntityUser) obj;
             return super.equals(entity) && username.equals(entity.getUsername())
-                    && passwordEncode.equals(entity.getPasswordEncode()) && rolesuser.equals(entity.getRolesuser())
+                    && passwordEncode.equals(entity.getPasswordEncode())
                     && (rolesuser.size() == entity.getRolesuser().size() && rolesuser.containsAll(entity.getRolesuser()))
                     && token.equals(entity.getToken());
         }else
