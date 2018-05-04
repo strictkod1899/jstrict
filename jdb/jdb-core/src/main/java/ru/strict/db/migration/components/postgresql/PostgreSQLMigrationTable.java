@@ -4,12 +4,21 @@ import ru.strict.db.migration.components.StrictMigrationTable;
 
 import java.util.stream.Collectors;
 
+/**
+ * Таблица для миграции в базу данных PostgreSQL
+ */
 public class PostgreSQLMigrationTable
         <COLUMN extends PostgreSQLMigrationColumn, FK extends PostgreSQLMigrationForeignKey>
         extends StrictMigrationTable<COLUMN, FK> {
 
+    /**
+     * Схема базы данных
+     */
     private String schema;
     // TODO: добавить создание sequence для автоинкремента
+    /**
+     * Использование автоинкремента на стороне базы данных
+     */
     private boolean isAutoincrement;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

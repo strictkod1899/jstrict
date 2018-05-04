@@ -7,15 +7,32 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.stream.Collectors;
 
+/**
+ * Таблица для миграции в базу данных
+ * @param <COLUMN> Тип столбцов таблицы для миграции (например, StrictMigrationColumn, PostgreSQLMigrationColumn и др.)
+ * @param <FK> Тип внешних ключей таблицы для миграции (например, StrictMigrationForeignKey, PostgreSQLMigrationForeignKey и др.)
+ */
 public class StrictMigrationTable
         <COLUMN extends StrictMigrationColumn, FK extends StrictMigrationForeignKey>
         implements StrictMigrationComponent {
 
     protected final StrictLogger LOGGER = StrictUtilLogger.createLogger(StrictMigrationTable.class);
 
+    /**
+     * Наименование таблицы
+     */
     private String name;
+    /**
+     * Столбц таблицы
+     */
     private Collection<COLUMN> columns;
+    /**
+     * Первичный ключ таблицы
+     */
     private StrictMigrationPrimaryKey primaryKey;
+    /**
+     * Внешние ключи таблицы
+     */
     private Collection<FK> foreignKeys;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

@@ -3,8 +3,14 @@ package ru.strict.db.migration.components.postgresql;
 import ru.strict.db.migration.components.StrictMigrationForeignBehavior;
 import ru.strict.db.migration.components.StrictMigrationForeignKey;
 
+/**
+ * Внешний ключ таблицы для миграции в базу данных PostgreSQL
+ */
 public class PostgreSQLMigrationForeignKey extends StrictMigrationForeignKey {
 
+    /**
+     * Схема базы данных
+     */
     private String schema;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

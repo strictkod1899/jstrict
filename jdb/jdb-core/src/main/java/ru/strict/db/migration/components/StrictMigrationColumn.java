@@ -1,10 +1,25 @@
 package ru.strict.db.migration.components;
 
+/**
+ * Столбец таблицы для миграции в базу данных
+ */
 public class StrictMigrationColumn implements StrictMigrationComponent{
 
+    /**
+     * Наименование столбца
+     */
     private String name;
+    /**
+     * Тип столбца
+     */
     private String type;
+    /**
+     * Подержка нулевого значения
+     */
     private boolean isNotNull;
+    /**
+     * Значение по-умолчанию
+     */
     private String defaultValue;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

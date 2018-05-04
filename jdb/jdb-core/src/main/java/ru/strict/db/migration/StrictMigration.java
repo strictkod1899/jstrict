@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.stream.Collectors;
 
 /**
- * Базовый класс миграции
+ * Миграция базы данных
  * @param <SOURCE> Источник для получения соединения с базой данных,
  *                например, StrictCreateConnectionByDataSource, StrictCreateConnectionByConnectionInfo и др
  * @param <TABLE> Тип таблиц для миграции (например, PostgreSQLMigrationTable, SQLiteMigrationTable и др.)

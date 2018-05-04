@@ -1,8 +1,17 @@
 package ru.strict.db.migration.components;
 
+/**
+ * Первичный ключ таблицы для миграции в базу данных
+ */
 public class StrictMigrationPrimaryKey implements StrictMigrationComponent {
 
+    /**
+     * Наименование первичного ключа в конструкци CONSTRAINTS
+     */
     private String name;
+    /**
+     * Столбец, который представляет значения первичного ключа
+     */
     private String column;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

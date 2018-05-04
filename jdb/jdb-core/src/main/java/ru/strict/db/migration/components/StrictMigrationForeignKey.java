@@ -1,12 +1,33 @@
 package ru.strict.db.migration.components;
 
+/**
+ * Внешний ключ таблицы для миграции в базу данных
+ */
 public class StrictMigrationForeignKey implements StrictMigrationComponent{
 
+    /**
+     * Наименование внешнего ключа в конструкци CONSTRAINTS
+     */
     private String name;
+    /**
+     * Столбцев в текущей таблицы, который ссылается на внешнюю таблицу
+     */
     private String column;
+    /**
+     * Наименование внешней таблицы
+     */
     private String tableRef;
+    /**
+     * Наименовани столбца внешней таблицы
+     */
     private String columnRef;
+    /**
+     * Поведение при обновлении записи внешней таблицы
+     */
     private StrictMigrationForeignBehavior updateBehavior;
+    /**
+     * Поведение при удалении записи внешней таблицы
+     */
     private StrictMigrationForeignBehavior deleteBehavior;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
@@ -63,8 +84,10 @@ public class StrictMigrationForeignKey implements StrictMigrationComponent{
     public boolean equals(Object obj){
         if(obj instanceof StrictMigrationForeignKey) {
             StrictMigrationForeignKey object = (StrictMigrationForeignKey) obj;
-            return name.equals(object.getName()) && column.equals(object.getColumn()) && tableRef.equals(object.getTableRef())
-                    && columnRef.equals(object.getColumnRef()) && updateBehavior.equals(object.getUpdateBehavior())
+            return name.equals(object.getName()) && column.equals(object.getColumn())
+                    && tableRef.equals(object.getTableRef())
+                    && columnRef.equals(object.getColumnRef())
+                    && updateBehavior.equals(object.getUpdateBehavior())
                     && deleteBehavior.equals(object.getDeleteBehavior());
         }else
             return false;
