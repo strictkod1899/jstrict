@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 /**
  * Базовый класс миграции
@@ -40,6 +41,7 @@ public class StrictMigration
 
     @Override
     public void migration() {
+
         for(TABLE table : getTables()){
             String sql = table.getSql();
 
@@ -63,6 +65,24 @@ public class StrictMigration
 
     public void addTable(TABLE table){
         tables.add(table);
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
+    public String toString(){
+        String tablesName = String.join("; ", tables.stream().map((table) -> table.getName()).collect(Collectors.toList()));
+        return String.format("Migration tables: %s", tablesName);
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof StrictMigration) {
+            StrictMigration migration = (StrictMigration) obj;
+            return connectionSource.equals(migration.connectionSource)
+                    && (tables.size() == migration.getTables().size() && tables.containsAll(migration.getTables()));
+        }else
+            return false;
     }
     //</editor-fold>
 }

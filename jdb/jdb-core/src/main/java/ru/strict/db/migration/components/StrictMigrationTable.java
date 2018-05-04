@@ -2,9 +2,11 @@ package ru.strict.db.migration.components;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 public class StrictMigrationTable
-        <COLUMN extends StrictMigrationColumn, FK extends StrictMigrationForeignKey> {
+        <COLUMN extends StrictMigrationColumn, FK extends StrictMigrationForeignKey>
+        implements StrictMigrationComponent {
 
     private String name;
     private Collection<COLUMN> columns;
@@ -20,6 +22,7 @@ public class StrictMigrationTable
     }
     //</editor-fold>
 
+    @Override
     public String getSql(){
         StringBuilder sql = new StringBuilder();
         sql.append(String.format("CREATE TABLE %s ( ", getName()));
@@ -70,6 +73,25 @@ public class StrictMigrationTable
 
     public void addForeignKey(FK foreignKey){
         foreignKeys.add(foreignKey);
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
+    public String toString(){
+        String columnsName = String.join("; ", columns.stream().map((column) -> column.getName()).collect(Collectors.toList()));
+        return String.format("Table: %s. Columns: %s", name, columnsName);
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof StrictMigrationTable) {
+            StrictMigrationTable table = (StrictMigrationTable) obj;
+            return name.equals(table.getName()) && primaryKey.equals(table.getPrimaryKey())
+                    && (columns.size() == table.getColumns().size() && columns.containsAll(table.getColumns()))
+                    && (foreignKeys.size() == table.getForeignKeys().size() && foreignKeys.containsAll(table.getForeignKeys()));
+        }else
+            return false;
     }
     //</editor-fold>
 }

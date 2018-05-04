@@ -1,6 +1,6 @@
 package ru.strict.db.migration.components;
 
-public class StrictMigrationPrimaryKey {
+public class StrictMigrationPrimaryKey implements StrictMigrationComponent {
 
     private String name;
     private String column;
@@ -12,6 +12,7 @@ public class StrictMigrationPrimaryKey {
     }
     //</editor-fold>
 
+    @Override
     public String getSql(){
         return String.format("CONSTRAINT %s PRIMARY KEY (%s)", name, column);
     }
@@ -23,6 +24,22 @@ public class StrictMigrationPrimaryKey {
 
     public String getColumn() {
         return column;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
+    public String toString(){
+        return String.format("Primary key: %s to column %s", name, column);
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof StrictMigrationPrimaryKey) {
+            StrictMigrationPrimaryKey object = (StrictMigrationPrimaryKey) obj;
+            return name.equals(object.getName()) && column.equals(object.getColumn());
+        }else
+            return false;
     }
     //</editor-fold>
 }

@@ -1,6 +1,6 @@
 package ru.strict.db.migration.components;
 
-public enum StrictMigrationForeignBehavior {
+public enum StrictMigrationForeignBehavior implements StrictMigrationComponent{
     NO_ACTION("NO ACTION"),
     RESTRICT("RESTRICT"),
     SET_NULL("SET NULL"),
@@ -13,7 +13,15 @@ public enum StrictMigrationForeignBehavior {
         this.sql = sql;
     }
 
+    @Override
     public String getSql() {
         return sql;
     }
+
+    //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
+    public String toString(){
+        return String.format("Foreign behaviour: %s", sql);
+    }
+    //</editor-fold>
 }

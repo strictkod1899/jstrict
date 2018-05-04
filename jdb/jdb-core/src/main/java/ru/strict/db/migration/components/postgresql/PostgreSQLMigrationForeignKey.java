@@ -27,4 +27,20 @@ public class PostgreSQLMigrationForeignKey extends StrictMigrationForeignKey {
         return schema;
     }
     //</editor-fold>
+
+    //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
+    public String toString(){
+        return getSql();
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof PostgreSQLMigrationForeignKey) {
+            PostgreSQLMigrationForeignKey object = (PostgreSQLMigrationForeignKey) obj;
+            return super.equals(object) && schema.equals(object.getSchema());
+        }else
+            return false;
+    }
+    //</editor-fold>
 }

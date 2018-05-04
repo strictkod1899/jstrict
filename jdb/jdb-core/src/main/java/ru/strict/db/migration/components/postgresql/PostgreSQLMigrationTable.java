@@ -2,11 +2,14 @@ package ru.strict.db.migration.components.postgresql;
 
 import ru.strict.db.migration.components.StrictMigrationTable;
 
+import java.util.stream.Collectors;
+
 public class PostgreSQLMigrationTable
         <COLUMN extends PostgreSQLMigrationColumn, FK extends PostgreSQLMigrationForeignKey>
         extends StrictMigrationTable<COLUMN, FK> {
 
     private String schema;
+    // TODO: добавить создание sequence для автоинкремента
     private boolean isAutoincrement;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
@@ -58,6 +61,23 @@ public class PostgreSQLMigrationTable
 
     public void setAutoincrement(boolean autoincrement) {
         isAutoincrement = autoincrement;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
+    public String toString(){
+        String columnsName = String.join("; ", getColumns().stream().map((column) -> column.getName()).collect(Collectors.toList()));
+        return String.format("Table: %s.%s. Columns: %s", schema, getName(), columnsName);
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof PostgreSQLMigrationTable) {
+            PostgreSQLMigrationTable object = (PostgreSQLMigrationTable) obj;
+            return super.equals(object) && schema.equals(object.getSchema()) && isAutoincrement == object.isAutoincrement();
+        }else
+            return false;
     }
     //</editor-fold>
 }
