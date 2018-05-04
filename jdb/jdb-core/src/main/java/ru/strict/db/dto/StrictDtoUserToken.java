@@ -1,16 +1,19 @@
 package ru.strict.db.dto;
 
 /**
- * Информация и токене пользователя системы
+ * Информация о токене пользователя и его основные данные
  */
 public class StrictDtoUserToken<ID> extends StrictDtoUserBase<ID>{
 
+    /**
+     * Токен пользователя
+     */
     private String token;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public StrictDtoUserToken() {
         super();
-        this.token = null;
+        token = null;
     }
 
     public StrictDtoUserToken(String username, String token) {

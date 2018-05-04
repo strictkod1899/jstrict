@@ -3,25 +3,37 @@ package ru.strict.db.requests;
 import java.util.*;
 
 /**
- * Набор условий для добавления к запросу
+ * Набор условий для добавления к sql-запросу
  */
-public class StrictDbRequests extends LinkedList<StrictDbRequestBase> {
-
-    /**
-     * Добавлять AND между условиями
-     */
-    private boolean isAnd;
+public class StrictDbRequests extends LinkedList<StrictDbRequestBase> implements StrictDbRequestAny{
 
     /**
      * Наименование таблицы из основной конструкции select
      */
     private String selectTableName;
+    /**
+     * Добавлять AND между условиями
+     */
+    private boolean isAnd;
 
+    //<editor-fold defaultState="collapsed" desc="constructors">
     public StrictDbRequests(String selectTableName, boolean isAnd) {
         this.selectTableName = selectTableName;
         this.isAnd = isAnd;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultState="collapsed" desc="Get/Set">
+    public String getSelectTableName() {
+        return selectTableName;
+    }
+
+    public boolean isAnd() {
+        return isAnd;
+    }
+    //</editor-fold>
+
+    @Override
     public String getSql(){
         String result = "";
 
@@ -54,16 +66,10 @@ public class StrictDbRequests extends LinkedList<StrictDbRequestBase> {
         return result;
     }
 
-    public String getSelectTableName() {
-        return selectTableName;
-    }
-
-    public boolean isAnd() {
-        return isAnd;
-    }
-
+    //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
         return getSql();
     }
+    //</editor-fold>
 }

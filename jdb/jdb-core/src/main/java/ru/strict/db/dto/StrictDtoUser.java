@@ -5,12 +5,15 @@ package ru.strict.db.dto;
  */
 public class StrictDtoUser<ID> extends StrictDtoUserToken<ID>{
 
+    /**
+     * Зашифрованный пароль пользователя
+     */
     private String passwordEncode;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public StrictDtoUser() {
         super();
-        this.passwordEncode = null;
+        passwordEncode = null;
     }
 
     public StrictDtoUser(String username, String passwordEncode, String token) {

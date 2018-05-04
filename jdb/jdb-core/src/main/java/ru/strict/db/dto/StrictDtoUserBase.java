@@ -4,12 +4,21 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 /**
- * Базовая информация о пользователе системы (логин, роль)
+ * Базовая информация о пользователе (логин, роли, профиль)
  */
 public class StrictDtoUserBase<ID> extends StrictDtoBase<ID>{
 
+    /**
+     * Логин пользователя
+     */
     private String username;
+    /**
+     * Роли пользователя
+     */
     private Collection<StrictDtoRoleuser> rolesuser;
+    /**
+     * Профиль пользователя
+     */
     private StrictDtoProfile profile;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
@@ -23,14 +32,14 @@ public class StrictDtoUserBase<ID> extends StrictDtoBase<ID>{
     public StrictDtoUserBase(String username) {
         super();
         this.username = username;
-        this.rolesuser = new LinkedList<>();
+        rolesuser = new LinkedList<>();
         profile = null;
     }
 
     public StrictDtoUserBase(ID id, String username) {
         super(id);
         this.username = username;
-        this.rolesuser = new LinkedList<>();
+        rolesuser = new LinkedList<>();
         profile = null;
     }
     //</editor-fold>
@@ -48,6 +57,10 @@ public class StrictDtoUserBase<ID> extends StrictDtoBase<ID>{
         return rolesuser;
     }
 
+    /**
+     * Добавить роль, которую использует данный пользователь
+     * @param roleuser
+     */
     public void addRoleuser(StrictDtoRoleuser roleuser){
         rolesuser.add(roleuser);
     }

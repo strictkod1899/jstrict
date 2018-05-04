@@ -71,6 +71,10 @@ public class StrictDtoRoleuser<ID> extends StrictDtoBase<ID>{
         this.users = users;
     }
 
+    /**
+     * Добавить пользователя использующего данную роль
+     * @param user
+     */
     public void addUser(StrictDtoUser user) {
         this.users.add(user);
     }

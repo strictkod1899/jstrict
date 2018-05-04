@@ -1,9 +1,12 @@
 package ru.strict.db.requests;
 
-import ru.strict.db.enums.StrictEnumTemplateSymbol;
-
 /**
- * Условие Where для добавления к sql-запросу
+ * Условие Where sql-запроса
+ * <p><b>Пример использования:</b></p>
+ * <p>Значение столбца 'id' в таблице 'userx' равно '1'</p>
+ * <code><pre style="background-color: white; font-family: consolas">
+ *      new StrictDbWhere("userx", "id", 1, "=");
+ * </pre></code>
  */
 public class StrictDbWhere extends StrictDbRequestBase {
 
@@ -24,21 +27,26 @@ public class StrictDbWhere extends StrictDbRequestBase {
      */
     private StrictTemplateSymbol templateSymbol;
 
+    //<editor-fold defaultState="collapsed" desc="constructors">
     public StrictDbWhere(String tableName, String columnName, Object columnValue, String operator) {
         super(tableName);
         this.columnName = columnName;
         this.columnValue = columnValue;
         this.operator = operator;
+        templateSymbol = null;
     }
 
-    public StrictDbWhere(String tableName, String columnName, Object columnValue, String operator, StrictTemplateSymbol templateSymbol) {
+    public StrictDbWhere(String tableName, String columnName, Object columnValue, String operator
+            , StrictTemplateSymbol templateSymbol) {
         super(tableName);
         this.columnName = columnName;
         this.columnValue = columnValue;
         this.operator = operator;
         this.templateSymbol = templateSymbol;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultState="collapsed" desc="Get/Set">
     public String getColumnName() {
         return columnName;
     }
@@ -54,6 +62,7 @@ public class StrictDbWhere extends StrictDbRequestBase {
     public StrictTemplateSymbol getTemplateSymbol() {
         return templateSymbol;
     }
+    //</editor-fold>
 
     @Override
     public String getSql(){
@@ -62,12 +71,12 @@ public class StrictDbWhere extends StrictDbRequestBase {
         if(columnValue instanceof String)
             result = getTableName() + "." + columnName + " "
                     + operator + " " + "'"
-                    + (templateSymbol.getEnumTemplateSymbol()== StrictEnumTemplateSymbol.BEGIN
-                    || templateSymbol.getEnumTemplateSymbol()== StrictEnumTemplateSymbol.BETWEEN
+                    + (templateSymbol.getPointTemplateSymbol()== StrictPointTemplateSymbol.BEGIN
+                    || templateSymbol.getPointTemplateSymbol()== StrictPointTemplateSymbol.BOTH
                     ?templateSymbol.getTemplateSymbol():"")
                     + columnValue
-                    + (templateSymbol.getEnumTemplateSymbol()== StrictEnumTemplateSymbol.END
-                    || templateSymbol.getEnumTemplateSymbol()== StrictEnumTemplateSymbol.BETWEEN
+                    + (templateSymbol.getPointTemplateSymbol()== StrictPointTemplateSymbol.END
+                    || templateSymbol.getPointTemplateSymbol()== StrictPointTemplateSymbol.BOTH
                     ?templateSymbol.getTemplateSymbol():"") + "'";
         else
             result = getTableName() + "." + columnName + " " + operator + " " + columnValue;

@@ -5,9 +5,21 @@ package ru.strict.db.dto;
  */
 public class StrictDtoUserOnRole<ID> extends StrictDtoBase<ID> {
 
+    /**
+     * Идентификатор пользователя
+     */
     private ID userId;
+    /**
+     * Пользователь
+     */
     private StrictDtoUser user;
+    /**
+     * Идентификатор роли
+     */
     private ID roleId;
+    /**
+     * Роль пользователя
+     */
     private StrictDtoRoleuser role;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

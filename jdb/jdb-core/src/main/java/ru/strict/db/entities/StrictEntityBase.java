@@ -9,7 +9,7 @@ import ru.strict.db.mappers.MapTarget;
 public abstract class StrictEntityBase<ID> implements MapTarget {
 
     /**
-     * id записи
+     * Идентификатор записи
      */
     private ID id;
 
@@ -22,18 +22,10 @@ public abstract class StrictEntityBase<ID> implements MapTarget {
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    /**
-     * Получить id записи
-     * @return
-     */
     public ID getId() {
         return id;
     }
 
-    /**
-     * Установить новый id записи
-     * @param id id записи
-     */
     public void setId(ID id) {
         this.id = id;
     }

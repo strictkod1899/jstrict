@@ -5,9 +5,21 @@ package ru.strict.db.entities;
  */
 public class StrictEntityUserOnRole<ID> extends StrictEntityBase<ID> {
 
+    /**
+     * Идентификатор пользователя
+     */
     private ID userId;
+    /**
+     * Пользователь
+     */
     private StrictEntityUser user;
+    /**
+     * Идентификатор роли
+     */
     private ID roleId;
+    /**
+     * Роль пользователя
+     */
     private StrictEntityRoleuser role;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

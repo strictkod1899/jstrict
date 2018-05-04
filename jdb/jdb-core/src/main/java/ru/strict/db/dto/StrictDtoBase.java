@@ -9,12 +9,14 @@ import ru.strict.db.mappers.MapTarget;
 public abstract class StrictDtoBase<ID>  implements MapTarget {
 
     /**
-     * id записи
+     * Идентификатор записи
      */
     private ID id;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public StrictDtoBase() {}
+    public StrictDtoBase() {
+        id = null;
+    }
 
     public StrictDtoBase(ID id) {
         this.id = id;
@@ -22,18 +24,10 @@ public abstract class StrictDtoBase<ID>  implements MapTarget {
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    /**
-     * Получить id записи
-     * @return
-     */
     public ID getId() {
         return id;
     }
 
-    /**
-     * Установить новый id записи
-     * @param id id записи
-     */
     public void setId(ID id) {
         this.id = id;
     }

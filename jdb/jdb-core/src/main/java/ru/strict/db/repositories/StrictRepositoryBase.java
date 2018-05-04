@@ -2,7 +2,6 @@ package ru.strict.db.repositories;
 
 import ru.strict.db.connections.StrictCreateConnectionAny;
 import ru.strict.db.dto.StrictDtoBase;
-import ru.strict.db.enums.StrictRepositoryDataState;
 import ru.strict.db.entities.StrictEntityBase;
 import ru.strict.db.mappers.dto.StrictMapperDtoBase;
 import ru.strict.db.requests.StrictDbRequests;

@@ -28,18 +28,10 @@ public class StrictEntityNamed<ID> extends StrictEntityBase<ID> {
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    /**
-     * Получить наименование записи
-     * @return
-     */
     public String getCaption() {
         return caption;
     }
 
-    /**
-     * Установить новое наименование записи
-     * @param caption Новое наименование записи
-     */
     public void setCaption(String caption) {
         this.caption = caption;
     }

@@ -71,6 +71,10 @@ public class StrictEntityRoleuser<ID> extends StrictEntityBase<ID>{
         this.users = users;
     }
 
+    /**
+     * Добавить пользователя использующего данную роль
+     * @param user
+     */
     public void addUser(StrictEntityUser user) {
         this.users.add(user);
     }

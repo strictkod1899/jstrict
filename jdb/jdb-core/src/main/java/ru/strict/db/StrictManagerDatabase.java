@@ -25,7 +25,7 @@ public class StrictManagerDatabase<SOURCE extends StrictCreateConnectionAny> {
     private Map<String, StrictRepositoryAny> repositories;
 
     /**
-     * Поддережка играции базы данных
+     * Поддережка миграции базы данных
      */
     private StrictMigration migration;
 
@@ -37,17 +37,21 @@ public class StrictManagerDatabase<SOURCE extends StrictCreateConnectionAny> {
     }
     //</editor-fold>
 
+    public void migration(){
+        migration.migration();
+    }
+
     //<editor-fold defaultState="collapsed" desc="Get/Set">
+    /**
+     * Добавить таблицу для миграции
+     * @param table
+     */
     public void addMigrationTable(StrictMigrationTable table){
         migration.addTable(table);
     }
 
     public StrictMigration getMigration() {
         return migration;
-    }
-
-    public void migration(){
-        migration.migration();
     }
 
     /**
@@ -60,12 +64,17 @@ public class StrictManagerDatabase<SOURCE extends StrictCreateConnectionAny> {
         return repository;
     }
 
-    /**
-     * Получить список репоизториев, которые использует данный контроллер
-     * @return
-     */
     public Map<String, StrictRepositoryAny> getRepositories() {
         return repositories;
+    }
+
+    /**
+     * Получить репоизторий по ключу
+     * @param key Ключ доступа к репозиторию
+     * @return
+     */
+    public StrictRepositoryAny getRepository(String key) {
+        return repositories.get(key);
     }
 
     public SOURCE getConnectionSource() {

@@ -1,7 +1,7 @@
 package ru.strict.db.connections;
 
 /**
- * Требуемая инфорамция для получения соединения с базой данных
+ * Необходимая информация для создания соединения с базой данных
  */
 public class StrictConnectionInfo {
 

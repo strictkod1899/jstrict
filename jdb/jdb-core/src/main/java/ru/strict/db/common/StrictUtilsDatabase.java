@@ -1,6 +1,5 @@
-package ru.strict.db;
+package ru.strict.db.common;
 
-import ru.strict.db.enums.StrictConnectionByDbType;
 import ru.strict.utils.StrictUtilLogger;
 
 import java.sql.*;
@@ -9,7 +8,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 /**
- * Класс-утилита операций над базой данных
+ * Класс-утилита для операций над базой данных
  */
 public class StrictUtilsDatabase {
 

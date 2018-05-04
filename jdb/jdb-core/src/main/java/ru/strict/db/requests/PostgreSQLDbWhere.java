@@ -1,7 +1,5 @@
 package ru.strict.db.requests;
 
-import ru.strict.db.enums.StrictEnumTemplateSymbol;
-
 /**
  * Условие Where для добавления к sql-запросу
  */
@@ -12,6 +10,7 @@ public class PostgreSQLDbWhere extends StrictDbWhere{
      */
     private boolean ignoreCase;
 
+    //<editor-fold defaultState="collapsed" desc="constructors">
     public PostgreSQLDbWhere(String tableName, String columnName, Object columnValue, String operator, boolean ignoreCase) {
         super(tableName, columnName, columnValue, operator);
         this.ignoreCase = ignoreCase;
@@ -22,10 +21,13 @@ public class PostgreSQLDbWhere extends StrictDbWhere{
         super(tableName, columnName, columnValue, operator, templateSymbol);
         this.ignoreCase = ignoreCase;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultState="collapsed" desc="Get/Set">
     public boolean isIgnoreCase() {
         return ignoreCase;
     }
+    //</editor-fold>
 
     @Override
     public String getSql(){
@@ -35,12 +37,12 @@ public class PostgreSQLDbWhere extends StrictDbWhere{
             result = (ignoreCase?"lower(":"")
                     + getTableName() + "." + getColumnName() + (ignoreCase?")":"") + " "
                     + getOperator() + " " + (ignoreCase?"lower(":"") + "'"
-                    + (getTemplateSymbol().getEnumTemplateSymbol()== StrictEnumTemplateSymbol.BEGIN
-                    || getTemplateSymbol().getEnumTemplateSymbol()== StrictEnumTemplateSymbol.BETWEEN
+                    + (getTemplateSymbol().getPointTemplateSymbol()== StrictPointTemplateSymbol.BEGIN
+                    || getTemplateSymbol().getPointTemplateSymbol()== StrictPointTemplateSymbol.BOTH
                     ?getTemplateSymbol().getTemplateSymbol():"")
                     + getColumnValue()
-                    + (getTemplateSymbol().getEnumTemplateSymbol()== StrictEnumTemplateSymbol.END
-                    || getTemplateSymbol().getEnumTemplateSymbol()== StrictEnumTemplateSymbol.BETWEEN
+                    + (getTemplateSymbol().getPointTemplateSymbol()== StrictPointTemplateSymbol.END
+                    || getTemplateSymbol().getPointTemplateSymbol()== StrictPointTemplateSymbol.BOTH
                     ?getTemplateSymbol().getTemplateSymbol():"") + "'" + (ignoreCase?")":"");
         else
             result = getTableName() + "." + getColumnName() + " " + getOperator() + " " + getColumnValue();

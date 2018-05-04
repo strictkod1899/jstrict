@@ -8,10 +8,25 @@ import java.util.LinkedList;
  */
 public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
 
+    /**
+     * Логин пользователя
+     */
     private String username;
+    /**
+     * Зашифрованный пароль пользователя
+     */
     private String passwordEncode;
+    /**
+     * Роли пользователя
+     */
     private Collection<StrictEntityRoleuser> rolesuser;
+    /**
+     * Токен пользователя
+     */
     private String token;
+    /**
+     * Профиль пользователя
+     */
     private StrictEntityProfile profile;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
@@ -68,6 +83,10 @@ public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
         this.rolesuser = rolesuser;
     }
 
+    /**
+     * Добавить роль, которую использует данный пользователь
+     * @param roleuser
+     */
     public void addRoleuser(StrictEntityRoleuser roleuser){
         rolesuser.add(roleuser);
     }

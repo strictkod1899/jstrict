@@ -60,50 +60,26 @@ public class StrictDtoProfile<ID> extends StrictDtoBase<ID> {
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    /**
-     * Получить имя
-     * @return
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * Установить имя
-     * @param name новое имя
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * Получить фамилию
-     * @return
-     */
     public String getSurname() {
         return surname;
     }
 
-    /**
-     * Установить фамилию
-     * @param surname новая фамилия
-     */
     public void setSurname(String surname) {
         this.surname = surname;
     }
 
-    /**
-     * Получить отчество
-     * @return
-     */
     public String getMiddlename() {
         return middlename;
     }
 
-    /**
-     * Установить отчество
-     * @param middlename новое отчество
-     */
     public void setMiddlename(String middlename) {
         this.middlename = middlename;
     }

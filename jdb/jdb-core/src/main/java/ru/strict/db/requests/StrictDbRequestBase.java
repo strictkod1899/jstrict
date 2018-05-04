@@ -1,5 +1,8 @@
 package ru.strict.db.requests;
 
+/**
+ * Базовое определние условия sql-запроса
+ */
 public abstract class StrictDbRequestBase implements StrictDbRequestAny{
 
     /**
