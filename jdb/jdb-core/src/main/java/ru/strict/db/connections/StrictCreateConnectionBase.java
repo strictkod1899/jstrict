@@ -33,8 +33,8 @@ public abstract class StrictCreateConnectionBase<SOURCE> implements StrictCreate
     @Override
     public boolean equals(Object obj){
         if(obj instanceof StrictCreateConnectionBase) {
-            StrictCreateConnectionBase connectionSource = (StrictCreateConnectionBase) obj;
-            return connectionSource.equals(connectionSource.connectionSource);
+            StrictCreateConnectionBase object = (StrictCreateConnectionBase) obj;
+            return object.equals(object.connectionSource);
         }else
             return false;
     }

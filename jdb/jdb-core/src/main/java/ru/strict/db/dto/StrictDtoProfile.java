@@ -110,10 +110,10 @@ public class StrictDtoProfile<ID> extends StrictDtoBase<ID> {
     @Override
     public boolean equals(Object obj){
         if(obj instanceof StrictDtoProfile) {
-            StrictDtoProfile dto = (StrictDtoProfile) obj;
-            return super.equals(dto) && name.equals(dto.getName()) && surname.equals(dto.getSurname())
-                    && middlename.equals(dto.getMiddlename()) && userId.equals(dto.getUserId())
-                    && user.equals(dto.getUser());
+            StrictDtoProfile object = (StrictDtoProfile) obj;
+            return super.equals(object) && name.equals(object.getName()) && surname.equals(object.getSurname())
+                    && middlename.equals(object.getMiddlename()) && userId.equals(object.getUserId())
+                    && user.equals(object.getUser());
         }else
             return false;
     }

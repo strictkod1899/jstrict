@@ -110,10 +110,10 @@ public class StrictEntityProfile<ID> extends StrictEntityBase<ID> {
     @Override
     public boolean equals(Object obj){
         if(obj instanceof StrictEntityProfile) {
-            StrictEntityProfile entity = (StrictEntityProfile) obj;
-            return super.equals(entity) && name.equals(entity.getName()) && surname.equals(entity.getSurname())
-                    && middlename.equals(entity.getMiddlename()) && userId.equals(entity.getUserId())
-                    && user.equals(entity.getUser());
+            StrictEntityProfile object = (StrictEntityProfile) obj;
+            return super.equals(object) && name.equals(object.getName()) && surname.equals(object.getSurname())
+                    && middlename.equals(object.getMiddlename()) && userId.equals(object.getUserId())
+                    && user.equals(object.getUser());
         }else
             return false;
     }

@@ -40,8 +40,8 @@ public abstract class StrictEntityBase<ID> implements MapTarget {
     @Override
     public boolean equals(Object obj){
         if(obj instanceof StrictEntityBase) {
-            StrictEntityBase entity = (StrictEntityBase) obj;
-            return entity.id.equals(id);
+            StrictEntityBase object = (StrictEntityBase) obj;
+            return object.id.equals(id);
         }else
             return false;
     }

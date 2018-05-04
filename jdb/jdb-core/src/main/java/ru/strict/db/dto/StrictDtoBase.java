@@ -42,8 +42,8 @@ public abstract class StrictDtoBase<ID>  implements MapTarget {
     @Override
     public boolean equals(Object obj){
         if(obj instanceof StrictDtoBase) {
-            StrictDtoBase dto = (StrictDtoBase) obj;
-            return dto.getId().equals(id);
+            StrictDtoBase object = (StrictDtoBase) obj;
+            return object.getId().equals(id);
         }else
             return false;
     }

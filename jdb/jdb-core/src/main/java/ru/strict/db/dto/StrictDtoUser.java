@@ -47,8 +47,8 @@ public class StrictDtoUser<ID> extends StrictDtoUserToken<ID>{
     @Override
     public boolean equals(Object obj){
         if(obj instanceof StrictDtoUser) {
-            StrictDtoUser dto = (StrictDtoUser) obj;
-            return super.equals(dto) && passwordEncode.equals(dto.getPasswordEncode());
+            StrictDtoUser object = (StrictDtoUser) obj;
+            return super.equals(object) && passwordEncode.equals(object.getPasswordEncode());
         }else
             return false;
     }

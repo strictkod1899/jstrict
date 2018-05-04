@@ -114,10 +114,10 @@ public class StrictDtoProfileInfo<ID> extends StrictDtoProfile<ID> {
 
     public boolean equals(Object obj){
         if(obj instanceof StrictDtoProfileInfo){
-            StrictDtoProfileInfo dto = (StrictDtoProfileInfo) obj;
-            return super.equals(dto) && dateBirth==dto.getDateBirth() && phone.equals(dto.getPhone())
-                    && country.equals(dto.getCountry()) && city.equals(dto.getCity())
-                    && address.equals(dto.getAddress());
+            StrictDtoProfileInfo object = (StrictDtoProfileInfo) obj;
+            return super.equals(object) && dateBirth==object.getDateBirth() && phone.equals(object.getPhone())
+                    && country.equals(object.getCountry()) && city.equals(object.getCity())
+                    && address.equals(object.getAddress());
         }else
             return false;
     }

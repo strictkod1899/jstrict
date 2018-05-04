@@ -89,10 +89,10 @@ public class StrictEntityRoleuser<ID> extends StrictEntityBase<ID>{
     @Override
     public boolean equals(Object obj){
         if(obj instanceof StrictEntityRoleuser) {
-            StrictEntityRoleuser entity = (StrictEntityRoleuser) obj;
-            return super.equals(entity) && symbols.equals(entity.getSymbols())
-                    && description.equals(entity.getDescription())
-                    && (users.size() == entity.getUsers().size() && users.containsAll(entity.getUsers()));
+            StrictEntityRoleuser object = (StrictEntityRoleuser) obj;
+            return super.equals(object) && symbols.equals(object.getSymbols())
+                    && description.equals(object.getDescription())
+                    && (users.size() == object.getUsers().size() && users.containsAll(object.getUsers()));
         }else
             return false;
     }
