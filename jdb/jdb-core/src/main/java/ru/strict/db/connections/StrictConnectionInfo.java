@@ -31,7 +31,6 @@ public class StrictConnectionInfo {
     private String password;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-
     public StrictConnectionInfo(String dbCaption, String driver, String url, String username, String password) {
         this.dbCaption = dbCaption;
         this.driver = driver;
@@ -39,7 +38,6 @@ public class StrictConnectionInfo {
         this.username = username;
         this.password = password;
     }
-
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">

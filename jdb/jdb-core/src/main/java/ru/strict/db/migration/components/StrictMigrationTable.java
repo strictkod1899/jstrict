@@ -1,5 +1,8 @@
 package ru.strict.db.migration.components;
 
+import ru.strict.utils.StrictUtilLogger;
+import ru.strict.utils.components.StrictLogger;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.stream.Collectors;
@@ -7,6 +10,8 @@ import java.util.stream.Collectors;
 public class StrictMigrationTable
         <COLUMN extends StrictMigrationColumn, FK extends StrictMigrationForeignKey>
         implements StrictMigrationComponent {
+
+    protected final StrictLogger LOGGER = StrictUtilLogger.createLogger(StrictMigrationTable.class);
 
     private String name;
     private Collection<COLUMN> columns;
@@ -24,6 +29,7 @@ public class StrictMigrationTable
 
     @Override
     public String getSql(){
+        LOGGER.info("Trying a table sql query created");
         StringBuilder sql = new StringBuilder();
         sql.append(String.format("CREATE TABLE %s ( ", getName()));
 
@@ -43,6 +49,7 @@ public class StrictMigrationTable
         }
 
         sql.append(" );");
+        LOGGER.info("Table sql query is created");
         return sql.toString();
     }
 

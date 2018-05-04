@@ -1,6 +1,7 @@
 package ru.strict.db.connections;
 
 import ru.strict.utils.StrictUtilLogger;
+import ru.strict.utils.components.StrictLogger;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -11,17 +12,21 @@ import java.sql.SQLException;
  */
 public class StrictCreateConnectionByDataSource extends StrictCreateConnectionBase<DataSource> {
 
+    protected final StrictLogger LOGGER = StrictUtilLogger.createLogger(StrictCreateConnectionByDataSource.class);
+
     public StrictCreateConnectionByDataSource(DataSource connectionSource) {
         super(connectionSource);
     }
 
     @Override
     public Connection createConnection() {
-        StrictUtilLogger.info(StrictCreateConnectionByDataSource.class, "createConnection - started");
+        LOGGER.info("Trying a connection create");
         try {
-            return getConnectionSource().getConnection();
+            Connection connection = getConnectionSource().getConnection();
+            LOGGER.info("Connection is created");
+            return connection;
         } catch (SQLException ex) {
-            StrictUtilLogger.error(StrictCreateConnectionByDataSource.class, ex.getClass().toString(), ex.getMessage());
+            LOGGER.error(ex.getClass().toString(), ex.getMessage());
             return null;
         }
     }

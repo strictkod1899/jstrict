@@ -2,6 +2,8 @@ package ru.strict.db.migration;
 
 import ru.strict.db.connections.StrictCreateConnectionAny;
 import ru.strict.db.migration.components.StrictMigrationTable;
+import ru.strict.utils.StrictUtilLogger;
+import ru.strict.utils.components.StrictLogger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -19,6 +21,8 @@ import java.util.stream.Collectors;
 public class StrictMigration
         <SOURCE extends StrictCreateConnectionAny, TABLE extends StrictMigrationTable>
         implements StrictMigrationAny{
+
+    protected final StrictLogger LOGGER = StrictUtilLogger.createLogger(StrictMigration.class);
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
@@ -41,17 +45,18 @@ public class StrictMigration
 
     @Override
     public void migration() {
-
+        LOGGER.info("Database migration is started");
         for(TABLE table : getTables()){
             String sql = table.getSql();
 
             try (Connection connection = getConnectionSource().createConnection()){
                 Statement statement = connection.createStatement();
                 statement.executeUpdate(sql);
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } catch (SQLException ex) {
+                LOGGER.error(ex.getClass().toString(), ex.getMessage());
             }
         }
+        LOGGER.info("Database migration is finished");
     }
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">

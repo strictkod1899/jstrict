@@ -12,11 +12,31 @@ public abstract class StrictCreateConnectionBase<SOURCE> implements StrictCreate
      */
     private SOURCE connectionSource;
 
+    //<editor-fold defaultState="collapsed" desc="constructors">
     public StrictCreateConnectionBase(SOURCE connectionSource) {
         this.connectionSource = connectionSource;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultState="collapsed" desc="Get/Set">
     public SOURCE getConnectionSource() {
         return connectionSource;
     }
+    //</editor-fold>
+
+    //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
+    public String toString(){
+        return String.format("Connection source: %s", connectionSource.toString());
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof StrictCreateConnectionBase) {
+            StrictCreateConnectionBase connectionSource = (StrictCreateConnectionBase) obj;
+            return connectionSource.equals(connectionSource.connectionSource);
+        }else
+            return false;
+    }
+    //</editor-fold>
 }

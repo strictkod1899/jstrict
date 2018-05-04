@@ -6,6 +6,9 @@ import ru.strict.db.enums.StrictRepositoryDataState;
 import ru.strict.db.entities.StrictEntityBase;
 import ru.strict.db.mappers.dto.StrictMapperDtoBase;
 import ru.strict.db.requests.StrictDbRequests;
+import ru.strict.utils.StrictUtilClassName;
+import ru.strict.utils.StrictUtilLogger;
+import ru.strict.utils.components.StrictLogger;
 
 import java.sql.Connection;
 import java.util.LinkedList;
@@ -22,6 +25,8 @@ import java.util.List;
 public abstract class StrictRepositoryBase
         <ID, SOURCE extends StrictCreateConnectionAny, E extends StrictEntityBase, DTO extends StrictDtoBase>
         implements StrictRepositoryAny<ID, DTO>, StrictRepositoryExtension<ID, DTO>{
+
+    protected final StrictLogger LOGGER = StrictUtilLogger.createLogger(StrictUtilClassName.getCurrentClassname());
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
@@ -84,6 +89,7 @@ public abstract class StrictRepositoryBase
     //<editor-fold defaultState="collapsed" desc="CRUD">
     @Override
     public DTO createOrUpdate(DTO dto) {
+        LOGGER.info("Trying a db entity create or update");
         if(IsRowExists((ID)dto.getId()))
             return update(dto);
         else
@@ -92,6 +98,7 @@ public abstract class StrictRepositoryBase
 
     @Override
     public DTO createOrRead(DTO dto) {
+        LOGGER.info("Trying a db entity create or read");
         if(IsRowExists((ID)dto.getId()))
             return read((ID)dto.getId());
         else
@@ -135,20 +142,25 @@ public abstract class StrictRepositoryBase
 
     @Override
     public DTO readFill(ID id) {
+        LOGGER.info("Trying a db entity read");
         DTO user = read(id);
         user = fill(user);
+        LOGGER.info("Successful a db entity read");
         return user;
     }
 
     @Override
     public List<DTO> readAllFill(StrictDbRequests requests) {
+        LOGGER.info("Trying a db entity read all");
         List<DTO> users = readAll(requests);
         users.stream().forEach((dto)-> dto = fill(dto));
+        LOGGER.info("Successful a db entity read all");
         return users;
     }
 
     @Override
     public DTO createOrReadFill(DTO dto) {
+        LOGGER.info("Trying a db entity create or read");
         if(IsRowExists((ID)dto.getId()))
             return readFill((ID)dto.getId());
         else
