@@ -1,5 +1,6 @@
 package ru.strict.db.mappers.dto;
 
+import ru.strict.db.dto.StrictDtoProfile;
 import ru.strict.db.dto.StrictDtoProfileInfo;
 import ru.strict.db.dto.StrictDtoUser;
 import ru.strict.db.entities.StrictEntityProfile;
@@ -10,23 +11,28 @@ import ru.strict.db.mappers.StrictMapperBase;
 /**
  * Двухсторонний маппинг объектов типа StrictEntityProfileInfo и StrictDtoProfileInfo
  */
-public class StrictMapperDtoProfileInfo extends StrictMapperDtoBase<StrictEntityProfileInfo, StrictDtoProfileInfo> {
+public class StrictMapperDtoProfileInfo<E extends StrictEntityProfileInfo, DTO extends StrictDtoProfileInfo>
+        extends StrictMapperDtoProfile<E, DTO> {
 
-    private StrictMapperDtoUser mapperUser;
+    public StrictMapperDtoProfileInfo(){
+        super();
+    }
 
-    public StrictMapperDtoProfileInfo(StrictMapperDtoUser mapperUser){
-        this.mapperUser = mapperUser;
+    public StrictMapperDtoProfileInfo(StrictMapperDtoBase<StrictEntityUser, StrictDtoUser> mapperUser){
+        super(mapperUser);
     }
 
     @Override
     protected StrictEntityProfileInfo implementMap(StrictDtoProfileInfo dto) {
+        StrictEntityProfile baseEntity = super.implementMap(dto);
+
         StrictEntityProfileInfo entity = new StrictEntityProfileInfo();
-        entity.setId(dto.getId());
-        entity.setName(dto.getName());
-        entity.setSurname(dto.getSurname());
-        entity.setMiddlename(dto.getMiddlename());
-        entity.setUserId(dto.getUserId());
-        entity.setUser((StrictEntityUser) mapperUser.map(dto.getUser()));
+        entity.setId(baseEntity.getId());
+        entity.setName(baseEntity.getName());
+        entity.setSurname(baseEntity.getSurname());
+        entity.setMiddlename(baseEntity.getMiddlename());
+        entity.setUserId(baseEntity.getUserId());
+        entity.setUser(baseEntity.getUser());
         entity.setDateBirth(dto.getDateBirth());
         entity.setPhone(dto.getPhone());
         entity.setCountry(dto.getCountry());
@@ -37,13 +43,15 @@ public class StrictMapperDtoProfileInfo extends StrictMapperDtoBase<StrictEntity
 
     @Override
     protected StrictDtoProfileInfo implementMap(StrictEntityProfileInfo entity) {
+        StrictDtoProfile baseDto = super.implementMap(entity);
+
         StrictDtoProfileInfo dto = new StrictDtoProfileInfo();
-        dto.setId(entity.getId());
-        dto.setName(entity.getName());
-        dto.setSurname(entity.getSurname());
-        dto.setMiddlename(entity.getMiddlename());
-        dto.setUserId(entity.getUserId());
-        dto.setUser((StrictDtoUser) mapperUser.map(entity.getUser()));
+        dto.setId(baseDto.getId());
+        dto.setName(baseDto.getName());
+        dto.setSurname(baseDto.getSurname());
+        dto.setMiddlename(baseDto.getMiddlename());
+        dto.setUserId(baseDto.getUserId());
+        dto.setUser(baseDto.getUser());
         dto.setDateBirth(entity.getDateBirth());
         dto.setPhone(entity.getPhone());
         dto.setCountry(entity.getCountry());

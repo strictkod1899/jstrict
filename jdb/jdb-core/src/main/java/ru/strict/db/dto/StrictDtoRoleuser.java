@@ -18,23 +18,31 @@ public class StrictDtoRoleuser<ID> extends StrictDtoBase<ID>{
      */
     private String description;
 
+    /**
+     * Пользователи свзяанные с ролью
+     */
+    private Collection<StrictDtoUser> users;
+
     //<editor-fold defaultState="collapsed" desc="constructors">
     public StrictDtoRoleuser() {
         super();
         symbols = null;
         description = null;
+        users = new LinkedList<>();
     }
 
     public StrictDtoRoleuser(String symbols, String description) {
         super();
         this.symbols = symbols;
         this.description = description;
+        users = new LinkedList<>();
     }
 
     public StrictDtoRoleuser(ID id, String symbols, String description) {
         super(id);
         this.symbols = symbols;
         this.description = description;
+        users = new LinkedList<>();
     }
     //</editor-fold>
 
@@ -54,6 +62,18 @@ public class StrictDtoRoleuser<ID> extends StrictDtoBase<ID>{
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public Collection<StrictDtoUser> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Collection<StrictDtoUser> users) {
+        this.users = users;
+    }
+
+    public void addUser(StrictDtoUser user) {
+        this.users.add(user);
+    }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
@@ -65,8 +85,10 @@ public class StrictDtoRoleuser<ID> extends StrictDtoBase<ID>{
     @Override
     public boolean equals(Object obj){
         if(obj instanceof StrictDtoRoleuser) {
-            StrictDtoRoleuser dto = (StrictDtoRoleuser) obj;
-            return super.equals(dto) && symbols.equals(dto.getSymbols()) && description.equals(dto.getDescription());
+            StrictDtoRoleuser object = (StrictDtoRoleuser) obj;
+            return super.equals(object) && symbols.equals(object.getSymbols())
+                    && description.equals(object.getDescription())
+                    && (users.size() == object.getUsers().size() && users.containsAll(object.getUsers()));
         }else
             return false;
     }

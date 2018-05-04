@@ -7,9 +7,7 @@ import ru.strict.db.dto.StrictDtoUser;
 import ru.strict.db.dto.StrictDtoUserOnRole;
 import ru.strict.db.entities.StrictEntityProfile;
 import ru.strict.db.entities.StrictEntityUserOnRole;
-import ru.strict.db.mappers.dto.StrictMapperDtoProfile;
-import ru.strict.db.mappers.dto.StrictMapperDtoRoleuser;
-import ru.strict.db.mappers.dto.StrictMapperDtoUser;
+import ru.strict.db.mappers.dto.*;
 import ru.strict.db.mappers.spring.StrictMapperSqlProfile;
 import ru.strict.db.requests.StrictDbRequests;
 import ru.strict.db.requests.StrictDbWhere;
@@ -23,9 +21,10 @@ public class StrictRepositoryProfile<ID>
 
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "user_id"};
 
-    public StrictRepositoryProfile(StrictCreateConnectionByDataSource connectionSource, boolean isGenerateId) {
+    public StrictRepositoryProfile(StrictCreateConnectionByDataSource connectionSource
+            , boolean isGenerateId) {
         super("profile", COLUMNS_NAME, connectionSource
-                , new StrictMapperDtoProfile(new StrictMapperDtoUser(new StrictMapperDtoRoleuser()))
+                , StrictMapperDtoFactory.createMapperProfile()
                 , isGenerateId,
                 new StrictMapperSqlProfile(COLUMNS_NAME));
     }
@@ -43,8 +42,8 @@ public class StrictRepositoryProfile<ID>
     @Override
     protected StrictDtoProfile fill(StrictDtoProfile dto){
         StrictRepositoryAny<ID, StrictDtoUser> rUser =
-                new StrictRepositoryUser<>(getConnectionSource()
-                        , new StrictMapperDtoUser(new StrictMapperDtoRoleuser())
+                new StrictRepositoryUser(getConnectionSource()
+                        , StrictMapperDtoFactory.createMapperUser()
                         , false);
             dto.setUser(rUser.read((ID) dto.getUserId()));
         return dto;

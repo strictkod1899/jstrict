@@ -26,7 +26,7 @@ public class StrictEntityProfile<ID> extends StrictEntityBase<ID> {
     private ID userId;
 
     /**
-     * Пользователь
+     * Пользователь системы связанный с данным профилем
      */
     private StrictEntityUser user;
 

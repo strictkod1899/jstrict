@@ -18,23 +18,31 @@ public class StrictEntityRoleuser<ID> extends StrictEntityBase<ID>{
      */
     private String description;
 
+    /**
+     * Пользователи свзяанные с ролью
+     */
+    private Collection<StrictEntityUser> users;
+
     //<editor-fold defaultState="collapsed" desc="constructors">
 	public StrictEntityRoleuser() {
         super();
         symbols = null;
         description = null;
+        users = new LinkedList<>();
     }
 
     public StrictEntityRoleuser(String symbols, String description) {
     	super();
         this.symbols = symbols;
         this.description = description;
+        users = new LinkedList<>();
     }
 
     public StrictEntityRoleuser(ID id, String symbols, String description) {
         super(id);
         this.symbols = symbols;
         this.description = description;
+        users = new LinkedList<>();
     }
     //</editor-fold>
 
@@ -54,6 +62,18 @@ public class StrictEntityRoleuser<ID> extends StrictEntityBase<ID>{
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public Collection<StrictEntityUser> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Collection<StrictEntityUser> users) {
+        this.users = users;
+    }
+
+    public void addUser(StrictEntityUser user) {
+        this.users.add(user);
+    }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
@@ -66,7 +86,9 @@ public class StrictEntityRoleuser<ID> extends StrictEntityBase<ID>{
     public boolean equals(Object obj){
         if(obj instanceof StrictEntityRoleuser) {
             StrictEntityRoleuser entity = (StrictEntityRoleuser) obj;
-            return super.equals(entity) && symbols.equals(entity.getSymbols()) && description.equals(entity.getDescription());
+            return super.equals(entity) && symbols.equals(entity.getSymbols())
+                    && description.equals(entity.getDescription())
+                    && (users.size() == entity.getUsers().size() && users.containsAll(entity.getUsers()));
         }else
             return false;
     }

@@ -7,17 +7,26 @@ import ru.strict.db.entities.StrictEntityRoleuser;
 import ru.strict.db.entities.StrictEntityUser;
 import ru.strict.db.entities.StrictEntityUserOnRole;
 
+import java.util.Optional;
+
 /**
  * Двухсторонний маппинг объектов типа StrictEntityUserOnRole и StrictDtoUserOnRole
  */
-public class StrictMapperDtoUserOnRole extends StrictMapperDtoBase<StrictEntityUserOnRole, StrictDtoUserOnRole> {
+public class StrictMapperDtoUserOnRole
+        extends StrictMapperDtoBase<StrictEntityUserOnRole, StrictDtoUserOnRole> {
 
-    private StrictMapperDtoRoleuser mapperRoleuser;
-    private StrictMapperDtoUser mapperUser;
+    private Optional<StrictMapperDtoBase<StrictEntityUser, StrictDtoUser>> mapperUser;
+    private Optional<StrictMapperDtoBase<StrictEntityRoleuser, StrictDtoRoleuser>> mapperRoleuser;
 
-    public StrictMapperDtoUserOnRole(StrictMapperDtoUser mapperUser,  StrictMapperDtoRoleuser mapperRoleuser){
-        this.mapperUser = mapperUser;
-        this.mapperRoleuser = mapperRoleuser;
+    public StrictMapperDtoUserOnRole(){
+        this.mapperUser = Optional.empty();
+        this.mapperRoleuser = Optional.empty();
+    }
+
+    public StrictMapperDtoUserOnRole(StrictMapperDtoBase<StrictEntityUser, StrictDtoUser> mapperUser
+            , StrictMapperDtoBase<StrictEntityRoleuser, StrictDtoRoleuser> mapperRoleuser){
+        this.mapperUser = Optional.ofNullable(mapperUser);
+        this.mapperRoleuser = Optional.ofNullable(mapperRoleuser);
     }
 
     @Override
@@ -25,9 +34,9 @@ public class StrictMapperDtoUserOnRole extends StrictMapperDtoBase<StrictEntityU
         StrictEntityUserOnRole entity = new StrictEntityUserOnRole();
         entity.setId(dto.getId());
         entity.setRoleId(dto.getRoleId());
-        entity.setRole(mapperRoleuser.map(dto.getRole()));
+        mapperRoleuser.ifPresent((mapper) -> entity.setRole(mapper.map(dto.getRole())));
         entity.setUserId(dto.getUserId());
-        entity.setUser(mapperUser.map(dto.getUser()));
+        mapperUser.ifPresent((mapper) -> entity.setUser(mapper.map(dto.getUser())));
         return entity;
     }
 
@@ -36,9 +45,9 @@ public class StrictMapperDtoUserOnRole extends StrictMapperDtoBase<StrictEntityU
         StrictDtoUserOnRole dto = new StrictDtoUserOnRole();
         dto.setId(entity.getId());
         dto.setRoleId(entity.getRoleId());
-        dto.setRole(mapperRoleuser.map(entity.getRole()));
+        mapperRoleuser.ifPresent((mapper) -> dto.setRole(mapper.map(entity.getRole())));
         dto.setUserId(entity.getUserId());
-        dto.setUser(mapperUser.map(entity.getUser()));
+        mapperUser.ifPresent((mapper) -> dto.setUser(mapper.map(entity.getUser())));
         return dto;
     }
 }

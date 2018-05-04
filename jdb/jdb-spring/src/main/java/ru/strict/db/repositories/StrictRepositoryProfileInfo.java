@@ -5,10 +5,7 @@ import ru.strict.db.dto.StrictDtoProfile;
 import ru.strict.db.dto.StrictDtoProfileInfo;
 import ru.strict.db.dto.StrictDtoUser;
 import ru.strict.db.entities.StrictEntityProfileInfo;
-import ru.strict.db.mappers.dto.StrictMapperDtoProfile;
-import ru.strict.db.mappers.dto.StrictMapperDtoProfileInfo;
-import ru.strict.db.mappers.dto.StrictMapperDtoRoleuser;
-import ru.strict.db.mappers.dto.StrictMapperDtoUser;
+import ru.strict.db.mappers.dto.*;
 import ru.strict.db.mappers.spring.StrictMapperSqlProfileInfo;
 
 import java.util.LinkedHashMap;
@@ -22,7 +19,7 @@ public class StrictRepositoryProfileInfo<ID>
 
     public StrictRepositoryProfileInfo(StrictCreateConnectionByDataSource connectionSource, boolean isGenerateId) {
         super("profileinfo", COLUMNS_NAME, connectionSource
-                , new StrictMapperDtoProfileInfo(new StrictMapperDtoUser(new StrictMapperDtoRoleuser()))
+                , StrictMapperDtoFactory.createMapperProfileInfo()
                 , isGenerateId,
                 new StrictMapperSqlProfileInfo(COLUMNS_NAME));
     }
@@ -46,7 +43,7 @@ public class StrictRepositoryProfileInfo<ID>
     protected StrictDtoProfileInfo fill(StrictDtoProfileInfo dto){
         StrictRepositoryAny<ID, StrictDtoUser> rUser =
                 new StrictRepositoryUser<>(getConnectionSource()
-                        , new StrictMapperDtoUser(new StrictMapperDtoRoleuser())
+                        , StrictMapperDtoFactory.createMapperUser()
                         , false);
         dto.setUser(rUser.read((ID) dto.getUserId()));
         return dto;

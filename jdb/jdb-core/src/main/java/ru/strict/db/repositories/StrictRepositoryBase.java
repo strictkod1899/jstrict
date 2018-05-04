@@ -129,7 +129,7 @@ public abstract class StrictRepositoryBase
      * </pre></code>
      *
      * <p><b>Пример использования:</b></p>
-     * <p>Профиль относится к какому-то пользователю и содержит внешниц ключ на пользователя (user)</p>
+     * <p>Профиль относится к какому-то пользователю и содержит внешний ключ на пользователя (user)</p>
      * <code><pre style="background-color: white; font-family: consolas">
      *     StrictRepositoryAny<ID, StrictDtoUser> rUser = new StrictRepositoryUser<>(...);
      *     dto.setUser(rUser.read((ID) dto.getUserId()));

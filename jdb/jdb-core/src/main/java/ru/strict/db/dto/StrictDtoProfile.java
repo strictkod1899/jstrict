@@ -26,7 +26,7 @@ public class StrictDtoProfile<ID> extends StrictDtoBase<ID> {
     private ID userId;
 
     /**
-     * Пользователь
+     * Пользователь системы связанный с данным профилем
      */
     private StrictDtoUser user;
 

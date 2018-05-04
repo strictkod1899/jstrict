@@ -6,10 +6,7 @@ import ru.strict.db.dto.StrictDtoUserBase;
 import ru.strict.db.dto.StrictDtoUserOnRole;
 import ru.strict.db.entities.StrictEntityUser;
 import ru.strict.db.entities.StrictEntityUserOnRole;
-import ru.strict.db.mappers.dto.StrictMapperDtoBase;
-import ru.strict.db.mappers.dto.StrictMapperDtoRoleuser;
-import ru.strict.db.mappers.dto.StrictMapperDtoUser;
-import ru.strict.db.mappers.dto.StrictMapperDtoUserOnRole;
+import ru.strict.db.mappers.dto.*;
 import ru.strict.db.mappers.spring.StrictMapperSqlUser;
 import ru.strict.db.mappers.spring.StrictMapperSqlUserOnRole;
 import ru.strict.utils.StrictUtilLogger;
@@ -25,9 +22,7 @@ public class StrictRepositoryUserOnRole<ID>
     public StrictRepositoryUserOnRole(StrictCreateConnectionByDataSource connectionSource,
                                       boolean isGenerateId) {
         super("userOnRole", COLUMNS_NAME, connectionSource
-                , new StrictMapperDtoUserOnRole(
-                        new StrictMapperDtoUser(new StrictMapperDtoRoleuser())
-                        , new StrictMapperDtoRoleuser())
+                , StrictMapperDtoFactory.createMapperUserOnRole()
                 , isGenerateId, new StrictMapperSqlUserOnRole(COLUMNS_NAME));
     }
 

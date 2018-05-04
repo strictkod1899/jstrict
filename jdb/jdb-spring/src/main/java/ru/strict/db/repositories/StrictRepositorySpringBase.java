@@ -49,6 +49,7 @@ public abstract class StrictRepositorySpringBase
     //<editor-fold defaultState="collapsed" desc="CRUD">
     @Override
     public final DTO create(DTO dto) {
+        LOGGER.info("Trying a db entity create");
         MapSqlParameterSource parameters = getParameters(dto);
 
         if(isGenerateId()) {
@@ -70,42 +71,52 @@ public abstract class StrictRepositorySpringBase
             springJdbc.update(sql, parameters);
         }
 
+        LOGGER.info("Successful a db entity created");
+
         return dto;
     }
 
     @Override
     public final DTO read(ID id) {
+        LOGGER.info("Trying a db entity read");
         SqlParameterSource parameters = new MapSqlParameterSource("id", id);
         String sql = String.format("%s WHERE id = :id", createSqlSelect());
         E entity = springJdbc.queryForObject(sql, parameters, springMapper);
+        LOGGER.info("Successful a db entity read");
         return getDtoMapper().map(entity);
     }
 
     @Override
     public final List<DTO> readAll(StrictDbRequests requests) {
+        LOGGER.info("Trying a db entity read all");
         String sql = createSqlSelect() + (requests==null?"":requests.getSql());
         List<DTO> result = new LinkedList<>();
         List<E> entities = springJdbc.query(sql, springMapper);
         for(E entity : entities)
             result.add(getDtoMapper().map(entity));
+        LOGGER.info("Successful a db entity read all");
         return result;
     }
 
     @Override
     public DTO update(DTO dto) {
+        LOGGER.info("Trying a db entity update");
         MapSqlParameterSource parameters = getParameters(dto);
         String sql = createSqlUpdate(parameters.getParameterNames());
         parameters.addValue("id", dto.getId());
         springJdbc.update(sql, parameters);
+        LOGGER.info("Successful a db entity updated");
         return dto;
     }
 
     @Override
     public boolean delete(ID id) {
+        LOGGER.info("Trying a db entity delete");
         String sql = createSqlDelete();
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("id", id);
         int columnAffect = springJdbc.update(sql, parameters);
+        LOGGER.info("Successful a db entity deleted");
         if(columnAffect>0)
             return true;
         else
@@ -116,12 +127,14 @@ public abstract class StrictRepositorySpringBase
     //<editor-fold defaultState="collapsed" desc="IsRowExists">
     @Override
     public boolean IsRowExists(ID id){
+        LOGGER.info("Trying a determine is db row exists");
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("id", id);
-        return springJdbc
+        boolean isExists = springJdbc
                 .<Boolean>execute("SELECT COUNT(*) FROM " + getTableName() + " WHERE id = :id;",
                         parameters,
                         new CallbackIsExists());
+        return isExists;
     }
 
     /**
