@@ -41,4 +41,25 @@ public class StrictUserManager {
 			return null;
 		}
 	}
+
+	public HashMap<String, StrictDtoUserSecurity> getUsers() {
+		return users;
+	}
+
+	//<editor-fold defaultState="collapsed" desc="Base override">
+	@Override
+	public String toString(){
+		return String.format("UserManager: count %s", users.size());
+	}
+
+	@Override
+	public boolean equals(Object obj){
+		if(obj instanceof StrictUserManager) {
+			StrictUserManager object = (StrictUserManager) obj;
+			return super.equals(object)
+					&& (users.size() == object.getUsers().size() && users.values().containsAll(object.getUsers().values()));
+		}else
+			return false;
+	}
+	//</editor-fold>
 }
