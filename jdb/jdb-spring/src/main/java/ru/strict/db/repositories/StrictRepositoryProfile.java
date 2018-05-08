@@ -16,6 +16,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Репозиторий таблицы "profile". Определяет столбцы: "name", "surname", "middlename", "user_id"
+ * @param <ID> Тип идентификатора
+ */
 public class StrictRepositoryProfile<ID>
         extends StrictRepositorySpringBase<ID, StrictEntityProfile, StrictDtoProfile> {
 

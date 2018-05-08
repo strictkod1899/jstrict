@@ -10,6 +10,7 @@ import ru.strict.utils.StrictUtilLogger;
 import ru.strict.utils.components.StrictLogger;
 
 import java.sql.Connection;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -180,7 +181,7 @@ public abstract class StrictRepositoryBase
         return connectionSource;
     }
 
-    public StrictMapperDtoBase<E, DTO> getDtoMapper() {
+    protected StrictMapperDtoBase<E, DTO> getDtoMapper() {
         return dtoMapper;
     }
 
@@ -210,6 +211,26 @@ public abstract class StrictRepositoryBase
 
     public String[] getColumnsName() {
         return columnsName;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
+    public String toString(){
+        return String.format("repository [%s]. Connection: %s", getTableName(), getConnectionSource().toString());
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof StrictRepositoryBase) {
+            StrictRepositoryBase object = (StrictRepositoryBase) obj;
+            return super.equals(object) && tableName.equals(object.getTableName())
+                    && connectionSource.equals(connectionSource) && state.equals(object.getState())
+                    && isGenerateId == object.isGenerateId()
+                    && (columnsName.length == object.getColumnsName().length
+                            && Arrays.asList(columnsName).containsAll(Arrays.asList(object.getColumnsName())));
+        }else
+            return false;
     }
     //</editor-fold>
 }

@@ -17,4 +17,20 @@ public abstract class StrictDbRequestBase implements StrictDbRequestAny{
     public String getTableName() {
         return tableName;
     }
+
+    //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
+    public String toString(){
+        return getSql();
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof StrictDbRequestBase) {
+            StrictDbRequestBase object = (StrictDbRequestBase) obj;
+            return super.equals(object) && tableName.equals(object.getTableName());
+        }else
+            return false;
+    }
+    //</editor-fold>
 }

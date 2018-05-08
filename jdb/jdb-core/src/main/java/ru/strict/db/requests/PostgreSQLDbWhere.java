@@ -48,4 +48,15 @@ public class PostgreSQLDbWhere extends StrictDbWhere{
             result = getTableName() + "." + getColumnName() + " " + getOperator() + " " + getColumnValue();
         return result;
     }
+
+    //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof PostgreSQLDbWhere) {
+            PostgreSQLDbWhere object = (PostgreSQLDbWhere) obj;
+            return super.equals(object) && ignoreCase == object.isIgnoreCase();
+        }else
+            return false;
+    }
+    //</editor-fold>
 }

@@ -71,5 +71,16 @@ public class StrictDbRequests extends LinkedList<StrictDbRequestBase> implements
     public String toString(){
         return getSql();
     }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof StrictDbRequests) {
+            StrictDbRequests object = (StrictDbRequests) obj;
+            return super.equals(object) && selectTableName.equals(object.getSelectTableName())
+                    && isAnd == object.isAnd()
+                    && (size() == object.size() && this.containsAll(object));
+        }else
+            return false;
+    }
     //</editor-fold>
 }

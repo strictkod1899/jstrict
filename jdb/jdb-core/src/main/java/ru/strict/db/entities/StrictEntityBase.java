@@ -41,7 +41,7 @@ public abstract class StrictEntityBase<ID> implements MapTarget {
     public boolean equals(Object obj){
         if(obj instanceof StrictEntityBase) {
             StrictEntityBase object = (StrictEntityBase) obj;
-            return object.id.equals(id);
+            return id.equals(object.getId());
         }else
             return false;
     }

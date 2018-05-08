@@ -11,6 +11,11 @@ import ru.strict.db.mappers.spring.StrictMapperSqlProfileInfo;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Репозиторий таблицы "profileinfo".
+ * Определяет столбцы: "name", "surname", "middlename", "user_id", "datebirth", "phone", "country", "city", "address"
+ * @param <ID> Тип идентификатора
+ */
 public class StrictRepositoryProfileInfo<ID>
         extends StrictRepositorySpringBase<ID, StrictEntityProfileInfo, StrictDtoProfileInfo> {
 

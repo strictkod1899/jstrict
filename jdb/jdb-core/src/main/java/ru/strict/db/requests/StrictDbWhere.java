@@ -82,4 +82,17 @@ public class StrictDbWhere extends StrictDbRequestBase {
             result = getTableName() + "." + columnName + " " + operator + " " + columnValue;
         return result;
     }
+
+    //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof StrictDbWhere) {
+            StrictDbWhere object = (StrictDbWhere) obj;
+            return super.equals(object) && columnName.equals(object.getColumnName())
+                    && columnValue.equals(object.getColumnValue()) && operator.equals(object.getOperator())
+                    && templateSymbol.equals(object.getTemplateSymbol());
+        }else
+            return false;
+    }
+    //</editor-fold>
 }

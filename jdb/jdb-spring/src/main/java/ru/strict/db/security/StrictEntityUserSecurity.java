@@ -30,8 +30,8 @@ public class StrictEntityUserSecurity<ID> extends StrictEntityUser<ID>{
 	@Override
 	public boolean equals(Object obj){
 		if(obj instanceof StrictEntityUserSecurity) {
-			StrictEntityUserSecurity entity = (StrictEntityUserSecurity) obj;
-			return super.equals(entity);
+			StrictEntityUserSecurity object = (StrictEntityUserSecurity) obj;
+			return super.equals(object);
 		}else
 			return false;
 	}

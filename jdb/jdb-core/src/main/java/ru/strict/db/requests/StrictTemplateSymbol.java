@@ -30,4 +30,21 @@ public class StrictTemplateSymbol {
         return pointTemplateSymbol;
     }
     //</editor-fold>
+
+    //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
+    public String toString(){
+        return String.format("'%s' to %s", templateSymbol, pointTemplateSymbol.name());
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof StrictTemplateSymbol) {
+            StrictTemplateSymbol object = (StrictTemplateSymbol) obj;
+            return super.equals(object) && templateSymbol.equals(object.getTemplateSymbol())
+                    && pointTemplateSymbol.equals(object.getPointTemplateSymbol());
+        }else
+            return false;
+    }
+    //</editor-fold>
 }

@@ -90,9 +90,9 @@ public class StrictDtoUserSecurity<ID> extends StrictDtoUser<ID> implements User
 	@Override
 	public boolean equals(Object obj){
 		if(obj instanceof StrictDtoUserSecurity) {
-			StrictDtoUserSecurity entity = (StrictDtoUserSecurity) obj;
-			return super.equals(entity)
-					&& (authorities.size() == entity.getAuthorities().size() && authorities.containsAll(entity.getAuthorities()));
+			StrictDtoUserSecurity object = (StrictDtoUserSecurity) obj;
+			return super.equals(object)
+					&& (authorities.size() == object.getAuthorities().size() && authorities.containsAll(object.getAuthorities()));
 		}else
 			return false;
 	}
