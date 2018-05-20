@@ -189,7 +189,7 @@ public abstract class StrictRepositoryBase
         return objects;
     }
 
-    public void setObjects(List<DTO> objects) {
+    protected void setObjects(List<DTO> objects) {
         this.objects = objects;
     }
 
@@ -197,7 +197,7 @@ public abstract class StrictRepositoryBase
         return state;
     }
 
-    public void setState(StrictRepositoryDataState state) {
+    protected void setState(StrictRepositoryDataState state) {
         this.state = state;
     }
 

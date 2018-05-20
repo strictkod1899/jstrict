@@ -110,17 +110,13 @@ public abstract class StrictRepositorySpringBase
     }
 
     @Override
-    public boolean delete(ID id) {
+    public void delete(ID id) {
         LOGGER.info("Trying a db entity delete");
         String sql = createSqlDelete();
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("id", id);
-        int columnAffect = springJdbc.update(sql, parameters);
+        springJdbc.update(sql, parameters);
         LOGGER.info("Successful a db entity deleted");
-        if(columnAffect>0)
-            return true;
-        else
-            return false;
     }
     //</editor-fold>
 

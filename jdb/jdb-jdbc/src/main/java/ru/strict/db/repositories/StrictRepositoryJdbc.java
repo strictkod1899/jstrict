@@ -33,9 +33,9 @@ public abstract class StrictRepositoryJdbc
     private StrictMapperSqlBase<E> sqlMapper;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public StrictRepositoryJdbc(SOURCE connectionSource, StrictMapperDtoBase<E, DTO> mapper, boolean isGenerateId,
-                                String sqlSelect, StrictMapperSqlBase<E> sqlMapper) {
-        super(connectionSource, mapper, isGenerateId);
+    public StrictRepositoryJdbc(String tableName, String[] columnsName, SOURCE connectionSource, StrictMapperDtoBase<E, DTO> dtoMapper, 
+    							StrictMapperSqlBase<E> sqlMapper, boolean isGenerateId, String sqlSelect) {
+        super(tableName, columnsName, connectionSource, dtoMapper, isGenerateId);
         this.sqlSelect = sqlSelect;
         this.sqlMapper = sqlMapper;
     }
