@@ -1,7 +1,7 @@
 package ru.strict.db.migration.components.postgresql;
 
 import ru.strict.db.migration.components.StrictMigrationTable;
-
+import ru.strict.utils.StrictUtilHashCode;
 import java.util.stream.Collectors;
 
 /**
@@ -87,6 +87,12 @@ public class PostgreSQLMigrationTable
             return super.equals(object) && schema.equals(object.getSchema()) && isAutoincrement == object.isAutoincrement();
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, schema, isAutoincrement);
     }
     //</editor-fold>
 }

@@ -8,6 +8,7 @@ import ru.strict.db.requests.StrictDbRequests;
 import ru.strict.utils.StrictUtilClassName;
 import ru.strict.utils.StrictUtilLogger;
 import ru.strict.utils.components.StrictLogger;
+import ru.strict.utils.StrictUtilHashCode;
 
 import java.sql.Connection;
 import java.util.Arrays;
@@ -231,6 +232,11 @@ public abstract class StrictRepositoryBase
                             && Arrays.asList(columnsName).containsAll(Arrays.asList(object.getColumnsName())));
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return StrictUtilHashCode.createHashCode(tableName, connectionSource, state, isGenerateId, columnsName);
     }
     //</editor-fold>
 }

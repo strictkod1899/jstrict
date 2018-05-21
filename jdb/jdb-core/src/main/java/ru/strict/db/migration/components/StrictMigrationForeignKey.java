@@ -1,5 +1,7 @@
 package ru.strict.db.migration.components;
 
+import ru.strict.utils.StrictUtilHashCode;
+
 /**
  * Внешний ключ таблицы для миграции в базу данных
  */
@@ -91,6 +93,11 @@ public class StrictMigrationForeignKey implements StrictMigrationComponent{
                     && deleteBehavior.equals(object.getDeleteBehavior());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return StrictUtilHashCode.createHashCode(name, column, tableRef, columnRef, updateBehavior, deleteBehavior);
     }
     //</editor-fold>
 }

@@ -1,5 +1,7 @@
 package ru.strict.db.requests;
 
+import ru.strict.utils.StrictUtilHashCode;
+
 /**
  * Шаблонный символ сравнения строк
  */
@@ -45,6 +47,11 @@ public class StrictTemplateSymbol {
                     && pointTemplateSymbol.equals(object.getPointTemplateSymbol());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return StrictUtilHashCode.createHashCode(templateSymbol, pointTemplateSymbol);
     }
     //</editor-fold>
 }

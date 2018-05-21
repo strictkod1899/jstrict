@@ -1,5 +1,7 @@
 package ru.strict.db.requests;
 
+import ru.strict.utils.StrictUtilHashCode;
+
 /**
  * Базовое определние условия sql-запроса
  */
@@ -31,6 +33,11 @@ public abstract class StrictDbRequestBase implements StrictDbRequestAny{
             return super.equals(object) && tableName.equals(object.getTableName());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return StrictUtilHashCode.createHashCode(tableName);
     }
     //</editor-fold>
 }

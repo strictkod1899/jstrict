@@ -1,5 +1,7 @@
 package ru.strict.db.migration.components;
 
+import ru.strict.utils.StrictUtilHashCode;
+
 /**
  * Столбец таблицы для миграции в базу данных
  */
@@ -80,6 +82,11 @@ public class StrictMigrationColumn implements StrictMigrationComponent{
                     && defaultValue.equals(object.getDefaultValue());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return StrictUtilHashCode.createHashCode(name, type, isNotNull, defaultValue);
     }
     //</editor-fold>
 }

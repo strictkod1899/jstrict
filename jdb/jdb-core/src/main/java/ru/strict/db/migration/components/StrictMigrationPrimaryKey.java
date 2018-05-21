@@ -1,5 +1,7 @@
 package ru.strict.db.migration.components;
 
+import ru.strict.utils.StrictUtilHashCode;
+
 /**
  * Первичный ключ таблицы для миграции в базу данных
  */
@@ -49,6 +51,11 @@ public class StrictMigrationPrimaryKey implements StrictMigrationComponent {
             return name.equals(object.getName()) && column.equals(object.getColumn());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return StrictUtilHashCode.createHashCode(name, column);
     }
     //</editor-fold>
 }

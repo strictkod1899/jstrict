@@ -1,5 +1,7 @@
 package ru.strict.db.connections;
 
+import ru.strict.utils.StrictUtilHashCode;
+
 /**
  * Конструктор соединения с базой данных
  * @param <SOURCE> Тип источника подключения к базе данных (например, DataSource, StrictConnectionInfo и др.)
@@ -34,9 +36,14 @@ public abstract class StrictCreateConnectionBase<SOURCE> implements StrictCreate
     public boolean equals(Object obj){
         if(obj instanceof StrictCreateConnectionBase) {
             StrictCreateConnectionBase object = (StrictCreateConnectionBase) obj;
-            return object.equals(object.connectionSource);
+            return connectionSource.equals(object.getConnectionSource());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return StrictUtilHashCode.createHashCode(connectionSource);
     }
     //</editor-fold>
 }

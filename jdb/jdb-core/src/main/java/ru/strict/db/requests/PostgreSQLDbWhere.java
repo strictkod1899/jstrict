@@ -1,5 +1,7 @@
 package ru.strict.db.requests;
 
+import ru.strict.utils.StrictUtilHashCode;
+
 /**
  * Условие Where для добавления к sql-запросу
  */
@@ -57,6 +59,12 @@ public class PostgreSQLDbWhere extends StrictDbWhere{
             return super.equals(object) && ignoreCase == object.isIgnoreCase();
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, ignoreCase);
     }
     //</editor-fold>
 }

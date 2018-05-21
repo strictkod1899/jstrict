@@ -1,5 +1,7 @@
 package ru.strict.db.requests;
 
+import ru.strict.utils.StrictUtilHashCode;
+
 /**
  * Условие Where sql-запроса
  * <p><b>Пример использования:</b></p>
@@ -85,6 +87,11 @@ public class StrictDbWhere extends StrictDbRequestBase {
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
+    public String toString(){
+        return getSql();
+    }
+
+    @Override
     public boolean equals(Object obj){
         if(obj instanceof StrictDbWhere) {
             StrictDbWhere object = (StrictDbWhere) obj;
@@ -93,6 +100,12 @@ public class StrictDbWhere extends StrictDbRequestBase {
                     && templateSymbol.equals(object.getTemplateSymbol());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, columnName, columnValue, operator, templateSymbol);
     }
     //</editor-fold>
 }

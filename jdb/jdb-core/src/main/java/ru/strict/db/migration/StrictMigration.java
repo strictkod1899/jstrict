@@ -4,6 +4,7 @@ import ru.strict.db.connections.StrictCreateConnectionAny;
 import ru.strict.db.migration.components.StrictMigrationTable;
 import ru.strict.utils.StrictUtilLogger;
 import ru.strict.utils.components.StrictLogger;
+import ru.strict.utils.StrictUtilHashCode;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -84,10 +85,15 @@ public class StrictMigration
     public boolean equals(Object obj){
         if(obj instanceof StrictMigration) {
             StrictMigration object = (StrictMigration) obj;
-            return connectionSource.equals(object.connectionSource)
+            return connectionSource.equals(object.getConnectionSource())
                     && (tables.size() == object.getTables().size() && tables.containsAll(object.getTables()));
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return StrictUtilHashCode.createHashCode(connectionSource, tables);
     }
     //</editor-fold>
 }

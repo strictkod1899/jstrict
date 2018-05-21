@@ -2,6 +2,7 @@ package ru.strict.db.migration.components;
 
 import ru.strict.utils.StrictUtilLogger;
 import ru.strict.utils.components.StrictLogger;
+import ru.strict.utils.StrictUtilHashCode;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -116,6 +117,11 @@ public class StrictMigrationTable
                     && (foreignKeys.size() == object.getForeignKeys().size() && foreignKeys.containsAll(object.getForeignKeys()));
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return StrictUtilHashCode.createHashCode(name, primaryKey, columns, foreignKeys);
     }
     //</editor-fold>
 }
