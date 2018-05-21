@@ -54,12 +54,16 @@ public class StrictUserManager {
 
 	@Override
 	public boolean equals(Object obj){
-		if(obj instanceof StrictUserManager) {
+		if(obj!=null && obj instanceof StrictUserManager) {
 			StrictUserManager object = (StrictUserManager) obj;
-			return super.equals(object)
-					&& (users.size() == object.getUsers().size() && users.values().containsAll(object.getUsers().values()));
+			return users.size() == object.getUsers().size() && users.values().containsAll(object.getUsers().values());
 		}else
 			return false;
 	}
+
+	@Override
+    public int hashCode(){
+        return StrictUtilHashCode.createHashCode(users);
+    }
 	//</editor-fold>
 }

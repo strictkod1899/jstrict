@@ -89,12 +89,18 @@ public class StrictDtoUserSecurity<ID> extends StrictDtoUser<ID> implements User
 
 	@Override
 	public boolean equals(Object obj){
-		if(obj instanceof StrictDtoUserSecurity) {
+		if(obj!=null && obj instanceof StrictDtoUserSecurity) {
 			StrictDtoUserSecurity object = (StrictDtoUserSecurity) obj;
 			return super.equals(object)
 					&& (authorities.size() == object.getAuthorities().size() && authorities.containsAll(object.getAuthorities()));
 		}else
 			return false;
 	}
+
+	@Override
+    public int hashCode(){
+        int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, authorities);
+    }
 	//</editor-fold>
 }
