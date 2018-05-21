@@ -82,7 +82,7 @@ public class PostgreSQLMigrationTable
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof PostgreSQLMigrationTable) {
+        if(obj!=null && obj instanceof PostgreSQLMigrationTable) {
             PostgreSQLMigrationTable object = (PostgreSQLMigrationTable) obj;
             return super.equals(object) && schema.equals(object.getSchema()) && isAutoincrement == object.isAutoincrement();
         }else

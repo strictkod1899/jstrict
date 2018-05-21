@@ -28,7 +28,7 @@ public abstract class StrictDbRequestBase implements StrictDbRequestAny{
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictDbRequestBase) {
+        if(obj!=null && obj instanceof StrictDbRequestBase) {
             StrictDbRequestBase object = (StrictDbRequestBase) obj;
             return super.equals(object) && tableName.equals(object.getTableName());
         }else

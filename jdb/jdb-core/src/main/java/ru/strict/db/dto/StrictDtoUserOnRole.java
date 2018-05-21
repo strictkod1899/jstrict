@@ -92,7 +92,7 @@ public class StrictDtoUserOnRole<ID> extends StrictDtoBase<ID> {
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictDtoUserOnRole) {
+        if(obj!=null && obj instanceof StrictDtoUserOnRole) {
             StrictDtoUserOnRole object = (StrictDtoUserOnRole) obj;
             return super.equals(object) && userId.equals(object.getUserId()) && roleId.equals(object.getRoleId())
                     && user.equals(object.getUser()) && role.equals(object.getRole());

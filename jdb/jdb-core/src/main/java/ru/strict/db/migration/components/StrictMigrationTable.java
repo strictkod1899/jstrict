@@ -110,7 +110,7 @@ public class StrictMigrationTable
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictMigrationTable) {
+        if(obj!=null && obj instanceof StrictMigrationTable) {
             StrictMigrationTable object = (StrictMigrationTable) obj;
             return name.equals(object.getName()) && primaryKey.equals(object.getPrimaryKey())
                     && (columns.size() == object.getColumns().size() && columns.containsAll(object.getColumns()))

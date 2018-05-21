@@ -54,7 +54,7 @@ public class PostgreSQLDbWhere extends StrictDbWhere{
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof PostgreSQLDbWhere) {
+        if(obj!=null && obj instanceof PostgreSQLDbWhere) {
             PostgreSQLDbWhere object = (PostgreSQLDbWhere) obj;
             return super.equals(object) && ignoreCase == object.isIgnoreCase();
         }else

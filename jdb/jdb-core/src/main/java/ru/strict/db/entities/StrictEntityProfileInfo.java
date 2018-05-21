@@ -114,7 +114,7 @@ public class StrictEntityProfileInfo<ID> extends StrictEntityProfile<ID> {
     }
 
     public boolean equals(Object obj){
-        if(obj instanceof StrictEntityProfileInfo){
+        if(obj!=null && obj instanceof StrictEntityProfileInfo){
             StrictEntityProfileInfo object = (StrictEntityProfileInfo) obj;
             return super.equals(object) && dateBirth.equals(object.getDateBirth()) && phone.equals(object.getPhone())
                     && country.equals(object.getCountry()) && city.equals(object.getCity())

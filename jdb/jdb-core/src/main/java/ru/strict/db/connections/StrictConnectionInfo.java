@@ -72,7 +72,7 @@ public class StrictConnectionInfo {
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictConnectionInfo) {
+        if(obj!=null && obj instanceof StrictConnectionInfo) {
             StrictConnectionInfo object = (StrictConnectionInfo) obj;
             return dbCaption.equals(object.getDbCaption()) && password.equals(object.getPassword())
                     && username.equals(object.getUsername()) && driver.equals(object.getDriver())

@@ -75,7 +75,7 @@ public class StrictDbRequests extends LinkedList<StrictDbRequestBase> implements
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictDbRequests) {
+        if(obj!=null && obj instanceof StrictDbRequests) {
             StrictDbRequests object = (StrictDbRequests) obj;
             return super.equals(object) && selectTableName.equals(object.getSelectTableName())
                     && isAnd == object.isAnd()

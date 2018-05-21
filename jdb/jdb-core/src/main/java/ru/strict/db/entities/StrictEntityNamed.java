@@ -47,7 +47,7 @@ public class StrictEntityNamed<ID> extends StrictEntityBase<ID> {
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictEntityNamed) {
+        if(obj!=null && obj instanceof StrictEntityNamed) {
             StrictEntityNamed object = (StrictEntityNamed) obj;
             return super.equals(object) && caption.equals(object.getCaption());
         }else

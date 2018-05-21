@@ -83,7 +83,7 @@ public class StrictMigration
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictMigration) {
+        if(obj!=null && obj instanceof StrictMigration) {
             StrictMigration object = (StrictMigration) obj;
             return connectionSource.equals(object.getConnectionSource())
                     && (tables.size() == object.getTables().size() && tables.containsAll(object.getTables()));

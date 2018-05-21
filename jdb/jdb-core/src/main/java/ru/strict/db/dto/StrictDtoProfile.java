@@ -111,7 +111,7 @@ public class StrictDtoProfile<ID> extends StrictDtoBase<ID> {
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictDtoProfile) {
+        if(obj!=null && obj instanceof StrictDtoProfile) {
             StrictDtoProfile object = (StrictDtoProfile) obj;
             return super.equals(object) && name.equals(object.getName()) && surname.equals(object.getSurname())
                     && middlename.equals(object.getMiddlename()) && userId.equals(object.getUserId())

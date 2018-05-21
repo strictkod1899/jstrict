@@ -93,7 +93,7 @@ public class StrictDbWhere extends StrictDbRequestBase {
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictDbWhere) {
+        if(obj!=null && obj instanceof StrictDbWhere) {
             StrictDbWhere object = (StrictDbWhere) obj;
             return super.equals(object) && columnName.equals(object.getColumnName())
                     && columnValue.equals(object.getColumnValue()) && operator.equals(object.getOperator())

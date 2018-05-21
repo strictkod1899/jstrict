@@ -84,7 +84,7 @@ public class StrictMigrationForeignKey implements StrictMigrationComponent{
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictMigrationForeignKey) {
+        if(obj!=null && obj instanceof StrictMigrationForeignKey) {
             StrictMigrationForeignKey object = (StrictMigrationForeignKey) obj;
             return name.equals(object.getName()) && column.equals(object.getColumn())
                     && tableRef.equals(object.getTableRef())

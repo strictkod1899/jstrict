@@ -76,7 +76,7 @@ public class StrictMigrationColumn implements StrictMigrationComponent{
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictMigrationColumn) {
+        if(obj!=null && obj instanceof StrictMigrationColumn) {
             StrictMigrationColumn object = (StrictMigrationColumn) obj;
             return name.equals(object.getName()) && type.equals(object.getType()) && isNotNull == object.isNotNull()
                     && defaultValue.equals(object.getDefaultValue());

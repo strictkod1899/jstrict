@@ -41,7 +41,7 @@ public class StrictTemplateSymbol {
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictTemplateSymbol) {
+        if(obj!=null && obj instanceof StrictTemplateSymbol) {
             StrictTemplateSymbol object = (StrictTemplateSymbol) obj;
             return super.equals(object) && templateSymbol.equals(object.getTemplateSymbol())
                     && pointTemplateSymbol.equals(object.getPointTemplateSymbol());

@@ -46,7 +46,7 @@ public class StrictMigrationPrimaryKey implements StrictMigrationComponent {
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictMigrationPrimaryKey) {
+        if(obj!=null && obj instanceof StrictMigrationPrimaryKey) {
             StrictMigrationPrimaryKey object = (StrictMigrationPrimaryKey) obj;
             return name.equals(object.getName()) && column.equals(object.getColumn());
         }else

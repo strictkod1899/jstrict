@@ -118,7 +118,7 @@ public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictEntityUser) {
+        if(obj!=null && obj instanceof StrictEntityUser) {
             StrictEntityUser object = (StrictEntityUser) obj;
             return super.equals(object) && username.equals(object.getUsername())
                     && passwordEncode.equals(object.getPasswordEncode())

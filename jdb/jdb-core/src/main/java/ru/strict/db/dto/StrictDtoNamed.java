@@ -47,7 +47,7 @@ public class StrictDtoNamed<ID> extends StrictDtoBase<ID> {
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictDtoNamed) {
+        if(obj!=null && obj instanceof StrictDtoNamed) {
             StrictDtoNamed object = (StrictDtoNamed) obj;
             return super.equals(object) && caption.equals(object.getCaption());
         }else

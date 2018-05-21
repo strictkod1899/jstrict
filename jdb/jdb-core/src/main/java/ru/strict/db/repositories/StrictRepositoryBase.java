@@ -223,7 +223,7 @@ public abstract class StrictRepositoryBase
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictRepositoryBase) {
+        if(obj!=null && obj instanceof StrictRepositoryBase) {
             StrictRepositoryBase object = (StrictRepositoryBase) obj;
             return super.equals(object) && tableName.equals(object.getTableName())
                     && connectionSource.equals(connectionSource) && state.equals(object.getState())

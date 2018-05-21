@@ -43,7 +43,7 @@ public class PostgreSQLMigrationForeignKey extends StrictMigrationForeignKey {
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof PostgreSQLMigrationForeignKey) {
+        if(obj!=null && obj instanceof PostgreSQLMigrationForeignKey) {
             PostgreSQLMigrationForeignKey object = (PostgreSQLMigrationForeignKey) obj;
             return super.equals(object) && schema.equals(object.getSchema());
         }else
