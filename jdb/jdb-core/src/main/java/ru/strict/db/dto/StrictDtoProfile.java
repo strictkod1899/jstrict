@@ -1,5 +1,7 @@
 package ru.strict.db.dto;
 
+import ru.strict.utils.StrictUtilHashCode;
+
 /**
  * Основная информация профиля пользователя (имя, фамилия, отчество)
  */
@@ -116,6 +118,12 @@ public class StrictDtoProfile<ID> extends StrictDtoBase<ID> {
                     && user.equals(object.getUser());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, name, surname, middlename, userId, user);
     }
     //</editor-fold>
 }

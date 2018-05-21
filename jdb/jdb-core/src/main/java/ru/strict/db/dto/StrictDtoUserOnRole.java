@@ -1,5 +1,7 @@
 package ru.strict.db.dto;
 
+import ru.strict.utils.StrictUtilHashCode;
+
 /**
  * Связка пользователя с ролью
  */
@@ -96,6 +98,12 @@ public class StrictDtoUserOnRole<ID> extends StrictDtoBase<ID> {
                     && user.equals(object.getUser()) && role.equals(object.getRole());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, userId, roleId, user, role);
     }
     //</editor-fold>
 }

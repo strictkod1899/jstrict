@@ -2,6 +2,7 @@ package ru.strict.db.dto;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import ru.strict.utils.StrictUtilHashCode;
 
 /**
  * Базовая информация о пользователе (логин, роли, профиль)
@@ -93,6 +94,12 @@ public class StrictDtoUserBase<ID> extends StrictDtoBase<ID>{
                     && profile.equals(object.getProfile());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, username, rolesuser, profile);
     }
     //</editor-fold>
 }

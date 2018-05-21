@@ -1,5 +1,7 @@
 package ru.strict.db.dto;
 
+import ru.strict.utils.StrictUtilHashCode;
+
 /**
  * Информация о токене пользователя и его основные данные
  */
@@ -50,6 +52,12 @@ public class StrictDtoUserToken<ID> extends StrictDtoUserBase<ID>{
             return super.equals(object) && token.equals(object.getToken());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, token);
     }
     //</editor-fold>
 }
