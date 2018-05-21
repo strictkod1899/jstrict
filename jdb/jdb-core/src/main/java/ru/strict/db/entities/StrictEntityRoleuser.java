@@ -2,6 +2,7 @@ package ru.strict.db.entities;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import ru.strict.utils.StrictUtilHashCode;
 
 /**
  * Роль пользователя в системе (например, администратор, пользователь, неавторизированный пользователь и др.)
@@ -95,6 +96,12 @@ public class StrictEntityRoleuser<ID> extends StrictEntityBase<ID>{
                     && (users.size() == object.getUsers().size() && users.containsAll(object.getUsers()));
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+    	int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, symbols, description, users);
     }
     //</editor-fold>
 }

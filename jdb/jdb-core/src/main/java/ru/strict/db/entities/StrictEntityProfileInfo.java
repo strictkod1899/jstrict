@@ -1,6 +1,7 @@
 package ru.strict.db.entities;
 
 import java.util.Date;
+import ru.strict.utils.StrictUtilHashCode;
 
 /**
  * Расширенная информация профиля пользователя (имя, фамилия, отчество, дата рождения, телефон,
@@ -120,6 +121,12 @@ public class StrictEntityProfileInfo<ID> extends StrictEntityProfile<ID> {
                     && address.equals(object.getAddress());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, dateBirth, phone, country, city, address);
     }
     //</editor-fold>
 }

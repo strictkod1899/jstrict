@@ -2,6 +2,7 @@ package ru.strict.db.entities;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import ru.strict.utils.StrictUtilHashCode;
 
 /**
  * Пользователь системы
@@ -126,6 +127,12 @@ public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
                     && profile.equals(object.getProfile());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+    	int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, username, passwordEncode, rolesuser, token, profile);
     }
     //</editor-fold>
 }

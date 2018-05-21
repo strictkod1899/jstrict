@@ -1,6 +1,7 @@
 package ru.strict.db.entities;
 
 import ru.strict.db.mappers.MapTarget;
+import ru.strict.utils.StrictUtilHashCode;
 
 /**
  * Базовый entity-класс
@@ -39,11 +40,16 @@ public abstract class StrictEntityBase<ID> implements MapTarget {
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictEntityBase) {
+        if(obj instanceof StrictEntityBase && obj!=null) {
             StrictEntityBase object = (StrictEntityBase) obj;
             return id.equals(object.getId());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return StrictUtilHashCode.createHashCode(id);
     }
     //</editor-fold>
 }

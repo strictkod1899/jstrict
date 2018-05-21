@@ -1,5 +1,7 @@
 package ru.strict.db.entities;
 
+import ru.strict.utils.StrictUtilHashCode;
+
 /**
  * Именованный entity (содержит строку заголовка)
  */
@@ -50,6 +52,12 @@ public class StrictEntityNamed<ID> extends StrictEntityBase<ID> {
             return super.equals(object) && caption.equals(object.getCaption());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+    	int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, caption);
     }
     //</editor-fold>
 }
