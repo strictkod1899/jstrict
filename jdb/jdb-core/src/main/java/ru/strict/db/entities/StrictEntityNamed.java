@@ -1,5 +1,7 @@
 package ru.strict.db.entities;
 
+import ru.strict.utils.StrictUtilHashCode;
+
 /**
  * Именованный entity (содержит строку заголовка)
  */
@@ -28,18 +30,10 @@ public class StrictEntityNamed<ID> extends StrictEntityBase<ID> {
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    /**
-     * Получить наименование записи
-     * @return
-     */
     public String getCaption() {
         return caption;
     }
 
-    /**
-     * Установить новое наименование записи
-     * @param caption Новое наименование записи
-     */
     public void setCaption(String caption) {
         this.caption = caption;
     }
@@ -53,11 +47,17 @@ public class StrictEntityNamed<ID> extends StrictEntityBase<ID> {
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictEntityNamed) {
-            StrictEntityNamed entity = (StrictEntityNamed) obj;
-            return super.equals(entity) && caption.equals(entity.getCaption());
+        if(obj!=null && obj instanceof StrictEntityNamed) {
+            StrictEntityNamed object = (StrictEntityNamed) obj;
+            return super.equals(object) && caption.equals(object.getCaption());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+    	int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, caption);
     }
     //</editor-fold>
 }

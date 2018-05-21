@@ -3,12 +3,7 @@ package ru.strict.db.repositories;
 import ru.strict.db.connections.StrictCreateConnectionAny;
 import ru.strict.db.dto.StrictDtoBase;
 import ru.strict.db.entities.StrictEntityBase;
-import ru.strict.db.enums.StrictRepositoryDataState;
 import ru.strict.db.mappers.dto.StrictMapperDtoBase;
-
-import java.sql.Connection;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Базовый класс репозитория
@@ -40,8 +35,8 @@ public abstract class StrictRepositorySynchronizedBase
     }
 
     @Override
-    public synchronized boolean delete(ID id) {
-        return implementDelete(id);
+    public synchronized void delete(ID id) {
+        implementDelete(id);
     }
 
     @Override
@@ -58,7 +53,7 @@ public abstract class StrictRepositorySynchronizedBase
 
     public abstract DTO implementUpdate(DTO dto);
 
-    public abstract boolean implementDelete(ID id);
+    public abstract void implementDelete(ID id);
 
     public abstract DTO implementCreateOrUpdate(DTO dto);
 

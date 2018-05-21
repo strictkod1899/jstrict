@@ -1,4 +1,4 @@
-package ru.strict.db.enums;
+package ru.strict.db.repositories;
 
 /**
  * Возможные состояния кэшированных данных в репозитории

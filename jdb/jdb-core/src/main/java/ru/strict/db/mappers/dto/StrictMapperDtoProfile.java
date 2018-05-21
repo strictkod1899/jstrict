@@ -5,16 +5,23 @@ import ru.strict.db.dto.StrictDtoUser;
 import ru.strict.db.entities.StrictEntityProfile;
 import ru.strict.db.entities.StrictEntityUser;
 
+import java.util.Optional;
+
 /**
  * Двухсторонний маппинг объектов типа StrictEntityProfile и StrictDtoProfile
  */
-public class StrictMapperDtoProfile< E extends StrictEntityProfile, DTO extends StrictDtoProfile>
+public class StrictMapperDtoProfile<E extends StrictEntityProfile, DTO extends StrictDtoProfile>
         extends StrictMapperDtoBase<E, DTO> {
 
-    private StrictMapperDtoUser mapperUser;
+    private Optional<StrictMapperDtoBase<StrictEntityUser, StrictDtoUser>> mapperUser;
 
-    public StrictMapperDtoProfile(StrictMapperDtoUser mapperUser){
-        this.mapperUser = mapperUser;
+    public StrictMapperDtoProfile(){
+        mapperUser = null;
+        mapperUser.empty();
+    }
+
+    public StrictMapperDtoProfile(StrictMapperDtoBase<StrictEntityUser, StrictDtoUser> mapperUser){
+        this.mapperUser = Optional.ofNullable(mapperUser);
     }
 
     @Override
@@ -25,7 +32,7 @@ public class StrictMapperDtoProfile< E extends StrictEntityProfile, DTO extends 
         entity.setSurname(dto.getSurname());
         entity.setMiddlename(dto.getMiddlename());
         entity.setUserId(dto.getUserId());
-        entity.setUser((StrictEntityUser) mapperUser.map(dto.getUser()));
+        mapperUser.ifPresent((mapper) -> entity.setUser(mapper.map(dto.getUser())));
         return entity;
     }
 
@@ -37,7 +44,7 @@ public class StrictMapperDtoProfile< E extends StrictEntityProfile, DTO extends 
         dto.setSurname(entity.getSurname());
         dto.setMiddlename(entity.getMiddlename());
         dto.setUserId(entity.getUserId());
-        dto.setUser((StrictDtoUser) mapperUser.map(entity.getUser()));
+        mapperUser.ifPresent((mapper) -> dto.setUser(mapper.map(entity.getUser())));
         return dto;
     }
 }

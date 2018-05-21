@@ -1,16 +1,21 @@
 package ru.strict.db.dto;
 
+import ru.strict.utils.StrictUtilHashCode;
+
 /**
  * Пользователь системы
  */
 public class StrictDtoUser<ID> extends StrictDtoUserToken<ID>{
 
+    /**
+     * Зашифрованный пароль пользователя
+     */
     private String passwordEncode;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public StrictDtoUser() {
         super();
-        this.passwordEncode = null;
+        passwordEncode = null;
     }
 
     public StrictDtoUser(String username, String passwordEncode, String token) {
@@ -43,11 +48,17 @@ public class StrictDtoUser<ID> extends StrictDtoUserToken<ID>{
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictDtoUser) {
-            StrictDtoUser dto = (StrictDtoUser) obj;
-            return super.equals(dto) && passwordEncode.equals(dto.getPasswordEncode());
+        if(obj!=null && obj instanceof StrictDtoUser) {
+            StrictDtoUser object = (StrictDtoUser) obj;
+            return super.equals(object) && passwordEncode.equals(object.getPasswordEncode());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, passwordEncode);
     }
     //</editor-fold>
 }

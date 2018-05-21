@@ -1,6 +1,7 @@
 package ru.strict.db.entities;
 
 import java.util.Date;
+import ru.strict.utils.StrictUtilHashCode;
 
 /**
  * Расширенная информация профиля пользователя (имя, фамилия, отчество, дата рождения, телефон,
@@ -113,12 +114,19 @@ public class StrictEntityProfileInfo<ID> extends StrictEntityProfile<ID> {
     }
 
     public boolean equals(Object obj){
-        if(obj instanceof StrictEntityProfileInfo){
-            StrictEntityProfileInfo entity = (StrictEntityProfileInfo) obj;
-            return super.equals(entity) && dateBirth==entity.getDateBirth() && phone.equals(entity.getPhone()) && country.equals(entity.getCountry())
-                    && city.equals(entity.getCity()) && address.equals(entity.getAddress());
+        if(obj!=null && obj instanceof StrictEntityProfileInfo){
+            StrictEntityProfileInfo object = (StrictEntityProfileInfo) obj;
+            return super.equals(object) && dateBirth.equals(object.getDateBirth()) && phone.equals(object.getPhone())
+                    && country.equals(object.getCountry()) && city.equals(object.getCity())
+                    && address.equals(object.getAddress());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, dateBirth, phone, country, city, address);
     }
     //</editor-fold>
 }

@@ -1,16 +1,21 @@
 package ru.strict.db.dto;
 
+import ru.strict.utils.StrictUtilHashCode;
+
 /**
- * Информация и токене пользователя системы
+ * Информация о токене пользователя и его основные данные
  */
 public class StrictDtoUserToken<ID> extends StrictDtoUserBase<ID>{
 
+    /**
+     * Токен пользователя
+     */
     private String token;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public StrictDtoUserToken() {
         super();
-        this.token = null;
+        token = null;
     }
 
     public StrictDtoUserToken(String username, String token) {
@@ -42,11 +47,17 @@ public class StrictDtoUserToken<ID> extends StrictDtoUserBase<ID>{
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictDtoUserToken) {
-            StrictDtoUserToken dto = (StrictDtoUserToken) obj;
-            return super.equals(dto) && token.equals(dto.getToken());
+        if(obj!=null && obj instanceof StrictDtoUserToken) {
+            StrictDtoUserToken object = (StrictDtoUserToken) obj;
+            return super.equals(object) && token.equals(object.getToken());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, token);
     }
     //</editor-fold>
 }

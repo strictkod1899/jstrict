@@ -2,40 +2,60 @@ package ru.strict.db.entities;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import ru.strict.utils.StrictUtilHashCode;
 
 /**
  * Пользователь системы
  */
 public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
 
+    /**
+     * Логин пользователя
+     */
     private String username;
+    /**
+     * Зашифрованный пароль пользователя
+     */
     private String passwordEncode;
+    /**
+     * Роли пользователя
+     */
     private Collection<StrictEntityRoleuser> rolesuser;
+    /**
+     * Токен пользователя
+     */
     private String token;
+    /**
+     * Профиль пользователя
+     */
+    private StrictEntityProfile profile;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public StrictEntityUser() {
         super();
-        this.username = null;
-        this.passwordEncode = null;
-        this.rolesuser = new LinkedList<>();
-        this.token = null;
+        username = null;
+        passwordEncode = null;
+        rolesuser = new LinkedList<>();
+        token = null;
+        profile = null;
     }
 
     public StrictEntityUser(String username, String passwordEncode, String token) {
         super();
         this.username = username;
         this.passwordEncode = passwordEncode;
-        this.rolesuser = new LinkedList<>();
+        rolesuser = new LinkedList<>();
         this.token = token;
+        profile = null;
     }
 
     public StrictEntityUser(ID id, String username, String passwordEncode, String token) {
         super(id);
         this.username = username;
         this.passwordEncode = passwordEncode;
-        this.rolesuser = new LinkedList<>();
+        rolesuser = new LinkedList<>();
         this.token = token;
+        profile = null;
     }
     //</editor-fold>
 
@@ -64,6 +84,10 @@ public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
         this.rolesuser = rolesuser;
     }
 
+    /**
+     * Добавить роль, которую использует данный пользователь
+     * @param roleuser
+     */
     public void addRoleuser(StrictEntityRoleuser roleuser){
         rolesuser.add(roleuser);
     }
@@ -74,6 +98,14 @@ public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public StrictEntityProfile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(StrictEntityProfile profile) {
+        this.profile = profile;
     }
     //</editor-fold>
 
@@ -86,14 +118,21 @@ public class StrictEntityUser<ID> extends StrictEntityBase<ID>{
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictEntityUser) {
-            StrictEntityUser entity = (StrictEntityUser) obj;
-            return super.equals(entity) && username.equals(entity.getUsername())
-                    && passwordEncode.equals(entity.getPasswordEncode()) && rolesuser.equals(entity.getRolesuser())
-                    && (rolesuser.size() == entity.getRolesuser().size() && rolesuser.containsAll(entity.getRolesuser()))
-                    && token.equals(entity.getToken());
+        if(obj!=null && obj instanceof StrictEntityUser) {
+            StrictEntityUser object = (StrictEntityUser) obj;
+            return super.equals(object) && username.equals(object.getUsername())
+                    && passwordEncode.equals(object.getPasswordEncode())
+                    && (rolesuser.size() == object.getRolesuser().size() && rolesuser.containsAll(object.getRolesuser()))
+                    && token.equals(object.getToken())
+                    && profile.equals(object.getProfile());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+    	int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, username, passwordEncode, rolesuser, token, profile);
     }
     //</editor-fold>
 }

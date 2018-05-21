@@ -1,6 +1,6 @@
 package ru.strict.db.requests;
 
-import ru.strict.db.enums.StrictEnumTemplateSymbol;
+import ru.strict.utils.StrictUtilHashCode;
 
 /**
  * Условие Where для добавления к sql-запросу
@@ -12,6 +12,7 @@ public class PostgreSQLDbWhere extends StrictDbWhere{
      */
     private boolean ignoreCase;
 
+    //<editor-fold defaultState="collapsed" desc="constructors">
     public PostgreSQLDbWhere(String tableName, String columnName, Object columnValue, String operator, boolean ignoreCase) {
         super(tableName, columnName, columnValue, operator);
         this.ignoreCase = ignoreCase;
@@ -22,10 +23,13 @@ public class PostgreSQLDbWhere extends StrictDbWhere{
         super(tableName, columnName, columnValue, operator, templateSymbol);
         this.ignoreCase = ignoreCase;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultState="collapsed" desc="Get/Set">
     public boolean isIgnoreCase() {
         return ignoreCase;
     }
+    //</editor-fold>
 
     @Override
     public String getSql(){
@@ -35,15 +39,32 @@ public class PostgreSQLDbWhere extends StrictDbWhere{
             result = (ignoreCase?"lower(":"")
                     + getTableName() + "." + getColumnName() + (ignoreCase?")":"") + " "
                     + getOperator() + " " + (ignoreCase?"lower(":"") + "'"
-                    + (getTemplateSymbol().getEnumTemplateSymbol()== StrictEnumTemplateSymbol.BEGIN
-                    || getTemplateSymbol().getEnumTemplateSymbol()== StrictEnumTemplateSymbol.BETWEEN
+                    + (getTemplateSymbol().getPointTemplateSymbol()== StrictPointTemplateSymbol.BEGIN
+                    || getTemplateSymbol().getPointTemplateSymbol()== StrictPointTemplateSymbol.BOTH
                     ?getTemplateSymbol().getTemplateSymbol():"")
                     + getColumnValue()
-                    + (getTemplateSymbol().getEnumTemplateSymbol()== StrictEnumTemplateSymbol.END
-                    || getTemplateSymbol().getEnumTemplateSymbol()== StrictEnumTemplateSymbol.BETWEEN
+                    + (getTemplateSymbol().getPointTemplateSymbol()== StrictPointTemplateSymbol.END
+                    || getTemplateSymbol().getPointTemplateSymbol()== StrictPointTemplateSymbol.BOTH
                     ?getTemplateSymbol().getTemplateSymbol():"") + "'" + (ignoreCase?")":"");
         else
             result = getTableName() + "." + getColumnName() + " " + getOperator() + " " + getColumnValue();
         return result;
     }
+
+    //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
+    public boolean equals(Object obj){
+        if(obj!=null && obj instanceof PostgreSQLDbWhere) {
+            PostgreSQLDbWhere object = (PostgreSQLDbWhere) obj;
+            return super.equals(object) && ignoreCase == object.isIgnoreCase();
+        }else
+            return false;
+    }
+
+    @Override
+    public int hashCode(){
+        int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, ignoreCase);
+    }
+    //</editor-fold>
 }

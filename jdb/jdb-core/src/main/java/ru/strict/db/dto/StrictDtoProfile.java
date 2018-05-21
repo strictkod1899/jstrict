@@ -1,5 +1,7 @@
 package ru.strict.db.dto;
 
+import ru.strict.utils.StrictUtilHashCode;
+
 /**
  * Основная информация профиля пользователя (имя, фамилия, отчество)
  */
@@ -26,7 +28,7 @@ public class StrictDtoProfile<ID> extends StrictDtoBase<ID> {
     private ID userId;
 
     /**
-     * Пользователь
+     * Пользователь системы связанный с данным профилем
      */
     private StrictDtoUser user;
 
@@ -60,50 +62,26 @@ public class StrictDtoProfile<ID> extends StrictDtoBase<ID> {
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    /**
-     * Получить имя
-     * @return
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * Установить имя
-     * @param name новое имя
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * Получить фамилию
-     * @return
-     */
     public String getSurname() {
         return surname;
     }
 
-    /**
-     * Установить фамилию
-     * @param surname новая фамилия
-     */
     public void setSurname(String surname) {
         this.surname = surname;
     }
 
-    /**
-     * Получить отчество
-     * @return
-     */
     public String getMiddlename() {
         return middlename;
     }
 
-    /**
-     * Установить отчество
-     * @param middlename новое отчество
-     */
     public void setMiddlename(String middlename) {
         this.middlename = middlename;
     }
@@ -133,13 +111,19 @@ public class StrictDtoProfile<ID> extends StrictDtoBase<ID> {
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictDtoProfile) {
-            StrictDtoProfile dto = (StrictDtoProfile) obj;
-            return super.equals(dto) && name.equals(dto.getName()) && surname.equals(dto.getSurname())
-                    && middlename.equals(dto.getMiddlename()) && userId.equals(dto.getUserId())
-                    && user.equals(dto.getUser());
+        if(obj!=null && obj instanceof StrictDtoProfile) {
+            StrictDtoProfile object = (StrictDtoProfile) obj;
+            return super.equals(object) && name.equals(object.getName()) && surname.equals(object.getSurname())
+                    && middlename.equals(object.getMiddlename()) && userId.equals(object.getUserId())
+                    && user.equals(object.getUser());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, name, surname, middlename, userId, user);
     }
     //</editor-fold>
 }

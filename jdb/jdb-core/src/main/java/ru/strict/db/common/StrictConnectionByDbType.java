@@ -1,7 +1,7 @@
-package ru.strict.db.enums;
+package ru.strict.db.common;
 
 /**
- * Данные (driver и url) для получения соединения с базой данных в зависимости от ее производителя
+ * Данные (driver и url) для создания соединения с базой данных в зависимости от ее производителя
  */
 public enum StrictConnectionByDbType {
 

@@ -2,6 +2,9 @@ package ru.strict.db.migration.components.postgresql;
 
 import ru.strict.db.migration.components.StrictMigrationColumn;
 
+/**
+ * Столбец таблицы для миграции в базу данных PostgreSQL
+ */
 public class PostgreSQLMigrationColumn extends StrictMigrationColumn {
 
     public PostgreSQLMigrationColumn(String name, String type, boolean isNotNull) {

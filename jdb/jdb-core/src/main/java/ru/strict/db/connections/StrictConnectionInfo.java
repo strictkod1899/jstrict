@@ -1,7 +1,9 @@
 package ru.strict.db.connections;
 
+import ru.strict.utils.StrictUtilHashCode;
+
 /**
- * Требуемая инфорамция для получения соединения с базой данных
+ * Необходимая информация для создания соединения с базой данных
  */
 public class StrictConnectionInfo {
 
@@ -31,7 +33,6 @@ public class StrictConnectionInfo {
     private String password;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-
     public StrictConnectionInfo(String dbCaption, String driver, String url, String username, String password) {
         this.dbCaption = dbCaption;
         this.driver = driver;
@@ -39,7 +40,6 @@ public class StrictConnectionInfo {
         this.username = username;
         this.password = password;
     }
-
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
@@ -72,13 +72,18 @@ public class StrictConnectionInfo {
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictConnectionInfo) {
-            StrictConnectionInfo info = (StrictConnectionInfo) obj;
-            return dbCaption.equals(info.getDbCaption()) && password.equals(info.getPassword())
-                    && username.equals(info.getUsername()) && driver.equals(info.getDriver())
-                    && url.equals(info.getUrl());
+        if(obj!=null && obj instanceof StrictConnectionInfo) {
+            StrictConnectionInfo object = (StrictConnectionInfo) obj;
+            return dbCaption.equals(object.getDbCaption()) && password.equals(object.getPassword())
+                    && username.equals(object.getUsername()) && driver.equals(object.getDriver())
+                    && url.equals(object.getUrl());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return StrictUtilHashCode.createHashCode(dbCaption, password, username, driver, url);
     }
     //</editor-fold>
 }

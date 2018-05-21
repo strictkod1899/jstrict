@@ -2,12 +2,16 @@ package ru.strict.db.repositories;
 
 import ru.strict.db.connections.StrictCreateConnectionAny;
 import ru.strict.db.dto.StrictDtoBase;
-import ru.strict.db.enums.StrictRepositoryDataState;
 import ru.strict.db.entities.StrictEntityBase;
 import ru.strict.db.mappers.dto.StrictMapperDtoBase;
 import ru.strict.db.requests.StrictDbRequests;
+import ru.strict.utils.StrictUtilClassName;
+import ru.strict.utils.StrictUtilLogger;
+import ru.strict.utils.components.StrictLogger;
+import ru.strict.utils.StrictUtilHashCode;
 
 import java.sql.Connection;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,6 +26,8 @@ import java.util.List;
 public abstract class StrictRepositoryBase
         <ID, SOURCE extends StrictCreateConnectionAny, E extends StrictEntityBase, DTO extends StrictDtoBase>
         implements StrictRepositoryAny<ID, DTO>, StrictRepositoryExtension<ID, DTO>{
+
+    protected final StrictLogger LOGGER = StrictUtilLogger.createLogger(StrictUtilClassName.getCurrentClassname());
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
@@ -84,6 +90,7 @@ public abstract class StrictRepositoryBase
     //<editor-fold defaultState="collapsed" desc="CRUD">
     @Override
     public DTO createOrUpdate(DTO dto) {
+        LOGGER.info("Trying a db entity create or update");
         if(IsRowExists((ID)dto.getId()))
             return update(dto);
         else
@@ -92,6 +99,7 @@ public abstract class StrictRepositoryBase
 
     @Override
     public DTO createOrRead(DTO dto) {
+        LOGGER.info("Trying a db entity create or read");
         if(IsRowExists((ID)dto.getId()))
             return read((ID)dto.getId());
         else
@@ -122,7 +130,7 @@ public abstract class StrictRepositoryBase
      * </pre></code>
      *
      * <p><b>Пример использования:</b></p>
-     * <p>Профиль относится к какому-то пользователю и содержит внешниц ключ на пользователя (user)</p>
+     * <p>Профиль относится к какому-то пользователю и содержит внешний ключ на пользователя (user)</p>
      * <code><pre style="background-color: white; font-family: consolas">
      *     StrictRepositoryAny<ID, StrictDtoUser> rUser = new StrictRepositoryUser<>(...);
      *     dto.setUser(rUser.read((ID) dto.getUserId()));
@@ -135,20 +143,25 @@ public abstract class StrictRepositoryBase
 
     @Override
     public DTO readFill(ID id) {
+        LOGGER.info("Trying a db entity read");
         DTO user = read(id);
         user = fill(user);
+        LOGGER.info("Successful a db entity read");
         return user;
     }
 
     @Override
     public List<DTO> readAllFill(StrictDbRequests requests) {
+        LOGGER.info("Trying a db entity read all");
         List<DTO> users = readAll(requests);
         users.stream().forEach((dto)-> dto = fill(dto));
+        LOGGER.info("Successful a db entity read all");
         return users;
     }
 
     @Override
     public DTO createOrReadFill(DTO dto) {
+        LOGGER.info("Trying a db entity create or read");
         if(IsRowExists((ID)dto.getId()))
             return readFill((ID)dto.getId());
         else
@@ -169,7 +182,7 @@ public abstract class StrictRepositoryBase
         return connectionSource;
     }
 
-    public StrictMapperDtoBase<E, DTO> getDtoMapper() {
+    protected StrictMapperDtoBase<E, DTO> getDtoMapper() {
         return dtoMapper;
     }
 
@@ -177,7 +190,7 @@ public abstract class StrictRepositoryBase
         return objects;
     }
 
-    public void setObjects(List<DTO> objects) {
+    protected void setObjects(List<DTO> objects) {
         this.objects = objects;
     }
 
@@ -185,7 +198,7 @@ public abstract class StrictRepositoryBase
         return state;
     }
 
-    public void setState(StrictRepositoryDataState state) {
+    protected void setState(StrictRepositoryDataState state) {
         this.state = state;
     }
 
@@ -199,6 +212,31 @@ public abstract class StrictRepositoryBase
 
     public String[] getColumnsName() {
         return columnsName;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
+    public String toString(){
+        return String.format("repository [%s]. Connection: %s", getTableName(), getConnectionSource().toString());
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj!=null && obj instanceof StrictRepositoryBase) {
+            StrictRepositoryBase object = (StrictRepositoryBase) obj;
+            return super.equals(object) && tableName.equals(object.getTableName())
+                    && connectionSource.equals(connectionSource) && state.equals(object.getState())
+                    && isGenerateId == object.isGenerateId()
+                    && (columnsName.length == object.getColumnsName().length
+                            && Arrays.asList(columnsName).containsAll(Arrays.asList(object.getColumnsName())));
+        }else
+            return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return StrictUtilHashCode.createHashCode(tableName, connectionSource, state, isGenerateId, columnsName);
     }
     //</editor-fold>
 }

@@ -6,6 +6,7 @@ import ru.strict.db.dto.StrictDtoUser;
 import ru.strict.db.dto.StrictDtoUserOnRole;
 import ru.strict.db.entities.StrictEntityRoleuser;
 import ru.strict.db.entities.StrictEntityUserOnRole;
+import ru.strict.db.mappers.dto.StrictMapperDtoFactory;
 import ru.strict.db.mappers.dto.StrictMapperDtoRoleuser;
 import ru.strict.db.mappers.dto.StrictMapperDtoUser;
 import ru.strict.db.mappers.spring.StrictMapperSqlRoleuser;
@@ -22,7 +23,7 @@ public class StrictRepositoryRoleuser<ID>
     private static final String[] COLUMNS_NAME = new String[] {"symbols", "description"};
 
     public StrictRepositoryRoleuser(StrictCreateConnectionByDataSource connectionSource, Boolean isGenerateId) {
-        super("roleuser", COLUMNS_NAME, connectionSource, new StrictMapperDtoRoleuser(), isGenerateId,
+        super("roleuser", COLUMNS_NAME, connectionSource, StrictMapperDtoFactory.createMapperRoleuser(), isGenerateId,
                 new StrictMapperSqlRoleuser(COLUMNS_NAME));
     }
 

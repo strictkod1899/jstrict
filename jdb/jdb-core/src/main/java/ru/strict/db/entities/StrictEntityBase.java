@@ -1,6 +1,7 @@
 package ru.strict.db.entities;
 
 import ru.strict.db.mappers.MapTarget;
+import ru.strict.utils.StrictUtilHashCode;
 
 /**
  * Базовый entity-класс
@@ -9,7 +10,7 @@ import ru.strict.db.mappers.MapTarget;
 public abstract class StrictEntityBase<ID> implements MapTarget {
 
     /**
-     * id записи
+     * Идентификатор записи
      */
     private ID id;
 
@@ -22,18 +23,10 @@ public abstract class StrictEntityBase<ID> implements MapTarget {
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    /**
-     * Получить id записи
-     * @return
-     */
     public ID getId() {
         return id;
     }
 
-    /**
-     * Установить новый id записи
-     * @param id id записи
-     */
     public void setId(ID id) {
         this.id = id;
     }
@@ -47,11 +40,16 @@ public abstract class StrictEntityBase<ID> implements MapTarget {
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictEntityBase) {
-            StrictEntityBase entity = (StrictEntityBase) obj;
-            return entity.id.equals(id);
+        if(obj!=null && obj instanceof StrictEntityBase && obj!=null) {
+            StrictEntityBase object = (StrictEntityBase) obj;
+            return id.equals(object.getId());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return StrictUtilHashCode.createHashCode(id);
     }
     //</editor-fold>
 }

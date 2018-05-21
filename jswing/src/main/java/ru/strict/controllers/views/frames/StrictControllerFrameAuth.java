@@ -4,7 +4,7 @@ import ru.strict.utils.StrictUtilLogger;
 import ru.strict.controllers.views.dialogs.StrictControllerDialogReg;
 /*import ru.strict.db.StrictControllerDatabase;
 import ru.strict.db.StrictUtilsDatabase;
-import ru.strict.jdbc.enums.StrictEnumDbTypes;*/
+import ru.strict.jdbc.common.StrictEnumDbTypes;*/
 import ru.strict.models.frames.StrictModelFrameAuth;
 import ru.strict.models.dialogs.StrictModelDialogReg;
 import ru.strict.views.frames.StrictFrameAuth;

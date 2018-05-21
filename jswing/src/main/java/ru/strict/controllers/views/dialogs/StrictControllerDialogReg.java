@@ -5,7 +5,7 @@ import ru.strict.db.StrictUtilsDatabase;
 import ru.strict.jdbc.entities.StrictEntityUser;
 import ru.strict.jdbc.repositories.StrictRepositoryBase;
 import ru.strict.jdbc.repositories.StrictRepositoryUsers;
-import ru.strict.jdbc.enums.StrictEnumDbTypes;*/
+import ru.strict.jdbc.common.StrictEnumDbTypes;*/
 import ru.strict.models.dialogs.StrictModelDialogReg;
 import ru.strict.views.dialogs.StrictDialogReg;
 

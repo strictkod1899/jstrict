@@ -1,6 +1,7 @@
 package ru.strict.utils;
 
 import org.apache.log4j.Logger;
+import ru.strict.utils.components.StrictLogger;
 
 import static org.apache.log4j.Logger.getLogger;
 
@@ -8,6 +9,14 @@ import static org.apache.log4j.Logger.getLogger;
  * Управление логированием
  */
 public class StrictUtilLogger {
+
+    public static StrictLogger createLogger(Class clazz){
+        return new StrictLogger(getLogger(clazz));
+    }
+
+    public static StrictLogger createLogger(String className){
+        return new StrictLogger(getLogger(className));
+    }
 
     /**
      * Информационное сообщение логирования для Debug-режима
@@ -27,6 +36,16 @@ public class StrictUtilLogger {
     public static void info(Class clazz, String message){
         Logger logger = getLogger(clazz);
         logger.info(message);
+    }
+
+    /**
+     * Предупреждающее сообщения логирования
+     * @param clazz Класс, в котором производится логирование
+     * @param message Сообщение исключения
+     */
+    public static void warn(Class clazz, String message){
+        Logger logger = getLogger(clazz);
+        logger.warn(message);
     }
 
     /**

@@ -1,6 +1,7 @@
 package ru.strict.db.dto;
 
 import java.util.Date;
+import ru.strict.utils.StrictUtilHashCode;
 
 /**
  * Расширенная информация профиля пользователя (имя, фамилия, отчество, дата рождения, телефон,
@@ -113,13 +114,19 @@ public class StrictDtoProfileInfo<ID> extends StrictDtoProfile<ID> {
     }
 
     public boolean equals(Object obj){
-        if(obj instanceof StrictDtoProfileInfo){
-            StrictDtoProfileInfo dto = (StrictDtoProfileInfo) obj;
-            return super.equals(dto) && dateBirth==dto.getDateBirth() && phone.equals(dto.getPhone())
-                    && country.equals(dto.getCountry()) && city.equals(dto.getCity())
-                    && address.equals(dto.getAddress());
+        if(obj!=null && obj instanceof StrictDtoProfileInfo){
+            StrictDtoProfileInfo object = (StrictDtoProfileInfo) obj;
+            return super.equals(object) && dateBirth.equals(object.getDateBirth()) && phone.equals(object.getPhone())
+                    && country.equals(object.getCountry()) && city.equals(object.getCity())
+                    && address.equals(object.getAddress());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, dateBirth, phone, country, city, address);
     }
     //</editor-fold>
 }

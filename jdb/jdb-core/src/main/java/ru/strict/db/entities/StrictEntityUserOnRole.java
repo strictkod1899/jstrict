@@ -1,13 +1,27 @@
 package ru.strict.db.entities;
 
+import ru.strict.utils.StrictUtilHashCode;
+
 /**
  * Связка пользователя с ролью
  */
 public class StrictEntityUserOnRole<ID> extends StrictEntityBase<ID> {
 
+    /**
+     * Идентификатор пользователя
+     */
     private ID userId;
+    /**
+     * Пользователь
+     */
     private StrictEntityUser user;
+    /**
+     * Идентификатор роли
+     */
     private ID roleId;
+    /**
+     * Роль пользователя
+     */
     private StrictEntityRoleuser role;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
@@ -78,12 +92,18 @@ public class StrictEntityUserOnRole<ID> extends StrictEntityBase<ID> {
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictEntityUserOnRole) {
-            StrictEntityUserOnRole entity = (StrictEntityUserOnRole) obj;
-            return super.equals(entity) && userId.equals(entity.getUserId()) && roleId.equals(entity.getRoleId())
-                    && user.equals(entity.getUser()) && role.equals(entity.getRole());
+        if(obj!=null && obj instanceof StrictEntityUserOnRole) {
+            StrictEntityUserOnRole object = (StrictEntityUserOnRole) obj;
+            return super.equals(object) && userId.equals(object.getUserId()) && roleId.equals(object.getRoleId())
+                    && user.equals(object.getUser()) && role.equals(object.getRole());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+    	int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, userId, roleId, user, role);
     }
     //</editor-fold>
 }

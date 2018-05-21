@@ -1,13 +1,27 @@
 package ru.strict.db.dto;
 
+import ru.strict.utils.StrictUtilHashCode;
+
 /**
  * Связка пользователя с ролью
  */
 public class StrictDtoUserOnRole<ID> extends StrictDtoBase<ID> {
 
+    /**
+     * Идентификатор пользователя
+     */
     private ID userId;
+    /**
+     * Пользователь
+     */
     private StrictDtoUser user;
+    /**
+     * Идентификатор роли
+     */
     private ID roleId;
+    /**
+     * Роль пользователя
+     */
     private StrictDtoRoleuser role;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
@@ -78,12 +92,18 @@ public class StrictDtoUserOnRole<ID> extends StrictDtoBase<ID> {
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictDtoUserOnRole) {
-            StrictDtoUserOnRole dto = (StrictDtoUserOnRole) obj;
-            return super.equals(dto) && userId.equals(dto.getUserId()) && roleId.equals(dto.getRoleId())
-                    && user.equals(dto.getUser()) && role.equals(dto.getRole());
+        if(obj!=null && obj instanceof StrictDtoUserOnRole) {
+            StrictDtoUserOnRole object = (StrictDtoUserOnRole) obj;
+            return super.equals(object) && userId.equals(object.getUserId()) && roleId.equals(object.getRoleId())
+                    && user.equals(object.getUser()) && role.equals(object.getRole());
         }else
             return false;
+    }
+
+    @Override
+    public int hashCode(){
+        int superHashCode = super.hashCode();
+        return StrictUtilHashCode.createSubHashCode(superHashCode, userId, roleId, user, role);
     }
     //</editor-fold>
 }
