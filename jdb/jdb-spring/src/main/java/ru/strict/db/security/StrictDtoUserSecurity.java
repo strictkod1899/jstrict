@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.strict.db.dto.StrictDtoRoleuser;
 import ru.strict.db.dto.StrictDtoUser;
+import ru.strict.utils.StrictUtilHashCode;
 
 import java.util.Collection;
 import java.util.HashSet;
