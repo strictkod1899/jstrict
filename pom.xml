@@ -25,6 +25,7 @@
         <module>jswing</module>
         <module>jdb</module>
         <module>jfile</module>
+        <module>jpatterns</module>
         <module>jneuralnetwork</module>
     </modules>
 
