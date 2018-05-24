@@ -25,7 +25,7 @@ import java.util.List;
  */
 public abstract class StrictRepositoryBase
         <ID, SOURCE extends StrictCreateConnectionAny, E extends StrictEntityBase, DTO extends StrictDtoBase>
-        implements StrictRepositoryAny<ID, DTO>, StrictRepositoryExtension<ID, DTO>{
+        implements IStrictRepositoryExtension<ID, DTO> {
 
     protected final StrictLogger LOGGER = StrictUtilLogger.createLogger(StrictUtilClassName.getCurrentClassname());
 
@@ -123,7 +123,7 @@ public abstract class StrictRepositoryBase
      *      requests.add(new StrictDbWhere(getTableName(), "id", dto.getId(), "="));
      *      List<StrictDtoUserOnRole> userOnRoles = rUserOnRole.readAll(requests);
      *
-     *      StrictRepositoryAny<ID, StrictDtoRoleuser> rRoleuser = new StrictRepositoryRoleuser<>(...);
+     *      IStrictRepository<ID, StrictDtoRoleuser> rRoleuser = new StrictRepositoryRoleuser<>(...);
      *      for(StrictDtoUserOnRole<ID> userOnRole : userOnRoles)
      *          dto.addRoleuser(rRoleuser.read(userOnRole.getRoleId()));
      *      return dto;
@@ -132,7 +132,7 @@ public abstract class StrictRepositoryBase
      * <p><b>Пример использования:</b></p>
      * <p>Профиль относится к какому-то пользователю и содержит внешний ключ на пользователя (user)</p>
      * <code><pre style="background-color: white; font-family: consolas">
-     *     StrictRepositoryAny<ID, StrictDtoUser> rUser = new StrictRepositoryUser<>(...);
+     *     IStrictRepository<ID, StrictDtoUser> rUser = new StrictRepositoryUser<>(...);
      *     dto.setUser(rUser.read((ID) dto.getUserId()));
      *     return dto;
      * </pre></code>

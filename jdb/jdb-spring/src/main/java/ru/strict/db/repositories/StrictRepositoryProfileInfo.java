@@ -1,7 +1,6 @@
 package ru.strict.db.repositories;
 
 import ru.strict.db.connections.StrictCreateConnectionByDataSource;
-import ru.strict.db.dto.StrictDtoProfile;
 import ru.strict.db.dto.StrictDtoProfileInfo;
 import ru.strict.db.dto.StrictDtoUser;
 import ru.strict.db.entities.StrictEntityProfileInfo;
@@ -46,7 +45,7 @@ public class StrictRepositoryProfileInfo<ID>
 
     @Override
     protected StrictDtoProfileInfo fill(StrictDtoProfileInfo dto){
-        StrictRepositoryAny<ID, StrictDtoUser> rUser =
+        IStrictRepository<ID, StrictDtoUser> rUser =
                 new StrictRepositoryUser<>(getConnectionSource()
                         , StrictMapperDtoFactory.createMapperUser()
                         , false);

@@ -6,43 +6,16 @@
 
     <parent>
         <groupId>ru.strict</groupId>
-        <artifactId>jdb</artifactId>
+        <artifactId>jstrict</artifactId>
         <version>0.1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>jdb-spring</artifactId>
+    <artifactId>jpatterns</artifactId>
     <version>0.1.0</version>
     <packaging>jar</packaging>
-    <name>jdb-spring</name>
+    <name>jpatterns</name>
     <url>http://maven.apache.org</url>
-
-    <dependencies>
-        <dependency>
-            <groupId>ru.strict</groupId>
-            <artifactId>jdb-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <version>5.0.5.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>5.0.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>5.0.4.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>5.0.4.RELEASE</version>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
@@ -88,26 +61,6 @@
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${plugin.surefire.version}</version>
-                <executions>
-                    <execution>
-                        <id>unit-tests</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <configuration>
-                            <printSummary>true</printSummary>
-                            <includes>
-                                <include>ru/strict/db/**</include>
-                            </includes>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

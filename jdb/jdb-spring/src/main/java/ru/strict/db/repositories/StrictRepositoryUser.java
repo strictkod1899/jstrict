@@ -18,8 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 public class StrictRepositoryUser<ID, DTO extends StrictDtoUserBase>
-        extends StrictRepositorySpringBase<ID, StrictEntityUser, DTO>
-        implements StrictRepositoryExtension<ID, DTO>{
+        extends StrictRepositorySpringBase<ID, StrictEntityUser, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "token"};
 
@@ -52,7 +51,7 @@ public class StrictRepositoryUser<ID, DTO extends StrictDtoUserBase>
         requests.add(new StrictDbWhere(getTableName(), "id", dto.getId(), "="));
         List<StrictDtoUserOnRole> userOnRoles = rUserOnRole.readAll(requests);
 
-        StrictRepositoryAny<ID, StrictDtoRoleuser> rRoleuser = new StrictRepositoryRoleuser<>(getConnectionSource(), false);
+        IStrictRepository<ID, StrictDtoRoleuser> rRoleuser = new StrictRepositoryRoleuser<>(getConnectionSource(), false);
         for(StrictDtoUserOnRole<ID> userOnRole : userOnRoles)
             dto.addRoleuser(rRoleuser.read(userOnRole.getRoleId()));
         return dto;
