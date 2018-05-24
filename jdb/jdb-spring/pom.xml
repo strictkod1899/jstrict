@@ -105,7 +105,7 @@
                         <configuration>
                             <printSummary>true</printSummary>
                             <includes>
-                                <include>ru/strict/utils/**</include>
+                                <include>ru/strict/db/**</include>
                             </includes>
                         </configuration>
                     </execution>
