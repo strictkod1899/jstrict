@@ -6,11 +6,11 @@ import ru.strict.db.requests.StrictDbRequests;
 import java.util.List;
 
 /**
- * расширенные возможности репозитория
+ * Расширенные возможности репозитория
  * @param <ID> Тип идентификатора
  * @param <DTO> Тип Dto-сущности базы данных
  */
-public interface StrictRepositoryExtension<ID, DTO extends StrictDtoBase> {
+public interface IStrictRepositoryExtension<ID, DTO extends StrictDtoBase> extends IStrictRepository<ID, DTO>{
 
     /**
      * Получить объект из базы данных по переданному id, подгрузив в качестве объектов внешние ссылки

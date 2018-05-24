@@ -3,7 +3,7 @@ package ru.strict.db;
 import ru.strict.db.connections.StrictCreateConnectionAny;
 import ru.strict.db.migration.StrictMigration;
 import ru.strict.db.migration.components.StrictMigrationTable;
-import ru.strict.db.repositories.StrictRepositoryAny;
+import ru.strict.db.repositories.IStrictRepository;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,7 +22,7 @@ public class StrictManagerDatabase<SOURCE extends StrictCreateConnectionAny> {
     /**
      * Используемые репозитории
      */
-    private Map<String, StrictRepositoryAny> repositories;
+    private Map<String, IStrictRepository> repositories;
 
     /**
      * Поддережка миграции базы данных
@@ -59,12 +59,12 @@ public class StrictManagerDatabase<SOURCE extends StrictCreateConnectionAny> {
      * @param key Ключ доступа к репозиторию
      * @param repository Добавляемый репозиторий
      */
-    public StrictRepositoryAny addRepository(String key, StrictRepositoryAny repository) {
+    public IStrictRepository addRepository(String key, IStrictRepository repository) {
         repositories.put(key, repository);
         return repository;
     }
 
-    public Map<String, StrictRepositoryAny> getRepositories() {
+    public Map<String, IStrictRepository> getRepositories() {
         return repositories;
     }
 
@@ -73,7 +73,7 @@ public class StrictManagerDatabase<SOURCE extends StrictCreateConnectionAny> {
      * @param key Ключ доступа к репозиторию
      * @return
      */
-    public StrictRepositoryAny getRepository(String key) {
+    public IStrictRepository getRepository(String key) {
         return repositories.get(key);
     }
 

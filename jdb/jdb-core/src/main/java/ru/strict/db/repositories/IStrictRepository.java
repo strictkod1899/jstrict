@@ -11,7 +11,7 @@ import java.util.List;
  * @param <ID> Тип идентификатора
  * @param <DTO> Тип Dto-сущности базы данных
  */
-public interface StrictRepositoryAny<ID, DTO extends StrictDtoBase> {
+public interface IStrictRepository<ID, DTO extends StrictDtoBase> {
 
     /**
      * Добавить в базу данных новый объект, переданный в качестве параметра
