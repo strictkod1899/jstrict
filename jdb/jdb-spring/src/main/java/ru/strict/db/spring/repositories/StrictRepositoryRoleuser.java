@@ -15,8 +15,10 @@ public class StrictRepositoryRoleuser<ID>
     private static final String[] COLUMNS_NAME = new String[] {"symbols", "description"};
 
     public StrictRepositoryRoleuser(StrictCreateConnectionByDataSource connectionSource, Boolean isGenerateId) {
-        super("roleuser", COLUMNS_NAME, connectionSource, StrictMapperDtoFactory.createMapperRoleuser(), isGenerateId,
-                new StrictMapperSqlRoleuser(COLUMNS_NAME));
+        super("roleuser", COLUMNS_NAME, connectionSource,
+                StrictMapperDtoFactory.createMapperRoleuser(),
+                new StrictMapperSqlRoleuser(COLUMNS_NAME),
+                isGenerateId);
     }
 
     @Override

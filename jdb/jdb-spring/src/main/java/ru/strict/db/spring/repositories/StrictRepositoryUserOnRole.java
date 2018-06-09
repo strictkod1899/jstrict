@@ -14,11 +14,11 @@ public class StrictRepositoryUserOnRole<ID>
 
     private static final String[] COLUMNS_NAME = new String[] {"user_id", "roleuser_id"};
 
-    public StrictRepositoryUserOnRole(StrictCreateConnectionByDataSource connectionSource,
-                                      boolean isGenerateId) {
-        super("userOnRole", COLUMNS_NAME, connectionSource
-                , StrictMapperDtoFactory.createMapperUserOnRole()
-                , isGenerateId, new StrictMapperSqlUserOnRole(COLUMNS_NAME));
+    public StrictRepositoryUserOnRole(StrictCreateConnectionByDataSource connectionSource, boolean isGenerateId) {
+        super("userOnRole", COLUMNS_NAME, connectionSource,
+                StrictMapperDtoFactory.createMapperUserOnRole(),
+                new StrictMapperSqlUserOnRole(COLUMNS_NAME),
+                isGenerateId);
     }
 
     @Override

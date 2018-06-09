@@ -23,10 +23,10 @@ public class StrictRepositoryProfileInfo<ID>
             "phone", "country", "city", "address"};
 
     public StrictRepositoryProfileInfo(StrictCreateConnectionByDataSource connectionSource, boolean isGenerateId) {
-        super("profileinfo", COLUMNS_NAME, connectionSource
-                , StrictMapperDtoFactory.createMapperProfileInfo()
-                , isGenerateId,
-                new StrictMapperSqlProfileInfo(COLUMNS_NAME));
+        super("profileinfo", COLUMNS_NAME, connectionSource,
+                StrictMapperDtoFactory.createMapperProfileInfo(),
+                new StrictMapperSqlProfileInfo(COLUMNS_NAME),
+                isGenerateId);
     }
 
     @Override

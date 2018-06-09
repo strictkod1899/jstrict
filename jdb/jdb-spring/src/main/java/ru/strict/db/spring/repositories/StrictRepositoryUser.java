@@ -26,7 +26,7 @@ public class StrictRepositoryUser<ID, DTO extends StrictDtoUserBase>
     public StrictRepositoryUser(StrictCreateConnectionByDataSource connectionSource,
                                 StrictMapperDtoBase<StrictEntityUser, DTO> dtoMapper,
                                 boolean isGenerateId) {
-        super("userx", COLUMNS_NAME, connectionSource,  dtoMapper, isGenerateId, new StrictMapperSqlUser(COLUMNS_NAME));
+        super("userx", COLUMNS_NAME, connectionSource, dtoMapper, new StrictMapperSqlUser(COLUMNS_NAME), isGenerateId);
     }
 
     @Override

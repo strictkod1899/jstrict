@@ -21,11 +21,11 @@ public class StrictRepositoryUserSecurity<ID>
 
     private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "token"};
 
-    public StrictRepositoryUserSecurity(StrictCreateConnectionByDataSource connectionSource,
-                                        boolean isGenerateId) {
-        super("userx", COLUMNS_NAME, connectionSource
-                , new StrictMapperDtoUserSecurity(new StrictMapperDtoRoleuser())
-                , isGenerateId, new StrictMapperSqlUserSecurity(COLUMNS_NAME));
+    public StrictRepositoryUserSecurity(StrictCreateConnectionByDataSource connectionSource, boolean isGenerateId) {
+        super("userx", COLUMNS_NAME, connectionSource,
+                new StrictMapperDtoUserSecurity(new StrictMapperDtoRoleuser()),
+                new StrictMapperSqlUserSecurity(COLUMNS_NAME),
+                isGenerateId);
     }
 
     @Override

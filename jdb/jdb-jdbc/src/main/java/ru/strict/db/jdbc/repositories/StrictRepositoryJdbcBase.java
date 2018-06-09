@@ -38,7 +38,7 @@ public abstract class StrictRepositoryJdbcBase
     }
     //</editor-fold>
 
-    @Override
+    /*@Override
     public DTO read(ID id) {
         PreparedStatement statement;
         ResultSet resultSet;
@@ -84,7 +84,7 @@ public abstract class StrictRepositoryJdbcBase
         setObjects(result);
 
         return result;
-    }
+    }*/
 
     //<editor-fold defaultState="collapsed" desc="Get/Set"
     public StrictMapperSqlBase<E> getSqlMapper() {

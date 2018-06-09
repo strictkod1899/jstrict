@@ -40,7 +40,7 @@ public abstract class StrictRepositorySpringBase
     //<editor-fold defaultState="collapsed" desc="constructors">
     public StrictRepositorySpringBase(String tableName, String[] columnsName,
                                       StrictCreateConnectionByDataSource connectionSource,
-                                      StrictMapperDtoBase<E, DTO> dtoMapper, boolean isGenerateId, RowMapper<E> springMapper) {
+                                      StrictMapperDtoBase<E, DTO> dtoMapper, RowMapper<E> springMapper, boolean isGenerateId) {
         super(tableName, columnsName, connectionSource, dtoMapper, isGenerateId);
         this.springJdbc = new NamedParameterJdbcTemplate(getConnectionSource().getConnectionSource());
         this.springMapper = springMapper;

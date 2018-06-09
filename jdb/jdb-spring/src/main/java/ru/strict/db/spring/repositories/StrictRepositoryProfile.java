@@ -20,12 +20,11 @@ public class StrictRepositoryProfile<ID>
 
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "user_id"};
 
-    public StrictRepositoryProfile(StrictCreateConnectionByDataSource connectionSource
-            , boolean isGenerateId) {
-        super("profile", COLUMNS_NAME, connectionSource
-                , StrictMapperDtoFactory.createMapperProfile()
-                , isGenerateId,
-                new StrictMapperSqlProfile(COLUMNS_NAME));
+    public StrictRepositoryProfile(StrictCreateConnectionByDataSource connectionSource, boolean isGenerateId) {
+        super("profile", COLUMNS_NAME, connectionSource,
+                StrictMapperDtoFactory.createMapperProfile(),
+                new StrictMapperSqlProfile(COLUMNS_NAME),
+                isGenerateId);
     }
 
     @Override
