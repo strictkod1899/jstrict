@@ -121,83 +121,7 @@ public abstract class StrictRepositorySpringBase
     }
     //</editor-fold>
 
-    //<editor-fold defaultState="collapsed" desc="IsRowExists">
-    @Override
-    public boolean IsRowExists(ID id){
-        LOGGER.info("Trying a determine is db row exists");
-        MapSqlParameterSource parameters = new MapSqlParameterSource();
-        parameters.addValue("id", id);
-        boolean isExists = springJdbc
-                .<Boolean>execute("SELECT COUNT(*) FROM " + getTableName() + " WHERE id = :id;",
-                        parameters,
-                        new CallbackIsExists());
-        return isExists;
-    }
-
-    /**
-     * Проверка существования записи в базе данных
-     */
-    private class CallbackIsExists implements PreparedStatementCallback {
-
-        @Override
-        public Object doInPreparedStatement(PreparedStatement preparedStatement) throws SQLException, DataAccessException {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            if(resultSet.getInt(1)>0)
-                return true;
-            else
-                return false;
-        }
-    }
-    //</editor-fold>
-
-    /**
-     * Сопоставить номер столбца базы данных с полем dto-объекта. Отсчет номера столбца начинать с нуля.
-     * ID не учитывается. </br>
-     * <i><b>Примечание:</b> Должен передаваться DTO-объект, который полностью отражает структуру entity-объекта</i>
-     * <p><b>Пример использования:</b></p>
-     * <code><pre style="background-color: white; font-family: consolas">
-     *      Map<Integer, Object> valuesByColumn = new LinkedHashMap();
-     *      valuesByColumn.put(0, dto.getName());
-     *      valuesByColumn.put(1, dto.getSurname());
-     *      valuesByColumn.put(2, dto.getMiddlename());
-     *      return valuesByColumn;
-     * </pre></code>
-     * @param dto DTO-объект из которого берутся значения для параметров
-     * @return
-     */
-    protected abstract Map getValueByColumn(DTO dto);
-
-    /**
-     * Получить параметры sql-запроса на создание/обновление записи. ID не учитывается
-     * @param dto DTO-объект из которого берутся значения для параметров
-     * @return
-     */
-    protected MapSqlParameterSource getParameters(DTO dto){
-        Map valuesByColumn = getValueByColumn(dto);
-        Set<Integer> keys = valuesByColumn.keySet();
-        MapSqlParameterSource parameters = new MapSqlParameterSource();
-        for(Integer key : keys)
-            parameters.addValue(getColumnsName()[key], valuesByColumn.get(key));
-
-        return parameters;
-    }
-
     //<editor-fold defaultState="collapsed" desc="sql generate">
-    /**
-     * Sql-запрос на создание записи в таблице (без учета ID)
-     * @return
-     */
-    private String createSqlSelect(){
-        StringBuilder sql = new StringBuilder("SELECT " + getTableName() + ".id, ");
-        for(String columnName : getColumnsName())
-            sql.append(getTableName() + "."  + columnName + ", ");
-        sql.replace(sql.length()-2, sql.length(), "");
-        sql.append(" FROM " + getTableName());
-
-        return sql.toString();
-    }
-
     /**
      * Sql-запрос на создание записи в таблице (без учета ID)
      * @return
@@ -262,6 +186,68 @@ public abstract class StrictRepositorySpringBase
         return sql.toString();
     }
     //</editor-fold>
+
+    //<editor-fold defaultState="collapsed" desc="IsRowExists">
+    @Override
+    public boolean IsRowExists(ID id){
+        LOGGER.info("Trying a determine is db row exists");
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("id", id);
+        boolean isExists = springJdbc
+                .<Boolean>execute("SELECT COUNT(*) FROM " + getTableName() + " WHERE id = :id;",
+                        parameters,
+                        new CallbackIsExists());
+        return isExists;
+    }
+
+    /**
+     * Проверка существования записи в базе данных
+     */
+    private class CallbackIsExists implements PreparedStatementCallback {
+
+        @Override
+        public Object doInPreparedStatement(PreparedStatement preparedStatement) throws SQLException, DataAccessException {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            if(resultSet.getInt(1)>0)
+                return true;
+            else
+                return false;
+        }
+    }
+    //</editor-fold>
+
+    /**
+     * Сопоставить номер столбца базы данных с полем dto-объекта. Отсчет номера столбца начинать с нуля.
+     * ID не учитывается. </br>
+     * <i><b>Примечание:</b> Должен передаваться DTO-объект, который полностью отражает структуру entity-объекта</i>
+     * <p><b>Пример использования:</b></p>
+     * <code><pre style="background-color: white; font-family: consolas">
+     *      Map<Integer, Object> valuesByColumn = new LinkedHashMap();
+     *      valuesByColumn.put(0, dto.getName());
+     *      valuesByColumn.put(1, dto.getSurname());
+     *      valuesByColumn.put(2, dto.getMiddlename());
+     *      return valuesByColumn;
+     * </pre></code>
+     * @param dto DTO-объект из которого берутся значения для параметров
+     * @return
+     */
+    protected abstract Map getValueByColumn(DTO dto);
+
+    /**
+     * Получить параметры sql-запроса на создание/обновление записи. ID не учитывается
+     * @param dto DTO-объект из которого берутся значения для параметров
+     * @return
+     */
+    protected MapSqlParameterSource getParameters(DTO dto){
+        Map valuesByColumn = getValueByColumn(dto);
+        Set<Integer> keys = valuesByColumn.keySet();
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        for(Integer key : keys)
+            parameters.addValue(getColumnsName()[key], valuesByColumn.get(key));
+
+        return parameters;
+    }
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
     protected NamedParameterJdbcTemplate getSpringJdbc() {

@@ -169,6 +169,22 @@ public abstract class StrictRepositoryBase
     }
     //</editor-fold>
 
+    //<editor-fold defaultState="collapsed" desc="sql generate">
+    /**
+     * Sql-запрос на создание записи в таблице (без учета ID)
+     * @return
+     */
+    protected String createSqlSelect(){
+        StringBuilder sql = new StringBuilder("SELECT " + getTableName() + ".id, ");
+        for(String columnName : getColumnsName())
+            sql.append(getTableName() + "."  + columnName + ", ");
+        sql.replace(sql.length()-2, sql.length(), "");
+        sql.append(" FROM " + getTableName());
+
+        return sql.toString();
+    }
+    //</editor-fold>
+
     //<editor-fold defaultState="collapsed" desc="Get/Set">
     /**
      * Создать соединение с базой даннных
