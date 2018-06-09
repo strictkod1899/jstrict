@@ -1,0 +1,99 @@
+package ru.strict.db.core.migration;
+
+import ru.strict.db.core.connections.StrictCreateConnectionAny;
+import ru.strict.db.core.migration.components.StrictMigrationTable;
+import ru.strict.utils.StrictUtilLogger;
+import ru.strict.components.StrictWrapperLogger;
+import ru.strict.utils.StrictUtilHashCode;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.stream.Collectors;
+
+/**
+ * Миграция базы данных
+ * @param <SOURCE> Источник для получения соединения с базой данных,
+ *                например, StrictCreateConnectionByDataSource, StrictCreateConnectionByConnectionInfo и др
+ * @param <TABLE> Тип таблиц для миграции (например, PostgreSQLMigrationTable, SQLiteMigrationTable и др.)
+ */
+public class StrictMigration
+        <SOURCE extends StrictCreateConnectionAny, TABLE extends StrictMigrationTable>
+        implements StrictMigrationAny{
+
+    protected final StrictWrapperLogger LOGGER = StrictUtilLogger.createLogger(StrictMigration.class);
+
+    /**
+     * Источник подключения к базе данных (используется для получения объекта Connection),
+     * является реализацией интерфейса StrictCreateConnectionAny,
+     * например, StrictCreateConnectionByDataSource, StrictCreateConnectionByConnectionInfo и др.
+     */
+    private SOURCE connectionSource;
+
+    /**
+     * Таблицы, которые необходимо создать
+     */
+    private Collection<TABLE> tables;
+
+    //<editor-fold defaultState="collapsed" desc="constructors">
+    public StrictMigration(SOURCE connectionSource) {
+        this.connectionSource = connectionSource;
+        tables = new LinkedList<>();
+    }
+    //</editor-fold>
+
+    @Override
+    public void migration() {
+        LOGGER.info("Database migration is started");
+        for(TABLE table : getTables()){
+            String sql = table.getSql();
+
+            try (Connection connection = getConnectionSource().createConnection()){
+                Statement statement = connection.createStatement();
+                statement.executeUpdate(sql);
+            } catch (SQLException ex) {
+                LOGGER.error(ex.getClass().toString(), ex.getMessage());
+            }
+        }
+        LOGGER.info("Database migration is finished");
+    }
+
+    //<editor-fold defaultState="collapsed" desc="Get/Set">
+    public SOURCE getConnectionSource() {
+        return connectionSource;
+    }
+
+    public Collection<TABLE> getTables() {
+        return tables;
+    }
+
+    public void addTable(TABLE table){
+        tables.add(table);
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
+    public String toString(){
+        String tablesName = String.join("; ", tables.stream().map((table) -> table.getName()).collect(Collectors.toList()));
+        return String.format("Migration tables: %s", tablesName);
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj!=null && obj instanceof StrictMigration) {
+            StrictMigration object = (StrictMigration) obj;
+            return connectionSource.equals(object.getConnectionSource())
+                    && (tables.size() == object.getTables().size() && tables.containsAll(object.getTables()));
+        }else
+            return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return StrictUtilHashCode.createHashCode(connectionSource, tables);
+    }
+    //</editor-fold>
+}

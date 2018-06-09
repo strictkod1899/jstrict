@@ -1,7 +1,7 @@
 package ru.strict.utils;
 
 import org.apache.log4j.Logger;
-import ru.strict.utils.components.StrictLogger;
+import ru.strict.components.StrictWrapperLogger;
 
 import static org.apache.log4j.Logger.getLogger;
 
@@ -10,12 +10,12 @@ import static org.apache.log4j.Logger.getLogger;
  */
 public class StrictUtilLogger {
 
-    public static StrictLogger createLogger(Class clazz){
-        return new StrictLogger(getLogger(clazz));
+    public static StrictWrapperLogger createLogger(Class clazz){
+        return new StrictWrapperLogger(getLogger(clazz));
     }
 
-    public static StrictLogger createLogger(String className){
-        return new StrictLogger(getLogger(className));
+    public static StrictWrapperLogger createLogger(String className){
+        return new StrictWrapperLogger(getLogger(className));
     }
 
     /**
