@@ -11,9 +11,9 @@ import java.util.List;
  * Структура нейронной сети с поддержкой скрытых слоев
  * <p><b>Пример использования (1):</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
- *      StrictNeuralNetworkHiddenStructure structure = new StrictNeuralNetworkHiddenStructure(3, 1, true);
+ *      NeuralNetworkHiddenStructure structure = new NeuralNetworkHiddenStructure(3, 1, true);
  *      structure.addLayoutHidden(2);
- *      StrictNeuralNetworkHidden network = new Perceptron(data, structure);
+ *      NeuralNetworkHidden network = new Perceptron(data, structure);
  *      network.generateSynapses();
  *      ...
  * </pre></code>
@@ -21,13 +21,13 @@ import java.util.List;
  * где второй параметр определяет количество элементов в скрытом слое.
  * <p><b>Пример использования (2):</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
- *       StrictNeuralNetworkHiddenStructure structure = new StrictNeuralNetworkHiddenStructure(3, 2, 1, false);
- *       StrictNeuralNetworkHidden network = new Perceptron(data, structure);
+ *       NeuralNetworkHiddenStructure structure = new NeuralNetworkHiddenStructure(3, 2, 1, false);
+ *       NeuralNetworkHidden network = new Perceptron(data, structure);
  *       network.generateSynapses();
  *       ...
  *  </pre></code>
  */
-public class StrictNeuralNetworkHiddenStructure extends StrictNeuralNetworkStructure {
+public class NeuralNetworkHiddenStructure extends NeuralNetworkStructure {
 
     /**
      * Скрытые слои нейронной сети
@@ -35,12 +35,12 @@ public class StrictNeuralNetworkHiddenStructure extends StrictNeuralNetworkStruc
     private List<LayoutHidden> layoutsHidden;
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    public StrictNeuralNetworkHiddenStructure(int countInput, int countOutput, boolean isUseBias) {
+    public NeuralNetworkHiddenStructure(int countInput, int countOutput, boolean isUseBias) {
         super(countInput, countOutput, isUseBias);
         this.layoutsHidden = new LinkedList<>();
     }
 
-    public StrictNeuralNetworkHiddenStructure(int countInputs, int countHiddens, int countOutputs, boolean isUseBias) {
+    public NeuralNetworkHiddenStructure(int countInputs, int countHiddens, int countOutputs, boolean isUseBias) {
         super(countInputs, countOutputs, isUseBias);
         if(countHiddens < 1)
             throw new IllegalArgumentException("Neural Network structure do not should have hidden neurons count is negative. [Hidden neurons count < 1]");
@@ -131,9 +131,9 @@ public class StrictNeuralNetworkHiddenStructure extends StrictNeuralNetworkStruc
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Base override">
-    public StrictNeuralNetworkHiddenStructure clone(){
-        StrictNeuralNetworkHiddenStructure clone =
-                new StrictNeuralNetworkHiddenStructure(getCountInputs(),getCountOutputs(), getBias().getValue()==0?false:true);
+    public NeuralNetworkHiddenStructure clone(){
+        NeuralNetworkHiddenStructure clone =
+                new NeuralNetworkHiddenStructure(getCountInputs(),getCountOutputs(), getBias().getValue()==0?false:true);
         clone.setLayoutsHidden(layoutsHidden);
         return clone;
     }

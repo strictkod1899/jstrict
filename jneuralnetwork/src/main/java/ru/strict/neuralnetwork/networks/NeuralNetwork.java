@@ -2,7 +2,7 @@ package ru.strict.neuralnetwork.networks;
 
 import ru.strict.neuralnetwork.data.*;
 import ru.strict.neuralnetwork.functions.ActivateFunction;
-import ru.strict.neuralnetwork.structures.StrictNeuralNetworkStructure;
+import ru.strict.neuralnetwork.structures.NeuralNetworkStructure;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import java.util.List;
  * @param <DATA> Данные для обучения и тестирования нейронной сети
  * @param <STRUCT> Структура нейронной сети
  */
-public abstract class StrictNeuralNetwork<DATA extends StrictNeuralNetworkData, STRUCT extends StrictNeuralNetworkStructure>
-        implements StrictNeuralNetworkAny {
+public abstract class NeuralNetwork<DATA extends NeuralNetworkData, STRUCT extends NeuralNetworkStructure>
+        implements INeuralNetwork {
 
     /**
      * Данные для обучения и тестирования нейронной сети
@@ -33,14 +33,14 @@ public abstract class StrictNeuralNetwork<DATA extends StrictNeuralNetworkData, 
     //<editor-fold defaultstate="collapsed" desc="constructors">
     private void ensureCreateInstance(DATA data, STRUCT structure, ActivateFunction activateFunction){
         if(data==null)
-            throw new NullPointerException("Neural Network do not supported null value. [StrictNeuralNetworkData is null]");
+            throw new NullPointerException("Neural Network do not supported null value. [NeuralNetworkData is null]");
         if(structure==null)
-            throw new NullPointerException("Neural Network do not supported null value. [StrictNeuralNetworkStructure is null]");
+            throw new NullPointerException("Neural Network do not supported null value. [NeuralNetworkStructure is null]");
         if(activateFunction==null)
             throw new NullPointerException("Neural Network do not supported null value. [ActivateFunction is null]");
     }
 
-    public StrictNeuralNetwork(DATA data, STRUCT structure, ActivateFunction activateFunction) {
+    public NeuralNetwork(DATA data, STRUCT structure, ActivateFunction activateFunction) {
         try{
             ensureCreateInstance(data, structure, activateFunction);
         }catch(Exception ex){throw ex;}
@@ -57,14 +57,14 @@ public abstract class StrictNeuralNetwork<DATA extends StrictNeuralNetworkData, 
             throw new IllegalArgumentException("Learning exception: epoch count should not be is negative. [Epochs <= 0]");
 
         for(int epoch=0; epoch<epochs; epoch++) {
-            List<StrictNeuralNetworkDataSet> trainingSets = getData().getRandomTrainingSets();
-            for (StrictNeuralNetworkDataSet trainingSet : trainingSets) {
+            List<NeuralNetworkDataSet> trainingSets = getData().getRandomTrainingSets();
+            for (NeuralNetworkDataSet trainingSet : trainingSets) {
                 implementLearn(trainingSet, learnRate, moment);
             }
         }
     }
 
-    protected abstract void implementLearn(StrictNeuralNetworkDataSet trainingSet, float learnRate, float moment);
+    protected abstract void implementLearn(NeuralNetworkDataSet trainingSet, float learnRate, float moment);
 
     /**
      * Сгенерировать синапсы - связи между нейронами

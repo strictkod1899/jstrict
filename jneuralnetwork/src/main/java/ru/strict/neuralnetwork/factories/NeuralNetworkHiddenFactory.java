@@ -1,25 +1,25 @@
 package ru.strict.neuralnetwork.factories;
 
 import ru.strict.neuralnetwork.functions.ActivateFunction;
-import ru.strict.neuralnetwork.networks.StrictNeuralNetworkHidden;
-import ru.strict.neuralnetwork.structures.StrictNeuralNetworkHiddenStructure;
+import ru.strict.neuralnetwork.networks.NeuralNetworkHidden;
+import ru.strict.neuralnetwork.structures.NeuralNetworkHiddenStructure;
 
 /**
  * Базовый класс фабрики нейронной сети со скрытыми слоями
  */
-public abstract class StrictNeuralNetworkHiddenFactory
-        <STRUCT extends StrictNeuralNetworkHiddenStructure, NNETWORK extends StrictNeuralNetworkHidden>
-        extends StrictNeuralNetworkFactory<STRUCT, NNETWORK> {
+public abstract class NeuralNetworkHiddenFactory
+        <STRUCT extends NeuralNetworkHiddenStructure, NNETWORK extends NeuralNetworkHidden>
+        extends NeuralNetworkFactory<STRUCT, NNETWORK> {
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    public StrictNeuralNetworkHiddenFactory(int countInputs, int countOutputs, ActivateFunction activateFunction) {
+    public NeuralNetworkHiddenFactory(int countInputs, int countOutputs, ActivateFunction activateFunction) {
         super(countInputs, countOutputs, activateFunction);
     }
 
-    public StrictNeuralNetworkHiddenFactory(int countInputs, int countHiddens, int countOutputs
+    public NeuralNetworkHiddenFactory(int countInputs, int countHiddens, int countOutputs
             , ActivateFunction activateFunction, boolean isUseBias) {
         super(countInputs, countOutputs, activateFunction);
-        setStructure((STRUCT) new StrictNeuralNetworkHiddenStructure(countInputs, countHiddens, countOutputs, isUseBias));
+        setStructure((STRUCT) new NeuralNetworkHiddenStructure(countInputs, countHiddens, countOutputs, isUseBias));
     }
     //</editor-fold>
 

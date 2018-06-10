@@ -2,7 +2,7 @@ package ru.strict.neuralnetwork.networks;
 
 import ru.strict.neuralnetwork.data.*;
 import ru.strict.neuralnetwork.functions.ActivateFunction;
-import ru.strict.neuralnetwork.structures.StrictNeuralNetworkHiddenStructure;
+import ru.strict.neuralnetwork.structures.NeuralNetworkHiddenStructure;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,28 +12,28 @@ import java.util.List;
  * <b>Примечание:</b> рекомендуется создавать объект нейронной сети с помощью соответствующего объекта-фабрики
  * <p><b>Пример использования:</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
- *      StrictNeuralNetworkData data = new StrictNeuralNetworkData(3, 1);
+ *      NeuralNetworkData data = new NeuralNetworkData(3, 1);
  *      // Установка обучающих значений
  *      Neuron[] inputSet = new Neuron[]{new Neuron(1), new Neuron(1), new Neuron(0)};
  *      Neuron[] outputSet = new Neuron[]{new Neuron(0)};
  *      data.addTrainingSet(inputSet, outputSet);
  *      ...
- *      StrictNeuralNetworkHiddenStructure structure = new StrictNeuralNetworkHiddenStructure(3, 1);
+ *      NeuralNetworkHiddenStructure structure = new NeuralNetworkHiddenStructure(3, 1);
  *      structure.addLayoutHidden(2);
- *      StrictNeuralNetworkHidden network = new Perceptron(data, structure);
+ *      NeuralNetworkHidden network = new Perceptron(data, structure);
  *      ...
  * </pre></code>
  */
-public class Perceptron extends StrictNeuralNetworkHidden<StrictNeuralNetworkData, StrictNeuralNetworkHiddenStructure> {
+public class Perceptron extends NeuralNetworkHidden<NeuralNetworkData, NeuralNetworkHiddenStructure> {
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    public Perceptron(StrictNeuralNetworkData data, StrictNeuralNetworkHiddenStructure structure,ActivateFunction activateFunction) {
+    public Perceptron(NeuralNetworkData data, NeuralNetworkHiddenStructure structure, ActivateFunction activateFunction) {
         super(data, structure, activateFunction);
     }
     //</editor-fold>
 
     @Override
-    protected void implementLearn(StrictNeuralNetworkDataSet trainingSet, float learnRate, float moment) {
+    protected void implementLearn(NeuralNetworkDataSet trainingSet, float learnRate, float moment) {
           Neuron[] inputs = trainingSet.getInputNeurons();
           Neuron[] outputsExpected = trainingSet.getOutputNeurons();
           Neuron[] outputsActually = feedforward(inputs);
@@ -163,10 +163,10 @@ public class Perceptron extends StrictNeuralNetworkHidden<StrictNeuralNetworkDat
 
     @Override
     public ResponseTestNeuron[] test() {
-        List<StrictNeuralNetworkDataSet> testSets = getData().getTestSets();
+        List<NeuralNetworkDataSet> testSets = getData().getTestSets();
         ResponseTestNeuron[] responses = new ResponseTestNeuron[testSets.size()];
         for(int i=0; i<testSets.size(); i++){
-            StrictNeuralNetworkDataSet testSet = testSets.get(i);
+            NeuralNetworkDataSet testSet = testSets.get(i);
             Neuron[] originalActualNeurons = calc(testSet.getInputNeurons());
             Neuron[] actualNeurons = new Neuron[originalActualNeurons.length];
             for (int j=0; j<actualNeurons.length; j++)

@@ -2,18 +2,18 @@ package ru.strict.neuralnetwork.networks;
 
 import ru.strict.neuralnetwork.data.*;
 import ru.strict.neuralnetwork.functions.ActivateFunction;
-import ru.strict.neuralnetwork.structures.StrictNeuralNetworkHiddenStructure;
+import ru.strict.neuralnetwork.structures.NeuralNetworkHiddenStructure;
 
 import java.util.List;
 
 /**
  * Нейронная сеть с поддержкой скрытых слоев
  */
-public abstract class StrictNeuralNetworkHidden<DATA extends StrictNeuralNetworkData, STRUCT extends StrictNeuralNetworkHiddenStructure>
-        extends StrictNeuralNetwork<DATA, STRUCT> {
+public abstract class NeuralNetworkHidden<DATA extends NeuralNetworkData, STRUCT extends NeuralNetworkHiddenStructure>
+        extends NeuralNetwork<DATA, STRUCT> {
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    public StrictNeuralNetworkHidden(DATA data, STRUCT structure, ActivateFunction activateFunction) {
+    public NeuralNetworkHidden(DATA data, STRUCT structure, ActivateFunction activateFunction) {
         super(data, structure, activateFunction);
     }
     //</editor-fold>

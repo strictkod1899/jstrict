@@ -6,7 +6,7 @@ import ru.strict.neuralnetwork.data.ResponseTestNeuron;
 /**
  * Базовый интерфейс для реализации нейронной сети
  */
-public interface StrictNeuralNetworkAny {
+public interface INeuralNetwork {
     /**
      * Обучить нейронную сеть на ранее заданных обучающих данных
      * @param epochs Количество эпох

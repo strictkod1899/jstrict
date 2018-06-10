@@ -2,14 +2,14 @@ package ru.strict.neuralnetwork.factories;
 
 import ru.strict.neuralnetwork.functions.ActivateFunction;
 import ru.strict.neuralnetwork.networks.Perceptron;
-import ru.strict.neuralnetwork.structures.StrictNeuralNetworkHiddenStructure;
+import ru.strict.neuralnetwork.structures.NeuralNetworkHiddenStructure;
 
 /**
  * Фабрика нейронной сети - Перцептрон
  * <p><b>Пример использования:</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
- *     StrictNeuralNetworkHiddenFactory<StrictNeuralNetworkHiddenStructure,Perceptron> factory
- *                 = new StrictPerceptronFactory(3, 6, 2, new Sigmoid(), true);
+ *     NeuralNetworkHiddenFactory<NeuralNetworkHiddenStructure,Perceptron> factory
+ *                 = new PerceptronFactory(3, 6, 2, new Sigmoid(), true);
  *
  *     // Обучающие данные
  *     Neuron[] inputSet = new Neuron[]{new Neuron(1, "Title1" ,NeuronType.INPUT), new Neuron(0, "Title2", NeuronType.INPUT)
@@ -24,7 +24,7 @@ import ru.strict.neuralnetwork.structures.StrictNeuralNetworkHiddenStructure;
  *     factory.addTestSet(inputSet, outputSet);
  *     ...
  *
- *     StrictNeuralNetworkHidden network = factory.createNeuralNetwork();
+ *     NeuralNetworkHidden network = factory.createNeuralNetwork();
  *     network.generateSynapses();
  *     network.learn(5000, 0.2f, 0f);
  *     ResponseTestNeuron[] responses = network.test();
@@ -40,15 +40,15 @@ import ru.strict.neuralnetwork.structures.StrictNeuralNetworkHiddenStructure;
  *     }
  * </pre></code>
  */
-public class StrictPerceptronFactory<STRUCT extends StrictNeuralNetworkHiddenStructure, NNETWORK extends Perceptron>
-        extends StrictNeuralNetworkHiddenFactory<STRUCT, NNETWORK> {
+public class PerceptronFactory<STRUCT extends NeuralNetworkHiddenStructure, NNETWORK extends Perceptron>
+        extends NeuralNetworkHiddenFactory<STRUCT, NNETWORK> {
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    public StrictPerceptronFactory(int countInputs, int countOutputs, ActivateFunction activateFunction) {
+    public PerceptronFactory(int countInputs, int countOutputs, ActivateFunction activateFunction) {
         super(countInputs, countOutputs, activateFunction);
     }
 
-    public StrictPerceptronFactory(int countInputs, int countHiddens, int countOutputs
+    public PerceptronFactory(int countInputs, int countHiddens, int countOutputs
             , ActivateFunction activateFunction, boolean isUseBias) {
         super(countInputs, countHiddens, countOutputs, activateFunction, isUseBias);
     }

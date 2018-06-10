@@ -1,18 +1,18 @@
 package ru.strict.neuralnetwork.factories;
 
+import ru.strict.neuralnetwork.data.NeuralNetworkDataSet;
 import ru.strict.neuralnetwork.data.Neuron;
-import ru.strict.neuralnetwork.data.StrictNeuralNetworkData;
-import ru.strict.neuralnetwork.data.StrictNeuralNetworkDataSet;
+import ru.strict.neuralnetwork.data.NeuralNetworkData;
 import ru.strict.neuralnetwork.functions.ActivateFunction;
-import ru.strict.neuralnetwork.networks.StrictNeuralNetwork;
-import ru.strict.neuralnetwork.structures.StrictNeuralNetworkStructure;
+import ru.strict.neuralnetwork.networks.NeuralNetwork;
+import ru.strict.neuralnetwork.structures.NeuralNetworkStructure;
 
 /**
  * Базовый класс фабрики нейронной сети
  * @param <STRUCT> Структура нейронной сети
  * @param <NNETWORK> Нейронная сеть
  */
-public abstract class StrictNeuralNetworkFactory<STRUCT extends StrictNeuralNetworkStructure, NNETWORK extends StrictNeuralNetwork> {
+public abstract class NeuralNetworkFactory<STRUCT extends NeuralNetworkStructure, NNETWORK extends NeuralNetwork> {
 
     /**
      * Количесво входных нейронов
@@ -29,17 +29,17 @@ public abstract class StrictNeuralNetworkFactory<STRUCT extends StrictNeuralNetw
     /**
      * Данные, заданные нейронной сети (обучающие и тестовые)
      */
-    private StrictNeuralNetworkData data;
+    private NeuralNetworkData data;
     /**
      * Функция активации
      */
     private ActivateFunction activateFunction;
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    public StrictNeuralNetworkFactory(int countInputs, int countOutputs, ActivateFunction activateFunction) {
+    public NeuralNetworkFactory(int countInputs, int countOutputs, ActivateFunction activateFunction) {
         this.countInputs = countInputs;
         this.countOutputs = countOutputs;
-        data = new StrictNeuralNetworkData(countInputs, countOutputs);
+        data = new NeuralNetworkData(countInputs, countOutputs);
         this.activateFunction = activateFunction;
     }
     //</editor-fold>
@@ -51,23 +51,23 @@ public abstract class StrictNeuralNetworkFactory<STRUCT extends StrictNeuralNetw
     public abstract NNETWORK createNeuralNetwork();
 
     //<editor-fold defaultstate="collapsed" desc="Get/set">
-    public void addTrainingSet(StrictNeuralNetworkDataSet set){
+    public void addTrainingSet(NeuralNetworkDataSet set){
         data.addTrainingSet(set);
     }
 
-    public void addTestSet(StrictNeuralNetworkDataSet set){
+    public void addTestSet(NeuralNetworkDataSet set){
         data.addTestSet(set);
     }
 
     public void addTrainingSet(Neuron[] inputSet, Neuron[] outputSet){
-        data.addTrainingSet(new StrictNeuralNetworkDataSet(inputSet, outputSet));
+        data.addTrainingSet(new NeuralNetworkDataSet(inputSet, outputSet));
     }
 
     public void addTestSet(Neuron[] inputSet, Neuron[] outputSet){
-        data.addTestSet(new StrictNeuralNetworkDataSet(inputSet, outputSet));
+        data.addTestSet(new NeuralNetworkDataSet(inputSet, outputSet));
     }
 
-    public StrictNeuralNetworkData getData() {
+    public NeuralNetworkData getData() {
         return data;
     }
 

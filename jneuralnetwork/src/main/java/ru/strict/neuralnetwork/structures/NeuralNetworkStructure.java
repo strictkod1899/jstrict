@@ -11,7 +11,7 @@ import java.util.Random;
 /**
  * Базовая структура нейронной сети
  */
-public abstract class StrictNeuralNetworkStructure implements Cloneable{
+public abstract class NeuralNetworkStructure implements Cloneable{
 
     private int countInputs;
     private int countOutputs;
@@ -26,7 +26,7 @@ public abstract class StrictNeuralNetworkStructure implements Cloneable{
     private final Random random = new Random();
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    public StrictNeuralNetworkStructure(int countInputs, int countOutputs, boolean isUseBias) {
+    public NeuralNetworkStructure(int countInputs, int countOutputs, boolean isUseBias) {
         if(countInputs < 1)
             throw new IllegalArgumentException("Neural Network structure do not should have input neurons count is negative. [Input neurons count < 1]");
         if(countOutputs < 1)

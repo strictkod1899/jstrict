@@ -6,12 +6,12 @@ import java.util.Arrays;
  * Единичный набор данных для использования в нейронной сети.
  * <p><b>Пример использования (операция xor):</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
- *      StrictNeuralNetworkDataSet dataSet = new StrictNeuralNetworkDataSet(2, 1);
+ *      NeuralNetworkDataSet dataSet = new NeuralNetworkDataSet(2, 1);
  *      dataSet.setInputNeurons(new Neuron[]{new Neuron(1), new Neuron(1)});
  *      dataSet.setOutputNeurons(new Neuron[]{new Neuron(1)});
  * </pre></code>
  */
-public class StrictNeuralNetworkDataSet {
+public class NeuralNetworkDataSet {
 
     private int countInput;
     private int countOutput;
@@ -26,12 +26,12 @@ public class StrictNeuralNetworkDataSet {
     private Neuron[] outputNeurons;
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    public StrictNeuralNetworkDataSet(int countInput, int countOutput) {
+    public NeuralNetworkDataSet(int countInput, int countOutput) {
         this.countInput = countInput;
         this.countOutput = countOutput;
     }
 
-    public StrictNeuralNetworkDataSet(Neuron[] inputNeurons, Neuron[] outputNeurons) {
+    public NeuralNetworkDataSet(Neuron[] inputNeurons, Neuron[] outputNeurons) {
         this.inputNeurons = inputNeurons;
         this.outputNeurons = outputNeurons;
         this.countInput = inputNeurons.length;
