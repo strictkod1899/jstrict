@@ -6,37 +6,37 @@ import java.util.List;
 /**
 * Композитный элемент, который может хранить другие элементы
 */
-public abstract class StrictComposite extends StrictCompositeBase<List>{
+public abstract class Composite extends CompositeBase<List> {
 
-	private List<IStrictComposite> childs;
+	private List<IComposite> childs;
 
-	public StrictComposite(){
+	public Composite(){
 		super();
 		childs = new LinkedList<>();
 	}
 
 	@Override
-	public void add(IStrictComposite component){
+	public void add(IComposite component){
 		childs.add(component);
 	}
 
 	@Override
-	public void remove(IStrictComposite component){
+	public void remove(IComposite component){
 		childs.remove(component);
 	}
 
 	@Override
-	public void set(int i, IStrictComposite component){
+	public void set(int i, IComposite component){
 		childs.set(i, component);
 	}
 
 	@Override
-	public IStrictComposite getChild(int i){
+	public IComposite getChild(int i){
 		return childs.get(i);
 	}
 
 	@Override
-	public List<IStrictComposite> getChilds(){
+	public List<IComposite> getChilds(){
 		return childs;
 	}
 
@@ -51,7 +51,7 @@ public abstract class StrictComposite extends StrictCompositeBase<List>{
 	}
 
 	@Override
-	public boolean contains(IStrictComposite component) {
+	public boolean contains(IComposite component) {
 		return childs.contains(component);
 	}
 

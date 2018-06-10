@@ -4,12 +4,12 @@ package ru.strict.patterns;
  * Интерфейс расширенной реализации паттерна "Компоновщик"
  * @param <SOURCE> источник хранения дочерних элементов, например, массив, Collection, List и др.
 */
-public interface IStrictCompositeExtension<SOURCE> extends IStrictComposite{
+public interface ICompositeExtension<SOURCE> extends IComposite {
 
 	/**
 	* Заменить элемент на определенной позиции новым
 	*/
-	void set(int i, IStrictComposite component);
+	void set(int i, IComposite component);
 
 	/**
 	* Получить все дочерние элементы
@@ -29,7 +29,7 @@ public interface IStrictCompositeExtension<SOURCE> extends IStrictComposite{
 	/**
 	 * Содержит ли компонент указанный элемент
 	 */
-	boolean contains(IStrictComposite component);
+	boolean contains(IComposite component);
 
 	/**
 	 * Очистить список хранимых элементов

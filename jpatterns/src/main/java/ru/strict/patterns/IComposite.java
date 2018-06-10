@@ -3,25 +3,25 @@ package ru.strict.patterns;
 /**
 * Интерфейс реализации паттерна "Компоновщик"
 */
-public interface IStrictComposite{
+public interface IComposite {
 
 	/**
 	* Добавить элемент в структуру
 	*/
-	void add(IStrictComposite component);
+	void add(IComposite component);
 
 	/**
 	* Удалить элемент из структуры
 	*/
-	void remove(IStrictComposite component);
+	void remove(IComposite component);
 
 	/**
 	* Получить дочерний элемент по определенной позиции
 	*/
-	IStrictComposite getChild(int i);
+	IComposite getChild(int i);
 
 	/**
 	* Получить родительский элемент
 	*/
-	IStrictComposite getParent();
+	IComposite getParent();
 }
