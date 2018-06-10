@@ -1,13 +1,13 @@
 package ru.strict.db.core.migration.components.postgresql;
 
-import ru.strict.db.core.migration.components.StrictMigrationForeignBehavior;
-import ru.strict.db.core.migration.components.StrictMigrationForeignKey;
+import ru.strict.db.core.migration.components.MigrationForeignBehavior;
+import ru.strict.db.core.migration.components.MigrationForeignKey;
 import ru.strict.utils.StrictUtilHashCode;
 
 /**
  * Внешний ключ таблицы для миграции в базу данных PostgreSQL
  */
-public class PostgreSQLMigrationForeignKey extends StrictMigrationForeignKey {
+public class PostgreSQLMigrationForeignKey extends MigrationForeignKey {
 
     /**
      * Схема базы данных
@@ -16,7 +16,7 @@ public class PostgreSQLMigrationForeignKey extends StrictMigrationForeignKey {
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public PostgreSQLMigrationForeignKey(String name, String column, String tableRef, String columnRef
-            , StrictMigrationForeignBehavior updateBehavior, StrictMigrationForeignBehavior deleteBehavior, String schema) {
+            , MigrationForeignBehavior updateBehavior, MigrationForeignBehavior deleteBehavior, String schema) {
         super(name, column, tableRef, columnRef, updateBehavior, deleteBehavior);
         this.schema = schema;
     }

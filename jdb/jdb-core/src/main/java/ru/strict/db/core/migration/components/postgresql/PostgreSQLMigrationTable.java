@@ -1,6 +1,6 @@
 package ru.strict.db.core.migration.components.postgresql;
 
-import ru.strict.db.core.migration.components.StrictMigrationTable;
+import ru.strict.db.core.migration.components.MigrationTable;
 import ru.strict.utils.StrictUtilHashCode;
 import java.util.stream.Collectors;
 
@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  */
 public class PostgreSQLMigrationTable
         <COLUMN extends PostgreSQLMigrationColumn, FK extends PostgreSQLMigrationForeignKey>
-        extends StrictMigrationTable<COLUMN, FK> {
+        extends MigrationTable<COLUMN, FK> {
 
     /**
      * Схема базы данных

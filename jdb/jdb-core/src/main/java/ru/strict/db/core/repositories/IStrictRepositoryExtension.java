@@ -1,7 +1,7 @@
 package ru.strict.db.core.repositories;
 
-import ru.strict.db.core.dto.StrictDtoBase;
-import ru.strict.db.core.requests.StrictDbRequests;
+import ru.strict.db.core.dto.DtoBase;
+import ru.strict.db.core.requests.DbRequests;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * @param <ID> Тип идентификатора
  * @param <DTO> Тип Dto-сущности базы данных
  */
-public interface IStrictRepositoryExtension<ID, DTO extends StrictDtoBase> extends IStrictRepository<ID, DTO>{
+public interface IStrictRepositoryExtension<ID, DTO extends DtoBase> extends IRepository<ID, DTO> {
 
     /**
      * Получить объект из базы данных по переданному id, подгрузив в качестве объектов внешние ссылки
@@ -26,7 +26,7 @@ public interface IStrictRepositoryExtension<ID, DTO extends StrictDtoBase> exten
      * @param requests Условия выборки объектов. Если передать null, то будут считаны все объекты БД
      * @return Список объектов из базы данных
      */
-    List<DTO> readAllFill(StrictDbRequests requests);
+    List<DTO> readAllFill(DbRequests requests);
 
     /**
      * Создать или прочитать запись в таблице базы данных на основе dto-объекта, переданного в параметрах метода, подгрузив в качестве объектов внешние ссылки

@@ -5,7 +5,7 @@ import ru.strict.utils.StrictUtilHashCode;
 /**
  * Условие Where для добавления к sql-запросу
  */
-public class PostgreSQLDbWhere extends StrictDbWhere{
+public class PostgreSQLDbWhere extends DbWhere {
 
     /**
      * Игнорирование регистра при сравнении
@@ -19,7 +19,7 @@ public class PostgreSQLDbWhere extends StrictDbWhere{
     }
 
     public PostgreSQLDbWhere(String tableName, String columnName, Object columnValue, String operator
-            , StrictTemplateSymbol templateSymbol, boolean ignoreCase) {
+            , TemplateSymbol templateSymbol, boolean ignoreCase) {
         super(tableName, columnName, columnValue, operator, templateSymbol);
         this.ignoreCase = ignoreCase;
     }
@@ -39,12 +39,12 @@ public class PostgreSQLDbWhere extends StrictDbWhere{
             result = (ignoreCase?"lower(":"")
                     + getTableName() + "." + getColumnName() + (ignoreCase?")":"") + " "
                     + getOperator() + " " + (ignoreCase?"lower(":"") + "'"
-                    + (getTemplateSymbol().getPointTemplateSymbol()== StrictPointTemplateSymbol.BEGIN
-                    || getTemplateSymbol().getPointTemplateSymbol()== StrictPointTemplateSymbol.BOTH
+                    + (getTemplateSymbol().getPointTemplateSymbol()== PointTemplateSymbol.BEGIN
+                    || getTemplateSymbol().getPointTemplateSymbol()== PointTemplateSymbol.BOTH
                     ?getTemplateSymbol().getTemplateSymbol():"")
                     + getColumnValue()
-                    + (getTemplateSymbol().getPointTemplateSymbol()== StrictPointTemplateSymbol.END
-                    || getTemplateSymbol().getPointTemplateSymbol()== StrictPointTemplateSymbol.BOTH
+                    + (getTemplateSymbol().getPointTemplateSymbol()== PointTemplateSymbol.END
+                    || getTemplateSymbol().getPointTemplateSymbol()== PointTemplateSymbol.BOTH
                     ?getTemplateSymbol().getTemplateSymbol():"") + "'" + (ignoreCase?")":"");
         else
             result = getTableName() + "." + getColumnName() + " " + getOperator() + " " + getColumnValue();

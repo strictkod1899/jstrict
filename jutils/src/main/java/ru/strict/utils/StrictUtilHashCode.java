@@ -20,7 +20,6 @@ public class StrictUtilHashCode {
     * Получить хэш-код, если объект перед этим вызывает super.hashCode()
     * <p><b>Пример использования:</b></p>
     * <code><pre style="background-color: white; font-family: consolas">
-    *       @Override
     *       public int hashCode(){
     *           int superHashCode = super.hashCode();
     *           return StrictUtilHashCode.createSubHashCode(superHashCode, obj1, obj2, obj3);

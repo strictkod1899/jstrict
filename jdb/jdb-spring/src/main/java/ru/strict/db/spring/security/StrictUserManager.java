@@ -15,24 +15,24 @@ import ru.strict.utils.StrictUtilHashCode;
 @Service
 public class StrictUserManager {
 
-	private HashMap<String, StrictDtoUserSecurity> users;
+	private HashMap<String, DtoUserSecurity> users;
 
 	@Autowired
-	public StrictUserManager(StrictRepositoryUserSecurity rUser) {
+	public StrictUserManager(RepositoryUserSecurity rUser) {
 		users = new HashMap();
 		loadUsers(rUser);
 	}
 
-	public void loadUsers(StrictRepositoryUserSecurity rUser){
+	public void loadUsers(RepositoryUserSecurity rUser){
 		/*
 		Загружаем пользователей из базы данных
 		*/
-		List<StrictDtoUserSecurity> listUsers = rUser.readAll(null);
-		for(StrictDtoUserSecurity user : listUsers)
+		List<DtoUserSecurity> listUsers = rUser.readAll(null);
+		for(DtoUserSecurity user : listUsers)
 			users.put(user.getUsername(), user);
 	}
 
-	public StrictDtoUserSecurity getUser(String username){
+	public DtoUserSecurity getUser(String username){
 		try {
 			if (!users.containsKey(username))
 				throw new UsernameNotFoundException(username + " not found");
@@ -43,7 +43,7 @@ public class StrictUserManager {
 		}
 	}
 
-	public HashMap<String, StrictDtoUserSecurity> getUsers() {
+	public HashMap<String, DtoUserSecurity> getUsers() {
 		return users;
 	}
 

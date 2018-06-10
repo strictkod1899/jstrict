@@ -9,47 +9,47 @@ import ru.strict.db.core.entities.*;
 public class StrictMapperDtoFactory {
 
     /**
-     * Создать двухсторонний маппинг объектов типа StrictEntityRoleuser и StrictDtoRoleuser
+     * Создать двухсторонний маппинг объектов типа EntityRoleuser и DtoRoleuser
      * @return
      */
-    public static StrictMapperDtoBase<StrictEntityRoleuser, StrictDtoRoleuser> createMapperRoleuser(){
-        StrictMapperDtoUser mapperUser = new StrictMapperDtoUser(
-                                new StrictMapperDtoRoleuser()
-                                , new StrictMapperDtoProfile());
-        return new StrictMapperDtoRoleuser(mapperUser);
+    public static MapperDtoBase<EntityRoleuser, DtoRoleuser> createMapperRoleuser(){
+        MapperDtoUser mapperUser = new MapperDtoUser(
+                                new MapperDtoRoleuser()
+                                , new MapperDtoProfile());
+        return new MapperDtoRoleuser(mapperUser);
     }
 
     /**
-     * Создать двухсторонний маппинг объектов типа StrictEntityUser и StrictDtoUser
+     * Создать двухсторонний маппинг объектов типа EntityUser и DtoUser
      * @return
      */
-    public static StrictMapperDtoBase<StrictEntityUser, StrictDtoUser> createMapperUser(){
-        return new StrictMapperDtoUser(
+    public static MapperDtoBase<EntityUser, DtoUser> createMapperUser(){
+        return new MapperDtoUser(
                 createMapperRoleuser()
-                , new StrictMapperDtoProfile());
+                , new MapperDtoProfile());
     }
 
     /**
-     * Создать двухсторонний маппинг объектов типа StrictEntityUserOnRole и StrictDtoUserOnRole
+     * Создать двухсторонний маппинг объектов типа EntityUserOnRole и DtoUserOnRole
      * @return
      */
-    public static StrictMapperDtoBase<StrictEntityUserOnRole, StrictDtoUserOnRole> createMapperUserOnRole(){
-        return new StrictMapperDtoUserOnRole(createMapperUser(), createMapperRoleuser());
+    public static MapperDtoBase<EntityUserOnRole, DtoUserOnRole> createMapperUserOnRole(){
+        return new MapperDtoUserOnRole(createMapperUser(), createMapperRoleuser());
     }
 
     /**
-     * Создать двухсторонний маппинг объектов типа StrictEntityProfile и StrictDtoProfile
+     * Создать двухсторонний маппинг объектов типа EntityProfile и DtoProfile
      * @return
      */
-    public static StrictMapperDtoBase<StrictEntityProfile, StrictDtoProfile> createMapperProfile(){
-        return new StrictMapperDtoProfile(createMapperUser());
+    public static MapperDtoBase<EntityProfile, DtoProfile> createMapperProfile(){
+        return new MapperDtoProfile(createMapperUser());
     }
 
     /**
-     * Создать двухсторонний маппинг объектов типа StrictEntityProfileInfo и StrictDtoProfileInfo
+     * Создать двухсторонний маппинг объектов типа EntityProfileInfo и DtoProfileInfo
      * @return
      */
-    public static StrictMapperDtoBase<StrictEntityProfileInfo, StrictDtoProfileInfo> createMapperProfileInfo(){
-        return new StrictMapperDtoProfileInfo(createMapperUser());
+    public static MapperDtoBase<EntityProfileInfo, DtoProfileInfo> createMapperProfileInfo(){
+        return new MapperDtoProfileInfo(createMapperUser());
     }
 }
