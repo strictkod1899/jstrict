@@ -3,7 +3,7 @@ package ru.strict.patterns;
 /**
 * Описание базовой функциональности наблюдаемого класса (класс за которым наблюдает Observer)
 */
-public interface IObservable<O implements IObserver> {
+public interface IObservable<O extends IObserver> {
 
 	/**
 	* Добавить класс-наблюдатель за текущим объектом
