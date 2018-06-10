@@ -1,11 +1,11 @@
 package ru.strict.file.controllers;
 
-import ru.strict.file.models.StrictModelBase;
+import ru.strict.file.models.ModelBase;
 
 /**
  * Базовый контроллер
  */
-public abstract class StrictControllerBase<O extends Object, M extends StrictModelBase>{
+public abstract class ControllerBase<O extends Object, M extends ModelBase>{
 
     private O object;
     private M model;
@@ -15,7 +15,7 @@ public abstract class StrictControllerBase<O extends Object, M extends StrictMod
      * @param object Объект управления
      * @param model Модель объекта управления
      */
-    public StrictControllerBase(O object, M model) {
+    public ControllerBase(O object, M model) {
         this.object = object;
         this.model = model;
     }

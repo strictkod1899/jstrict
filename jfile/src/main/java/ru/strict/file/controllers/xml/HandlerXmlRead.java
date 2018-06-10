@@ -16,12 +16,12 @@ import java.util.List;
  * Используется для SAX-парсинга.
  * </pre>
  */
-public class StrictHandlerXmlRead extends DefaultHandler {
+public class HandlerXmlRead extends DefaultHandler {
 
     /**
      * Установленный путь считывания элемента
      */
-    private StrictXmlNode path;
+    private XmlNode path;
     /**
      * Маркер обработки элемента. Если элемент завершился, ставиться false.
      * (Требуется для пропуска считывания пустых символов после завершения элемента)
@@ -44,9 +44,9 @@ public class StrictHandlerXmlRead extends DefaultHandler {
      */
     private List<Element> listElements;
 
-    private StrictHandlerXmlRead() {}
+    private HandlerXmlRead() {}
 
-    public StrictHandlerXmlRead(StrictXmlNode path) {
+    public HandlerXmlRead(XmlNode path) {
         this.path = path;
         currentContent = "";
         listElements = new ArrayList<>();

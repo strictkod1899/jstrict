@@ -10,19 +10,19 @@ import java.util.Properties;
 /**
  * Контроллер для обращения к properties файлам
  */
-public class StrictManagerProperties{
+public class ControllerProperties {
 
     /**
      * Объект, для удобной работы со свойствами
      */
     private Properties prop;
 
-    public StrictManagerProperties(File fileProperties) {
+    public ControllerProperties(File fileProperties) {
         try {
             prop = new Properties();
             prop.load(new FileInputStream(fileProperties));
         } catch (IOException ex) {
-            UtilLogger.error(StrictManagerProperties.class, ex.getClass().toString(), ex.getMessage());
+            UtilLogger.error(ControllerProperties.class, ex.getClass().toString(), ex.getMessage());
         }
     }
 
@@ -32,15 +32,15 @@ public class StrictManagerProperties{
      * @return
      */
     public String getValue(String caption){
-        UtilLogger.info(StrictManagerProperties.class, "getValue - started");
+        UtilLogger.info(ControllerProperties.class, "getValue - started");
 
         try {
             // Разобраться с кодировкой
             String result = new String(prop.getProperty(caption).getBytes("iso-8859-1"), "UTF-8");
-            UtilLogger.info(StrictManagerProperties.class, "getValue - finished");
+            UtilLogger.info(ControllerProperties.class, "getValue - finished");
             return result;
         } catch (IOException ex) {
-            UtilLogger.error(StrictManagerProperties.class, ex.getClass().toString(), ex.getMessage());
+            UtilLogger.error(ControllerProperties.class, ex.getClass().toString(), ex.getMessage());
             return null;
         }
     }

@@ -1,6 +1,6 @@
 package ru.strict.file.models;
 
-public class StrictModelXml extends StrictModelBase {
+public class ModelXml extends ModelBase {
 
     /**
      * Создать новый родительский элемент с указанным наименованием (если файл не инициализирован)
@@ -11,7 +11,7 @@ public class StrictModelXml extends StrictModelBase {
         initRootElementName = "root_element";
     }
 
-    public StrictModelXml(){
+    public ModelXml(){
         super();
         initDefault();
     }

@@ -12,7 +12,7 @@ import java.util.List;
  * Чтобы начать пользоваться объектом этого класса, необходимо вызвать метод next(); </pre>
  * <p><b>Пример использования:</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
- *     StrictControllerXml controllerXml = new StrictControllerXml(new File("file.xml"), new StrictModelXml());
+ *     ControllerXml controllerXml = new ControllerXml(new File("file.xml"), new ModelXml());
  *     controllerXml.build();
  *     StrictXmlNodes xmlNodes = new StrictXmlNodes();
  *     xmlNodes.add(new Element(controllerXml.getModel().getRootElement().getName()))
@@ -21,7 +21,7 @@ import java.util.List;
  *        setVersion(Integer.valueOf(values.get(0).getChild("version").getValue()));
  * </pre></code>
  */
-public class StrictXmlNode<E extends Element> {
+public class XmlNode<E extends Element> {
     /**
      * Список элементов, после последовательного прохождения которых будут считываться значения
      */
@@ -57,7 +57,7 @@ public class StrictXmlNode<E extends Element> {
      *
      * @param elements
      */
-    public StrictXmlNode(E... elements) {
+    public XmlNode(E... elements) {
         nodes = new ArrayList<>();
         for (E element : elements)
             nodes.add(element);
