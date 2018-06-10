@@ -1,14 +1,14 @@
 package ru.strict.swing.controllers.views.panels;
 
-import ru.strict.utils.StrictUtilLogger;
-import ru.strict.utils.StrictUtilResources;
+import ru.strict.utils.UtilLogger;
+import ru.strict.utils.UtilResources;
 import ru.strict.swing.models.panels.StrictModelPanelState;
 import ru.strict.swing.enums.StrictEnumColors;
 import ru.strict.swing.enums.StrictEnumFonts;
 import ru.strict.swing.enums.StrictEnumIcons;
-import ru.strict.utils.StrictUtilFrame;
-import ru.strict.utils.StrictUtilImage;
-import ru.strict.validates.StrictValidateBaseValue;
+import ru.strict.utils.UtilFrame;
+import ru.strict.utils.UtilImage;
+import ru.strict.validates.ValidateBaseValue;
 import ru.strict.swing.views.StrictFormBase;
 import ru.strict.swing.views.components.StrictPanelState;
 
@@ -36,7 +36,7 @@ public class StrictControllerPanelState<O extends StrictPanelState, M extends St
 
     @Override
     public O build() {
-        StrictUtilLogger.info(StrictControllerPanelState.class, "build - started");
+        UtilLogger.info(StrictControllerPanelState.class, "build - started");
         // Получение размера значков и отступов на верхней панели относительно установленного соотношения
         int sizeButton = getSizeIcon();
         int sizeIcon = (int)(sizeButton*1.7);
@@ -47,30 +47,30 @@ public class StrictControllerPanelState<O extends StrictPanelState, M extends St
         Font font =  new Font(StrictEnumFonts.UBUNTU.getFontName(), Font.PLAIN, sizeFont);
 
         // Получаем массив кнопок (Свернуть, Изменить размер)
-        final JPanel[] buttonsControl = StrictUtilFrame.buildButImgs(hgap, vgap,
+        final JPanel[] buttonsControl = UtilFrame.buildButImgs(hgap, vgap,
                 StrictEnumColors.BACKGROUND_COMP.getColor(), StrictEnumColors.BACKGROUND_SELECT.getColor(), null,
-                StrictUtilImage.resizeImage(StrictUtilResources.getResourceAsFileTemp(StrictEnumIcons.TURN.getPath()).getAbsolutePath()
+                UtilImage.resizeImage(UtilResources.getResourceAsFileTemp(StrictEnumIcons.TURN.getPath()).getAbsolutePath()
                         , sizeButton, sizeButton),
-                StrictUtilImage.resizeImage(StrictUtilResources.getResourceAsFileTemp(StrictEnumIcons.CHANGE_SIZE.getPath()).getAbsolutePath()
+                UtilImage.resizeImage(UtilResources.getResourceAsFileTemp(StrictEnumIcons.CHANGE_SIZE.getPath()).getAbsolutePath()
                         , sizeButton, sizeButton),
-                StrictUtilImage.resizeImage(StrictUtilResources.getResourceAsFileTemp(StrictEnumIcons.CHANGE_SIZE_FULL.getPath()).getAbsolutePath()
+                UtilImage.resizeImage(UtilResources.getResourceAsFileTemp(StrictEnumIcons.CHANGE_SIZE_FULL.getPath()).getAbsolutePath()
                         , sizeButton, sizeButton));
 
         Icon icon = null;
-        if(getModel().getPathIcon()!=null && StrictValidateBaseValue.isValidateString(getModel().getPathIcon()))
-            icon = StrictUtilImage.resizeImage(getModel().getPathIcon(), sizeIcon, sizeIcon);
+        if(getModel().getPathIcon()!=null && ValidateBaseValue.isValidateString(getModel().getPathIcon()))
+            icon = UtilImage.resizeImage(getModel().getPathIcon(), sizeIcon, sizeIcon);
 
         // Кнопка "Свернуть окно"
         buttonsControl[0].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                StrictUtilFrame.isButPressed = true;
+                UtilFrame.isButPressed = true;
                 e.getComponent().setBackground(StrictEnumColors.BACKGROUND_SELECT.getColor());
             }
 
             @Override
             public void mouseReleased(MouseEvent event) {
-                StrictUtilFrame.isButPressed = false;
+                UtilFrame.isButPressed = false;
                 event.getComponent().setBackground(StrictEnumColors.BACKGROUND_COMP.getColor());
                 ((JFrame)getModel().getParent()).setState(JFrame.ICONIFIED);
             }
@@ -80,13 +80,13 @@ public class StrictControllerPanelState<O extends StrictPanelState, M extends St
         buttonsControl[1].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                StrictUtilFrame.isButPressed = true;
+                UtilFrame.isButPressed = true;
                 e.getComponent().setBackground(StrictEnumColors.BACKGROUND_SELECT.getColor());
             }
 
             @Override
             public void mouseReleased(MouseEvent event) {
-                StrictUtilFrame.isButPressed = false;
+                UtilFrame.isButPressed = false;
                 event.getComponent().setBackground(StrictEnumColors.BACKGROUND_COMP.getColor());
                 getModel().getParent().setSize((int)((double)((StrictFormBase)getObject().getParent().getParent().getParent().getParent()).getModel().getWidth()/1.3),
                         (int)((double)((StrictFormBase)getObject().getParent().getParent().getParent().getParent()).getModel().getHeight()/1.3));
@@ -101,13 +101,13 @@ public class StrictControllerPanelState<O extends StrictPanelState, M extends St
         buttonsControl[2].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                StrictUtilFrame.isButPressed = true;
+                UtilFrame.isButPressed = true;
                 e.getComponent().setBackground(StrictEnumColors.BACKGROUND_SELECT.getColor());
             }
 
             @Override
             public void mouseReleased(MouseEvent event) {
-                StrictUtilFrame.isButPressed = false;
+                UtilFrame.isButPressed = false;
                 event.getComponent().setBackground(StrictEnumColors.BACKGROUND_COMP.getColor());
                 getModel().getParent().setSize(((StrictFormBase)getObject().getParent().getParent().getParent().getParent()).getModel().getWidth()
                         , ((StrictFormBase)getObject().getParent().getParent().getParent().getParent()).getModel().getHeight());
@@ -122,19 +122,19 @@ public class StrictControllerPanelState<O extends StrictPanelState, M extends St
         buttonsControl[2].setVisible(false);
 
         // Кнпока "Закрыть окно"
-        JPanel panelExit = StrictUtilFrame.buildButImg(hgap, vgap,
+        JPanel panelExit = UtilFrame.buildButImg(hgap, vgap,
                 StrictEnumColors.BACKGROUND_COMP.getColor(), StrictEnumColors.BACKGROUND_SELECT_FIRE.getColor(),
-                StrictUtilImage.resizeImage(StrictUtilResources.getResourceAsFileTemp(StrictEnumIcons.CLOSE.getPath()).getAbsolutePath()
+                UtilImage.resizeImage(UtilResources.getResourceAsFileTemp(StrictEnumIcons.CLOSE.getPath()).getAbsolutePath()
                         , sizeButton, sizeButton), new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
-                        StrictUtilFrame.isButPressed = true;
+                        UtilFrame.isButPressed = true;
                         e.getComponent().setBackground(StrictEnumColors.BACKGROUND_SELECT.getColor());
                     }
 
                     @Override
                     public void mouseReleased(MouseEvent event) {
-                        StrictUtilFrame.isButPressed = false;
+                        UtilFrame.isButPressed = false;
                         event.getComponent().setBackground(StrictEnumColors.BACKGROUND_COMP.getColor());
                         ((StrictFormBase)getObject().getParent().getParent().getParent().getParent()).destroy();
                         getModel().getActionExit().actionPerformed(null);
@@ -151,7 +151,7 @@ public class StrictControllerPanelState<O extends StrictPanelState, M extends St
         if(!getModel().isVisibleExit())
             panelExit.setVisible(false);
 
-        StrictUtilLogger.info(StrictControllerPanelState.class, "build - finished");
+        UtilLogger.info(StrictControllerPanelState.class, "build - finished");
         if(getModel().getParent() instanceof JFrame)
             return (O) build(getModel().getTitle(), font, vgap, StrictEnumColors.BACKGROUND_COMP.getColor(),
                     icon,
@@ -173,7 +173,7 @@ public class StrictControllerPanelState<O extends StrictPanelState, M extends St
      * @return
      */
     private StrictPanelState build(String title, Font font, int hgap, Color background, Icon icon, Window parent, JPanel...arrPanel){
-        StrictUtilLogger.info(StrictControllerPanelState.class, "build (return StrictPanelState) - started");
+        UtilLogger.info(StrictControllerPanelState.class, "build (return StrictPanelState) - started");
         JPanel panelLeft = createPanelTitle(title, hgap, background, font, icon);
         JPanel panelRight = createButControl(background, arrPanel);
         MouseMotionMoved mouse = new MouseMotionMoved(parent);
@@ -185,7 +185,7 @@ public class StrictControllerPanelState<O extends StrictPanelState, M extends St
         getModel().setPanelLeft(panelLeft);
         getModel().setPanelRight(panelRight);
         getModel().setBackground(background);
-        StrictUtilLogger.info(StrictControllerPanelState.class, "build (return StrictPanelState) - finished");
+        UtilLogger.info(StrictControllerPanelState.class, "build (return StrictPanelState) - finished");
         return super.build();
     }
 
@@ -198,7 +198,7 @@ public class StrictControllerPanelState<O extends StrictPanelState, M extends St
      * @return
      */
     private JPanel createPanelTitle(String title, int hgap, Color color, Font font, Icon icon){
-        StrictUtilLogger.info(StrictControllerPanelState.class, "createPanelTitle - started");
+        UtilLogger.info(StrictControllerPanelState.class, "createPanelTitle - started");
         JPanel panelTitle = new JPanel();
         panelTitle.setLayout(new FlowLayout(FlowLayout.LEFT, hgap, 0));
         panelTitle.setBackground(color);
@@ -209,7 +209,7 @@ public class StrictControllerPanelState<O extends StrictPanelState, M extends St
         if(font!=null)
             labTitle.setFont(font);
         panelTitle.add(labTitle);
-        StrictUtilLogger.info(StrictControllerPanelState.class, "createPanelTitle - finished");
+        UtilLogger.info(StrictControllerPanelState.class, "createPanelTitle - finished");
         return panelTitle;
     }
 
@@ -220,13 +220,13 @@ public class StrictControllerPanelState<O extends StrictPanelState, M extends St
      * @return
      */
     private JPanel createButControl(Color color, JComponent...components){
-        StrictUtilLogger.info(StrictControllerPanelState.class, "createButControl - started");
+        UtilLogger.info(StrictControllerPanelState.class, "createButControl - started");
         JPanel panelButtons = new JPanel();
         panelButtons.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         panelButtons.setBackground(color);
         for(int i=0; i<components.length; i++)
             panelButtons.add(components[i]);
-        StrictUtilLogger.info(StrictControllerPanelState.class, "createButControl - finished");
+        UtilLogger.info(StrictControllerPanelState.class, "createButControl - finished");
         return panelButtons;
     }
 
@@ -263,7 +263,7 @@ public class StrictControllerPanelState<O extends StrictPanelState, M extends St
     }
 
     private int getSizeIcon(){
-        int sizeIcon = StrictUtilFrame.calcSizeByRatio(Toolkit.getDefaultToolkit().getScreenSize().width,
+        int sizeIcon = UtilFrame.calcSizeByRatio(Toolkit.getDefaultToolkit().getScreenSize().width,
                 Toolkit.getDefaultToolkit().getScreenSize().height,
                 RATIO_COMP);
         if(sizeIcon> MAX_SIZE_ICON)
@@ -274,13 +274,13 @@ public class StrictControllerPanelState<O extends StrictPanelState, M extends St
     }
 
     private int getSizeFont(){
-        return StrictUtilFrame.calcSizeByRatio(Toolkit.getDefaultToolkit().getScreenSize().width,
+        return UtilFrame.calcSizeByRatio(Toolkit.getDefaultToolkit().getScreenSize().width,
                 Toolkit.getDefaultToolkit().getScreenSize().height,
                 RATIO_FONT);
     }
 
     private int getVgap(){
-        return StrictUtilFrame.calcSizeByRatio(Toolkit.getDefaultToolkit().getScreenSize().width,
+        return UtilFrame.calcSizeByRatio(Toolkit.getDefaultToolkit().getScreenSize().width,
                 Toolkit.getDefaultToolkit().getScreenSize().height,
                 RATIO_GAP_INNER);
     }

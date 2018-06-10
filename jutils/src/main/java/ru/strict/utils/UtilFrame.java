@@ -12,7 +12,7 @@ import java.util.Iterator;
 /**
  * Операции манипулирования формой
  */
-public class StrictUtilFrame {
+public class UtilFrame {
 
     // Проверяем была ли нажата какая-нибудь кнопка или нет
     public static boolean isButPressed = false;
@@ -152,7 +152,7 @@ public class StrictUtilFrame {
      * @return
      */
     public static JPanel buildButLabel(int hgap, int vgap, final Color baseColor, final Color selectColor, String text, Font font, MouseListener...mouse){
-        StrictUtilLogger.info(StrictUtilFrame.class, "StrictControllerFrame.buildButLabel - started");
+        UtilLogger.info(UtilFrame.class, "StrictControllerFrame.buildButLabel - started");
         FlowLayout layout = new FlowLayout(FlowLayout.CENTER, hgap, vgap);
         final JPanel panel = new JPanel();
         panel.setLayout(layout);
@@ -167,7 +167,7 @@ public class StrictUtilFrame {
         if(font!=null)
             lab.setFont(font);
         panel.add(lab);
-        StrictUtilLogger.info(StrictUtilFrame.class, "StrictControllerFrame.buildButLabel - finished");
+        UtilLogger.info(UtilFrame.class, "StrictControllerFrame.buildButLabel - finished");
         return panel;
     }
 
@@ -183,7 +183,7 @@ public class StrictUtilFrame {
      * @return
      */
     public static JPanel[] buildButLabels(int hgap, int vgap, final Color baseColor, final Color selectColor, Font font, MouseListener mouse, String...texts){
-        StrictUtilLogger.info(StrictUtilFrame.class, "StrictControllerFrame.buildButLabels - started");
+        UtilLogger.info(UtilFrame.class, "StrictControllerFrame.buildButLabels - started");
         JPanel [] arrPanel;
         if(texts!=null) {
             arrPanel = new JPanel[texts.length];
@@ -195,7 +195,7 @@ public class StrictUtilFrame {
             arrPanel[0] = buildButLabel(hgap, vgap, baseColor, selectColor, "", font, mouse);
         }
 
-        StrictUtilLogger.info(StrictUtilFrame.class, "StrictControllerFrame.buildButLabels - finished");
+        UtilLogger.info(UtilFrame.class, "StrictControllerFrame.buildButLabels - finished");
         return arrPanel;
     }
 
@@ -210,7 +210,7 @@ public class StrictUtilFrame {
      * @return
      */
     public static JPanel buildButImg(int hgap, int vgap, final Color baseColor, final Color selectColor, ImageIcon image, MouseListener...mouse){
-        StrictUtilLogger.info(StrictUtilFrame.class, "StrictControllerFrame.buildButImg - started");
+        UtilLogger.info(UtilFrame.class, "StrictControllerFrame.buildButImg - started");
         FlowLayout layout = new FlowLayout(FlowLayout.CENTER, hgap, vgap);
         JPanel panel = new JPanel();
         panel.setLayout(layout);
@@ -225,7 +225,7 @@ public class StrictUtilFrame {
         if(image!=null)
             lab.setIcon(image);
         panel.add(lab);
-        StrictUtilLogger.info(StrictUtilFrame.class, "StrictControllerFrame.buildButImg - finished");
+        UtilLogger.info(UtilFrame.class, "StrictControllerFrame.buildButImg - finished");
         return panel;
     }
 
@@ -240,7 +240,7 @@ public class StrictUtilFrame {
      * @return
      */
     public static JPanel[] buildButImgs(int hgap, int vgap, final Color baseColor, final Color selectColor, MouseListener mouse, ImageIcon...images){
-        StrictUtilLogger.info(StrictUtilFrame.class, "StrictControllerFrame.buildButImgs - started");
+        UtilLogger.info(UtilFrame.class, "StrictControllerFrame.buildButImgs - started");
         JPanel [] arrPanel;
         if(images!=null) {
             arrPanel = new JPanel[images.length];
@@ -252,7 +252,7 @@ public class StrictUtilFrame {
             arrPanel[0] = buildButLabel(hgap, vgap, baseColor, selectColor, "", null, mouse);
         }
 
-        StrictUtilLogger.info(StrictUtilFrame.class, "StrictControllerFrame.buildButImgs - finished");
+        UtilLogger.info(UtilFrame.class, "StrictControllerFrame.buildButImgs - finished");
         return arrPanel;
     }
 
@@ -268,7 +268,7 @@ public class StrictUtilFrame {
      * @return
      */
     public static JPanel buildButImgText(int hgap, int vgap, final Color baseColor, final Color selectColor, ImageIcon image, String text, Font font, MouseListener...mouse){
-        StrictUtilLogger.info(StrictUtilFrame.class, "StrictControllerFrame.buildButImgText - started");
+        UtilLogger.info(UtilFrame.class, "StrictControllerFrame.buildButImgText - started");
         FlowLayout layout = new FlowLayout(FlowLayout.CENTER, hgap, vgap);
         final JPanel panel = new JPanel();
         panel.setLayout(layout);
@@ -287,7 +287,7 @@ public class StrictUtilFrame {
         if(image!=null)
             lab.setIcon(image);
         panel.add(lab);
-        StrictUtilLogger.info(StrictUtilFrame.class, "StrictControllerFrame.buildButImgText - finished");
+        UtilLogger.info(UtilFrame.class, "StrictControllerFrame.buildButImgText - finished");
         return panel;
     }
 
@@ -304,7 +304,7 @@ public class StrictUtilFrame {
      */
     public static JPanel[] buildButImgsTexts(int hgap, int vgap, final Color baseColor, final Color selectColor,
                                              MouseListener [] mouses, String [] texts, Font font, ImageIcon...images){
-        StrictUtilLogger.info(StrictUtilFrame.class, "StrictControllerFrame.buildButImgsTexts - started");
+        UtilLogger.info(UtilFrame.class, "StrictControllerFrame.buildButImgsTexts - started");
         JPanel [] arrPanel;
         if(images!=null) {
             arrPanel = new JPanel[images.length];
@@ -316,7 +316,7 @@ public class StrictUtilFrame {
             arrPanel[0] = buildButLabel(hgap, vgap, baseColor, selectColor, "", null, mouses[0]);
         }
 
-        StrictUtilLogger.info(StrictUtilFrame.class, "StrictControllerFrame.buildButImgsTexts - finished");
+        UtilLogger.info(UtilFrame.class, "StrictControllerFrame.buildButImgsTexts - finished");
         return arrPanel;
     }
 

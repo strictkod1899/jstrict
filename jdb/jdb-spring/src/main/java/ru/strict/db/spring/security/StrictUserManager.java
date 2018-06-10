@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.strict.utils.StrictUtilHashCode;
+import ru.strict.utils.UtilHashCode;
 
 /**
  * Специальный класс, который предоставляет данные пользователя для SpringSecurity.
@@ -64,7 +64,7 @@ public class StrictUserManager {
 
 	@Override
     public int hashCode(){
-        return StrictUtilHashCode.createHashCode(users);
+        return UtilHashCode.createHashCode(users);
     }
 	//</editor-fold>
 }

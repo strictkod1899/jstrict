@@ -7,7 +7,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class StrictUtilHash {
+public class UtilHash {
 
     /**
      * Выполнить хеширование текста методом MD5
@@ -15,12 +15,12 @@ public class StrictUtilHash {
      * @return
      */
     public static String hashMd5(String str){
-        StrictUtilLogger.info(StrictUtilHash.class, "hashMd5 - started");
+        UtilLogger.info(UtilHash.class, "hashMd5 - started");
         MessageDigest md = null;
         try {
             md = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException ex) {
-            StrictUtilLogger.error(StrictUtilHash.class, ex.getClass().toString(), ex.getMessage());
+            UtilLogger.error(UtilHash.class, ex.getClass().toString(), ex.getMessage());
         }
         md.update(str.getBytes());
         byte byteData[] = md.digest();
@@ -32,7 +32,7 @@ public class StrictUtilHash {
             if (hex.length() == 1) hexString.append('0');
             hexString.append(hex);
         }
-        StrictUtilLogger.info(StrictUtilHash.class, "hashMd5 - finished");
+        UtilLogger.info(UtilHash.class, "hashMd5 - finished");
         return hexString.toString();
     }
 
@@ -54,21 +54,21 @@ public class StrictUtilHash {
      * @throws UnsupportedEncodingException
      */
     public static String hashSha1(String Param) {
-        StrictUtilLogger.info(StrictUtilHash.class, "hashSha1 - started");
+        UtilLogger.info(UtilHash.class, "hashSha1 - started");
         MessageDigest SHA = null;
         try {
             SHA = MessageDigest.getInstance("SHA-1");
         } catch (NoSuchAlgorithmException ex) {
-            StrictUtilLogger.error(StrictUtilHash.class, ex.getClass().toString(), ex.getMessage());
+            UtilLogger.error(UtilHash.class, ex.getClass().toString(), ex.getMessage());
         }
         SHA.reset();
         try {
             SHA.update(Param.getBytes("UTF-8"), 0, Param.length());
         } catch (UnsupportedEncodingException ex) {
-            StrictUtilLogger.error(StrictUtilHash.class, ex.getClass().toString(), ex.getMessage());
+            UtilLogger.error(UtilHash.class, ex.getClass().toString(), ex.getMessage());
         }
         byte[] sha1hash = SHA.digest();
-        StrictUtilLogger.info(StrictUtilHash.class, "hashSha1 - finished");
+        UtilLogger.info(UtilHash.class, "hashSha1 - finished");
         return bytesToHexStr(sha1hash);
     }
 
@@ -79,7 +79,7 @@ public class StrictUtilHash {
      * @return String
      */
     private static String bytesToHexStr(byte[] raw) {
-        StrictUtilLogger.info(StrictUtilHash.class, "bytesToHexStr - started");
+        UtilLogger.info(UtilHash.class, "bytesToHexStr - started");
         char[] kDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
         int length = raw.length;
         char[] hex = new char[length * 2];
@@ -90,7 +90,7 @@ public class StrictUtilHash {
             hex[i * 2 + 0] = kDigits[highIndex];
             hex[i * 2 + 1] = kDigits[lowIndex];
         }
-        StrictUtilLogger.info(StrictUtilHash.class, "bytesToHexStr - finished");
+        UtilLogger.info(UtilHash.class, "bytesToHexStr - finished");
         return new String(hex);
     }
 }

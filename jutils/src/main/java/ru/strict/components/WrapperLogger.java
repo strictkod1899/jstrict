@@ -5,19 +5,19 @@ import org.apache.log4j.Logger;
 /**
  * Обертка для логгера
  */
-public class StrictWrapperLogger {
+public class WrapperLogger {
 
     private final Logger wrappedObject;
 
-    public StrictWrapperLogger(Logger logger) {
+    public WrapperLogger(Logger logger) {
         this.wrappedObject = logger;
     }
 
-    public StrictWrapperLogger(Class clazz) {
+    public WrapperLogger(Class clazz) {
         this.wrappedObject = Logger.getLogger(clazz);;
     }
 
-    public StrictWrapperLogger(String className) {
+    public WrapperLogger(String className) {
         this.wrappedObject = Logger.getLogger(className);
     }
 
@@ -57,7 +57,7 @@ public class StrictWrapperLogger {
      * Логирование исключения
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
-     * StrictUtilLogger.error(MyClass.class, ex.getClass().toString(), ex.getMessage());
+     * UtilLogger.error(MyClass.class, ex.getClass().toString(), ex.getMessage());
      * </pre></code>
      * @param type Тип исключения
      * @param message Сообщение исключения
@@ -70,7 +70,7 @@ public class StrictWrapperLogger {
      * Логирование исключения
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
-     * StrictUtilLogger.error(MyClass.class, "My message", ex.getClass().toString(), ex.getMessage());
+     * UtilLogger.error(MyClass.class, "My message", ex.getClass().toString(), ex.getMessage());
      * </pre></code>
      * @param customMessage Пользовательское (дополнительное) сообщение
      * @param type Тип исключения
@@ -94,8 +94,8 @@ public class StrictWrapperLogger {
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof StrictWrapperLogger) {
-            StrictWrapperLogger object = (StrictWrapperLogger) obj;
+        if(obj instanceof WrapperLogger) {
+            WrapperLogger object = (WrapperLogger) obj;
             return wrappedObject.equals(object.getWrappedObject());
         }else
             return false;

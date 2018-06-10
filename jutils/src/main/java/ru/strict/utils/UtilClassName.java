@@ -3,14 +3,14 @@ package ru.strict.utils;
 /**
 * Класс описывает статический метод для определения имени текущего класса
 */
-public class StrictUtilClassName {
+public class UtilClassName {
 
     /**
      * Определить имя текщего класса
      * @return
      */
     public static String getCurrentClassname(){
-        StrictUtilLogger.info(StrictUtilClassName.class, "getCurrentClassname");
+        UtilLogger.info(UtilClassName.class, "getCurrentClassname");
         try{
             throw new RuntimeException();
         }catch(RuntimeException ex){

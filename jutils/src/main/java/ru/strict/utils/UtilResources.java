@@ -8,7 +8,7 @@ import java.io.InputStream;
 /**
  * Управление файлами ресурсов
  */
-public class StrictUtilResources {
+public class UtilResources {
 
     /**
      * Создание физического файла относительно проекта из файла-ресурса
@@ -16,7 +16,7 @@ public class StrictUtilResources {
      * @return
      */
     public static File getResourceAsFile(String resourcePath) {
-        StrictUtilLogger.info(StrictUtilResources.class, "getResourceAsFile - started");
+        UtilLogger.info(UtilResources.class, "getResourceAsFile - started");
         try {
             InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(resourcePath);
             if (in == null) {
@@ -44,10 +44,10 @@ public class StrictUtilResources {
                     out.write(buffer, 0, bytesRead);
                 }
             }
-            StrictUtilLogger.info(StrictUtilResources.class, "getResourceAsFile - finished");
+            UtilLogger.info(UtilResources.class, "getResourceAsFile - finished");
             return file;
         } catch (IOException ex) {
-            StrictUtilLogger.error(StrictUtilResources.class, ex.getClass().toString(), ex.getMessage());
+            UtilLogger.error(UtilResources.class, ex.getClass().toString(), ex.getMessage());
             return null;
         }
     }
@@ -58,7 +58,7 @@ public class StrictUtilResources {
      * @return
      */
     public static File getResourceAsFileTemp(String resourcePath) {
-        StrictUtilLogger.info(StrictUtilResources.class, "getResourceAsFileTemp - started");
+        UtilLogger.info(UtilResources.class, "getResourceAsFileTemp - started");
         try {
             InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(resourcePath);
             if (in == null) {
@@ -75,10 +75,10 @@ public class StrictUtilResources {
                     out.write(buffer, 0, bytesRead);
                 }
             }
-            StrictUtilLogger.info(StrictUtilResources.class, "getResourceAsFileTemp - finished");
+            UtilLogger.info(UtilResources.class, "getResourceAsFileTemp - finished");
             return tempFile;
         } catch (IOException ex) {
-            StrictUtilLogger.error(StrictUtilResources.class, ex.getClass().toString(), ex.getMessage());
+            UtilLogger.error(UtilResources.class, ex.getClass().toString(), ex.getMessage());
             return null;
         }
     }
@@ -89,11 +89,11 @@ public class StrictUtilResources {
      * @return Файл-ресурс
      */
     public static File getResource(String pathFile){
-        ClassLoader classLoader = StrictUtilResources.class.getClassLoader();
+        ClassLoader classLoader = UtilResources.class.getClassLoader();
         try {
             return new File(classLoader.getResource(pathFile).getFile());
         }catch(java.lang.NullPointerException ex){
-            StrictUtilLogger.error(StrictUtilResources.class, ex.getClass().toString(), ex.getMessage());
+            UtilLogger.error(UtilResources.class, ex.getClass().toString(), ex.getMessage());
             return null;
         }
     }
@@ -104,11 +104,11 @@ public class StrictUtilResources {
      * @return Входной поток файла-ресурса
      */
     public static InputStream getResourceStream(String pathFile){
-        ClassLoader classLoader = StrictUtilResources.class.getClassLoader();
+        ClassLoader classLoader = UtilResources.class.getClassLoader();
         try{
             return classLoader.getResourceAsStream(pathFile);
         }catch(java.lang.NullPointerException ex){
-            StrictUtilLogger.error(StrictUtilResources.class, ex.getClass().toString(), ex.getMessage());
+            UtilLogger.error(UtilResources.class, ex.getClass().toString(), ex.getMessage());
             return null;
         }
     }

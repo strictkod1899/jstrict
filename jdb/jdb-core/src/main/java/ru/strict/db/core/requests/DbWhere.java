@@ -1,6 +1,6 @@
 package ru.strict.db.core.requests;
 
-import ru.strict.utils.StrictUtilHashCode;
+import ru.strict.utils.UtilHashCode;
 
 /**
  * Условие Where sql-запроса
@@ -105,7 +105,7 @@ public class DbWhere extends DbRequestBase {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return StrictUtilHashCode.createSubHashCode(superHashCode, columnName, columnValue, operator, templateSymbol);
+        return UtilHashCode.createSubHashCode(superHashCode, columnName, columnValue, operator, templateSymbol);
     }
     //</editor-fold>
 }

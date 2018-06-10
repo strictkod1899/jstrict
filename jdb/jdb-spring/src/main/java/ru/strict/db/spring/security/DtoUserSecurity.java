@@ -4,7 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.dto.DtoUser;
-import ru.strict.utils.StrictUtilHashCode;
+import ru.strict.utils.UtilHashCode;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -101,7 +101,7 @@ public class DtoUserSecurity<ID> extends DtoUser<ID> implements UserDetails{
 	@Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return StrictUtilHashCode.createSubHashCode(superHashCode, authorities);
+        return UtilHashCode.createSubHashCode(superHashCode, authorities);
     }
 	//</editor-fold>
 }

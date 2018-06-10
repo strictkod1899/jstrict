@@ -8,7 +8,7 @@ import java.util.Date;
  * Класс описывает методы, для проверки валидности значений стандартных типов
  */
 //TODO: перевести валидацию на регулярные выражения Pattern
-public class StrictValidateBaseValue {
+public class ValidateBaseValue {
 
     /**
      * Проверка корректности заполнения текстового поля

@@ -9,7 +9,7 @@ import org.jdom2.output.XMLOutputter;
 import org.xml.sax.helpers.DefaultHandler;
 import ru.strict.file.controllers.StrictControllerBase;
 import ru.strict.file.models.StrictModelXml;
-import ru.strict.utils.StrictUtilLogger;
+import ru.strict.utils.UtilLogger;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -54,9 +54,9 @@ public class StrictControllerXml extends StrictControllerBase<File, StrictModelX
      */
     @Override
     public File build() {
-        StrictUtilLogger.info(StrictControllerXml.class, "StrictControllerXml.build - started");
+        UtilLogger.info(StrictControllerXml.class, "StrictControllerXml.build - started");
         createConnection();
-        StrictUtilLogger.info(StrictControllerXml.class, "StrictControllerXml.build - finished");
+        UtilLogger.info(StrictControllerXml.class, "StrictControllerXml.build - finished");
         return getObject();
     }
 
@@ -65,7 +65,7 @@ public class StrictControllerXml extends StrictControllerBase<File, StrictModelX
      * Если файл не создан, то он будет создан с заданным корневым элементом
      */
     private StrictControllerXml createConnection() {
-        StrictUtilLogger.info(StrictControllerXml.class, "createConnection - started");
+        UtilLogger.info(StrictControllerXml.class, "createConnection - started");
         parser = new SAXBuilder();
 
         // Если xml-файл не создан
@@ -74,7 +74,7 @@ public class StrictControllerXml extends StrictControllerBase<File, StrictModelX
                 // Создаем новый xml-файл
                 getObject().createNewFile();
             } catch (IOException ex) {
-                StrictUtilLogger.error(StrictControllerXml.class, ex.getClass().toString(), ex.getMessage());
+                UtilLogger.error(StrictControllerXml.class, ex.getClass().toString(), ex.getMessage());
             }
         }
 
@@ -84,7 +84,7 @@ public class StrictControllerXml extends StrictControllerBase<File, StrictModelX
             // Получаем корневой элемент
             setRootElement(docXml.getRootElement());
         } catch (IOException | JDOMException ex) {
-            StrictUtilLogger.error(StrictControllerXml.class, ex.getClass().toString(), ex.getMessage());
+            UtilLogger.error(StrictControllerXml.class, ex.getClass().toString(), ex.getMessage());
             // Создание документа работы с xml-файлом
             docXml = new Document();
             // Создание корневого-элемента
@@ -95,7 +95,7 @@ public class StrictControllerXml extends StrictControllerBase<File, StrictModelX
         // Формат вывода текста в xml-файл
         formatXmlDoc = Format.getPrettyFormat();
 
-        StrictUtilLogger.info(StrictControllerXml.class, "createConnection - finished");
+        UtilLogger.info(StrictControllerXml.class, "createConnection - finished");
         return this;
     }
 
@@ -111,7 +111,7 @@ public class StrictControllerXml extends StrictControllerBase<File, StrictModelX
      * @return
      */
     public Element createElement(String caption, String content, String[][] attributes, Element... elementsInner) {
-        StrictUtilLogger.info(StrictControllerXml.class, "createElement - started");
+        UtilLogger.info(StrictControllerXml.class, "createElement - started");
         Element element = new Element(caption);
         element.addContent(content);
         for (Element e : elementsInner)
@@ -122,7 +122,7 @@ public class StrictControllerXml extends StrictControllerBase<File, StrictModelX
                 element.setAttribute(arr[0], arr[1]);
         }
 
-        StrictUtilLogger.info(StrictControllerXml.class, "createElement - finished");
+        UtilLogger.info(StrictControllerXml.class, "createElement - finished");
         return element;
     }
 
@@ -134,7 +134,7 @@ public class StrictControllerXml extends StrictControllerBase<File, StrictModelX
      * @return
      */
     public Element[] createElements(String[] captions, String[] contents) {
-        StrictUtilLogger.info(StrictControllerXml.class, "createElements - started");
+        UtilLogger.info(StrictControllerXml.class, "createElements - started");
         //TODO: Сдлеать проверку, чтобы размер caption = contents
         Element [] elements = new Element[captions.length];
         int i=0;
@@ -144,7 +144,7 @@ public class StrictControllerXml extends StrictControllerBase<File, StrictModelX
             elements[i] = element;
             i++;
         }
-        StrictUtilLogger.info(StrictControllerXml.class, "createElements - finished");
+        UtilLogger.info(StrictControllerXml.class, "createElements - finished");
         return elements;
     }
 
@@ -153,7 +153,7 @@ public class StrictControllerXml extends StrictControllerBase<File, StrictModelX
      * @param elements Сохраняемые элементы в корневой каталог
      */
     public void saveElementsToXml(Element...elements) {
-        StrictUtilLogger.info(StrictControllerXml.class, "saveElementsToXml - started");
+        UtilLogger.info(StrictControllerXml.class, "saveElementsToXml - started");
         if(elements!=null) {
             for(Element element:elements)
                 getRootElement().addContent(element);
@@ -163,9 +163,9 @@ public class StrictControllerXml extends StrictControllerBase<File, StrictModelX
             xmlOut = new XMLOutputter(formatXmlDoc);
             xmlOut.output(docXml, new FileOutputStream(getObject()));
         } catch (IOException ex) {
-            StrictUtilLogger.error(StrictControllerXml.class, ex.getClass().toString(), ex.getMessage());
+            UtilLogger.error(StrictControllerXml.class, ex.getClass().toString(), ex.getMessage());
         }
-        StrictUtilLogger.info(StrictControllerXml.class, "saveElementsToXml - finished");
+        UtilLogger.info(StrictControllerXml.class, "saveElementsToXml - finished");
     }
 
     /**
@@ -182,10 +182,10 @@ public class StrictControllerXml extends StrictControllerBase<File, StrictModelX
      * @param elements Сохраняемые элементы в корневой каталог
      */
     public void resaveElementsToXml(Element...elements) {
-        StrictUtilLogger.info(StrictControllerXml.class, "resaveElementsToXml - started");
+        UtilLogger.info(StrictControllerXml.class, "resaveElementsToXml - started");
         removeElements(elements);
         saveElementsToXml(elements);
-        StrictUtilLogger.info(StrictControllerXml.class, "resaveElementsToXml - finished");
+        UtilLogger.info(StrictControllerXml.class, "resaveElementsToXml - finished");
     }
 
     /**
@@ -194,7 +194,7 @@ public class StrictControllerXml extends StrictControllerBase<File, StrictModelX
      * @return
      */
     public List<Element> readValue(StrictXmlNode parents){
-        StrictUtilLogger.info(StrictControllerXml.class, "readValue - started");
+        UtilLogger.info(StrictControllerXml.class, "readValue - started");
         try {
             SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
             SAXParser saxParser = saxParserFactory.newSAXParser();
@@ -202,10 +202,10 @@ public class StrictControllerXml extends StrictControllerBase<File, StrictModelX
             saxParser.parse(getObject(), defaultHandler);
             return parents.getElementsInner();
         } catch (Exception ex) {
-            StrictUtilLogger.error(StrictControllerXml.class, ex.getClass().toString(), ex.getMessage());
+            UtilLogger.error(StrictControllerXml.class, ex.getClass().toString(), ex.getMessage());
         }
 
-        StrictUtilLogger.info(StrictControllerXml.class, "readValue - finished");
+        UtilLogger.info(StrictControllerXml.class, "readValue - finished");
         return null;
     }
 

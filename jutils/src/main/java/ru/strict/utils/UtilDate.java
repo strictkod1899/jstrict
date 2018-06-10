@@ -6,21 +6,21 @@ import java.util.Date;
 /**
  * Управление датами
  */
-public class StrictUtilDate {
+public class UtilDate {
 
     /**
      * Метод возвращает разницу в годах между двумя датами
      * @return
      */
     public static long diffByYear(Date d1, Date d2){
-        StrictUtilLogger.info(StrictUtilDate.class, "diffByYear - started");
+        UtilLogger.info(UtilDate.class, "diffByYear - started");
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.setTimeInMillis(d1.getTime() - d2.getTime());
 
         long millis = cal.getTimeInMillis();
         long days = millis / 1000 / 60 / 60 / 24 / 30 / 12;
-        StrictUtilLogger.info(StrictUtilDate.class, "diffByYear - finished");
+        UtilLogger.info(UtilDate.class, "diffByYear - finished");
         return days;
     }
 
@@ -29,14 +29,14 @@ public class StrictUtilDate {
      * @return
      */
     public static long diffByMonth(Date d1, Date d2){
-        StrictUtilLogger.info(StrictUtilDate.class, "diffByMonth - started");
+        UtilLogger.info(UtilDate.class, "diffByMonth - started");
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.setTimeInMillis(d1.getTime() - d2.getTime());
 
         long millis = cal.getTimeInMillis();
         long days = millis / 1000 / 60 / 60 / 24 / 30;
-        StrictUtilLogger.info(StrictUtilDate.class, "diffByMonth - finished");
+        UtilLogger.info(UtilDate.class, "diffByMonth - finished");
         return days;
     }
 
@@ -45,14 +45,14 @@ public class StrictUtilDate {
      * @return
      */
     public static long diffByDay(Date d1, Date d2){
-        StrictUtilLogger.info(StrictUtilDate.class, "diffByDay - started");
+        UtilLogger.info(UtilDate.class, "diffByDay - started");
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.setTimeInMillis(d1.getTime() - d2.getTime());
 
         long millis = cal.getTimeInMillis();
         long days = millis / 1000 / 60 / 60 / 24;
-        StrictUtilLogger.info(StrictUtilDate.class, "diffByDay - finished");
+        UtilLogger.info(UtilDate.class, "diffByDay - finished");
         return days;
     }
 
@@ -61,14 +61,14 @@ public class StrictUtilDate {
      * @return
      */
     public static long diffByHour(Date d1, Date d2){
-        StrictUtilLogger.info(StrictUtilDate.class, "diffByHour - started");
+        UtilLogger.info(UtilDate.class, "diffByHour - started");
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.setTimeInMillis(d1.getTime() - d2.getTime());
 
         long millis = cal.getTimeInMillis();
         long hours = millis / 1000 / 60 / 60;
-        StrictUtilLogger.info(StrictUtilDate.class, "diffByHour - finished");
+        UtilLogger.info(UtilDate.class, "diffByHour - finished");
         return hours;
     }
 
@@ -77,14 +77,14 @@ public class StrictUtilDate {
      * @return
      */
     public static long diffByMinutes(Date d1, Date d2){
-        StrictUtilLogger.info(StrictUtilDate.class, "diffByMinutes - started");
+        UtilLogger.info(UtilDate.class, "diffByMinutes - started");
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.setTimeInMillis(d1.getTime() - d2.getTime());
 
         long millis = cal.getTimeInMillis();
         long hours = millis / 1000 / 60;
-        StrictUtilLogger.info(StrictUtilDate.class, "diffByMinutes - finished");
+        UtilLogger.info(UtilDate.class, "diffByMinutes - finished");
         return hours;
     }
 }

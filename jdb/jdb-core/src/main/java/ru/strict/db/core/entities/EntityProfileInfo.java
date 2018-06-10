@@ -1,7 +1,7 @@
 package ru.strict.db.core.entities;
 
 import java.util.Date;
-import ru.strict.utils.StrictUtilHashCode;
+import ru.strict.utils.UtilHashCode;
 
 /**
  * Расширенная информация профиля пользователя (имя, фамилия, отчество, дата рождения, телефон,
@@ -109,7 +109,7 @@ public class EntityProfileInfo<ID> extends EntityProfile<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return StrictUtilHashCode.createSubHashCode(superHashCode, dateBirth, phone, country, city);
+        return UtilHashCode.createSubHashCode(superHashCode, dateBirth, phone, country, city);
     }
     //</editor-fold>
 }

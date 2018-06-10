@@ -1,6 +1,6 @@
 package ru.strict.db.core.requests;
 
-import ru.strict.utils.StrictUtilHashCode;
+import ru.strict.utils.UtilHashCode;
 
 /**
  * Условие Where для добавления к sql-запросу
@@ -64,7 +64,7 @@ public class PostgreSQLDbWhere extends DbWhere {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return StrictUtilHashCode.createSubHashCode(superHashCode, ignoreCase);
+        return UtilHashCode.createSubHashCode(superHashCode, ignoreCase);
     }
     //</editor-fold>
 }

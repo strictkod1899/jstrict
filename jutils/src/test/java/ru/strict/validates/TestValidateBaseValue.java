@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Arrays;
 
 @RunWith(Parameterized.class)
-public class TestStrictValidateBaseValue {
+public class TestValidateBaseValue {
 
     private String trueText;
     private String trueNumberInt;
@@ -19,8 +19,8 @@ public class TestStrictValidateBaseValue {
     private String falseNumberInt;
     private String falseNumberDouble;
 
-    public TestStrictValidateBaseValue(String trueText, String trueNumberInt, String trueNumberDouble,
-                                       String falseText, String falseNumberInt, String falseNumberDouble) {
+    public TestValidateBaseValue(String trueText, String trueNumberInt, String trueNumberDouble,
+                                 String falseText, String falseNumberInt, String falseNumberDouble) {
         this.trueText = trueText;
         this.trueNumberInt = trueNumberInt;
         this.trueNumberDouble = trueNumberDouble;
@@ -39,31 +39,31 @@ public class TestStrictValidateBaseValue {
 
     @Test
     public void testTrueIsValidateString(){
-        Assert.assertTrue(StrictValidateBaseValue.isValidateString(trueText));
+        Assert.assertTrue(ValidateBaseValue.isValidateString(trueText));
     }
 
     @Test
     public void testTrueIsValidateInteger(){
-        Assert.assertTrue(StrictValidateBaseValue.isValidateInteger(trueNumberInt));
+        Assert.assertTrue(ValidateBaseValue.isValidateInteger(trueNumberInt));
     }
 
     @Test
     public void testTrueIsValidateDouble(){
-        Assert.assertTrue(StrictValidateBaseValue.isValidateDouble(trueNumberDouble));
+        Assert.assertTrue(ValidateBaseValue.isValidateDouble(trueNumberDouble));
     }
 
     @Test
     public void testFalseIsValidateString(){
-        Assert.assertFalse(StrictValidateBaseValue.isValidateString(falseText));
+        Assert.assertFalse(ValidateBaseValue.isValidateString(falseText));
     }
 
     @Test
     public void testFalseIsValidateInteger(){
-        Assert.assertFalse(StrictValidateBaseValue.isValidateInteger(falseNumberInt));
+        Assert.assertFalse(ValidateBaseValue.isValidateInteger(falseNumberInt));
     }
 
     @Test()
     public void testFalseIsValidateDouble(){
-        Assert.assertFalse(StrictValidateBaseValue.isValidateDouble(falseNumberDouble));
+        Assert.assertFalse(ValidateBaseValue.isValidateDouble(falseNumberDouble));
     }
 }

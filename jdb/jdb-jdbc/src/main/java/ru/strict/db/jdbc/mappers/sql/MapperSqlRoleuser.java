@@ -1,6 +1,6 @@
 package ru.strict.db.jdbc.mappers.sql;
 
-import ru.strict.components.StrictWrapperRuntimeException;
+import ru.strict.components.WrapperRuntimeException;
 import ru.strict.db.core.entities.EntityRoleuser;
 import ru.strict.db.core.mappers.sql.MapperSqlBase;
 
@@ -23,7 +23,7 @@ public class MapperSqlRoleuser extends MapperSqlBase<EntityRoleuser> {
             entity.setSymbols(resultSet.getString(COLUMNS_NAME[0]));
             entity.setDescription(resultSet.getString(COLUMNS_NAME[1]));
         }catch(SQLException ex){
-            throw new StrictWrapperRuntimeException(ex);
+            throw new WrapperRuntimeException(ex);
         }
         return entity;
     }

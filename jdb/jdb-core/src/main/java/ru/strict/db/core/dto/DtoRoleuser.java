@@ -2,7 +2,7 @@ package ru.strict.db.core.dto;
 
 import java.util.Collection;
 import java.util.LinkedList;
-import ru.strict.utils.StrictUtilHashCode;
+import ru.strict.utils.UtilHashCode;
 
 /**
  * Роль пользователя в системе (например, администратор, пользователь, неавторизированный пользователь и др.)
@@ -101,7 +101,7 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return StrictUtilHashCode.createSubHashCode(superHashCode, symbols, description, users);
+        return UtilHashCode.createSubHashCode(superHashCode, symbols, description, users);
     }
     //</editor-fold>
 }

@@ -1,6 +1,6 @@
 package ru.strict.db.core.migration.components;
 
-import ru.strict.utils.StrictUtilHashCode;
+import ru.strict.utils.UtilHashCode;
 
 /**
  * Первичный ключ таблицы для миграции в базу данных
@@ -55,7 +55,7 @@ public class MigrationPrimaryKey implements MigrationComponent {
 
     @Override
     public int hashCode(){
-        return StrictUtilHashCode.createHashCode(name, column);
+        return UtilHashCode.createHashCode(name, column);
     }
     //</editor-fold>
 }

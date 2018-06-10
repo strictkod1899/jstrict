@@ -1,6 +1,6 @@
 package ru.strict.db.jdbc.mappers.sql;
 
-import ru.strict.components.StrictWrapperRuntimeException;
+import ru.strict.components.WrapperRuntimeException;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.sql.MapperSqlBase;
 
@@ -24,7 +24,7 @@ public class MapperSqlUser extends MapperSqlBase<EntityUser> {
             entity.setPasswordEncode(resultSet.getString(COLUMNS_NAME[1]));
             entity.setToken(resultSet.getString(COLUMNS_NAME[2]));
         }catch(SQLException ex){
-            throw new StrictWrapperRuntimeException(ex);
+            throw new WrapperRuntimeException(ex);
         }
         return entity;
     }

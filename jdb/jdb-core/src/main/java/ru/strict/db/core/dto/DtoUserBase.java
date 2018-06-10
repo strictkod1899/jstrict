@@ -2,7 +2,7 @@ package ru.strict.db.core.dto;
 
 import java.util.Collection;
 import java.util.LinkedList;
-import ru.strict.utils.StrictUtilHashCode;
+import ru.strict.utils.UtilHashCode;
 
 /**
  * Базовая информация о пользователе (логин, роли, профиль)
@@ -99,7 +99,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return StrictUtilHashCode.createSubHashCode(superHashCode, username, rolesuser, profile);
+        return UtilHashCode.createSubHashCode(superHashCode, username, rolesuser, profile);
     }
     //</editor-fold>
 }

@@ -9,7 +9,7 @@ import ru.strict.db.core.repositories.RepositoryBase;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.jdbc.common.JdbcSqlParameter;
 import ru.strict.db.jdbc.common.JdbcSqlParameters;
-import ru.strict.utils.StrictUtilLogger;
+import ru.strict.utils.UtilLogger;
 
 import java.math.BigDecimal;
 import java.net.URL;
@@ -115,14 +115,14 @@ public abstract class RepositoryJdbcBase
             else if(id instanceof String)
                 statement.setString(1, (String)id);
             else{
-                StrictUtilLogger.error(RepositoryJdbcBase.class, "Error sql-query [read]: ID type not supported");
+                UtilLogger.error(RepositoryJdbcBase.class, "Error sql-query [read]: ID type not supported");
                 throw new IllegalArgumentException("Error sql-query [read]: ID type not supported");
             }
 
             resultSet = statement.executeQuery();
             return getDtoMapper().map(sqlMapper.map(resultSet));
         } catch (SQLException ex) {
-            StrictUtilLogger.error(RepositoryJdbcBase.class, ex.getClass().toString(), ex.getMessage());
+            UtilLogger.error(RepositoryJdbcBase.class, ex.getClass().toString(), ex.getMessage());
             return null;
         }
     }
@@ -139,7 +139,7 @@ public abstract class RepositoryJdbcBase
             while(resultSet.next())
                 result.add(getDtoMapper().map(sqlMapper.map(resultSet)));
         } catch (SQLException ex) {
-            StrictUtilLogger.error(RepositoryJdbcBase.class, ex.getClass().toString(), ex.getMessage());
+            UtilLogger.error(RepositoryJdbcBase.class, ex.getClass().toString(), ex.getMessage());
             return null;
         }
         setObjects(result);

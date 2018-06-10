@@ -1,7 +1,5 @@
 package ru.strict.utils;
 
-import sun.awt.image.ToolkitImage;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +13,7 @@ import java.io.IOException;
 /**
  * Управление изображениями
  */
-public class StrictUtilImage {
+public class UtilImage {
 
     /**
      * Загрузка и изменение размера изображения
@@ -25,7 +23,7 @@ public class StrictUtilImage {
      * @return
      */
     public static ImageIcon resizeImage(String pathImage, int width, int height) {
-        StrictUtilLogger.info(StrictUtilImage.class, "resizeImage - started");
+        UtilLogger.info(UtilImage.class, "resizeImage - started");
         BufferedImage bufferedImage = null;
         try {
             bufferedImage = ImageIO.read(new File(pathImage));
@@ -45,7 +43,7 @@ public class StrictUtilImage {
         g2.drawRenderedImage(bufferedImage, xform);
         g2.dispose();
         ImageIcon iconBack = new ImageIcon(target);
-        StrictUtilLogger.info(StrictUtilImage.class, "resizeImage - finished");
+        UtilLogger.info(UtilImage.class, "resizeImage - finished");
         return iconBack;
     }
 }

@@ -2,7 +2,7 @@ package ru.strict.swing.models;
 
 import ru.strict.swing.enums.StrictEnumColors;
 import ru.strict.swing.enums.StrictEnumFonts;
-import ru.strict.utils.StrictUtilFrame;
+import ru.strict.utils.UtilFrame;
 
 import java.awt.*;
 
@@ -28,7 +28,7 @@ public abstract class StrictModelViewBase extends StrictModelBase{
     private void initDefault(){
         background = StrictEnumColors.BACKGROUND_FORM.getColor();
         fontText = new Font(StrictEnumFonts.UBUNTU.getFontName(), Font.PLAIN,
-                StrictUtilFrame.calcSizeByRatio(Toolkit.getDefaultToolkit().getScreenSize().width,
+                UtilFrame.calcSizeByRatio(Toolkit.getDefaultToolkit().getScreenSize().width,
                         Toolkit.getDefaultToolkit().getScreenSize().height,
                         RATIO_FONT_TEXT));
         gap = 1;

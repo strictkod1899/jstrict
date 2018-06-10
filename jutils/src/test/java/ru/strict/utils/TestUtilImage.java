@@ -4,12 +4,11 @@ import org.junit.Test;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import ru.strict.utils.StrictUtilImage;
 
 import java.io.File;
 
 @RunWith(JUnit4.class)
-public class TestStrictUtilImage {
+public class TestUtilImage {
 
     @Test
     public void testResizeImage(){
@@ -17,6 +16,6 @@ public class TestStrictUtilImage {
         File img = new File(classLoader.getResource("images/test.png").getFile());
         String strImg = img.getPath();
         Assert.assertEquals(50,
-                StrictUtilImage.resizeImage("src/test/resources/images/test.png", 50, 50).getIconWidth());
+                UtilImage.resizeImage("src/test/resources/images/test.png", 50, 50).getIconWidth());
     }
 }

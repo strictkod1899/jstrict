@@ -1,6 +1,6 @@
 package ru.strict.db.core.dto;
 
-import ru.strict.utils.StrictUtilHashCode;
+import ru.strict.utils.UtilHashCode;
 
 /**
  * Пользователь системы
@@ -58,7 +58,7 @@ public class DtoUser<ID> extends DtoUserToken<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return StrictUtilHashCode.createSubHashCode(superHashCode, passwordEncode);
+        return UtilHashCode.createSubHashCode(superHashCode, passwordEncode);
     }
     //</editor-fold>
 }

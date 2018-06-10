@@ -1,6 +1,6 @@
 package ru.strict.swing.controllers.views.frames;
 
-import ru.strict.utils.StrictUtilLogger;
+import ru.strict.utils.UtilLogger;
 import ru.strict.swing.controllers.views.dialogs.StrictControllerDialogReg;
 /*import ru.strict.db.StrictControllerDatabase;
 import ru.strict.db.StrictUtilsDatabase;
@@ -36,7 +36,7 @@ public class StrictControllerFrameAuth<O extends StrictFrameAuth, M extends Stri
      * @param event
      */
     public void actionReg(ActionEvent event){
-        StrictUtilLogger.info(StrictControllerFrameAuth.class, "actionReg - started");
+        UtilLogger.info(StrictControllerFrameAuth.class, "actionReg - started");
         StrictModelDialogReg modelDialogReg = new StrictModelDialogReg();
         modelDialogReg.setTitle("Регистрация");
         modelDialogReg.setWidth(Toolkit.getDefaultToolkit().getScreenSize().width/3);
@@ -48,7 +48,7 @@ public class StrictControllerFrameAuth<O extends StrictFrameAuth, M extends Stri
         );
         controllerDialogReg.build();
         controllerDialogReg.launch();
-        StrictUtilLogger.info(StrictControllerFrameAuth.class, "actionReg - finished");
+        UtilLogger.info(StrictControllerFrameAuth.class, "actionReg - finished");
     }
 
     /**

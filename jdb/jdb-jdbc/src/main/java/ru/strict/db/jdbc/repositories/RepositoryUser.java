@@ -11,7 +11,7 @@ import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlUser;
-import ru.strict.utils.StrictUtilLogger;
+import ru.strict.utils.UtilLogger;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -38,7 +38,7 @@ public class RepositoryUser<ID, SOURCE extends ICreateConnection, DTO extends Dt
             valuesByColumn.put(2, dtoUser.getToken());
             return valuesByColumn;
         }else {
-            StrictUtilLogger.error(RepositoryUser.class, "Expected a type dto-object is DtoUser");
+            UtilLogger.error(RepositoryUser.class, "Expected a type dto-object is DtoUser");
             throw new IllegalArgumentException("Expected a type dto-object is DtoUser");
         }
     }

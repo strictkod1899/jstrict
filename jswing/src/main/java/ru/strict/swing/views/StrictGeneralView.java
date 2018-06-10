@@ -1,6 +1,6 @@
 package ru.strict.swing.views;
 
-import ru.strict.utils.StrictUtilLogger;
+import ru.strict.utils.UtilLogger;
 import ru.strict.swing.models.StrictModelFormBase;
 import ru.strict.swing.views.dialogs.StrictDialogDefault;
 import ru.strict.swing.views.frames.StrictFrameDefault;
@@ -47,7 +47,7 @@ public class StrictGeneralView {
      * Установить размер формы по содержимому
      */
     public void pack() {
-        StrictUtilLogger.info(StrictGeneralView.class, "pack - started");
+        UtilLogger.info(StrictGeneralView.class, "pack - started");
         Component[] components = window.getComponents();
         int width = 0;
         int height = 0;
@@ -57,28 +57,28 @@ public class StrictGeneralView {
         }
         window.setSize(width, height);
         window.setPreferredSize(new Dimension(width, height));
-        StrictUtilLogger.info(StrictGeneralView.class, "pack - finished");
+        UtilLogger.info(StrictGeneralView.class, "pack - finished");
     }
 
     /**
      * Установить высоту формы по содержимому
      */
     public void packHeight() {
-        StrictUtilLogger.info(StrictGeneralView.class, "packHeight - started");
+        UtilLogger.info(StrictGeneralView.class, "packHeight - started");
         Component[] components = window.getComponents();
         int height = 0;
         for (Component component : components)
             height += component.getPreferredSize().height;
         window.setSize(window.getWidth(), height);
         window.setPreferredSize(new Dimension(window.getWidth(), height));
-        StrictUtilLogger.info(StrictGeneralView.class, "packHeight - finished");
+        UtilLogger.info(StrictGeneralView.class, "packHeight - finished");
     }
 
     /**
      * Установить ширину формы по содержимому
      */
     public void packWidth() {
-        StrictUtilLogger.info(StrictGeneralView.class, "packWidth - started");
+        UtilLogger.info(StrictGeneralView.class, "packWidth - started");
         Component[] components = window.getComponents();
         int width = 0;
         for (Component component : components)
@@ -86,7 +86,7 @@ public class StrictGeneralView {
 
         window.setSize(width, window.getHeight());
         window.setPreferredSize(new Dimension(width, window.getHeight()));
-        StrictUtilLogger.info(StrictGeneralView.class, "packWidth - finished");
+        UtilLogger.info(StrictGeneralView.class, "packWidth - finished");
     }
 
     /**

@@ -3,8 +3,7 @@ package ru.strict.utils;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import org.apache.log4j.PropertyConfigurator;
 
 /**
@@ -17,14 +16,14 @@ import org.apache.log4j.PropertyConfigurator;
  * StrictConfigLog4j config = new StrictConfigLog4j(<путь до файла конфигураций log4j>);
  * config.init();
  */
-public class StrictUtilConfigLog4j {
+public class UtilConfigLog4j {
     private static Properties property;
     private static String logFile;
 
-    private StrictUtilConfigLog4j(){}
+    private UtilConfigLog4j(){}
 
     @SuppressWarnings("static-access")
-    public StrictUtilConfigLog4j(String logFile){
+    public UtilConfigLog4j(String logFile){
         this.logFile = logFile;
         property = new Properties();
     }
@@ -38,7 +37,7 @@ public class StrictUtilConfigLog4j {
             PropertyConfigurator.configure(property);
             return 1;
         } catch (IOException ex) {
-            StrictUtilLogger.error(StrictUtilConfigLog4j.class, ex.getClass().toString(), ex.getMessage());
+            UtilLogger.error(UtilConfigLog4j.class, ex.getClass().toString(), ex.getMessage());
             return 0;
         }
     }

@@ -5,10 +5,10 @@ import ru.strict.db.core.dto.DtoBase;
 import ru.strict.db.core.entities.EntityBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.requests.DbRequests;
-import ru.strict.utils.StrictUtilClassName;
-import ru.strict.utils.StrictUtilLogger;
-import ru.strict.components.StrictWrapperLogger;
-import ru.strict.utils.StrictUtilHashCode;
+import ru.strict.utils.UtilClassName;
+import ru.strict.utils.UtilLogger;
+import ru.strict.components.WrapperLogger;
+import ru.strict.utils.UtilHashCode;
 
 import java.sql.Connection;
 import java.util.Arrays;
@@ -27,7 +27,7 @@ public abstract class RepositoryBase
         <ID, SOURCE extends ICreateConnection, E extends EntityBase, DTO extends DtoBase>
         implements IStrictRepositoryExtension<ID, DTO> {
 
-    protected final StrictWrapperLogger LOGGER = StrictUtilLogger.createLogger(StrictUtilClassName.getCurrentClassname());
+    protected final WrapperLogger LOGGER = UtilLogger.createLogger(UtilClassName.getCurrentClassname());
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
@@ -252,7 +252,7 @@ public abstract class RepositoryBase
 
     @Override
     public int hashCode(){
-        return StrictUtilHashCode.createHashCode(tableName, connectionSource, state, isGenerateId, columnsName);
+        return UtilHashCode.createHashCode(tableName, connectionSource, state, isGenerateId, columnsName);
     }
     //</editor-fold>
 }

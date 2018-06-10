@@ -11,7 +11,7 @@ import java.util.Arrays;
 /**
  * Управление системным треем
  */
-public class StrictUtilTray {
+public class UtilTray {
 
     /**
      * Загрузить приложение в системный трей
@@ -24,7 +24,7 @@ public class StrictUtilTray {
      */
     public static void setTray(String tooltip, String pathIcon, ActionListener eventDoubleClick
             , boolean isExitVisible, JMenuItem...items){
-        StrictUtilLogger.info(StrictUtilTray.class, "setTray - started");
+        UtilLogger.info(UtilTray.class, "setTray - started");
         final TrayIcon trayIcon;
 
         if (SystemTray.isSupported()) {
@@ -56,14 +56,14 @@ public class StrictUtilTray {
             try {
                 tray.add(trayIcon);
             } catch (AWTException ex) {
-                StrictUtilLogger.error(StrictUtilTray.class, "System tray not can be added"
+                UtilLogger.error(UtilTray.class, "System tray not can be added"
                         , ex.getClass().toString(), ex.getMessage());
             }
 
         } else {
-            StrictUtilLogger.error(StrictUtilTray.class, "System tray not supported");
+            UtilLogger.error(UtilTray.class, "System tray not supported");
         }
-        StrictUtilLogger.info(StrictUtilTray.class, "setTray - finished");
+        UtilLogger.info(UtilTray.class, "setTray - finished");
     }
 
     private static JMenuItem getItemExit(){

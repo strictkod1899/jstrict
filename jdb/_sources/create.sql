@@ -8,3 +8,4 @@ CREATE TABLE user_on_role(id integer NOT NULL, userx_id integer NOT NULL, roleus
 CREATE TABLE profile(id integer NOT NULL, name text NOT NULL, surname text NOT NULL, middlename text, userx_id integer NOT NULL, CONSTRAINT pk_profile PRIMARY KEY (id), CONSTRAINT uq_profile_userx_id UNIQUE (userx_id), CONSTRAINT fk_profile_userx_id FOREIGN KEY (userx_id) REFERENCES userx(id));
 
 CREATE TABLE profile(id integer NOT NULL, name text NOT NULL, surname text NOT NULL, middlename text, userx_id integer NOT NULL, datebirth DATE, phone text, country text, city text, CONSTRAINT pk_profile PRIMARY KEY (id), CONSTRAINT uq_profile_userx_id UNIQUE (userx_id), CONSTRAINT fk_profile_userx_id FOREIGN KEY (userx_id) REFERENCES userx(id));
+

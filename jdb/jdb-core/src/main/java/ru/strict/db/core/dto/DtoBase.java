@@ -1,7 +1,7 @@
 package ru.strict.db.core.dto;
 
 import ru.strict.db.core.mappers.MapTarget;
-import ru.strict.utils.StrictUtilHashCode;
+import ru.strict.utils.UtilHashCode;
 
 /**
  * Базовый entity-класс
@@ -51,7 +51,7 @@ public abstract class DtoBase<ID>  implements MapTarget {
 
     @Override
     public int hashCode(){
-        return StrictUtilHashCode.createHashCode(id);
+        return UtilHashCode.createHashCode(id);
     }
     //</editor-fold>
 }

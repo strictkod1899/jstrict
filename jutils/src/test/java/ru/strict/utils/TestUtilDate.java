@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import ru.strict.utils.StrictUtilDate;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,12 +12,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 @RunWith(Parameterized.class)
-public class TestStrictUtilDate {
+public class TestUtilDate {
 
     private Date date1, date2;
     private int resultYear, resultMonth, resultDay, resultHour, resultMinutes;
 
-    public TestStrictUtilDate(Date date1, Date date2, int resultYear, int resultMonth, int resultDay, int resultHour, int resultMinutes) {
+    public TestUtilDate(Date date1, Date date2, int resultYear, int resultMonth, int resultDay, int resultHour, int resultMinutes) {
         this.date1 = date1;
         this.date2 = date2;
         this.resultYear = resultYear;
@@ -41,26 +40,26 @@ public class TestStrictUtilDate {
 
     @Test
     public void testCountYear(){
-        Assert.assertEquals(resultYear, StrictUtilDate.diffByYear(date1, date2));
+        Assert.assertEquals(resultYear, UtilDate.diffByYear(date1, date2));
     }
 
     @Test
     public void testCountMonth(){
-        Assert.assertEquals(resultMonth, StrictUtilDate.diffByMonth(date1, date2));
+        Assert.assertEquals(resultMonth, UtilDate.diffByMonth(date1, date2));
     }
 
     @Test
     public void testCountDay(){
-        Assert.assertEquals(resultDay, StrictUtilDate.diffByDay(date1, date2));
+        Assert.assertEquals(resultDay, UtilDate.diffByDay(date1, date2));
     }
 
     @Test
     public void testCountHour(){
-        Assert.assertEquals(resultHour, StrictUtilDate.diffByHour(date1, date2));
+        Assert.assertEquals(resultHour, UtilDate.diffByHour(date1, date2));
     }
 
     @Test
     public void testCountMinutes(){
-        Assert.assertEquals(resultMinutes, StrictUtilDate.diffByMinutes(date1, date2));
+        Assert.assertEquals(resultMinutes, UtilDate.diffByMinutes(date1, date2));
     }
 }

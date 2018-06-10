@@ -1,8 +1,8 @@
 package ru.strict.db.core.migration.components;
 
-import ru.strict.utils.StrictUtilLogger;
-import ru.strict.components.StrictWrapperLogger;
-import ru.strict.utils.StrictUtilHashCode;
+import ru.strict.utils.UtilLogger;
+import ru.strict.components.WrapperLogger;
+import ru.strict.utils.UtilHashCode;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -17,7 +17,7 @@ public class MigrationTable
         <COLUMN extends MigrationColumn, FK extends MigrationForeignKey>
         implements MigrationComponent {
 
-    protected final StrictWrapperLogger LOGGER = StrictUtilLogger.createLogger(MigrationTable.class);
+    protected final WrapperLogger LOGGER = UtilLogger.createLogger(MigrationTable.class);
 
     /**
      * Наименование таблицы
@@ -121,7 +121,7 @@ public class MigrationTable
 
     @Override
     public int hashCode(){
-        return StrictUtilHashCode.createHashCode(name, primaryKey, columns, foreignKeys);
+        return UtilHashCode.createHashCode(name, primaryKey, columns, foreignKeys);
     }
     //</editor-fold>
 }

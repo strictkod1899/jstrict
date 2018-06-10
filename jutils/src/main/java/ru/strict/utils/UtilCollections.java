@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * Управление коллекциями
  */
-public class StrictUtilCollections {
+public class UtilCollections {
 
     /**
      * Преобразовать строку в массив, без пробелов на концах строк
@@ -14,11 +14,11 @@ public class StrictUtilCollections {
      * @return
      */
     public static String[] strTrimToArray(String str, String split){
-        StrictUtilLogger.info(StrictUtilCollections.class, "strTrimToArray - started");
+        UtilLogger.info(UtilCollections.class, "strTrimToArray - started");
         String[] arrStr = str.split(split);
         for(int i=0; i<arrStr.length; i++)
             arrStr[i].trim();
-        StrictUtilLogger.info(StrictUtilCollections.class, "strTrimToArray - finished");
+        UtilLogger.info(UtilCollections.class, "strTrimToArray - finished");
         return arrStr;
     }
 
@@ -29,11 +29,11 @@ public class StrictUtilCollections {
      * @return
      */
     public static Collection<String> strTrimToCollection(String str, String split){
-        StrictUtilLogger.info(StrictUtilCollections.class, "strTrimToCollection - started");
+        UtilLogger.info(UtilCollections.class, "strTrimToCollection - started");
         List<String> listStr = (List<String>)arrayStrToCollection(str.split(split));
         for(int i=0; i<listStr.size(); i++)
             listStr.set(i, listStr.get(i).trim());
-        StrictUtilLogger.info(StrictUtilCollections.class, "strTrimToCollection - finished");
+        UtilLogger.info(UtilCollections.class, "strTrimToCollection - finished");
         return listStr;
     }
 
@@ -43,11 +43,11 @@ public class StrictUtilCollections {
      * @return
      */
     public static Collection<String> arrayStrToCollection(String[] arr){
-        StrictUtilLogger.info(StrictUtilCollections.class, "arrayStrToCollection - started");
+        UtilLogger.info(UtilCollections.class, "arrayStrToCollection - started");
         Collection<String> coll = new ArrayList<>();
         for(String field: arr)
             coll.add(field);
-        StrictUtilLogger.info(StrictUtilCollections.class, "arrayStrToCollection - finished");
+        UtilLogger.info(UtilCollections.class, "arrayStrToCollection - finished");
         return coll;
     }
 
@@ -57,7 +57,7 @@ public class StrictUtilCollections {
      * @return
      */
     public static String[] collectionStrToArray(Collection<String> collection){
-        StrictUtilLogger.info(StrictUtilCollections.class, "collectionStrToArray - started");
+        UtilLogger.info(UtilCollections.class, "collectionStrToArray - started");
         Iterator<String> iter = collection.iterator();
         String [] arr = new String[collection.size()];
         int i=0;
@@ -65,7 +65,7 @@ public class StrictUtilCollections {
             arr[i] = iter.next();
             i++;
         }
-        StrictUtilLogger.info(StrictUtilCollections.class, "collectionStrToArray - finished");
+        UtilLogger.info(UtilCollections.class, "collectionStrToArray - finished");
         return arr;
     }
 
@@ -75,11 +75,11 @@ public class StrictUtilCollections {
      * @return
      */
     public static Collection<Object> collectionStrToObj(Collection<String> collection){
-        StrictUtilLogger.info(StrictUtilCollections.class, "collectionStrToObj - started");
+        UtilLogger.info(UtilCollections.class, "collectionStrToObj - started");
         Collection<Object> coll = new ArrayList<>();
         for(String temp:collection)
             coll.add(temp);
-        StrictUtilLogger.info(StrictUtilCollections.class, "collectionStrToObj - finished");
+        UtilLogger.info(UtilCollections.class, "collectionStrToObj - finished");
         return coll;
     }
 
@@ -89,11 +89,11 @@ public class StrictUtilCollections {
      * @return
      */
     public static Collection<String> collectionObjToStr(Collection<? extends Object> collection){
-        StrictUtilLogger.info(StrictUtilCollections.class, "collectionObjToStr - started");
+        UtilLogger.info(UtilCollections.class, "collectionObjToStr - started");
         Collection<String> coll = new ArrayList<>();
         for(Object temp:collection)
             coll.add(String.valueOf(temp.toString()));
-        StrictUtilLogger.info(StrictUtilCollections.class, "collectionObjToStr - finished");
+        UtilLogger.info(UtilCollections.class, "collectionObjToStr - finished");
         return coll;
     }
 
@@ -103,11 +103,11 @@ public class StrictUtilCollections {
      * @return
      */
     public static Collection<String> collectionObjToStrTrim(Collection<? extends Object> collection){
-        StrictUtilLogger.info(StrictUtilCollections.class, "collectionObjToStrTrim - started");
+        UtilLogger.info(UtilCollections.class, "collectionObjToStrTrim - started");
         Collection<String> coll = new ArrayList<>();
         for(Object temp:collection)
             coll.add(String.valueOf(temp.toString()).trim());
-        StrictUtilLogger.info(StrictUtilCollections.class, "collectionObjToStrTrim - finished");
+        UtilLogger.info(UtilCollections.class, "collectionObjToStrTrim - finished");
         return coll;
     }
 
@@ -117,7 +117,7 @@ public class StrictUtilCollections {
      * @return
      */
     public static Collection<Collection<Object>> collectionsStrToObj(Collection<Collection<String>> collection){
-        StrictUtilLogger.info(StrictUtilCollections.class, "collectionsStrToObj - started");
+        UtilLogger.info(UtilCollections.class, "collectionsStrToObj - started");
         Collection<Collection<Object>> coll = new ArrayList<>();
         for(Collection<String> collTemp:collection){
             Collection<Object> objs = new ArrayList<>();
@@ -125,7 +125,7 @@ public class StrictUtilCollections {
                 objs.add(str);
             coll.add(objs);
         }
-        StrictUtilLogger.info(StrictUtilCollections.class, "collectionsStrToObj - finished");
+        UtilLogger.info(UtilCollections.class, "collectionsStrToObj - finished");
         return coll;
     }
 }

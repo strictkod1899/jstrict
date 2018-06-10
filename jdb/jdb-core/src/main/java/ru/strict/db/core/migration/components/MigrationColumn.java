@@ -1,6 +1,6 @@
 package ru.strict.db.core.migration.components;
 
-import ru.strict.utils.StrictUtilHashCode;
+import ru.strict.utils.UtilHashCode;
 
 /**
  * Столбец таблицы для миграции в базу данных
@@ -86,7 +86,7 @@ public class MigrationColumn implements MigrationComponent {
 
     @Override
     public int hashCode(){
-        return StrictUtilHashCode.createHashCode(name, type, isNotNull, defaultValue);
+        return UtilHashCode.createHashCode(name, type, isNotNull, defaultValue);
     }
     //</editor-fold>
 }

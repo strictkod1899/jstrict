@@ -1,6 +1,6 @@
 package ru.strict.swing.controllers.views;
 
-import ru.strict.utils.StrictUtilLogger;
+import ru.strict.utils.UtilLogger;
 import ru.strict.swing.controllers.views.dialogs.StrictControllerDialogDefault;
 import ru.strict.swing.controllers.views.frames.StrictControllerFrameDefault;
 import ru.strict.swing.controllers.views.panels.StrictControllerPanelContent;
@@ -27,7 +27,7 @@ public class StrictGeneralControllerView {
      * Инициализация контроллера панели состояния
      */
     public void initControllerPanelState(){
-        StrictUtilLogger.info(StrictGeneralControllerView.class, "initControllerPanelState - started");
+        UtilLogger.info(StrictGeneralControllerView.class, "initControllerPanelState - started");
         StrictModelPanelState modelPanelState = new StrictModelPanelState();
         modelPanelState.setTitle(controller.getModel().getTitle());
 
@@ -50,21 +50,21 @@ public class StrictGeneralControllerView {
 
             ((StrictControllerFrameDefault)controller).getObject().setPanelState(controllerPanelState.build());
         }
-        StrictUtilLogger.info(StrictGeneralControllerView.class, "initControllerPanelState - finished");
+        UtilLogger.info(StrictGeneralControllerView.class, "initControllerPanelState - finished");
     }
 
     /**
      * Инициализация контроллера панели содержимого
      */
     public void initControllerPanelContent(){
-        StrictUtilLogger.info(StrictGeneralControllerView.class, "initControllerPanelContent - started");
+        UtilLogger.info(StrictGeneralControllerView.class, "initControllerPanelContent - started");
         StrictControllerPanelContent controllerPanelContent = new StrictControllerPanelContent(new StrictPanelContent()
                 , new StrictModelPanelContent());
         if(controller instanceof StrictControllerDialogDefault)
             ((StrictControllerDialogDefault)controller).getObject().setPanelContent(controllerPanelContent.build());
         else if(controller instanceof StrictControllerFrameDefault)
             ((StrictControllerFrameDefault)controller).getObject().setPanelContent(controllerPanelContent.build());
-        StrictUtilLogger.info(StrictGeneralControllerView.class, "initControllerPanelContent - finished");
+        UtilLogger.info(StrictGeneralControllerView.class, "initControllerPanelContent - finished");
     }
 
 

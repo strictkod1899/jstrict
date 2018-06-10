@@ -1,6 +1,6 @@
 package ru.strict.swing.views.dialogs;
 
-import ru.strict.utils.StrictUtilLogger;
+import ru.strict.utils.UtilLogger;
 import ru.strict.swing.models.dialogs.StrictModelDialogReg;
 
 import javax.swing.*;
@@ -16,7 +16,7 @@ public class StrictDialogReg<M extends StrictModelDialogReg> extends StrictDialo
     @Override
     public StrictDialogReg build(M model) {
         super.build(model);
-        StrictUtilLogger.info(StrictDialogReg.class, "build - started");
+        UtilLogger.info(StrictDialogReg.class, "build - started");
         this.setLocationRelativeTo(null);
 
         GridBagLayout layout = new GridBagLayout();
@@ -67,7 +67,7 @@ public class StrictDialogReg<M extends StrictModelDialogReg> extends StrictDialo
         getPanelContent().add(butReg);
         layout.setConstraints(butBack, cons);
         getPanelContent().add(butBack);
-        StrictUtilLogger.info(StrictDialogReg.class, "build - finished");
+        UtilLogger.info(StrictDialogReg.class, "build - finished");
         return this;
     }
 

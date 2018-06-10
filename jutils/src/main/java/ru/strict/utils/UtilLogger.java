@@ -1,21 +1,21 @@
 package ru.strict.utils;
 
 import org.apache.log4j.Logger;
-import ru.strict.components.StrictWrapperLogger;
+import ru.strict.components.WrapperLogger;
 
 import static org.apache.log4j.Logger.getLogger;
 
 /**
  * Управление логированием
  */
-public class StrictUtilLogger {
+public class UtilLogger {
 
-    public static StrictWrapperLogger createLogger(Class clazz){
-        return new StrictWrapperLogger(getLogger(clazz));
+    public static WrapperLogger createLogger(Class clazz){
+        return new WrapperLogger(getLogger(clazz));
     }
 
-    public static StrictWrapperLogger createLogger(String className){
-        return new StrictWrapperLogger(getLogger(className));
+    public static WrapperLogger createLogger(String className){
+        return new WrapperLogger(getLogger(className));
     }
 
     /**
@@ -62,7 +62,7 @@ public class StrictUtilLogger {
      * Логирование исключения
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
-     * StrictUtilLogger.error(MyClass.class, ex.getClass().toString(), ex.getMessage());
+     * UtilLogger.error(MyClass.class, ex.getClass().toString(), ex.getMessage());
      * </pre></code>
      * @param clazz Класс, в котором производится логирование
      * @param type Тип исключения
@@ -77,7 +77,7 @@ public class StrictUtilLogger {
      * Логирование исключения
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
-     * StrictUtilLogger.error(MyClass.class, "My message", ex.getClass().toString(), ex.getMessage());
+     * UtilLogger.error(MyClass.class, "My message", ex.getClass().toString(), ex.getMessage());
      * </pre></code>
      * @param clazz Класс, в котором производится логирование
      * @param customMessage Пользовательское (дополнительное) сообщение

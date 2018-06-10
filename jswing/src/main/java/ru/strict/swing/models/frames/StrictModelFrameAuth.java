@@ -2,7 +2,7 @@ package ru.strict.swing.models.frames;
 
 //import ru.strict.jdbc.entities.StrictEntityUser;
 import ru.strict.swing.enums.StrictEnumFonts;
-import ru.strict.utils.StrictUtilFrame;
+import ru.strict.utils.UtilFrame;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -29,7 +29,7 @@ public class StrictModelFrameAuth extends StrictModelFrameDefault{
     private void initDefault(){
         //this.user = null;
         this.fontTextPassword = new Font(StrictEnumFonts.BASE.getFontName(), Font.PLAIN,
-                StrictUtilFrame.calcSizeByRatio(Toolkit.getDefaultToolkit().getScreenSize().width,
+                UtilFrame.calcSizeByRatio(Toolkit.getDefaultToolkit().getScreenSize().width,
                         Toolkit.getDefaultToolkit().getScreenSize().height,
                         RATIO_FONT_TEXT));
         this.visibleButReg = true;

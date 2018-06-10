@@ -2,7 +2,7 @@ package ru.strict.db.core.entities;
 
 import java.util.Collection;
 import java.util.LinkedList;
-import ru.strict.utils.StrictUtilHashCode;
+import ru.strict.utils.UtilHashCode;
 
 /**
  * Пользователь системы
@@ -132,7 +132,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
     @Override
     public int hashCode(){
     	int superHashCode = super.hashCode();
-        return StrictUtilHashCode.createSubHashCode(superHashCode, username, passwordEncode, rolesuser, token, profile);
+        return UtilHashCode.createSubHashCode(superHashCode, username, passwordEncode, rolesuser, token, profile);
     }
     //</editor-fold>
 }

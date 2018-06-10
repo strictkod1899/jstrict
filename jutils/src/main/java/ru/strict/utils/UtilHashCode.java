@@ -6,7 +6,7 @@ import java.util.Map;
 /**
 * Генерация хэш-кода
 */
-public class StrictUtilHashCode {
+public class UtilHashCode {
 
     private static final int INIT_HASH_CODE = 17;
     private static final int CONSTANT = 37;
@@ -22,7 +22,7 @@ public class StrictUtilHashCode {
     * <code><pre style="background-color: white; font-family: consolas">
     *       public int hashCode(){
     *           int superHashCode = super.hashCode();
-    *           return StrictUtilHashCode.createSubHashCode(superHashCode, obj1, obj2, obj3);
+    *           return UtilHashCode.createSubHashCode(superHashCode, obj1, obj2, obj3);
     *       }
     * </pre></code>
     */

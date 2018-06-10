@@ -2,7 +2,7 @@ package ru.strict.db.core.migration.components.postgresql;
 
 import ru.strict.db.core.migration.components.MigrationForeignBehavior;
 import ru.strict.db.core.migration.components.MigrationForeignKey;
-import ru.strict.utils.StrictUtilHashCode;
+import ru.strict.utils.UtilHashCode;
 
 /**
  * Внешний ключ таблицы для миграции в базу данных PostgreSQL
@@ -53,7 +53,7 @@ public class PostgreSQLMigrationForeignKey extends MigrationForeignKey {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return StrictUtilHashCode.createSubHashCode(superHashCode, schema);
+        return UtilHashCode.createSubHashCode(superHashCode, schema);
     }
     //</editor-fold>
 }

@@ -1,6 +1,6 @@
 package ru.strict.db.core.common;
 
-import ru.strict.utils.StrictUtilLogger;
+import ru.strict.utils.UtilLogger;
 
 import java.sql.*;
 import javax.naming.InitialContext;
@@ -18,14 +18,14 @@ public class UtilsDatabase {
      * @return
      */
     public static DataSource createDataSource(String nameLookUp) {
-        StrictUtilLogger.info(UtilsDatabase.class, "Trying a DataSource create");
+        UtilLogger.info(UtilsDatabase.class, "Trying a DataSource create");
         try {
             InitialContext initialContext = new InitialContext();
             DataSource dataSource = (DataSource) initialContext.lookup(nameLookUp);
-            StrictUtilLogger.info(UtilsDatabase.class, "Connection is created");
+            UtilLogger.info(UtilsDatabase.class, "Connection is created");
             return dataSource;
         } catch (NamingException ex) {
-            StrictUtilLogger.error(UtilsDatabase.class, ex.getClass().toString(), ex.getMessage());
+            UtilLogger.error(UtilsDatabase.class, ex.getClass().toString(), ex.getMessage());
             return null;
         }
     }
@@ -36,15 +36,15 @@ public class UtilsDatabase {
      * @return
      */
     public static Connection createConnectionIC(String nameLookUp) {
-        StrictUtilLogger.info(UtilsDatabase.class, "Trying a connection create");
+        UtilLogger.info(UtilsDatabase.class, "Trying a connection create");
         try {
             InitialContext initialContext = new InitialContext();
             DataSource dataSource = (DataSource) initialContext.lookup(nameLookUp);
             Connection connection = dataSource.getConnection();
-            StrictUtilLogger.info(UtilsDatabase.class, "Connection is created");
+            UtilLogger.info(UtilsDatabase.class, "Connection is created");
             return connection;
         } catch (SQLException | NamingException ex) {
-            StrictUtilLogger.error(UtilsDatabase.class, ex.getClass().toString(), ex.getMessage());
+            UtilLogger.error(UtilsDatabase.class, ex.getClass().toString(), ex.getMessage());
             return null;
         }
     }
@@ -58,7 +58,7 @@ public class UtilsDatabase {
      * @param password  пароль для подключения к базе данных
      */
     public static Connection createConnection(String dbCaption, ConnectionByDbType dbType, String user, String password) {
-        StrictUtilLogger.info(UtilsDatabase.class, "Trying a connection create");
+        UtilLogger.info(UtilsDatabase.class, "Trying a connection create");
         try {
             // Путь к базе данных
             String connectUrl = dbType.getUrl() + dbCaption;
@@ -68,10 +68,10 @@ public class UtilsDatabase {
             DriverManager.registerDriver(jdbcDriver);
             // Соединение с Базой Данных
             Connection connection = DriverManager.getConnection(connectUrl, user, password);
-            StrictUtilLogger.info(UtilsDatabase.class, "Connection is created");
+            UtilLogger.info(UtilsDatabase.class, "Connection is created");
             return connection;
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
-            StrictUtilLogger.error(UtilsDatabase.class, ex.getClass().toString(), ex.getMessage());
+            UtilLogger.error(UtilsDatabase.class, ex.getClass().toString(), ex.getMessage());
         }
         return null;
     }
@@ -83,13 +83,13 @@ public class UtilsDatabase {
      * @return
      */
     public ResultSet qSelectValue(Connection connection, String sql){
-        StrictUtilLogger.info(UtilsDatabase.class, "Trying a sql query execute");
+        UtilLogger.info(UtilsDatabase.class, "Trying a sql query execute");
         ResultSet rs = null;
 
         try {
             rs = connection.createStatement().executeQuery(sql);
         } catch (SQLException ex) {
-            StrictUtilLogger.error(UtilsDatabase.class, ex.getClass().toString(), ex.getMessage());
+            UtilLogger.error(UtilsDatabase.class, ex.getClass().toString(), ex.getMessage());
         }
         return rs;
     }

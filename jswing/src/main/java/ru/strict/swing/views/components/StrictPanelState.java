@@ -1,6 +1,6 @@
 package ru.strict.swing.views.components;
 
-import ru.strict.utils.StrictUtilLogger;
+import ru.strict.utils.UtilLogger;
 import ru.strict.swing.models.panels.StrictModelPanelState;
 
 import javax.swing.JMenuBar;
@@ -9,7 +9,6 @@ import javax.swing.JMenuItem;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.event.ActionListener;
 
 /**
  * Класс панели состояния, расположенной вверху окна для закрытия, сворачивания и изменения размера окна программы
@@ -23,7 +22,7 @@ public class StrictPanelState<M extends StrictModelPanelState> extends StrictPan
     @Override
     public StrictPanelState build(M model) {
         super.build(model);
-        StrictUtilLogger.info(StrictPanelState.class, "build - started");
+        UtilLogger.info(StrictPanelState.class, "build - started");
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
 
@@ -43,7 +42,7 @@ public class StrictPanelState<M extends StrictModelPanelState> extends StrictPan
         layout.setConstraints(model.getPanelRight(), constraints);
         add(model.getPanelRight());
         strictMenu = new StrictMenuDefault(this, layout, constraints);
-        StrictUtilLogger.info(StrictPanelState.class, "build - finished");
+        UtilLogger.info(StrictPanelState.class, "build - finished");
         return this;
     }
 

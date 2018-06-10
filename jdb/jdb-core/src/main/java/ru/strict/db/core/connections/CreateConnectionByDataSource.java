@@ -1,7 +1,7 @@
 package ru.strict.db.core.connections;
 
-import ru.strict.utils.StrictUtilLogger;
-import ru.strict.components.StrictWrapperLogger;
+import ru.strict.utils.UtilLogger;
+import ru.strict.components.WrapperLogger;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
  */
 public class CreateConnectionByDataSource extends CreateConnectionBase<DataSource> {
 
-    protected final StrictWrapperLogger LOGGER = StrictUtilLogger.createLogger(CreateConnectionByDataSource.class);
+    protected final WrapperLogger LOGGER = UtilLogger.createLogger(CreateConnectionByDataSource.class);
 
     public CreateConnectionByDataSource(DataSource connectionSource) {
         super(connectionSource);

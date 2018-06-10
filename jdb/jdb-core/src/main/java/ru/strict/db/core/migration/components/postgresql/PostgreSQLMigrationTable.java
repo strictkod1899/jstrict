@@ -1,7 +1,8 @@
 package ru.strict.db.core.migration.components.postgresql;
 
 import ru.strict.db.core.migration.components.MigrationTable;
-import ru.strict.utils.StrictUtilHashCode;
+import ru.strict.utils.UtilHashCode;
+
 import java.util.stream.Collectors;
 
 /**
@@ -92,7 +93,7 @@ public class PostgreSQLMigrationTable
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return StrictUtilHashCode.createSubHashCode(superHashCode, schema, isAutoincrement);
+        return UtilHashCode.createSubHashCode(superHashCode, schema, isAutoincrement);
     }
     //</editor-fold>
 }

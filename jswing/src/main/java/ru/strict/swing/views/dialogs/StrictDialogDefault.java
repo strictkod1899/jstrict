@@ -1,6 +1,6 @@
 package ru.strict.swing.views.dialogs;
 
-import ru.strict.utils.StrictUtilLogger;
+import ru.strict.utils.UtilLogger;
 import ru.strict.swing.models.dialogs.StrictModelDialogDefault;
 import ru.strict.swing.enums.StrictEnumColors;
 import ru.strict.swing.views.components.StrictPanelContent;
@@ -21,7 +21,7 @@ public class StrictDialogDefault<M extends StrictModelDialogDefault> extends Str
     @Override
     public StrictDialogDefault build(M model){
         super.build(model);
-        StrictUtilLogger.info(StrictDialogDefault.class, "build - started");
+        UtilLogger.info(StrictDialogDefault.class, "build - started");
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
@@ -34,7 +34,7 @@ public class StrictDialogDefault<M extends StrictModelDialogDefault> extends Str
         // Создание стандартной панели и содержимого
         add(getPanelState(), BorderLayout.NORTH);
         add(getPanelContent(), BorderLayout.CENTER);
-        StrictUtilLogger.info(StrictDialogDefault.class, "build - finished");
+        UtilLogger.info(StrictDialogDefault.class, "build - finished");
         return this;
     }
 

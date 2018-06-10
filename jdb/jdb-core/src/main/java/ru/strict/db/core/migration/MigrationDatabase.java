@@ -2,9 +2,9 @@ package ru.strict.db.core.migration;
 
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.migration.components.MigrationTable;
-import ru.strict.utils.StrictUtilLogger;
-import ru.strict.components.StrictWrapperLogger;
-import ru.strict.utils.StrictUtilHashCode;
+import ru.strict.utils.UtilLogger;
+import ru.strict.components.WrapperLogger;
+import ru.strict.utils.UtilHashCode;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -23,7 +23,7 @@ public class MigrationDatabase
         <SOURCE extends ICreateConnection, TABLE extends MigrationTable>
         implements IMigration {
 
-    protected final StrictWrapperLogger LOGGER = StrictUtilLogger.createLogger(MigrationDatabase.class);
+    protected final WrapperLogger LOGGER = UtilLogger.createLogger(MigrationDatabase.class);
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
@@ -93,7 +93,7 @@ public class MigrationDatabase
 
     @Override
     public int hashCode(){
-        return StrictUtilHashCode.createHashCode(connectionSource, tables);
+        return UtilHashCode.createHashCode(connectionSource, tables);
     }
     //</editor-fold>
 }

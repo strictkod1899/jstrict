@@ -1,10 +1,10 @@
 package ru.strict.components;
 
-public class StrictWrapperException extends Exception {
+public class WrapperException extends Exception {
 
     private Exception wrapperObject;
 
-    public StrictWrapperException(Exception wrapperObject) {
+    public WrapperException(Exception wrapperObject) {
         super(wrapperObject.getMessage(), wrapperObject.getCause());
         this.wrapperObject = wrapperObject;
     }

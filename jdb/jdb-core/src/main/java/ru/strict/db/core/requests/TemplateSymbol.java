@@ -1,6 +1,6 @@
 package ru.strict.db.core.requests;
 
-import ru.strict.utils.StrictUtilHashCode;
+import ru.strict.utils.UtilHashCode;
 
 /**
  * Шаблонный символ сравнения строк
@@ -51,7 +51,7 @@ public class TemplateSymbol {
 
     @Override
     public int hashCode(){
-        return StrictUtilHashCode.createHashCode(templateSymbol, pointTemplateSymbol);
+        return UtilHashCode.createHashCode(templateSymbol, pointTemplateSymbol);
     }
     //</editor-fold>
 }

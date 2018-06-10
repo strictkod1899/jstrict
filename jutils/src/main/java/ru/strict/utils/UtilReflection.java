@@ -6,7 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * Управление Reflection API
  */
-public class StrictUtilReflection {
+public class UtilReflection {
 
     /**
      * Создать объект определенного класса, с передачей со

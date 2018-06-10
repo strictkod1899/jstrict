@@ -1,6 +1,6 @@
 package ru.strict.swing.views.components.table;
 
-import ru.strict.validates.StrictValidateBaseValue;
+import ru.strict.validates.ValidateBaseValue;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -231,7 +231,7 @@ public class StrictTableModel extends AbstractTableModel {
             Iterator iterRow = getListContentTable().get(0).iterator();
             boolean bool = false;
             while(iterRow.hasNext()){
-                if(StrictValidateBaseValue.isValidateString(String.valueOf(iterRow.next()))) {
+                if(ValidateBaseValue.isValidateString(String.valueOf(iterRow.next()))) {
                     bool = true;
                     break;
                 }

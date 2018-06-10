@@ -5,22 +5,21 @@ import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import ru.strict.utils.StrictUtilCollections;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
 @RunWith(Parameterized.class)
-public class TestStrictUtilCollections {
+public class TestUtilCollections {
 
     private String[] arrStr;
     private Collection collStr;
     private String str;
     private String split;
 
-    public TestStrictUtilCollections(String[] arrStr, Collection collStr,
-                                     String str, String split) {
+    public TestUtilCollections(String[] arrStr, Collection collStr,
+                               String str, String split) {
         this.arrStr = arrStr;
         this.collStr = collStr;
         this.str = str;
@@ -40,41 +39,41 @@ public class TestStrictUtilCollections {
     @Test
     public void testStrTrimToArray(){
         Assert.assertArrayEquals(arrStr,
-                StrictUtilCollections.strTrimToArray(str, split));
+                UtilCollections.strTrimToArray(str, split));
     }
 
     @Test
     public void strTrimToCollection(){
         Assert.assertEquals(collStr,
-                StrictUtilCollections.strTrimToCollection(str, split));
+                UtilCollections.strTrimToCollection(str, split));
     }
 
     @Test
     public void testArrayStrToCollection(){
         Assert.assertEquals(collStr,
-                StrictUtilCollections.arrayStrToCollection(arrStr));
+                UtilCollections.arrayStrToCollection(arrStr));
     }
 
     @Test
     public void testCollectionStrToArray(){
         Assert.assertArrayEquals(arrStr,
-                StrictUtilCollections.collectionStrToArray(collStr));
+                UtilCollections.collectionStrToArray(collStr));
     }
 
     @Test
     public void testCollectionStrToObj(){
         Assert.assertEquals(collStr,
-                StrictUtilCollections.collectionStrToObj(collStr));
+                UtilCollections.collectionStrToObj(collStr));
     }
 
     @Test
     public void testCollectionObjToStr(){
-        Assert.assertEquals(collStr, StrictUtilCollections.collectionObjToStr(collStr));
+        Assert.assertEquals(collStr, UtilCollections.collectionObjToStr(collStr));
     }
 
     @Test
     public void testCollectionObjToStrTrim(){
-        Assert.assertEquals(collStr, StrictUtilCollections.collectionObjToStrTrim(collStr));
+        Assert.assertEquals(collStr, UtilCollections.collectionObjToStrTrim(collStr));
     }
 
     @Test
@@ -83,6 +82,6 @@ public class TestStrictUtilCollections {
         Collection<Collection<Object>> collObj = new ArrayList<>();
         collStr.add(this.collStr);
         collObj.add(this.collStr);
-        Assert.assertEquals(collObj, StrictUtilCollections.collectionsStrToObj(collStr));
+        Assert.assertEquals(collObj, UtilCollections.collectionsStrToObj(collStr));
     }
 }

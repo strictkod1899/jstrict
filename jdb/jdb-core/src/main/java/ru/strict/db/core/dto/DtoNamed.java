@@ -1,6 +1,6 @@
 package ru.strict.db.core.dto;
 
-import ru.strict.utils.StrictUtilHashCode;
+import ru.strict.utils.UtilHashCode;
 
 /**
  * Именованный entity (содержит строку заголовка)
@@ -57,7 +57,7 @@ public class DtoNamed<ID> extends DtoBase<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return StrictUtilHashCode.createSubHashCode(superHashCode, caption);
+        return UtilHashCode.createSubHashCode(superHashCode, caption);
     }
     //</editor-fold>
 }

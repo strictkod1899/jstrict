@@ -1,6 +1,6 @@
 package ru.strict.swing.views.frames;
 
-import ru.strict.utils.StrictUtilLogger;
+import ru.strict.utils.UtilLogger;
 import ru.strict.swing.models.frames.StrictModelFrameDefault;
 import ru.strict.swing.enums.StrictEnumColors;
 import ru.strict.swing.views.components.StrictPanelContent;
@@ -21,7 +21,7 @@ public class StrictFrameDefault<M extends StrictModelFrameDefault> extends Stric
     @Override
     public StrictFrame build(M model){
         super.build(model);
-        StrictUtilLogger.info(StrictFrameDefault.class, "build - started");
+        UtilLogger.info(StrictFrameDefault.class, "build - started");
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
@@ -33,7 +33,7 @@ public class StrictFrameDefault<M extends StrictModelFrameDefault> extends Stric
         // Создание стандартной панели и содержимого
         add(panelState, BorderLayout.NORTH);
         add(panelContent, BorderLayout.CENTER);
-        StrictUtilLogger.info(StrictFrameDefault.class, "build - finished");
+        UtilLogger.info(StrictFrameDefault.class, "build - finished");
         return this;
     }
 

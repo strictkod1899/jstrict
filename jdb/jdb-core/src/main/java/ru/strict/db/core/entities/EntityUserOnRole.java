@@ -1,6 +1,6 @@
 package ru.strict.db.core.entities;
 
-import ru.strict.utils.StrictUtilHashCode;
+import ru.strict.utils.UtilHashCode;
 
 /**
  * Связка пользователя с ролью
@@ -103,7 +103,7 @@ public class EntityUserOnRole<ID> extends EntityBase<ID> {
     @Override
     public int hashCode(){
     	int superHashCode = super.hashCode();
-        return StrictUtilHashCode.createSubHashCode(superHashCode, userId, roleId, user, role);
+        return UtilHashCode.createSubHashCode(superHashCode, userId, roleId, user, role);
     }
     //</editor-fold>
 }
