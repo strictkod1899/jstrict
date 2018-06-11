@@ -1,12 +1,11 @@
 package ru.strict.db.core.dto;
 
-import ru.strict.db.core.entities.EntityNamed;
 import ru.strict.utils.UtilHashCode;
 
 /**
  * Город
  */
-public class DtoCity<ID> extends EntityNamed<ID> {
+public class DtoCity<ID> extends DtoNamed<ID> {
 
     /**
      * Идентификатор страны

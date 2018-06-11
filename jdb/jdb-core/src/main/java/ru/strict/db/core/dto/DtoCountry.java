@@ -1,11 +1,9 @@
 package ru.strict.db.core.dto;
 
-import ru.strict.db.core.entities.EntityNamed;
-
 /**
  * Страна
  */
-public class DtoCountry<ID> extends EntityNamed<ID> {
+public class DtoCountry<ID> extends DtoNamed<ID> {
 
     public DtoCountry() {
         super();
