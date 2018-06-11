@@ -36,12 +36,12 @@ public class DtoUserSecurity<ID> extends DtoUser<ID> implements UserDetails{
 	@Override
 	public void addRoleuser(DtoRoleuser roleuser){
 		this.authorities = new HashSet<>();
-		if (roleuser.getSymbols() != null && !"".equals(roleuser.getSymbols())) {
+		if (roleuser.getCode() != null && !"".equals(roleuser.getCode())) {
 			GrantedAuthority grandAuthority = new GrantedAuthority() {
 				private static final long serialVersionUID = 3958183417696804555L;
 
 				public String getAuthority() {
-					return roleuser.getSymbols();
+					return roleuser.getCode();
 				}
 			};
 			this.authorities.add(grandAuthority);

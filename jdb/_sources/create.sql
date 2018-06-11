@@ -1,4 +1,4 @@
-CREATE TABLE roleuser(id integer NOT NULL, symbols text NOT NULL, description text, CONSTRAINT pk_roleuser PRIMARY KEY (id), CONSTRAINT uq_roleuser_symbols UNIQUE (symbols));
+CREATE TABLE roleuser(id integer NOT NULL, code text NOT NULL, description text, CONSTRAINT pk_roleuser PRIMARY KEY (id), CONSTRAINT uq_roleuser_code UNIQUE (code));
 
 CREATE TABLE userx(id integer NOT NULL, username text NOT NULL, passwordencode text NOT NULL, token text NOT NULL, CONSTRAINT pk_userx PRIMARY KEY (id), CONSTRAINT uq_userx_username UNIQUE (username), CONSTRAINT uq_userx_token UNIQUE (token));
 

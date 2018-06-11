@@ -12,7 +12,7 @@ import java.util.Map;
 public class RepositoryRoleuser<ID>
         extends RepositorySpringBase<ID, EntityRoleuser, DtoRoleuser> {
 
-    private static final String[] COLUMNS_NAME = new String[] {"symbols", "description"};
+    private static final String[] COLUMNS_NAME = new String[] {"code", "description"};
 
     public RepositoryRoleuser(CreateConnectionByDataSource connectionSource, Boolean isGenerateId) {
         super("roleuser", COLUMNS_NAME, connectionSource,
@@ -24,7 +24,7 @@ public class RepositoryRoleuser<ID>
     @Override
     protected Map<Integer, Object> getValueByColumn(DtoRoleuser dto){
         Map<Integer, Object> valuesByColumn = new LinkedHashMap();
-        valuesByColumn.put(0, dto.getSymbols());
+        valuesByColumn.put(0, dto.getCode());
         valuesByColumn.put(1, dto.getDescription());
         return valuesByColumn;
     }

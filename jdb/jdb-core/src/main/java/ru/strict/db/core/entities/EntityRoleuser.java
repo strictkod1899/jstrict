@@ -12,7 +12,7 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
     /**
      * Набор символов характеризующих роль
      */
-    private String symbols;
+    private String code;
 
     /**
      * Описание роли
@@ -27,33 +27,33 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
     //<editor-fold defaultState="collapsed" desc="constructors">
 	public EntityRoleuser() {
         super();
-        symbols = null;
+        code = null;
         description = null;
         users = new LinkedList<>();
     }
 
-    public EntityRoleuser(String symbols, String description) {
+    public EntityRoleuser(String code, String description) {
     	super();
-        this.symbols = symbols;
+        this.code = code;
         this.description = description;
         users = new LinkedList<>();
     }
 
-    public EntityRoleuser(ID id, String symbols, String description) {
+    public EntityRoleuser(ID id, String code, String description) {
         super(id);
-        this.symbols = symbols;
+        this.code = code;
         this.description = description;
         users = new LinkedList<>();
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public String getSymbols() {
-        return symbols;
+    public String getCode() {
+        return code;
     }
 
-    public void setSymbols(String symbols) {
-        this.symbols = symbols;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getDescription() {
@@ -84,14 +84,14 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("entity roleuser [%s]: %s (%s)", String.valueOf(getId()), symbols, description);
+        return String.format("entity roleuser [%s]: %s (%s)", String.valueOf(getId()), code, description);
     }
 
     @Override
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof EntityRoleuser) {
             EntityRoleuser object = (EntityRoleuser) obj;
-            return super.equals(object) && symbols.equals(object.getSymbols())
+            return super.equals(object) && code.equals(object.getCode())
                     && description.equals(object.getDescription())
                     && (users.size() == object.getUsers().size() && users.containsAll(object.getUsers()));
         }else
@@ -101,7 +101,7 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
     @Override
     public int hashCode(){
     	int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, symbols, description, users);
+        return UtilHashCode.createSubHashCode(superHashCode, code, description, users);
     }
     //</editor-fold>
 }

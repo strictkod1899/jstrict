@@ -20,7 +20,7 @@ public class MapperSqlRoleuser extends MapperSqlBase<EntityRoleuser> {
         EntityRoleuser entity = new EntityRoleuser();
         try {
             entity.setId(resultSet.getObject("id"));
-            entity.setSymbols(resultSet.getString(COLUMNS_NAME[0]));
+            entity.setCode(resultSet.getString(COLUMNS_NAME[0]));
             entity.setDescription(resultSet.getString(COLUMNS_NAME[1]));
         }catch(SQLException ex){
             throw new WrapperRuntimeException(ex);

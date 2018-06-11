@@ -27,7 +27,7 @@ public class MapperDtoRoleuser extends MapperDtoBase<EntityRoleuser, DtoRoleuser
         EntityRoleuser entity = new EntityRoleuser();
         entity.setId(dto.getId());
         entity.setDescription(dto.getDescription());
-        entity.setSymbols(dto.getSymbols());
+        entity.setCode(dto.getCode());
         mapperUser.ifPresent((mapper) ->
                 dto.getUsers().stream().forEach((r) -> entity.addUser(mapper.map((DtoUser) r))));
         return entity;
@@ -38,7 +38,7 @@ public class MapperDtoRoleuser extends MapperDtoBase<EntityRoleuser, DtoRoleuser
         DtoRoleuser dto = new DtoRoleuser();
         dto.setId(entity.getId());
         dto.setDescription(entity.getDescription());
-        dto.setSymbols(entity.getSymbols());
+        dto.setCode(entity.getCode());
         mapperUser.ifPresent((mapper) ->
                 entity.getUsers().stream().forEach(r -> dto.addUser(mapper.map((EntityUser) r))));
         return dto;

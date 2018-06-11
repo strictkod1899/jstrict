@@ -18,7 +18,7 @@ public class MapperSqlRoleuser implements RowMapper<EntityRoleuser> {
     public EntityRoleuser mapRow(ResultSet resultSet, int i) throws SQLException {
         EntityRoleuser entity = new EntityRoleuser();
         entity.setId(resultSet.getObject("id"));
-        entity.setSymbols(resultSet.getString(COLUMNS_NAME[0]));
+        entity.setCode(resultSet.getString(COLUMNS_NAME[0]));
         entity.setDescription(resultSet.getString(COLUMNS_NAME[1]));
         return entity;
     }
