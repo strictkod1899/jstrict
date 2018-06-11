@@ -17,7 +17,7 @@ public class RepositoryUserOnRole<ID>
 
     public RepositoryUserOnRole(CreateConnectionByDataSource connectionSource, boolean isGenerateId) {
         super("userOnRole", COLUMNS_NAME, connectionSource,
-                new StrictMapperDtoFactory().instance(MapperDtoType.USER_ON_ROLE),
+                new MapperDtoFactory().instance(MapperDtoType.USER_ON_ROLE),
                 new MapperSqlUserOnRole(COLUMNS_NAME),
                 isGenerateId);
     }

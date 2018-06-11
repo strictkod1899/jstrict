@@ -4,7 +4,7 @@ import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.entities.EntityRoleuser;
-import ru.strict.db.core.mappers.dto.StrictMapperDtoFactory;
+import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.spring.mappers.sql.MapperSqlRoleuser;
 
 import java.util.LinkedHashMap;
@@ -17,7 +17,7 @@ public class RepositoryRoleuser<ID>
 
     public RepositoryRoleuser(CreateConnectionByDataSource connectionSource, Boolean isGenerateId) {
         super("roleuser", COLUMNS_NAME, connectionSource,
-                new StrictMapperDtoFactory().instance(MapperDtoType.ROLE_USER),
+                new MapperDtoFactory().instance(MapperDtoType.ROLE_USER),
                 new MapperSqlRoleuser(COLUMNS_NAME),
                 isGenerateId);
     }

@@ -25,7 +25,7 @@ public class RepositoryProfileInfo<ID>
 
     public RepositoryProfileInfo(CreateConnectionByDataSource connectionSource, boolean isGenerateId) {
         super("profileinfo", COLUMNS_NAME, connectionSource,
-                new StrictMapperDtoFactory().instance(MapperDtoType.PROFILE_INFO),
+                new MapperDtoFactory().instance(MapperDtoType.PROFILE_INFO),
                 new MapperSqlProfileInfo(COLUMNS_NAME),
                 isGenerateId);
     }
@@ -47,7 +47,7 @@ public class RepositoryProfileInfo<ID>
     protected DtoProfileInfo fill(DtoProfileInfo dto){
         IRepository<ID, DtoUser> rUser =
                 new RepositoryUser<>(getConnectionSource(),
-                        new StrictMapperDtoFactory().instance(MapperDtoType.USER),
+                        new MapperDtoFactory().instance(MapperDtoType.USER),
                         false);
         dto.setUser(rUser.read((ID) dto.getUserId()));
         return dto;

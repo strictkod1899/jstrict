@@ -4,7 +4,7 @@ import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoUserOnRole;
 import ru.strict.db.core.entities.EntityUserOnRole;
-import ru.strict.db.core.mappers.dto.StrictMapperDtoFactory;
+import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlUserOnRole;
 
 import java.util.LinkedHashMap;
@@ -17,7 +17,7 @@ public class RepositoryUserOnRole<ID, SOURCE extends ICreateConnection>
 
     public RepositoryUserOnRole(SOURCE connectionSource, boolean isGenerateId) {
         super("userOnRole", COLUMNS_NAME, connectionSource,
-                new StrictMapperDtoFactory().instance(MapperDtoType.USER_ON_ROLE),
+                new MapperDtoFactory().instance(MapperDtoType.USER_ON_ROLE),
                 new MapperSqlUserOnRole(COLUMNS_NAME),
                 isGenerateId);
     }

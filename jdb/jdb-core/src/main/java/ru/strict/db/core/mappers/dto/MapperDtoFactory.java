@@ -9,7 +9,7 @@ import ru.strict.patterns.IFactory;
 /**
  * Фабрика создания маппер-классов
  */
-public class StrictMapperDtoFactory implements IFactory<IMapper, MapperDtoType> {
+public class MapperDtoFactory implements IFactory<IMapper, MapperDtoType> {
 
     @Override
     public MapperDtoBase instance(MapperDtoType parameter) {

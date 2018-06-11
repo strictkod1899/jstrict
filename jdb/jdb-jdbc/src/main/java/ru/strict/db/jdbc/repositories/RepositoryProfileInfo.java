@@ -5,7 +5,7 @@ import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoProfileInfo;
 import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.entities.EntityProfileInfo;
-import ru.strict.db.core.mappers.dto.StrictMapperDtoFactory;
+import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlProfileInfo;
 
@@ -25,7 +25,7 @@ public class RepositoryProfileInfo<ID, SOURCE extends ICreateConnection>
 
     public RepositoryProfileInfo(SOURCE connectionSource, boolean isGenerateId) {
         super("profileinfo", COLUMNS_NAME, connectionSource,
-                new StrictMapperDtoFactory().instance(MapperDtoType.PROFILE_INFO),
+                new MapperDtoFactory().instance(MapperDtoType.PROFILE_INFO),
                 new MapperSqlProfileInfo(COLUMNS_NAME),
                 isGenerateId);
     }
@@ -47,7 +47,7 @@ public class RepositoryProfileInfo<ID, SOURCE extends ICreateConnection>
     protected DtoProfileInfo fill(DtoProfileInfo dto){
         IRepository<ID, DtoUser> rUser =
                 new RepositoryUser<>(getConnectionSource(),
-                        new StrictMapperDtoFactory().instance(MapperDtoType.USER),
+                        new MapperDtoFactory().instance(MapperDtoType.USER),
                         false);
         dto.setUser(rUser.read((ID) dto.getUserId()));
         return dto;
