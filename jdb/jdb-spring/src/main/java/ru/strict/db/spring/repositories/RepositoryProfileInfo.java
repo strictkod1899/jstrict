@@ -24,7 +24,7 @@ public class RepositoryProfileInfo<ID>
             "phone", "city_id"};
 
     public RepositoryProfileInfo(CreateConnectionByDataSource connectionSource, boolean isGenerateId) {
-        super("profileinfo", COLUMNS_NAME, connectionSource,
+        super("profile", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.PROFILE_INFO),
                 new MapperSqlProfileInfo(COLUMNS_NAME),
                 isGenerateId);
