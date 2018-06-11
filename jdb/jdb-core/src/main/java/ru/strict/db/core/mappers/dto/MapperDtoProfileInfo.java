@@ -34,8 +34,7 @@ public class MapperDtoProfileInfo<E extends EntityProfileInfo, DTO extends DtoPr
         entity.setUser(baseEntity.getUser());
         entity.setDateBirth(dto.getDateBirth());
         entity.setPhone(dto.getPhone());
-        entity.setCountry(dto.getCountry());
-        entity.setCity(dto.getCity());
+        entity.setCityId(dto.getCityId());
         return entity;
     }
 
@@ -52,8 +51,7 @@ public class MapperDtoProfileInfo<E extends EntityProfileInfo, DTO extends DtoPr
         dto.setUser(baseDto.getUser());
         dto.setDateBirth(entity.getDateBirth());
         dto.setPhone(entity.getPhone());
-        dto.setCountry(entity.getCountry());
-        dto.setCity(entity.getCity());
+        dto.setCityId(entity.getCityId());
         return dto;
     }
 }

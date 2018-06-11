@@ -1,5 +1,6 @@
 package ru.strict.db.spring.repositories;
 
+import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.entities.EntityRoleuser;
@@ -16,7 +17,7 @@ public class RepositoryRoleuser<ID>
 
     public RepositoryRoleuser(CreateConnectionByDataSource connectionSource, Boolean isGenerateId) {
         super("roleuser", COLUMNS_NAME, connectionSource,
-                StrictMapperDtoFactory.createMapperRoleuser(),
+                new StrictMapperDtoFactory().instance(MapperDtoType.ROLE_USER),
                 new MapperSqlRoleuser(COLUMNS_NAME),
                 isGenerateId);
     }

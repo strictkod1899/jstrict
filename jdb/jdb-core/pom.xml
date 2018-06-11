@@ -24,6 +24,10 @@
             <version>0.1.0</version>
         </dependency>
         <dependency>
+            <groupId>ru.strict</groupId>
+            <artifactId>jpatterns</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.2.2</version>

@@ -1,18 +1,44 @@
 package ru.strict.db.core.mappers.dto;
 
+import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.dto.*;
 import ru.strict.db.core.entities.*;
+import ru.strict.db.core.mappers.IMapper;
+import ru.strict.patterns.IFactory;
 
 /**
  * Фабрика создания маппер-классов
  */
-public class StrictMapperDtoFactory {
+public class StrictMapperDtoFactory implements IFactory<IMapper, MapperDtoType> {
+
+    @Override
+    public MapperDtoBase instance(MapperDtoType parameter) {
+        MapperDtoBase mapper = null;
+        switch(parameter){
+            case ROLE_USER:
+                mapper = createMapperRoleuser();
+                break;
+            case USER:
+                mapper = createMapperUser();
+                break;
+            case USER_ON_ROLE:
+                mapper = createMapperUserOnRole();
+                break;
+            case PROFILE:
+                mapper = createMapperProfile();
+                break;
+            case PROFILE_INFO:
+                mapper = createMapperProfileInfo();
+                break;
+        }
+        return mapper;
+    }
 
     /**
      * Создать двухсторонний маппинг объектов типа EntityRoleuser и DtoRoleuser
      * @return
      */
-    public static MapperDtoBase<EntityRoleuser, DtoRoleuser> createMapperRoleuser(){
+    private static MapperDtoBase<EntityRoleuser, DtoRoleuser> createMapperRoleuser(){
         MapperDtoUser mapperUser = new MapperDtoUser(
                                 new MapperDtoRoleuser()
                                 , new MapperDtoProfile());
@@ -23,7 +49,7 @@ public class StrictMapperDtoFactory {
      * Создать двухсторонний маппинг объектов типа EntityUser и DtoUser
      * @return
      */
-    public static MapperDtoBase<EntityUser, DtoUser> createMapperUser(){
+    private static MapperDtoBase<EntityUser, DtoUser> createMapperUser(){
         return new MapperDtoUser(
                 createMapperRoleuser()
                 , new MapperDtoProfile());
@@ -33,7 +59,7 @@ public class StrictMapperDtoFactory {
      * Создать двухсторонний маппинг объектов типа EntityUserOnRole и DtoUserOnRole
      * @return
      */
-    public static MapperDtoBase<EntityUserOnRole, DtoUserOnRole> createMapperUserOnRole(){
+    private static MapperDtoBase<EntityUserOnRole, DtoUserOnRole> createMapperUserOnRole(){
         return new MapperDtoUserOnRole(createMapperUser(), createMapperRoleuser());
     }
 
@@ -41,7 +67,7 @@ public class StrictMapperDtoFactory {
      * Создать двухсторонний маппинг объектов типа EntityProfile и DtoProfile
      * @return
      */
-    public static MapperDtoBase<EntityProfile, DtoProfile> createMapperProfile(){
+    private static MapperDtoBase<EntityProfile, DtoProfile> createMapperProfile(){
         return new MapperDtoProfile(createMapperUser());
     }
 
@@ -49,7 +75,7 @@ public class StrictMapperDtoFactory {
      * Создать двухсторонний маппинг объектов типа EntityProfileInfo и DtoProfileInfo
      * @return
      */
-    public static MapperDtoBase<EntityProfileInfo, DtoProfileInfo> createMapperProfileInfo(){
+    private static MapperDtoBase<EntityProfileInfo, DtoProfileInfo> createMapperProfileInfo(){
         return new MapperDtoProfileInfo(createMapperUser());
     }
 }

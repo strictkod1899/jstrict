@@ -1,5 +1,6 @@
 package ru.strict.db.spring.repositories;
 
+import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.DtoProfileInfo;
 import ru.strict.db.core.dto.DtoUser;
@@ -13,18 +14,18 @@ import java.util.Map;
 
 /**
  * Репозиторий таблицы "profileinfo".
- * Определяет столбцы: "name", "surname", "middlename", "user_id", "datebirth", "phone", "country", "city", "address"
+ * Определяет столбцы: "name", "surname", "middlename", "user_id", "datebirth", "phone", "city_id"
  * @param <ID> Тип идентификатора
  */
 public class RepositoryProfileInfo<ID>
         extends RepositorySpringBase<ID, EntityProfileInfo, DtoProfileInfo> {
 
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "user_id", "datebirth",
-            "phone", "country", "city"};
+            "phone", "city_id"};
 
     public RepositoryProfileInfo(CreateConnectionByDataSource connectionSource, boolean isGenerateId) {
         super("profileinfo", COLUMNS_NAME, connectionSource,
-                StrictMapperDtoFactory.createMapperProfileInfo(),
+                new StrictMapperDtoFactory().instance(MapperDtoType.PROFILE_INFO),
                 new MapperSqlProfileInfo(COLUMNS_NAME),
                 isGenerateId);
     }
@@ -38,17 +39,16 @@ public class RepositoryProfileInfo<ID>
         valuesByColumn.put(3, dto.getUserId());
         valuesByColumn.put(4, dto.getDateBirth());
         valuesByColumn.put(5, dto.getPhone());
-        valuesByColumn.put(6, dto.getCountry());
-        valuesByColumn.put(7, dto.getCity());
+        valuesByColumn.put(7, dto.getCityId());
         return valuesByColumn;
     }
 
     @Override
     protected DtoProfileInfo fill(DtoProfileInfo dto){
         IRepository<ID, DtoUser> rUser =
-                new RepositoryUser<>(getConnectionSource()
-                        , StrictMapperDtoFactory.createMapperUser()
-                        , false);
+                new RepositoryUser<>(getConnectionSource(),
+                        new StrictMapperDtoFactory().instance(MapperDtoType.USER),
+                        false);
         dto.setUser(rUser.read((ID) dto.getUserId()));
         return dto;
     }

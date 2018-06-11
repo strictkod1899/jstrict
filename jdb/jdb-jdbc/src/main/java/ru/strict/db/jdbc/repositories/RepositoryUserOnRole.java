@@ -1,5 +1,6 @@
 package ru.strict.db.jdbc.repositories;
 
+import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoUserOnRole;
 import ru.strict.db.core.entities.EntityUserOnRole;
@@ -16,7 +17,7 @@ public class RepositoryUserOnRole<ID, SOURCE extends ICreateConnection>
 
     public RepositoryUserOnRole(SOURCE connectionSource, boolean isGenerateId) {
         super("userOnRole", COLUMNS_NAME, connectionSource,
-                StrictMapperDtoFactory.createMapperUserOnRole(),
+                new StrictMapperDtoFactory().instance(MapperDtoType.USER_ON_ROLE),
                 new MapperSqlUserOnRole(COLUMNS_NAME),
                 isGenerateId);
     }

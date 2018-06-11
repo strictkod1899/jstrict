@@ -1,11 +1,12 @@
 package ru.strict.db.core.dto;
 
-import java.util.Date;
+import ru.strict.db.core.entities.EntityProfile;
 import ru.strict.utils.UtilHashCode;
 
+import java.util.Date;
+
 /**
- * Расширенная информация профиля пользователя (имя, фамилия, отчество, дата рождения, телефон,
- * старана, город, адрес)
+ * Расширенная информация профиля пользователя (имя, фамилия, отчество, дата рождения, телефон, город)
  */
 public class DtoProfileInfo<ID> extends DtoProfile<ID> {
 
@@ -20,41 +21,42 @@ public class DtoProfileInfo<ID> extends DtoProfile<ID> {
     private String phone;
 
     /**
-     * Страна
+     * Идентификатор города
      */
-    private String country;
+    private ID cityId;
 
     /**
-     * Город
+     * Город связанный с пользователем
      */
-    private String city;
+    private DtoCity city;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public DtoProfileInfo(){
         super();
         dateBirth = null;
         phone = null;
-        country = null;
+        cityId = null;
         city = null;
     }
 
     public DtoProfileInfo(String name, String surname, String middlename, ID userId, Date dateBirth, String phone,
-                          String country, String city) {
+                          ID cityId) {
         super(name, surname, middlename, userId);
         this.dateBirth = dateBirth;
         this.phone = phone;
-        this.country = country;
-        this.city = city;
+        this.cityId = cityId;
+        city = null;
     }
 
-    public DtoProfileInfo(ID id, String name, String surname, String middlename, ID userId,
-                          Date dateBirth, String phone, String country, String city) {
+    public DtoProfileInfo(ID id, String name, String surname, String middlename, ID userId, Date dateBirth, String phone,
+                          ID cityId) {
         super(id, name, surname, middlename, userId);
         this.dateBirth = dateBirth;
         this.phone = phone;
-        this.country = country;
-        this.city = city;
+        this.cityId = cityId;
+        city = null;
     }
+
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
@@ -74,34 +76,34 @@ public class DtoProfileInfo<ID> extends DtoProfile<ID> {
         this.phone = phone;
     }
 
-    public String getCountry() {
-        return country;
+    public ID getCityId() {
+        return cityId;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setCityId(ID cityId) {
+        this.cityId = cityId;
     }
 
-    public String getCity() {
+    public DtoCity getCity() {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(DtoCity city) {
         this.city = city;
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     public String toString(){
-        return String.format("dto profileinfo [%s]: %s %s %s\n%tD, phone: %s, %s %s", String.valueOf(getId()), getSurname(), getName(), getMiddlename(),
-                dateBirth, phone, country, city);
+        return String.format("entity profileinfo [%s]: %s %s %s\n%tD, phone - %s, city - %s", String.valueOf(getId()),
+                getSurname(), getName(), getMiddlename(), dateBirth, phone, cityId);
     }
 
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DtoProfileInfo){
             DtoProfileInfo object = (DtoProfileInfo) obj;
             return super.equals(object) && dateBirth.equals(object.getDateBirth()) && phone.equals(object.getPhone())
-                    && country.equals(object.getCountry()) && city.equals(object.getCity());
+                    && cityId.equals(object.getCityId()) && city.equals(object.getCity());
         }else
             return false;
     }
@@ -109,7 +111,7 @@ public class DtoProfileInfo<ID> extends DtoProfile<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, dateBirth, phone, country, city);
+        return UtilHashCode.createSubHashCode(superHashCode, dateBirth, phone, cityId, city);
     }
     //</editor-fold>
 }

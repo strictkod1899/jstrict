@@ -26,8 +26,7 @@ public class MapperSqlProfileInfo extends MapperSqlBase<EntityProfileInfo> {
             entity.setUserId(resultSet.getObject(COLUMNS_NAME[3]));
             entity.setDateBirth(resultSet.getDate(COLUMNS_NAME[4]));
             entity.setPhone(resultSet.getString(COLUMNS_NAME[5]));
-            entity.setCountry(resultSet.getString(COLUMNS_NAME[6]));
-            entity.setCity(resultSet.getString(COLUMNS_NAME[7]));
+            entity.setCityId(resultSet.getString(COLUMNS_NAME[6]));
         }catch(SQLException ex){
             throw new WrapperRuntimeException(ex);
         }
