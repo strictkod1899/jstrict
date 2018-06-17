@@ -40,7 +40,7 @@ public class MapperDtoCity extends MapperDtoBase<EntityCity, DtoCity> {
         dto.setId(entity.getId());
         dto.setCaption(entity.getCaption());
         dto.setCountryId(entity.getCountryId());
-        mapperCountry.ifPresent((mapper) -> entity.setCountry(mapper.map(dto.getCountry())));
+        mapperCountry.ifPresent((mapper) -> dto.setCountry(mapper.map(entity.getCountry())));
         return dto;
     }
 }

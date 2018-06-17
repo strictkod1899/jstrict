@@ -1,9 +1,7 @@
 package ru.strict.db.core.dto;
 
-import ru.strict.db.core.entities.EntityProfile;
-import ru.strict.utils.UtilHashCode;
-
 import java.util.Date;
+import ru.strict.utils.UtilHashCode;
 
 /**
  * Расширенная информация профиля пользователя (имя, фамилия, отчество, дата рождения, телефон, город)

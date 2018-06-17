@@ -1,6 +1,7 @@
 package ru.strict.db.core.dto;
 
 import java.util.Collection;
+import ru.strict.utils.UtilHashCode;
 
 /**
  * Страна
@@ -12,16 +13,19 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
      */
     private Collection<DtoCity> cities;
 
-    public DtoCountry() {
+    public EntityCountry() {
         super();
+        cities = new LinkedList<>();
     }
 
-    public DtoCountry(String caption) {
+    public EntityCountry(String caption) {
         super(caption);
+        cities = new LinkedList<>();
     }
 
-    public DtoCountry(ID id, String caption) {
+    public EntityCountry(ID id, String caption) {
         super(id, caption);
+        cities = new LinkedList<>();
     }
 
     public Collection<DtoCity> getCities() {
@@ -31,4 +35,30 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
     public void setCities(Collection<DtoCity> cities) {
         this.cities = cities;
     }
+
+    public void addCity(DtoCity city){
+        cities.add(city);
+    }
+
+    //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
+    public String toString(){
+        return String.format("dto country [%s]: %s", String.valueOf(getId()), getCaption());
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj!=null && obj instanceof DtoCountry) {
+            DtoCountry object = (DtoCountry) obj;
+            return super.equals(object) && (cities.size() == object.getCities().size() && cities.containsAll(object.getCities()));
+        }else
+            return false;
+    }
+
+    @Override
+    public int hashCode(){
+        int superHashCode = super.hashCode();
+        return UtilHashCode.createSubHashCode(superHashCode, cities);
+    }
+    //</editor-fold>
 }

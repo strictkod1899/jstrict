@@ -58,15 +58,14 @@ public class DtoCity<ID> extends DtoNamed<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("entity city [%s]: %s, country - %s", String.valueOf(getId()), getCaption(), countryId);
+        return String.format("dto city [%s]: %s, country - %s", String.valueOf(getId()), getCaption(), countryId);
     }
 
     @Override
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DtoCity) {
             DtoCity object = (DtoCity) obj;
-            return super.equals(object) && getCaption().equals(object.getCaption())
-                    && countryId.equals(object.getCountryId())&& country.equals(object.getCountry());
+            return super.equals(object) && countryId.equals(object.getCountryId()) && country.equals(object.getCountry());
         }else
             return false;
     }
@@ -74,7 +73,7 @@ public class DtoCity<ID> extends DtoNamed<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, getCaption(), countryId, country);
+        return UtilHashCode.createSubHashCode(superHashCode, countryId, country);
     }
     //</editor-fold>
 }
