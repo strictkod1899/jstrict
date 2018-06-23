@@ -10,7 +10,7 @@ public abstract class CreateConnectionBase<SOURCE> implements ICreateConnection 
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
-     * например, DataSource, StringConnectionInfo и др.
+     * например, DataSource, ConnectionInfo и др.
      */
     private SOURCE connectionSource;
 

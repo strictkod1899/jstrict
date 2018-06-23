@@ -1,6 +1,8 @@
 package ru.strict.db.core.entities;
 
 import java.util.Collection;
+import java.util.LinkedList;
+
 import ru.strict.utils.UtilHashCode;
 
 /**

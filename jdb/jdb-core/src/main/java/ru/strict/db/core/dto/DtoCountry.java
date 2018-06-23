@@ -1,6 +1,8 @@
 package ru.strict.db.core.dto;
 
 import java.util.Collection;
+import java.util.LinkedList;
+
 import ru.strict.utils.UtilHashCode;
 
 /**
@@ -13,17 +15,17 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
      */
     private Collection<DtoCity> cities;
 
-    public EntityCountry() {
+    public DtoCountry() {
         super();
         cities = new LinkedList<>();
     }
 
-    public EntityCountry(String caption) {
+    public DtoCountry(String caption) {
         super(caption);
         cities = new LinkedList<>();
     }
 
-    public EntityCountry(ID id, String caption) {
+    public DtoCountry(ID id, String caption) {
         super(id, caption);
         cities = new LinkedList<>();
     }
