@@ -8,11 +8,6 @@ import ru.strict.utils.UtilHashCode;
 public class ConnectionInfo {
 
     /**
-     * Наименование базы данных, к которой производится подключение
-     */
-    private String dbCaption;
-
-    /**
      * Строка драйвера подключаемой базы данных
      */
     private String driver;
@@ -33,8 +28,7 @@ public class ConnectionInfo {
     private String password;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public ConnectionInfo(String dbCaption, String driver, String url, String username, String password) {
-        this.dbCaption = dbCaption;
+    public ConnectionInfo(String driver, String url, String username, String password) {
         this.driver = driver;
         this.url = url;
         this.username = username;
@@ -43,10 +37,6 @@ public class ConnectionInfo {
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public String getDbCaption() {
-        return dbCaption;
-    }
-
     public String getDriver() {
         return driver;
     }
@@ -67,14 +57,14 @@ public class ConnectionInfo {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("%s [%s] - %s/%s", dbCaption, driver, username, password);
+        return String.format("%s [%s] - %s/%s", driver, url, username, password);
     }
 
     @Override
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof ConnectionInfo) {
             ConnectionInfo object = (ConnectionInfo) obj;
-            return dbCaption.equals(object.getDbCaption()) && password.equals(object.getPassword())
+            return password.equals(object.getPassword())
                     && username.equals(object.getUsername()) && driver.equals(object.getDriver())
                     && url.equals(object.getUrl());
         }else
@@ -83,7 +73,7 @@ public class ConnectionInfo {
 
     @Override
     public int hashCode(){
-        return UtilHashCode.createHashCode(dbCaption, password, username, driver, url);
+        return UtilHashCode.createHashCode(password, username, driver, url);
     }
     //</editor-fold>
 }

@@ -24,7 +24,7 @@ public class CreateConnectionByConnectionInfo extends CreateConnectionBase<Conne
         LOGGER.info("Trying a connection create");
         try {
             // Путь к базе данных
-            String connectUrl = getConnectionSource().getUrl() + getConnectionSource().getDbCaption();
+            String connectUrl = getConnectionSource().getUrl();
             Driver jdbcDriver = (Driver) Class.forName(getConnectionSource().getDriver()).
                     newInstance();
             // Регистрация данного драйвера
