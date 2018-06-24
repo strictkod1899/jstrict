@@ -10,7 +10,6 @@ public class UtilClassName {
      * @return
      */
     public static String getCurrentClassname(){
-        UtilLogger.info(UtilClassName.class, "getCurrentClassname");
         try{
             throw new RuntimeException();
         }catch(RuntimeException ex){
