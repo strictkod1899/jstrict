@@ -1,39 +1,29 @@
-package ru.strict.db.jdbc;
+package ru.strict.db.spring;
 
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import ru.strict.db.core.ManagerDatabase;
 import ru.strict.db.core.common.ConnectionByDbType;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.connections.ConnectionInfo;
-import ru.strict.db.core.connections.CreateConnectionByConnectionInfo;
-import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.*;
 import ru.strict.db.core.mappers.dto.MapperDtoUser;
-import ru.strict.db.core.migration.IMigration;
-import ru.strict.db.core.migration.MigrationDatabase;
-import ru.strict.db.core.migration.components.MigrationColumn;
-import ru.strict.db.core.migration.components.MigrationForeignKey;
-import ru.strict.db.core.migration.components.MigrationPrimaryKey;
-import ru.strict.db.core.migration.components.MigrationTable;
-import ru.strict.db.core.repositories.IRepository;
-import ru.strict.db.jdbc.repositories.*;
+import ru.strict.db.spring.repositories.*;
 
-import java.util.Collection;
+import javax.sql.DataSource;
 import java.util.Date;
 import java.util.List;
 
 public class Main {
 
     public static void main(String[] args){
-        ConnectionInfo connectionInfo = new ConnectionInfo(
-                ConnectionByDbType.SQLITE.getDriver(),
-                ConnectionByDbType.SQLITE.getUrl() + "A:\\Users\\strictkod1899\\testdb.sqlite",
-                "",
-                "");
-
-        ManagerDatabase<ConnectionInfo> managerDatabase = new ManagerDatabase<>(connectionInfo);
-        addRepositoriesAutoId(managerDatabase);
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(ConnectionByDbType.SQLITE.getDriver());
+        dataSource.setUrl(ConnectionByDbType.SQLITE.getUrl() + "A:\\Users\\strictkod1899\\testdb.sqlite");
+        dataSource.setUsername("");
+        dataSource.setPassword("");
+        ManagerDatabase<DataSource> managerDatabase = new ManagerDatabase<>(dataSource);
+        addRepositories(managerDatabase);
         int i = 0;
-        //create(managerDatabase);
+        create(managerDatabase);
         //createAutoId(managerDatabase);
         //update(managerDatabase);
         //read(managerDatabase);
@@ -52,12 +42,12 @@ public class Main {
     }
 
     private static void addRepositoriesAutoId(ManagerDatabase managerDatabase){
-        managerDatabase.createAndAddRepository("roleuser", RepositoryRoleuser.class, GenerateIdType.NUMBER);
-        managerDatabase.createAndAddRepository("user", RepositoryUser.class, new MapperDtoUser<>(), GenerateIdType.NUMBER);
-        managerDatabase.createAndAddRepository("user_on_role", RepositoryUserOnRole.class, GenerateIdType.NUMBER);
-        managerDatabase.createAndAddRepository("profile", RepositoryProfileInfo.class, GenerateIdType.NUMBER);
-        managerDatabase.createAndAddRepository("city", RepositoryCity.class, GenerateIdType.NUMBER);
-        managerDatabase.createAndAddRepository("country", RepositoryCountry.class, GenerateIdType.NUMBER);
+        managerDatabase.createAndAddRepository("roleuser", RepositoryRoleuser.class, GenerateIdType.UUID);
+        managerDatabase.createAndAddRepository("user", RepositoryUser.class, new MapperDtoUser<>(), GenerateIdType.UUID);
+        managerDatabase.createAndAddRepository("user_on_role", RepositoryUserOnRole.class, GenerateIdType.UUID);
+        managerDatabase.createAndAddRepository("profile", RepositoryProfileInfo.class, GenerateIdType.UUID);
+        managerDatabase.createAndAddRepository("city", RepositoryCity.class, GenerateIdType.UUID);
+        managerDatabase.createAndAddRepository("country", RepositoryCountry.class, GenerateIdType.UUID);
     }
 
     private static void create(ManagerDatabase managerDatabase){
@@ -132,8 +122,5 @@ public class Main {
         managerDatabase.getRepository(RepositoryProfileInfo.class).delete(1);
         managerDatabase.getRepository(RepositoryRoleuser.class).delete(1);
         managerDatabase.getRepository(RepositoryUserOnRole.class).delete(1);
-    }
-
-    private static void migration(ICreateConnection createConnection){
     }
 }
