@@ -54,7 +54,7 @@ public abstract class RepositoryJdbcBase
                 try {
                     statement = createConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                     statement = setParametersToPrepareStatement(statement, parameters);
-                    statement.executeUpdate(sql);
+                    statement.executeUpdate();
 
                     try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                         if (generatedKeys.next())
@@ -74,27 +74,29 @@ public abstract class RepositoryJdbcBase
                 try {
                     statement = createConnection().prepareStatement(sql);
                     statement = setParametersToPrepareStatement(statement, parameters);
-                    statement.executeUpdate(sql);
+                    statement.executeUpdate();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
 
                 dto.setId(id);
+            }else{
+                LOGGER.error("Type for generate id is not determine. Entity was not created into database");
             }
         }else{
             parameters = getParameters(dto, 1);
             parameters.add(0, "id", dto.getId());
-            String sql = createSqlInsertFull(parameters.size());
+            String sql = createSqlInsertFull(parameters.size()-1);
             try {
                 statement = createConnection().prepareStatement(sql);
                 statement = setParametersToPrepareStatement(statement, parameters);
-                statement.executeUpdate(sql);
+                statement.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
 
-        LOGGER.info("Successful a db entity created");
+        LOGGER.info("Finished a db entity created");
 
         return dto;
     }
@@ -159,7 +161,7 @@ public abstract class RepositoryJdbcBase
         try {
             statement = createConnection().prepareStatement(sql);
             statement = setParametersToPrepareStatement(statement, parameters);
-            statement.executeUpdate(sql);
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -178,7 +180,7 @@ public abstract class RepositoryJdbcBase
         try {
             statement = createConnection().prepareStatement(sql);
             statement = setParametersToPrepareStatement(statement, parameters);
-            statement.executeUpdate(sql);
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
