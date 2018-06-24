@@ -55,6 +55,17 @@ public class UtilReflection {
             return null;
     }
 
+    public static boolean IsInstanceOf(Class checkClass, Class startClass){
+        boolean result = false;
+        if(checkClass == startClass){
+            result = true;
+        }else{
+            result = IsSuperClass(checkClass, startClass);
+        }
+
+        return result;
+    }
+
     public static boolean IsSuperClass(Class checkClass, Class startClass){
         boolean result = false;
 
@@ -85,7 +96,7 @@ public class UtilReflection {
                 if (checkClass == interfaceItem) {
                     result = true;
                 }else{
-                    result = IsSuperClass(checkClass, interfaceItem);
+                    result = IsInterface(checkClass, interfaceItem);
                 }
             }else {
                 result = false;
