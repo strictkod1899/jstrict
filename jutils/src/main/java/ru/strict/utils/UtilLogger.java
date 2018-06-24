@@ -11,11 +11,11 @@ import static org.apache.log4j.Logger.getLogger;
 public class UtilLogger {
 
     public static WrapperLogger createLogger(Class clazz){
-        return new WrapperLogger(getLogger(clazz));
+        return new WrapperLogger(clazz);
     }
 
     public static WrapperLogger createLogger(String className){
-        return new WrapperLogger(getLogger(className));
+        return new WrapperLogger(className);
     }
 
     /**

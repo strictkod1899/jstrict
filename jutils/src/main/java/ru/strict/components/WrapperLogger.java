@@ -9,12 +9,8 @@ public class WrapperLogger {
 
     private final Logger wrappedObject;
 
-    public WrapperLogger(Logger logger) {
-        this.wrappedObject = logger;
-    }
-
     public WrapperLogger(Class clazz) {
-        this.wrappedObject = Logger.getLogger(clazz);;
+        this.wrappedObject = Logger.getLogger(clazz);
     }
 
     public WrapperLogger(String className) {
