@@ -25,7 +25,7 @@ public class UtilReflection {
                     for (int i = 0; i < consParametersCount; i++) {
                         Class consParameter = consParameters[i];
                         if (consParameter != userParameters[i].getClass()) {
-                            boolean checkBySuperClass = IsSuperClass(consParameter, userParameters[i].getClass());
+                            boolean checkBySuperClass = isSuperClass(consParameter, userParameters[i].getClass());
                             if(!checkBySuperClass) {
                                 break;
                             }
@@ -55,18 +55,18 @@ public class UtilReflection {
             return null;
     }
 
-    public static boolean IsInstanceOf(Class checkClass, Class startClass){
+    public static boolean isInstanceOf(Class checkClass, Class startClass){
         boolean result = false;
         if(checkClass == startClass){
             result = true;
         }else{
-            result = IsSuperClass(checkClass, startClass);
+            result = isSuperClass(checkClass, startClass);
         }
 
         return result;
     }
 
-    public static boolean IsSuperClass(Class checkClass, Class startClass){
+    public static boolean isSuperClass(Class checkClass, Class startClass){
         boolean result = false;
 
         Class superClass = startClass.getSuperclass();
@@ -74,10 +74,10 @@ public class UtilReflection {
             if (checkClass == superClass) {
                 result = true;
             }else{
-                result = IsSuperClass(checkClass, superClass);
+                result = isSuperClass(checkClass, superClass);
 
                 if(!result){
-                    result = IsInterface(checkClass, superClass);
+                    result = isInterface(checkClass, superClass);
                 }
             }
         }else {
@@ -87,7 +87,7 @@ public class UtilReflection {
         return result;
     }
 
-    public static boolean IsInterface(Class checkClass, Class startClass){
+    public static boolean isInterface(Class checkClass, Class startClass){
         boolean result = false;
 
         Class[] interfaces = startClass.getInterfaces();
@@ -96,15 +96,12 @@ public class UtilReflection {
                 if (checkClass == interfaceItem) {
                     result = true;
                 }else{
-                    result = IsInterface(checkClass, interfaceItem);
+                    result = isInterface(checkClass, interfaceItem);
                 }
             }else {
                 result = false;
             }
         }
-
-
-
         return result;
     }
 }

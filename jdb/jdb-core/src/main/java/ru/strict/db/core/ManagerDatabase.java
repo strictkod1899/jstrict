@@ -7,9 +7,7 @@ import ru.strict.db.core.migration.components.MigrationTable;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.utils.UtilReflection;
 
-import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.sql.Connection;
 
@@ -62,7 +60,11 @@ public class ManagerDatabase<SOURCE> {
             Class<REPOSITORY> repositoryClass,
             Object...parameters) {
         IRepository repository = createRepository(repositoryClass, parameters);
-        repositories.put(key, repository);
+        if(repository != null) {
+            repositories.put(key, repository);
+        }else{
+            throw new NullPointerException();
+        }
         return repository;
     }
 
@@ -104,7 +106,7 @@ public class ManagerDatabase<SOURCE> {
     public <REPSITORY extends IRepository> IRepository[] getRepositories(Class<REPSITORY> repositoryClass) {
         IRepository[] result = repositories.entrySet()
                 .stream()
-                .filter(entry -> UtilReflection.IsInstanceOf(repositoryClass, entry.getValue().getClass()))
+                .filter(entry -> UtilReflection.isInstanceOf(repositoryClass, entry.getValue().getClass()))
                 .map(entry -> entry.getValue())
                 .toArray(IRepository[]::new);
         return result;
@@ -117,8 +119,8 @@ public class ManagerDatabase<SOURCE> {
     public <REPSITORY extends IRepository> IRepository getRepository(Class<REPSITORY> repositoryClass) {
         IRepository result = repositories.entrySet()
                 .stream()
-                .filter(entry -> UtilReflection.IsInstanceOf(repositoryClass, entry.getValue().getClass()))
                 .map(entry -> entry.getValue())
+                .filter(repository -> UtilReflection.isInstanceOf(repositoryClass, repository.getClass()))
                 .findFirst()
                 .orElse(null);
         return result;
