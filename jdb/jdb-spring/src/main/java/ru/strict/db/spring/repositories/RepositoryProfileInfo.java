@@ -40,7 +40,7 @@ public class RepositoryProfileInfo<ID>
         valuesByColumn.put(3, dto.getUserId());
         valuesByColumn.put(4, dto.getDateBirth());
         valuesByColumn.put(5, dto.getPhone());
-        valuesByColumn.put(7, dto.getCityId());
+        valuesByColumn.put(6, dto.getCityId());
         return valuesByColumn;
     }
 
