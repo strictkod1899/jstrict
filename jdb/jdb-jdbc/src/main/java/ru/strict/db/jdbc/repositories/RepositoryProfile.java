@@ -19,9 +19,9 @@ import java.util.Map;
 public class RepositoryProfile<ID, SOURCE extends ICreateConnection>
         extends RepositoryJdbcBase<ID, SOURCE, EntityProfile, DtoProfile> {
 
-    private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "user_id"};
+    private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id"};
 
-    public RepositoryProfile(SOURCE connectionSource, boolean isGenerateId) {
+    public RepositoryProfile(SOURCE connectionSource, Boolean isGenerateId) {
         super("profile", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.PROFILE),
                 new MapperSqlProfile(COLUMNS_NAME),

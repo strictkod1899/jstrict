@@ -20,10 +20,10 @@ import java.util.Map;
 public class RepositoryProfileInfo<ID, SOURCE extends ICreateConnection>
         extends RepositoryJdbcBase<ID, SOURCE, EntityProfileInfo, DtoProfileInfo> {
 
-    private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "user_id", "datebirth",
+    private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id", "datebirth",
             "phone", "city_id"};
 
-    public RepositoryProfileInfo(SOURCE connectionSource, boolean isGenerateId) {
+    public RepositoryProfileInfo(SOURCE connectionSource, Boolean isGenerateId) {
         super("profile", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.PROFILE_INFO),
                 new MapperSqlProfileInfo(COLUMNS_NAME),

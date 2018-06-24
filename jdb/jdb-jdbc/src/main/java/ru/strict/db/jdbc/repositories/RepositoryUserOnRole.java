@@ -13,10 +13,10 @@ import java.util.Map;
 public class RepositoryUserOnRole<ID, SOURCE extends ICreateConnection>
         extends RepositoryJdbcBase<ID, SOURCE, EntityUserOnRole, DtoUserOnRole> {
 
-    private static final String[] COLUMNS_NAME = new String[] {"user_id", "roleuser_id"};
+    private static final String[] COLUMNS_NAME = new String[] {"userx_id", "roleuser_id"};
 
-    public RepositoryUserOnRole(SOURCE connectionSource, boolean isGenerateId) {
-        super("userOnRole", COLUMNS_NAME, connectionSource,
+    public RepositoryUserOnRole(SOURCE connectionSource, Boolean isGenerateId) {
+        super("user_on_role", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.USER_ON_ROLE),
                 new MapperSqlUserOnRole(COLUMNS_NAME),
                 isGenerateId);

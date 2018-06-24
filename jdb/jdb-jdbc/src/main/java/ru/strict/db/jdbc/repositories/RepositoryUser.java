@@ -24,7 +24,7 @@ public class RepositoryUser<ID, SOURCE extends ICreateConnection, DTO extends Dt
 
     public RepositoryUser(SOURCE connectionSource,
                           MapperDtoBase<EntityUser, DTO> dtoMapper,
-                          boolean isGenerateId) {
+                          Boolean isGenerateId) {
         super("userx", COLUMNS_NAME, connectionSource, dtoMapper, new MapperSqlUser(COLUMNS_NAME), isGenerateId);
     }
 
