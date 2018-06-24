@@ -17,7 +17,7 @@ public class RepositoryUserOnRole<ID>
     private static final String[] COLUMNS_NAME = new String[] {"userx_id", "roleuser_id"};
 
     public RepositoryUserOnRole(CreateConnectionByDataSource connectionSource, GenerateIdType isGenerateId) {
-        super("userOnRole", COLUMNS_NAME, connectionSource,
+        super("user_on_role", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.USER_ON_ROLE),
                 new MapperSqlUserOnRole(COLUMNS_NAME),
                 isGenerateId);
