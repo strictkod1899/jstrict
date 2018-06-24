@@ -1,5 +1,6 @@
 package ru.strict.db.jdbc.repositories;
 
+import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoProfileInfo;
@@ -23,7 +24,7 @@ public class RepositoryProfileInfo<ID, SOURCE extends ICreateConnection>
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id", "datebirth",
             "phone", "city_id"};
 
-    public RepositoryProfileInfo(SOURCE connectionSource, Boolean isGenerateId) {
+    public RepositoryProfileInfo(SOURCE connectionSource, GenerateIdType isGenerateId) {
         super("profile", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.PROFILE_INFO),
                 new MapperSqlProfileInfo(COLUMNS_NAME),
@@ -48,7 +49,7 @@ public class RepositoryProfileInfo<ID, SOURCE extends ICreateConnection>
         IRepository<ID, DtoUser> rUser =
                 new RepositoryUser<>(getConnectionSource(),
                         new MapperDtoFactory().instance(MapperDtoType.USER),
-                        false);
+                        GenerateIdType.NONE);
         dto.setUser(rUser.read((ID) dto.getUserId()));
         return dto;
     }

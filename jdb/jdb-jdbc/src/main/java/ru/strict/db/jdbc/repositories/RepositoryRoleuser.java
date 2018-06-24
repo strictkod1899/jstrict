@@ -1,5 +1,6 @@
 package ru.strict.db.jdbc.repositories;
 
+import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoRoleuser;
@@ -15,7 +16,7 @@ public class RepositoryRoleuser<ID, SOURCE extends ICreateConnection>
 
     private static final String[] COLUMNS_NAME = new String[] {"code", "description"};
 
-    public RepositoryRoleuser(SOURCE connectionSource, Boolean isGenerateId) {
+    public RepositoryRoleuser(SOURCE connectionSource, GenerateIdType isGenerateId) {
         super("roleuser", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.ROLE_USER),
                 new MapperSqlRoleuser(COLUMNS_NAME),

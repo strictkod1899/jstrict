@@ -1,5 +1,6 @@
 package ru.strict.db.jdbc.repositories;
 
+import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoCity;
@@ -18,7 +19,7 @@ public class RepositoryCity<ID, SOURCE extends ICreateConnection>
 
     private static final String[] COLUMNS_NAME = new String[] {"caption", "country_id"};
 
-    public RepositoryCity(SOURCE connectionSource, Boolean isGenerateId) {
+    public RepositoryCity(SOURCE connectionSource, GenerateIdType isGenerateId) {
         super("city", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.CITY),
                 new MapperSqlCity(COLUMNS_NAME),

@@ -1,5 +1,6 @@
 package ru.strict.db.jdbc.repositories;
 
+import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.*;
 import ru.strict.db.core.dto.DtoUser;
@@ -24,7 +25,7 @@ public class RepositoryUser<ID, SOURCE extends ICreateConnection, DTO extends Dt
 
     public RepositoryUser(SOURCE connectionSource,
                           MapperDtoBase<EntityUser, DTO> dtoMapper,
-                          Boolean isGenerateId) {
+                          GenerateIdType isGenerateId) {
         super("userx", COLUMNS_NAME, connectionSource, dtoMapper, new MapperSqlUser(COLUMNS_NAME), isGenerateId);
     }
 
@@ -46,12 +47,12 @@ public class RepositoryUser<ID, SOURCE extends ICreateConnection, DTO extends Dt
     @Override
     protected DTO fill(DTO dto){
         RepositoryJdbcBase<ID, SOURCE, EntityUserOnRole, DtoUserOnRole> rUserOnRole =
-                new RepositoryUserOnRole(getConnectionSource(), false);
+                new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
         DbRequests requests = new DbRequests(rUserOnRole.getTableName(), true);
         requests.add(new DbWhere(getTableName(), "id", dto.getId(), "="));
         List<DtoUserOnRole> userOnRoles = rUserOnRole.readAll(requests);
 
-        IRepository<ID, DtoRoleuser> rRoleuser = new RepositoryRoleuser<>(getConnectionSource(), false);
+        IRepository<ID, DtoRoleuser> rRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
         for(DtoUserOnRole<ID> userOnRole : userOnRoles)
             dto.addRoleuser(rRoleuser.read(userOnRole.getRoleId()));
         return dto;

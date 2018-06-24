@@ -1,5 +1,6 @@
 package ru.strict.db.core.repositories;
 
+import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoBase;
 import ru.strict.db.core.entities.EntityBase;
@@ -65,16 +66,16 @@ public abstract class RepositoryBase
      * Метка: если значение true, то идентификатор должен генерироваться на стороне базы данных,
      * иначе при создании записи id будет взято из dto-объекта
      */
-    private boolean isGenerateId;
+    private GenerateIdType generateIdType;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public RepositoryBase(String tableName, String[] columnsName, SOURCE connectionSource
-            , MapperDtoBase<E, DTO> dtoMapper, boolean isGenerateId) {
+            , MapperDtoBase<E, DTO> dtoMapper, GenerateIdType generateIdType) {
         this.connectionSource = connectionSource;
         this.dtoMapper = dtoMapper;
         objects = new LinkedList<>();
         state = RepositoryDataState.NONE;
-        this.isGenerateId = isGenerateId;
+        this.generateIdType = generateIdType;
         this.tableName = tableName;
         this.columnsName = columnsName;
     }
@@ -218,8 +219,8 @@ public abstract class RepositoryBase
         this.state = state;
     }
 
-    public boolean isGenerateId() {
-        return isGenerateId;
+    public GenerateIdType getGenerateIdType() {
+        return generateIdType;
     }
 
     public String getTableName() {
@@ -243,7 +244,7 @@ public abstract class RepositoryBase
             RepositoryBase object = (RepositoryBase) obj;
             return super.equals(object) && tableName.equals(object.getTableName())
                     && connectionSource.equals(connectionSource) && state.equals(object.getState())
-                    && isGenerateId == object.isGenerateId()
+                    && generateIdType == object.getGenerateIdType()
                     && (columnsName.length == object.getColumnsName().length
                             && Arrays.asList(columnsName).containsAll(Arrays.asList(object.getColumnsName())));
         }else
@@ -252,7 +253,7 @@ public abstract class RepositoryBase
 
     @Override
     public int hashCode(){
-        return UtilHashCode.createHashCode(tableName, connectionSource, state, isGenerateId, columnsName);
+        return UtilHashCode.createHashCode(tableName, connectionSource, state, generateIdType, columnsName);
     }
     //</editor-fold>
 }

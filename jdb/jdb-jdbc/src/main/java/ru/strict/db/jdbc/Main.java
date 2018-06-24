@@ -2,6 +2,7 @@ package ru.strict.db.jdbc;
 
 import ru.strict.db.core.ManagerDatabase;
 import ru.strict.db.core.common.ConnectionByDbType;
+import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.ConnectionInfo;
 import ru.strict.db.core.connections.CreateConnectionByConnectionInfo;
 import ru.strict.db.core.connections.ICreateConnection;
@@ -23,7 +24,6 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args){
-        System.out.println("Aaaa");
         ConnectionInfo connectionInfo = new ConnectionInfo(
                 ConnectionByDbType.SQLITE.getDriver(),
                 ConnectionByDbType.SQLITE.getUrl() + "A:\\Users\\strictkod1899\\testdb.sqlite",
@@ -34,7 +34,7 @@ public class Main {
         addRepositoriesAutoId(managerDatabase);
         int i = 0;
         //create(managerDatabase);
-        createAutoId(managerDatabase);
+        //createAutoId(managerDatabase);
         //update(managerDatabase);
         //read(managerDatabase);
         //readAll(managerDatabase);
@@ -43,21 +43,21 @@ public class Main {
     }
 
     private static void addRepositories(ManagerDatabase managerDatabase){
-        managerDatabase.createAndAddRepository("roleuser", RepositoryRoleuser.class, (boolean) false);
-        managerDatabase.createAndAddRepository("user", RepositoryUser.class, new MapperDtoUser<>(), false);
-        managerDatabase.createAndAddRepository("user_on_role", RepositoryUserOnRole.class, false);
-        managerDatabase.createAndAddRepository("profile", RepositoryProfileInfo.class, false);
-        managerDatabase.createAndAddRepository("country", RepositoryCountry.class, false);
-        managerDatabase.createAndAddRepository("city", RepositoryCity.class, false);
+        managerDatabase.createAndAddRepository("roleuser", RepositoryRoleuser.class, GenerateIdType.NONE);
+        managerDatabase.createAndAddRepository("user", RepositoryUser.class, new MapperDtoUser<>(), GenerateIdType.NONE);
+        managerDatabase.createAndAddRepository("user_on_role", RepositoryUserOnRole.class, GenerateIdType.NONE);
+        managerDatabase.createAndAddRepository("profile", RepositoryProfileInfo.class, GenerateIdType.NONE);
+        managerDatabase.createAndAddRepository("country", RepositoryCountry.class, GenerateIdType.NONE);
+        managerDatabase.createAndAddRepository("city", RepositoryCity.class, GenerateIdType.NONE);
     }
 
     private static void addRepositoriesAutoId(ManagerDatabase managerDatabase){
-        managerDatabase.createAndAddRepository("roleuser", RepositoryRoleuser.class, (boolean) true);
-        managerDatabase.createAndAddRepository("user", RepositoryUser.class, new MapperDtoUser<>(), true);
-        managerDatabase.createAndAddRepository("user_on_role", RepositoryUserOnRole.class, true);
-        managerDatabase.createAndAddRepository("profile", RepositoryProfileInfo.class, true);
-        managerDatabase.createAndAddRepository("country", RepositoryCountry.class, true);
-        managerDatabase.createAndAddRepository("city", RepositoryCity.class, true);
+        managerDatabase.createAndAddRepository("roleuser", RepositoryRoleuser.class, GenerateIdType.NUMBER);
+        managerDatabase.createAndAddRepository("user", RepositoryUser.class, new MapperDtoUser<>(), GenerateIdType.NUMBER);
+        managerDatabase.createAndAddRepository("user_on_role", RepositoryUserOnRole.class, GenerateIdType.NUMBER);
+        managerDatabase.createAndAddRepository("profile", RepositoryProfileInfo.class, GenerateIdType.NUMBER);
+        managerDatabase.createAndAddRepository("city", RepositoryCity.class, GenerateIdType.NUMBER);
+        managerDatabase.createAndAddRepository("country", RepositoryCountry.class, GenerateIdType.NUMBER);
     }
 
     private static void create(ManagerDatabase managerDatabase){

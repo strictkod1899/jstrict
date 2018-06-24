@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.DtoBase;
 import ru.strict.db.core.entities.EntityBase;
@@ -40,7 +41,7 @@ public abstract class RepositorySpringBase
     //<editor-fold defaultState="collapsed" desc="constructors">
     public RepositorySpringBase(String tableName, String[] columnsName,
                                 CreateConnectionByDataSource connectionSource,
-                                MapperDtoBase<E, DTO> dtoMapper, RowMapper<E> springMapper, boolean isGenerateId) {
+                                MapperDtoBase<E, DTO> dtoMapper, RowMapper<E> springMapper, GenerateIdType isGenerateId) {
         super(tableName, columnsName, connectionSource, dtoMapper, isGenerateId);
         this.springJdbc = new NamedParameterJdbcTemplate(getConnectionSource().getConnectionSource());
         this.springMapper = springMapper;
@@ -52,27 +53,32 @@ public abstract class RepositorySpringBase
     public final DTO create(DTO dto) {
         LOGGER.info("Trying a db entity create");
         MapSqlParameterSource parameters = getParameters(dto);
-
-        if(isGenerateId()) {
-            if(dto.getId() instanceof Number) {
+        String sql = null;
+        switch(getGenerateIdType()){
+            case NUMBER:
                 KeyHolder keyHolder = new GeneratedKeyHolder();
-                String sql = createSqlInsertShort(parameters.getParameterNames());
+                sql = createSqlInsertShort(parameters.getParameterNames());
                 springJdbc.update(sql, parameters, keyHolder);
                 dto.setId(keyHolder.getKey());
-            }else if(dto.getId() instanceof String || dto.getId() instanceof UUID){
-                String sql = createSqlInsertFull(parameters.getParameterNames());
+                break;
+            case UUID:
+                sql = createSqlInsertFull(parameters.getParameterNames());
                 Object id = UUID.randomUUID();
                 parameters.addValue("id", id);
                 springJdbc.update(sql, parameters);
                 dto.setId(id);
-            }
-        }else{
-            String sql = createSqlInsertFull(parameters.getParameterNames());
-            parameters.addValue("id", dto.getId());
-            springJdbc.update(sql, parameters);
+                break;
+            case NONE:
+                sql = createSqlInsertFull(parameters.getParameterNames());
+                parameters.addValue("id", dto.getId());
+                springJdbc.update(sql, parameters);
+                break;
+            default:
+                LOGGER.error("Type for generate id is not determine. Entity was not created into database");
+                break;
         }
 
-        LOGGER.info("Successful a db entity created");
+        LOGGER.info("Finished a db entity created");
 
         return dto;
     }

@@ -1,5 +1,6 @@
 package ru.strict.db.spring.repositories;
 
+import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.DtoUserOnRole;
@@ -15,7 +16,7 @@ public class RepositoryUserOnRole<ID>
 
     private static final String[] COLUMNS_NAME = new String[] {"user_id", "roleuser_id"};
 
-    public RepositoryUserOnRole(CreateConnectionByDataSource connectionSource, boolean isGenerateId) {
+    public RepositoryUserOnRole(CreateConnectionByDataSource connectionSource, GenerateIdType isGenerateId) {
         super("userOnRole", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.USER_ON_ROLE),
                 new MapperSqlUserOnRole(COLUMNS_NAME),

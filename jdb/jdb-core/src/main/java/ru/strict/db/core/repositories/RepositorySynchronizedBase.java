@@ -1,5 +1,6 @@
 package ru.strict.db.core.repositories;
 
+import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoBase;
 import ru.strict.db.core.entities.EntityBase;
@@ -19,7 +20,7 @@ public abstract class RepositorySynchronizedBase
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public RepositorySynchronizedBase(String tableName, String[] columnsName, SOURCE connectionSource
-            , MapperDtoBase<E, DTO> dtoMapper, boolean isGenerateId) {
+            , MapperDtoBase<E, DTO> dtoMapper, GenerateIdType isGenerateId) {
         super(tableName, columnsName, connectionSource, dtoMapper, isGenerateId);
     }
     //</editor-fold>

@@ -1,5 +1,6 @@
 package ru.strict.db.jdbc.repositories;
 
+import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoBase;
 import ru.strict.db.core.entities.EntityBase;
@@ -33,7 +34,7 @@ public abstract class RepositoryJdbcBase
     public RepositoryJdbcBase(String tableName, String[] columnsName,
                               SOURCE connectionSource,
                               MapperDtoBase<E, DTO> dtoMapper,
-                              MapperSqlBase<E> sqlMapper, boolean isGenerateId) {
+                              MapperSqlBase<E> sqlMapper, GenerateIdType isGenerateId) {
         super(tableName, columnsName, connectionSource, dtoMapper, isGenerateId);
         this.sqlMapper = sqlMapper;
     }
@@ -45,11 +46,11 @@ public abstract class RepositoryJdbcBase
         LOGGER.info("Trying a db entity create");
         PreparedStatement statement;
         JdbcSqlParameters parameters;
-
-        if(isGenerateId()) {
-            if(dto.getId() instanceof Number) {
+        String sql = null;
+        switch(getGenerateIdType()){
+            case NUMBER:
                 parameters = getParameters(dto, 0);
-                String sql = createSqlInsertFull(parameters.size());
+                sql = createSqlInsertShort(parameters.size());
 
                 try {
                     statement = createConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -65,11 +66,12 @@ public abstract class RepositoryJdbcBase
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-            }else if(dto.getId() instanceof String || dto.getId() instanceof UUID){
+                break;
+            case UUID:
                 parameters = getParameters(dto, 1);
                 Object id = UUID.randomUUID();
                 parameters.add(0, "id", id);
-                String sql = createSqlInsertFull(parameters.size());
+                sql = createSqlInsertFull(parameters.size()-1);
 
                 try {
                     statement = createConnection().prepareStatement(sql);
@@ -80,20 +82,22 @@ public abstract class RepositoryJdbcBase
                 }
 
                 dto.setId(id);
-            }else{
+                break;
+            case NONE:
+                parameters = getParameters(dto, 1);
+                parameters.add(0, "id", dto.getId());
+                sql = createSqlInsertFull(parameters.size()-1);
+                try {
+                    statement = createConnection().prepareStatement(sql);
+                    statement = setParametersToPrepareStatement(statement, parameters);
+                    statement.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            default:
                 LOGGER.error("Type for generate id is not determine. Entity was not created into database");
-            }
-        }else{
-            parameters = getParameters(dto, 1);
-            parameters.add(0, "id", dto.getId());
-            String sql = createSqlInsertFull(parameters.size()-1);
-            try {
-                statement = createConnection().prepareStatement(sql);
-                statement = setParametersToPrepareStatement(statement, parameters);
-                statement.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+                break;
         }
 
         LOGGER.info("Finished a db entity created");
