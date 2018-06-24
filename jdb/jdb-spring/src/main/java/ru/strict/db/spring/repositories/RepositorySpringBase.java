@@ -41,8 +41,8 @@ public abstract class RepositorySpringBase
     //<editor-fold defaultState="collapsed" desc="constructors">
     public RepositorySpringBase(String tableName, String[] columnsName,
                                 CreateConnectionByDataSource connectionSource,
-                                MapperDtoBase<E, DTO> dtoMapper, RowMapper<E> springMapper, GenerateIdType isGenerateId) {
-        super(tableName, columnsName, connectionSource, dtoMapper, isGenerateId);
+                                MapperDtoBase<E, DTO> dtoMapper, RowMapper<E> springMapper, GenerateIdType generateIdType) {
+        super(tableName, columnsName, connectionSource, dtoMapper, generateIdType);
         this.springJdbc = new NamedParameterJdbcTemplate(getConnectionSource().getConnectionSource());
         this.springMapper = springMapper;
     }

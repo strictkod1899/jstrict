@@ -14,7 +14,7 @@ import java.util.Map;
 public class RepositoryUserOnRole<ID>
         extends RepositorySpringBase<ID, EntityUserOnRole, DtoUserOnRole> {
 
-    private static final String[] COLUMNS_NAME = new String[] {"user_id", "roleuser_id"};
+    private static final String[] COLUMNS_NAME = new String[] {"userx_id", "roleuser_id"};
 
     public RepositoryUserOnRole(CreateConnectionByDataSource connectionSource, GenerateIdType isGenerateId) {
         super("userOnRole", COLUMNS_NAME, connectionSource,

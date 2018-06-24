@@ -21,7 +21,7 @@ import java.util.Map;
 public class RepositoryProfileInfo<ID>
         extends RepositorySpringBase<ID, EntityProfileInfo, DtoProfileInfo> {
 
-    private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "user_id", "datebirth",
+    private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id", "datebirth",
             "phone", "city_id"};
 
     public RepositoryProfileInfo(CreateConnectionByDataSource connectionSource, GenerateIdType isGenerateId) {

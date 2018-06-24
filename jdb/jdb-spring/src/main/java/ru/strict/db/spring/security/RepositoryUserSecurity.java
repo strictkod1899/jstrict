@@ -1,5 +1,6 @@
 package ru.strict.db.spring.security;
 
+import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.dto.DtoUserOnRole;
@@ -21,11 +22,11 @@ public class RepositoryUserSecurity<ID>
 
     private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "token"};
 
-    public RepositoryUserSecurity(CreateConnectionByDataSource connectionSource, boolean isGenerateId) {
+    public RepositoryUserSecurity(CreateConnectionByDataSource connectionSource, GenerateIdType generateIdType) {
         super("userx", COLUMNS_NAME, connectionSource,
                 new MapperDtoUserSecurity(new MapperDtoRoleuser()),
                 new MapperSqlUserSecurity(COLUMNS_NAME),
-                isGenerateId);
+                generateIdType);
     }
 
     @Override
@@ -41,12 +42,12 @@ public class RepositoryUserSecurity<ID>
     @Override
     protected DtoUserSecurity fill(DtoUserSecurity dto){
         RepositorySpringBase<ID, EntityUserOnRole, DtoUserOnRole> rUserOnRole =
-                new RepositoryUserOnRole(getConnectionSource(), false);
+                new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
         DbRequests requests = new DbRequests(rUserOnRole.getTableName(), true);
         requests.add(new DbWhere(getTableName(), "id", dto.getId(), "="));
         List<DtoUserOnRole> userOnRoles = rUserOnRole.readAll(requests);
 
-        IRepository<ID, DtoRoleuser> rRoleuser = new RepositoryRoleuser<>(getConnectionSource(), false);
+        IRepository<ID, DtoRoleuser> rRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
         for(DtoUserOnRole<ID> userOnRole : userOnRoles)
             dto.addRoleuser(rRoleuser.read(userOnRole.getRoleId()));
         return dto;
