@@ -6,34 +6,39 @@ package ru.strict.db.core.common;
 public enum ConnectionByDbType {
 
     /**
-     * Информация для подключения к базе данных Postgresql
+     * Информация для подключения к базе данных Postgresql. <br/>
+     * К url добавлятся наименование базы данных
      */
     POSTGRESQL("jdbc:postgresql://localhost:5432/", "org.postgresql.Driver"),
 
     /**
-     * Информация для подключения к базе данных my sql
+     * Информация для подключения к базе данных my sql. <br/>
+     * К url добавлятся наименование базы данных
      */
     MYSQL("jdbc:mysql://","com.mysql.jdbc.Driver"),
 
     /**
-     * Информация для подключения к базе данных ms sql <br/>
+     * Информация для подключения к базе данных ms sql. <br/>
      * <b>Внимание: </b>После добавления наименования базы данных к url, возможно необходимо добавление следующего содержимого:
      * ; integratedSecurity=true;)
      */
     MSSQL("jdbc:sqlserver://localhost:1433; databaseName=","com.microsoft.sqlserver.jdbc.SQLServerDriver"),
 
     /**
-     * Информация для подключения к базе данных H2
+     * Информация для подключения к базе данных H2. <br/>
+     * К url добавляется наименование базы данных
      */
     H2("jdbc:h2:./", "org.h2.Driver"),
 
     /**
-     * Информация для подключения к базе данных MS Access
+     * Информация для подключения к базе данных MS Access. <br/>
+     * К url добавляется наименование базы данных
      */
     ACCESS("jdbc:ucanaccess://./", "net.ucanaccess.jdbc.UcanaccessDriver"),
 
     /**
-     * Информация для подключения к базе данных SQLite
+     * Информация для подключения к базе данных SQLite. <br/>
+     * К url добавляется путь до файла базы данных
      */
     SQLITE("jdbc:sqlite:", "org.sqlite.JDBC");
 
