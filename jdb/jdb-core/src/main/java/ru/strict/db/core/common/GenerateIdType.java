@@ -6,7 +6,8 @@ package ru.strict.db.core.common;
  */
 public enum GenerateIdType {
     /**
-     * Генерация числового значения
+     * Генерация числового значения. <br/>
+     * <i><b>Примечание: </b> при использовании данного типа, в базе данных должен быть настроен auto increment</i>
      */
     NUMBER,
     /**
@@ -14,7 +15,7 @@ public enum GenerateIdType {
      */
     UUID,
     /**
-     * Не генерировать значеник
+     * Не генерировать значение
      */
     NONE
 }

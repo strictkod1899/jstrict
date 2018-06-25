@@ -8,11 +8,10 @@ import ru.strict.db.core.mappers.dto.MapperDtoBase;
 
 /**
  * Базовый класс репозитория
- * @param <ID> Тип идентификатора
- * @param <SOURCE> Источник для получения соединения с базой данных,
- *                например, CreateConnectionByDataSource, CreateConnectionByConnectionInfo и др.
- * @param <E> Тип сущности базы данных (entity)
- * @param <DTO> Тип Dto-сущности базы данных
+ * @param <ID>      Тип идентификатора
+ * @param <SOURCE>  Источник для получения соединения с базой данных (CreateConnectionByDataSource, CreateConnectionByConnectionInfo)
+ * @param <E>       Тип сущности базы данных (entity)
+ * @param <DTO>     Тип Dto-сущности базы данных
  */
 public abstract class RepositorySynchronizedBase
         <ID, SOURCE extends ICreateConnection, E extends EntityBase, DTO extends DtoBase>

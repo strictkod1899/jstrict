@@ -15,8 +15,7 @@ import java.util.stream.Collectors;
 
 /**
  * Миграция базы данных
- * @param <SOURCE> Источник для получения соединения с базой данных,
- *                например, CreateConnectionByDataSource, CreateConnectionByConnectionInfo и др
+ * @param <SOURCE> Источник для получения соединения с базой данных (CreateConnectionByDataSource, CreateConnectionByConnectionInfo)
  * @param <TABLE> Тип таблиц для миграции (например, PostgreSQLMigrationTable, SQLiteMigrationTable и др.)
  */
 public class MigrationDatabase
@@ -27,8 +26,7 @@ public class MigrationDatabase
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
-     * является реализацией интерфейса ICreateConnection,
-     * например, CreateConnectionByDataSource, CreateConnectionByConnectionInfo и др.
+     * является реализацией интерфейса ICreateConnection (CreateConnectionByDataSource, CreateConnectionByConnectionInfo)
      */
     private SOURCE connectionSource;
 

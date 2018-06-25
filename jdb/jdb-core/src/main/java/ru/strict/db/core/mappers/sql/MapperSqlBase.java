@@ -6,7 +6,7 @@ import ru.strict.db.core.mappers.MapperBase;
 import java.sql.ResultSet;
 
 /**
- * Базовая реализация маппера из выборки sql-запроса в entity
+ * Базовая реализация маппера из выборки sql-запроса (ResultSet) в entity
  * @param <T> Entity-класс
  */
 public abstract class MapperSqlBase<T extends EntityBase>

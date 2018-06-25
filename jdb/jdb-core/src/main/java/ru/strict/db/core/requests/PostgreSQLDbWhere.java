@@ -3,7 +3,7 @@ package ru.strict.db.core.requests;
 import ru.strict.utils.UtilHashCode;
 
 /**
- * Условие Where для добавления к sql-запросу
+ * Условие Where для добавления к sql-запросу при использовании базы данных PostgreSql
  */
 public class PostgreSQLDbWhere extends DbWhere {
 

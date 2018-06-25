@@ -19,8 +19,7 @@ import java.util.List;
 /**
  * Базовый класс репозитория
  * @param <ID> Тип идентификатора
- * @param <SOURCE> Источник для получения соединения с базой данных,
- *                например, CreateConnectionByDataSource, CreateConnectionByConnectionInfo и др.
+ * @param <SOURCE> Источник для получения соединения с базой данных (CreateConnectionByDataSource, CreateConnectionByConnectionInfo)
  * @param <E> Тип сущности базы данных (entity)
  * @param <DTO> Тип Dto-сущности базы данных
  */
@@ -32,8 +31,7 @@ public abstract class RepositoryBase
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
-     * является реализацией интерфейса ICreateConnection,
-     * например, CreateConnectionByDataSource, CreateConnectionByConnectionInfo и др.
+     * является реализацией интерфейса ICreateConnection (CreateConnectionByDataSource, CreateConnectionByConnectionInfo)
      */
     private SOURCE connectionSource;
 
@@ -195,28 +193,28 @@ public abstract class RepositoryBase
         return connectionSource.createConnection();
     }
 
-    public SOURCE getConnectionSource() {
-        return connectionSource;
-    }
-
     protected MapperDtoBase<E, DTO> getDtoMapper() {
         return dtoMapper;
-    }
-
-    public List<DTO> getObjects() {
-        return objects;
     }
 
     protected void setObjects(List<DTO> objects) {
         this.objects = objects;
     }
 
-    public RepositoryDataState getState() {
-        return state;
-    }
-
     protected void setState(RepositoryDataState state) {
         this.state = state;
+    }
+
+    public SOURCE getConnectionSource() {
+        return connectionSource;
+    }
+
+    public List<DTO> getObjects() {
+        return objects;
+    }
+
+    public RepositoryDataState getState() {
+        return state;
     }
 
     public GenerateIdType getGenerateIdType() {

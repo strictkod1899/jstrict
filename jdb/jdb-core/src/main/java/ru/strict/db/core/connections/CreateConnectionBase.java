@@ -4,13 +4,13 @@ import ru.strict.utils.UtilHashCode;
 
 /**
  * Конструктор соединения с базой данных
- * @param <SOURCE> Тип источника подключения к базе данных (например, DataSource, ConnectionInfo и др.)
+ * @param <SOURCE> Тип источника подключения к базе данных (DataSource, ConnectionInfo)
  */
 public abstract class CreateConnectionBase<SOURCE> implements ICreateConnection {
 
     /**
-     * Источник подключения к базе данных (используется для получения объекта Connection),
-     * например, DataSource, ConnectionInfo и др.
+     * Источник подключения к базе данных (DataSource, ConnectionInfo). <br/>
+     * <i><b>Примечание:</b> используется для получения объекта Connection</i>
      */
     private SOURCE connectionSource;
 

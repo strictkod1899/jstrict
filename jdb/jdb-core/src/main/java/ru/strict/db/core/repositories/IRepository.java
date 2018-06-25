@@ -38,6 +38,7 @@ public interface IRepository<ID, DTO extends DtoBase> {
 
     /**
      * Обновить объект в базе данных связанный с id переданного объекта
+     *
      * @param dto Обновляемый объект
      * @return Обновленный объект
      */
@@ -47,7 +48,6 @@ public interface IRepository<ID, DTO extends DtoBase> {
      * Удалить объект из базы данных
      *
      * @param id Идентификатор удаляемого объекта
-     * @return При успешном удалении возвращает true, иначе false
      */
     void delete(ID id);
 

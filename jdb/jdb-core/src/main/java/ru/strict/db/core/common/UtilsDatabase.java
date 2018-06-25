@@ -1,5 +1,6 @@
 package ru.strict.db.core.common;
 
+import ru.strict.db.core.connections.ConnectionInfo;
 import ru.strict.utils.UtilLogger;
 
 import java.sql.*;
@@ -13,8 +14,8 @@ import javax.sql.DataSource;
 public class UtilsDatabase {
 
 	/**
-     * Получить объект DataSource с базой данных
-     * @param nameLookUp      Строка получения DataSource
+     * Получить объект DataSource базы данных
+     * @param nameLookUp    Строка получения DataSource
      * @return
      */
     public static DataSource createDataSource(String nameLookUp) {
@@ -31,8 +32,8 @@ public class UtilsDatabase {
     }
 
     /**
-     * Получить объект соединения с базой данных
-     * @param nameLookUp      Строка получения DataSource
+     * Получить объект соединения с базой данных по строке получения DataSource
+     * @param nameLookUp    Строка получения DataSource
      * @return
      */
     public static Connection createConnectionIC(String nameLookUp) {
@@ -52,37 +53,32 @@ public class UtilsDatabase {
     /**
      * Создание подключения к базе данных
      *
-     * @param dbCaption наименование базы данных, к которой производится подключение
-     * @param dbType    тип подключаемой базы данных
-     * @param user      пользователь базы данных
-     * @param password  пароль для подключения к базе данных
+     * @param connectionInfo    Информация для подключения к базе данных
      */
-    public static Connection createConnection(String dbCaption, ConnectionByDbType dbType, String user, String password) {
+    public static Connection createConnection(ConnectionInfo connectionInfo) {
         UtilLogger.info(UtilsDatabase.class, "Trying a connection create");
+        Connection connection = null;
         try {
-            // Путь к базе данных
-            String connectUrl = dbType.getUrl() + dbCaption;
-            Driver jdbcDriver = (Driver) Class.forName(dbType.getDriver()).
+            Driver jdbcDriver = (Driver) Class.forName(connectionInfo.getDriver()).
                     newInstance();
-            // Регистрация данного драйвера
+            // Регистрация драйвера
             DriverManager.registerDriver(jdbcDriver);
-            // Соединение с Базой Данных
-            Connection connection = DriverManager.getConnection(connectUrl, user, password);
+            // Создание соединения с базой данных
+            connection = DriverManager.getConnection(connectionInfo.getUrl(), connectionInfo.getUsername(), connectionInfo.getPassword());
             UtilLogger.info(UtilsDatabase.class, "Connection is created");
-            return connection;
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
             UtilLogger.error(UtilsDatabase.class, ex.getClass().toString(), ex.getMessage());
         }
-        return null;
+        return connection;
     }
 
     /**
      * Выполнить запрос на выборку данных
-     * @param connection Соединение с базой данных
-     * @param sql Sql запрос на выборку данных
+     * @param connection    Соединение с базой данных
+     * @param sql           Sql запрос на выборку данных
      * @return
      */
-    public ResultSet qSelectValue(Connection connection, String sql){
+    public static ResultSet qSelectValue(Connection connection, String sql){
         UtilLogger.info(UtilsDatabase.class, "Trying a sql query execute");
         ResultSet rs = null;
 

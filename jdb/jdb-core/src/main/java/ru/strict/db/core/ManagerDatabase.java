@@ -13,12 +13,27 @@ import java.sql.Connection;
 
 /**
  * Управление соединением с базой данных
+ * <p><b>Пример использования:</b></p>
+ * <code><pre style="background-color: white; font-family: consolas">
+ *     ConnectionInfo connectionInfo = ... ;
+ *     ManagerDatabase<ConnectionInfo> managerDatabase = new ManagerDatabase<>(connectionInfo);
+ *
+ *     // Добавление используемых репозиториев
+ *     managerDatabase.createAndAddRepository("roleuser", RepositoryRoleuser.class, GenerateIdType.NONE);
+ *     managerDatabase.createAndAddRepository("user", RepositoryUser.class, new MapperDtoUser<>(), GenerateIdType.NONE);
+ *     ...
+ *
+ *     // Получение репозитория и выполнение операции
+ *     managerDatabase.getRepository(RepositoryRoleuser.class).create(new DtoRoleuser(1, "SUPERUSER", "This is superuser"));
+ *     managerDatabase.getRepository(RepositoryUser.class).create(new DtoUser(1, "user", "password", "token"));
+ *     ...
+ * </pre></code>
  */
 public class ManagerDatabase<SOURCE> {
 
     /**
-     * Источник подключения к базе данных (используется для получения объекта Connection),
-     * например, DataSource, StringConnectionInfo и др.
+     * Источник подключения к базе данных (DataSource, StringConnectionInfo).
+     * <i><b>Примечание: </b>используется для получения объекта Connection</i>
      */
     private SOURCE connectionSource;
 
@@ -40,6 +55,13 @@ public class ManagerDatabase<SOURCE> {
     }
     //</editor-fold>
 
+    /**
+     * Создать новый репозиторий (он не будет добавлен к списку репозиториев ManagerDatabase)
+     * @param repositoryClass   Класс создаваемого репозитория
+     * @param parameters        Параметры (кроме ConnectionSource), которые необходимы для создания репозитория. Параметры указываются в порядке следования
+     * @param <REPOSITORY>      Тип создаваемого репозитория (необязательно)
+     * @return
+     */
     public <REPOSITORY extends IRepository> IRepository createRepository(Class<REPOSITORY> repositoryClass,
                                                                          Object...parameters){
         Object[] userParameters = new Object[parameters.length + 1];
@@ -50,10 +72,13 @@ public class ManagerDatabase<SOURCE> {
 
         return UtilReflection.createInstance(repositoryClass, userParameters);
     }
-
     /**
-     * Добавить новый репозиторий
-     * @param key Ключ доступа к репозиторию
+     * Создать новый репозиторий и добавить к списку репозиториев ManagerDatabase
+     * @param key               Ключ, по которому можно будет получить доступ к репозиторию
+     * @param repositoryClass   Класс создаваемого репозитория
+     * @param parameters        Параметры (кроме ConnectionSource), которые необходимы для создания репозитория. Параметры указываются в порядке следования
+     * @param <REPOSITORY>      Тип создаваемого репозитория (необязательно)
+     * @return
      */
     public <REPOSITORY extends IRepository> IRepository createAndAddRepository(
             String key,
@@ -68,11 +93,22 @@ public class ManagerDatabase<SOURCE> {
         return repository;
     }
 
+    /**
+     * Выполнить миграцию базы данных
+     */
     public void migration(){
         migration.migration();
     }
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
+    /**
+     * Получить объект для миграции базы данных
+     * @return
+     */
+    public MigrationDatabase getMigration() {
+        return migration;
+    }
+
     /**
      * Добавить таблицу для миграции
      * @param table
@@ -81,8 +117,12 @@ public class ManagerDatabase<SOURCE> {
         migration.addTable(table);
     }
 
-    public MigrationDatabase getMigration() {
-        return migration;
+    /**
+     * Получить список репозиториев, хранимых в ManagerDatabase
+     * @return
+     */
+    public Map<String, IRepository> getRepositories() {
+        return repositories;
     }
 
     /**
@@ -95,12 +135,10 @@ public class ManagerDatabase<SOURCE> {
         return repository;
     }
 
-    public Map<String, IRepository> getRepositories() {
-        return repositories;
-    }
-
     /**
-     * Получить репоизтории по классу
+     * Получить репозитории по классу (вернет все хранящиеся репозитории с данным классом)
+     * @param repositoryClass   Класс, требуемого репозитория
+     * @param <REPSITORY>       Тип требуемого репозитория (необязательно)
      * @return
      */
     public <REPSITORY extends IRepository> IRepository[] getRepositories(Class<REPSITORY> repositoryClass) {
@@ -113,7 +151,9 @@ public class ManagerDatabase<SOURCE> {
     }
 
     /**
-     * Получить репоизтории по классу
+     * Получить репозитории по классу (вернет один репозиторий с данным классом)
+     * @param repositoryClass   Класс, требуемого репозитория
+     * @param <REPSITORY>       Тип требуемого репозитория (необязательно)
      * @return
      */
     public <REPSITORY extends IRepository> IRepository getRepository(Class<REPSITORY> repositoryClass) {
@@ -135,18 +175,28 @@ public class ManagerDatabase<SOURCE> {
         return repositories.get(key);
     }
 
+    /**
+     * Получить источник соединения
+     * @return
+     */
     public SOURCE getConnectionSource() {
         return connectionSource;
     }
 
+    /**
+     * Получить конструктор соединения по хранящемуся источнику
+     * @return
+     */
     public ICreateConnection getCreateConnection(){
         return new CreateConnectionFactory().instance(getConnectionSource());
     }
 
+    /**
+     * Получить соединение с базой данных
+     * @return
+     */
     public Connection getConnection(){
-        return new CreateConnectionFactory()
-                .instance(getConnectionSource())
-                .createConnection();
+        return getCreateConnection().createConnection();
     }
     //</editor-fold>
 }

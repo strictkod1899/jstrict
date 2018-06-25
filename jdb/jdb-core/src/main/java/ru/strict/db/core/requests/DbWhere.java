@@ -8,6 +8,12 @@ import ru.strict.utils.UtilHashCode;
  * <p>Значение столбца 'id' в таблице 'userx' равно '1'</p>
  * <code><pre style="background-color: white; font-family: consolas">
  *      new DbWhere("userx", "id", 1, "=");
+ *      new DbWhere("userx", "name", "Aleks", "LIKE", new TemplateSymbol("%", PointTemplateSymbol.END));
+ * </pre></code>
+ * В результате получится следующее условие:
+ * <code><pre style="background-color: white; font-family: consolas">
+ *     WHERE userx.id = 1
+ *     WHERE userx.name LIKE 'Aleks%'
  * </pre></code>
  */
 public class DbWhere extends DbRequestBase {

@@ -4,6 +4,9 @@ import ru.strict.patterns.IFactory;
 
 import javax.sql.DataSource;
 
+/**
+ * Фабрика для создания конструктора соединения с базой данных на основе переданного источника подключения (DataSource, ConnectionInfo)
+ */
 public class CreateConnectionFactory implements IFactory<ICreateConnection, Object> {
 
     @Override

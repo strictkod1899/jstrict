@@ -86,7 +86,7 @@ public class DbRequests extends LinkedList<DbRequestBase> implements IDbRequest 
 
     @Override
     public int hashCode(){
-        return UtilHashCode.createHashCode(selectTableName, isAnd, (LinkedList)this);
+        return UtilHashCode.createHashCode(selectTableName, isAnd, this);
     }
     //</editor-fold>
 }

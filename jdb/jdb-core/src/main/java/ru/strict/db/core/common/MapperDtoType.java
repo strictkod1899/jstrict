@@ -1,7 +1,7 @@
 package ru.strict.db.core.common;
 
 /**
- * Тип маппера, который необходимо создать. Используется в MapperDtoFactory
+ * Тип маппера, который необходимо создать. Используется как параметр в методе instance класса MapperDtoFactory, для создания предопределенных мапперов модуля jdb-core
  */
 public enum MapperDtoType {
     COUNTRY,

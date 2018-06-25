@@ -10,6 +10,12 @@ import java.sql.SQLException;
 
 /**
  * Конструктор соединения с базой данных, на основе информации переданной в объекте класса ConnectionInfo
+ * <p><b>Пример использования:</b></p>
+ * <code><pre style="background-color: white; font-family: consolas">
+ *     ...
+ *     ICreateConnection connectionCreater = new CreateConnectionByDataSource(connectionInfo);
+ *     Connection connection = connectionCreater.createConnection();
+ * </pre></code>
  */
 public class CreateConnectionByConnectionInfo extends CreateConnectionBase<ConnectionInfo> {
 

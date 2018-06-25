@@ -4,6 +4,12 @@ import ru.strict.utils.UtilHashCode;
 
 /**
  * Необходимая информация для создания соединения с базой данных
+ * <p><b>Пример использования:</b></p>
+ * <code><pre style="background-color: white; font-family: consolas">
+ *     ...
+ *     ConnectionInfo connectionInfo = new ConnectionInfo("com.mysql.jdbc.Driver", "jdbc:mysql://mydb", "mysqluser", "mysqlpassword");
+ *     Connection connection = connectionCreater.createConnection();
+ * </pre></code>
  */
 public class ConnectionInfo {
 
