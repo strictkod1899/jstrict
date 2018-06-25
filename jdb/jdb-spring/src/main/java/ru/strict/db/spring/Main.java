@@ -23,7 +23,7 @@ public class Main {
         ManagerDatabase<DataSource> managerDatabase = new ManagerDatabase<>(dataSource);
         addRepositories(managerDatabase);
         int i = 0;
-        create(managerDatabase);
+        //create(managerDatabase);
         //createAutoId(managerDatabase);
         //update(managerDatabase);
         //read(managerDatabase);

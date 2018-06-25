@@ -8,6 +8,7 @@ import ru.strict.db.core.dto.DtoCountry;
 import ru.strict.db.core.entities.EntityCity;
 import ru.strict.db.core.entities.EntityCountry;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
+import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlCity;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlCountry;
 
@@ -36,6 +37,9 @@ public class RepositoryCity<ID, SOURCE extends ICreateConnection>
 
     @Override
     protected DtoCity fill(DtoCity dto){
+        IRepository<ID, DtoCountry> repositoryCountry =
+                new RepositoryCountry(getConnectionSource(), GenerateIdType.NONE);
+        dto.setCountry(repositoryCountry.read((ID) dto.getCountryId()));
         return dto;
     }
 }

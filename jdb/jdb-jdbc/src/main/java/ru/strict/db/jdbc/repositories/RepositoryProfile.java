@@ -41,11 +41,11 @@ public class RepositoryProfile<ID, SOURCE extends ICreateConnection>
 
     @Override
     protected DtoProfile fill(DtoProfile dto){
-        IRepository<ID, DtoUser> rUser =
+        IRepository<ID, DtoUser> repositoryUser =
                 new RepositoryUser(getConnectionSource(),
                         new MapperDtoFactory().instance(MapperDtoType.USER),
                         GenerateIdType.NONE);
-            dto.setUser(rUser.read((ID) dto.getUserId()));
+            dto.setUser(repositoryUser.read((ID) dto.getUserId()));
         return dto;
     }
 }

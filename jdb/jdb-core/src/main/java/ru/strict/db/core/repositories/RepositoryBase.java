@@ -25,7 +25,7 @@ import java.util.List;
  */
 public abstract class RepositoryBase
         <ID, SOURCE extends ICreateConnection, E extends EntityBase, DTO extends DtoBase>
-        implements IStrictRepositoryExtension<ID, DTO> {
+        implements IRepositoryExtension<ID, DTO> {
 
     protected final WrapperLogger LOGGER = UtilLogger.createLogger(UtilClassName.getCurrentClassname());
 
@@ -116,23 +116,39 @@ public abstract class RepositoryBase
      * Пользователь содержит роли. Внешний ключи хранятся в промежуточной таблице (пользовать = роль).
      * После чтения записей промежуточной таблицы считываем все записи соответствующих ролей)</p>
      * <code><pre style="background-color: white; font-family: consolas">
-     *      StrictRepositorySpringBase<ID, EntityUserOnRole, DtoUserOnRole> rUserOnRole =
-     *              new StrictRepositoryUserOnRole(...);
-     *      DbRequests requests = new DbRequests(rUserOnRole.getTableName(), true);
-     *      requests.add(new DbWhere(getTableName(), "id", dto.getId(), "="));
-     *      List<DtoUserOnRole> userOnRoles = rUserOnRole.readAll(requests);
+     *      RepositoryJdbcBase<ID, SOURCE, EntityUserOnRole, DtoUserOnRole> repositoryUserOnRole =
+     *                 new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
+     *      DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
+     *      requests.add(new DbWhere(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
+     *      List<DtoUserOnRole> userOnRoles = repositoryUserOnRole.readAll(requests);
      *
-     *      IRepository<ID, DtoRoleuser> rRoleuser = new StrictRepositoryRoleuser<>(...);
-     *      for(DtoUserOnRole<ID> userOnRole : userOnRoles)
-     *          dto.addRoleuser(rRoleuser.read(userOnRole.getRoleId()));
+     *      IRepository<ID, DtoRoleuser> repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
+     *      Collection<DtoRoleuser> roleusers = new LinkedList<>();
+     *      for(DtoUserOnRole<ID> userOnRole : userOnRoles) {
+     *          roleusers.add(repositoryRoleuser.read(userOnRole.getRoleId()));
+     *      }
+     *      dto.setRolesuser(roleusers);
      *      return dto;
      * </pre></code>
+     * <p><b>Пример использования:</b></p>
+     * <p>К одной стране относится несколько городов и необходимо получить все города связанные со страной</p>
+     * <code><pre style="background-color: white; font-family: consolas">
+     *     RepositoryJdbcBase<ID, SOURCE, EntityCity, DtoCity> repositoryCity =
+     *             new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
+     *     DbRequests requests = new DbRequests(repositoryCity.getTableName(), true);
+     *     requests.add(new DbWhere(repositoryCity.getTableName(), "country_id", dto.getId(), "="));
      *
+     *     List<DtoCity> cities = repositoryCity.readAll(requests);
+     *     dto.setCities(cities);
+     *
+     *     return dto;
+     * </pre></code>
      * <p><b>Пример использования:</b></p>
      * <p>Профиль относится к какому-то пользователю и содержит внешний ключ на пользователя (user)</p>
      * <code><pre style="background-color: white; font-family: consolas">
-     *     IRepository<ID, DtoUser> rUser = new StrictRepositoryUser<>(...);
-     *     dto.setUser(rUser.read((ID) dto.getUserId()));
+     *     IRepository<ID, DtoCountry> repositoryCountry =
+     *         new RepositoryCountry(getConnectionSource(), GenerateIdType.NONE);
+     *     dto.setCountry(repositoryCountry.read((ID) dto.getCountryId()));
      *     return dto;
      * </pre></code>
      * @param dto Сущность прочитанная из базы данных (без внешних ключей)

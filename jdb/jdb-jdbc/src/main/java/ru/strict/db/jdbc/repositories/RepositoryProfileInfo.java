@@ -3,6 +3,7 @@ package ru.strict.db.jdbc.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.ICreateConnection;
+import ru.strict.db.core.dto.DtoCity;
 import ru.strict.db.core.dto.DtoProfileInfo;
 import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.entities.EntityProfileInfo;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 /**
  * Репозиторий таблицы "profileinfo".
- * Определяет столбцы: "name", "surname", "middlename", "user_id", "datebirth", "phone", "city_id"
+ * Определяет столбцы: "name", "surname", "middlename", "userx_id", "datebirth", "phone", "city_id"
  * @param <ID> Тип идентификатора
  */
 public class RepositoryProfileInfo<ID, SOURCE extends ICreateConnection>
@@ -40,7 +41,7 @@ public class RepositoryProfileInfo<ID, SOURCE extends ICreateConnection>
         valuesByColumn.put(3, dto.getUserId());
         valuesByColumn.put(4, dto.getDateBirth());
         valuesByColumn.put(5, dto.getPhone());
-        valuesByColumn.put(6, dto.getCity());
+        valuesByColumn.put(6, dto.getCityId());
         return valuesByColumn;
     }
 
@@ -51,6 +52,9 @@ public class RepositoryProfileInfo<ID, SOURCE extends ICreateConnection>
                         new MapperDtoFactory().instance(MapperDtoType.USER),
                         GenerateIdType.NONE);
         dto.setUser(rUser.read((ID) dto.getUserId()));
+
+        IRepository<ID, DtoCity> repositoryCity = new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
+        dto.setCity(repositoryCity.read((ID) dto.getCityId()));
         return dto;
     }
 }

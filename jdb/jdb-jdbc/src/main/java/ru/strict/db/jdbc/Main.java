@@ -4,20 +4,12 @@ import ru.strict.db.core.ManagerDatabase;
 import ru.strict.db.core.common.ConnectionByDbType;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.ConnectionInfo;
-import ru.strict.db.core.connections.CreateConnectionByConnectionInfo;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.*;
 import ru.strict.db.core.mappers.dto.MapperDtoUser;
-import ru.strict.db.core.migration.IMigration;
-import ru.strict.db.core.migration.MigrationDatabase;
-import ru.strict.db.core.migration.components.MigrationColumn;
-import ru.strict.db.core.migration.components.MigrationForeignKey;
-import ru.strict.db.core.migration.components.MigrationPrimaryKey;
-import ru.strict.db.core.migration.components.MigrationTable;
-import ru.strict.db.core.repositories.IRepository;
+import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.jdbc.repositories.*;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -33,11 +25,12 @@ public class Main {
         ManagerDatabase<ConnectionInfo> managerDatabase = new ManagerDatabase<>(connectionInfo);
         addRepositoriesAutoId(managerDatabase);
         int i = 0;
-        //create(managerDatabase);
+        create(managerDatabase);
         //createAutoId(managerDatabase);
         //update(managerDatabase);
         //read(managerDatabase);
         //readAll(managerDatabase);
+        readFill(managerDatabase);
         //delete(managerDatabase);
         i = 0;
     }
@@ -112,6 +105,22 @@ public class Main {
         DtoBase dtoProfileInfo = managerDatabase.getRepository(RepositoryProfileInfo.class).read(1);
         DtoBase dtoRoleuser = managerDatabase.getRepository(RepositoryRoleuser.class).read(1);
         DtoBase dtoUserOnRole = managerDatabase.getRepository(RepositoryUserOnRole.class).read(1);
+        int i = 0;
+    }
+
+    private static void readFill(ManagerDatabase managerDatabase){
+        DtoBase dtoCountry = ((IRepositoryExtension)managerDatabase.getRepository(RepositoryCountry.class))
+                .readFill(1);
+        DtoBase dtoCity = ((IRepositoryExtension)managerDatabase.getRepository(RepositoryCity.class))
+                .readFill(1);
+        DtoBase dtoUser = ((IRepositoryExtension)managerDatabase.getRepository(RepositoryUser.class))
+                .readFill(1);
+        DtoBase dtoProfileInfo = ((IRepositoryExtension)managerDatabase.getRepository(RepositoryProfileInfo.class))
+                .readFill(1);
+        DtoBase dtoRoleuser = ((IRepositoryExtension)managerDatabase.getRepository(RepositoryRoleuser.class))
+                .readFill(1);
+        DtoBase dtoUserOnRole = ((IRepositoryExtension)managerDatabase.getRepository(RepositoryUserOnRole.class))
+                .readFill(1);
         int i = 0;
     }
 

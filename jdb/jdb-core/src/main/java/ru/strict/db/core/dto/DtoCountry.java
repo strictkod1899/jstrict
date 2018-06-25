@@ -15,6 +15,7 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
      */
     private Collection<DtoCity> cities;
 
+    //<editor-fold defaultState="collapsed" desc="constructors">
     public DtoCountry() {
         super();
         cities = new LinkedList<>();
@@ -29,7 +30,9 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
         super(id, caption);
         cities = new LinkedList<>();
     }
+    //</editor-fold>
 
+    //<editor-fold defaultState="collapsed" desc="Get/Set">
     public Collection<DtoCity> getCities() {
         return cities;
     }
@@ -41,6 +44,11 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
     public void addCity(DtoCity city){
         cities.add(city);
     }
+
+    public void addCities(Collection<DtoCity> cities){
+        cities.addAll(cities);
+    }
+    //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
