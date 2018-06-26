@@ -3,6 +3,7 @@ package ru.strict.db.spring.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
+import ru.strict.db.core.dto.DtoCity;
 import ru.strict.db.core.dto.DtoProfileInfo;
 import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.entities.EntityProfileInfo;
@@ -51,6 +52,9 @@ public class RepositoryProfileInfo<ID>
                         new MapperDtoFactory().instance(MapperDtoType.USER),
                         GenerateIdType.NONE);
         dto.setUser(rUser.read((ID) dto.getUserId()));
+
+        IRepository<ID, DtoCity> repositoryCity = new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
+        dto.setCity(repositoryCity.read((ID) dto.getCityId()));
         return dto;
     }
 }

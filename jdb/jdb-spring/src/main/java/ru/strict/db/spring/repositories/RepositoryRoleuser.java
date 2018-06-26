@@ -4,12 +4,17 @@ import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.DtoRoleuser;
+import ru.strict.db.core.dto.DtoUser;
+import ru.strict.db.core.dto.DtoUserOnRole;
 import ru.strict.db.core.entities.EntityRoleuser;
+import ru.strict.db.core.entities.EntityUserOnRole;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
+import ru.strict.db.core.repositories.IRepository;
+import ru.strict.db.core.requests.DbRequests;
+import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.spring.mappers.sql.MapperSqlRoleuser;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class RepositoryRoleuser<ID>
         extends RepositorySpringBase<ID, EntityRoleuser, DtoRoleuser> {
@@ -33,6 +38,21 @@ public class RepositoryRoleuser<ID>
 
     @Override
     protected DtoRoleuser fill(DtoRoleuser dto){
+        // Добавление пользователей
+        RepositorySpringBase<ID, EntityUserOnRole, DtoUserOnRole> repositoryUserOnRole =
+                new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
+        DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
+        requests.add(new DbWhere(repositoryUserOnRole.getTableName(), "roleuser_id", dto.getId(), "="));
+        List<DtoUserOnRole> userOnRoles = repositoryUserOnRole.readAll(requests);
+
+        IRepository<ID, DtoUser> repositoryUser = new RepositoryUser<>(getConnectionSource(),
+                new MapperDtoFactory().instance(MapperDtoType.USER),
+                GenerateIdType.NONE);
+        Collection<DtoUser> users = new LinkedList<>();
+        for(DtoUserOnRole<ID> userOnRole : userOnRoles) {
+            users.add(repositoryUser.read(userOnRole.getUserId()));
+        }
+        dto.setUsers(users);
         return dto;
     }
 }

@@ -36,12 +36,13 @@ public class RepositoryUserOnRole<ID, SOURCE extends ICreateConnection>
 
     @Override
     protected DtoUserOnRole fill(DtoUserOnRole dto){
+        // Добавление пользователя
         IRepository<ID, DtoUser> repositoryUser = new RepositoryUser(getConnectionSource(),
                 new MapperDtoFactory().instance(MapperDtoType.USER),
                 GenerateIdType.NONE);
         dto.setUser(repositoryUser.read((ID) dto.getUserId()));
 
-        // Доабвление роли пользователя
+        // Добавление роли пользователя
         IRepository<ID, DtoRoleuser> repositoryRoleuser = new RepositoryRoleuser(getConnectionSource(), GenerateIdType.NONE);
         dto.setRole(repositoryRoleuser.read((ID) dto.getRoleId()));
         return dto;

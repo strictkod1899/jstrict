@@ -4,8 +4,10 @@ import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.DtoCity;
+import ru.strict.db.core.dto.DtoCountry;
 import ru.strict.db.core.entities.EntityCity;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
+import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.spring.mappers.sql.MapperSqlCity;
 
 import java.util.LinkedHashMap;
@@ -33,6 +35,9 @@ public class RepositoryCity<ID>
 
     @Override
     protected DtoCity fill(DtoCity dto){
+        IRepository<ID, DtoCountry> repositoryCountry =
+                new RepositoryCountry(getConnectionSource(), GenerateIdType.NONE);
+        dto.setCountry(repositoryCountry.read((ID) dto.getCountryId()));
         return dto;
     }
 }

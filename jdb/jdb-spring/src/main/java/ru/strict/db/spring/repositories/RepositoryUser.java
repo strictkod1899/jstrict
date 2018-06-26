@@ -5,18 +5,18 @@ import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.*;
 import ru.strict.db.core.dto.DtoUserBase;
 import ru.strict.db.core.dto.DtoUserOnRole;
+import ru.strict.db.core.entities.EntityProfileInfo;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.entities.EntityUserOnRole;
 import ru.strict.db.core.repositories.IRepository;
+import ru.strict.db.core.repositories.RepositoryBase;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.spring.mappers.sql.MapperSqlUser;
 import ru.strict.utils.UtilLogger;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class RepositoryUser<ID, DTO extends DtoUserBase>
         extends RepositorySpringBase<ID, EntityUser, DTO> {
@@ -46,15 +46,26 @@ public class RepositoryUser<ID, DTO extends DtoUserBase>
 
     @Override
     protected DTO fill(DTO dto){
-        RepositorySpringBase<ID, EntityUserOnRole, DtoUserOnRole> rUserOnRole =
+        // Добавление ролей пользователей
+        RepositorySpringBase<ID, EntityUserOnRole, DtoUserOnRole> repositoryUserOnRole =
                 new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
-        DbRequests requests = new DbRequests(rUserOnRole.getTableName(), true);
-        requests.add(new DbWhere(getTableName(), "id", dto.getId(), "="));
-        List<DtoUserOnRole> userOnRoles = rUserOnRole.readAll(requests);
+        DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
+        requests.add(new DbWhere(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
+        List<DtoUserOnRole> userOnRoles = repositoryUserOnRole.readAll(requests);
 
-        IRepository<ID, DtoRoleuser> rRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
-        for(DtoUserOnRole<ID> userOnRole : userOnRoles)
-            dto.addRoleuser(rRoleuser.read(userOnRole.getRoleId()));
+        IRepository<ID, DtoRoleuser> repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
+        Collection<DtoRoleuser> roleusers = new LinkedList<>();
+        for(DtoUserOnRole<ID> userOnRole : userOnRoles) {
+            roleusers.add(repositoryRoleuser.read(userOnRole.getRoleId()));
+        }
+        dto.setRolesuser(roleusers);
+
+        // Добавления профиля
+        RepositorySpringBase<ID, EntityProfileInfo, DtoProfileInfo> repositoryProfile =
+                new RepositoryProfileInfo<>(getConnectionSource(), GenerateIdType.NONE);
+        requests = new DbRequests(repositoryProfile.getTableName(), true);
+        requests.add(new DbWhere(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
+        dto.setProfile(repositoryProfile.readAll(requests).stream().findFirst().orElse(null));
         return dto;
     }
 }

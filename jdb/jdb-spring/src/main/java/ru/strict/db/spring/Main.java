@@ -6,6 +6,7 @@ import ru.strict.db.core.common.ConnectionByDbType;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.*;
 import ru.strict.db.core.mappers.dto.MapperDtoUser;
+import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.spring.repositories.*;
 
 import javax.sql.DataSource;
@@ -17,7 +18,7 @@ public class Main {
     public static void main(String[] args){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(ConnectionByDbType.SQLITE.getDriver());
-        dataSource.setUrl(ConnectionByDbType.SQLITE.getUrl() + "A:\\Users\\strictkod1899\\testdb.sqlite");
+        dataSource.setUrl(ConnectionByDbType.SQLITE.getUrl() + "C:\\Users\\strictkod1899\\testdb.sqlite");
         dataSource.setUsername("");
         dataSource.setPassword("");
         ManagerDatabase<DataSource> managerDatabase = new ManagerDatabase<>(dataSource);
@@ -27,6 +28,7 @@ public class Main {
         //createAutoId(managerDatabase);
         //update(managerDatabase);
         //read(managerDatabase);
+        //readFill(managerDatabase);
         //readAll(managerDatabase);
         //delete(managerDatabase);
         i = 0;
@@ -78,6 +80,22 @@ public class Main {
                 .create(new DtoRoleuser("SUPERUSER", "This is superuser"));
         managerDatabase.getRepository(RepositoryUserOnRole.class)
                 .create(new DtoUserOnRole(1, 1));
+    }
+
+    private static void readFill(ManagerDatabase managerDatabase){
+        DtoBase dtoCountry = ((IRepositoryExtension)managerDatabase.getRepository(RepositoryCountry.class))
+                .readFill(1);
+        DtoBase dtoCity = ((IRepositoryExtension)managerDatabase.getRepository(RepositoryCity.class))
+                .readFill(1);
+        DtoBase dtoUser = ((IRepositoryExtension)managerDatabase.getRepository(RepositoryUser.class))
+                .readFill(1);
+        DtoBase dtoProfileInfo = ((IRepositoryExtension)managerDatabase.getRepository(RepositoryProfileInfo.class))
+                .readFill(1);
+        DtoBase dtoRoleuser = ((IRepositoryExtension)managerDatabase.getRepository(RepositoryRoleuser.class))
+                .readFill(1);
+        DtoBase dtoUserOnRole = ((IRepositoryExtension)managerDatabase.getRepository(RepositoryUserOnRole.class))
+                .readFill(1);
+        int i = 0;
     }
 
     private static void update(ManagerDatabase managerDatabase){

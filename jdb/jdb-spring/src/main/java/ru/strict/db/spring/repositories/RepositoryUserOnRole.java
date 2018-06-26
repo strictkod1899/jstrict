@@ -3,9 +3,12 @@ package ru.strict.db.spring.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
+import ru.strict.db.core.dto.DtoRoleuser;
+import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.dto.DtoUserOnRole;
 import ru.strict.db.core.entities.EntityUserOnRole;
 import ru.strict.db.core.mappers.dto.*;
+import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.spring.mappers.sql.MapperSqlUserOnRole;
 
 import java.util.LinkedHashMap;
@@ -33,6 +36,15 @@ public class RepositoryUserOnRole<ID>
 
     @Override
     protected DtoUserOnRole fill(DtoUserOnRole dto){
+        // Добавление пользователя
+        IRepository<ID, DtoUser> repositoryUser = new RepositoryUser(getConnectionSource(),
+                new MapperDtoFactory().instance(MapperDtoType.USER),
+                GenerateIdType.NONE);
+        dto.setUser(repositoryUser.read((ID) dto.getUserId()));
+
+        // Добавление роли пользователя
+        IRepository<ID, DtoRoleuser> repositoryRoleuser = new RepositoryRoleuser(getConnectionSource(), GenerateIdType.NONE);
+        dto.setRole(repositoryRoleuser.read((ID) dto.getRoleId()));
         return dto;
     }
 }
