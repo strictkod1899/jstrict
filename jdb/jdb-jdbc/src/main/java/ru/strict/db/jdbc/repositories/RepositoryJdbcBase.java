@@ -297,21 +297,31 @@ public abstract class RepositoryJdbcBase
         return isExists;
     }
 
+    //<editor-fold defaultState="collapsed" desc="Determine statement parameters">
     /**
      * Получить параметры sql-запроса на создание/обновление записи. ID не учитывается
-     * @param dto DTO-объект из которого берутся значения для параметров
+     * @param dto           DTO-объект из которого берутся значения для параметров
+     * @param startIndex    Начальный индекс полученных параметров.
+     *                      Может потребоваться, если в качестве первого элемента требуется установить id, а все остальные сдвинуть на 1, тогда параметру передается значение = 1
      * @return
      */
     protected JdbcSqlParameters getParameters(DTO dto, int startIndex){
         Map valuesByColumn = getValueByColumn(dto);
         Set<Integer> keys = valuesByColumn.keySet();
         JdbcSqlParameters parameters = new JdbcSqlParameters();
-        for(Integer key : keys)
-            parameters.add(key+startIndex, getColumnsName()[key], valuesByColumn.get(key));
+        for(Integer key : keys) {
+            parameters.add(key + startIndex, getColumnsName()[key], valuesByColumn.get(key));
+        }
 
         return parameters;
     }
 
+    /**
+     * Установить параметры в переданный объект PreparedStatement в зависимости от нужного типа
+     * @param statement     Объект PreparedStatement, которому устанвливаются параметры
+     * @param parameters    Устанавливаемые параметры
+     * @return
+     */
     private PreparedStatement setParametersToPrepareStatement(PreparedStatement statement, JdbcSqlParameters parameters){
         for(JdbcSqlParameter parameter : parameters){
             try {
@@ -363,8 +373,9 @@ public abstract class RepositoryJdbcBase
 
         return statement;
     }
+    //</editor-fold>
 
-    //<editor-fold defaultState="collapsed" desc="Get/Set"
+    //<editor-fold defaultState="collapsed" desc="Get/Set">
     public MapperSqlBase<E> getSqlMapper() {
         return sqlMapper;
     }

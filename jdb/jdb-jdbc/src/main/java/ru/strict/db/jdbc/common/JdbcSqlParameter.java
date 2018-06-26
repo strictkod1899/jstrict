@@ -1,5 +1,9 @@
 package ru.strict.db.jdbc.common;
 
+/**
+ * Параметр для подставновки в sql-запрос типа PreparedStatement. Не требует явного использования
+ * @param <VALUE> Тип значения параметра
+ */
 public class JdbcSqlParameter<VALUE> {
 
     private int index;

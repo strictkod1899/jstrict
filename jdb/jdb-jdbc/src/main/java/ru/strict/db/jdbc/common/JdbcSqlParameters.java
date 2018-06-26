@@ -2,6 +2,9 @@ package ru.strict.db.jdbc.common;
 
 import java.util.ArrayList;
 
+/**
+ * Список параметров для подставновки в sql-запрос типа PreparedStatement. Не требует явного использования
+ */
 public class JdbcSqlParameters extends ArrayList<JdbcSqlParameter> {
 
     public JdbcSqlParameter findByIndex(int index){
