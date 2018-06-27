@@ -44,7 +44,7 @@ public class LayoutHidden {
      * <pre>
      * Установить нейрон смещения
      * <b>ВАЖНО:</b> Не использовать метод вручную. Требуемая область видимости: protected.
-     * Создавать объект LayoutHidden через метод addLayoutHidden класса StrictNeuralNetworkHiddenStructure
+     * Создавать объект LayoutHidden через метод addLayoutHidden класса NeuralNetworkHiddenStructure
      * </pre>
      * @param isUseBeas
      */
