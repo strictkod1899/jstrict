@@ -42,6 +42,9 @@ public class MapperDtoFactory implements IFactory<IMapper, MapperDtoType> {
             case JWT_USER_TOKEN:
                 mapper = createMapperJWTUserToken();
                 break;
+            case USER_TOKEN:
+                mapper = createMapperUserToken();
+                break;
         }
         return mapper;
     }
@@ -76,6 +79,13 @@ public class MapperDtoFactory implements IFactory<IMapper, MapperDtoType> {
         MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRolesser = new MapperDtoRoleuser();
         MapperDtoBase<EntityProfile, DtoProfile> mapperProfile = new MapperDtoProfile();
         return new MapperDtoUser(mapperRolesser, mapperProfile);
+    }
+
+    private MapperDtoBase<EntityUser, DtoUser> createMapperUserToken(){
+        MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRolesser = new MapperDtoRoleuser();
+        MapperDtoBase<EntityProfile, DtoProfile> mapperProfile = new MapperDtoProfile();
+        MapperDtoBase<EntityJWTUserToken, DtoJWTUserToken> mapperToken = new MapperDtoJWTUserToken<>();
+        return new MapperDtoUserToken(mapperRolesser, mapperProfile, mapperToken);
     }
 
     private MapperDtoBase<EntityUserOnRole, DtoUserOnRole> createMapperUserOnRole(){

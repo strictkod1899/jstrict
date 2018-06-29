@@ -5,6 +5,7 @@ import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.*;
 import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.dto.DtoUserOnRole;
+import ru.strict.db.core.entities.EntityJWTUserToken;
 import ru.strict.db.core.entities.EntityProfileInfo;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.entities.EntityUserOnRole;
@@ -21,7 +22,7 @@ import java.util.*;
 public class RepositoryUser<ID, SOURCE extends ICreateConnection, DTO extends DtoUserBase>
         extends RepositoryJdbcBase<ID, SOURCE, EntityUser, DTO> {
 
-    private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "token"};
+    private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode"};
 
     public RepositoryUser(SOURCE connectionSource,
                           MapperDtoBase<EntityUser, DTO> dtoMapper,
@@ -36,7 +37,6 @@ public class RepositoryUser<ID, SOURCE extends ICreateConnection, DTO extends Dt
             Map<Integer, Object> valuesByColumn = new LinkedHashMap();
             valuesByColumn.put(0, dtoUser.getUsername());
             valuesByColumn.put(1, dtoUser.getPasswordEncode());
-            valuesByColumn.put(2, dtoUser.getToken());
             return valuesByColumn;
         }else {
             UtilLogger.error(RepositoryUser.class, "Expected a type dto-object is DtoUser");
@@ -66,6 +66,17 @@ public class RepositoryUser<ID, SOURCE extends ICreateConnection, DTO extends Dt
         requests = new DbRequests(repositoryProfile.getTableName(), true);
         requests.add(new DbWhere(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
         dto.setProfile(repositoryProfile.readAll(requests).stream().findFirst().orElse(null));
+
+        // Добавление токенов
+        if(dto instanceof DtoUserToken) {
+            RepositoryJdbcBase<ID, SOURCE, EntityJWTUserToken, DtoJWTUserToken> repositoryToken =
+                    new RepositoryJWTUserToken<>(getConnectionSource(), GenerateIdType.NONE);
+            requests = new DbRequests(repositoryToken.getTableName(), true);
+            requests.add(new DbWhere(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));
+
+            List<DtoJWTUserToken> tokens = repositoryToken.readAll(requests);
+            ((DtoUserToken)dto).setTokens(tokens);
+        }
         return dto;
     }
 }

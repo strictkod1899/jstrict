@@ -2,54 +2,65 @@ package ru.strict.db.core.dto;
 
 import ru.strict.utils.UtilHashCode;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 /**
- * Информация о токене пользователя и его основные данные
+ * Информация о токенах пользователя и его основные данные
  */
-public class DtoUserToken<ID> extends DtoUserBase<ID> {
+public class DtoUserToken<ID> extends DtoUser<ID> {
 
     /**
-     * Токен пользователя
+     * Токены пользователя
      */
-    private String token;
+    private Collection<DtoJWTUserToken> tokens;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public DtoUserToken() {
         super();
-        token = null;
+        tokens = new LinkedList<>();
     }
 
-    public DtoUserToken(String username, String token) {
-        super(username);
-        this.token = token;
+    public DtoUserToken(String username, String passwordEncode) {
+        super(username, passwordEncode);
+        tokens = new LinkedList<>();
     }
 
-    public DtoUserToken(ID id, String username, String token) {
-        super(id, username);
-        this.token = token;
+    public DtoUserToken(ID id, String username, String passwordEncode) {
+        super(id, username, passwordEncode);
+        tokens = new LinkedList<>();
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public String getToken() {
-        return token;
+    /**
+     * Добавить токен
+     */
+    public void addToken(DtoJWTUserToken token){
+        tokens.add(token);
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public Collection<DtoJWTUserToken> getTokens() {
+        return tokens;
     }
+
+    public void setTokens(Collection<DtoJWTUserToken> tokens) {
+        this.tokens = tokens;
+    }
+
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("dto usertoken [%s]: %s. Token: %s", String.valueOf(getId()), getUsername(), token);
+        return String.format("dto usertoken [%s]: %s", String.valueOf(getId()), getUsername());
     }
 
     @Override
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DtoUserToken) {
             DtoUserToken object = (DtoUserToken) obj;
-            return super.equals(object) && token.equals(object.getToken());
+            return super.equals(object) && (tokens.size() == object.getTokens().size() && tokens.containsAll(object.getTokens()));
         }else
             return false;
     }
@@ -57,7 +68,7 @@ public class DtoUserToken<ID> extends DtoUserBase<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, token);
+        return UtilHashCode.createSubHashCode(superHashCode, tokens);
     }
     //</editor-fold>
 }

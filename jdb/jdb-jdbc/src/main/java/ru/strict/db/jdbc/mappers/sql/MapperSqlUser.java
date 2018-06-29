@@ -22,7 +22,6 @@ public class MapperSqlUser extends MapperSqlBase<EntityUser> {
             entity.setId(resultSet.getObject("id"));
             entity.setUsername(resultSet.getString(COLUMNS_NAME[0]));
             entity.setPasswordEncode(resultSet.getString(COLUMNS_NAME[1]));
-            entity.setToken(resultSet.getString(COLUMNS_NAME[2]));
         }catch(SQLException ex){
             throw new WrapperRuntimeException(ex);
         }
