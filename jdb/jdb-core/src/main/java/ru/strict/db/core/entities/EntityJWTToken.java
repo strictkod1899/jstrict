@@ -73,6 +73,36 @@ public class EntityJWTToken<ID> extends EntityBase<ID> {
         algorithm = null;
         type = null;
     }
+
+    public EntityJWTToken(String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt) {
+        super();
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+        this.expireTimeAccess = expireTimeAccess;
+        this.expireTimeRefresh = expireTimeRefresh;
+        this.issuedAt = issuedAt;
+        issuer = null;
+        subject = null;
+        notBefore = null;
+        secret = null;
+        algorithm = null;
+        type = null;
+    }
+
+    public EntityJWTToken(ID id, String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt) {
+        super(id);
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+        this.expireTimeAccess = expireTimeAccess;
+        this.expireTimeRefresh = expireTimeRefresh;
+        this.issuedAt = issuedAt;
+        issuer = null;
+        subject = null;
+        notBefore = null;
+        secret = null;
+        algorithm = null;
+        type = null;
+    }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">

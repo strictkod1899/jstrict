@@ -2,6 +2,8 @@ package ru.strict.db.core.dto;
 
 import ru.strict.utils.UtilHashCode;
 
+import java.util.Date;
+
 /**
  * JWT-токен с информациоей о пользователе базы данных
  */
@@ -30,6 +32,22 @@ public class DtoJWTUserToken<ID> extends DtoJWTToken<ID> {
         userId = null;
         user = null;
         roleUserId = null;
+        roleUser = null;
+    }
+
+    public DtoJWTUserToken(String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt, ID userId, ID roleUserId) {
+        super(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
+        this.userId = userId;
+        this.roleUserId = roleUserId;
+        user = null;
+        roleUser = null;
+    }
+
+    public DtoJWTUserToken(ID id, String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt, ID userId, ID roleUserId) {
+        super(id, accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
+        this.userId = userId;
+        this.roleUserId = roleUserId;
+        user = null;
         roleUser = null;
     }
     //</editor-fold>

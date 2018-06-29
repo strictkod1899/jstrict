@@ -2,6 +2,8 @@ package ru.strict.db.core.entities;
 
 import ru.strict.utils.UtilHashCode;
 
+import java.util.Date;
+
 /**
  * JWT-токен с информациоей о пользователе базы данных
  */
@@ -30,6 +32,22 @@ public class EntityJWTUserToken<ID> extends EntityJWTToken<ID> {
         userId = null;
         user = null;
         roleUserId = null;
+        roleUser = null;
+    }
+
+    public EntityJWTUserToken(String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt, ID userId, ID roleUserId) {
+        super(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
+        this.userId = userId;
+        this.roleUserId = roleUserId;
+        user = null;
+        roleUser = null;
+    }
+
+    public EntityJWTUserToken(ID id, String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt, ID userId, ID roleUserId) {
+        super(id, accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
+        this.userId = userId;
+        this.roleUserId = roleUserId;
+        user = null;
         roleUser = null;
     }
     //</editor-fold>

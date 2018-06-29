@@ -14,7 +14,7 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityJWTUserToken и DtoJWTUserToken
  */
-public class MapperDtoJWTUserToken extends MapperDtoJWTToken<EntityJWTUserToken, DtoJWTUserToken> {
+public class MapperDtoJWTUserToken<E extends EntityJWTUserToken, DTO extends DtoJWTUserToken> extends MapperDtoJWTToken<E, DTO> {
 
     private Optional<MapperDtoBase<EntityUser, DtoUser>> mapperUser;
     private Optional<MapperDtoBase<EntityRoleuser, DtoRoleuser>> mapperRoleuser;
