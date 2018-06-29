@@ -7,28 +7,8 @@ import java.util.Date;
 /**
  * JWT-токен
  */
-public class EntityJWTToken<ID> extends EntityBase<ID> {
+public class EntityJWTToken<ID> extends EntityToken<ID> {
 
-    /**
-     * Токен авторизации
-     */
-    private String accessToken;
-    /**
-     * Токен обновления
-     */
-    private String refreshToken;
-    /**
-     * Время окончания действия access-токена
-     */
-    private Date expireTimeAccess;
-    /**
-     * Время окончания действия refresh-токена
-     */
-    private Date expireTimeRefresh;
-    /**
-     * Время создания токена. Общее для access- и refresh-токена
-     */
-    private Date issuedAt;
     /**
      * Издатель токена
      */
@@ -61,11 +41,6 @@ public class EntityJWTToken<ID> extends EntityBase<ID> {
     //<editor-fold defaultState="collapsed" desc="constructors">
     public EntityJWTToken() {
         super();
-        accessToken = null;
-        refreshToken = null;
-        expireTimeAccess = null;
-        expireTimeRefresh = null;
-        issuedAt = null;
         issuer = null;
         subject = null;
         notBefore = null;
@@ -75,12 +50,7 @@ public class EntityJWTToken<ID> extends EntityBase<ID> {
     }
 
     public EntityJWTToken(String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt) {
-        super();
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
-        this.expireTimeAccess = expireTimeAccess;
-        this.expireTimeRefresh = expireTimeRefresh;
-        this.issuedAt = issuedAt;
+        super(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
         issuer = null;
         subject = null;
         notBefore = null;
@@ -90,12 +60,7 @@ public class EntityJWTToken<ID> extends EntityBase<ID> {
     }
 
     public EntityJWTToken(ID id, String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt) {
-        super(id);
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
-        this.expireTimeAccess = expireTimeAccess;
-        this.expireTimeRefresh = expireTimeRefresh;
-        this.issuedAt = issuedAt;
+        super(id, accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
         issuer = null;
         subject = null;
         notBefore = null;
@@ -106,46 +71,6 @@ public class EntityJWTToken<ID> extends EntityBase<ID> {
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
-
-    public Date getExpireTimeAccess() {
-        return expireTimeAccess;
-    }
-
-    public void setExpireTimeAccess(Date expireTimeAccess) {
-        this.expireTimeAccess = expireTimeAccess;
-    }
-
-    public Date getExpireTimeRefresh() {
-        return expireTimeRefresh;
-    }
-
-    public void setExpireTimeRefresh(Date expireTimeRefresh) {
-        this.expireTimeRefresh = expireTimeRefresh;
-    }
-
-    public Date getIssuedAt() {
-        return issuedAt;
-    }
-
-    public void setIssuedAt(Date issuedAt) {
-        this.issuedAt = issuedAt;
-    }
-
     public String getIssuer() {
         return issuer;
     }
@@ -206,19 +131,15 @@ public class EntityJWTToken<ID> extends EntityBase<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("entity jwt-token [%s]: access - %s, refresh - %s", String.valueOf(getId()), accessToken, refreshToken);
+        return String.format("entity jwt-token [%s]: access - %s, refresh - %s", String.valueOf(getId()),
+                getAccessToken(), getRefreshToken());
     }
 
     @Override
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof EntityJWTToken) {
             EntityJWTToken object = (EntityJWTToken) obj;
-            return super.equals(object) && accessToken.equals(object.getAccessToken())
-                    && refreshToken.equals(object.getRefreshToken())
-                    && expireTimeAccess.equals(object.getExpireTimeAccess())
-                    && expireTimeRefresh.equals(object.getExpireTimeRefresh())
-                    && issuedAt.equals(object.getIssuedAt())
-                    && issuer.equals(object.getIssuer())
+            return super.equals(object) && issuer.equals(object.getIssuer())
                     && subject.equals(object.getSubject())
                     && notBefore.equals(object.getNotBefore())
                     && secret.equals(object.getSecret())
@@ -231,8 +152,7 @@ public class EntityJWTToken<ID> extends EntityBase<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, accessToken, refreshToken, expireTimeAccess, expireTimeRefresh,
-                issuedAt, issuer, subject, notBefore, secret, algorithm, type);
+        return UtilHashCode.createSubHashCode(superHashCode, issuer, subject, notBefore, secret, algorithm, type);
     }
     //</editor-fold>
 }

@@ -5,7 +5,7 @@ import ru.strict.utils.UtilHashCode;
 import java.util.Date;
 
 /**
- * JWT-токен с информациоей о пользователе базы данных
+ * JWT-токен с информацией о пользователе базы данных
  */
 public class EntityJWTUserToken<ID> extends EntityJWTToken<ID> {
 
