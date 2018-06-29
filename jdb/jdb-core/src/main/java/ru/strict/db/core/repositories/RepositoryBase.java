@@ -46,7 +46,7 @@ public abstract class RepositoryBase
     private String tableName;
 
     /**
-     * Наименование столбцов таблицы в базе данных
+     * Наименование столбцов таблицы в базе данных, без учета ID
      */
     private String[] columnsName;
 
