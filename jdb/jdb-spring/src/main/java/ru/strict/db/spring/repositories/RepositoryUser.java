@@ -21,7 +21,7 @@ import java.util.*;
 public class RepositoryUser<ID, DTO extends DtoUserBase>
         extends RepositorySpringBase<ID, EntityUser, DTO> {
 
-    private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "token"};
+    private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode"};
 
     public RepositoryUser(CreateConnectionByDataSource connectionSource,
                           MapperDtoBase<EntityUser, DTO> dtoMapper,
@@ -36,7 +36,6 @@ public class RepositoryUser<ID, DTO extends DtoUserBase>
             Map<Integer, Object> valuesByColumn = new LinkedHashMap();
             valuesByColumn.put(0, dtoUser.getUsername());
             valuesByColumn.put(1, dtoUser.getPasswordEncode());
-            valuesByColumn.put(2, dtoUser.getToken());
             return valuesByColumn;
         }else {
             UtilLogger.error(RepositoryUser.class, "Expected a type dto-object is DtoUser");

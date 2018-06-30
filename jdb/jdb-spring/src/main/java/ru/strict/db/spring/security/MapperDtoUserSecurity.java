@@ -22,7 +22,6 @@ public class MapperDtoUserSecurity extends MapperDtoBase<EntityUserSecurity, Dto
         entity.setId(dto.getId());
         entity.setUsername(dto.getUsername());
         dto.getRolesuser().stream().forEach(r -> entity.addRoleuser(mapperRoleuser.map((DtoRoleuser) r)));
-        entity.setToken(dto.getToken());
         entity.setPasswordEncode(dto.getPasswordEncode());
         return entity;
     }
@@ -33,7 +32,6 @@ public class MapperDtoUserSecurity extends MapperDtoBase<EntityUserSecurity, Dto
         dto.setId(entity.getId());
         dto.setUsername(entity.getUsername());
         entity.getRolesuser().stream().forEach(r -> dto.addRoleuser(mapperRoleuser.map((EntityRoleuser) r)));
-        dto.setToken(entity.getToken());
         dto.setPasswordEncode(entity.getPasswordEncode());
         return dto;
     }

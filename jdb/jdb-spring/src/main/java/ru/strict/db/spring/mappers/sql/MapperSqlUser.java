@@ -20,7 +20,6 @@ public class MapperSqlUser implements RowMapper<EntityUser> {
         entity.setId(resultSet.getObject("id"));
         entity.setUsername(resultSet.getString(COLUMNS_NAME[0]));
         entity.setPasswordEncode(resultSet.getString(COLUMNS_NAME[1]));
-        entity.setToken(resultSet.getString(COLUMNS_NAME[2]));
         return entity;
     }
 }

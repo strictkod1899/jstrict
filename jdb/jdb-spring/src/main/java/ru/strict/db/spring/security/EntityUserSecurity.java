@@ -12,19 +12,19 @@ public class EntityUserSecurity<ID> extends EntityUser<ID> {
     	super();
 	}
 
-	public EntityUserSecurity(String username, String passwordEncode, String token) {
-		super(username, passwordEncode, token);
+	public EntityUserSecurity(String username, String passwordEncode) {
+		super(username, passwordEncode);
 	}
 
-	public EntityUserSecurity(ID id, String username, String passwordEncode, String token) {
-		super(id, username, passwordEncode, token);
+	public EntityUserSecurity(ID id, String username, String passwordEncode) {
+		super(id, username, passwordEncode);
 	}
 	//</editor-fold>
 
 	//<editor-fold defaultState="collapsed" desc="Base override">
 	@Override
 	public String toString(){
-		return String.format("entity [%s]: %s. Token: %s", String.valueOf(getId()), getUsername(), getToken());
+		return String.format("entity [%s]: %s. Token: %s", String.valueOf(getId()), getUsername());
 	}
 
 	@Override
