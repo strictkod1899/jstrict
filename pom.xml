@@ -4,12 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+	<groupId>ru.strict</groupId>
+    <!--
     <parent>
         <groupId>ru.strict</groupId>
         <artifactId>myproject</artifactId>
         <version>0.0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+	-->
 
     <artifactId>jstrict</artifactId>
     <version>0.1.0</version>
@@ -22,6 +25,8 @@
         <module>jswing</module>
         <module>jdb</module>
         <module>jfile</module>
+        <module>jpatterns</module>
+        <module>jneuralnetwork</module>
     </modules>
 
     <!-- Перенести блок properties в корневой модуль проекта-->
