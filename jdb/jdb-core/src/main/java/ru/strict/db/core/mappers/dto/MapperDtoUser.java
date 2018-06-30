@@ -11,7 +11,7 @@ import ru.strict.db.core.entities.EntityUser;
  * Двухсторонний маппинг объектов типа EntityUser и DtoUser
  */
 public class MapperDtoUser<E extends EntityUser, DTO extends DtoUser>
-        extends MapperDtoUserToken<E, DTO> {
+        extends MapperDtoUserBase<E, DTO> {
 
     public MapperDtoUser(){
         super();
@@ -30,20 +30,18 @@ public class MapperDtoUser<E extends EntityUser, DTO extends DtoUser>
         entity.setId(baseEntity.getId());
         entity.setUsername(baseEntity.getUsername());
         entity.setRolesuser(baseEntity.getRolesuser());
-        entity.setToken(baseEntity.getToken());
         entity.setPasswordEncode(dto.getPasswordEncode());
         return entity;
     }
 
     @Override
     protected DtoUser implementMap(EntityUser entity) {
-        DtoUserToken baseDto = super.implementMap(entity);
+        DtoUserBase baseDto = super.implementMap(entity);
 
         DtoUser dto = new DtoUser();
         dto.setId(baseDto.getId());
         dto.setUsername(baseDto.getUsername());
         entity.setRolesuser(baseDto.getRolesuser());
-        dto.setToken(baseDto.getToken());
         dto.setPasswordEncode(entity.getPasswordEncode());
         return dto;
     }

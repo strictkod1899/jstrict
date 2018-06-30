@@ -35,7 +35,6 @@ public class RepositoryUserSecurity<ID>
         Map<Integer, Object> valuesByColumn = new LinkedHashMap();
         valuesByColumn.put(0, dtoUser.getUsername());
         valuesByColumn.put(1, dtoUser.getPasswordEncode());
-        valuesByColumn.put(2, dtoUser.getToken());
         return valuesByColumn;
     }
 

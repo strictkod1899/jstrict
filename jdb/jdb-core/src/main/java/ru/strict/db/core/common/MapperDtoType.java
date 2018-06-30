@@ -8,7 +8,10 @@ public enum MapperDtoType {
     CITY,
     ROLE_USER,
     USER,
+    USER_TOKEN,
     USER_ON_ROLE,
     PROFILE,
-    PROFILE_INFO
+    PROFILE_INFO,
+    JWT_TOKEN,
+    JWT_USER_TOKEN
 }

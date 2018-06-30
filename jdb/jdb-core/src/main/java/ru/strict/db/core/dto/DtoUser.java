@@ -5,7 +5,7 @@ import ru.strict.utils.UtilHashCode;
 /**
  * Пользователь системы
  */
-public class DtoUser<ID> extends DtoUserToken<ID> {
+public class DtoUser<ID> extends DtoUserBase<ID> {
 
     /**
      * Зашифрованный пароль пользователя
@@ -18,13 +18,13 @@ public class DtoUser<ID> extends DtoUserToken<ID> {
         passwordEncode = null;
     }
 
-    public DtoUser(String username, String passwordEncode, String token) {
-        super(username, token);
+    public DtoUser(String username, String passwordEncode) {
+        super(username);
         this.passwordEncode = passwordEncode;
     }
 
-    public DtoUser(ID id, String username, String passwordEncode, String token) {
-        super(id, username, token);
+    public DtoUser(ID id, String username, String passwordEncode) {
+        super(id, username);
         this.passwordEncode = passwordEncode;
     }
     //</editor-fold>
@@ -42,8 +42,8 @@ public class DtoUser<ID> extends DtoUserToken<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("dto user [%s]: %s.\nToken: %s. Password: %s", String.valueOf(getId()), getUsername(),
-                getToken(), passwordEncode);
+        return String.format("dto user [%s]: %s.\nPassword: %s", String.valueOf(getId()), getUsername(),
+                passwordEncode);
     }
 
     @Override

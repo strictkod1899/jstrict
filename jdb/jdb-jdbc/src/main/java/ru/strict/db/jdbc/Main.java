@@ -18,18 +18,18 @@ public class Main {
     public static void main(String[] args){
         ConnectionInfo connectionInfo = new ConnectionInfo(
                 ConnectionByDbType.SQLITE.getDriver(),
-                ConnectionByDbType.SQLITE.getUrl() + "A:\\Users\\strictkod1899\\testdb.sqlite",
+                ConnectionByDbType.SQLITE.getUrl() + "C:\\Users\\strictkod1899\\testdb.sqlite",
                 "",
                 "");
 
         ManagerDatabase<ConnectionInfo> managerDatabase = new ManagerDatabase<>(connectionInfo);
-        addRepositoriesAutoId(managerDatabase);
+        addRepositories(managerDatabase);
         int i = 0;
         create(managerDatabase);
         //createAutoId(managerDatabase);
         //update(managerDatabase);
-        //read(managerDatabase);
-        //readAll(managerDatabase);
+        read(managerDatabase);
+        readAll(managerDatabase);
         readFill(managerDatabase);
         //delete(managerDatabase);
         i = 0;
@@ -37,11 +37,12 @@ public class Main {
 
     private static void addRepositories(ManagerDatabase managerDatabase){
         managerDatabase.createAndAddRepository("roleuser", RepositoryRoleuser.class, GenerateIdType.NONE);
-        managerDatabase.createAndAddRepository("user", RepositoryUser.class, new MapperDtoUser<>(), GenerateIdType.NONE);
+        managerDatabase.createAndAddRepository("user", RepositoryUserFillToken.class, GenerateIdType.NONE);
         managerDatabase.createAndAddRepository("user_on_role", RepositoryUserOnRole.class, GenerateIdType.NONE);
         managerDatabase.createAndAddRepository("profile", RepositoryProfileInfo.class, GenerateIdType.NONE);
         managerDatabase.createAndAddRepository("country", RepositoryCountry.class, GenerateIdType.NONE);
         managerDatabase.createAndAddRepository("city", RepositoryCity.class, GenerateIdType.NONE);
+        managerDatabase.createAndAddRepository("token", RepositoryJWTUserToken.class, GenerateIdType.NONE);
     }
 
     private static void addRepositoriesAutoId(ManagerDatabase managerDatabase){
@@ -54,18 +55,20 @@ public class Main {
     }
 
     private static void create(ManagerDatabase managerDatabase){
-        managerDatabase.getRepository(RepositoryCountry.class)
-                .create(new DtoCountry(1, "Russia"));
-        managerDatabase.getRepository(RepositoryCity.class)
-                .create(new DtoCity(1, "Novokuznetsk", 1));
+        //managerDatabase.getRepository(RepositoryCountry.class)
+        //        .create(new DtoCountry(1, "Russia"));
+        //managerDatabase.getRepository(RepositoryCity.class)
+        //        .create(new DtoCity(1, "Novokuznetsk", 1));
         managerDatabase.getRepository(RepositoryUser.class)
-                .create(new DtoUser(1, "user", "password", "token"));
+                .create(new DtoUser(1, "user", "password"));
         managerDatabase.getRepository(RepositoryProfileInfo.class)
                 .create(new DtoProfileInfo(1, "Konstantin", "Kastirin", "Igorevich", 1, new Date(), "123", 1));
         managerDatabase.getRepository(RepositoryRoleuser.class)
                 .create(new DtoRoleuser(1, "SUPERUSER", "This is superuser"));
         managerDatabase.getRepository(RepositoryUserOnRole.class)
                 .create(new DtoUserOnRole(1, 1, 1));
+        managerDatabase.getRepository(RepositoryJWTUserToken.class)
+                .create(new DtoJWTUserToken(1, "access", "refresh", new Date(), new Date(), new Date(), 1, 1));
     }
 
     private static void createAutoId(ManagerDatabase managerDatabase){
@@ -89,7 +92,7 @@ public class Main {
         managerDatabase.getRepository(RepositoryCity.class)
                 .update(new DtoCity(1, "NovokuznetskUpdate", 1));
         managerDatabase.getRepository(RepositoryUser.class)
-                .update(new DtoUser(1, "userUpdate", "password", "token"));
+                .update(new DtoUser(1, "userUpdate", "password"));
         managerDatabase.getRepository(RepositoryProfileInfo.class)
                 .update(new DtoProfileInfo(1, "KonstantinUpdate", "KastirinUpdate", "Igorevich", 1, new Date(), "123", 1));
         managerDatabase.getRepository(RepositoryRoleuser.class)
@@ -101,10 +104,11 @@ public class Main {
     private static void read(ManagerDatabase managerDatabase){
         DtoBase dtoCountry = managerDatabase.getRepository(RepositoryCountry.class).read(1);
         DtoBase dtoCity = managerDatabase.getRepository(RepositoryCity.class).read(1);
-        DtoBase dtoUser = managerDatabase.getRepository(RepositoryUser.class).read(1);
+        DtoBase dtoUser = managerDatabase.getRepository(RepositoryUserFillToken.class).read(1);
         DtoBase dtoProfileInfo = managerDatabase.getRepository(RepositoryProfileInfo.class).read(1);
         DtoBase dtoRoleuser = managerDatabase.getRepository(RepositoryRoleuser.class).read(1);
         DtoBase dtoUserOnRole = managerDatabase.getRepository(RepositoryUserOnRole.class).read(1);
+        DtoBase dtoToken = managerDatabase.getRepository(RepositoryJWTUserToken.class).read(1);
         int i = 0;
     }
 
@@ -113,7 +117,7 @@ public class Main {
                 .readFill(1);
         DtoBase dtoCity = ((IRepositoryExtension)managerDatabase.getRepository(RepositoryCity.class))
                 .readFill(1);
-        DtoBase dtoUser = ((IRepositoryExtension)managerDatabase.getRepository(RepositoryUser.class))
+        DtoBase dtoUser = ((IRepositoryExtension)managerDatabase.getRepository(RepositoryUserFillToken.class))
                 .readFill(1);
         DtoBase dtoProfileInfo = ((IRepositoryExtension)managerDatabase.getRepository(RepositoryProfileInfo.class))
                 .readFill(1);
@@ -121,16 +125,19 @@ public class Main {
                 .readFill(1);
         DtoBase dtoUserOnRole = ((IRepositoryExtension)managerDatabase.getRepository(RepositoryUserOnRole.class))
                 .readFill(1);
+        DtoBase dtoToken = ((IRepositoryExtension)managerDatabase.getRepository(RepositoryJWTUserToken.class))
+                .readFill(1);
         int i = 0;
     }
 
     private static void readAll(ManagerDatabase managerDatabase){
         List dtoCountry = managerDatabase.getRepository(RepositoryCountry.class).readAll(null);
         List dtoCity = managerDatabase.getRepository(RepositoryCity.class).readAll(null);
-        List dtoUser = managerDatabase.getRepository(RepositoryUser.class).readAll(null);
+        List dtoUser = managerDatabase.getRepository(RepositoryUserFillToken.class).readAll(null);
         List dtoProfileInfo = managerDatabase.getRepository(RepositoryProfileInfo.class).readAll(null);
         List dtoRoleuser = managerDatabase.getRepository(RepositoryRoleuser.class).readAll(null);
         List dtoUserOnRole = managerDatabase.getRepository(RepositoryUserOnRole.class).readAll(null);
+        List dtoToken = managerDatabase.getRepository(RepositoryJWTUserToken.class).readAll(null);
         int i = 0;
     }
 

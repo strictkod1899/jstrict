@@ -23,12 +23,12 @@ public class DtoUserSecurity<ID> extends DtoUser<ID> implements UserDetails{
     	super();
 	}
 
-	public DtoUserSecurity(String username, String passwordEncode, String token) {
-		super(username, passwordEncode, token);
+	public DtoUserSecurity(String username, String passwordEncode) {
+		super(username, passwordEncode);
 	}
 
-	public DtoUserSecurity(ID id, String username, String passwordEncode, String token) {
-		super(id, username, passwordEncode, token);
+	public DtoUserSecurity(ID id, String username, String passwordEncode) {
+		super(id, username, passwordEncode);
 	}
 	//</editor-fold>
 
@@ -85,7 +85,7 @@ public class DtoUserSecurity<ID> extends DtoUser<ID> implements UserDetails{
 	//<editor-fold defaultState="collapsed" desc="Base override">
 	@Override
 	public String toString(){
-		return String.format("dto [%s]: %s. Token: %s", String.valueOf(getId()), getUsername(), getToken());
+		return String.format("dto [%s]: %s. Token: %s", String.valueOf(getId()), getUsername());
 	}
 
 	@Override

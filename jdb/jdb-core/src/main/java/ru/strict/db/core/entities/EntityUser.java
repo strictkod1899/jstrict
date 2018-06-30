@@ -22,13 +22,13 @@ public class EntityUser<ID> extends EntityBase<ID> {
      */
     private Collection<EntityRoleuser> rolesuser;
     /**
-     * Токен пользователя
-     */
-    private String token;
-    /**
      * Профиль пользователя
      */
     private EntityProfile profile;
+    /**
+     * Токены пользователя
+     */
+    private Collection<EntityJWTToken> tokens;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public EntityUser() {
@@ -36,25 +36,25 @@ public class EntityUser<ID> extends EntityBase<ID> {
         username = null;
         passwordEncode = null;
         rolesuser = new LinkedList<>();
-        token = null;
+        tokens = new LinkedList<>();
         profile = null;
     }
 
-    public EntityUser(String username, String passwordEncode, String token) {
+    public EntityUser(String username, String passwordEncode) {
         super();
         this.username = username;
         this.passwordEncode = passwordEncode;
         rolesuser = new LinkedList<>();
-        this.token = token;
+        tokens = new LinkedList<>();
         profile = null;
     }
 
-    public EntityUser(ID id, String username, String passwordEncode, String token) {
+    public EntityUser(ID id, String username, String passwordEncode) {
         super(id);
         this.username = username;
         this.passwordEncode = passwordEncode;
         rolesuser = new LinkedList<>();
-        this.token = token;
+        tokens = new LinkedList<>();
         profile = null;
     }
     //</editor-fold>
@@ -92,12 +92,19 @@ public class EntityUser<ID> extends EntityBase<ID> {
         rolesuser.add(roleuser);
     }
 
-    public String getToken() {
-        return token;
+    /**
+     * Добавить токен
+     */
+    public void addToken(EntityJWTToken token){
+        tokens.add(token);
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public Collection<EntityJWTToken> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(Collection<EntityJWTToken> tokens) {
+        this.tokens = tokens;
     }
 
     public EntityProfile getProfile() {
@@ -112,8 +119,8 @@ public class EntityUser<ID> extends EntityBase<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("entity user [%s]: %s.\nToken: %s. Password: %s", String.valueOf(getId()), getUsername(),
-                token, passwordEncode);
+        return String.format("entity user [%s]: %s.\nPassword: %s", String.valueOf(getId()), getUsername(),
+                passwordEncode);
     }
 
     @Override
@@ -123,7 +130,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
             return super.equals(object) && username.equals(object.getUsername())
                     && passwordEncode.equals(object.getPasswordEncode())
                     && (rolesuser.size() == object.getRolesuser().size() && rolesuser.containsAll(object.getRolesuser()))
-                    && token.equals(object.getToken())
+                    && (tokens.size() == object.getTokens().size() && tokens.containsAll(object.getTokens()))
                     && profile.equals(object.getProfile());
         }else
             return false;
@@ -132,7 +139,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
     @Override
     public int hashCode(){
     	int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, username, passwordEncode, rolesuser, token, profile);
+        return UtilHashCode.createSubHashCode(superHashCode, username, passwordEncode, rolesuser, tokens, profile);
     }
     //</editor-fold>
 }
