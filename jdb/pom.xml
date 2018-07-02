@@ -17,21 +17,6 @@
     <name>jdb</name>
     <url>http:\\maven.apache.org</url>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>ru.strict</groupId>
-                <artifactId>jdb-core</artifactId>
-                <version>0.1.0</version>
-            </dependency>
-            <dependency>
-                <groupId>ru.strict</groupId>
-                <artifactId>jpatterns</artifactId>
-                <version>0.1.0</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <modules>
         <module>jdb-core</module>
         <module>jdb-jdbc</module>

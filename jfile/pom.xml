@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>jstrict</artifactId>
         <groupId>ru.strict</groupId>
+        <artifactId>jstrict</artifactId>
         <version>0.1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -21,7 +21,6 @@
         <dependency>
             <groupId>ru.strict</groupId>
             <artifactId>jutils</artifactId>
-            <version>0.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.jdom</groupId>
