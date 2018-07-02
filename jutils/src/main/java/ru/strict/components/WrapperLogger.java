@@ -3,45 +3,66 @@ package ru.strict.components;
 import org.apache.log4j.*;
 
 /**
- * Обертка для логгера
+ * Логирование
  */
 public class WrapperLogger{
 
-    private final Logger wrappedObject;
+    private Logger wrappedObject;
+    private LoggerConfiguration configuration;
+
+    /**
+     * Действия выполняемые
+     */
+    private void initialize(){
+        configuration = new LoggerConfiguration();
+        defaultConfiguration();
+    }
 
     public WrapperLogger(Class clazz) {
-        defaultConfiguration();
         this.wrappedObject = Logger.getLogger(clazz);
+        initialize();
     }
 
     public WrapperLogger(String className) {
-        defaultConfiguration();
         this.wrappedObject = Logger.getLogger(className);
+        initialize();
     }
 
-    public WrapperLogger(Logger logger) {
-        defaultConfiguration();
-        this.wrappedObject = logger;
-    }
-
+    /**
+     * Конфигурация логирования по-умолчанию
+     */
     private void defaultConfiguration(){
+        configuration.setPattern("%d{ABSOLUTE} [%p] %c{1}/%M:%L - %m%n");
+        configuration.setFilePath("logs/report.log");
+        configuration.setMaxFileSize("1024KB");
+        configuration.setMaxBackupIndex(10);
+
+        configuration();
+    }
+
+    /**
+     * Выполнить конфигурацию логирования, с установленными ранее значениями
+     */
+    public void configuration(){
         PatternLayout layout = new PatternLayout();
-        layout.setConversionPattern("%d{ABSOLUTE} [%p] %c{1}/%M:%L - %m%n");
+        layout.setConversionPattern(configuration.getPattern());
 
         ConsoleAppender consoleAppender = new ConsoleAppender();
         consoleAppender.setLayout(layout);
         consoleAppender.activateOptions();
 
         RollingFileAppender fileAppender = new RollingFileAppender();
-        fileAppender.setFile("logs/report.log");
-        fileAppender.setMaxFileSize("1024KB");
-        fileAppender.setMaxBackupIndex(10);
+        fileAppender.setFile(configuration.getFilePath());
+        fileAppender.setMaxFileSize(configuration.getMaxFileSize());
+        fileAppender.setMaxBackupIndex(configuration.getMaxBackupIndex());
         fileAppender.setLayout(layout);
         fileAppender.activateOptions();
 
         Logger rootLogger = Logger.getRootLogger();
         rootLogger.addAppender(consoleAppender);
         rootLogger.addAppender(fileAppender);
+
+        wrappedObject = Logger.getLogger(wrappedObject.getName());
     }
 
     /**
@@ -88,7 +109,7 @@ public class WrapperLogger{
      * Логирование исключения
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
-     * UtilLogger.error(MyClass.class, ex.getClass().toString(), ex.getMessage());
+     *      UtilLogger.error(MyClass.class, ex.getClass().toString(), ex.getMessage());
      * </pre></code>
      * @param type Тип исключения
      * @param message Сообщение исключения
@@ -101,13 +122,13 @@ public class WrapperLogger{
      * Логирование исключения
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
-     * UtilLogger.error(MyClass.class, "My message", ex.getClass().toString(), ex.getMessage());
+     *      UtilLogger.error(MyClass.class, "My message", ex.getClass().toString(), ex.getMessage());
      * </pre></code>
      * @param customMessage Пользовательское (дополнительное) сообщение
      * @param type Тип исключения
      * @param message Сообщение исключения
      */
-    public void error(String customMessage, String type,  String message){
+    public void error(String type, String customMessage, String message){
         wrappedObject.error(String.format("%s \n %s - %s", customMessage, type, message));
     }
 
@@ -116,6 +137,22 @@ public class WrapperLogger{
         return wrappedObject;
     }
     //</editor-fold>
+
+    public void setPattern(String pattern) {
+        configuration.setPattern(pattern);
+    }
+
+    public void setFilePath(String filePath) {
+        configuration.setFilePath(filePath);
+    }
+
+    public void setMaxFileSize(String maxFileSize) {
+        configuration.setMaxFileSize(maxFileSize);
+    }
+
+    public void setMaxBackupIndex(int maxBackupIndex) {
+        configuration.setMaxBackupIndex(maxBackupIndex);
+    }
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
