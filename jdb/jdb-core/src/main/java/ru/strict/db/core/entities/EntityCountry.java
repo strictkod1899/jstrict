@@ -15,6 +15,7 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
      */
     private Collection<EntityCity> cities;
 
+    //<editor-fold defaultState="collapsed" desc="constructors">
     public EntityCountry() {
         super();
         cities = new LinkedList<>();
@@ -29,6 +30,14 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
         super(id, caption);
         cities = new LinkedList<>();
     }
+    //</editor-fold>
+
+    //<editor-fold defaultState="collapsed" desc="Get/Set">
+    public void addCity(EntityCity city){
+        if(cities != null){
+            cities.add(city);
+        }
+    }
 
     public Collection<EntityCity> getCities() {
         return cities;
@@ -37,10 +46,7 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
     public void setCities(Collection<EntityCity> cities) {
         this.cities = cities;
     }
-
-    public void addCity(EntityCity city){
-        cities.add(city);
-    }
+    //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override

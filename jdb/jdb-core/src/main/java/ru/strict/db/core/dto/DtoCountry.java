@@ -42,11 +42,15 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
     }
 
     public void addCity(DtoCity city){
-        cities.add(city);
+        if(cities!=null) {
+            cities.add(city);
+        }
     }
 
     public void addCities(Collection<DtoCity> cities){
-        cities.addAll(cities);
+        if(this.cities!=null) {
+            this.cities.addAll(cities);
+        }
     }
     //</editor-fold>
 

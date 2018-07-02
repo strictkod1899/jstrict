@@ -13,15 +13,14 @@ import java.util.Optional;
 public class MapperDtoProfile<E extends EntityProfile, DTO extends DtoProfile>
         extends MapperDtoBase<E, DTO> {
 
-    private Optional<MapperDtoBase<EntityUser, DtoUser>> mapperUser;
+    private MapperDtoBase<EntityUser, DtoUser> mapperUser;
 
     public MapperDtoProfile(){
         mapperUser = null;
-        mapperUser.empty();
     }
 
     public MapperDtoProfile(MapperDtoBase<EntityUser, DtoUser> mapperUser){
-        this.mapperUser = Optional.ofNullable(mapperUser);
+        this.mapperUser = mapperUser;
     }
 
     @Override
@@ -32,7 +31,7 @@ public class MapperDtoProfile<E extends EntityProfile, DTO extends DtoProfile>
         entity.setSurname(dto.getSurname());
         entity.setMiddlename(dto.getMiddlename());
         entity.setUserId(dto.getUserId());
-        mapperUser.ifPresent((mapper) -> entity.setUser(mapper.map(dto.getUser())));
+        Optional.ofNullable(mapperUser).ifPresent((mapper) -> entity.setUser(mapper.map(dto.getUser())));
         return entity;
     }
 
@@ -44,7 +43,7 @@ public class MapperDtoProfile<E extends EntityProfile, DTO extends DtoProfile>
         dto.setSurname(entity.getSurname());
         dto.setMiddlename(entity.getMiddlename());
         dto.setUserId(entity.getUserId());
-        mapperUser.ifPresent((mapper) -> dto.setUser(mapper.map(entity.getUser())));
+        Optional.ofNullable(mapperUser).ifPresent((mapper) -> dto.setUser(mapper.map(entity.getUser())));
         return dto;
     }
 }

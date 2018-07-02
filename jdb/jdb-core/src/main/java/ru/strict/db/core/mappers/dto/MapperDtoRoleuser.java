@@ -12,14 +12,14 @@ import java.util.Optional;
  */
 public class MapperDtoRoleuser extends MapperDtoBase<EntityRoleuser, DtoRoleuser> {
 
-    private Optional<MapperDtoBase<EntityUser, DtoUser>> mapperUser;
+    private MapperDtoBase<EntityUser, DtoUser> mapperUser;
 
     public MapperDtoRoleuser(){
-        mapperUser = Optional.empty();
+        mapperUser = null;
     }
 
     public MapperDtoRoleuser(MapperDtoBase<EntityUser, DtoUser> mapperUser){
-        this.mapperUser = Optional.ofNullable(mapperUser);
+        this.mapperUser = mapperUser;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class MapperDtoRoleuser extends MapperDtoBase<EntityRoleuser, DtoRoleuser
         entity.setId(dto.getId());
         entity.setDescription(dto.getDescription());
         entity.setCode(dto.getCode());
-        mapperUser.ifPresent((mapper) ->
+        Optional.ofNullable(mapperUser).ifPresent((mapper) ->
                 dto.getUsers().stream().forEach((r) -> entity.addUser(mapper.map((DtoUser) r))));
         return entity;
     }
@@ -39,7 +39,7 @@ public class MapperDtoRoleuser extends MapperDtoBase<EntityRoleuser, DtoRoleuser
         dto.setId(entity.getId());
         dto.setDescription(entity.getDescription());
         dto.setCode(entity.getCode());
-        mapperUser.ifPresent((mapper) ->
+        Optional.ofNullable(mapperUser).ifPresent((mapper) ->
                 entity.getUsers().stream().forEach(r -> dto.addUser(mapper.map((EntityUser) r))));
         return dto;
     }

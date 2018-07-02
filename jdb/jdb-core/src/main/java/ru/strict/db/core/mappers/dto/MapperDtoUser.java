@@ -30,6 +30,7 @@ public class MapperDtoUser<E extends EntityUser, DTO extends DtoUser>
         entity.setId(baseEntity.getId());
         entity.setUsername(baseEntity.getUsername());
         entity.setRolesuser(baseEntity.getRolesuser());
+        entity.setProfile(baseEntity.getProfile());
         entity.setPasswordEncode(dto.getPasswordEncode());
         return entity;
     }
@@ -41,7 +42,8 @@ public class MapperDtoUser<E extends EntityUser, DTO extends DtoUser>
         DtoUser dto = new DtoUser();
         dto.setId(baseDto.getId());
         dto.setUsername(baseDto.getUsername());
-        entity.setRolesuser(baseDto.getRolesuser());
+        dto.setRolesuser(baseDto.getRolesuser());
+        dto.setProfile(baseDto.getProfile());
         dto.setPasswordEncode(entity.getPasswordEncode());
         return dto;
     }

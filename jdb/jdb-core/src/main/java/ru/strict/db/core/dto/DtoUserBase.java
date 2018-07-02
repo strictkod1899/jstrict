@@ -63,7 +63,9 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
      * @param roleuser
      */
     public void addRoleuser(DtoRoleuser roleuser){
-        rolesuser.add(roleuser);
+        if(rolesuser!=null) {
+            rolesuser.add(roleuser);
+        }
     }
 
     public void setRolesuser(Collection<DtoRoleuser> rolesuser) {

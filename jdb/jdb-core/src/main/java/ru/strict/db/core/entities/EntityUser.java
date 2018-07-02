@@ -89,14 +89,18 @@ public class EntityUser<ID> extends EntityBase<ID> {
      * @param roleuser
      */
     public void addRoleuser(EntityRoleuser roleuser){
-        rolesuser.add(roleuser);
+        if(rolesuser!=null) {
+            rolesuser.add(roleuser);
+        }
     }
 
     /**
      * Добавить токен
      */
     public void addToken(EntityJWTToken token){
-        tokens.add(token);
+        if(tokens!=null) {
+            tokens.add(token);
+        }
     }
 
     public Collection<EntityJWTToken> getTokens() {

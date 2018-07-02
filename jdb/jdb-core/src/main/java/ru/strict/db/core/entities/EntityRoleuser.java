@@ -64,20 +64,22 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
         this.description = description;
     }
 
+    /**
+     * Добавить пользователя использующего данную роль
+     * @param user
+     */
+    public void addUser(EntityUser user) {
+        if(users!=null) {
+            users.add(user);
+        }
+    }
+
     public Collection<EntityUser> getUsers() {
         return users;
     }
 
     public void setUsers(Collection<EntityUser> users) {
         this.users = users;
-    }
-
-    /**
-     * Добавить пользователя использующего данную роль
-     * @param user
-     */
-    public void addUser(EntityUser user) {
-        this.users.add(user);
     }
     //</editor-fold>
 
