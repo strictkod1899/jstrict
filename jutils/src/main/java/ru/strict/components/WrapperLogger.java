@@ -5,16 +5,23 @@ import org.apache.log4j.Logger;
 /**
  * Обертка для логгера
  */
-public class WrapperLogger {
+public class WrapperLogger extends Logger{
 
     private final Logger wrappedObject;
 
     public WrapperLogger(Class clazz) {
+        super(clazz.getName());
         this.wrappedObject = Logger.getLogger(clazz);
     }
 
     public WrapperLogger(String className) {
+        super(className);
         this.wrappedObject = Logger.getLogger(className);
+    }
+
+    public WrapperLogger(Logger logger) {
+        super(logger.getName());
+        this.wrappedObject = logger;
     }
 
     /**
