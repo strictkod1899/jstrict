@@ -50,10 +50,9 @@ public class UtilLogger {
 
     /**
      * Логирование исключения
-     * @param clazz Класс, в котором производится логирование
      * @param message Сообщение исключения
      */
-    public static void error(Class clazz, String message){
+    public void error(Class clazz, String message){
         WrapperLogger logger = createLogger(clazz);
         logger.error(message);
     }
@@ -62,13 +61,12 @@ public class UtilLogger {
      * Логирование исключения
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
-     * UtilLogger.error(MyClass.class, ex.getClass().toString(), ex.getMessage());
+     *      UtilLogger.error(MyClass.class, ex.getClass().toString(), ex.getMessage());
      * </pre></code>
-     * @param clazz Класс, в котором производится логирование
      * @param type Тип исключения
      * @param message Сообщение исключения
      */
-    public static void error(Class clazz, String type,  String message){
+    public void error(Class clazz, String type,  String message){
         WrapperLogger logger = createLogger(clazz);
         logger.error(String.format("%s - %s", type, message));
     }
@@ -77,15 +75,52 @@ public class UtilLogger {
      * Логирование исключения
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
-     * UtilLogger.error(MyClass.class, "My message", ex.getClass().toString(), ex.getMessage());
+     *      UtilLogger.error(MyClass.class, "My message", ex.getClass().toString(), ex.getMessage());
      * </pre></code>
-     * @param clazz Класс, в котором производится логирование
      * @param customMessage Пользовательское (дополнительное) сообщение
      * @param type Тип исключения
      * @param message Сообщение исключения
      */
-    public static void error(Class clazz, String customMessage, String type,  String message){
+    public void error(Class clazz, String type, String customMessage, String message){
         WrapperLogger logger = createLogger(clazz);
         logger.error(String.format("%s \n %s - %s", customMessage, type, message));
+    }
+
+    /**
+     * Логирование исключения
+     * @param message Сообщение исключения
+     */
+    public void fatal(Class clazz, String message){
+        WrapperLogger logger = createLogger(clazz);
+        logger.fatal(message);
+    }
+
+    /**
+     * Логирование исключения
+     * <p><b>Пример использования:</b></p>
+     * <code><pre style="background-color: white; font-family: consolas">
+     *      UtilLogger.error(MyClass.class, ex.getClass().toString(), ex.getMessage());
+     * </pre></code>
+     * @param type Тип исключения
+     * @param message Сообщение исключения
+     */
+    public void fatal(Class clazz, String type,  String message){
+        WrapperLogger logger = createLogger(clazz);
+        logger.fatal(String.format("%s - %s", type, message));
+    }
+
+    /**
+     * Логирование исключения
+     * <p><b>Пример использования:</b></p>
+     * <code><pre style="background-color: white; font-family: consolas">
+     *      UtilLogger.error(MyClass.class, "My message", ex.getClass().toString(), ex.getMessage());
+     * </pre></code>
+     * @param customMessage Пользовательское (дополнительное) сообщение
+     * @param type Тип исключения
+     * @param message Сообщение исключения
+     */
+    public void fatal(Class clazz, String type, String customMessage, String message){
+        WrapperLogger logger = createLogger(clazz);
+        logger.fatal(String.format("%s \n %s - %s", customMessage, type, message));
     }
 }

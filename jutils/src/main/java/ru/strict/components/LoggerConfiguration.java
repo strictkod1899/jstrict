@@ -6,7 +6,8 @@ package ru.strict.components;
 class LoggerConfiguration {
 
     private String pattern;
-    private String filePath;
+    private String logDirectoryPath;
+    private String logFileName;
     private String maxFileSize;
     private int maxBackupIndex;
 
@@ -18,12 +19,12 @@ class LoggerConfiguration {
         this.pattern = pattern;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public String getLogDirectoryPath() {
+        return logDirectoryPath;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setLogDirectoryPath(String logDirectoryPath) {
+        this.logDirectoryPath = logDirectoryPath;
     }
 
     public String getMaxFileSize() {
@@ -40,5 +41,13 @@ class LoggerConfiguration {
 
     public void setMaxBackupIndex(int maxBackupIndex) {
         this.maxBackupIndex = maxBackupIndex;
+    }
+
+    public String getLogFileName() {
+        return logFileName;
+    }
+
+    public void setLogFileName(String logFileName) {
+        this.logFileName = logFileName;
     }
 }
