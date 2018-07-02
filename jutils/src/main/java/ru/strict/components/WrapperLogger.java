@@ -5,26 +5,23 @@ import org.apache.log4j.*;
 /**
  * Обертка для логгера
  */
-public class WrapperLogger extends Logger{
+public class WrapperLogger{
 
     private final Logger wrappedObject;
 
     public WrapperLogger(Class clazz) {
-        super(clazz.getName());
-        this.wrappedObject = Logger.getLogger(clazz);
         defaultConfiguration();
+        this.wrappedObject = Logger.getLogger(clazz);
     }
 
     public WrapperLogger(String className) {
-        super(className);
-        this.wrappedObject = Logger.getLogger(className);
         defaultConfiguration();
+        this.wrappedObject = Logger.getLogger(className);
     }
 
     public WrapperLogger(Logger logger) {
-        super(logger.getName());
-        this.wrappedObject = logger;
         defaultConfiguration();
+        this.wrappedObject = logger;
     }
 
     private void defaultConfiguration(){
@@ -43,17 +40,24 @@ public class WrapperLogger extends Logger{
         fileAppender.activateOptions();
 
         Logger rootLogger = Logger.getRootLogger();
-        rootLogger.setLevel(Level.DEBUG);
         rootLogger.addAppender(consoleAppender);
         rootLogger.addAppender(fileAppender);
+    }
+
+    /**
+     * Информационное сообщение логирования
+     * @param message Сообщение исключения
+     */
+    public void trace(String message){
+        wrappedObject.trace(message);
     }
 
     /**
      * Информационное сообщение логирования для Debug-режима
      * @param message Сообщение исключения
      */
-    public void trace(String message){
-        wrappedObject.trace(message);
+    public void debug(String message){
+        wrappedObject.debug(message);
     }
 
     /**

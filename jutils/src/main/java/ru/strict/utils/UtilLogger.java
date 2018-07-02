@@ -24,7 +24,7 @@ public class UtilLogger {
      * @param message Сообщение исключения
      */
     public static void trace(Class clazz, String message){
-        Logger logger = createLogger(clazz);
+        WrapperLogger logger = createLogger(clazz);
         logger.trace(message);
     }
 
@@ -34,7 +34,7 @@ public class UtilLogger {
      * @param message Сообщение исключения
      */
     public static void info(Class clazz, String message){
-        Logger logger = createLogger(clazz);
+        WrapperLogger logger = createLogger(clazz);
         logger.info(message);
     }
 
@@ -44,7 +44,7 @@ public class UtilLogger {
      * @param message Сообщение исключения
      */
     public static void warn(Class clazz, String message){
-        Logger logger = createLogger(clazz);
+        WrapperLogger logger = createLogger(clazz);
         logger.warn(message);
     }
 
@@ -54,7 +54,7 @@ public class UtilLogger {
      * @param message Сообщение исключения
      */
     public static void error(Class clazz, String message){
-        Logger logger = createLogger(clazz);
+        WrapperLogger logger = createLogger(clazz);
         logger.error(message);
     }
 
@@ -69,7 +69,7 @@ public class UtilLogger {
      * @param message Сообщение исключения
      */
     public static void error(Class clazz, String type,  String message){
-        Logger logger = createLogger(clazz);
+        WrapperLogger logger = createLogger(clazz);
         logger.error(String.format("%s - %s", type, message));
     }
 
@@ -85,7 +85,7 @@ public class UtilLogger {
      * @param message Сообщение исключения
      */
     public static void error(Class clazz, String customMessage, String type,  String message){
-        Logger logger = createLogger(clazz);
+        WrapperLogger logger = createLogger(clazz);
         logger.error(String.format("%s \n %s - %s", customMessage, type, message));
     }
 }
