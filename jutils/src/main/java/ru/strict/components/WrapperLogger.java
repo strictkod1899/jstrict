@@ -1,6 +1,6 @@
 package ru.strict.components;
 
-import org.apache.log4j.Logger;
+import org.apache.log4j.*;
 
 /**
  * Обертка для логгера
@@ -12,16 +12,40 @@ public class WrapperLogger extends Logger{
     public WrapperLogger(Class clazz) {
         super(clazz.getName());
         this.wrappedObject = Logger.getLogger(clazz);
+        defaultConfiguration();
     }
 
     public WrapperLogger(String className) {
         super(className);
         this.wrappedObject = Logger.getLogger(className);
+        defaultConfiguration();
     }
 
     public WrapperLogger(Logger logger) {
         super(logger.getName());
         this.wrappedObject = logger;
+        defaultConfiguration();
+    }
+
+    private void defaultConfiguration(){
+        PatternLayout layout = new PatternLayout();
+        layout.setConversionPattern("%d{ABSOLUTE} [%p] %c{1}/%M:%L - %m%n");
+
+        ConsoleAppender consoleAppender = new ConsoleAppender();
+        consoleAppender.setLayout(layout);
+        consoleAppender.activateOptions();
+
+        RollingFileAppender fileAppender = new RollingFileAppender();
+        fileAppender.setFile("logs/report.log");
+        fileAppender.setMaxFileSize("1024KB");
+        fileAppender.setMaxBackupIndex(10);
+        fileAppender.setLayout(layout);
+        fileAppender.activateOptions();
+
+        Logger rootLogger = Logger.getRootLogger();
+        rootLogger.setLevel(Level.DEBUG);
+        rootLogger.addAppender(consoleAppender);
+        rootLogger.addAppender(fileAppender);
     }
 
     /**
