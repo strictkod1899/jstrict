@@ -37,7 +37,9 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
      * Добавить токен
      */
     public void addToken(DtoJWTUserToken token){
-        tokens.add(token);
+        if(tokens!=null) {
+            tokens.add(token);
+        }
     }
 
     public Collection<DtoJWTUserToken> getTokens() {

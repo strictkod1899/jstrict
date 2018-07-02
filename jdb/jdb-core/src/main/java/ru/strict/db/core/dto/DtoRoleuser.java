@@ -77,7 +77,9 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
      * @param user
      */
     public void addUser(DtoUser user) {
-        this.users.add(user);
+        if(users!=null) {
+            users.add(user);
+        }
     }
     //</editor-fold>
 

@@ -1,6 +1,5 @@
 package ru.strict.db.core.dto;
 
-import ru.strict.db.core.entities.EntityToken;
 import ru.strict.utils.UtilHashCode;
 
 import java.util.Date;
