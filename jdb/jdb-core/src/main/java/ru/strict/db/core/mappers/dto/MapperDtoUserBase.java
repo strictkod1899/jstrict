@@ -15,18 +15,18 @@ import java.util.Optional;
 public class MapperDtoUserBase<E extends EntityUser, DTO extends DtoUserBase>
         extends MapperDtoBase<E, DTO> {
 
-    private Optional<MapperDtoBase<EntityRoleuser, DtoRoleuser>> mapperRoleuser;
-    private Optional<MapperDtoBase<EntityProfile, DtoProfile>> mapperProfile;
+    private MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRoleuser;
+    private MapperDtoBase<EntityProfile, DtoProfile> mapperProfile;
 
     public MapperDtoUserBase(){
-        this.mapperRoleuser = Optional.empty();
-        this.mapperProfile = Optional.empty();
+        this.mapperRoleuser = null;
+        this.mapperProfile = null;
     }
 
     public MapperDtoUserBase(MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRoleuser
             , MapperDtoBase<EntityProfile, DtoProfile> mapperProfile){
-        this.mapperRoleuser = Optional.ofNullable(mapperRoleuser);
-        this.mapperProfile = Optional.ofNullable(mapperProfile);
+        this.mapperRoleuser = mapperRoleuser;
+        this.mapperProfile = mapperProfile;
     }
 
     @Override
@@ -34,9 +34,9 @@ public class MapperDtoUserBase<E extends EntityUser, DTO extends DtoUserBase>
         EntityUser entity = new EntityUser();
         entity.setId(dto.getId());
         entity.setUsername(dto.getUsername());
-        mapperRoleuser.ifPresent((mapper) ->
+        Optional.ofNullable(mapperRoleuser).ifPresent((mapper) ->
                 dto.getRolesuser().stream().forEach(r -> entity.addRoleuser(mapper.map((DtoRoleuser) r))));
-        mapperProfile.ifPresent((mapper) -> entity.setProfile(mapper.map(dto.getProfile())));
+        Optional.ofNullable(mapperProfile).ifPresent((mapper) -> entity.setProfile(mapper.map(dto.getProfile())));
         return entity;
     }
 
@@ -45,9 +45,9 @@ public class MapperDtoUserBase<E extends EntityUser, DTO extends DtoUserBase>
         DtoUserBase dto = new DtoUserBase();
         dto.setId(entity.getId());
         dto.setUsername(entity.getUsername());
-        mapperRoleuser.ifPresent((mapper) ->
+        Optional.ofNullable(mapperRoleuser).ifPresent((mapper) ->
                 entity.getRolesuser().stream().forEach(r -> dto.addRoleuser(mapper.map((EntityRoleuser) r))));
-        mapperProfile.ifPresent((mapper) -> dto.setProfile(mapper.map(entity.getProfile())));
+        Optional.ofNullable(mapperProfile).ifPresent((mapper) -> dto.setProfile(mapper.map(entity.getProfile())));
         return dto;
     }
 }

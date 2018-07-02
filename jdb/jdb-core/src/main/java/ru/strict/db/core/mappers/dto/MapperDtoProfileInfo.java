@@ -17,16 +17,16 @@ import java.util.Optional;
 public class MapperDtoProfileInfo<E extends EntityProfileInfo, DTO extends DtoProfileInfo>
         extends MapperDtoProfile<E, DTO> {
 
-    private Optional<MapperDtoBase<EntityCity, DtoCity>> mapperCity;
+    private MapperDtoBase<EntityCity, DtoCity> mapperCity;
 
     public MapperDtoProfileInfo(){
         super();
-        mapperCity = Optional.empty();
+        mapperCity = null;
     }
 
     public MapperDtoProfileInfo(MapperDtoBase<EntityUser, DtoUser> mapperUser, MapperDtoBase<EntityCity, DtoCity> mapperCity){
         super(mapperUser);
-        this.mapperCity = Optional.ofNullable(mapperCity);
+        this.mapperCity = mapperCity;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class MapperDtoProfileInfo<E extends EntityProfileInfo, DTO extends DtoPr
         entity.setDateBirth(dto.getDateBirth());
         entity.setPhone(dto.getPhone());
         entity.setCityId(dto.getCityId());
-        mapperCity.ifPresent((mapper) -> entity.setCity(mapper.map(dto.getCity())));
+        Optional.ofNullable(mapperCity).ifPresent((mapper) -> entity.setCity(mapper.map(dto.getCity())));
         return entity;
     }
 
@@ -61,7 +61,7 @@ public class MapperDtoProfileInfo<E extends EntityProfileInfo, DTO extends DtoPr
         dto.setDateBirth(entity.getDateBirth());
         dto.setPhone(entity.getPhone());
         dto.setCityId(entity.getCityId());
-        mapperCity.ifPresent((mapper) -> dto.setCity(mapper.map(entity.getCity())));
+        Optional.ofNullable(mapperCity).ifPresent((mapper) -> dto.setCity(mapper.map(entity.getCity())));
         return dto;
     }
 }

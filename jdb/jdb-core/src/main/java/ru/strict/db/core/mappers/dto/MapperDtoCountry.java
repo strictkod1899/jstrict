@@ -12,14 +12,14 @@ import java.util.Optional;
  */
 public class MapperDtoCountry extends MapperDtoBase<EntityCountry, DtoCountry> {
 
-    private Optional<MapperDtoBase<EntityCity, DtoCity>> mapperCity;
+    private MapperDtoBase<EntityCity, DtoCity> mapperCity;
 
     public MapperDtoCountry(){
-        mapperCity = Optional.empty();
+        mapperCity = null;
     }
 
     public MapperDtoCountry(MapperDtoBase<EntityCity, DtoCity> mapperCity){
-        this.mapperCity = Optional.ofNullable(mapperCity);
+        this.mapperCity = mapperCity;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class MapperDtoCountry extends MapperDtoBase<EntityCountry, DtoCountry> {
         EntityCountry entity = new EntityCountry();
         entity.setId(dto.getId());
         entity.setCaption(dto.getCaption());
-        mapperCity.ifPresent((mapper) ->
+        Optional.ofNullable(mapperCity).ifPresent((mapper) ->
                 dto.getCities().stream().forEach((r) -> entity.addCity(mapper.map((DtoCity) r))));
         return entity;
     }
@@ -37,7 +37,7 @@ public class MapperDtoCountry extends MapperDtoBase<EntityCountry, DtoCountry> {
         DtoCountry dto = new DtoCountry();
         dto.setId(entity.getId());
         dto.setCaption(entity.getCaption());
-        mapperCity.ifPresent((mapper) ->
+        Optional.ofNullable(mapperCity).ifPresent((mapper) ->
                 entity.getCities().stream().forEach((r) -> dto.addCity(mapper.map((EntityCity) r))));
         return dto;
     }

@@ -16,18 +16,18 @@ import java.util.Optional;
  */
 public class MapperDtoJWTUserToken<E extends EntityJWTUserToken, DTO extends DtoJWTUserToken> extends MapperDtoJWTToken<E, DTO> {
 
-    private Optional<MapperDtoBase<EntityUser, DtoUser>> mapperUser;
-    private Optional<MapperDtoBase<EntityRoleuser, DtoRoleuser>> mapperRoleuser;
+    private MapperDtoBase<EntityUser, DtoUser> mapperUser;
+    private MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRoleuser;
 
     public MapperDtoJWTUserToken(){
-        mapperUser = Optional.empty();
-        mapperRoleuser = Optional.empty();
+        mapperUser = null;
+        mapperRoleuser = null;
     }
 
     public MapperDtoJWTUserToken(MapperDtoBase<EntityUser, DtoUser> mapperUser,
                                  MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRoleuser){
-        this.mapperUser = Optional.ofNullable(mapperUser);
-        this.mapperRoleuser = Optional.ofNullable(mapperRoleuser);
+        this.mapperUser = mapperUser;
+        this.mapperRoleuser = mapperRoleuser;
     }
 
     @Override
@@ -49,9 +49,9 @@ public class MapperDtoJWTUserToken<E extends EntityJWTUserToken, DTO extends Dto
         entity.setAlgorithm(baseEntity.getAlgorithm());
         entity.setType(baseEntity.getType());
         entity.setUserId(dto.getUserId());
-        mapperUser.ifPresent((mapper) -> entity.setUser(mapper.map(dto.getUser())));
+        Optional.ofNullable(mapperUser).ifPresent((mapper) -> entity.setUser(mapper.map(dto.getUser())));
         entity.setRoleUserId(dto.getRoleUserId());
-        mapperRoleuser.ifPresent((mapper) -> entity.setRoleUser(mapper.map(dto.getRoleUser())));
+        Optional.ofNullable(mapperRoleuser).ifPresent((mapper) -> entity.setRoleUser(mapper.map(dto.getRoleUser())));
         return entity;
     }
 
@@ -74,9 +74,9 @@ public class MapperDtoJWTUserToken<E extends EntityJWTUserToken, DTO extends Dto
         dto.setAlgorithm(baseDto.getAlgorithm());
         dto.setType(baseDto.getType());
         dto.setUserId(entity.getUserId());
-        mapperUser.ifPresent((mapper) -> dto.setUser(mapper.map(entity.getUser())));
+        Optional.ofNullable(mapperUser).ifPresent((mapper) -> dto.setUser(mapper.map(entity.getUser())));
         dto.setRoleUserId(entity.getRoleUserId());
-        mapperRoleuser.ifPresent((mapper) -> dto.setRoleUser(mapper.map(entity.getRoleUser())));
+        Optional.ofNullable(mapperRoleuser).ifPresent((mapper) -> dto.setRoleUser(mapper.map(entity.getRoleUser())));
         return dto;
     }
 }
