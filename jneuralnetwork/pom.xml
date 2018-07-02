@@ -21,12 +21,10 @@
         <dependency>
             <groupId>ru.strict</groupId>
             <artifactId>jutils</artifactId>
-            <version>0.1.0</version>
         </dependency>
         <dependency>
             <groupId>ru.strict</groupId>
             <artifactId>jfile</artifactId>
-            <version>0.1.0</version>
         </dependency>
     </dependencies>
 

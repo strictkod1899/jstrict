@@ -29,6 +29,57 @@
         <module>jneuralnetwork</module>
     </modules>
 
+    <!-- Перенести блок dependencyManagement в корневой модуль проекта-->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jutils</artifactId>
+                <version>0.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jfile</artifactId>
+                <version>0.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jpatterns</artifactId>
+                <version>0.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jswing</artifactId>
+                <version>0.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jneuralnetwork</artifactId>
+                <version>0.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jdb-core</artifactId>
+                <version>0.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jdb-jdbc</artifactId>
+                <version>0.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jdb-spring</artifactId>
+                <version>0.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jdb-hibernate</artifactId>
+                <version>0.1.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <!-- Перенести блок properties в корневой модуль проекта-->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
