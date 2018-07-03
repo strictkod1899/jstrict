@@ -30,12 +30,51 @@ public class UtilLogger {
 
     /**
      * Информационное сообщение логирования
+     * @param format Сообщение для String.format
+     * @param args Аргументы для String.format
+     */
+    public void trace(Class clazz, String format, String...args){
+        WrapperLogger logger = createLogger(clazz);
+        logger.trace(format, args);
+    }
+
+    /**
+     * Информационное сообщение логирования для Debug-режима
+     * @param message Сообщение исключения
+     */
+    public void debug(Class clazz, String message){
+        WrapperLogger logger = createLogger(clazz);
+        logger.debug(message);
+    }
+
+    /**
+     * Информационное сообщение логирования для Debug-режима
+     * @param format Сообщение для String.format
+     * @param args Аргументы для String.format
+     */
+    public void debug(Class clazz, String format, String...args){
+        WrapperLogger logger = createLogger(clazz);
+        logger.trace(format, args);
+    }
+
+    /**
+     * Информационное сообщение логирования
      * @param clazz Класс, в котором производится логирование
      * @param message Сообщение исключения
      */
     public static void info(Class clazz, String message){
         WrapperLogger logger = createLogger(clazz);
         logger.info(message);
+    }
+
+    /**
+     * Информационное сообщение логирования
+     * @param format Сообщение для String.format
+     * @param args Аргументы для String.format
+     */
+    public void info(Class clazz, String format, String...args){
+        WrapperLogger logger = createLogger(clazz);
+        logger.info(format, args);
     }
 
     /**
@@ -49,10 +88,20 @@ public class UtilLogger {
     }
 
     /**
+     * Предупреждающее сообщения логирования
+     * @param format Сообщение для String.format
+     * @param args Аргументы для String.format
+     */
+    public void warn(Class clazz, String format, String...args){
+        WrapperLogger logger = createLogger(clazz);
+        logger.warn(format, args);
+    }
+
+    /**
      * Логирование исключения
      * @param message Сообщение исключения
      */
-    public void error(Class clazz, String message){
+    public static void error(Class clazz, String message){
         WrapperLogger logger = createLogger(clazz);
         logger.error(message);
     }
@@ -66,7 +115,7 @@ public class UtilLogger {
      * @param type Тип исключения
      * @param message Сообщение исключения
      */
-    public void error(Class clazz, String type,  String message){
+    public static void error(Class clazz, String type,  String message){
         WrapperLogger logger = createLogger(clazz);
         logger.error(String.format("%s - %s", type, message));
     }
@@ -81,16 +130,26 @@ public class UtilLogger {
      * @param type Тип исключения
      * @param message Сообщение исключения
      */
-    public void error(Class clazz, String type, String customMessage, String message){
+    public static void error(Class clazz, String type, String customMessage, String message){
         WrapperLogger logger = createLogger(clazz);
         logger.error(String.format("%s \n %s - %s", customMessage, type, message));
     }
 
     /**
      * Логирование исключения
+     * @param format Сообщение для String.format
+     * @param args Аргументы для String.format
+     */
+    public void error(Class clazz, String format, String...args){
+        WrapperLogger logger = createLogger(clazz);
+        logger.error(format, args);
+    }
+
+    /**
+     * Логирование исключения
      * @param message Сообщение исключения
      */
-    public void fatal(Class clazz, String message){
+    public static void fatal(Class clazz, String message){
         WrapperLogger logger = createLogger(clazz);
         logger.fatal(message);
     }
@@ -104,7 +163,7 @@ public class UtilLogger {
      * @param type Тип исключения
      * @param message Сообщение исключения
      */
-    public void fatal(Class clazz, String type,  String message){
+    public static void fatal(Class clazz, String type,  String message){
         WrapperLogger logger = createLogger(clazz);
         logger.fatal(String.format("%s - %s", type, message));
     }
@@ -119,8 +178,18 @@ public class UtilLogger {
      * @param type Тип исключения
      * @param message Сообщение исключения
      */
-    public void fatal(Class clazz, String type, String customMessage, String message){
+    public static void fatal(Class clazz, String type, String customMessage, String message){
         WrapperLogger logger = createLogger(clazz);
         logger.fatal(String.format("%s \n %s - %s", customMessage, type, message));
+    }
+
+    /**
+     * Логирование исключения
+     * @param format Сообщение для String.format
+     * @param args Аргументы для String.format
+     */
+    public void fatal(Class clazz, String format, String...args){
+        WrapperLogger logger = createLogger(clazz);
+        logger.fatal(format, args);
     }
 }

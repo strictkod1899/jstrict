@@ -5,7 +5,7 @@ import ru.strict.utils.UtilHashCode;
 /**
  * Именованный entity (содержит строку заголовка)
  */
-public class DtoNamed<ID> extends DtoBase<ID> {
+public abstract class DtoNamed<ID> extends DtoBase<ID> {
 
     /**
      * Наименование записи
