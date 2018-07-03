@@ -8,7 +8,7 @@ public class ManagerDatabaseSingleton<SOURCE> extends ManagerDatabase<SOURCE> {
         super(connectionSource);
     }
 
-    public void initialize(SOURCE connectionSource){
+    public static void initialize(SOURCE connectionSource){
         if(instance == null){
             instance = new ManagerDatabaseSingleton(connectionSource);
         }
