@@ -49,6 +49,10 @@ public class ManagerDatabase<SOURCE> {
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public ManagerDatabase(SOURCE connectionSource) {
+        if(connectionSource == null){
+            throw new NullPointerException("connectionSource is NULL");
+        }
+
         this.connectionSource = connectionSource;
         repositories = new LinkedHashMap<>();
         migration = new MigrationDatabase(new CreateConnectionFactory().instance(getConnectionSource()));
@@ -64,6 +68,10 @@ public class ManagerDatabase<SOURCE> {
      */
     public <REPOSITORY extends IRepository> IRepository createRepository(Class<REPOSITORY> repositoryClass,
                                                                          Object...parameters){
+        if(repositoryClass == null){
+            throw new NullPointerException("repositoryClass is NULL");
+        }
+
         Object[] userParameters = new Object[parameters.length + 1];
         userParameters[0] = getCreateConnection();
         for(int i=0; i<parameters.length; i++){
@@ -85,11 +93,7 @@ public class ManagerDatabase<SOURCE> {
             Class<REPOSITORY> repositoryClass,
             Object...parameters) {
         IRepository repository = createRepository(repositoryClass, parameters);
-        if(repository != null) {
-            repositories.put(key, repository);
-        }else{
-            throw new NullPointerException();
-        }
+        addRepository(key, repository);
         return repository;
     }
 
@@ -131,7 +135,15 @@ public class ManagerDatabase<SOURCE> {
      * @param repository Добавляемый репозиторий
      */
     public IRepository addRepository(String key, IRepository repository) {
-        repositories.put(key, repository);
+        if(key == null){
+            throw new NullPointerException("key is NULL");
+        } else if(repository == null){
+            throw new NullPointerException("repository is NULL");
+        }
+
+        if(repositories != null) {
+            repositories.put(key, repository);
+        }
         return repository;
     }
 
