@@ -24,19 +24,26 @@ public class MigrationColumn implements MigrationComponent {
      */
     private String defaultValue;
 
-    //<editor-fold defaultState="collapsed" desc="constructors">
-    public MigrationColumn(String name, String type, boolean isNotNull) {
-        this.name = name;
-        this.type = type;
-        this.isNotNull = isNotNull;
-        defaultValue = null;
-    }
+    private void initialize(String name, String type, boolean isNotNull, String defaultValue){
+        if(name == null){
+            throw new NullPointerException("name is NULL");
+        } else if(type == null){
+            throw new NullPointerException("type is NULL");
+        }
 
-    public MigrationColumn(String name, String type, boolean isNotNull, String defaultValue) {
         this.name = name;
         this.type = type;
         this.isNotNull = isNotNull;
         this.defaultValue = defaultValue;
+    }
+
+    //<editor-fold defaultState="collapsed" desc="constructors">
+    public MigrationColumn(String name, String type, boolean isNotNull) {
+        initialize(name, type, isNotNull, null);
+    }
+
+    public MigrationColumn(String name, String type, boolean isNotNull, String defaultValue) {
+        initialize(name, type, isNotNull, defaultValue);
     }
     //</editor-fold>
 

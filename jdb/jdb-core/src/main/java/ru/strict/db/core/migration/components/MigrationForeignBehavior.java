@@ -28,6 +28,10 @@ public enum MigrationForeignBehavior implements MigrationComponent {
     private String sql;
 
     MigrationForeignBehavior(String sql) {
+        if(sql == null){
+            throw new NullPointerException("sql is NULL");
+        }
+
         this.sql = sql;
     }
 
