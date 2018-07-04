@@ -13,6 +13,14 @@ public abstract class DtoNamed<ID> extends DtoBase<ID> {
     private String caption;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
+    private void initialize(String caption){
+        if(caption == null) {
+            throw new NullPointerException("caption is NULL");
+        }
+
+        this.caption = caption;
+    }
+
     public DtoNamed() {
         super();
         caption = null;
@@ -20,12 +28,12 @@ public abstract class DtoNamed<ID> extends DtoBase<ID> {
 
     public DtoNamed(String caption) {
         super();
-        this.caption = caption;
+        initialize(caption);
     }
 
     public DtoNamed(ID id, String caption) {
         super(id);
-        this.caption = caption;
+        initialize(caption);
     }
     //</editor-fold>
 
@@ -35,6 +43,10 @@ public abstract class DtoNamed<ID> extends DtoBase<ID> {
     }
     
     public void setCaption(String caption) {
+        if(caption == null) {
+            throw new NullPointerException("caption is NULL");
+        }
+
         this.caption = caption;
     }
     //</editor-fold>

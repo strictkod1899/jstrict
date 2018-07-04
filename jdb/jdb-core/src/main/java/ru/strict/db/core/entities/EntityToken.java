@@ -30,6 +30,26 @@ public class EntityToken<ID> extends EntityBase<ID> {
     private Date issuedAt;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
+    private void initialize(String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt){
+        if(accessToken == null) {
+            throw new NullPointerException("accessToken is NULL");
+        } else if(refreshToken == null) {
+            throw new NullPointerException("refreshToken is NULL");
+        } else if(expireTimeAccess == null) {
+            throw new NullPointerException("expireTimeAccess is NULL");
+        } else if(expireTimeRefresh == null) {
+            throw new NullPointerException("expireTimeRefresh is NULL");
+        } else if(issuedAt == null) {
+            throw new NullPointerException("issuedAt is NULL");
+        }
+
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+        this.expireTimeAccess = expireTimeAccess;
+        this.expireTimeRefresh = expireTimeRefresh;
+        this.issuedAt = issuedAt;
+    }
+
     public EntityToken() {
         super();
         accessToken = null;
@@ -41,20 +61,12 @@ public class EntityToken<ID> extends EntityBase<ID> {
 
     public EntityToken(String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt) {
         super();
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
-        this.expireTimeAccess = expireTimeAccess;
-        this.expireTimeRefresh = expireTimeRefresh;
-        this.issuedAt = issuedAt;
+        initialize(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
     }
 
     public EntityToken(ID id, String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt) {
         super(id);
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
-        this.expireTimeAccess = expireTimeAccess;
-        this.expireTimeRefresh = expireTimeRefresh;
-        this.issuedAt = issuedAt;
+        initialize(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
     }
     //</editor-fold>
 
@@ -64,6 +76,10 @@ public class EntityToken<ID> extends EntityBase<ID> {
     }
 
     public void setAccessToken(String accessToken) {
+        if(accessToken == null) {
+            throw new NullPointerException("accessToken is NULL");
+        }
+
         this.accessToken = accessToken;
     }
 
@@ -72,6 +88,10 @@ public class EntityToken<ID> extends EntityBase<ID> {
     }
 
     public void setRefreshToken(String refreshToken) {
+        if(refreshToken == null) {
+            throw new NullPointerException("refreshToken is NULL");
+        }
+
         this.refreshToken = refreshToken;
     }
 
@@ -80,6 +100,10 @@ public class EntityToken<ID> extends EntityBase<ID> {
     }
 
     public void setExpireTimeAccess(Date expireTimeAccess) {
+        if(expireTimeAccess == null) {
+            throw new NullPointerException("expireTimeAccess is NULL");
+        }
+
         this.expireTimeAccess = expireTimeAccess;
     }
 
@@ -88,6 +112,10 @@ public class EntityToken<ID> extends EntityBase<ID> {
     }
 
     public void setExpireTimeRefresh(Date expireTimeRefresh) {
+        if(expireTimeRefresh == null) {
+            throw new NullPointerException("expireTimeRefresh is NULL");
+        }
+
         this.expireTimeRefresh = expireTimeRefresh;
     }
 
@@ -96,6 +124,10 @@ public class EntityToken<ID> extends EntityBase<ID> {
     }
 
     public void setIssuedAt(Date issuedAt) {
+        if(issuedAt == null) {
+            throw new NullPointerException("issuedAt is NULL");
+        }
+
         this.issuedAt = issuedAt;
     }
     //</editor-fold>

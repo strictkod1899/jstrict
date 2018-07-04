@@ -37,6 +37,9 @@ public class MigrationDatabase
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public MigrationDatabase(SOURCE connectionSource) {
+        if(connectionSource == null){
+            throw new NullPointerException("connectionSource is NULL");
+        }
         this.connectionSource = connectionSource;
         tables = new LinkedList<>();
     }
@@ -68,7 +71,13 @@ public class MigrationDatabase
     }
 
     public void addTable(TABLE table){
-        tables.add(table);
+        if(table == null){
+            throw new NullPointerException("table is NULL");
+        }
+
+        if(tables != null) {
+            tables.add(table);
+        }
     }
     //</editor-fold>
 

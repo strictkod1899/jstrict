@@ -18,6 +18,12 @@ public class MigrationPrimaryKey implements MigrationComponent {
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public MigrationPrimaryKey(String name, String column) {
+        if(name == null){
+            throw new NullPointerException("name is NULL");
+        } else if(column == null){
+            throw new NullPointerException("column is NULL");
+        }
+
         this.name = name;
         this.column = column;
     }

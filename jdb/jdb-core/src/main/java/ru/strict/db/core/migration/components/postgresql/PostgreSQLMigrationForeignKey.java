@@ -18,6 +18,11 @@ public class PostgreSQLMigrationForeignKey extends MigrationForeignKey {
     public PostgreSQLMigrationForeignKey(String name, String column, String tableRef, String columnRef
             , MigrationForeignBehavior updateBehavior, MigrationForeignBehavior deleteBehavior, String schema) {
         super(name, column, tableRef, columnRef, updateBehavior, deleteBehavior);
+        
+        if(schema == null){
+            throw new NullPointerException("schema is NULL");
+        }
+
         this.schema = schema;
     }
     //</editor-fold>

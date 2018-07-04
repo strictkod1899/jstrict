@@ -18,6 +18,15 @@ public class DtoCity<ID> extends DtoNamed<ID> {
     private DtoCountry country;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
+    private void initialize(ID countryId){
+        if(countryId == null) {
+            throw new NullPointerException("countryId is NULL");
+        }
+
+        this.countryId = countryId;
+        country = null;
+    }
+
     public DtoCity() {
         super();
         countryId = null;
@@ -26,14 +35,12 @@ public class DtoCity<ID> extends DtoNamed<ID> {
 
     public DtoCity(String caption, ID countryId) {
         super(caption);
-        this.countryId = countryId;
-        country = null;
+        initialize(countryId);
     }
 
     public DtoCity(ID id, String caption, ID countryId) {
         super(id, caption);
-        this.countryId = countryId;
-        country = null;
+        initialize(countryId);
     }
     //</editor-fold>
 
@@ -43,6 +50,10 @@ public class DtoCity<ID> extends DtoNamed<ID> {
     }
 
     public void setCountryId(ID countryId) {
+        if(countryId == null) {
+            throw new NullPointerException("countryId is NULL");
+        }
+
         this.countryId = countryId;
     }
 

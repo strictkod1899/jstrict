@@ -33,6 +33,22 @@ public class DtoProfile<ID> extends DtoBase<ID> {
     private DtoUser user;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
+    private void initialize(String name, String surname, String middlename, ID userId){
+        if(name == null) {
+            throw new NullPointerException("name is NULL");
+        } else if(surname == null) {
+            throw new NullPointerException("surname is NULL");
+        } else if(userId == null) {
+            throw new NullPointerException("userId is NULL");
+        }
+
+        this.name = name;
+        this.surname = surname;
+        this.middlename = middlename;
+        this.userId = userId;
+        user = null;
+    }
+
     public DtoProfile() {
         super();
         name = null;
@@ -44,20 +60,12 @@ public class DtoProfile<ID> extends DtoBase<ID> {
 
     public DtoProfile(String name, String surname, String middlename, ID userId) {
         super();
-        this.name = name;
-        this.surname = surname;
-        this.middlename = middlename;
-        this.userId = userId;
-        user = null;
+        initialize(name, surname, middlename, userId);
     }
 
     public DtoProfile(ID id, String name, String surname, String middlename, ID userId) {
         super(id);
-        this.name = name;
-        this.surname = surname;
-        this.middlename = middlename;
-        this.userId = userId;
-        user = null;
+        initialize(name, surname, middlename, userId);
     }
     //</editor-fold>
 
@@ -67,6 +75,10 @@ public class DtoProfile<ID> extends DtoBase<ID> {
     }
 
     public void setName(String name) {
+        if(name == null) {
+            throw new NullPointerException();
+        }
+
         this.name = name;
     }
 
@@ -75,6 +87,10 @@ public class DtoProfile<ID> extends DtoBase<ID> {
     }
 
     public void setSurname(String surname) {
+        if(surname == null) {
+            throw new NullPointerException();
+        }
+
         this.surname = surname;
     }
 
@@ -91,6 +107,10 @@ public class DtoProfile<ID> extends DtoBase<ID> {
     }
 
     public void setUserId(ID userId) {
+        if(userId == null) {
+            throw new NullPointerException();
+        }
+
         this.userId = userId;
     }
 

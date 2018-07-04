@@ -15,9 +15,15 @@ public abstract class EntityBase<ID> implements MapTarget {
     private ID id;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public EntityBase() {}
+    public EntityBase() {
+        id = null;
+    }
 
     public EntityBase(ID id) {
+        if(id == null) {
+            throw new NullPointerException("id is NULL");
+        }
+
         this.id = id;
     }
     //</editor-fold>
@@ -28,6 +34,10 @@ public abstract class EntityBase<ID> implements MapTarget {
     }
 
     public void setId(ID id) {
+        if(id == null) {
+            throw new NullPointerException("id is NULL");
+        }
+
         this.id = id;
     }
     //</editor-fold>

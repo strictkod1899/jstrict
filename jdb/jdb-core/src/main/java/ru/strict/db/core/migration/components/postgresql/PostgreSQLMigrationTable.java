@@ -1,5 +1,6 @@
 package ru.strict.db.core.migration.components.postgresql;
 
+import ru.strict.db.core.migration.components.MigrationColumn;
 import ru.strict.db.core.migration.components.MigrationTable;
 import ru.strict.utils.UtilHashCode;
 
@@ -9,7 +10,7 @@ import java.util.stream.Collectors;
  * Таблица для миграции в базу данных PostgreSQL
  */
 public class PostgreSQLMigrationTable
-        <COLUMN extends PostgreSQLMigrationColumn, FK extends PostgreSQLMigrationForeignKey>
+        <COLUMN extends MigrationColumn, FK extends PostgreSQLMigrationForeignKey>
         extends MigrationTable<COLUMN, FK> {
 
     /**
@@ -22,17 +23,24 @@ public class PostgreSQLMigrationTable
      */
     private boolean isAutoincrement;
 
+    public void initialize(boolean isAutoincrement, String schema){
+        if(schema == null){
+            throw new NullPointerException("schema is NULL");
+        }
+
+        this.isAutoincrement = isAutoincrement;
+        this.schema = schema;
+    }
+
     //<editor-fold defaultState="collapsed" desc="constructors">
     public PostgreSQLMigrationTable(String name, String schema) {
         super(name);
-        isAutoincrement = false;
-        this.schema = schema;
+        initialize(false, schema);
     }
 
     public PostgreSQLMigrationTable(String name, boolean isAutoincrement, String schema) {
         super(name);
-        this.isAutoincrement = isAutoincrement;
-        this.schema = schema;
+        initialize(isAutoincrement, schema);
     }
     //</editor-fold>
 
@@ -42,7 +50,7 @@ public class PostgreSQLMigrationTable
         sql.append(String.format("CREATE TABLE %s.%s ( ", schema, getName()));
 
         // Добавление столбцов таблицы
-        for(PostgreSQLMigrationColumn column : getColumns()) {
+        for(MigrationColumn column : getColumns()) {
             sql.append(column.getSql());
             sql.append(", ");
         }

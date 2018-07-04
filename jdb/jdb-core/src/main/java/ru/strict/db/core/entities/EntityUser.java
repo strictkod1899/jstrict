@@ -31,6 +31,20 @@ public class EntityUser<ID> extends EntityBase<ID> {
     private Collection<EntityJWTToken> tokens;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
+    private void initialize(String username, String passwordEncode){
+        if(username == null) {
+            throw new NullPointerException("username is NULL");
+        } else if(passwordEncode == null) {
+            throw new NullPointerException("passwordEncode is NULL");
+        }
+
+        this.username = username;
+        this.passwordEncode = passwordEncode;
+        rolesuser = new LinkedList<>();
+        tokens = new LinkedList<>();
+        profile = null;
+    }
+
     public EntityUser() {
         super();
         username = null;
@@ -42,20 +56,12 @@ public class EntityUser<ID> extends EntityBase<ID> {
 
     public EntityUser(String username, String passwordEncode) {
         super();
-        this.username = username;
-        this.passwordEncode = passwordEncode;
-        rolesuser = new LinkedList<>();
-        tokens = new LinkedList<>();
-        profile = null;
+        initialize(username, passwordEncode);
     }
 
     public EntityUser(ID id, String username, String passwordEncode) {
         super(id);
-        this.username = username;
-        this.passwordEncode = passwordEncode;
-        rolesuser = new LinkedList<>();
-        tokens = new LinkedList<>();
-        profile = null;
+        initialize(username, passwordEncode);
     }
     //</editor-fold>
 
@@ -65,6 +71,10 @@ public class EntityUser<ID> extends EntityBase<ID> {
     }
 
     public void setUsername(String username) {
+        if(username == null) {
+            throw new NullPointerException("username is NULL");
+        }
+
         this.username = username;
     }
 
@@ -73,6 +83,10 @@ public class EntityUser<ID> extends EntityBase<ID> {
     }
 
     public void setPasswordEncode(String passwordEncode) {
+        if(passwordEncode == null) {
+            throw new NullPointerException("passwordEncode is NULL");
+        }
+
         this.passwordEncode = passwordEncode;
     }
 
@@ -81,6 +95,10 @@ public class EntityUser<ID> extends EntityBase<ID> {
     }
 
     public void setRolesuser(Collection<EntityRoleuser> rolesuser) {
+        if(rolesuser == null) {
+            throw new NullPointerException("rolesuser is NULL");
+        }
+
         this.rolesuser = rolesuser;
     }
 
@@ -89,6 +107,10 @@ public class EntityUser<ID> extends EntityBase<ID> {
      * @param roleuser
      */
     public void addRoleuser(EntityRoleuser roleuser){
+        if(roleuser == null) {
+            throw new NullPointerException("roleuser is NULL");
+        }
+
         if(rolesuser!=null) {
             rolesuser.add(roleuser);
         }
@@ -98,6 +120,10 @@ public class EntityUser<ID> extends EntityBase<ID> {
      * Добавить токен
      */
     public void addToken(EntityJWTToken token){
+        if(token == null) {
+            throw new NullPointerException("token is NULL");
+        }
+
         if(tokens!=null) {
             tokens.add(token);
         }
@@ -108,6 +134,10 @@ public class EntityUser<ID> extends EntityBase<ID> {
     }
 
     public void setTokens(Collection<EntityJWTToken> tokens) {
+        if(tokens == null) {
+            throw new NullPointerException("tokens is NULL");
+        }
+
         this.tokens = tokens;
     }
 

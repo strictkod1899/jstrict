@@ -38,6 +38,10 @@ public class MigrationTable
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public MigrationTable(String name) {
+        if(name == null){
+            throw new NullPointerException("name is NULL");
+        }
+
         this.name = name;
         columns = new LinkedList<>();
         primaryKey = null;
@@ -81,7 +85,13 @@ public class MigrationTable
     }
 
     public void addColumn(COLUMN column){
-        columns.add(column);
+        if(column == null){
+            throw new NullPointerException("column is NULL");
+        }
+
+        if(columns != null) {
+            columns.add(column);
+        }
     }
 
     public MigrationPrimaryKey getPrimaryKey() {
@@ -89,6 +99,10 @@ public class MigrationTable
     }
 
     public void setPrimaryKey(MigrationPrimaryKey primaryKey) {
+        if(primaryKey == null){
+            throw new NullPointerException("primaryKey is NULL");
+        }
+
         this.primaryKey = primaryKey;
     }
 
@@ -97,7 +111,13 @@ public class MigrationTable
     }
 
     public void addForeignKey(FK foreignKey){
-        foreignKeys.add(foreignKey);
+        if(foreignKey == null){
+            throw new NullPointerException("foreignKey is NULL");
+        }
+
+        if(foreignKeys != null) {
+            foreignKeys.add(foreignKey);
+        }
     }
     //</editor-fold>
 

@@ -16,6 +16,10 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
     private Collection<DtoJWTUserToken> tokens;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
+    private void initialize(){
+        tokens = new LinkedList<>();
+    }
+
     public DtoUserToken() {
         super();
         tokens = new LinkedList<>();
@@ -23,12 +27,12 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
 
     public DtoUserToken(String username, String passwordEncode) {
         super(username, passwordEncode);
-        tokens = new LinkedList<>();
+        initialize();
     }
 
     public DtoUserToken(ID id, String username, String passwordEncode) {
         super(id, username, passwordEncode);
-        tokens = new LinkedList<>();
+        initialize();
     }
     //</editor-fold>
 
@@ -37,6 +41,10 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
      * Добавить токен
      */
     public void addToken(DtoJWTUserToken token){
+        if(token == null) {
+            throw new NullPointerException("token is NULL");
+        }
+
         if(tokens!=null) {
             tokens.add(token);
         }
@@ -47,6 +55,10 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
     }
 
     public void setTokens(Collection<DtoJWTUserToken> tokens) {
+        if(tokens == null) {
+            throw new NullPointerException("tokens is NULL");
+        }
+
         this.tokens = tokens;
     }
 

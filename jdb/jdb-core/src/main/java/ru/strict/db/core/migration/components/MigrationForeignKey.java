@@ -35,6 +35,20 @@ public class MigrationForeignKey implements MigrationComponent {
     //<editor-fold defaultState="collapsed" desc="constructors">
     public MigrationForeignKey(String name, String column, String tableRef, String columnRef
             , MigrationForeignBehavior updateBehavior, MigrationForeignBehavior deleteBehavior) {
+        if(name == null){
+            throw new NullPointerException("name is NULL");
+        } else if(column == null){
+            throw new NullPointerException("column is NULL");
+        } else if(tableRef == null){
+            throw new NullPointerException("tableRef is NULL");
+        } else if(columnRef == null){
+            throw new NullPointerException("columnRef is NULL");
+        } else if(updateBehavior == null){
+            throw new NullPointerException("updateBehavior is NULL");
+        } else if(deleteBehavior == null){
+            throw new NullPointerException("deleteBehavior is NULL");
+        }
+
         this.name = name;
         this.column = column;
         this.tableRef = tableRef;

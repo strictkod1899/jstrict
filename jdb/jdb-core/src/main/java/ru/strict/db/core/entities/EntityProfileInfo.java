@@ -29,6 +29,12 @@ public class EntityProfileInfo<ID> extends EntityProfile<ID> {
     private EntityCity city;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
+    private void initialize(Date dateBirth, String phone, ID cityId){
+        this.dateBirth = dateBirth;
+        this.phone = phone;
+        this.cityId = cityId;
+        city = null;
+    }
     public EntityProfileInfo(){
         super();
         dateBirth = null;
@@ -40,21 +46,14 @@ public class EntityProfileInfo<ID> extends EntityProfile<ID> {
     public EntityProfileInfo(String name, String surname, String middlename, ID userId, Date dateBirth, String phone,
                              ID cityId) {
         super(name, surname, middlename, userId);
-        this.dateBirth = dateBirth;
-        this.phone = phone;
-        this.cityId = cityId;
-        city = null;
+        initialize(dateBirth, phone, cityId);
     }
 
     public EntityProfileInfo(ID id, String name, String surname, String middlename, ID userId, Date dateBirth, String phone,
                              ID cityId) {
         super(id, name, surname, middlename, userId);
-        this.dateBirth = dateBirth;
-        this.phone = phone;
-        this.cityId = cityId;
-        city = null;
+        initialize(dateBirth, phone, cityId);
     }
-
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">

@@ -25,6 +25,16 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
     private Collection<DtoUser> users;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
+    private void initialize(String code, String description){
+        if(code == null) {
+            throw new NullPointerException("code is NULL");
+        }
+
+        this.code = code;
+        this.description = description;
+        users = new LinkedList<>();
+    }
+
     public DtoRoleuser() {
         super();
         code = null;
@@ -34,16 +44,12 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
 
     public DtoRoleuser(String code, String description) {
         super();
-        this.code = code;
-        this.description = description;
-        users = new LinkedList<>();
+        initialize(code, description);
     }
 
     public DtoRoleuser(ID id, String code, String description) {
         super(id);
-        this.code = code;
-        this.description = description;
-        users = new LinkedList<>();
+        initialize(code, description);
     }
     //</editor-fold>
 
@@ -53,6 +59,10 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
     }
 
     public void setCode(String code) {
+        if(code == null) {
+            throw new NullPointerException("code is NULL");
+        }
+
         this.code = code;
     }
 
@@ -69,6 +79,10 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
     }
 
     public void setUsers(Collection<DtoUser> users) {
+        if(users == null) {
+            throw new NullPointerException("users is NULL");
+        }
+
         this.users = users;
     }
 
@@ -77,6 +91,10 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
      * @param user
      */
     public void addUser(DtoUser user) {
+        if(user == null) {
+            throw new NullPointerException("user is NULL");
+        }
+
         if(users!=null) {
             users.add(user);
         }
