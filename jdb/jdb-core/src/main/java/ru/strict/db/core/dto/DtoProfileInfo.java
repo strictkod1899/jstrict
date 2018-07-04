@@ -29,6 +29,12 @@ public class DtoProfileInfo<ID> extends DtoProfile<ID> {
     private DtoCity city;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
+    private void initialize(Date dateBirth, String phone, ID cityId){
+        this.dateBirth = dateBirth;
+        this.phone = phone;
+        this.cityId = cityId;
+        city = null;
+    }
     public DtoProfileInfo(){
         super();
         dateBirth = null;
@@ -38,23 +44,16 @@ public class DtoProfileInfo<ID> extends DtoProfile<ID> {
     }
 
     public DtoProfileInfo(String name, String surname, String middlename, ID userId, Date dateBirth, String phone,
-                          ID cityId) {
+                             ID cityId) {
         super(name, surname, middlename, userId);
-        this.dateBirth = dateBirth;
-        this.phone = phone;
-        this.cityId = cityId;
-        city = null;
+        initialize(dateBirth, phone, cityId);
     }
 
     public DtoProfileInfo(ID id, String name, String surname, String middlename, ID userId, Date dateBirth, String phone,
-                          ID cityId) {
+                             ID cityId) {
         super(id, name, surname, middlename, userId);
-        this.dateBirth = dateBirth;
-        this.phone = phone;
-        this.cityId = cityId;
-        city = null;
+        initialize(dateBirth, phone, cityId);
     }
-
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">

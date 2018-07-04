@@ -18,6 +18,15 @@ public class EntityCity<ID> extends EntityNamed<ID> {
     private EntityCountry country;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
+    private void initialize(ID countryId){
+        if(countryId == null) {
+            throw new NullPointerException("countryId is NULL");
+        }
+
+        this.countryId = countryId;
+        country = null;
+    }
+
     public EntityCity() {
         super();
         countryId = null;
@@ -26,14 +35,12 @@ public class EntityCity<ID> extends EntityNamed<ID> {
 
     public EntityCity(String caption, ID countryId) {
         super(caption);
-        this.countryId = countryId;
-        country = null;
+        initialize(countryId);
     }
 
     public EntityCity(ID id, String caption, ID countryId) {
         super(id, caption);
-        this.countryId = countryId;
-        country = null;
+        initialize(countryId);
     }
     //</editor-fold>
 
@@ -44,7 +51,7 @@ public class EntityCity<ID> extends EntityNamed<ID> {
 
     public void setCountryId(ID countryId) {
         if(countryId == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("countryId is NULL");
         }
 
         this.countryId = countryId;

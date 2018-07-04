@@ -13,6 +13,14 @@ public abstract class EntityNamed<ID> extends EntityBase<ID> {
     private String caption;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
+    private void initialize(String caption){
+        if(caption == null) {
+            throw new NullPointerException("caption is NULL");
+        }
+
+        this.caption = caption;
+    }
+
     public EntityNamed() {
         super();
         caption = null;
@@ -20,12 +28,12 @@ public abstract class EntityNamed<ID> extends EntityBase<ID> {
 
     public EntityNamed(String caption) {
         super();
-        this.caption = caption;
+        initialize(caption);
     }
 
     public EntityNamed(ID id, String caption) {
         super(id);
-        this.caption = caption;
+        initialize(caption);
     }
     //</editor-fold>
 
@@ -36,7 +44,7 @@ public abstract class EntityNamed<ID> extends EntityBase<ID> {
 
     public void setCaption(String caption) {
         if(caption == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("caption is NULL");
         }
 
         this.caption = caption;

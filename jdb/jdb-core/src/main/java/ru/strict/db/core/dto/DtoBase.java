@@ -20,6 +20,10 @@ public abstract class DtoBase<ID>  implements MapTarget {
     }
 
     public DtoBase(ID id) {
+        if(id == null) {
+            throw new NullPointerException("id is NULL");
+        }
+
         this.id = id;
     }
     //</editor-fold>
@@ -31,7 +35,7 @@ public abstract class DtoBase<ID>  implements MapTarget {
 
     public void setId(ID id) {
         if(id == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("id is NULL");
         }
 
         this.id = id;

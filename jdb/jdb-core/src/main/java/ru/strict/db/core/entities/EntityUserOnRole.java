@@ -25,6 +25,19 @@ public class EntityUserOnRole<ID> extends EntityBase<ID> {
     private EntityRoleuser role;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
+    private void initialize(ID userId, ID roleId){
+        if(userId == null) {
+            throw new NullPointerException("userId is NULL");
+        } else if(roleId == null) {
+            throw new NullPointerException("roleId is NULL");
+        }
+
+        this.userId = userId;
+        user = null;
+        this.roleId = roleId;
+        role = null;
+    }
+
     public EntityUserOnRole() {
         super();
         userId = null;
@@ -35,18 +48,12 @@ public class EntityUserOnRole<ID> extends EntityBase<ID> {
 
     public EntityUserOnRole(ID userId, ID roleId) {
         super();
-        this.userId = userId;
-        user = null;
-        this.roleId = roleId;
-        role = null;
+        initialize(userId, roleId);
     }
 
     public EntityUserOnRole(ID id, ID userId, ID roleId) {
         super(id);
-        this.userId = userId;
-        user = null;
-        this.roleId = roleId;
-        role = null;
+        initialize(userId, roleId);
     }
     //</editor-fold>
 
@@ -57,7 +64,7 @@ public class EntityUserOnRole<ID> extends EntityBase<ID> {
 
     public void setUserId(ID userId) {
         if(userId == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("userId is NULL");
         }
 
         this.userId = userId;
@@ -77,7 +84,7 @@ public class EntityUserOnRole<ID> extends EntityBase<ID> {
 
     public void setRoleId(ID roleId) {
         if(roleId == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("roleId is NULL");
         }
 
         this.roleId = roleId;

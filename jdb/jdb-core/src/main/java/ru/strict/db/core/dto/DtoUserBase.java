@@ -23,6 +23,16 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     private DtoProfile profile;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
+    private void initialize(String username){
+        if(username == null) {
+            throw new NullPointerException("username is NULL");
+        }
+
+        this.username = username;
+        rolesuser = new LinkedList<>();
+        profile = null;
+    }
+
     public DtoUserBase() {
         super();
         username = null;
@@ -32,16 +42,12 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
 
     public DtoUserBase(String username) {
         super();
-        this.username = username;
-        rolesuser = new LinkedList<>();
-        profile = null;
+        initialize(username);
     }
 
     public DtoUserBase(ID id, String username) {
         super(id);
-        this.username = username;
-        rolesuser = new LinkedList<>();
-        profile = null;
+        initialize(username);
     }
     //</editor-fold>
 
@@ -52,7 +58,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
 
     public void setUsername(String username) {
         if(username == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("username is NULL");
         }
 
         this.username = username;
@@ -68,7 +74,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
      */
     public void addRoleuser(DtoRoleuser roleuser){
         if(roleuser == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("roleuser is NULL");
         }
 
         if(rolesuser!=null) {
@@ -78,7 +84,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
 
     public void setRolesuser(Collection<DtoRoleuser> rolesuser) {
         if(rolesuser == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("rolesuser is NULL");
         }
 
         this.rolesuser = rolesuser;

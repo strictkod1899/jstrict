@@ -25,6 +25,16 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
     private Collection<EntityUser> users;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
+    private void initialize(String code, String description){
+        if(code == null) {
+            throw new NullPointerException("code is NULL");
+        }
+
+        this.code = code;
+        this.description = description;
+        users = new LinkedList<>();
+    }
+
 	public EntityRoleuser() {
         super();
         code = null;
@@ -34,16 +44,12 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
 
     public EntityRoleuser(String code, String description) {
     	super();
-        this.code = code;
-        this.description = description;
-        users = new LinkedList<>();
+        initialize(code, description);
     }
 
     public EntityRoleuser(ID id, String code, String description) {
         super(id);
-        this.code = code;
-        this.description = description;
-        users = new LinkedList<>();
+        initialize(code, description);
     }
     //</editor-fold>
 
@@ -54,7 +60,7 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
 
     public void setCode(String code) {
         if(code == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("code is NULL");
         }
 
         this.code = code;
@@ -74,7 +80,7 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
      */
     public void addUser(EntityUser user) {
         if(user == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("user is NULL");
         }
 
         if(users!=null) {
@@ -88,7 +94,7 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
 
     public void setUsers(Collection<EntityUser> users) {
         if(users == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("users is NULL");
         }
 
         this.users = users;

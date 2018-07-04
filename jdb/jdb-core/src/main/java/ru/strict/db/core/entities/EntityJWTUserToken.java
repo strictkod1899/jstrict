@@ -27,6 +27,19 @@ public class EntityJWTUserToken<ID> extends EntityJWTToken<ID> {
     private EntityRoleuser roleUser;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
+    private void initialize(ID userId, ID roleUserId){
+        if(userId == null){
+            throw new NullPointerException("userId is NULL");
+        } else if(roleUserId == null){
+            throw new NullPointerException("roleUserId is NULL");
+        }
+
+        this.userId = userId;
+        this.roleUserId = roleUserId;
+        user = null;
+        roleUser = null;
+    }
+
     public EntityJWTUserToken() {
         super();
         userId = null;
@@ -37,18 +50,12 @@ public class EntityJWTUserToken<ID> extends EntityJWTToken<ID> {
 
     public EntityJWTUserToken(String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt, ID userId, ID roleUserId) {
         super(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
-        this.userId = userId;
-        this.roleUserId = roleUserId;
-        user = null;
-        roleUser = null;
+        initialize(userId, roleUserId);
     }
 
     public EntityJWTUserToken(ID id, String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt, ID userId, ID roleUserId) {
         super(id, accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
-        this.userId = userId;
-        this.roleUserId = roleUserId;
-        user = null;
-        roleUser = null;
+        initialize(userId, roleUserId);
     }
     //</editor-fold>
 
@@ -59,7 +66,7 @@ public class EntityJWTUserToken<ID> extends EntityJWTToken<ID> {
 
     public void setUserId(ID userId) {
         if(userId == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("userId is NULL");
         }
 
         this.userId = userId;
@@ -79,7 +86,7 @@ public class EntityJWTUserToken<ID> extends EntityJWTToken<ID> {
 
     public void setRoleUserId(ID roleUserId) {
         if(roleUserId == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("roleUserId is NULL");
         }
 
         this.roleUserId = roleUserId;
