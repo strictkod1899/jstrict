@@ -34,6 +34,10 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
     public void addCity(EntityCity city){
+        if(city == null) {
+            throw new NullPointerException();
+        }
+
         if(cities != null){
             cities.add(city);
         }
@@ -44,6 +48,10 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
     }
 
     public void setCities(Collection<EntityCity> cities) {
+        if(cities == null) {
+            throw new NullPointerException();
+        }
+
         this.cities = cities;
     }
     //</editor-fold>

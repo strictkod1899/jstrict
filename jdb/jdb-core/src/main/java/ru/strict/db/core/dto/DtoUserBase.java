@@ -51,6 +51,10 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     }
 
     public void setUsername(String username) {
+        if(username == null) {
+            throw new NullPointerException();
+        }
+
         this.username = username;
     }
 
@@ -63,12 +67,20 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
      * @param roleuser
      */
     public void addRoleuser(DtoRoleuser roleuser){
+        if(roleuser == null) {
+            throw new NullPointerException();
+        }
+
         if(rolesuser!=null) {
             rolesuser.add(roleuser);
         }
     }
 
     public void setRolesuser(Collection<DtoRoleuser> rolesuser) {
+        if(rolesuser == null) {
+            throw new NullPointerException();
+        }
+
         this.rolesuser = rolesuser;
     }
 

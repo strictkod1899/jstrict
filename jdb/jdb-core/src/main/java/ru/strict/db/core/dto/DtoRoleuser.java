@@ -53,6 +53,10 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
     }
 
     public void setCode(String code) {
+        if(code == null) {
+            throw new NullPointerException();
+        }
+
         this.code = code;
     }
 
@@ -69,6 +73,10 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
     }
 
     public void setUsers(Collection<DtoUser> users) {
+        if(users == null) {
+            throw new NullPointerException();
+        }
+
         this.users = users;
     }
 
@@ -77,6 +85,10 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
      * @param user
      */
     public void addUser(DtoUser user) {
+        if(user == null) {
+            throw new NullPointerException();
+        }
+
         if(users!=null) {
             users.add(user);
         }

@@ -56,6 +56,10 @@ public class DtoUserOnRole<ID> extends DtoBase<ID> {
     }
 
     public void setUserId(ID userId) {
+        if(userId == null) {
+            throw new NullPointerException();
+        }
+
         this.userId = userId;
     }
 
@@ -72,6 +76,10 @@ public class DtoUserOnRole<ID> extends DtoBase<ID> {
     }
 
     public void setRoleId(ID roleId) {
+        if(roleId == null) {
+            throw new NullPointerException();
+        }
+
         this.roleId = roleId;
     }
 

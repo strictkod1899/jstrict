@@ -35,6 +35,10 @@ public class DtoUser<ID> extends DtoUserBase<ID> {
     }
 
     public void setPasswordEncode(String passwordEncode) {
+        if(passwordEncode == null) {
+            throw new NullPointerException();
+        }
+
         this.passwordEncode = passwordEncode;
     }
     //</editor-fold>

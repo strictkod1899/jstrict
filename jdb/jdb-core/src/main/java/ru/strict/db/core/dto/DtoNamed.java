@@ -35,6 +35,10 @@ public abstract class DtoNamed<ID> extends DtoBase<ID> {
     }
     
     public void setCaption(String caption) {
+        if(caption == null) {
+            throw new NullPointerException();
+        }
+
         this.caption = caption;
     }
     //</editor-fold>

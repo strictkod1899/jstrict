@@ -53,6 +53,10 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
     }
 
     public void setCode(String code) {
+        if(code == null) {
+            throw new NullPointerException();
+        }
+
         this.code = code;
     }
 
@@ -69,6 +73,10 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
      * @param user
      */
     public void addUser(EntityUser user) {
+        if(user == null) {
+            throw new NullPointerException();
+        }
+
         if(users!=null) {
             users.add(user);
         }
@@ -79,6 +87,10 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
     }
 
     public void setUsers(Collection<EntityUser> users) {
+        if(users == null) {
+            throw new NullPointerException();
+        }
+
         this.users = users;
     }
     //</editor-fold>

@@ -43,6 +43,10 @@ public class DtoCity<ID> extends DtoNamed<ID> {
     }
 
     public void setCountryId(ID countryId) {
+        if(countryId == null) {
+            throw new NullPointerException();
+        }
+
         this.countryId = countryId;
     }
 

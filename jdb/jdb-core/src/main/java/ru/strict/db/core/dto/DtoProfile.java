@@ -67,6 +67,10 @@ public class DtoProfile<ID> extends DtoBase<ID> {
     }
 
     public void setName(String name) {
+        if(name == null) {
+            throw new NullPointerException();
+        }
+
         this.name = name;
     }
 
@@ -75,6 +79,10 @@ public class DtoProfile<ID> extends DtoBase<ID> {
     }
 
     public void setSurname(String surname) {
+        if(surname == null) {
+            throw new NullPointerException();
+        }
+
         this.surname = surname;
     }
 
@@ -91,6 +99,10 @@ public class DtoProfile<ID> extends DtoBase<ID> {
     }
 
     public void setUserId(ID userId) {
+        if(userId == null) {
+            throw new NullPointerException();
+        }
+
         this.userId = userId;
     }
 

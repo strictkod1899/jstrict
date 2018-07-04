@@ -58,6 +58,10 @@ public class DtoJWTUserToken<ID> extends DtoJWTToken<ID> {
     }
 
     public void setUserId(ID userId) {
+        if(userId == null) {
+            throw new NullPointerException();
+        }
+
         this.userId = userId;
     }
 
@@ -74,6 +78,10 @@ public class DtoJWTUserToken<ID> extends DtoJWTToken<ID> {
     }
 
     public void setRoleUserId(ID roleUserId) {
+        if(roleUserId == null) {
+            throw new NullPointerException();
+        }
+
         this.roleUserId = roleUserId;
     }
 

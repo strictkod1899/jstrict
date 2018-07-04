@@ -64,6 +64,10 @@ public class EntityToken<ID> extends EntityBase<ID> {
     }
 
     public void setAccessToken(String accessToken) {
+        if(accessToken == null) {
+            throw new NullPointerException();
+        }
+
         this.accessToken = accessToken;
     }
 
@@ -72,6 +76,10 @@ public class EntityToken<ID> extends EntityBase<ID> {
     }
 
     public void setRefreshToken(String refreshToken) {
+        if(refreshToken == null) {
+            throw new NullPointerException();
+        }
+
         this.refreshToken = refreshToken;
     }
 
@@ -80,6 +88,10 @@ public class EntityToken<ID> extends EntityBase<ID> {
     }
 
     public void setExpireTimeAccess(Date expireTimeAccess) {
+        if(expireTimeAccess == null) {
+            throw new NullPointerException();
+        }
+
         this.expireTimeAccess = expireTimeAccess;
     }
 
@@ -88,6 +100,10 @@ public class EntityToken<ID> extends EntityBase<ID> {
     }
 
     public void setExpireTimeRefresh(Date expireTimeRefresh) {
+        if(expireTimeRefresh == null) {
+            throw new NullPointerException();
+        }
+
         this.expireTimeRefresh = expireTimeRefresh;
     }
 
@@ -96,6 +112,10 @@ public class EntityToken<ID> extends EntityBase<ID> {
     }
 
     public void setIssuedAt(Date issuedAt) {
+        if(issuedAt == null) {
+            throw new NullPointerException();
+        }
+
         this.issuedAt = issuedAt;
     }
     //</editor-fold>

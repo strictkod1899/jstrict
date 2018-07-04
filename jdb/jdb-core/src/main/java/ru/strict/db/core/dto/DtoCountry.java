@@ -38,11 +38,19 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
     }
 
     public void setCities(Collection<DtoCity> cities) {
+        if(cities == null) {
+            throw new NullPointerException();
+        }
+
         this.cities = cities;
     }
 
     public void addCity(DtoCity city){
-        if(cities!=null) {
+        if(city == null) {
+            throw new NullPointerException();
+        }
+
+        if(cities != null){
             cities.add(city);
         }
     }

@@ -37,6 +37,10 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
      * Добавить токен
      */
     public void addToken(DtoJWTUserToken token){
+        if(token == null) {
+            throw new NullPointerException();
+        }
+
         if(tokens!=null) {
             tokens.add(token);
         }
@@ -47,6 +51,10 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
     }
 
     public void setTokens(Collection<DtoJWTUserToken> tokens) {
+        if(tokens == null) {
+            throw new NullPointerException();
+        }
+
         this.tokens = tokens;
     }
 

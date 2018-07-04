@@ -35,6 +35,10 @@ public abstract class EntityNamed<ID> extends EntityBase<ID> {
     }
 
     public void setCaption(String caption) {
+        if(caption == null) {
+            throw new NullPointerException();
+        }
+
         this.caption = caption;
     }
     //</editor-fold>
