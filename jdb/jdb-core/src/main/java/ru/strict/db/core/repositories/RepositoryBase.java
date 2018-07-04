@@ -67,8 +67,20 @@ public abstract class RepositoryBase
     private GenerateIdType generateIdType;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public RepositoryBase(String tableName, String[] columnsName, SOURCE connectionSource
-            , MapperDtoBase<E, DTO> dtoMapper, GenerateIdType generateIdType) {
+    public RepositoryBase(String tableName, String[] columnsName, SOURCE connectionSource,
+                          MapperDtoBase<E, DTO> dtoMapper, GenerateIdType generateIdType) {
+        if(tableName == null){
+            throw new NullPointerException("tableName is NULL");
+        } else if(columnsName == null){
+            throw new NullPointerException("columnsName is NULL");
+        } else if(connectionSource == null){
+            throw new NullPointerException("connectionSource is NULL");
+        } else if(dtoMapper == null){
+            throw new NullPointerException("dtoMapper is NULL");
+        } else if(generateIdType == null){
+            throw new NullPointerException("generateIdType is NULL");
+        }
+
         this.connectionSource = connectionSource;
         this.dtoMapper = dtoMapper;
         objects = new LinkedList<>();
@@ -90,6 +102,9 @@ public abstract class RepositoryBase
     @Override
     public DTO createOrUpdate(DTO dto) {
         LOGGER.info("Trying a db entity create or update");
+        if(dto == null){
+            throw new NullPointerException("dto is NULL");
+        }
         if(IsRowExists((ID)dto.getId()))
             return update(dto);
         else
@@ -99,6 +114,9 @@ public abstract class RepositoryBase
     @Override
     public DTO createOrRead(DTO dto) {
         LOGGER.info("Trying a db entity create or read");
+        if(dto == null){
+            throw new NullPointerException("dto is NULL");
+        }
         if(IsRowExists((ID)dto.getId()))
             return read((ID)dto.getId());
         else
@@ -177,6 +195,9 @@ public abstract class RepositoryBase
     @Override
     public DTO createOrReadFill(DTO dto) {
         LOGGER.info("Trying a db entity create or read");
+        if(dto == null){
+            throw new NullPointerException("dto is NULL");
+        }
         if(IsRowExists((ID)dto.getId()))
             return readFill((ID)dto.getId());
         else
@@ -214,10 +235,18 @@ public abstract class RepositoryBase
     }
 
     protected void setObjects(List<DTO> objects) {
+        if(objects == null){
+            throw new NullPointerException();
+        }
+
         this.objects = objects;
     }
 
     protected void setState(RepositoryDataState state) {
+        if(state == null){
+            throw new NullPointerException();
+        }
+
         this.state = state;
     }
 
