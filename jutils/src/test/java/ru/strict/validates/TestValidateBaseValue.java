@@ -15,15 +15,22 @@ public class TestValidateBaseValue {
     private String trueText;
     private String trueNumberInt;
     private String trueNumberDouble;
+    private String trueDateYear;
+    private String trueDateDay;
+    private char splitDateSymbol;
     private String falseText;
     private String falseNumberInt;
     private String falseNumberDouble;
 
     public TestValidateBaseValue(String trueText, String trueNumberInt, String trueNumberDouble,
+                                 String trueDateYear, String trueDateDay, char splitDateSymbol,
                                  String falseText, String falseNumberInt, String falseNumberDouble) {
         this.trueText = trueText;
         this.trueNumberInt = trueNumberInt;
         this.trueNumberDouble = trueNumberDouble;
+        this.trueDateYear = trueDateYear;
+        this.trueDateDay = trueDateDay;
+        this.splitDateSymbol = splitDateSymbol;
         this.falseText = falseText;
         this.falseNumberInt = falseNumberInt;
         this.falseNumberDouble = falseNumberDouble;
@@ -32,9 +39,9 @@ public class TestValidateBaseValue {
     @Parameters
     public static Collection setUp(){
         return Arrays.asList(new Object[][]{
-                {"Hello World", "22", "22.8", "   ", "2,2", "22,8"},
-                {",", "-22", "+22.8", "", "+2.2", "+22,8"},
-                {" A", "+22", "-22.8", null, "-2.2", "-22,8"},
+                {"Hello World", "22", "22.8", "1994/06/18", "06/08/1994", '/', "   ", "2,2", "22,8"},
+                {",", "-22", "+22.8", "1994-06-18", "06-08-1994", '-', "", "+2.2", "+22,8"},
+                {" A", "+22", "-22.8", "1994 06 18", "06 08 1994", ' ' , null, "-2.2", "-22,8"},
         });
     }
 
@@ -51,6 +58,16 @@ public class TestValidateBaseValue {
     @Test
     public void testTrueIsValidateDouble(){
         Assert.assertTrue(ValidateBaseValue.isValidateDouble(trueNumberDouble));
+    }
+
+    @Test
+    public void testTrueIsValidateDateYear(){
+        Assert.assertTrue(ValidateBaseValue.isValidateDateYear(trueDateYear, splitDateSymbol));
+    }
+
+    @Test
+    public void testTrueIsValidateDateDay(){
+        Assert.assertTrue(ValidateBaseValue.isValidateDateDay(trueDateDay, splitDateSymbol));
     }
 
     @Test

@@ -7,9 +7,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Класс описывает методы, для проверки валидности значений стандартных типов
+ * Проверка валидности значений стандартных типов (строка, целые числа, дробные числа и т.д.)
  */
-//TODO: перевести валидацию на регулярные выражения Pattern
 public class ValidateBaseValue {
 
     /**
@@ -61,6 +60,62 @@ public class ValidateBaseValue {
 
         if (str != null) {
             Pattern pattern = Pattern.compile("([+-]?\\d+\\.?\\d*)");
+            Matcher match = pattern.matcher(str);
+            result = match.matches();
+        }
+
+        return result;
+    }
+
+    /**
+     * Проверка даты в формате YYYY-MM-DD
+     *
+     * @param str Проверяемая строка
+     * @param splitSymbol Разделяемый символ (например YYYY-MM-DD, YYYY/MM/DD)
+     * @return
+     */
+    public static boolean isValidateDateYear(String str, char splitSymbol) {
+        boolean result = false;
+
+        if (str != null) {
+            Pattern pattern = Pattern.compile("(19|20)\\d\\d[" + splitSymbol + " /.](0[1-9]|1[012])[" + splitSymbol + " /.](0[1-9]|[12][0-9]|3[01])");
+            Matcher match = pattern.matcher(str);
+            result = match.matches();
+        }
+
+        return result;
+    }
+
+    /**
+     * Проверка даты в формате DD/MM/YYYY
+     *
+     * @param str Проверяемая строка
+     * @param splitSymbol Разделяемый символ (например DD/MM/YYYY, DD-MM-YYYY)
+     * @return
+     */
+    public static boolean isValidateDateDay(String str, char splitSymbol) {
+        boolean result = false;
+
+        if (str != null) {
+            Pattern pattern = Pattern.compile("(0[1-9]|[12][0-9]|3[01])[" + splitSymbol + " /.](0[1-9]|1[012])[" + splitSymbol + " /.](19|20)\\d\\d");
+            Matcher match = pattern.matcher(str);
+            result = match.matches();
+        }
+
+        return result;
+    }
+
+    /**
+     * Проверка времени в формате HH:MM:SS
+     *
+     * @param str Проверяемая строка
+     * @return
+     */
+    public static boolean isValidateTime(String str) {
+        boolean result = false;
+
+        if (str != null) {
+            Pattern pattern = Pattern.compile("^([0-1]\\d|2[0-3])(:[0-5]\\d){2}$");
             Matcher match = pattern.matcher(str);
             result = match.matches();
         }
