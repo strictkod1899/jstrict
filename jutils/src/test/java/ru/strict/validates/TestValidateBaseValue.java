@@ -32,9 +32,9 @@ public class TestValidateBaseValue {
     @Parameters
     public static Collection setUp(){
         return Arrays.asList(new Object[][]{
-                {"Hello World", "22", "22.8", "   ", "2s2", "22,8"},
-                {",", "22", " 22.8 ", null, " 22 ", "22.5.8"},
-                {" A", "22", " 22.8 ", "", " 2.2 ", "22,5"},
+                {"Hello World", "22", "22.8", "   ", "2,2", "22,8"},
+                {",", "-22", "+22.8", "", "+2.2", "+22,8"},
+                {" A", "+22", "-22.8", null, "-2.2", "-22,8"},
         });
     }
 
