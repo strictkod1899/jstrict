@@ -3,33 +3,32 @@ package ru.strict.validates;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
- * Класс описывает методы, для проверки валидности значений стандартных типов
+ * Проверка валидности значений стандартных типов (строка, целые числа, дробные числа и т.д.)
  */
-//TODO: перевести валидацию на регулярные выражения Pattern
 public class ValidateBaseValue {
 
     /**
-     * Проверка корректности заполнения текстового поля
+     * Проверка строки, чтобы она была не пустой и не равно нулю
      *
      * @param str Проверяемая строка
      * @return Если строка не содержит пустых символов и является корректной, то возвращается true, иначе false
      */
-    public static boolean isValidateString(String str) {
+    public static boolean isNotEmptyOrNull(String str) {
+        boolean result = false;
 
         if (str != null) {
-            String[] masScanNameUser;
-            String[] masScanNameUser2;
-            masScanNameUser = str.split(" ");      // Разбиваем текст чтобы исключить ситуацию с содержанием одних пробелов
-            masScanNameUser2 = str.split("", 2);   // Разбиваем текст чтобы проверить имя на наличие пробелов вначале строки
+            Pattern pattern = Pattern.compile("\\S");
+            Matcher match = pattern.matcher(str);
+            if(match.find()){
+                result = true;
+            }
+        }
 
-            if (str.equals("") || masScanNameUser.length == 0 || masScanNameUser2[0].equals(" "))
-                return false;
-            else
-                return true;
-        } else
-            return false;
+        return result;
     }
 
     /**
@@ -39,12 +38,15 @@ public class ValidateBaseValue {
      * @return Если текстовое поле содержит корректные данные, то возвращается true, иначе false
      */
     public static boolean isValidateInteger(String str) {
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException ex) {
-            return false;
+        boolean result = false;
+
+        if (str != null) {
+            Pattern pattern = Pattern.compile("[+-]?\\d+");
+            Matcher match = pattern.matcher(str);
+            result = match.matches();
         }
+
+        return result;
     }
 
     /**
@@ -54,41 +56,70 @@ public class ValidateBaseValue {
      * @return Если текстовое поле содержит корректные данные, то возвращается true, иначе false
      */
     public static boolean isValidateDouble(String str) {
-        try {
-            Double.parseDouble(str);
-            return true;
-        } catch (NumberFormatException ex) {
-            return false;
+        boolean result = false;
+
+        if (str != null) {
+            Pattern pattern = Pattern.compile("([+-]?\\d+\\.?\\d*)");
+            Matcher match = pattern.matcher(str);
+            result = match.matches();
         }
+
+        return result;
     }
 
     /**
-     * Проверка корректности приведения строки к дате
+     * Проверка даты в формате YYYY-MM-DD
      *
      * @param str Проверяемая строка
-     * @return Если текстовое поле содержит корректные данные, то возвращается true, иначе false
+     * @param splitSymbol Разделяемый символ (например YYYY-MM-DD, YYYY/MM/DD)
+     * @return
      */
-    public static boolean isValidateDate(String str) {
-        //TODO: Надо доработать, а то это фигня какая то
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        try {
-            sdf.format(sdf.parse(str));
-            return true;
-        } catch (ParseException e) {
-            return false;
+    public static boolean isValidateDateYear(String str, char splitSymbol) {
+        boolean result = false;
+
+        if (str != null) {
+            Pattern pattern = Pattern.compile("(19|20)\\d\\d[" + splitSymbol + " /.](0[1-9]|1[012])[" + splitSymbol + " /.](0[1-9]|[12][0-9]|3[01])");
+            Matcher match = pattern.matcher(str);
+            result = match.matches();
         }
+
+        return result;
     }
 
     /**
-     * Получить корректную дату из переданной строки, при условии, что приведения тепов возможно.
+     * Проверка даты в формате DD/MM/YYYY
      *
-     * @param str Строка, которую необходимо преобразовать
-     * @return Корректная дата в формате dd-MM-yyyy
+     * @param str Проверяемая строка
+     * @param splitSymbol Разделяемый символ (например DD/MM/YYYY, DD-MM-YYYY)
+     * @return
      */
-    public static Date getValidateDate(String str) {
-        return null;
-        //TODO: Доработать!
-            //sdf.format(sdf.parse(str.trim().replace(".", "-")));
+    public static boolean isValidateDateDay(String str, char splitSymbol) {
+        boolean result = false;
+
+        if (str != null) {
+            Pattern pattern = Pattern.compile("(0[1-9]|[12][0-9]|3[01])[" + splitSymbol + " /.](0[1-9]|1[012])[" + splitSymbol + " /.](19|20)\\d\\d");
+            Matcher match = pattern.matcher(str);
+            result = match.matches();
+        }
+
+        return result;
     }
 
+    /**
+     * Проверка времени в формате HH:MM:SS
+     *
+     * @param str Проверяемая строка
+     * @return
+     */
+    public static boolean isValidateTime(String str) {
+        boolean result = false;
+
+        if (str != null) {
+            Pattern pattern = Pattern.compile("^([0-1]\\d|2[0-3])(:[0-5]\\d){2}$");
+            Matcher match = pattern.matcher(str);
+            result = match.matches();
+        }
+
+        return result;
+    }
 }
