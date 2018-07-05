@@ -231,7 +231,7 @@ public class TableModel extends AbstractTableModel {
             Iterator iterRow = getListContentTable().get(0).iterator();
             boolean bool = false;
             while(iterRow.hasNext()){
-                if(ValidateBaseValue.isValidateString(String.valueOf(iterRow.next()))) {
+                if(ValidateBaseValue.isNotEmptyOrNull(String.valueOf(iterRow.next()))) {
                     bool = true;
                     break;
                 }

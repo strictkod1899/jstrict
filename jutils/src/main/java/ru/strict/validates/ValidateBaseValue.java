@@ -3,6 +3,8 @@ package ru.strict.validates;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Класс описывает методы, для проверки валидности значений стандартных типов
@@ -11,25 +13,23 @@ import java.util.Date;
 public class ValidateBaseValue {
 
     /**
-     * Проверка корректности заполнения текстового поля
+     * Проверка строки, чтобы она была не пустой и не равно нулю
      *
      * @param str Проверяемая строка
      * @return Если строка не содержит пустых символов и является корректной, то возвращается true, иначе false
      */
-    public static boolean isValidateString(String str) {
+    public static boolean isNotEmptyOrNull(String str) {
+        boolean result = false;
 
         if (str != null) {
-            String[] masScanNameUser;
-            String[] masScanNameUser2;
-            masScanNameUser = str.split(" ");      // Разбиваем текст чтобы исключить ситуацию с содержанием одних пробелов
-            masScanNameUser2 = str.split("", 2);   // Разбиваем текст чтобы проверить имя на наличие пробелов вначале строки
+            Pattern pattern = Pattern.compile("\\S");
+            Matcher match = pattern.matcher(str);
+            if(match.find()){
+                result = true;
+            }
+        }
 
-            if (str.equals("") || masScanNameUser.length == 0 || masScanNameUser2[0].equals(" "))
-                return false;
-            else
-                return true;
-        } else
-            return false;
+        return result;
     }
 
     /**

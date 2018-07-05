@@ -57,7 +57,7 @@ public class ControllerPanelState<O extends PanelState, M extends ModelPanelStat
                         , sizeButton, sizeButton));
 
         Icon icon = null;
-        if(getModel().getPathIcon()!=null && ValidateBaseValue.isValidateString(getModel().getPathIcon()))
+        if(getModel().getPathIcon()!=null && ValidateBaseValue.isNotEmptyOrNull(getModel().getPathIcon()))
             icon = UtilImage.resizeImage(getModel().getPathIcon(), sizeIcon, sizeIcon);
 
         // Кнопка "Свернуть окно"
