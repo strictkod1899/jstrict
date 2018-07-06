@@ -45,7 +45,7 @@
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jpatterns</artifactId>
-                <version>0.1.0</version>
+                <version>0.1.1</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
