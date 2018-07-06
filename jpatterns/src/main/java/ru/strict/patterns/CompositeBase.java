@@ -34,6 +34,11 @@ public abstract class CompositeBase<SOURCE> implements ICompositeExtension<SOURC
 	}
 
 	@Override
+	public void setParent(IComposite parent){
+		this.parent = parent;
+	}
+
+	@Override
 	public SOURCE getChilds(){
 		throw new UnsupportedOperationException();
 	}

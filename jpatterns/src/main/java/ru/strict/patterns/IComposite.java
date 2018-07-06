@@ -24,4 +24,9 @@ public interface IComposite {
 	* Получить родительский элемент
 	*/
 	IComposite getParent();
+
+	/**
+	* Установить родительский элемент
+	*/
+	void setParent(IComposite parent);
 }
