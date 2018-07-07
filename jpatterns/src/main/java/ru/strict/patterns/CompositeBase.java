@@ -1,40 +1,41 @@
 package ru.strict.patterns;
 
-public abstract class CompositeBase<SOURCE> implements ICompositeExtension<SOURCE> {
+public abstract class CompositeBase<SOURCE, COMPOSIT extends IComposite>
+		implements ICompositeExtension<SOURCE, COMPOSIT> {
 
-	private IComposite parent;
+	private COMPOSIT parent;
 
 	public CompositeBase(){
 		parent = null;
 	}
 
 	@Override
-	public void add(IComposite component){
+	public void add(COMPOSIT component){
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void remove(IComposite component){
+	public void remove(COMPOSIT component){
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void set(int i, IComposite component){
+	public void set(int i, COMPOSIT component){
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public IComposite getChild(int i){
+	public COMPOSIT getChild(int i){
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public IComposite getParent(){
+	public COMPOSIT getParent(){
 		return parent;
 	}
 
 	@Override
-	public void setParent(IComposite parent){
+	public void setParent(COMPOSIT parent){
 		this.parent = parent;
 	}
 
@@ -54,7 +55,7 @@ public abstract class CompositeBase<SOURCE> implements ICompositeExtension<SOURC
 	}
 
 	@Override
-	public boolean contains(IComposite component) {
+	public boolean contains(COMPOSIT component) {
 		throw new UnsupportedOperationException();
 	}
 

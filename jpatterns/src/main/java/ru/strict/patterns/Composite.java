@@ -6,9 +6,9 @@ import java.util.List;
 /**
 * Композитный элемент, который может хранить другие элементы
 */
-public abstract class Composite extends CompositeBase<List> {
+public abstract class Composite<COMPOSIT extends IComposite> extends CompositeBase<List, COMPOSIT> {
 
-	private List<IComposite> childs;
+	private List<COMPOSIT> childs;
 
 	public Composite(){
 		super();
@@ -16,27 +16,27 @@ public abstract class Composite extends CompositeBase<List> {
 	}
 
 	@Override
-	public void add(IComposite component){
+	public void add(COMPOSIT component){
 		childs.add(component);
 	}
 
 	@Override
-	public void remove(IComposite component){
+	public void remove(COMPOSIT component){
 		childs.remove(component);
 	}
 
 	@Override
-	public void set(int i, IComposite component){
+	public void set(int i, COMPOSIT component){
 		childs.set(i, component);
 	}
 
 	@Override
-	public IComposite getChild(int i){
+	public COMPOSIT getChild(int i){
 		return childs.get(i);
 	}
 
 	@Override
-	public List<IComposite> getChilds(){
+	public List<COMPOSIT> getChilds(){
 		return childs;
 	}
 
@@ -51,7 +51,7 @@ public abstract class Composite extends CompositeBase<List> {
 	}
 
 	@Override
-	public boolean contains(IComposite component) {
+	public boolean contains(COMPOSIT component) {
 		return childs.contains(component);
 	}
 

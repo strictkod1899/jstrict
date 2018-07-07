@@ -1,32 +1,33 @@
 package ru.strict.patterns;
 
 /**
-* Интерфейс реализации паттерна "Компоновщик"
+ * Интерфейс реализации паттерна "Компоновщик"*
+ * @param <COMPOSIT> Элемент композиции. Используется для указания родительского класса композии
 */
-public interface IComposite {
+public interface IComposite<COMPOSIT extends IComposite> {
 
 	/**
 	* Добавить элемент в структуру
 	*/
-	void add(IComposite component);
+	void add(COMPOSIT component);
 
 	/**
 	* Удалить элемент из структуры
 	*/
-	void remove(IComposite component);
+	void remove(COMPOSIT component);
 
 	/**
 	* Получить дочерний элемент по определенной позиции
 	*/
-	IComposite getChild(int i);
+	COMPOSIT getChild(int i);
 
 	/**
 	* Получить родительский элемент
 	*/
-	IComposite getParent();
+	COMPOSIT getParent();
 
 	/**
 	* Установить родительский элемент
 	*/
-	void setParent(IComposite parent);
+	void setParent(COMPOSIT parent);
 }
