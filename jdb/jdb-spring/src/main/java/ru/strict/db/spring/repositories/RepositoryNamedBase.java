@@ -6,6 +6,7 @@ import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.DtoBase;
 import ru.strict.db.core.entities.EntityBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
+import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
 
@@ -17,17 +18,14 @@ import ru.strict.db.core.requests.DbWhere;
  */
 public abstract class RepositoryNamedBase
         <ID, E extends EntityBase, DTO extends DtoBase>
-        extends RepositorySpringBase<ID, E, DTO> {
+        extends RepositorySpringBase<ID, E, DTO>
+        implements IRepositoryNamed<ID, DTO> {
 
     public RepositoryNamedBase(String tableName, String[] columnsName, CreateConnectionByDataSource connectionSource, MapperDtoBase<E, DTO> dtoMapper, RowMapper<E> springMapper, GenerateIdType generateIdType) {
         super(tableName, columnsName, connectionSource, dtoMapper, springMapper, generateIdType);
     }
 
-    /**
-     * Чтение записи из базы данных по наименованию
-     * @param caption Значение столбца наименования
-     * @return
-     */
+    @Override
     public DTO readByName(String caption){
         DbRequests requests = new DbRequests(getTableName(), true);
         requests.add(new DbWhere(getTableName(), getColumnWithName(), caption, "="));
