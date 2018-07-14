@@ -10,6 +10,8 @@ import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
 
+import java.util.List;
+
 /**
  * Базовый класс репозитория с использованием Jdbc для таблиц со столбцом наименования (caption)
  * @param <ID> Тип идентификатора
@@ -32,6 +34,15 @@ public abstract class RepositoryNamedBase
         requests.add(new DbWhere(getTableName(), getColumnWithName(), caption, "="));
 
         DTO result = readAll(requests).stream().findFirst().orElse(null);
+        return result;
+    }
+
+    @Override
+    public List<DTO> readAllByName(String caption){
+        DbRequests requests = new DbRequests(getTableName(), true);
+        requests.add(new DbWhere(getTableName(), getColumnWithName(), caption, "="));
+
+        List<DTO> result = readAll(requests);
         return result;
     }
 
