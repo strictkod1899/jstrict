@@ -37,7 +37,7 @@ public class ValidateBaseValue {
      * @param str Проверяемая строка
      * @return Если текстовое поле содержит корректные данные, то возвращается true, иначе false
      */
-    public static boolean isValidateInteger(String str) {
+    public static boolean isInteger(String str) {
         boolean result = false;
 
         if (str != null) {
@@ -55,7 +55,7 @@ public class ValidateBaseValue {
      * @param str Проверяемая строка
      * @return Если текстовое поле содержит корректные данные, то возвращается true, иначе false
      */
-    public static boolean isValidateDouble(String str) {
+    public static boolean isDouble(String str) {
         boolean result = false;
 
         if (str != null) {
@@ -74,7 +74,7 @@ public class ValidateBaseValue {
      * @param splitSymbol Разделяемый символ (например YYYY-MM-DD, YYYY/MM/DD)
      * @return
      */
-    public static boolean isValidateDateYear(String str, char splitSymbol) {
+    public static boolean isDateYear(String str, char splitSymbol) {
         boolean result = false;
 
         if (str != null) {
@@ -93,7 +93,7 @@ public class ValidateBaseValue {
      * @param splitSymbol Разделяемый символ (например DD/MM/YYYY, DD-MM-YYYY)
      * @return
      */
-    public static boolean isValidateDateDay(String str, char splitSymbol) {
+    public static boolean isDateDay(String str, char splitSymbol) {
         boolean result = false;
 
         if (str != null) {
@@ -111,7 +111,7 @@ public class ValidateBaseValue {
      * @param str Проверяемая строка
      * @return
      */
-    public static boolean isValidateTime(String str) {
+    public static boolean isTime(String str) {
         boolean result = false;
 
         if (str != null) {
