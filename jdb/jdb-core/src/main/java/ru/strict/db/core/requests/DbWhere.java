@@ -79,13 +79,13 @@ public class DbWhere extends DbRequestBase {
         if(columnValue instanceof String)
             result = getTableName() + "." + columnName + " "
                     + operator + " " + "'"
-                    + (templateSymbol.getPointTemplateSymbol()== PointTemplateSymbol.BEGIN
+                    + (templateSymbol != null ? (templateSymbol.getPointTemplateSymbol()== PointTemplateSymbol.BEGIN
                     || templateSymbol.getPointTemplateSymbol()== PointTemplateSymbol.BOTH
-                    ?templateSymbol.getTemplateSymbol():"")
+                    ?templateSymbol.getTemplateSymbol():"") : "")
                     + columnValue
-                    + (templateSymbol.getPointTemplateSymbol()== PointTemplateSymbol.END
+                    + (templateSymbol != null ? (templateSymbol.getPointTemplateSymbol()== PointTemplateSymbol.END
                     || templateSymbol.getPointTemplateSymbol()== PointTemplateSymbol.BOTH
-                    ?templateSymbol.getTemplateSymbol():"") + "'";
+                    ?templateSymbol.getTemplateSymbol():"") : "") + "'";
         else
             result = getTableName() + "." + columnName + " " + operator + " " + columnValue;
         return result;
