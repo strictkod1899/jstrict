@@ -17,7 +17,7 @@ import ru.strict.db.spring.mappers.sql.MapperSqlRoleuser;
 import java.util.*;
 
 public class RepositoryRoleuser<ID>
-        extends RepositorySpringBase<ID, EntityRoleuser, DtoRoleuser> {
+        extends RepositoryNamedBase<ID, EntityRoleuser, DtoRoleuser> {
 
     private static final String[] COLUMNS_NAME = new String[] {"code", "description"};
 
@@ -54,5 +54,10 @@ public class RepositoryRoleuser<ID>
         }
         dto.setUsers(users);
         return dto;
+    }
+
+    @Override
+    protected String getColumnWithName() {
+        return COLUMNS_NAME[0];
     }
 }

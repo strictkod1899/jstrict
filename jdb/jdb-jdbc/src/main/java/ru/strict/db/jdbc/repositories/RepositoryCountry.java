@@ -51,4 +51,9 @@ public class RepositoryCountry<ID, SOURCE extends ICreateConnection>
 
         return dto;
     }
+
+    @Override
+    protected String getColumnWithName() {
+        return COLUMNS_NAME[0];
+    }
 }

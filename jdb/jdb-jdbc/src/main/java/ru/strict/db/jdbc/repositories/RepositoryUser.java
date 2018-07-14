@@ -20,7 +20,7 @@ import ru.strict.utils.UtilLogger;
 import java.util.*;
 
 public class RepositoryUser<ID, SOURCE extends ICreateConnection, DTO extends DtoUserBase>
-        extends RepositoryJdbcBase<ID, SOURCE, EntityUser, DTO> {
+        extends RepositoryNamedBase<ID, SOURCE, EntityUser, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode"};
 
@@ -78,5 +78,10 @@ public class RepositoryUser<ID, SOURCE extends ICreateConnection, DTO extends Dt
             ((DtoUserToken)dto).setTokens(tokens);
         }
         return dto;
+    }
+
+    @Override
+    protected String getColumnWithName() {
+        return COLUMNS_NAME[0];
     }
 }

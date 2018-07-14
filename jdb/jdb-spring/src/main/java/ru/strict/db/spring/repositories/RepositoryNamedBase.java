@@ -1,27 +1,26 @@
-package ru.strict.db.jdbc.repositories;
+package ru.strict.db.spring.repositories;
 
+import org.springframework.jdbc.core.RowMapper;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.connections.ICreateConnection;
+import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.DtoBase;
 import ru.strict.db.core.entities.EntityBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
-import ru.strict.db.core.mappers.sql.MapperSqlBase;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
 
 /**
- * Базовый класс репозитория с использованием Jdbc для таблиц со столбцом наименования (caption)
+ * Базовый класс репозитория с использованием Spring для таблиц со столбцом наименования (caption)
  * @param <ID> Тип идентификатора
- * @param <SOURCE> Источник для получения соединения с базой данных (CreateConnectionByDataSource, CreateConnectionByConnectionInfo)
  * @param <E> Тип сущности базы данных (entity)
  * @param <DTO> Тип Dto-сущности базы данных
  */
 public abstract class RepositoryNamedBase
-        <ID, SOURCE extends ICreateConnection, E extends EntityBase, DTO extends DtoBase>
-        extends RepositoryJdbcBase<ID, SOURCE, E, DTO>{
+        <ID, E extends EntityBase, DTO extends DtoBase>
+        extends RepositorySpringBase<ID, E, DTO> {
 
-    public RepositoryNamedBase(String tableName, String[] columnsName, SOURCE connectionSource, MapperDtoBase<E, DTO> dtoMapper, MapperSqlBase<E> sqlMapper, GenerateIdType isGenerateId) {
-        super(tableName, columnsName, connectionSource, dtoMapper, sqlMapper, isGenerateId);
+    public RepositoryNamedBase(String tableName, String[] columnsName, CreateConnectionByDataSource connectionSource, MapperDtoBase<E, DTO> dtoMapper, RowMapper<E> springMapper, GenerateIdType generateIdType) {
+        super(tableName, columnsName, connectionSource, dtoMapper, springMapper, generateIdType);
     }
 
     /**

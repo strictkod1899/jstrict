@@ -42,4 +42,9 @@ public class RepositoryCity<ID, SOURCE extends ICreateConnection>
         dto.setCountry(repositoryCountry.read((ID) dto.getCountryId()));
         return dto;
     }
+
+    @Override
+    protected String getColumnWithName() {
+        return COLUMNS_NAME[0];
+    }
 }

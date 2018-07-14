@@ -14,7 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class RepositoryCity<ID>
-        extends RepositorySpringBase<ID, EntityCity, DtoCity> {
+        extends RepositoryNamedBase<ID, EntityCity, DtoCity> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption", "country_id"};
 
@@ -39,5 +39,10 @@ public class RepositoryCity<ID>
                 new RepositoryCountry(getConnectionSource(), GenerateIdType.NONE);
         dto.setCountry(repositoryCountry.read((ID) dto.getCountryId()));
         return dto;
+    }
+
+    @Override
+    protected String getColumnWithName() {
+        return COLUMNS_NAME[0];
     }
 }
