@@ -27,7 +27,9 @@ public class CreateConnectionByConnectionInfo extends CreateConnectionBase<Conne
 
     @Override
     public Connection createConnection() {
-        LOGGER.info("Trying a connection create");
+        LOGGER.info("Trying a connection create to database by url: '%s' and user: '%s'",
+                getConnectionSource().getUrl(),
+                getConnectionSource().getUsername());
         try {
             // Путь к базе данных
             String connectUrl = getConnectionSource().getUrl();

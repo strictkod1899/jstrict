@@ -26,7 +26,8 @@ public class CreateConnectionByDataSource extends CreateConnectionBase<DataSourc
 
     @Override
     public Connection createConnection() {
-        LOGGER.info("Trying a connection create");
+        LOGGER.info("Trying a connection create to database using DataSource: '%s'",
+                getConnectionSource().toString());
         try {
             Connection connection = getConnectionSource().getConnection();
             LOGGER.info("Connection is created");
