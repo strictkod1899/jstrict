@@ -20,6 +20,10 @@ import java.util.Date;
 
 /**
  * Базовый класс репозитория с использованием Jdbc
+ * @param <ID> Тип идентификатора
+ * @param <SOURCE> Источник для получения соединения с базой данных (CreateConnectionByDataSource, CreateConnectionByConnectionInfo)
+ * @param <E> Тип сущности базы данных (entity)
+ * @param <DTO> Тип Dto-сущности базы данных
  */
 public abstract class RepositoryJdbcBase
         <ID, SOURCE extends ICreateConnection, E extends EntityBase, DTO extends DtoBase>

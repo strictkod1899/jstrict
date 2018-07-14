@@ -19,7 +19,7 @@ import ru.strict.utils.UtilLogger;
 import java.util.*;
 
 public class RepositoryUser<ID, DTO extends DtoUserBase>
-        extends RepositorySpringBase<ID, EntityUser, DTO> {
+        extends RepositoryNamedBase<ID, EntityUser, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode"};
 
@@ -66,5 +66,10 @@ public class RepositoryUser<ID, DTO extends DtoUserBase>
         requests.add(new DbWhere(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
         dto.setProfile(repositoryProfile.readAll(requests).stream().findFirst().orElse(null));
         return dto;
+    }
+
+    @Override
+    protected String getColumnWithName() {
+        return COLUMNS_NAME[0];
     }
 }

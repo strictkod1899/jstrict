@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RepositoryCountry<ID>
-        extends RepositorySpringBase<ID, EntityCountry, DtoCountry> {
+        extends RepositoryNamedBase<ID, EntityCountry, DtoCountry> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption"};
 
@@ -47,5 +47,10 @@ public class RepositoryCountry<ID>
         dto.setCities(cities);
 
         return dto;
+    }
+
+    @Override
+    protected String getColumnWithName() {
+        return COLUMNS_NAME[0];
     }
 }

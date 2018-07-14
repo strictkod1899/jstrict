@@ -14,7 +14,7 @@ public class ValidateBaseRegex {
      * @param str Проверяемая строка
      * @return
      */
-    public static boolean isValidateEmail(String str) {
+    public static boolean isEmail(String str) {
         boolean result = false;
 
         if (str != null) {
@@ -32,7 +32,7 @@ public class ValidateBaseRegex {
      * @param str Проверяемая строка
      * @return
      */
-    public static boolean isValidateUUID(String str) {
+    public static boolean isUUID(String str) {
         boolean result = false;
 
         if (str != null) {
@@ -50,7 +50,7 @@ public class ValidateBaseRegex {
      * @param str Проверяемая строка
      * @return
      */
-    public static boolean isValidateMAC(String str) {
+    public static boolean isMACAddress(String str) {
         boolean result = false;
 
         if (str != null) {
@@ -68,7 +68,7 @@ public class ValidateBaseRegex {
      * @param str Проверяемая строка
      * @return
      */
-    public static boolean isValidatePassword(String str) {
+    public static boolean isPassword(String str) {
         boolean result = false;
 
         if (str != null) {
@@ -86,7 +86,7 @@ public class ValidateBaseRegex {
      * @param str Проверяемая строка
      * @return
      */
-    public static boolean isValidateUsername(String str) {
+    public static boolean isUsername(String str) {
         boolean result = false;
 
         if (str != null) {
@@ -104,7 +104,7 @@ public class ValidateBaseRegex {
      * @param str Проверяемая строка
      * @return
      */
-    public static boolean isValidateIPv4(String str) {
+    public static boolean isIPv4(String str) {
         boolean result = false;
 
         if (str != null) {
@@ -122,7 +122,7 @@ public class ValidateBaseRegex {
      * @param str Проверяемая строка
      * @return
      */
-    public static boolean isValidateIPv6(String str) {
+    public static boolean isIPv6(String str) {
         boolean result = false;
 
         if (str != null) {
@@ -140,7 +140,7 @@ public class ValidateBaseRegex {
      * @param str Проверяемая строка
      * @return
      */
-    public static boolean isValidateDomain(String str) {
+    public static boolean isDomain(String str) {
         boolean result = false;
 
         if (str != null) {
@@ -158,7 +158,7 @@ public class ValidateBaseRegex {
      * @param str Проверяемая строка
      * @return
      */
-    public static boolean isValidateStringNumberEngRus(String str) {
+    public static boolean isStringNumberEngRus(String str) {
         boolean result = false;
 
         if (str != null) {
@@ -176,7 +176,7 @@ public class ValidateBaseRegex {
      * @param str Проверяемая строка
      * @return
      */
-    public static boolean isValidateStringNumberEng(String str) {
+    public static boolean isStringNumberEng(String str) {
         boolean result = false;
 
         if (str != null) {
@@ -194,7 +194,7 @@ public class ValidateBaseRegex {
      * @param str Проверяемая строка
      * @return
      */
-    public static boolean isValidateCreditCardNumber(String str) {
+    public static boolean isCreditCardNumber(String str) {
         boolean result = false;
 
         if (str != null) {

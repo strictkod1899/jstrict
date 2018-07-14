@@ -66,27 +66,27 @@ public class TestValidateBaseValue {
 
     @Test
     public void testTrueIsValidateInteger(){
-        Assert.assertTrue(ValidateBaseValue.isValidateInteger(trueNumberInt));
+        Assert.assertTrue(ValidateBaseValue.isInteger(trueNumberInt));
     }
 
     @Test
     public void testTrueIsValidateDouble(){
-        Assert.assertTrue(ValidateBaseValue.isValidateDouble(trueNumberDouble));
+        Assert.assertTrue(ValidateBaseValue.isDouble(trueNumberDouble));
     }
 
     @Test
     public void testTrueIsValidateDateYear(){
-        Assert.assertTrue(ValidateBaseValue.isValidateDateYear(trueDateYear, splitDateSymbol));
+        Assert.assertTrue(ValidateBaseValue.isDateYear(trueDateYear, splitDateSymbol));
     }
 
     @Test
     public void testTrueIsValidateDateDay(){
-        Assert.assertTrue(ValidateBaseValue.isValidateDateDay(trueDateDay, splitDateSymbol));
+        Assert.assertTrue(ValidateBaseValue.isDateDay(trueDateDay, splitDateSymbol));
     }
 
     @Test
     public void testTrueIsValidateTime(){
-        Assert.assertTrue(ValidateBaseValue.isValidateTime(trueTime));
+        Assert.assertTrue(ValidateBaseValue.isTime(trueTime));
     }
 
     @Test
@@ -96,26 +96,26 @@ public class TestValidateBaseValue {
 
     @Test
     public void testFalseIsValidateInteger(){
-        Assert.assertFalse(ValidateBaseValue.isValidateInteger(falseNumberInt));
+        Assert.assertFalse(ValidateBaseValue.isInteger(falseNumberInt));
     }
 
     @Test()
     public void testFalseIsValidateDouble(){
-        Assert.assertFalse(ValidateBaseValue.isValidateDouble(falseNumberDouble));
+        Assert.assertFalse(ValidateBaseValue.isDouble(falseNumberDouble));
     }
 
     @Test
     public void testFalseIsValidateDateYear(){
-        Assert.assertFalse(ValidateBaseValue.isValidateDateYear(falseDateYear, splitDateSymbol));
+        Assert.assertFalse(ValidateBaseValue.isDateYear(falseDateYear, splitDateSymbol));
     }
 
     @Test
     public void testFalseIsValidateDateDay(){
-        Assert.assertFalse(ValidateBaseValue.isValidateDateDay(falseDateDay, splitDateSymbol));
+        Assert.assertFalse(ValidateBaseValue.isDateDay(falseDateDay, splitDateSymbol));
     }
 
     @Test
     public void testFalseIsValidateTime(){
-        Assert.assertFalse(ValidateBaseValue.isValidateTime(falseTime));
+        Assert.assertFalse(ValidateBaseValue.isTime(falseTime));
     }
 }
