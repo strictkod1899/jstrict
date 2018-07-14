@@ -2,11 +2,49 @@ package ru.strict.utils;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Управление датами
  */
 public class UtilDate {
+
+    /**
+     * Получить текущее число месяца
+     * @return
+     */
+    public static int getCurrentDay(){
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault(),
+                Locale.getDefault());
+        calendar.setTime(new Date());
+        int result = calendar.get(Calendar.DAY_OF_MONTH);
+        return result;
+    }
+
+    /**
+     * Получить текущий месяц
+     * @return
+     */
+    public static int getCurrentMonth(){
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault(),
+                Locale.getDefault());
+        calendar.setTime(new Date());
+        int result = calendar.get(Calendar.MONTH);
+        return result;
+    }
+
+    /**
+     * Получить текущеий год
+     * @return
+     */
+    public static int getCurrentYear(){
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault(),
+                Locale.getDefault());
+        calendar.setTime(new Date());
+        int result = calendar.get(Calendar.YEAR);
+        return result;
+    }
 
     /**
      * Метод возвращает разницу в годах между двумя датами

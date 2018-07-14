@@ -6,8 +6,11 @@ import ru.strict.db.core.dto.DtoBase;
 import ru.strict.db.core.entities.EntityBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.mappers.sql.MapperSqlBase;
+import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
+
+import java.util.List;
 
 /**
  * Базовый класс репозитория с использованием Jdbc для таблиц со столбцом наименования (caption)
@@ -18,22 +21,28 @@ import ru.strict.db.core.requests.DbWhere;
  */
 public abstract class RepositoryNamedBase
         <ID, SOURCE extends ICreateConnection, E extends EntityBase, DTO extends DtoBase>
-        extends RepositoryJdbcBase<ID, SOURCE, E, DTO>{
+        extends RepositoryJdbcBase<ID, SOURCE, E, DTO>
+        implements IRepositoryNamed<ID, DTO> {
 
     public RepositoryNamedBase(String tableName, String[] columnsName, SOURCE connectionSource, MapperDtoBase<E, DTO> dtoMapper, MapperSqlBase<E> sqlMapper, GenerateIdType isGenerateId) {
         super(tableName, columnsName, connectionSource, dtoMapper, sqlMapper, isGenerateId);
     }
 
-    /**
-     * Чтение записи из базы данных по наименованию
-     * @param caption Значение столбца наименования
-     * @return
-     */
+    @Override
     public DTO readByName(String caption){
         DbRequests requests = new DbRequests(getTableName(), true);
         requests.add(new DbWhere(getTableName(), getColumnWithName(), caption, "="));
 
         DTO result = readAll(requests).stream().findFirst().orElse(null);
+        return result;
+    }
+
+    @Override
+    public List<DTO> readAllByName(String caption){
+        DbRequests requests = new DbRequests(getTableName(), true);
+        requests.add(new DbWhere(getTableName(), getColumnWithName(), caption, "="));
+
+        List<DTO> result = readAll(requests);
         return result;
     }
 
