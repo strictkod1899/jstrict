@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RepositoryCountry<ID, SOURCE extends ICreateConnection>
-        extends RepositoryJdbcBase<ID, SOURCE, EntityCountry, DtoCountry> {
+        extends RepositoryNamedBase<ID, SOURCE, EntityCountry, DtoCountry> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption"};
 

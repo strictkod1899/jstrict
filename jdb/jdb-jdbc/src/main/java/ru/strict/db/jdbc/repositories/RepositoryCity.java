@@ -16,7 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class RepositoryCity<ID, SOURCE extends ICreateConnection>
-        extends RepositoryJdbcBase<ID, SOURCE, EntityCity, DtoCity> {
+        extends RepositoryNamedBase<ID, SOURCE, EntityCity, DtoCity> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption", "country_id"};
 
