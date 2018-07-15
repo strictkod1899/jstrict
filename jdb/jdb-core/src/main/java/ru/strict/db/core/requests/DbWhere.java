@@ -76,7 +76,7 @@ public class DbWhere extends DbRequestBase {
     public String getSql(){
         String result;
 
-        if(columnValue instanceof String)
+        if(columnValue instanceof String || columnValue instanceof UUID)
             result = getTableName() + "." + columnName + " "
                     + operator + " " + "'"
                     + (templateSymbol != null ? (templateSymbol.getPointTemplateSymbol()== PointTemplateSymbol.BEGIN
