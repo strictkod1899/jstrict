@@ -81,7 +81,7 @@ public class UtilReflection {
                 }
             }
         }else {
-            result = false;
+            result = isInterface(checkClass, startClass);
         }
 
         return result;
