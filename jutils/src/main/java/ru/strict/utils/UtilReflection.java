@@ -16,7 +16,7 @@ public class UtilReflection {
         Constructor constructor = null;
         Constructor[] arrConstructors = clazzInstance.getConstructors();
         // Если были переданы параметры конструктора
-        if (userParameters != null) {
+        if (userParameters != null && userParameters.length != 0) {
             for (Constructor cons : arrConstructors) {
                 int consParametersCount = cons.getParameterCount();
 

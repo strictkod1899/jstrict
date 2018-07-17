@@ -27,6 +27,7 @@
         <module>jfile</module>
         <module>jpatterns</module>
         <module>jneuralnetwork</module>
+        <module>ioc</module>
     </modules>
 
     <!-- Перенести блок dependencyManagement в корневой модуль проекта-->
@@ -35,7 +36,7 @@
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jutils</artifactId>
-                <version>0.1.5</version>
+                <version>0.1.6</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
@@ -60,7 +61,7 @@
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jdb-core</artifactId>
-                <version>0.1.6</version>
+                <version>0.1.7</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
@@ -75,6 +76,11 @@
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jdb-hibernate</artifactId>
+                <version>0.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>ioc</artifactId>
                 <version>0.1.0</version>
             </dependency>
         </dependencies>
