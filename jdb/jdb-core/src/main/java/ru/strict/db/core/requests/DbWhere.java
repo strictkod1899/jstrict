@@ -2,6 +2,8 @@ package ru.strict.db.core.requests;
 
 import ru.strict.utils.UtilHashCode;
 
+import java.util.UUID;
+
 /**
  * Условие Where sql-запроса
  * <p><b>Пример использования:</b></p>
