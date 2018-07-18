@@ -14,7 +14,7 @@ import java.util.List;
  *      NeuralNetworkHiddenStructure structure = new NeuralNetworkHiddenStructure(3, 1, true);
  *      structure.addLayoutHidden(2);
  *      NeuralNetworkHidden network = new Perceptron(data, structure);
- *      network.generateSynapses();
+ *      network.learn(3000, 0.2f, 0.3f);
  *      ...
  * </pre></code>
  * Если планируется использовать нейронную сеть с одним скрытым слоем, тогда возможно использовать конструктор с четырями параметрами,
@@ -23,7 +23,7 @@ import java.util.List;
  * <code><pre style="background-color: white; font-family: consolas">
  *       NeuralNetworkHiddenStructure structure = new NeuralNetworkHiddenStructure(3, 2, 1, false);
  *       NeuralNetworkHidden network = new Perceptron(data, structure);
- *       network.generateSynapses();
+ *       network.learn(3000, 0.2f, 0.3f);
  *       ...
  *  </pre></code>
  */

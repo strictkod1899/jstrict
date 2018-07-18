@@ -53,6 +53,10 @@ public abstract class NeuralNetwork<DATA extends NeuralNetworkData, STRUCT exten
 
     @Override
     public void learn(int epochs, float learnRate, float moment) {
+        if(!structure.isSynapsesExists()){
+            generateSynapses();
+        }
+
         if(epochs<=0)
             throw new IllegalArgumentException("Learning exception: epoch count should not be is negative. [Epochs <= 0]");
 

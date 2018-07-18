@@ -8,8 +8,8 @@ import ru.strict.neuralnetwork.structures.NeuralNetworkHiddenStructure;
  * Базовый класс фабрики нейронной сети со скрытыми слоями
  */
 public abstract class NeuralNetworkHiddenFactory
-        <STRUCT extends NeuralNetworkHiddenStructure, NNETWORK extends NeuralNetworkHidden>
-        extends NeuralNetworkFactory<STRUCT, NNETWORK> {
+        <STRUCT extends NeuralNetworkHiddenStructure, NETWORK extends NeuralNetworkHidden>
+        extends NeuralNetworkFactory<STRUCT, NETWORK> {
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
     public NeuralNetworkHiddenFactory(int countInputs, int countOutputs, ActivateFunction activateFunction) {

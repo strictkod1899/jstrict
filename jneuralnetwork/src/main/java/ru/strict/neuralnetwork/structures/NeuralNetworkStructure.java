@@ -65,6 +65,9 @@ public abstract class NeuralNetworkStructure implements Cloneable{
     }
 
     //<editor-fold defaultstate="collapsed" desc="Get/Set">
+    public boolean isSynapsesExists(){
+        return synapses != null && synapses.size() > 0;
+    }
     /**
      * Добавить синапс - связь между двумя нейронами
      * @param synapse Скрытый слой
