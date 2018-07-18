@@ -25,7 +25,6 @@ import ru.strict.neuralnetwork.structures.NeuralNetworkHiddenStructure;
  *     ...
  *
  *     NeuralNetworkHidden network = factory.createNeuralNetwork();
- *     network.generateSynapses();
  *     network.learn(5000, 0.2f, 0f);
  *     ResponseTestNeuron[] responses = network.test();
  *
@@ -40,8 +39,8 @@ import ru.strict.neuralnetwork.structures.NeuralNetworkHiddenStructure;
  *     }
  * </pre></code>
  */
-public class PerceptronFactory<STRUCT extends NeuralNetworkHiddenStructure, NNETWORK extends Perceptron>
-        extends NeuralNetworkHiddenFactory<STRUCT, NNETWORK> {
+public class PerceptronFactory<STRUCT extends NeuralNetworkHiddenStructure, NETWORK extends Perceptron>
+        extends NeuralNetworkHiddenFactory<STRUCT, NETWORK> {
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
     public PerceptronFactory(int countInputs, int countOutputs, ActivateFunction activateFunction) {
@@ -55,7 +54,7 @@ public class PerceptronFactory<STRUCT extends NeuralNetworkHiddenStructure, NNET
     //</editor-fold>
 
     @Override
-    public NNETWORK createNeuralNetwork() {
-        return (NNETWORK) new Perceptron(getData(), getStructure(), getActivateFunction());
+    public NETWORK createNeuralNetwork() {
+        return (NETWORK) new Perceptron(getData(), getStructure(), getActivateFunction());
     }
 }

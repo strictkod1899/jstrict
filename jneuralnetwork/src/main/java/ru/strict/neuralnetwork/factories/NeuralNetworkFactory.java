@@ -10,9 +10,9 @@ import ru.strict.neuralnetwork.structures.NeuralNetworkStructure;
 /**
  * Базовый класс фабрики нейронной сети
  * @param <STRUCT> Структура нейронной сети
- * @param <NNETWORK> Нейронная сеть
+ * @param <NETWORK> Нейронная сеть
  */
-public abstract class NeuralNetworkFactory<STRUCT extends NeuralNetworkStructure, NNETWORK extends NeuralNetwork> {
+public abstract class NeuralNetworkFactory<STRUCT extends NeuralNetworkStructure, NETWORK extends NeuralNetwork> {
 
     /**
      * Количесво входных нейронов
@@ -48,7 +48,7 @@ public abstract class NeuralNetworkFactory<STRUCT extends NeuralNetworkStructure
      * Создать нейронную сеть
      * @return
      */
-    public abstract NNETWORK createNeuralNetwork();
+    public abstract NETWORK createNeuralNetwork();
 
     //<editor-fold defaultstate="collapsed" desc="Get/set">
     public void addTrainingSet(NeuralNetworkDataSet set){
