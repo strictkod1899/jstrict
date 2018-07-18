@@ -24,7 +24,7 @@ public class UtilReflection {
                     Class[] consParameters = cons.getParameterTypes();
                     for (int i = 0; i < consParametersCount; i++) {
                         Class consParameter = consParameters[i];
-                        if (consParameter != userParameters[i].getClass()) {
+                        if (consParameter != userParameters[i].getClass() && !isPrimitive(userParameters[i].getClass(), consParameter)) {
                             boolean checkBySuperClass = isSuperClass(consParameter, userParameters[i].getClass());
                             if(!checkBySuperClass) {
                                 break;
@@ -101,6 +101,28 @@ public class UtilReflection {
             }else {
                 result = false;
             }
+        }
+        return result;
+    }
+
+    public static boolean isPrimitive(Class checkClass, Class startClass){
+        boolean result = false;
+        if(checkClass.getName().equals("java.lang.Byte") && startClass.getName().equals("byte")){
+            result = true;
+        } else if(checkClass.getName().equals("java.lang.Short") && startClass.getName().equals("short")){
+            result = true;
+        } else if(checkClass.getName().equals("java.lang.Integer") && startClass.getName().equals("int")){
+            result = true;
+        } else if(checkClass.getName().equals("java.lang.Long") && startClass.getName().equals("long")){
+            result = true;
+        } else if(checkClass.getName().equals("java.lang.Float") && startClass.getName().equals("float")){
+            result = true;
+        } else if(checkClass.getName().equals("java.lang.Double") && startClass.getName().equals("double")){
+            result = true;
+        } else if(checkClass.getName().equals("java.lang.Character") && startClass.getName().equals("char")){
+            result = true;
+        } else if(checkClass.getName().equals("java.lang.Boolean") && startClass.getName().equals("boolean")){
+            result = true;
         }
         return result;
     }

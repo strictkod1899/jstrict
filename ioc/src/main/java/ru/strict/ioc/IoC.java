@@ -5,6 +5,10 @@ import ru.strict.utils.UtilReflection;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Чтобы при использовании метода addComponent передать String-переменную как значение параметра конструктору,
+ * надо использовтаь в начале строки символ @
+ */
 public class IoC implements IIoC {
 
     private Map<IoCKeys, IoCData> components;
@@ -32,7 +36,7 @@ public class IoC implements IIoC {
     }
 
     @Override
-    public <RESULT> void addComponent(String caption, Class<RESULT> clazz, Class component, Object...constructorArguments) {
+    public <RESULT> void addComponent(Class<RESULT> clazz, String caption, Class component, Object...constructorArguments) {
         if(caption == null || clazz == null || component ==null){
             return;
         }
@@ -82,10 +86,16 @@ public class IoC implements IIoC {
         for(int i = 0; i < countArguments; i++){
             Object instanceArgument = null;
             Object createArgument = createArguments[i];
-            if(createArgument instanceof String){
+            if(createArgument instanceof String && !((String)createArgument).startsWith("@")){
                 instanceArgument = getComponent((String)createArgument);
-            }else{
+            }else if(createArgument instanceof Class){
                 instanceArgument = getComponent((Class)createArgument);
+            }else{
+                if(createArgument instanceof String && ((String)createArgument).startsWith("@")){
+                    instanceArgument = ((String)createArgument).substring(1, ((String)createArgument).length());
+                }else{
+                    instanceArgument = createArgument;
+                }
             }
 
             instanceArguments[i] = instanceArgument;
