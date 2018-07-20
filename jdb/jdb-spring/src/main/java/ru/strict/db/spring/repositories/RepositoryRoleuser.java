@@ -29,10 +29,10 @@ public class RepositoryRoleuser<ID>
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(DtoRoleuser dto){
+    protected Map<Integer, Object> getValueByColumn(EntityRoleuser entity){
         Map<Integer, Object> valuesByColumn = new LinkedHashMap();
-        valuesByColumn.put(0, dto.getCode());
-        valuesByColumn.put(1, dto.getDescription());
+        valuesByColumn.put(0, entity.getCode());
+        valuesByColumn.put(1, entity.getDescription());
         return valuesByColumn;
     }
 

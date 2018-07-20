@@ -6,6 +6,7 @@ import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.DtoJWTUserToken;
 import ru.strict.db.core.dto.DtoUserToken;
 import ru.strict.db.core.entities.EntityJWTUserToken;
+import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
@@ -21,8 +22,8 @@ public class RepositoryUserFillToken<ID>
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(DtoUserToken dto){
-        return super.getValueByColumn(dto);
+    protected Map<Integer, Object> getValueByColumn(EntityUser entity){
+        return super.getValueByColumn(entity);
     }
 
     @Override
