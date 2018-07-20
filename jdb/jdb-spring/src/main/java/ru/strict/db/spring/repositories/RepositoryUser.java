@@ -30,17 +30,11 @@ public class RepositoryUser<ID, DTO extends DtoUserBase>
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(DTO dto){
-        if(dto instanceof DtoUser) {
-            DtoUser dtoUser = (DtoUser) dto;
-            Map<Integer, Object> valuesByColumn = new LinkedHashMap();
-            valuesByColumn.put(0, dtoUser.getUsername());
-            valuesByColumn.put(1, dtoUser.getPasswordEncode());
-            return valuesByColumn;
-        }else {
-            UtilLogger.error(RepositoryUser.class, "Expected a type dto-object is DtoUser");
-            throw new IllegalArgumentException("Expected a type dto-object is DtoUser");
-        }
+    protected Map<Integer, Object> getValueByColumn(EntityUser entity) {
+        Map<Integer, Object> valuesByColumn = new LinkedHashMap();
+        valuesByColumn.put(0, entity.getUsername());
+        valuesByColumn.put(1, entity.getPasswordEncode());
+        return valuesByColumn;
     }
 
     @Override

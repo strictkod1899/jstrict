@@ -30,7 +30,7 @@ public class RepositoryUserSecurity<ID>
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(DtoUserSecurity dto){
+    protected Map<Integer, Object> getValueByColumn(EntityUserSecurity entity){
         DtoUserSecurity dtoUser = new DtoUserSecurity();
         Map<Integer, Object> valuesByColumn = new LinkedHashMap();
         valuesByColumn.put(0, dtoUser.getUsername());

@@ -30,22 +30,22 @@ public class RepositoryJWTUserToken<ID, SOURCE extends ICreateConnection>
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(DtoJWTUserToken dto) {
+    protected Map<Integer, Object> getValueByColumn(EntityJWTUserToken entity) {
         Map<Integer, Object> valuesByColumn = new LinkedHashMap();
-        valuesByColumn.put(0, dto.getAccessToken());
-        valuesByColumn.put(1, dto.getRefreshToken());
-        valuesByColumn.put(2, dto.getExpireTimeAccess());
-        valuesByColumn.put(3, dto.getExpireTimeRefresh());
-        valuesByColumn.put(4, dto.getIssuedAt());
-        valuesByColumn.put(5, dto.getIssuer());
-        valuesByColumn.put(6, dto.getSubject());
-        valuesByColumn.put(7, dto.getNotBefore());
-        valuesByColumn.put(8, dto.getAudience());
-        valuesByColumn.put(9, dto.getSecret());
-        valuesByColumn.put(10, dto.getAlgorithm());
-        valuesByColumn.put(11, dto.getType());
-        valuesByColumn.put(12, dto.getUserId());
-        valuesByColumn.put(13, dto.getRoleUserId());
+        valuesByColumn.put(0, entity.getAccessToken());
+        valuesByColumn.put(1, entity.getRefreshToken());
+        valuesByColumn.put(2, entity.getExpireTimeAccess());
+        valuesByColumn.put(3, entity.getExpireTimeRefresh());
+        valuesByColumn.put(4, entity.getIssuedAt());
+        valuesByColumn.put(5, entity.getIssuer());
+        valuesByColumn.put(6, entity.getSubject());
+        valuesByColumn.put(7, entity.getNotBefore());
+        valuesByColumn.put(8, entity.getAudience());
+        valuesByColumn.put(9, entity.getSecret());
+        valuesByColumn.put(10, entity.getAlgorithm());
+        valuesByColumn.put(11, entity.getType());
+        valuesByColumn.put(12, entity.getUserId());
+        valuesByColumn.put(13, entity.getRoleUserId());
         return valuesByColumn;
     }
 

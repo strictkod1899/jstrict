@@ -26,10 +26,10 @@ public class RepositoryCity<ID>
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(DtoCity dto){
+    protected Map<Integer, Object> getValueByColumn(EntityCity entity){
         Map<Integer, Object> valuesByColumn = new LinkedHashMap();
-        valuesByColumn.put(0, dto.getCaption());
-        valuesByColumn.put(1, dto.getCountryId());
+        valuesByColumn.put(0, entity.getCaption());
+        valuesByColumn.put(1, entity.getCountryId());
         return valuesByColumn;
     }
 

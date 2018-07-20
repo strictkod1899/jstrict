@@ -27,10 +27,10 @@ public class RepositoryUserOnRole<ID, SOURCE extends ICreateConnection>
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(DtoUserOnRole dto) {
+    protected Map<Integer, Object> getValueByColumn(EntityUserOnRole entity) {
         Map<Integer, Object> valuesByColumn = new LinkedHashMap();
-        valuesByColumn.put(0, dto.getUserId());
-        valuesByColumn.put(1, dto.getRoleId());
+        valuesByColumn.put(0, entity.getUserId());
+        valuesByColumn.put(1, entity.getRoleId());
         return valuesByColumn;
     }
 

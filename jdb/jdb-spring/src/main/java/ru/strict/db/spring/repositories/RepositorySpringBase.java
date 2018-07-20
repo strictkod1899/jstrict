@@ -52,7 +52,8 @@ public abstract class RepositorySpringBase
     @Override
     public final DTO create(DTO dto) {
         LOGGER.info("Trying a db entity create");
-        MapSqlParameterSource parameters = getParameters(dto);
+        E entity = getDtoMapper().map(dto);
+        MapSqlParameterSource parameters = getParameters(entity);
         String sql = null;
         switch(getGenerateIdType()){
             case NUMBER:
@@ -108,7 +109,8 @@ public abstract class RepositorySpringBase
     @Override
     public DTO update(DTO dto) {
         LOGGER.info("Trying a db entity update");
-        MapSqlParameterSource parameters = getParameters(dto);
+        E entity = getDtoMapper().map(dto);
+        MapSqlParameterSource parameters = getParameters(entity);
         String sql = createSqlUpdate(parameters.getParameterNames());
         parameters.addValue("id", dto.getId());
         springJdbc.update(sql, parameters);
@@ -224,29 +226,28 @@ public abstract class RepositorySpringBase
     //</editor-fold>
 
     /**
-     * Сопоставить номер столбца базы данных с полем dto-объекта. Отсчет номера столбца начинать с нуля.
+     * Сопоставить номер столбца базы данных с полем entity-объекта. Отсчет номера столбца начинать с нуля.
      * ID не учитывается. </br>
-     * <i><b>Примечание:</b> Должен передаваться DTO-объект, который полностью отражает структуру entity-объекта</i>
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
      *      Map<Integer, Object> valuesByColumn = new LinkedHashMap();
-     *      valuesByColumn.put(0, dto.getName());
-     *      valuesByColumn.put(1, dto.getSurname());
-     *      valuesByColumn.put(2, dto.getMiddlename());
+     *      valuesByColumn.put(0, entity.getName());
+     *      valuesByColumn.put(1, entity.getSurname());
+     *      valuesByColumn.put(2, entity.getMiddlename());
      *      return valuesByColumn;
      * </pre></code>
-     * @param dto DTO-объект из которого берутся значения для параметров
+     * @param entity Entity-объект из которого берутся значения для параметров
      * @return
      */
-    protected abstract Map getValueByColumn(DTO dto);
+    protected abstract Map getValueByColumn(E entity);
 
     /**
      * Получить параметры sql-запроса на создание/обновление записи. ID не учитывается
-     * @param dto DTO-объект из которого берутся значения для параметров
+     * @param entity Entity-объект из которого берутся значения для параметров
      * @return
      */
-    protected MapSqlParameterSource getParameters(DTO dto){
-        Map valuesByColumn = getValueByColumn(dto);
+    protected MapSqlParameterSource getParameters(E entity){
+        Map valuesByColumn = getValueByColumn(entity);
         Set<Integer> keys = valuesByColumn.keySet();
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         for(Integer key : keys)
