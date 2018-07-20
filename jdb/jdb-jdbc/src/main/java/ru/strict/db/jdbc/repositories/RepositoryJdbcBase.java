@@ -51,9 +51,10 @@ public abstract class RepositoryJdbcBase
         PreparedStatement statement;
         JdbcSqlParameters parameters;
         String sql = null;
+        E entity = getDtoMapper().map(dto);
         switch(getGenerateIdType()){
             case NUMBER:
-                parameters = getParameters(dto, 0);
+                parameters = getParameters(entity, 0);
                 sql = createSqlInsertShort(parameters.size());
 
                 try {
@@ -72,7 +73,7 @@ public abstract class RepositoryJdbcBase
                 }
                 break;
             case UUID:
-                parameters = getParameters(dto, 1);
+                parameters = getParameters(entity, 1);
                 Object id = UUID.randomUUID();
                 parameters.add(0, "id", id);
                 sql = createSqlInsertFull(parameters.size()-1);
@@ -88,7 +89,7 @@ public abstract class RepositoryJdbcBase
                 dto.setId(id);
                 break;
             case NONE:
-                parameters = getParameters(dto, 1);
+                parameters = getParameters(entity, 1);
                 parameters.add(0, "id", dto.getId());
                 sql = createSqlInsertFull(parameters.size()-1);
                 try {
@@ -160,7 +161,8 @@ public abstract class RepositoryJdbcBase
     @Override
     public DTO update(DTO dto) {
         LOGGER.info("Trying a db entity update");
-        JdbcSqlParameters parameters = getParameters(dto, 0);
+        E entity = getDtoMapper().map(dto);
+        JdbcSqlParameters parameters = getParameters(entity, 0);
         parameters.addLast("id", dto.getId());
         String sql = createSqlUpdate();
 
@@ -262,21 +264,20 @@ public abstract class RepositoryJdbcBase
     //</editor-fold>
 
     /**
-     * Сопоставить номер столбца базы данных с полем dto-объекта. Отсчет номера столбца начинать с нуля.
+     * Сопоставить номер столбца базы данных с полем entity-объекта. Отсчет номера столбца начинать с нуля.
      * ID не учитывается. </br>
-     * <i><b>Примечание:</b> Должен передаваться DTO-объект, который полностью отражает структуру entity-объекта</i>
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
      *      Map<Integer, Object> valuesByColumn = new LinkedHashMap();
-     *      valuesByColumn.put(0, dto.getName());
-     *      valuesByColumn.put(1, dto.getSurname());
-     *      valuesByColumn.put(2, dto.getMiddlename());
+     *      valuesByColumn.put(0, entity.getName());
+     *      valuesByColumn.put(1, entity.getSurname());
+     *      valuesByColumn.put(2, entity.getMiddlename());
      *      return valuesByColumn;
      * </pre></code>
-     * @param dto DTO-объект из которого берутся значения для параметров
+     * @param entity Entity-объект из которого берутся значения для параметров
      * @return
      */
-    protected abstract Map getValueByColumn(DTO dto);
+    protected abstract Map getValueByColumn(E entity);
 
     @Override
     public boolean IsRowExists(ID id){
@@ -304,13 +305,13 @@ public abstract class RepositoryJdbcBase
     //<editor-fold defaultState="collapsed" desc="Determine statement parameters">
     /**
      * Получить параметры sql-запроса на создание/обновление записи. ID не учитывается
-     * @param dto           DTO-объект из которого берутся значения для параметров
+     * @param entity           Entity-объект из которого берутся значения для параметров
      * @param startIndex    Начальный индекс полученных параметров.
      *                      Может потребоваться, если в качестве первого элемента требуется установить id, а все остальные сдвинуть на 1, тогда параметру передается значение = 1
      * @return
      */
-    protected JdbcSqlParameters getParameters(DTO dto, int startIndex){
-        Map valuesByColumn = getValueByColumn(dto);
+    protected JdbcSqlParameters getParameters(E entity, int startIndex){
+        Map valuesByColumn = getValueByColumn(entity);
         Set<Integer> keys = valuesByColumn.keySet();
         JdbcSqlParameters parameters = new JdbcSqlParameters();
         for(Integer key : keys) {

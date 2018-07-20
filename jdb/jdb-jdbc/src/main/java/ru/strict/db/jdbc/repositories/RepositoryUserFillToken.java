@@ -27,8 +27,8 @@ public class RepositoryUserFillToken<ID, SOURCE extends ICreateConnection>
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(DtoUserToken dto){
-        return super.getValueByColumn(dto);
+    protected Map<Integer, Object> getValueByColumn(EntityUser entity){
+        return super.getValueByColumn(entity);
     }
 
     @Override

@@ -30,12 +30,12 @@ public class RepositoryProfile<ID, SOURCE extends ICreateConnection>
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(DtoProfile dto){
+    protected Map<Integer, Object> getValueByColumn(EntityProfile entity){
         Map<Integer, Object> valuesByColumn = new LinkedHashMap();
-        valuesByColumn.put(0, dto.getName());
-        valuesByColumn.put(1, dto.getSurname());
-        valuesByColumn.put(2, dto.getMiddlename());
-        valuesByColumn.put(3, dto.getUserId());
+        valuesByColumn.put(0, entity.getName());
+        valuesByColumn.put(1, entity.getSurname());
+        valuesByColumn.put(2, entity.getMiddlename());
+        valuesByColumn.put(3, entity.getUserId());
         return valuesByColumn;
     }
 
