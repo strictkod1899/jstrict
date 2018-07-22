@@ -3,7 +3,7 @@ package ru.strict.db.hibernate.repositories;
 import org.hibernate.Session;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoBase;
-import ru.strict.db.core.entities.EntityBase;
+import ru.strict.db.hibernate.entities.EntityBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
@@ -44,15 +44,16 @@ public abstract class RepositoryNamedBase
             EntityManagerFactory entityManagerFactory = session.getEntityManagerFactory();
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<DTO> criteriaEntity =
-                    (CriteriaQuery<DTO>) criteriaBuilder.createQuery(getEmptyEntity().getClass());
-            Root<DTO> criteriaRoot = (Root<DTO>) criteriaEntity.from(getEmptyEntity().getClass());
+            CriteriaQuery<E> criteriaEntity =
+                    (CriteriaQuery<E>) criteriaBuilder.createQuery(getEmptyEntity().getClass());
+            Root<E> criteriaRoot = (Root<E>) criteriaEntity.from(getEmptyEntity().getClass());
             criteriaEntity.select(criteriaRoot);
             criteriaEntity.where(criteriaBuilder.equal(criteriaRoot.get(getColumnWithName()), caption));
-            result = entityManager.createQuery(criteriaEntity)
+            E entity = entityManager.createQuery(criteriaEntity)
                     .getResultStream()
                     .findFirst()
                     .orElse(null);
+            result = getDtoMapper().map(entity);
 
             session.getTransaction().commit();
         }
@@ -67,12 +68,13 @@ public abstract class RepositoryNamedBase
             EntityManagerFactory entityManagerFactory = session.getEntityManagerFactory();
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<DTO> criteriaEntity =
-                    (CriteriaQuery<DTO>) criteriaBuilder.createQuery(getEmptyEntity().getClass());
-            Root<DTO> criteriaRoot = (Root<DTO>) criteriaEntity.from(getEmptyEntity().getClass());
+            CriteriaQuery<E> criteriaEntity =
+                    (CriteriaQuery<E>) criteriaBuilder.createQuery(getEmptyEntity().getClass());
+            Root<E> criteriaRoot = (Root<E>) criteriaEntity.from(getEmptyEntity().getClass());
             criteriaEntity.select(criteriaRoot);
             criteriaEntity.where(criteriaBuilder.equal(criteriaRoot.get(getColumnWithName()), caption));
-            result = entityManager.createQuery(criteriaEntity).getResultList();
+            List<E> entities = entityManager.createQuery(criteriaEntity).getResultList();
+            entities.stream().forEach(entity -> result.add(getDtoMapper().map(entity)));
 
             session.getTransaction().commit();
         }

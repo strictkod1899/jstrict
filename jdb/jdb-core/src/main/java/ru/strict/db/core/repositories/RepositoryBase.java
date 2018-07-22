@@ -24,7 +24,7 @@ import java.util.List;
  * @param <DTO> Тип Dto-сущности базы данных
  */
 public abstract class RepositoryBase
-        <ID, CONNECTION, SOURCE extends ICreateConnection<CONNECTION>, E extends EntityBase, DTO extends DtoBase>
+        <ID, CONNECTION, SOURCE extends ICreateConnection<CONNECTION>, E, DTO extends DtoBase>
         implements IRepositoryExtension<ID, DTO> {
 
     protected final WrapperLogger LOGGER = UtilLogger.createLogger(UtilClassName.getCurrentClassname());

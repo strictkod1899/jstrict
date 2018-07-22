@@ -3,7 +3,7 @@ package ru.strict.db.hibernate.repositories;
 import org.hibernate.Session;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoBase;
-import ru.strict.db.core.entities.EntityBase;
+import ru.strict.db.hibernate.entities.EntityBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.RepositoryBase;
 import ru.strict.db.core.requests.DbRequests;

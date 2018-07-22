@@ -1,7 +1,6 @@
 package ru.strict.db.core.mappers.dto;
 
 import ru.strict.db.core.dto.DtoBase;
-import ru.strict.db.core.entities.EntityBase;
 import ru.strict.db.core.mappers.MapperBase;
 
 /**
@@ -9,6 +8,6 @@ import ru.strict.db.core.mappers.MapperBase;
  * @param <S> Entity-класс
  * @param <T> Dto-класс
  */
-public abstract class MapperDtoBase<S extends EntityBase, T extends DtoBase>
+public abstract class MapperDtoBase<S, T extends DtoBase>
         extends MapperBase<S, T> {
 }
