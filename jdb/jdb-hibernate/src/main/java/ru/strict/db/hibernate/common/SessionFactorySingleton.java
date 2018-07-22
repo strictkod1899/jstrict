@@ -9,11 +9,8 @@ public class SessionFactorySingleton {
     private static SessionFactory instance;
     private static Configuration configuration;
 
-    private SessionFactorySingleton(){
-        configuration = new Configuration();
-    }
-
     public static void initialize(HibernateConnectionInfo connectionInfo){
+        configuration = new Configuration();
         configuration.setProperty("hibernate.dialect", connectionInfo.getDialect());
         configuration.setProperty("hibernate.connection.driver_class", connectionInfo.getDriver());
         configuration.setProperty("hibernate.connection.url", connectionInfo.getUrl());
@@ -48,7 +45,6 @@ public class SessionFactorySingleton {
     public static SessionFactory instance(){
         if(instance == null){
             if(configuration != null){
-                configuration.configure();
                 instance = configuration.buildSessionFactory();
             }
         }

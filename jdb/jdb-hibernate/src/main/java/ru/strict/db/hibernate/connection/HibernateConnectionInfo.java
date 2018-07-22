@@ -2,6 +2,7 @@ package ru.strict.db.hibernate.connection;
 
 import ru.strict.utils.UtilHashCode;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -69,6 +70,8 @@ public class HibernateConnectionInfo {
         this.useQueryCache = false;
         this.showSql = true;
         this.currentSessionContextClass = "thread";
+        packages = new LinkedList<>();
+        entityClasses = new LinkedList<>();
     }
     //</editor-fold>
 
