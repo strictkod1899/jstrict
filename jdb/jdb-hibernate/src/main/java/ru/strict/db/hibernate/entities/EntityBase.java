@@ -1,16 +1,16 @@
 package ru.strict.db.hibernate.entities;
 
-import org.hibernate.annotations.Type;
 import ru.strict.utils.UtilHashCode;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Базовый entity-класс
  * @param <ID> Тип поля ID
  */
 @MappedSuperclass
-public abstract class EntityBase<ID> {
+public abstract class EntityBase<ID> implements Serializable {
 
     /**
      * Идентификатор записи
