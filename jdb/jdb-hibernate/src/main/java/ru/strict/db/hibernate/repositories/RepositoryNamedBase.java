@@ -45,8 +45,8 @@ public abstract class RepositoryNamedBase
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery<DTO> criteriaEntity =
-                    (CriteriaQuery<DTO>) criteriaBuilder.createQuery(getEmptyDto().getClass());
-            Root<DTO> criteriaRoot = (Root<DTO>) criteriaEntity.from(getEmptyDto().getClass());
+                    (CriteriaQuery<DTO>) criteriaBuilder.createQuery(getEmptyEntity().getClass());
+            Root<DTO> criteriaRoot = (Root<DTO>) criteriaEntity.from(getEmptyEntity().getClass());
             criteriaEntity.select(criteriaRoot);
             criteriaEntity.where(criteriaBuilder.equal(criteriaRoot.get(getColumnWithName()), caption));
             result = entityManager.createQuery(criteriaEntity)
@@ -68,8 +68,8 @@ public abstract class RepositoryNamedBase
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery<DTO> criteriaEntity =
-                    (CriteriaQuery<DTO>) criteriaBuilder.createQuery(getEmptyDto().getClass());
-            Root<DTO> criteriaRoot = (Root<DTO>) criteriaEntity.from(getEmptyDto().getClass());
+                    (CriteriaQuery<DTO>) criteriaBuilder.createQuery(getEmptyEntity().getClass());
+            Root<DTO> criteriaRoot = (Root<DTO>) criteriaEntity.from(getEmptyEntity().getClass());
             criteriaEntity.select(criteriaRoot);
             criteriaEntity.where(criteriaBuilder.equal(criteriaRoot.get(getColumnWithName()), caption));
             result = entityManager.createQuery(criteriaEntity).getResultList();

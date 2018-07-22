@@ -36,7 +36,8 @@ public abstract class RepositoryHibernateBase
     public DTO create(DTO dto) {
         try(Session session = createConnection()){
             session.beginTransaction();
-            session.save(dto);
+            E entity = getDtoMapper().map(dto);
+            session.save(entity);
             session.getTransaction().commit();
         }
         return dto;
@@ -47,7 +48,8 @@ public abstract class RepositoryHibernateBase
         DTO result = null;
         try(Session session = createConnection()){
             session.beginTransaction();
-            result = (DTO) session.get(getEmptyDto().getClass(), id);
+            E entity = (E) session.get(getEmptyEntity().getClass(), id);
+            result = getDtoMapper().map(entity);
             session.getTransaction().commit();
         }
         return result;
@@ -61,11 +63,12 @@ public abstract class RepositoryHibernateBase
             EntityManagerFactory entityManagerFactory = session.getEntityManagerFactory();
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<DTO> criteriaEntity =
-                    (CriteriaQuery<DTO>) criteriaBuilder.createQuery(getEmptyDto().getClass());
-            Root<DTO> criteriaRoot = (Root<DTO>) criteriaEntity.from(getEmptyDto().getClass());
+            CriteriaQuery<E> criteriaEntity =
+                    (CriteriaQuery<E>) criteriaBuilder.createQuery(getEmptyEntity().getClass());
+            Root<E> criteriaRoot = (Root<E>) criteriaEntity.from(getEmptyEntity().getClass());
             criteriaEntity.select(criteriaRoot);
-            result = entityManager.createQuery(criteriaEntity).getResultList();
+            List<E> entities = entityManager.createQuery(criteriaEntity).getResultList();
+            entities.stream().forEach(entity -> result.add(getDtoMapper().map(entity)));
 
             session.getTransaction().commit();
         }
@@ -76,7 +79,8 @@ public abstract class RepositoryHibernateBase
     public DTO update(DTO dto) {
         try(Session session = createConnection()){
             session.beginTransaction();
-            session.update(dto);
+            E entity = getDtoMapper().map(dto);
+            session.update(entity);
             session.getTransaction().commit();
         }
         return dto;
@@ -86,7 +90,8 @@ public abstract class RepositoryHibernateBase
     public void delete(ID id) {
         try(Session session = createConnection()){
             session.beginTransaction();
-            session.delete(read(id));
+            E entity = getDtoMapper().map(read(id));
+            session.delete(entity);
             session.getTransaction().commit();
         }
     }
@@ -96,5 +101,5 @@ public abstract class RepositoryHibernateBase
         return read(id) != null;
     }
 
-    protected abstract DTO getEmptyDto();
+    protected abstract E getEmptyEntity();
 }
