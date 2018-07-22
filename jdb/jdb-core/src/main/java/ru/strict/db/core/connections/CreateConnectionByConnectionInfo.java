@@ -13,11 +13,11 @@ import java.sql.SQLException;
  * <p><b>Пример использования:</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
  *     ...
- *     ICreateConnection connectionCreater = new CreateConnectionByDataSource(connectionInfo);
+ *     ICreateConnection connectionCreater = new CreateConnectionByConnectionInfo(connectionInfo);
  *     Connection connection = connectionCreater.createConnection();
  * </pre></code>
  */
-public class CreateConnectionByConnectionInfo extends CreateConnectionBase<ConnectionInfo> {
+public class CreateConnectionByConnectionInfo extends CreateConnectionBase<ConnectionInfo, Connection> {
 
     protected final WrapperLogger LOGGER = UtilLogger.createLogger(CreateConnectionByConnectionInfo.class);
 

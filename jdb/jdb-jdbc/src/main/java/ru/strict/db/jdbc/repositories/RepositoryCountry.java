@@ -16,16 +16,17 @@ import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlCountry;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlRoleuser;
 
+import java.sql.Connection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RepositoryCountry<ID, SOURCE extends ICreateConnection>
-        extends RepositoryNamedBase<ID, SOURCE, EntityCountry, DtoCountry> {
+public class RepositoryCountry<ID>
+        extends RepositoryNamedBase<ID, EntityCountry, DtoCountry> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption"};
 
-    public RepositoryCountry(SOURCE connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryCountry(ICreateConnection<Connection> connectionSource, GenerateIdType isGenerateId) {
         super("country", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.COUNTRY),
                 new MapperSqlCountry(COLUMNS_NAME),
@@ -41,7 +42,7 @@ public class RepositoryCountry<ID, SOURCE extends ICreateConnection>
 
     @Override
     protected DtoCountry fill(DtoCountry dto){
-        RepositoryJdbcBase<ID, SOURCE, EntityCity, DtoCity> repositoryCity =
+        RepositoryJdbcBase<ID, EntityCity, DtoCity> repositoryCity =
                 new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
         DbRequests requests = new DbRequests(repositoryCity.getTableName(), true);
         requests.add(new DbWhere(repositoryCity.getTableName(), "country_id", dto.getId(), "="));

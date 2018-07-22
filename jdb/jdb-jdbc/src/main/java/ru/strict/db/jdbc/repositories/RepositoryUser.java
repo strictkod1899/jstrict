@@ -17,14 +17,15 @@ import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlUser;
 import ru.strict.utils.UtilLogger;
 
+import java.sql.Connection;
 import java.util.*;
 
-public class RepositoryUser<ID, SOURCE extends ICreateConnection, DTO extends DtoUserBase>
-        extends RepositoryNamedBase<ID, SOURCE, EntityUser, DTO> {
+public class RepositoryUser<ID, DTO extends DtoUserBase>
+        extends RepositoryNamedBase<ID, EntityUser, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode"};
 
-    public RepositoryUser(SOURCE connectionSource,
+    public RepositoryUser(ICreateConnection<Connection> connectionSource,
                           MapperDtoBase<EntityUser, DTO> dtoMapper,
                           GenerateIdType isGenerateId) {
         super("userx", COLUMNS_NAME, connectionSource, dtoMapper, new MapperSqlUser(COLUMNS_NAME), isGenerateId);
@@ -41,7 +42,7 @@ public class RepositoryUser<ID, SOURCE extends ICreateConnection, DTO extends Dt
     @Override
     protected DTO fill(DTO dto){
         // Добавление ролей пользователей
-        RepositoryJdbcBase<ID, SOURCE, EntityUserOnRole, DtoUserOnRole> repositoryUserOnRole =
+        RepositoryJdbcBase<ID, EntityUserOnRole, DtoUserOnRole> repositoryUserOnRole =
                 new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
         DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
         requests.add(new DbWhere(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
@@ -55,7 +56,7 @@ public class RepositoryUser<ID, SOURCE extends ICreateConnection, DTO extends Dt
         dto.setRolesuser(roleusers);
 
         // Добавления профиля
-        RepositoryBase<ID, SOURCE, EntityProfileInfo, DtoProfileInfo> repositoryProfile =
+        RepositoryJdbcBase<ID, EntityProfileInfo, DtoProfileInfo> repositoryProfile =
                 new RepositoryProfileInfo<>(getConnectionSource(), GenerateIdType.NONE);
         requests = new DbRequests(repositoryProfile.getTableName(), true);
         requests.add(new DbWhere(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
@@ -63,7 +64,7 @@ public class RepositoryUser<ID, SOURCE extends ICreateConnection, DTO extends Dt
 
         // Добавление токенов
         if(dto instanceof DtoUserToken) {
-            RepositoryJdbcBase<ID, SOURCE, EntityJWTUserToken, DtoJWTUserToken> repositoryToken =
+            RepositoryJdbcBase<ID, EntityJWTUserToken, DtoJWTUserToken> repositoryToken =
                     new RepositoryJWTUserToken<>(getConnectionSource(), GenerateIdType.NONE);
             requests = new DbRequests(repositoryToken.getTableName(), true);
             requests.add(new DbWhere(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));

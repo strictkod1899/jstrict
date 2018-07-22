@@ -8,16 +8,17 @@ import ru.strict.db.core.entities.EntityJWTToken;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlJWTToken;
 
+import java.sql.Connection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class RepositoryJWTToken<ID, SOURCE extends ICreateConnection>
-        extends RepositoryJdbcBase<ID, SOURCE, EntityJWTToken, DtoJWTToken> {
+public class RepositoryJWTToken<ID>
+        extends RepositoryJdbcBase<ID, EntityJWTToken, DtoJWTToken> {
 
     private static final String[] COLUMNS_NAME = new String[] {"accessToken", "refreshToken", "expireTimeAccess", "expireTimeRefresh",
             "issuedAt", "issuer", "subject", "notBefore", "audience", "secret", "algorithm", "type"};
 
-    public RepositoryJWTToken(SOURCE connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryJWTToken(ICreateConnection<Connection> connectionSource, GenerateIdType isGenerateId) {
         super("token", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.JWT_TOKEN),
                 new MapperSqlJWTToken(COLUMNS_NAME),

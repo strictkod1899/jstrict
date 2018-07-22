@@ -21,13 +21,12 @@ import java.util.Date;
 /**
  * Базовый класс репозитория с использованием Jdbc
  * @param <ID> Тип идентификатора
- * @param <SOURCE> Источник для получения соединения с базой данных (CreateConnectionByDataSource, CreateConnectionByConnectionInfo)
  * @param <E> Тип сущности базы данных (entity)
  * @param <DTO> Тип Dto-сущности базы данных
  */
 public abstract class RepositoryJdbcBase
-        <ID, SOURCE extends ICreateConnection, E extends EntityBase, DTO extends DtoBase>
-        extends RepositoryBase<ID, SOURCE, E, DTO> {
+        <ID, E extends EntityBase, DTO extends DtoBase>
+        extends RepositoryBase<ID, Connection, ICreateConnection<Connection>, E, DTO> {
 
     /**
      * Объект для преобразования полученных данных из sql-запроса в объект сущности азы данных (entity)
@@ -36,7 +35,7 @@ public abstract class RepositoryJdbcBase
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public RepositoryJdbcBase(String tableName, String[] columnsName,
-                              SOURCE connectionSource,
+                              ICreateConnection<Connection> connectionSource,
                               MapperDtoBase<E, DTO> dtoMapper,
                               MapperSqlBase<E> sqlMapper, GenerateIdType isGenerateId) {
         super(tableName, columnsName, connectionSource, dtoMapper, isGenerateId);

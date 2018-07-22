@@ -14,14 +14,15 @@ import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlRoleuser;
 
+import java.sql.Connection;
 import java.util.*;
 
-public class RepositoryRoleuser<ID, SOURCE extends ICreateConnection>
-        extends RepositoryNamedBase<ID, SOURCE, EntityRoleuser, DtoRoleuser> {
+public class RepositoryRoleuser<ID>
+        extends RepositoryNamedBase<ID, EntityRoleuser, DtoRoleuser> {
 
     private static final String[] COLUMNS_NAME = new String[] {"code", "description"};
 
-    public RepositoryRoleuser(SOURCE connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryRoleuser(ICreateConnection<Connection> connectionSource, GenerateIdType isGenerateId) {
         super("roleuser", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.ROLE_USER),
                 new MapperSqlRoleuser(COLUMNS_NAME),
@@ -39,7 +40,7 @@ public class RepositoryRoleuser<ID, SOURCE extends ICreateConnection>
     @Override
     protected DtoRoleuser fill(DtoRoleuser dto){
         // Добавление пользователей
-        RepositoryJdbcBase<ID, SOURCE, EntityUserOnRole, DtoUserOnRole> repositoryUserOnRole =
+        RepositoryJdbcBase<ID, EntityUserOnRole, DtoUserOnRole> repositoryUserOnRole =
                 new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
         DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
         requests.add(new DbWhere(repositoryUserOnRole.getTableName(), "roleuser_id", dto.getId(), "="));

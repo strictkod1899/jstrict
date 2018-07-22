@@ -16,6 +16,7 @@ import ru.strict.db.core.repositories.RepositoryBase;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,7 +27,7 @@ import java.util.*;
  */
 public abstract class RepositorySpringBase
         <ID, E extends EntityBase, DTO extends DtoBase>
-        extends RepositoryBase<ID, CreateConnectionByDataSource, E, DTO> {
+        extends RepositoryBase<ID, Connection, CreateConnectionByDataSource, E, DTO> {
 
     /**
      * Экземпляр Spring Jdbc, с помощью которого, производится взаимодействие с базой данных

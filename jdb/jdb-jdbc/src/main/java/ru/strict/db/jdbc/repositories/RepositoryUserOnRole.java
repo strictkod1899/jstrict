@@ -11,15 +11,16 @@ import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlUserOnRole;
 
+import java.sql.Connection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class RepositoryUserOnRole<ID, SOURCE extends ICreateConnection>
-        extends RepositoryJdbcBase<ID, SOURCE, EntityUserOnRole, DtoUserOnRole> {
+public class RepositoryUserOnRole<ID>
+        extends RepositoryJdbcBase<ID, EntityUserOnRole, DtoUserOnRole> {
 
     private static final String[] COLUMNS_NAME = new String[] {"userx_id", "roleuser_id"};
 
-    public RepositoryUserOnRole(SOURCE connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryUserOnRole(ICreateConnection<Connection> connectionSource, GenerateIdType isGenerateId) {
         super("user_on_role", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.USER_ON_ROLE),
                 new MapperSqlUserOnRole(COLUMNS_NAME),

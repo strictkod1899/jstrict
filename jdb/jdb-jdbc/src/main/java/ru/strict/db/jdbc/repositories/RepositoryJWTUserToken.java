@@ -13,16 +13,17 @@ import ru.strict.db.jdbc.mappers.sql.MapperSqlJWTToken;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlJWTUserToken;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlUserOnRole;
 
+import java.sql.Connection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class RepositoryJWTUserToken<ID, SOURCE extends ICreateConnection>
-        extends RepositoryJdbcBase<ID, SOURCE, EntityJWTUserToken, DtoJWTUserToken> {
+public class RepositoryJWTUserToken<ID>
+        extends RepositoryJdbcBase<ID, EntityJWTUserToken, DtoJWTUserToken> {
 
     private static final String[] COLUMNS_NAME = new String[] {"accessToken", "refreshToken", "expireTimeAccess", "expireTimeRefresh",
             "issuedAt", "issuer", "subject", "notBefore", "audience", "secret", "algorithm", "type", "userx_id", "roleuser_id"};
 
-    public RepositoryJWTUserToken(SOURCE connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryJWTUserToken(ICreateConnection<Connection> connectionSource, GenerateIdType isGenerateId) {
         super("token", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.JWT_USER_TOKEN),
                 new MapperSqlJWTUserToken(COLUMNS_NAME),
