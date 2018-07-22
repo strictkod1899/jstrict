@@ -27,6 +27,18 @@ public class SessionFactorySingleton {
         configuration.setProperty("hibernate.cache.use_query_cache", String.valueOf(connectionInfo.isUseQueryCache()));
         configuration.setProperty("hibernate.show_sql",String.valueOf(connectionInfo.isShowSql()));
         configuration.setProperty("hibernate.current_session_context_class", connectionInfo.getCurrentSessionContextClass());
+
+        for(String packagePath : connectionInfo.getPackages()){
+            configuration.addPackage(packagePath);
+        }
+
+        for(String packagePath : connectionInfo.getPackages()){
+            configuration.addPackage(packagePath);
+        }
+
+        for(Class entityClass : connectionInfo.getEntityClasses()){
+            configuration.addAnnotatedClass(entityClass);
+        }
     }
 
     /**

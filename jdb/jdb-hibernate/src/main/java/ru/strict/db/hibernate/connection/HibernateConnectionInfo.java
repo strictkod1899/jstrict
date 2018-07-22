@@ -2,6 +2,8 @@ package ru.strict.db.hibernate.connection;
 
 import ru.strict.utils.UtilHashCode;
 
+import java.util.List;
+
 /**
  * Необходимая информация для создания соединения с базой данных, при использовании Hibernate
  * <p><b>Пример использования:</b></p>
@@ -48,6 +50,10 @@ public class HibernateConnectionInfo {
     private boolean showSql;
 
     private String currentSessionContextClass;
+
+    private List<String> packages;
+
+    private List<Class> entityClasses;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public HibernateConnectionInfo(String dialect, String driver, String url, String username, String password) {
@@ -143,6 +149,33 @@ public class HibernateConnectionInfo {
         this.currentSessionContextClass = currentSessionContextClass;
     }
 
+    public List<String> getPackages() {
+        return packages;
+    }
+
+    public void setPackages(List<String> packages) {
+        this.packages = packages;
+    }
+
+    public void addPackage(String packagePath){
+        if(packages != null && packagePath !=null){
+            packages.add(packagePath);
+        }
+    }
+
+    public List<Class> getEntityClasses() {
+        return entityClasses;
+    }
+
+    public void setEntityClasses(List<Class> entityClasses) {
+        this.entityClasses = entityClasses;
+    }
+
+    public void addEntityClass(Class entityClass){
+        if(entityClasses != null && entityClass !=null){
+            entityClasses.add(entityClass);
+        }
+    }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
