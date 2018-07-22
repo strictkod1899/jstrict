@@ -4,6 +4,7 @@ import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoCountry;
 import ru.strict.db.hibernate.entities.EntityCountry;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
+import ru.strict.db.hibernate.mappers.dto.MapperDtoCity;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoCountry;
 
 import java.io.Serializable;
@@ -17,7 +18,7 @@ public class RepositoryCountry<ID extends Serializable>
         super("country",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoCountry(),
+                new MapperDtoCountry(new MapperDtoCity()),
                 isGenerateId);
     }
 

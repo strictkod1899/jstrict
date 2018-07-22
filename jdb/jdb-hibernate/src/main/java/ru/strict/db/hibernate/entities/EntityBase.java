@@ -29,13 +29,13 @@ public abstract class EntityBase<ID> {
             throw new NullPointerException("id is NULL");
         }
 
-        this.id = 1;
+        this.id = (Integer) id;
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public Integer getId() {
-        return id;
+    public ID getId() {
+        return (ID) id;
     }
 
     public void setId(ID id) {
@@ -43,7 +43,7 @@ public abstract class EntityBase<ID> {
             throw new NullPointerException("id is NULL");
         }
 
-        this.id = 1;
+        this.id = (Integer) id;
     }
     //</editor-fold>
 

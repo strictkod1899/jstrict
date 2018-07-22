@@ -64,7 +64,7 @@ public class HibernateConnectionInfo {
         this.username = username;
         this.password = password;
         this.poolSize = 25;
-        this.autoCommit = false;
+        this.autoCommit = true;
         this.providerClass = "org.hibernate.cache.NoCacheProvider";
         this.useSecondLevelCache = false;
         this.useQueryCache = false;

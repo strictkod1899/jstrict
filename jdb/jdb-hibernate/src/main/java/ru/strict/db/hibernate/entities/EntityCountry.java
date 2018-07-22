@@ -1,6 +1,10 @@
 package ru.strict.db.hibernate.entities;
 
+import ru.strict.utils.UtilHashCode;
+
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * Страна
@@ -11,29 +15,30 @@ import javax.persistence.*;
 public class EntityCountry<ID> extends EntityNamed<ID> {
 
     /**
-     * Пользователи свзяанные с ролью
+     * Пользователи связанные с ролью
      */
-    //private Collection<EntityCity> cities;
+    @OneToMany(mappedBy = "countryId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Collection<EntityCity> cities;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public EntityCountry() {
         super();
-        //cities = new LinkedList<>();
+        cities = new LinkedList<>();
     }
 
     public EntityCountry(String caption) {
         super(caption);
-        //cities = new LinkedList<>();
+        cities = new LinkedList<>();
     }
 
     public EntityCountry(ID id, String caption) {
         super(id, caption);
-        //cities = new LinkedList<>();
+        cities = new LinkedList<>();
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    /*public void addCity(EntityCity city){
+    public void addCity(EntityCity city){
         if(city == null) {
             throw new NullPointerException();
         }
@@ -53,11 +58,11 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
         }
 
         this.cities = cities;
-    }*/
+    }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
-    /*@Override
+    @Override
     public String toString(){
         return String.format("entity country [%s]: %s", String.valueOf(getId()), getCaption());
     }
@@ -75,6 +80,6 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
     public int hashCode(){
     	int superHashCode = super.hashCode();
         return UtilHashCode.createSubHashCode(superHashCode, cities);
-    }*/
+    }
     //</editor-fold>
 }
