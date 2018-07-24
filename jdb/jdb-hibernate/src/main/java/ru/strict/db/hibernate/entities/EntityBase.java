@@ -4,46 +4,47 @@ import ru.strict.utils.UtilHashCode;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * Базовый entity-класс
- * @param <ID> Тип поля ID
  */
 @MappedSuperclass
-public abstract class EntityBase<ID> implements Serializable {
+public abstract class EntityBase implements Serializable {
 
     /**
      * Идентификатор записи
      */
     @Id
     @Column(name = "id")
-    private Integer id;
+    @GeneratedValue(generator = "uuid")
+    private UUID id;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public EntityBase() {
         id = null;
     }
 
-    public EntityBase(ID id) {
+    public EntityBase(UUID id) {
         if(id == null) {
             throw new NullPointerException("id is NULL");
         }
 
-        this.id = (Integer) id;
+        this.id = id;
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public ID getId() {
-        return (ID) id;
+    public UUID getId() {
+        return id;
     }
 
-    public void setId(ID id) {
+    public void setId(UUID id) {
         if(id == null) {
             throw new NullPointerException("id is NULL");
         }
 
-        this.id = (Integer) id;
+        this.id = id;
     }
     //</editor-fold>
 

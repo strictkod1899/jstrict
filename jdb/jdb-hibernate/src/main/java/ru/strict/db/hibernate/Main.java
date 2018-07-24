@@ -14,6 +14,7 @@ import ru.strict.db.hibernate.entities.EntityCountry;
 import ru.strict.db.hibernate.repositories.*;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Main {
 
@@ -28,19 +29,19 @@ public class Main {
         hibernateConnectionInfo.addEntityClass(EntityCountry.class);
         hibernateConnectionInfo.addEntityClass(EntityCity.class);
 
-        IRepositoryExtension<Integer, DtoCountry> repositoryCountry =
+        IRepositoryExtension<UUID, DtoCountry> repositoryCountry =
                 new RepositoryCountry(new CreateConnectionHibernate(hibernateConnectionInfo), GenerateIdType.NONE);
-        IRepositoryExtension<Integer, DtoCity> repositoryCity =
+        IRepositoryExtension<UUID, DtoCity> repositoryCity =
                 new RepositoryCity(new CreateConnectionHibernate(hibernateConnectionInfo), GenerateIdType.NONE);
 
         repositoryCountry.create(new DtoCountry(1, "Russia"));
         repositoryCity.create(new DtoCity(1, "Novokuznetsk", 1));
 
-        DtoBase dtoCountry = repositoryCountry.read(1);
-        DtoBase dtoCity = repositoryCity.read(1);
+        //DtoBase dtoCountry = repositoryCountry.read(1);
+        //DtoBase dtoCity = repositoryCity.read(1);
 
-        dtoCountry = repositoryCountry.readFill(1);
-        dtoCity = repositoryCity.readFill(1);
+        //dtoCountry = repositoryCountry.readFill(1);
+        //dtoCity = repositoryCity.readFill(1);
 
         List dtoCountries = repositoryCountry.readAll(null);
         List dtoCities = repositoryCity.readAll(null);
@@ -48,7 +49,7 @@ public class Main {
         repositoryCountry.update(new DtoCountry(1, "RussiaUpdate"));
         repositoryCity.update(new DtoCity(1, "NovokuznetskUpdate", 1));
 
-        repositoryCity.delete(1);
-        repositoryCountry.delete(1);
+        //repositoryCity.delete(1);
+        //repositoryCountry.delete(1);
     }
 }

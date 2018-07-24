@@ -7,10 +7,7 @@ import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoCity;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoCountry;
 
-import java.io.Serializable;
-
-public class RepositoryCountry<ID extends Serializable>
-        extends RepositoryNamedBase<ID, EntityCountry, DtoCountry> {
+public class RepositoryCountry extends RepositoryNamedBase<EntityCountry, DtoCountry> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption"};
 

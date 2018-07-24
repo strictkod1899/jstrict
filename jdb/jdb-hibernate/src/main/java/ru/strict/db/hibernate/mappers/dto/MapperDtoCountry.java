@@ -6,7 +6,9 @@ import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.hibernate.entities.EntityCity;
 import ru.strict.db.hibernate.entities.EntityCountry;
 
+import java.io.Serializable;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Двухсторонний маппинг объектов типа EntityCountry и DtoCountry
@@ -26,7 +28,7 @@ public class MapperDtoCountry extends MapperDtoBase<EntityCountry, DtoCountry> {
     @Override
     protected EntityCountry implementMap(DtoCountry dto) {
         EntityCountry entity = new EntityCountry();
-        entity.setId(dto.getId());
+        entity.setId((UUID)dto.getId());
         entity.setCaption(dto.getCaption());
         Optional.ofNullable(mapperCity).ifPresent((mapper) ->
                 dto.getCities().stream().forEach((r) -> entity.addCity(mapper.map((DtoCity) r))));

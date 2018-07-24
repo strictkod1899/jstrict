@@ -9,8 +9,7 @@ import ru.strict.db.hibernate.mappers.dto.MapperDtoCountry;
 
 import java.io.Serializable;
 
-public class RepositoryCity<ID extends Serializable>
-        extends RepositoryNamedBase<ID, EntityCity, DtoCity> {
+public class RepositoryCity extends RepositoryNamedBase<EntityCity, DtoCity> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption", "country_id"};
 

@@ -3,6 +3,7 @@ package ru.strict.db.hibernate.entities;
 import ru.strict.utils.UtilHashCode;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 /**
  * Город
@@ -10,13 +11,13 @@ import javax.persistence.*;
 @Entity
 @Table(name = "city")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class EntityCity<ID> extends EntityNamed<ID> {
+public class EntityCity extends EntityNamed {
 
     /**
      * Идентификатор страны
      */
     @Column(name = "country_id")
-    private Integer countryId;
+    private UUID countryId;
 
     /**
      * Страна связанная с данным городом
@@ -26,12 +27,12 @@ public class EntityCity<ID> extends EntityNamed<ID> {
     private EntityCountry country;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void initialize(ID countryId){
+    private void initialize(UUID countryId){
         if(countryId == null) {
             throw new NullPointerException("countryId is NULL");
         }
 
-        this.countryId = (Integer) countryId;
+        this.countryId = countryId;
         country = null;
     }
 
@@ -41,28 +42,28 @@ public class EntityCity<ID> extends EntityNamed<ID> {
         country = null;
     }
 
-    public EntityCity(String caption, ID countryId) {
+    public EntityCity(String caption, UUID countryId) {
         super(caption);
         initialize(countryId);
     }
 
-    public EntityCity(ID id, String caption, ID countryId) {
+    public EntityCity(UUID id, String caption, UUID countryId) {
         super(id, caption);
         initialize(countryId);
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public ID getCountryId() {
-        return (ID) countryId;
+    public UUID getCountryId() {
+        return countryId;
     }
 
-    public void setCountryId(ID countryId) {
+    public void setCountryId(UUID countryId) {
         if(countryId == null) {
             throw new NullPointerException("countryId is NULL");
         }
 
-        this.countryId = (Integer) countryId;
+        this.countryId = countryId;
     }
 
     public EntityCountry getCountry() {

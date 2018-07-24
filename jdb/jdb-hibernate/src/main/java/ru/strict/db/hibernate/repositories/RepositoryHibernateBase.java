@@ -14,13 +14,13 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 public abstract class RepositoryHibernateBase
-        <ID extends Serializable, E extends EntityBase, DTO extends DtoBase>
-        extends RepositoryBase<ID, Session, CreateConnectionHibernate, E, DTO> {
+        <E extends EntityBase, DTO extends DtoBase>
+        extends RepositoryBase<UUID, Session, CreateConnectionHibernate, E, DTO> {
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public RepositoryHibernateBase(String tableName,
@@ -44,7 +44,7 @@ public abstract class RepositoryHibernateBase
     }
 
     @Override
-    public DTO read(ID id) {
+    public DTO read(UUID id) {
         DTO result = null;
         try(Session session = createConnection()){
             session.beginTransaction();
@@ -87,7 +87,7 @@ public abstract class RepositoryHibernateBase
     }
 
     @Override
-    public void delete(ID id) {
+    public void delete(UUID id) {
         try(Session session = createConnection()){
             session.beginTransaction();
             E entity = getDtoMapper().map(read(id));
@@ -97,7 +97,7 @@ public abstract class RepositoryHibernateBase
     }
 
     @Override
-    public boolean IsRowExists(ID id) {
+    public boolean IsRowExists(UUID id) {
         return read(id) != null;
     }
 

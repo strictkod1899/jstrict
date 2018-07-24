@@ -2,14 +2,16 @@ package ru.strict.db.hibernate.entities;
 
 import ru.strict.utils.UtilHashCode;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import java.util.UUID;
 
 /**
  * Именованный entity (содержит строку заголовка)
  */
 @MappedSuperclass
-public abstract class EntityNamed<ID> extends EntityBase<ID> {
+public abstract class EntityNamed extends EntityBase {
 
     /**
      * Наименование записи
@@ -36,7 +38,7 @@ public abstract class EntityNamed<ID> extends EntityBase<ID> {
         initialize(caption);
     }
 
-    public EntityNamed(ID id, String caption) {
+    public EntityNamed(UUID id, String caption) {
         super(id);
         initialize(caption);
     }

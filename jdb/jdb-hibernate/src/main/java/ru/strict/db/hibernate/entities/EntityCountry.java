@@ -5,6 +5,7 @@ import ru.strict.utils.UtilHashCode;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.UUID;
 
 /**
  * Страна
@@ -12,7 +13,7 @@ import java.util.LinkedList;
 @Entity
 @Table(name = "country")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class EntityCountry<ID> extends EntityNamed<ID> {
+public class EntityCountry extends EntityNamed {
 
     /**
      * Пользователи связанные с ролью
@@ -31,7 +32,7 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
         cities = new LinkedList<>();
     }
 
-    public EntityCountry(ID id, String caption) {
+    public EntityCountry(UUID id, String caption) {
         super(id, caption);
         cities = new LinkedList<>();
     }
