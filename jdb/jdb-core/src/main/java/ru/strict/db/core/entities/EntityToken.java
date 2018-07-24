@@ -140,8 +140,8 @@ public class EntityToken<ID> extends EntityBase<ID> {
 
     @Override
     public boolean equals(Object obj){
-        if(obj!=null && obj instanceof EntityJWTToken) {
-            EntityJWTToken object = (EntityJWTToken) obj;
+        if(obj!=null && obj instanceof EntityToken) {
+            EntityToken object = (EntityToken) obj;
             return super.equals(object) && accessToken.equals(object.getAccessToken())
                     && refreshToken.equals(object.getRefreshToken())
                     && expireTimeAccess.equals(object.getExpireTimeAccess())
