@@ -2,6 +2,10 @@ package ru.strict.db.hibernate.entities;
 
 import ru.strict.utils.UtilHashCode;
 
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.UUID;
@@ -9,6 +13,9 @@ import java.util.UUID;
 /**
  * Пользователь системы
  */
+@Entity
+@Table(name = "userx")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class EntityUser extends EntityBase {
 
     /**

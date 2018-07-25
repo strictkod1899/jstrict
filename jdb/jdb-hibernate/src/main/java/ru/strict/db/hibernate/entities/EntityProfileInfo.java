@@ -2,12 +2,19 @@ package ru.strict.db.hibernate.entities;
 
 import ru.strict.utils.UtilHashCode;
 
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.UUID;
 
 /**
  * Расширенная информация профиля пользователя (имя, фамилия, отчество, дата рождения, телефон, город)
  */
+@Entity
+@Table(name = "profile")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class EntityProfileInfo extends EntityProfile {
 
     /**

@@ -2,11 +2,18 @@ package ru.strict.db.hibernate.entities;
 
 import ru.strict.utils.UtilHashCode;
 
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 import java.util.UUID;
 
 /**
  * Основная информация профиля пользователя (имя, фамилия, отчество)
  */
+@Entity
+@Table(name = "profile")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class EntityProfile extends EntityBase {
 
     /**

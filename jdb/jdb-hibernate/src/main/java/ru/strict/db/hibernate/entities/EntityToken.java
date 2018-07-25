@@ -2,12 +2,14 @@ package ru.strict.db.hibernate.entities;
 
 import ru.strict.utils.UtilHashCode;
 
+import javax.persistence.MappedSuperclass;
 import java.util.Date;
 import java.util.UUID;
 
 /**
  * Токен
  */
+@MappedSuperclass
 public class EntityToken extends EntityBase {
     /**
      * Токен авторизации
