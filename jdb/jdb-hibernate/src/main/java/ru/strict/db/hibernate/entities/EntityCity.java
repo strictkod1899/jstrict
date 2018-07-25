@@ -22,7 +22,7 @@ public class EntityCity extends EntityNamed {
     /**
      * Страна связанная с данным городом
      */
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id", insertable = false, updatable = false)
     private EntityCountry country;
 

@@ -2,10 +2,7 @@ package ru.strict.db.hibernate.entities;
 
 import ru.strict.utils.UtilHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.UUID;
@@ -21,23 +18,32 @@ public class EntityUser extends EntityBase {
     /**
      * Логин пользователя
      */
+    @Column(name = "username")
     private String username;
     /**
      * Зашифрованный пароль пользователя
      */
+    @Column(name = "passwordencode")
     private String passwordEncode;
     /**
      * Роли пользователя
      */
+    @ManyToMany
+    @JoinTable(name = "user_on_role",
+            joinColumns = @JoinColumn(name = "roleuser_id"),
+            inverseJoinColumns = @JoinColumn(name = "userx_id")
+    )
     private Collection<EntityRoleuser> rolesuser;
     /**
      * Профиль пользователя
      */
+    @OneToOne(mappedBy = "userId", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     private EntityProfile profile;
     /**
      * Токены пользователя
      */
-    private Collection<EntityJWTToken> tokens;
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.REFRESH ,orphanRemoval = true)
+    private Collection<EntityJWTUserToken> tokens;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String username, String passwordEncode){
@@ -128,7 +134,7 @@ public class EntityUser extends EntityBase {
     /**
      * Добавить токен
      */
-    public void addToken(EntityJWTToken token){
+    public void addToken(EntityJWTUserToken token){
         if(token == null) {
             throw new NullPointerException("token is NULL");
         }
@@ -138,11 +144,11 @@ public class EntityUser extends EntityBase {
         }
     }
 
-    public Collection<EntityJWTToken> getTokens() {
+    public Collection<EntityJWTUserToken> getTokens() {
         return tokens;
     }
 
-    public void setTokens(Collection<EntityJWTToken> tokens) {
+    public void setTokens(Collection<EntityJWTUserToken> tokens) {
         if(tokens == null) {
             throw new NullPointerException("tokens is NULL");
         }

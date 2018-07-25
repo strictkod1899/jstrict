@@ -16,7 +16,7 @@ import java.util.UUID;
 public class EntityCountry extends EntityNamed {
 
     /**
-     * Пользователи связанные с ролью
+     * Города связанные со страной
      */
     @OneToMany(mappedBy = "countryId", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<EntityCity> cities;

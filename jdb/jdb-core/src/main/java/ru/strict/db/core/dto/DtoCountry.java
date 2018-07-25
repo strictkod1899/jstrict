@@ -11,7 +11,7 @@ import ru.strict.utils.UtilHashCode;
 public class DtoCountry<ID> extends DtoNamed<ID> {
 
     /**
-     * Пользователи свзяанные с ролью
+     * Города свзяанные со страной
      */
     private Collection<DtoCity> cities;
 

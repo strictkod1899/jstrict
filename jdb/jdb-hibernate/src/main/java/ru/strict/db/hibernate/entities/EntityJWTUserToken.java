@@ -2,10 +2,7 @@ package ru.strict.db.hibernate.entities;
 
 import ru.strict.utils.UtilHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
@@ -20,18 +17,24 @@ public class EntityJWTUserToken extends EntityJWTToken {
     /**
      * Идентификатор пользователя, связанного с данным токеном
      */
+    @Column(name = "userx_id")
     private UUID userId;
     /**
      * Пользователь, связанного с данным токеном
      */
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "userx_id", insertable = false, updatable = false)
     private EntityUser user;
     /**
      * Идентификатор роли пользователя, связанного с данным токеном
      */
+    @Column(name = "roleuser_id")
     private UUID roleUserId;
     /**
      * Роль пользователя, связанного с данным токеном
      */
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name="roleuser_id", insertable = false, updatable = false)
     private EntityRoleuser roleUser;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

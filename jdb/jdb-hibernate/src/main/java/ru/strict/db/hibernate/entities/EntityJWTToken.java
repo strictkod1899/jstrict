@@ -2,10 +2,7 @@ package ru.strict.db.hibernate.entities;
 
 import ru.strict.utils.UtilHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
@@ -20,30 +17,37 @@ public class EntityJWTToken extends EntityToken {
     /**
      * Издатель токена
      */
+    @Column(name = "issuer")
     private String issuer;
     /**
      * Назначение токена
      */
+    @Column(name = "subject")
     private String subject;
     /**
      * Дата, до которой токен не действителен
      */
+    @Column(name = "notBefore")
     private Date notBefore;
     /**
      * Получатели токена
      */
+    @Column(name = "audience")
     private String audience;
     /**
      * Секретный ключ для раскодирования токена
      */
+    @Column(name = "secret")
     private String secret;
     /**
      * Алгоритм кодирования токена
      */
+    @Column(name = "algorithm")
     private String algorithm;
     /**
      * Тип токена
      */
+    @Column(name = "type")
     private String type;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

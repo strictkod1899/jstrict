@@ -2,10 +2,7 @@ package ru.strict.db.hibernate.entities;
 
 import ru.strict.utils.UtilHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
@@ -20,21 +17,26 @@ public class EntityProfileInfo extends EntityProfile {
     /**
      * Дата рождения
      */
+    @Column(name = "datebirth")
     private Date dateBirth;
 
     /**
      * Номер телефона
      */
+    @Column(name = "phone")
     private String phone;
 
     /**
      * Идентификатор города
      */
+    @Column(name = "city_id")
     private UUID cityId;
 
     /**
      * Город связанный с пользователем
      */
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @JoinColumn(name = "city_id", insertable = false, updatable = false)
     private EntityCity city;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
@@ -44,6 +46,7 @@ public class EntityProfileInfo extends EntityProfile {
         this.cityId = cityId;
         city = null;
     }
+
     public EntityProfileInfo(){
         super();
         dateBirth = null;

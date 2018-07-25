@@ -2,10 +2,7 @@ package ru.strict.db.hibernate.entities;
 
 import ru.strict.utils.UtilHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.UUID;
@@ -21,16 +18,23 @@ public class EntityRoleuser extends EntityBase {
     /**
      * Набор символов характеризующих роль
      */
+    @Column(name = "code")
     private String code;
 
     /**
      * Описание роли
      */
+    @Column(name = "description")
     private String description;
 
     /**
      * Пользователи свзяанные с ролью
      */
+    @ManyToMany(cascade = CascadeType.REFRESH)
+    @JoinTable(name = "user_on_role",
+            joinColumns = @JoinColumn(name = "userx_id"),
+            inverseJoinColumns = @JoinColumn(name = "roleuser_id")
+    )
     private Collection<EntityUser> users;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

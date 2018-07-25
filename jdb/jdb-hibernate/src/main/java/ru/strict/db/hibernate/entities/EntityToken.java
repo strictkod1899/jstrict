@@ -2,6 +2,7 @@ package ru.strict.db.hibernate.entities;
 
 import ru.strict.utils.UtilHashCode;
 
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import java.util.Date;
 import java.util.UUID;
@@ -14,22 +15,27 @@ public class EntityToken extends EntityBase {
     /**
      * Токен авторизации
      */
+    @Column(name = "accessToken")
     private String accessToken;
     /**
      * Токен обновления
      */
+    @Column(name = "refreshToken")
     private String refreshToken;
     /**
      * Время окончания действия access-токена
      */
+    @Column(name = "expireTimeAccess")
     private Date expireTimeAccess;
     /**
      * Время окончания действия refresh-токена
      */
+    @Column(name = "expireTimeRefresh")
     private Date expireTimeRefresh;
     /**
      * Время создания токена. Общее для access- и refresh-токена
      */
+    @Column(name = "issuedAt")
     private Date issuedAt;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

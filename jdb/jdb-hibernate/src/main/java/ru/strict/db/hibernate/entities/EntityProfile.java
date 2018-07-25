@@ -2,10 +2,7 @@ package ru.strict.db.hibernate.entities;
 
 import ru.strict.utils.UtilHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.UUID;
 
 /**
@@ -19,26 +16,32 @@ public class EntityProfile extends EntityBase {
     /**
      * Имя
      */
+    @Column(name = "name")
     private String name;
 
     /**
      * Фамилия
      */
+    @Column(name = "surname")
     private String surname;
 
     /**
      * Отчетство
      */
+    @Column(name = "middlename")
     private String middlename;
 
     /**
      * Идентификатор пользователя
      */
+    @Column(name = "userx_id")
     private UUID userId;
 
     /**
      * Пользователь системы связанный с данным профилем
      */
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "userx_id", insertable = false, updatable = false)
     private EntityUser user;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
