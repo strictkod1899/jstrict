@@ -1,13 +1,11 @@
 package ru.strict.db.hibernate.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.dto.DtoCity;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityCity;
-import ru.strict.db.hibernate.mappers.dto.MapperDtoCity;
-import ru.strict.db.hibernate.mappers.dto.MapperDtoCountry;
-
-import java.io.Serializable;
+import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
 
 public class RepositoryCity extends RepositoryNamedBase<EntityCity, DtoCity> {
 
@@ -17,7 +15,7 @@ public class RepositoryCity extends RepositoryNamedBase<EntityCity, DtoCity> {
         super("city",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoCity(new MapperDtoCountry()),
+                new MapperDtoFactory().instance(MapperDtoType.CITY),
                 isGenerateId);
     }
 

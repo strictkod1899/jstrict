@@ -1,11 +1,11 @@
 package ru.strict.db.hibernate.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.dto.DtoCountry;
 import ru.strict.db.hibernate.entities.EntityCountry;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
-import ru.strict.db.hibernate.mappers.dto.MapperDtoCity;
-import ru.strict.db.hibernate.mappers.dto.MapperDtoCountry;
+import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
 
 public class RepositoryCountry extends RepositoryNamedBase<EntityCountry, DtoCountry> {
 
@@ -15,7 +15,7 @@ public class RepositoryCountry extends RepositoryNamedBase<EntityCountry, DtoCou
         super("country",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoCountry(new MapperDtoCity()),
+                new MapperDtoFactory().instance(MapperDtoType.COUNTRY),
                 isGenerateId);
     }
 
