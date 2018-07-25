@@ -48,7 +48,7 @@ public abstract class RepositoryHibernateBase
         DTO result = null;
         try(Session session = createConnection()){
             session.beginTransaction();
-            E entity = (E) session.get(getEmptyEntity().getClass(), id);
+            E entity = session.get(getEntityClass(), id);
             result = getDtoMapper().map(entity);
             session.getTransaction().commit();
         }
@@ -63,9 +63,8 @@ public abstract class RepositoryHibernateBase
             EntityManagerFactory entityManagerFactory = session.getEntityManagerFactory();
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<E> criteriaEntity =
-                    (CriteriaQuery<E>) criteriaBuilder.createQuery(getEmptyEntity().getClass());
-            Root<E> criteriaRoot = (Root<E>) criteriaEntity.from(getEmptyEntity().getClass());
+            CriteriaQuery<E> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
+            Root<E> criteriaRoot = criteriaEntity.from(getEntityClass());
             criteriaEntity.select(criteriaRoot);
             List<E> entities = entityManager.createQuery(criteriaEntity).getResultList();
             entities.stream().forEach(entity -> result.add(getDtoMapper().map(entity)));
@@ -101,5 +100,5 @@ public abstract class RepositoryHibernateBase
         return read(id) != null;
     }
 
-    protected abstract E getEmptyEntity();
+    protected abstract Class<E> getEntityClass();
 }

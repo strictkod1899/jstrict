@@ -34,8 +34,8 @@ public class Main {
         IRepositoryExtension<UUID, DtoCity> repositoryCity =
                 new RepositoryCity(new CreateConnectionHibernate(hibernateConnectionInfo), GenerateIdType.NONE);
 
-        repositoryCountry.create(new DtoCountry(1, "Russia"));
-        repositoryCity.create(new DtoCity(1, "Novokuznetsk", 1));
+        //repositoryCountry.create(new DtoCountry(1, "Russia"));
+        //repositoryCity.create(new DtoCity(1, "Novokuznetsk", 1));
 
         //DtoBase dtoCountry = repositoryCountry.read(1);
         //DtoBase dtoCity = repositoryCity.read(1);

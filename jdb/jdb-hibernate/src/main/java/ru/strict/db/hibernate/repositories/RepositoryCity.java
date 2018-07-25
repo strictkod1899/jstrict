@@ -32,7 +32,7 @@ public class RepositoryCity extends RepositoryNamedBase<EntityCity, DtoCity> {
     }
 
     @Override
-    protected EntityCity getEmptyEntity() {
-        return new EntityCity();
+    protected Class<EntityCity> getEntityClass() {
+        return EntityCity.class;
     }
 }

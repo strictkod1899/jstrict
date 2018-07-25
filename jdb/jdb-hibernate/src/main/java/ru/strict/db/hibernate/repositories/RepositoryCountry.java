@@ -30,7 +30,7 @@ public class RepositoryCountry extends RepositoryNamedBase<EntityCountry, DtoCou
     }
 
     @Override
-    protected EntityCountry getEmptyEntity() {
-        return new EntityCountry();
+    protected Class<EntityCountry> getEntityClass() {
+        return EntityCountry.class;
     }
 }
