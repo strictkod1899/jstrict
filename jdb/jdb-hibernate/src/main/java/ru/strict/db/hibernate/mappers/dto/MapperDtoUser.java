@@ -8,7 +8,6 @@ import ru.strict.db.hibernate.entities.EntityProfile;
 import ru.strict.db.hibernate.entities.EntityRoleuser;
 import ru.strict.db.hibernate.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
-import ru.strict.db.hibernate.mappers.dto.MapperDtoUserBase;
 
 /**
  * Двухсторонний маппинг объектов типа EntityUser и DtoUser

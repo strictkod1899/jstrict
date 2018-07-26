@@ -9,9 +9,9 @@ import java.util.UUID;
 /**
  * JWT-токен
  */
-@Entity
 @Table(name = "token")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@MappedSuperclass
 public class EntityJWTToken extends EntityToken {
 
     /**

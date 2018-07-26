@@ -8,9 +8,9 @@ import java.util.UUID;
 /**
  * Основная информация профиля пользователя (имя, фамилия, отчество)
  */
-@Entity
 @Table(name = "profile")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@MappedSuperclass
 public class EntityProfile extends EntityBase {
 
     /**
@@ -40,8 +40,9 @@ public class EntityProfile extends EntityBase {
     /**
      * Пользователь системы связанный с данным профилем
      */
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "userx_id", insertable = false, updatable = false)
+    @Transient
+    //@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //@JoinColumn(name = "userx_id", insertable = false, updatable = false)
     private EntityUser user;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

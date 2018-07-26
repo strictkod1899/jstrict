@@ -37,7 +37,8 @@ public class EntityUser extends EntityBase {
     /**
      * Профиль пользователя
      */
-    @OneToOne(mappedBy = "userId", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @Transient
+    //@OneToOne(mappedBy = "userId", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, orphanRemoval = true)
     private EntityProfile profile;
     /**
      * Токены пользователя

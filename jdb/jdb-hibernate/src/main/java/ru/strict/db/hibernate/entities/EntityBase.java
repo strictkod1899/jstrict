@@ -40,10 +40,6 @@ public abstract class EntityBase implements Serializable {
     }
 
     public void setId(UUID id) {
-        if(id == null) {
-            throw new NullPointerException("id is NULL");
-        }
-
         this.id = id;
     }
     //</editor-fold>
