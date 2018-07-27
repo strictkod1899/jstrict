@@ -5,7 +5,10 @@ import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoJWTToken;
 import ru.strict.db.core.entities.EntityJWTToken;
+import ru.strict.db.core.entities.EntityToken;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
+import ru.strict.db.core.requests.DbRequests;
+import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlJWTToken;
 
 import java.sql.Connection;
@@ -41,6 +44,22 @@ public class RepositoryJWTToken<ID>
         valuesByColumn.put(10, entity.getAlgorithm());
         valuesByColumn.put(11, entity.getType());
         return valuesByColumn;
+    }
+
+    public DtoJWTToken readByAccessToken(String caption){
+        DbRequests requests = new DbRequests(getTableName(), true);
+        requests.add(new DbWhere(getTableName(), "accessToken", caption, "="));
+
+        DtoJWTToken result = readAll(requests).stream().findFirst().orElse(null);
+        return result;
+    }
+
+    public DtoJWTToken readByRefreshToken(String caption){
+        DbRequests requests = new DbRequests(getTableName(), true);
+        requests.add(new DbWhere(getTableName(), "refreshToken", caption, "="));
+
+        DtoJWTToken result = readAll(requests).stream().findFirst().orElse(null);
+        return result;
     }
 
     @Override
