@@ -21,13 +21,12 @@ import java.util.Date;
 /**
  * Базовый класс репозитория с использованием Jdbc
  * @param <ID> Тип идентификатора
- * @param <SOURCE> Источник для получения соединения с базой данных (CreateConnectionByDataSource, CreateConnectionByConnectionInfo)
  * @param <E> Тип сущности базы данных (entity)
  * @param <DTO> Тип Dto-сущности базы данных
  */
 public abstract class RepositoryJdbcBase
-        <ID, SOURCE extends ICreateConnection, E extends EntityBase, DTO extends DtoBase>
-        extends RepositoryBase<ID, SOURCE, E, DTO> {
+        <ID, E extends EntityBase, DTO extends DtoBase>
+        extends RepositoryBase<ID, Connection, ICreateConnection<Connection>, E, DTO> {
 
     /**
      * Объект для преобразования полученных данных из sql-запроса в объект сущности азы данных (entity)
@@ -36,7 +35,7 @@ public abstract class RepositoryJdbcBase
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public RepositoryJdbcBase(String tableName, String[] columnsName,
-                              SOURCE connectionSource,
+                              ICreateConnection<Connection> connectionSource,
                               MapperDtoBase<E, DTO> dtoMapper,
                               MapperSqlBase<E> sqlMapper, GenerateIdType isGenerateId) {
         super(tableName, columnsName, connectionSource, dtoMapper, isGenerateId);
@@ -57,8 +56,8 @@ public abstract class RepositoryJdbcBase
                 parameters = getParameters(entity, 0);
                 sql = createSqlInsertShort(parameters.size());
 
-                try {
-                    statement = createConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                try (Connection connection = createConnection()){
+                    statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                     statement = setParametersToPrepareStatement(statement, parameters);
                     statement.executeUpdate();
 
@@ -78,8 +77,8 @@ public abstract class RepositoryJdbcBase
                 parameters.add(0, "id", id);
                 sql = createSqlInsertFull(parameters.size()-1);
 
-                try {
-                    statement = createConnection().prepareStatement(sql);
+                try (Connection connection = createConnection()){
+                    statement = connection.prepareStatement(sql);
                     statement = setParametersToPrepareStatement(statement, parameters);
                     statement.executeUpdate();
                 } catch (SQLException e) {
@@ -92,8 +91,8 @@ public abstract class RepositoryJdbcBase
                 parameters = getParameters(entity, 1);
                 parameters.add(0, "id", dto.getId());
                 sql = createSqlInsertFull(parameters.size()-1);
-                try {
-                    statement = createConnection().prepareStatement(sql);
+                try (Connection connection = createConnection()){
+                    statement = connection.prepareStatement(sql);
                     statement = setParametersToPrepareStatement(statement, parameters);
                     statement.executeUpdate();
                 } catch (SQLException e) {
@@ -114,8 +113,8 @@ public abstract class RepositoryJdbcBase
     public DTO read(ID id) {
         PreparedStatement statement;
         ResultSet resultSet;
-        try {
-            statement = createConnection().prepareStatement(String.format("%s WHERE id = ?", createSqlSelect()));
+        try (Connection connection = createConnection()){
+            statement = connection.prepareStatement(String.format("%s WHERE id = ?", createSqlSelect()));
 
             if(id instanceof Integer)
                 statement.setInt(1, (Integer) id);
@@ -143,9 +142,9 @@ public abstract class RepositoryJdbcBase
         PreparedStatement statement;
         ResultSet resultSet;
         List<DTO> result = new LinkedList<>();
-        try {
+        try (Connection connection = createConnection()){
             String sql = createSqlSelect() + (requests==null ? "" : requests.getSql());
-            statement = createConnection().prepareStatement(sql);
+            statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
             while(resultSet.next())
                 result.add(getDtoMapper().map(sqlMapper.map(resultSet)));
@@ -168,8 +167,8 @@ public abstract class RepositoryJdbcBase
 
         PreparedStatement statement;
 
-        try {
-            statement = createConnection().prepareStatement(sql);
+        try (Connection connection = createConnection()){
+            statement = connection.prepareStatement(sql);
             statement = setParametersToPrepareStatement(statement, parameters);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -187,8 +186,8 @@ public abstract class RepositoryJdbcBase
         parameters.addLast("id", id);
         PreparedStatement statement;
 
-        try {
-            statement = createConnection().prepareStatement(sql);
+        try (Connection connection = createConnection()){
+            statement = connection.prepareStatement(sql);
             statement = setParametersToPrepareStatement(statement, parameters);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -288,8 +287,8 @@ public abstract class RepositoryJdbcBase
         parameters.addLast("id", id);
         PreparedStatement statement;
         boolean isExists = false;
-        try {
-            statement = createConnection().prepareStatement(sql);
+        try (Connection connection = createConnection()){
+            statement = connection.prepareStatement(sql);
             statement = setParametersToPrepareStatement(statement, parameters);
 
             ResultSet resultSet = statement.executeQuery();

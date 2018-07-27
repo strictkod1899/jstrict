@@ -10,6 +10,7 @@ import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlProfile;
 
+import java.sql.Connection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -17,12 +18,12 @@ import java.util.Map;
  * Репозиторий таблицы "profile". Определяет столбцы: "name", "surname", "middlename", "user_id"
  * @param <ID> Тип идентификатора
  */
-public class RepositoryProfile<ID, SOURCE extends ICreateConnection>
-        extends RepositoryJdbcBase<ID, SOURCE, EntityProfile, DtoProfile> {
+public class RepositoryProfile<ID>
+        extends RepositoryJdbcBase<ID, EntityProfile, DtoProfile> {
 
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id"};
 
-    public RepositoryProfile(SOURCE connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryProfile(ICreateConnection<Connection> connectionSource, GenerateIdType isGenerateId) {
         super("profile", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.PROFILE),
                 new MapperSqlProfile(COLUMNS_NAME),

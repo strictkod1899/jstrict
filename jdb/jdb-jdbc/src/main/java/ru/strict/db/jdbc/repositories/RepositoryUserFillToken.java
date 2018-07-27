@@ -17,12 +17,13 @@ import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlUser;
 import ru.strict.utils.UtilLogger;
 
+import java.sql.Connection;
 import java.util.*;
 
-public class RepositoryUserFillToken<ID, SOURCE extends ICreateConnection>
-        extends RepositoryUser<ID, SOURCE, DtoUserToken> {
+public class RepositoryUserFillToken<ID>
+        extends RepositoryUser<ID, DtoUserToken> {
 
-    public RepositoryUserFillToken(SOURCE connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryUserFillToken(ICreateConnection<Connection> connectionSource, GenerateIdType isGenerateId) {
         super(connectionSource, new MapperDtoFactory().instance(MapperDtoType.USER_TOKEN), isGenerateId);
     }
 
@@ -36,7 +37,7 @@ public class RepositoryUserFillToken<ID, SOURCE extends ICreateConnection>
         dto = super.fill(dto);
 
         // Добавление токенов
-        RepositoryJdbcBase<ID, SOURCE, EntityJWTUserToken, DtoJWTUserToken> repositoryToken =
+        RepositoryJdbcBase<ID, EntityJWTUserToken, DtoJWTUserToken> repositoryToken =
                 new RepositoryJWTUserToken<>(getConnectionSource(), GenerateIdType.NONE);
         DbRequests requests = new DbRequests(repositoryToken.getTableName(), true);
         requests.add(new DbWhere(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));

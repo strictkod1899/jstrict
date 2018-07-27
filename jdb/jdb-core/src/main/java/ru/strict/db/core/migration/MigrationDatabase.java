@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * @param <TABLE> Тип таблиц для миграции (например, PostgreSQLMigrationTable, SQLiteMigrationTable и др.)
  */
 public class MigrationDatabase
-        <SOURCE extends ICreateConnection, TABLE extends MigrationTable>
+        <SOURCE extends ICreateConnection<Connection>, TABLE extends MigrationTable>
         implements IMigration {
 
     protected final WrapperLogger LOGGER = UtilLogger.createLogger(MigrationDatabase.class);

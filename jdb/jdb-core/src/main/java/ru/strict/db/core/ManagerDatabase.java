@@ -199,7 +199,7 @@ public class ManagerDatabase<SOURCE> {
      * Получить конструктор соединения по хранящемуся источнику
      * @return
      */
-    public ICreateConnection getCreateConnection(){
+    public ICreateConnection<Connection> getCreateConnection(){
         return new CreateConnectionFactory().instance(getConnectionSource());
     }
 

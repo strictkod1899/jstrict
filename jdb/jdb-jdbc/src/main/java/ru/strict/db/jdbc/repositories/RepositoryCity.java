@@ -12,15 +12,16 @@ import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlCity;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlCountry;
 
+import java.sql.Connection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class RepositoryCity<ID, SOURCE extends ICreateConnection>
-        extends RepositoryNamedBase<ID, SOURCE, EntityCity, DtoCity> {
+public class RepositoryCity<ID>
+        extends RepositoryNamedBase<ID, EntityCity, DtoCity> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption", "country_id"};
 
-    public RepositoryCity(SOURCE connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryCity(ICreateConnection<Connection> connectionSource, GenerateIdType isGenerateId) {
         super("city", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.CITY),
                 new MapperSqlCity(COLUMNS_NAME),

@@ -11,7 +11,7 @@ import ru.strict.utils.UtilHashCode;
 public class EntityCountry<ID> extends EntityNamed<ID> {
 
     /**
-     * Пользователи свзяанные с ролью
+     * Города свзяанные со страной
      */
     private Collection<EntityCity> cities;
 

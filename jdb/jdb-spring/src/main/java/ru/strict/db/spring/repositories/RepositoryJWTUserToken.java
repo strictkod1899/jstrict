@@ -3,12 +3,15 @@ package ru.strict.db.spring.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
+import ru.strict.db.core.dto.DtoJWTToken;
 import ru.strict.db.core.dto.DtoJWTUserToken;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.entities.EntityJWTUserToken;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
+import ru.strict.db.core.requests.DbRequests;
+import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.spring.mappers.sql.MapperSqlJWTUserToken;
 
 import java.util.LinkedHashMap;
@@ -45,6 +48,22 @@ public class RepositoryJWTUserToken<ID>
         valuesByColumn.put(12, entity.getUserId());
         valuesByColumn.put(13, entity.getRoleUserId());
         return valuesByColumn;
+    }
+
+    public DtoJWTUserToken readByAccessToken(String caption){
+        DbRequests requests = new DbRequests(getTableName(), true);
+        requests.add(new DbWhere(getTableName(), "accessToken", caption, "="));
+
+        DtoJWTUserToken result = readAll(requests).stream().findFirst().orElse(null);
+        return result;
+    }
+
+    public DtoJWTUserToken readByRefreshToken(String caption){
+        DbRequests requests = new DbRequests(getTableName(), true);
+        requests.add(new DbWhere(getTableName(), "refreshToken", caption, "="));
+
+        DtoJWTUserToken result = readAll(requests).stream().findFirst().orElse(null);
+        return result;
     }
 
     @Override

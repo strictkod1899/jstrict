@@ -55,10 +55,10 @@ public class Main {
     }
 
     private static void create(ManagerDatabase managerDatabase){
-        //managerDatabase.getRepository(RepositoryCountry.class)
-        //        .create(new DtoCountry(1, "Russia"));
-        //managerDatabase.getRepository(RepositoryCity.class)
-        //        .create(new DtoCity(1, "Novokuznetsk", 1));
+        managerDatabase.getRepository(RepositoryCountry.class)
+                .create(new DtoCountry(1, "Russia"));
+        managerDatabase.getRepository(RepositoryCity.class)
+                .create(new DtoCity(1, "Novokuznetsk", 1));
         managerDatabase.getRepository(RepositoryUser.class)
                 .create(new DtoUser(1, "user", "password"));
         managerDatabase.getRepository(RepositoryProfileInfo.class)

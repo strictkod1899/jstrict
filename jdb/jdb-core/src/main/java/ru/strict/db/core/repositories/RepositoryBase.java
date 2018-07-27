@@ -3,15 +3,13 @@ package ru.strict.db.core.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoBase;
-import ru.strict.db.core.entities.EntityBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.requests.DbRequests;
-import ru.strict.utils.UtilClassName;
+import ru.strict.utils.UtilClassOperations;
 import ru.strict.utils.UtilLogger;
 import ru.strict.components.WrapperLogger;
 import ru.strict.utils.UtilHashCode;
 
-import java.sql.Connection;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,10 +22,10 @@ import java.util.List;
  * @param <DTO> Тип Dto-сущности базы данных
  */
 public abstract class RepositoryBase
-        <ID, SOURCE extends ICreateConnection, E extends EntityBase, DTO extends DtoBase>
+        <ID, CONNECTION, SOURCE extends ICreateConnection<CONNECTION>, E, DTO extends DtoBase>
         implements IRepositoryExtension<ID, DTO> {
 
-    protected final WrapperLogger LOGGER = UtilLogger.createLogger(UtilClassName.getCurrentClassname());
+    protected final WrapperLogger LOGGER = UtilLogger.createLogger(UtilClassOperations.getCurrentClassname());
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
@@ -226,7 +224,7 @@ public abstract class RepositoryBase
      * Создать соединение с базой даннных
      * @return
      */
-    protected Connection createConnection(){
+    protected CONNECTION createConnection(){
         return connectionSource.createConnection();
     }
 

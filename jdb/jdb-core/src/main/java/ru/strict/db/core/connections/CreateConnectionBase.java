@@ -6,7 +6,7 @@ import ru.strict.utils.UtilHashCode;
  * Конструктор соединения с базой данных
  * @param <SOURCE> Тип источника подключения к базе данных (DataSource, ConnectionInfo)
  */
-public abstract class CreateConnectionBase<SOURCE> implements ICreateConnection {
+public abstract class CreateConnectionBase<SOURCE, CONNECTION> implements ICreateConnection<CONNECTION> {
 
     /**
      * Источник подключения к базе данных (DataSource, ConnectionInfo). <br/>

@@ -9,20 +9,23 @@ import ru.strict.db.core.entities.EntityJWTUserToken;
 import ru.strict.db.core.entities.EntityUserOnRole;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
+import ru.strict.db.core.requests.DbRequests;
+import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlJWTToken;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlJWTUserToken;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlUserOnRole;
 
+import java.sql.Connection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class RepositoryJWTUserToken<ID, SOURCE extends ICreateConnection>
-        extends RepositoryJdbcBase<ID, SOURCE, EntityJWTUserToken, DtoJWTUserToken> {
+public class RepositoryJWTUserToken<ID>
+        extends RepositoryJdbcBase<ID, EntityJWTUserToken, DtoJWTUserToken> {
 
     private static final String[] COLUMNS_NAME = new String[] {"accessToken", "refreshToken", "expireTimeAccess", "expireTimeRefresh",
             "issuedAt", "issuer", "subject", "notBefore", "audience", "secret", "algorithm", "type", "userx_id", "roleuser_id"};
 
-    public RepositoryJWTUserToken(SOURCE connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryJWTUserToken(ICreateConnection<Connection> connectionSource, GenerateIdType isGenerateId) {
         super("token", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.JWT_USER_TOKEN),
                 new MapperSqlJWTUserToken(COLUMNS_NAME),
@@ -47,6 +50,22 @@ public class RepositoryJWTUserToken<ID, SOURCE extends ICreateConnection>
         valuesByColumn.put(12, entity.getUserId());
         valuesByColumn.put(13, entity.getRoleUserId());
         return valuesByColumn;
+    }
+
+    public DtoJWTUserToken readByAccessToken(String caption){
+        DbRequests requests = new DbRequests(getTableName(), true);
+        requests.add(new DbWhere(getTableName(), "accessToken", caption, "="));
+
+        DtoJWTUserToken result = readAll(requests).stream().findFirst().orElse(null);
+        return result;
+    }
+
+    public DtoJWTUserToken readByRefreshToken(String caption){
+        DbRequests requests = new DbRequests(getTableName(), true);
+        requests.add(new DbWhere(getTableName(), "refreshToken", caption, "="));
+
+        DtoJWTUserToken result = readAll(requests).stream().findFirst().orElse(null);
+        return result;
     }
 
     @Override

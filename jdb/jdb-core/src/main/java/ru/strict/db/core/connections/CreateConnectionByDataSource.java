@@ -16,7 +16,7 @@ import java.sql.SQLException;
  *     Connection connection = connectionCreater.createConnection();
  * </pre></code>
  */
-public class CreateConnectionByDataSource extends CreateConnectionBase<DataSource> {
+public class CreateConnectionByDataSource extends CreateConnectionBase<DataSource, Connection> {
 
     protected final WrapperLogger LOGGER = UtilLogger.createLogger(CreateConnectionByDataSource.class);
 

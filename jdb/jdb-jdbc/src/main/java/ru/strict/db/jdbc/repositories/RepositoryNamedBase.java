@@ -10,21 +10,26 @@ import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
 
+import java.sql.Connection;
 import java.util.List;
 
 /**
  * Базовый класс репозитория с использованием Jdbc для таблиц со столбцом наименования (caption)
  * @param <ID> Тип идентификатора
- * @param <SOURCE> Источник для получения соединения с базой данных (CreateConnectionByDataSource, CreateConnectionByConnectionInfo)
  * @param <E> Тип сущности базы данных (entity)
  * @param <DTO> Тип Dto-сущности базы данных
  */
 public abstract class RepositoryNamedBase
-        <ID, SOURCE extends ICreateConnection, E extends EntityBase, DTO extends DtoBase>
-        extends RepositoryJdbcBase<ID, SOURCE, E, DTO>
+        <ID, E extends EntityBase, DTO extends DtoBase>
+        extends RepositoryJdbcBase<ID, E, DTO>
         implements IRepositoryNamed<ID, DTO> {
 
-    public RepositoryNamedBase(String tableName, String[] columnsName, SOURCE connectionSource, MapperDtoBase<E, DTO> dtoMapper, MapperSqlBase<E> sqlMapper, GenerateIdType isGenerateId) {
+    public RepositoryNamedBase(String tableName,
+                               String[] columnsName,
+                               ICreateConnection<Connection> connectionSource,
+                               MapperDtoBase<E, DTO> dtoMapper,
+                               MapperSqlBase<E> sqlMapper,
+                               GenerateIdType isGenerateId) {
         super(tableName, columnsName, connectionSource, dtoMapper, sqlMapper, isGenerateId);
     }
 
