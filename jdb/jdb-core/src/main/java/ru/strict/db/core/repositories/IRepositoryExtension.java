@@ -36,4 +36,12 @@ public interface IRepositoryExtension<ID, DTO extends DtoBase> extends IReposito
      * @return Созданный/прочитанный объект
      */
     DTO createOrReadFill(DTO dto);
+
+    /**
+     * Получить количество записей из базы данных по переданным условиям
+     *
+     * @param requests Условия выборки объектов. Если передать null, то будут считаны все объекты БД
+     * @return Еоличество записей из базы данных
+     */
+    int readCount(DbRequests requests);
 }

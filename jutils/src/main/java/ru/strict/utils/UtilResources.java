@@ -89,7 +89,7 @@ public class UtilResources {
      * @return Файл-ресурс
      */
     public static File getResource(String pathFile){
-        ClassLoader classLoader = UtilResources.class.getClassLoader();
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         try {
             return new File(classLoader.getResource(pathFile).getFile());
         }catch(java.lang.NullPointerException ex){
@@ -104,7 +104,7 @@ public class UtilResources {
      * @return Входной поток файла-ресурса
      */
     public static InputStream getResourceStream(String pathFile){
-        ClassLoader classLoader = UtilResources.class.getClassLoader();
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         try{
             return classLoader.getResourceAsStream(pathFile);
         }catch(java.lang.NullPointerException ex){

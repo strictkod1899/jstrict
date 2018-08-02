@@ -197,6 +197,25 @@ public abstract class RepositoryJdbcBase
     }
     //</editor-fold>
 
+    @Override
+    public int readCount(DbRequests requests) {
+        PreparedStatement statement;
+        ResultSet resultSet;
+        int result = -1;
+        try (Connection connection = createConnection()){
+            String sql = createSqlCount() + (requests==null ? "" : requests.getSql());
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            result = resultSet.getInt(1);
+        } catch (SQLException ex) {
+            UtilLogger.error(RepositoryJdbcBase.class, ex.getClass().toString(), ex.getMessage());
+            return -1;
+        }
+
+        return result;
+    }
+
     //<editor-fold defaultState="collapsed" desc="sql generate">
     /**
      * Sql-запрос на создание записи в таблице (без учета ID)
