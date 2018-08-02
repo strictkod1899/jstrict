@@ -217,6 +217,15 @@ public abstract class RepositoryBase
 
         return sql.toString();
     }
+
+    /**
+     * Sql-запрос на создание записи в таблице (без учета ID)
+     * @return
+     */
+    protected String createSqlCount(){
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM " + getTableName());
+        return sql.toString();
+    }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">

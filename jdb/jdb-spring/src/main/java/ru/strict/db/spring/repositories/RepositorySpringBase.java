@@ -15,6 +15,7 @@ import ru.strict.db.core.entities.EntityBase;
 import ru.strict.db.core.repositories.RepositoryBase;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
+import ru.strict.db.spring.mappers.sql.MapperSqlCountRows;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -127,6 +128,15 @@ public abstract class RepositorySpringBase
         parameters.addValue("id", id);
         springJdbc.update(sql, parameters);
         LOGGER.info("Successful a db entity deleted");
+    }
+
+    @Override
+    public int readCount(DbRequests requests) {
+        LOGGER.info("Trying a db entity read all");
+        String sql = createSqlCount() + (requests==null ? "" : requests.getSql());
+        Integer result = springJdbc.queryForObject(sql, new MapSqlParameterSource(), new MapperSqlCountRows());
+
+        return result;
     }
     //</editor-fold>
 
