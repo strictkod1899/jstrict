@@ -35,7 +35,7 @@ public class WrapperLogger{
      */
     private void defaultConfiguration(){
         if(configuration != null) {
-            configuration.setPattern("%d{ABSOLUTE} [%p] %c{1}/%M:%L - %m%n");
+            configuration.setPattern("%d{dd.MM.yyyy HH:mm:ss,SSS} [%p] %c{1}/%M:%L - %m%n");
             configuration.setLogDirectoryPath("logs");
             configuration.setLogFileName("report.log");
             configuration.setMaxFileSize("1024KB");
