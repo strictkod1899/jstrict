@@ -96,6 +96,11 @@ public abstract class RepositoryHibernateBase
     }
 
     @Override
+    public int readCount(DbRequests requests) {
+        throw new UnsupportedOperationException("Method not implemented");
+    }
+
+    @Override
     public boolean IsRowExists(UUID id) {
         return read(id) != null;
     }

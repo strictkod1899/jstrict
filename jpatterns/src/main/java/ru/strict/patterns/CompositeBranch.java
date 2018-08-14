@@ -4,13 +4,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
-* Композитный элемент, который может хранить другие элементы
+ * Pattern 'Composite'. Композитный элемент, который может хранить другие элементы
+ * @param <COMPOSIT> Элемент композиции. Используется для указания родительского класса композии и дочерних классов
 */
-public abstract class Composite<COMPOSIT extends IComposite> extends CompositeBase<List, COMPOSIT> {
+public abstract class CompositeBranch<COMPOSIT extends IComposite> extends CompositeBase<List, COMPOSIT> {
 
 	private List<COMPOSIT> childs;
 
-	public Composite(){
+	public CompositeBranch(){
 		super();
 		childs = new LinkedList<>();
 	}

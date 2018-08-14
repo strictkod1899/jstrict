@@ -1,7 +1,7 @@
 package ru.strict.patterns;
 
 /**
-* Описание базовой функцональности команды
+* Pattern 'Command'. Описание базовой функцональности команды
 */
 public interface ICommand {
 
