@@ -1,8 +1,9 @@
 package ru.strict.patterns;
 
 /**
- * Интерфейс расширенной реализации паттерна "Компоновщик"
- * @param <SOURCE> источник хранения дочерних элементов, например, массив, Collection, List и др.
+ * Pattern 'Composite'. Интерфейс расширенной реализации паттерна "Компоновщик"
+ * @param <COMPOSIT> Элемент композиции. Используется для указания родительского класса композии и дочерних классов
+ * @param <SOURCE> Источник хранения дочерних элементов, например, массив, Collection, List и др.
 */
 public interface ICompositeExtension<SOURCE, COMPOSIT extends IComposite> extends IComposite<COMPOSIT> {
 

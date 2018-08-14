@@ -1,7 +1,7 @@
 package ru.strict.patterns;
 
 /**
- * Интерфейс реализации паттерна "Компоновщик"*
+ * Pattern 'Composite'. Интерфейс реализации паттерна "Компоновщик"*
  * @param <COMPOSIT> Элемент композиции. Используется для указания родительского класса композии
 */
 public interface IComposite<COMPOSIT extends IComposite> {
