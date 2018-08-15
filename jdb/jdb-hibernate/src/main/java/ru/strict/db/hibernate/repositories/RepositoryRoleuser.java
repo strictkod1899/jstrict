@@ -33,4 +33,9 @@ public class RepositoryRoleuser extends RepositoryNamedBase<EntityRoleuser, DtoR
     protected Class<EntityRoleuser> getEntityClass() {
         return EntityRoleuser.class;
     }
+
+    @Override
+    protected Class getThisClass() {
+        return this.getClass();
+    }
 }

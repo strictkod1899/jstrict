@@ -28,4 +28,9 @@ public class RepositoryUserOnRole extends RepositoryHibernateBase<EntityUserOnRo
     protected Class<EntityUserOnRole> getEntityClass() {
         return EntityUserOnRole.class;
     }
+
+    @Override
+    protected Class getThisClass() {
+        return this.getClass();
+    }
 }

@@ -29,4 +29,9 @@ public class RepositoryJWTUserToken extends RepositoryHibernateBase<EntityJWTUse
     protected Class<EntityJWTUserToken> getEntityClass() {
         return EntityJWTUserToken.class;
     }
+
+    @Override
+    protected Class getThisClass() {
+        return this.getClass();
+    }
 }

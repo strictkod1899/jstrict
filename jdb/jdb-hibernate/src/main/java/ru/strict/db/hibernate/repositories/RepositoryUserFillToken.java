@@ -17,4 +17,9 @@ public class RepositoryUserFillToken<ID> extends RepositoryUser<DtoUserToken> {
                 new MapperDtoFactory().instance(MapperDtoType.USER_TOKEN),
                 isGenerateId);
     }
+
+    @Override
+    protected Class getThisClass() {
+        return this.getClass();
+    }
 }
