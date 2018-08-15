@@ -53,4 +53,9 @@ public class RepositoryCountry<ID>
     protected String getColumnWithName() {
         return COLUMNS_NAME[0];
     }
+
+    @Override
+    protected Class getThisClass() {
+        return this.getClass();
+    }
 }

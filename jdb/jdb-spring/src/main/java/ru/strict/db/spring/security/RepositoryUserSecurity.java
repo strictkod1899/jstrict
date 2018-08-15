@@ -51,4 +51,9 @@ public class RepositoryUserSecurity<ID>
             dto.addRoleuser(rRoleuser.read(userOnRole.getRoleId()));
         return dto;
     }
+
+    @Override
+    protected Class getThisClass() {
+        return this.getClass();
+    }
 }

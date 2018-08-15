@@ -79,4 +79,9 @@ public class RepositoryJWTUserToken<ID>
         dto.setRoleUser(repositoryRoleuser.read((ID) dto.getRoleUserId()));
         return dto;
     }
+
+    @Override
+    protected Class getThisClass() {
+        return this.getClass();
+    }
 }
