@@ -51,7 +51,7 @@ public class RepositoryProfile<ID>
     }
 
     @Override
-    protected Class getClassForLogReport() {
+    protected Class getThisClass() {
         return this.getClass();
     }
 }

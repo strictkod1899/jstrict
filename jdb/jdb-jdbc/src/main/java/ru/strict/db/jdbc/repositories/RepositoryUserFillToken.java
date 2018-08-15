@@ -48,7 +48,7 @@ public class RepositoryUserFillToken<ID>
     }
 
     @Override
-    protected Class getClassForLogReport() {
+    protected Class getThisClass() {
         return this.getClass();
     }
 }

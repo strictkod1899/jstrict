@@ -5,7 +5,6 @@ import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.requests.DbRequests;
-import ru.strict.utils.UtilClassOperations;
 import ru.strict.utils.UtilLogger;
 import ru.strict.components.WrapperLogger;
 import ru.strict.utils.UtilHashCode;
@@ -25,7 +24,7 @@ public abstract class RepositoryBase
         <ID, CONNECTION, SOURCE extends ICreateConnection<CONNECTION>, E, DTO extends DtoBase>
         implements IRepositoryExtension<ID, DTO> {
 
-    protected final WrapperLogger LOGGER = UtilLogger.createLogger(getClassForLogReport());
+    protected final WrapperLogger LOGGER = UtilLogger.createLogger(getThisClass());
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
@@ -103,7 +102,7 @@ public abstract class RepositoryBase
      * return this.getClass();
      * @return
      */
-    protected abstract Class getClassForLogReport();
+    protected abstract Class getThisClass();
 
     //<editor-fold defaultState="collapsed" desc="CRUD">
     @Override

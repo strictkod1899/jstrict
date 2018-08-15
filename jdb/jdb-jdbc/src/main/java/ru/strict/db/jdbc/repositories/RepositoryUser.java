@@ -81,7 +81,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase>
     }
 
     @Override
-    protected Class getClassForLogReport() {
+    protected Class getThisClass() {
         return this.getClass();
     }
 }

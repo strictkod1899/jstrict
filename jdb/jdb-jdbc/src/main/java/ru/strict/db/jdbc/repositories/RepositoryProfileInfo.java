@@ -60,7 +60,7 @@ public class RepositoryProfileInfo<ID>
     }
 
     @Override
-    protected Class getClassForLogReport() {
+    protected Class getThisClass() {
         return this.getClass();
     }
 }

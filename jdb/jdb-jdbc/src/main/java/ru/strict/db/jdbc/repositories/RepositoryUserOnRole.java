@@ -50,7 +50,7 @@ public class RepositoryUserOnRole<ID>
     }
 
     @Override
-    protected Class getClassForLogReport() {
+    protected Class getThisClass() {
         return this.getClass();
     }
 }

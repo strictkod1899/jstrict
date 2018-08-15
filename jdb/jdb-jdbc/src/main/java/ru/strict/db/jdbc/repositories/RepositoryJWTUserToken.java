@@ -83,7 +83,7 @@ public class RepositoryJWTUserToken<ID>
     }
 
     @Override
-    protected Class getClassForLogReport() {
+    protected Class getThisClass() {
         return this.getClass();
     }
 }
