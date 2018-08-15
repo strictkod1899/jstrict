@@ -1,5 +1,6 @@
 package ru.strict.db.jdbc.repositories;
 
+import ru.strict.components.WrapperRuntimeException;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoBase;
@@ -10,7 +11,6 @@ import ru.strict.db.core.repositories.RepositoryBase;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.jdbc.common.JdbcSqlParameter;
 import ru.strict.db.jdbc.common.JdbcSqlParameters;
-import ru.strict.utils.UtilLogger;
 
 import java.math.BigDecimal;
 import java.net.URL;
@@ -62,13 +62,15 @@ public abstract class RepositoryJdbcBase
                     statement.executeUpdate();
 
                     try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                        if (generatedKeys.next())
+                        if (generatedKeys.next()) {
                             dto.setId(generatedKeys.getLong(1));
-                        else
+                        }else {
                             throw new SQLException("Creating user failed, no ID obtained");
+                        }
                     }
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                    throw new WrapperRuntimeException(ex);
                 }
                 break;
             case UUID:
@@ -81,8 +83,9 @@ public abstract class RepositoryJdbcBase
                     statement = connection.prepareStatement(sql);
                     statement = setParametersToPrepareStatement(statement, parameters);
                     statement.executeUpdate();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                    throw new WrapperRuntimeException(ex);
                 }
 
                 dto.setId(id);
@@ -95,13 +98,15 @@ public abstract class RepositoryJdbcBase
                     statement = connection.prepareStatement(sql);
                     statement = setParametersToPrepareStatement(statement, parameters);
                     statement.executeUpdate();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                    throw new WrapperRuntimeException(ex);
                 }
                 break;
             default:
-                LOGGER.error("Type for generate id is not determine. Entity was not created into database");
-                break;
+                String errorMessage = "Type for generate id is not determine. Entity was not created into database";
+                LOGGER.error(errorMessage);
+                throw new IllegalArgumentException(errorMessage);
         }
 
         LOGGER.info("Finished a db entity created");
@@ -111,8 +116,10 @@ public abstract class RepositoryJdbcBase
 
     @Override
     public DTO read(ID id) {
+        LOGGER.info("Trying a db entity read");
         PreparedStatement statement;
         ResultSet resultSet;
+        DTO result = null;
         try (Connection connection = createConnection()){
             statement = connection.prepareStatement(String.format("%s WHERE id = ?", createSqlSelect()));
 
@@ -125,20 +132,26 @@ public abstract class RepositoryJdbcBase
             else if(id instanceof String)
                 statement.setString(1, (String)id);
             else{
-                UtilLogger.error(RepositoryJdbcBase.class, "Error sql-query [read]: ID type not supported");
-                throw new IllegalArgumentException("Error sql-query [read]: ID type not supported");
+                String errorMessage = "Error sql-query [read]: ID type not supported";
+                LOGGER.error(errorMessage);
+                throw new IllegalArgumentException(errorMessage);
             }
 
             resultSet = statement.executeQuery();
-            return getDtoMapper().map(sqlMapper.map(resultSet));
+            result = getDtoMapper().map(sqlMapper.map(resultSet));
         } catch (SQLException ex) {
-            UtilLogger.error(RepositoryJdbcBase.class, ex.getClass().toString(), ex.getMessage());
-            return null;
+            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+            result = null;
         }
+
+        LOGGER.info("Finished a db entity read");
+
+        return result;
     }
 
     @Override
     public List<DTO> readAll(DbRequests requests) {
+        LOGGER.info("Trying a db entity read all");
         PreparedStatement statement;
         ResultSet resultSet;
         List<DTO> result = new LinkedList<>();
@@ -146,13 +159,17 @@ public abstract class RepositoryJdbcBase
             String sql = createSqlSelect() + (requests==null ? "" : requests.getSql());
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
-            while(resultSet.next())
+            while(resultSet.next()) {
                 result.add(getDtoMapper().map(sqlMapper.map(resultSet)));
+            }
+
+            setObjects(result);
         } catch (SQLException ex) {
-            UtilLogger.error(RepositoryJdbcBase.class, ex.getClass().toString(), ex.getMessage());
-            return null;
+            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+            result = null;
         }
-        setObjects(result);
+
+        LOGGER.info("Finished a db entity read all");
 
         return result;
     }
@@ -171,8 +188,9 @@ public abstract class RepositoryJdbcBase
             statement = connection.prepareStatement(sql);
             statement = setParametersToPrepareStatement(statement, parameters);
             statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+            throw new WrapperRuntimeException(ex);
         }
         LOGGER.info("Successful a db entity updated");
         return dto;
@@ -190,8 +208,9 @@ public abstract class RepositoryJdbcBase
             statement = connection.prepareStatement(sql);
             statement = setParametersToPrepareStatement(statement, parameters);
             statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+            throw new WrapperRuntimeException(ex);
         }
         LOGGER.info("Successful a db entity deleted");
     }
@@ -199,6 +218,8 @@ public abstract class RepositoryJdbcBase
 
     @Override
     public int readCount(DbRequests requests) {
+        LOGGER.info("Trying a db entity read count");
+
         PreparedStatement statement;
         ResultSet resultSet;
         int result = -1;
@@ -209,9 +230,11 @@ public abstract class RepositoryJdbcBase
             resultSet.next();
             result = resultSet.getInt(1);
         } catch (SQLException ex) {
-            UtilLogger.error(RepositoryJdbcBase.class, ex.getClass().toString(), ex.getMessage());
-            return -1;
+            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+            result = -1;
         }
+
+        LOGGER.info("Finished a db entity read count");
 
         return result;
     }

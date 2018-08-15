@@ -48,4 +48,9 @@ public class RepositoryUserOnRole<ID>
         dto.setRole(repositoryRoleuser.read((ID) dto.getRoleId()));
         return dto;
     }
+
+    @Override
+    protected Class getClassForLogReport() {
+        return this.getClass();
+    }
 }

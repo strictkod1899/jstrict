@@ -57,4 +57,9 @@ public class RepositoryCountry<ID>
     protected String getColumnWithName() {
         return COLUMNS_NAME[0];
     }
+
+    @Override
+    protected Class getClassForLogReport() {
+        return this.getClass();
+    }
 }

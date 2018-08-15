@@ -46,4 +46,9 @@ public class RepositoryUserFillToken<ID>
         dto.setTokens(tokens);
         return dto;
     }
+
+    @Override
+    protected Class getClassForLogReport() {
+        return this.getClass();
+    }
 }

@@ -53,9 +53,11 @@ public class WrapperLogger{
             PatternLayout layout = new PatternLayout();
             layout.setConversionPattern(configuration.getPattern());
 
+
             ConsoleAppender consoleAppender = new ConsoleAppender();
             consoleAppender.setLayout(layout);
             consoleAppender.activateOptions();
+
 
             RollingFileAppender fileAppender = new RollingFileAppender();
             fileAppender.setFile(configuration.getLogDirectoryPath() + "\\" + configuration.getLogFileName());
@@ -152,7 +154,7 @@ public class WrapperLogger{
      * Логирование исключения
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
-     *      UtilLogger.error(MyClass.class, ex.getClass().toString(), ex.getMessage());
+     *      Logger.error(ex.getClass().toString(), ex.getMessage());
      * </pre></code>
      * @param type Тип исключения
      * @param message Сообщение исключения
@@ -165,7 +167,7 @@ public class WrapperLogger{
      * Логирование исключения
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
-     *      UtilLogger.error(MyClass.class, "My message", ex.getClass().toString(), ex.getMessage());
+     *      Logger.error(ex.getClass().toString(), "My message", ex.getMessage());
      * </pre></code>
      * @param customMessage Пользовательское (дополнительное) сообщение
      * @param type Тип исключения
@@ -196,7 +198,7 @@ public class WrapperLogger{
      * Логирование исключения
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
-     *      UtilLogger.error(MyClass.class, ex.getClass().toString(), ex.getMessage());
+     *      Logger.error(ex.getClass().toString(), ex.getMessage());
      * </pre></code>
      * @param type Тип исключения
      * @param message Сообщение исключения
@@ -209,7 +211,7 @@ public class WrapperLogger{
      * Логирование исключения
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
-     *      UtilLogger.error(MyClass.class, "My message", ex.getClass().toString(), ex.getMessage());
+     *      Logger.error(ex.getClass().toString(), "My message", ex.getMessage());
      * </pre></code>
      * @param customMessage Пользовательское (дополнительное) сообщение
      * @param type Тип исключения

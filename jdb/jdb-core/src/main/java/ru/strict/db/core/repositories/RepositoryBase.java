@@ -25,7 +25,7 @@ public abstract class RepositoryBase
         <ID, CONNECTION, SOURCE extends ICreateConnection<CONNECTION>, E, DTO extends DtoBase>
         implements IRepositoryExtension<ID, DTO> {
 
-    protected final WrapperLogger LOGGER = UtilLogger.createLogger(UtilClassOperations.getCurrentClassname());
+    protected final WrapperLogger LOGGER = UtilLogger.createLogger(getClassForLogReport());
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
@@ -95,6 +95,15 @@ public abstract class RepositoryBase
      * @return
      */
     public abstract boolean IsRowExists(ID id);
+
+    /**
+     * Возвращает конечный класс репозитория, от чьего имени будет вестись логирование.
+     * Возвращает текущий класс.
+     * Стандартная реализация:
+     * return this.getClass();
+     * @return
+     */
+    protected abstract Class getClassForLogReport();
 
     //<editor-fold defaultState="collapsed" desc="CRUD">
     @Override
