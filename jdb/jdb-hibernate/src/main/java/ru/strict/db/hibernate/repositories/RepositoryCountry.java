@@ -33,4 +33,9 @@ public class RepositoryCountry extends RepositoryNamedBase<EntityCountry, DtoCou
     protected Class<EntityCountry> getEntityClass() {
         return EntityCountry.class;
     }
+
+    @Override
+    protected Class getThisClass() {
+        return this.getClass();
+    }
 }

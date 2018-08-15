@@ -64,4 +64,9 @@ public class RepositoryJWTToken<ID>
     protected DtoJWTToken fill(DtoJWTToken dto){
         return dto;
     }
+
+    @Override
+    protected Class getThisClass() {
+        return this.getClass();
+    }
 }

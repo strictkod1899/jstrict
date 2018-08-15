@@ -49,4 +49,9 @@ public class RepositoryProfile<ID>
             dto.setUser(repositoryUser.read((ID) dto.getUserId()));
         return dto;
     }
+
+    @Override
+    protected Class getThisClass() {
+        return this.getClass();
+    }
 }

@@ -77,8 +77,9 @@ public abstract class RepositorySpringBase
                 springJdbc.update(sql, parameters);
                 break;
             default:
-                LOGGER.error("Type for generate id is not determine. Entity was not created into database");
-                break;
+                String errorMessage = "Type for generate id is not determine. Entity was not created into database";
+                LOGGER.error(errorMessage);
+                throw new IllegalArgumentException(errorMessage);
         }
 
         LOGGER.info("Finished a db entity created");
@@ -102,8 +103,9 @@ public abstract class RepositorySpringBase
         String sql = createSqlSelect() + (requests==null?"":requests.getSql());
         List<DTO> result = new LinkedList<>();
         List<E> entities = springJdbc.query(sql, springMapper);
-        for(E entity : entities)
+        for(E entity : entities) {
             result.add(getDtoMapper().map(entity));
+        }
         LOGGER.info("Successful a db entity read all");
         return result;
     }
@@ -147,13 +149,15 @@ public abstract class RepositorySpringBase
      */
     private String createSqlInsertShort(String[] parametersName){
         StringBuilder sql = new StringBuilder(String.format("INSERT INTO %s (", getTableName()));
-        for(String columnName : getColumnsName())
+        for(String columnName : getColumnsName()) {
             sql.append(columnName + ", ");
+        }
         sql.replace(sql.length()-2, sql.length(), "");
         sql.append(") VALUES (");
 
-        for(String parameterName : parametersName)
+        for(String parameterName : parametersName) {
             sql.append(":" + parameterName + ", ");
+        }
         sql.replace(sql.length()-2, sql.length(), "");
         sql.append(");");
         return sql.toString();
@@ -165,13 +169,15 @@ public abstract class RepositorySpringBase
      */
     private String createSqlInsertFull(String[] parametersName){
         StringBuilder sql = new StringBuilder(String.format("INSERT INTO %s (id, ", getTableName()));
-        for(String columnName : getColumnsName())
+        for(String columnName : getColumnsName()) {
             sql.append(columnName + ", ");
+        }
         sql.replace(sql.length()-2, sql.length(), "");
         sql.append(") VALUES (:id, ");
 
-        for(String parameterName : parametersName)
+        for(String parameterName : parametersName) {
             sql.append(":" + parameterName + ", ");
+        }
         sql.replace(sql.length()-2, sql.length(), "");
         sql.append(")");
         return sql.toString();

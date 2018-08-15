@@ -32,4 +32,8 @@ public class RepositoryProfile extends RepositoryHibernateBase<EntityProfile, Dt
         return EntityProfile.class;
     }
 
+    @Override
+    protected Class getThisClass() {
+        return this.getClass();
+    }
 }

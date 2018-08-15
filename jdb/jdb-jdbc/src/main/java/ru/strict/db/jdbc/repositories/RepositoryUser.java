@@ -79,4 +79,9 @@ public class RepositoryUser<ID, DTO extends DtoUserBase>
     protected String getColumnWithName() {
         return COLUMNS_NAME[0];
     }
+
+    @Override
+    protected Class getThisClass() {
+        return this.getClass();
+    }
 }

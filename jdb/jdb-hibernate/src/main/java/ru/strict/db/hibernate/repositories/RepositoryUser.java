@@ -34,4 +34,9 @@ public class RepositoryUser<DTO extends DtoUserBase> extends RepositoryNamedBase
     protected Class<EntityUser> getEntityClass() {
         return EntityUser.class;
     }
+
+    @Override
+    protected Class getThisClass() {
+        return this.getClass();
+    }
 }

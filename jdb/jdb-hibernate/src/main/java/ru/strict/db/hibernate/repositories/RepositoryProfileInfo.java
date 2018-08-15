@@ -33,4 +33,9 @@ public class RepositoryProfileInfo extends RepositoryHibernateBase<EntityProfile
     protected Class<EntityProfileInfo> getEntityClass() {
         return EntityProfileInfo.class;
     }
+
+    @Override
+    protected Class getThisClass() {
+        return this.getClass();
+    }
 }

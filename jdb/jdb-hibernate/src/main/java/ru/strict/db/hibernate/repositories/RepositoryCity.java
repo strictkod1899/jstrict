@@ -33,4 +33,9 @@ public class RepositoryCity extends RepositoryNamedBase<EntityCity, DtoCity> {
     protected Class<EntityCity> getEntityClass() {
         return EntityCity.class;
     }
+
+    @Override
+    protected Class getThisClass() {
+        return this.getClass();
+    }
 }

@@ -58,4 +58,9 @@ public class RepositoryProfileInfo<ID>
         dto.setCity(repositoryCity.read((ID) dto.getCityId()));
         return dto;
     }
+
+    @Override
+    protected Class getThisClass() {
+        return this.getClass();
+    }
 }
