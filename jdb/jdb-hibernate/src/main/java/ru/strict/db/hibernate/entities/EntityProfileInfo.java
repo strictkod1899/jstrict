@@ -12,7 +12,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "profile")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class EntityProfileInfo extends EntityProfile {
+public class EntityProfileInfo extends EntityProfileBase {
 
     /**
      * Дата рождения

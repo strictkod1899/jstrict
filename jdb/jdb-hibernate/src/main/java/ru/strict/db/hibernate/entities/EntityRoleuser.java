@@ -30,10 +30,10 @@ public class EntityRoleuser extends EntityBase {
     /**
      * Пользователи свзяанные с ролью
      */
-    @ManyToMany(cascade = CascadeType.REFRESH)
+    @ManyToMany()
     @JoinTable(name = "user_on_role",
-            joinColumns = @JoinColumn(name = "userx_id"),
-            inverseJoinColumns = @JoinColumn(name = "roleuser_id")
+            joinColumns = @JoinColumn(name = "roleuser_id"),
+            inverseJoinColumns = @JoinColumn(name = "userx_id")
     )
     private Collection<EntityUser> users;
 

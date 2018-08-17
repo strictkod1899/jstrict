@@ -4,6 +4,7 @@ import ru.strict.db.core.dto.DtoProfile;
 import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.hibernate.entities.EntityProfile;
+import ru.strict.db.hibernate.entities.EntityProfileBase;
 import ru.strict.db.hibernate.entities.EntityUser;
 
 import java.util.Optional;
@@ -12,7 +13,7 @@ import java.util.UUID;
 /**
  * Двухсторонний маппинг объектов типа EntityProfile и DtoProfile
  */
-public class MapperDtoProfile<E extends EntityProfile, DTO extends DtoProfile>
+public class MapperDtoProfile<E extends EntityProfileBase, DTO extends DtoProfile>
         extends MapperDtoBase<E, DTO> {
 
     private MapperDtoBase<EntityUser, DtoUser> mapperUser;
@@ -38,7 +39,7 @@ public class MapperDtoProfile<E extends EntityProfile, DTO extends DtoProfile>
     }
 
     @Override
-    protected DtoProfile implementMap(EntityProfile entity) {
+    protected DtoProfile implementMap(EntityProfileBase entity) {
         DtoProfile dto = new DtoProfile();
         dto.setId(entity.getId());
         dto.setName(entity.getName());

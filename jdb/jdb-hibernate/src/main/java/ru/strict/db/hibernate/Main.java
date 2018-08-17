@@ -2,8 +2,10 @@ package ru.strict.db.hibernate;
 
 import ru.strict.db.core.common.ConnectionByDbType;
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.dto.*;
 import ru.strict.db.hibernate.entities.*;
+import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoUser;
 import ru.strict.db.hibernate.common.HibernateDialects;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
@@ -28,6 +30,7 @@ public class Main {
         hibernateConnectionInfo.addEntityClass(EntityCountry.class);
         hibernateConnectionInfo.addEntityClass(EntityCity.class);
         hibernateConnectionInfo.addEntityClass(EntityUser.class);
+        hibernateConnectionInfo.addEntityClass(EntityProfile.class);
         hibernateConnectionInfo.addEntityClass(EntityProfileInfo.class);
         hibernateConnectionInfo.addEntityClass(EntityRoleuser.class);
         hibernateConnectionInfo.addEntityClass(EntityUserOnRole.class);
@@ -38,7 +41,8 @@ public class Main {
         RepositoryCity repositoryCity =
                 new RepositoryCity(new CreateConnectionHibernate(hibernateConnectionInfo), GenerateIdType.NONE);
         RepositoryUser<DtoUserToken> repositoryUser =
-                new RepositoryUser(new CreateConnectionHibernate(hibernateConnectionInfo), new MapperDtoUserToken(), GenerateIdType.NONE);
+                new RepositoryUser(new CreateConnectionHibernate(hibernateConnectionInfo),
+                        new MapperDtoFactory().instance(MapperDtoType.USER_TOKEN), GenerateIdType.NONE);
         RepositoryProfileInfo repositoryProfile =
                 new RepositoryProfileInfo(new CreateConnectionHibernate(hibernateConnectionInfo), GenerateIdType.NONE);
         RepositoryRoleuser repositoryRoleUser =
@@ -48,11 +52,10 @@ public class Main {
         RepositoryJWTUserToken repositoryToken =
                 new RepositoryJWTUserToken(new CreateConnectionHibernate(hibernateConnectionInfo), GenerateIdType.NONE);
 
-        /*
-        repositoryCountry.create(new DtoCountry("Russia"));
+        /*repositoryCountry.create(new DtoCountry("Russia"));
         repositoryCity.create(new DtoCity("Novokuznetsk", repositoryCountry.readAll(null).get(0).getId()));
-        repositoryUser.create(new DtoUser("user", "password"));
-        UUID userId = (UUID) repositoryCity.readAll(null).get(0).getId();
+        repositoryUser.create(new DtoUserToken("user", "password"));
+        UUID userId = (UUID) repositoryUser.readAll(null).get(0).getId();
         UUID cityId = (UUID) repositoryCity.readAll(null).get(0).getId();
         repositoryProfile.create(new DtoProfileInfo("Konstantin", "Kastirin", "Igorevich",
                 userId, new Date(), "123",
@@ -62,24 +65,25 @@ public class Main {
                 repositoryRoleUser.readAll(null).get(0).getId()));
         repositoryToken.create(new DtoJWTUserToken("access", "refresh", new Date(), new Date(), new Date(),
                 repositoryUser.readAll(null).get(0).getId(),
-                repositoryRoleUser.readAll(null).get(0).getId()));
-        */
+                repositoryRoleUser.readAll(null).get(0).getId()));*/
 
-        //DtoBase dtoCountry = repositoryCountry.read((UUID)repositoryCountry.readAll(null).get(0).getId());
-        //DtoBase dtoCity = repositoryCity.read((UUID)repositoryCity.readAll(null).get(0).getId());
+
+        DtoBase dtoCountry = repositoryCountry.read((UUID)repositoryCountry.readAll(null).get(0).getId());
+        DtoBase dtoCity = repositoryCity.read((UUID)repositoryCity.readAll(null).get(0).getId());
+        DtoBase dtoUserOnRole = repositoryUserOnRole.read((UUID)repositoryUserOnRole.readAll(null).get(0).getId());
+        DtoBase dtoRoleuser = repositoryRoleUser.read((UUID)repositoryRoleUser.readAll(null).get(0).getId());
         DtoBase dtoUser = repositoryUser.read((UUID)repositoryUser.readAll(null).get(0).getId());
         DtoBase dtoProfile = repositoryProfile.read((UUID)repositoryProfile.readAll(null).get(0).getId());
-        DtoBase dtoRoleuser = repositoryRoleUser.read((UUID)repositoryRoleUser.readAll(null).get(0).getId());
-        DtoBase dtoUserOnRole = repositoryUserOnRole.read((UUID)repositoryUserOnRole.readAll(null).get(0).getId());
         DtoBase dtoToken = repositoryToken.read((UUID)repositoryToken.readAll(null).get(0).getId());
 
-        List dtoCountries = repositoryCountry.readAll(null);
+        int i = 0;
+        /*List dtoCountries = repositoryCountry.readAll(null);
         List dtoCities = repositoryCity.readAll(null);
         List dtoUsers = repositoryUser.readAll(null);
         List dtoProfiles = repositoryProfile.readAll(null);
         List dtoRoleusers = repositoryRoleUser.readAll(null);
         List dtoUSerOnRoles = repositoryUserOnRole.readAll(null);
-        List dtoTokens = repositoryToken.readAll(null);
+        List dtoTokens = repositoryToken.readAll(null);*/
 
         /*
         repositoryCountry.update(new DtoCountry(repositoryCountry.readAll(null).get(0).getId(), "RussiaUpdate"));
@@ -105,6 +109,6 @@ public class Main {
         repositoryToken.delete((UUID)repositoryToken.readAll(null).get(0).getId());
         */
 
-        int i = 0;
+        i = 0;
     }
 }
