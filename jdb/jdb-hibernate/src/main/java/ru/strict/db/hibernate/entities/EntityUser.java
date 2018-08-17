@@ -30,8 +30,8 @@ public class EntityUser extends EntityBase {
      */
     @ManyToMany()
     @JoinTable(name = "user_on_role",
-            joinColumns = @JoinColumn(name = "userx_id"),
-            inverseJoinColumns = @JoinColumn(name = "roleuser_id")
+            joinColumns = @JoinColumn(name = "userx_id", insertable = false, updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "roleuser_id", insertable = false, updatable = false)
     )
     private Collection<EntityRoleuser> rolesuser;
     /**

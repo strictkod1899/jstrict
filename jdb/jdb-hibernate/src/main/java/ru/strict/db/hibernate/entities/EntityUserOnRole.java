@@ -21,7 +21,7 @@ public class EntityUserOnRole extends EntityBase {
     /**
      * Пользователь
      */
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userx_id", insertable = false, updatable = false)
     private EntityUser user;
     /**
@@ -32,7 +32,7 @@ public class EntityUserOnRole extends EntityBase {
     /**
      * Роль пользователя
      */
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "roleuser_id", insertable = false, updatable = false)
     private EntityRoleuser role;
 
