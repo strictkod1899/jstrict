@@ -1,6 +1,7 @@
 package ru.strict.db.hibernate.repositories;
 
 import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoBase;
 import ru.strict.db.hibernate.entities.EntityBase;
@@ -161,7 +162,26 @@ public abstract class RepositoryHibernateBase
 
     @Override
     public int readCount(DbRequests requests) {
-        throw new UnsupportedOperationException("Method not implemented");
+        int result = -1;
+        String sql = createSqlCount() + (requests==null ? "" : requests.getSql());
+        Session session = null;
+        try{
+            session = createConnection();
+            NativeQuery resultQuery = session.createNativeQuery(sql);
+            result = (Integer) resultQuery.list().get(0);
+        }catch(Exception ex){
+            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+            if(session != null) {
+                session.getTransaction().rollback();
+            }
+            throw ex;
+        }finally{
+            if(session != null) {
+                session.close();
+            }
+        }
+
+        return result;
     }
 
     @Override
