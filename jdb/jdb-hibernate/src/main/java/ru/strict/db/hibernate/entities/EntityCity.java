@@ -16,14 +16,14 @@ public class EntityCity extends EntityNamed {
     /**
      * Идентификатор страны
      */
-    @Column(name = "country_id")
+    @Column(name = "country_id", nullable = false)
     private UUID countryId;
 
     /**
      * Страна связанная с данным городом
      */
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-    @JoinColumn(name = "country_id", insertable = false, updatable = false)
+    @JoinColumn(name = "country_id", insertable = false, updatable = false, nullable = false)
     private EntityCountry country;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

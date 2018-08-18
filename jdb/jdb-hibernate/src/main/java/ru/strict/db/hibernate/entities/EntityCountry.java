@@ -18,7 +18,7 @@ public class EntityCountry extends EntityNamed {
     /**
      * Города связанные со страной
      */
-    @OneToMany(mappedBy = "countryId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "countryId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Collection<EntityCity> cities;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

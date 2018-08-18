@@ -17,25 +17,25 @@ public class EntityProfileInfo extends EntityProfileBase {
     /**
      * Дата рождения
      */
-    @Column(name = "datebirth")
+    @Column(name = "datebirth", nullable = true)
     private Date dateBirth;
 
     /**
      * Номер телефона
      */
-    @Column(name = "phone")
+    @Column(name = "phone", nullable = true)
     private String phone;
 
     /**
      * Идентификатор города
      */
-    @Column(name = "city_id")
+    @Column(name = "city_id", nullable = true)
     private UUID cityId;
 
     /**
      * Город связанный с пользователем
      */
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, orphanRemoval = false)
     @JoinColumn(name = "city_id", insertable = false, updatable = false)
     private EntityCity city;
 

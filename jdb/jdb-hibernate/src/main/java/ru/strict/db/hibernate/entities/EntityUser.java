@@ -18,31 +18,30 @@ public class EntityUser extends EntityBase {
     /**
      * Логин пользователя
      */
-    @Column(name = "username")
+    @Column(name = "username", nullable = false)
     private String username;
     /**
      * Зашифрованный пароль пользователя
      */
-    @Column(name = "passwordencode")
+    @Column(name = "passwordencode", nullable = false)
     private String passwordEncode;
     /**
      * Роли пользователя
      */
-    @ManyToMany()
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinTable(name = "user_on_role",
             joinColumns = @JoinColumn(name = "userx_id", insertable = false, updatable = false),
-            inverseJoinColumns = @JoinColumn(name = "roleuser_id", insertable = false, updatable = false)
-    )
+            inverseJoinColumns = @JoinColumn(name = "roleuser_id", insertable = false, updatable = false))
     private Collection<EntityRoleuser> rolesuser;
     /**
      * Профиль пользователя. Используется конструкция OneToMany, но фактически реализована связь OneToOne
      */
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.REFRESH ,orphanRemoval = true)
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Collection<EntityProfile> profile;
     /**
      * Токены пользователя
      */
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.REFRESH ,orphanRemoval = true)
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Collection<EntityJWTUserToken> tokens;
 
     public EntityProfile getProfile() {

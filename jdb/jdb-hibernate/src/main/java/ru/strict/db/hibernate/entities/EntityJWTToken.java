@@ -10,44 +10,44 @@ import java.util.UUID;
  * JWT-токен
  */
 @Table(name = "token")
-//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @MappedSuperclass
 public class EntityJWTToken extends EntityToken {
 
     /**
      * Издатель токена
      */
-    @Column(name = "issuer")
+    @Column(name = "issuer", nullable = true)
     private String issuer;
     /**
      * Назначение токена
      */
-    @Column(name = "subject")
+    @Column(name = "subject", nullable = true)
     private String subject;
     /**
      * Дата, до которой токен не действителен
      */
-    @Column(name = "notBefore")
+    @Column(name = "notBefore", nullable = true)
     private Date notBefore;
     /**
      * Получатели токена
      */
-    @Column(name = "audience")
+    @Column(name = "audience", nullable = true)
     private String audience;
     /**
      * Секретный ключ для раскодирования токена
      */
-    @Column(name = "secret")
+    @Column(name = "secret", nullable = true)
     private String secret;
     /**
      * Алгоритм кодирования токена
      */
-    @Column(name = "algorithm")
+    @Column(name = "algorithm", nullable = true)
     private String algorithm;
     /**
      * Тип токена
      */
-    @Column(name = "type")
+    @Column(name = "type", nullable = true)
     private String type;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

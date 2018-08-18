@@ -57,7 +57,7 @@ public class Main {
         repositoryUser.create(new DtoUserToken("user", "password"));
         UUID userId = (UUID) repositoryUser.readAll(null).get(0).getId();
         UUID cityId = (UUID) repositoryCity.readAll(null).get(0).getId();
-        repositoryProfile.create(new DtoProfileInfo("Konstantin", "Kastirin", "Igorevich",
+        repositoryProfile.create(new DtoProfileInfo("Konstantin", "Kastirin", null,
                 userId, new Date(), "123",
                 cityId));
         repositoryRoleUser.create(new DtoRoleuser("SUPERUSER", "This is superuser"));
@@ -68,6 +68,7 @@ public class Main {
                 repositoryRoleUser.readAll(null).get(0).getId()));*/
         repositoryUserOnRole.create(new DtoUserOnRole(repositoryUser.readAll(null).get(0).getId(),
                 repositoryRoleUser.readAll(null).get(0).getId()));
+
         DtoBase dtoCountry = repositoryCountry.read((UUID)repositoryCountry.readAll(null).get(0).getId());
         DtoBase dtoCity = repositoryCity.read((UUID)repositoryCity.readAll(null).get(0).getId());
         DtoBase dtoUserOnRole = repositoryUserOnRole.read((UUID)repositoryUserOnRole.readAll(null).get(0).getId());
@@ -85,7 +86,7 @@ public class Main {
         List dtoUSerOnRoles = repositoryUserOnRole.readAll(null);
         List dtoTokens = repositoryToken.readAll(null);
 
-        /*repositoryCountry.update(new DtoCountry(repositoryCountry.readAll(null).get(0).getId(), "RussiaUpdate"));
+        repositoryCountry.update(new DtoCountry(repositoryCountry.readAll(null).get(0).getId(), "RussiaUpdate"));
         repositoryCity.update(new DtoCity(repositoryCity.readAll(null).get(0).getId(), "NovokuznetskUpdate", repositoryCountry.readAll(null).get(0).getId()));
         repositoryUser.update(new DtoUserToken(repositoryUser.readAll(null).get(0).getId(), "userUPDATE", "password"));
         repositoryProfile.update(new DtoProfileInfo(repositoryProfile.readAll(null).get(0).getId(), "KonstantinUPDATE", "Kastirin", "Igorevich",
@@ -96,17 +97,16 @@ public class Main {
                 repositoryRoleUser.readAll(null).get(0).getId()));
         repositoryToken.update(new DtoJWTUserToken(repositoryToken.readAll(null).get(0).getId(), "accessUpdate", "refresh", new Date(), new Date(), new Date(),
                 repositoryUser.readAll(null).get(0).getId(),
-                repositoryRoleUser.readAll(null).get(0).getId()));*/
+                repositoryRoleUser.readAll(null).get(0).getId()));
 
 
         repositoryCity.delete((UUID)repositoryCity.readAll(null).get(0).getId());
-        /*repositoryCountry.delete((UUID)repositoryCountry.readAll(null).get(0).getId());
-        repositoryUser.delete((UUID)repositoryUser.readAll(null).get(0).getId());
-        repositoryProfile.delete((UUID)repositoryProfile.readAll(null).get(0).getId());
-        repositoryRoleUser.delete((UUID)repositoryRoleUser.readAll(null).get(0).getId());
+        repositoryCountry.delete((UUID)repositoryCountry.readAll(null).get(0).getId());
         repositoryUserOnRole.delete((UUID)repositoryUserOnRole.readAll(null).get(0).getId());
-        repositoryToken.delete((UUID)repositoryToken.readAll(null).get(0).getId());*/
-
+        repositoryProfile.delete((UUID)repositoryProfile.readAll(null).get(0).getId());
+        repositoryToken.delete((UUID)repositoryToken.readAll(null).get(0).getId());
+        repositoryRoleUser.delete((UUID)repositoryRoleUser.readAll(null).get(0).getId());
+        repositoryUser.delete((UUID)repositoryUser.readAll(null).get(0).getId());
         i = 0;
     }
 }

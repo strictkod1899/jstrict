@@ -16,31 +16,31 @@ public abstract class EntityProfileBase extends EntityBase {
     /**
      * Имя
      */
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     /**
      * Фамилия
      */
-    @Column(name = "surname")
+    @Column(name = "surname", nullable = false)
     private String surname;
 
     /**
      * Отчетство
      */
-    @Column(name = "middlename")
+    @Column(name = "middlename", nullable = true)
     private String middlename;
 
     /**
      * Идентификатор пользователя
      */
-    @Column(name = "userx_id")
+    @Column(name = "userx_id", nullable = false)
     private UUID userId;
 
     /**
      * Пользователь системы связанный с данным профилем
      */
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, orphanRemoval = false)
     @JoinColumn(name = "userx_id", insertable = false, updatable = false)
     private EntityUser user;
 
