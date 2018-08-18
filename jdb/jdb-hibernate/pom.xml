@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>jdb-hibernate</artifactId>
-    <version>0.1.2-SNAPSHOT</version>
+    <version>0.1.3</version>
     <packaging>jar</packaging>
     <name>jdb-hibernate</name>
     <url>http://maven.apache.org</url>
