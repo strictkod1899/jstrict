@@ -36,6 +36,7 @@ public class MapperDtoUserBase<E extends EntityUser, DTO extends DtoUserBase>
         entity.setEmail(dto.getEmail());
         entity.setBlocked(dto.isBlocked());
         entity.setDeleted(dto.isDeleted());
+        entity.setConfirmEmail(dto.isConfirmEmail());
         entity.setUsername(dto.getUsername());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) ->
                 dto.getRolesuser().stream().forEach(r -> entity.addRoleuser(mapper.map((DtoRoleuser) r))));
@@ -51,6 +52,7 @@ public class MapperDtoUserBase<E extends EntityUser, DTO extends DtoUserBase>
         dto.setEmail(entity.getEmail());
         dto.setBlocked(entity.isBlocked());
         dto.setDeleted(entity.isDeleted());
+        dto.setConfirmEmail(entity.isConfirmEmail());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) ->
                 entity.getRolesuser().stream().forEach(r -> dto.addRoleuser(mapper.map((EntityRoleuser) r))));
         Optional.ofNullable(mapperProfile).ifPresent((mapper) -> dto.setProfile(mapper.map(entity.getProfile())));

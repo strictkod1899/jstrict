@@ -27,6 +27,10 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
      */
     private boolean isDeleted;
     /**
+     * Адрес электронной почты подтвержден
+     */
+    private boolean isConfirmEmail;
+    /**
      * Роли пользователя
      */
     private Collection<DtoRoleuser> rolesuser;
@@ -47,6 +51,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         this.email = email;
         isBlocked = false;
         isDeleted = false;
+        isConfirmEmail = false;
         rolesuser = new LinkedList<>();
         profile = null;
     }
@@ -57,6 +62,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         email = null;
         isBlocked = false;
         isDeleted = false;
+        isConfirmEmail = false;
         rolesuser = new LinkedList<>();
         profile = null;
     }
@@ -113,6 +119,14 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         isDeleted = deleted;
     }
 
+    public boolean isConfirmEmail() {
+        return isConfirmEmail;
+    }
+
+    public void setConfirmEmail(boolean confirmEmail) {
+        isConfirmEmail = confirmEmail;
+    }
+
     public Collection<DtoRoleuser> getRolesuser() {
         return rolesuser;
     }
@@ -162,6 +176,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
                     && email.equals(object.getEmail())
                     && isBlocked == object.isBlocked()
                     && isDeleted == object.isDeleted()
+                    && isConfirmEmail == object.isConfirmEmail()
                     && (rolesuser.size() == object.getRolesuser().size() && rolesuser.containsAll(object.getRolesuser()))
                     && profile.equals(object.getProfile());
         }else
@@ -171,7 +186,8 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, username, email, isBlocked, isDeleted, rolesuser, profile);
+        return UtilHashCode.createSubHashCode(superHashCode, username, email, isBlocked, isDeleted,
+                isConfirmEmail, rolesuser, profile);
     }
     //</editor-fold>
 }

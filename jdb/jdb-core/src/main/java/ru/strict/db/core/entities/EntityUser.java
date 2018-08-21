@@ -33,6 +33,10 @@ public class EntityUser<ID> extends EntityBase<ID> {
      */
     private boolean isDeleted;
     /**
+     * Адрес электронной почты подтвержден
+     */
+    private boolean isConfirmEmail;
+    /**
      * Роли пользователя
      */
     private Collection<EntityRoleuser> rolesuser;
@@ -60,6 +64,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
         this.email = email;
         isBlocked = false;
         isDeleted = false;
+        isConfirmEmail = false;
         rolesuser = new LinkedList<>();
         tokens = new LinkedList<>();
         profile = null;
@@ -72,6 +77,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
         email = null;
         isBlocked = false;
         isDeleted = false;
+        isConfirmEmail = false;
         rolesuser = new LinkedList<>();
         tokens = new LinkedList<>();
         profile = null;
@@ -139,6 +145,14 @@ public class EntityUser<ID> extends EntityBase<ID> {
 
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public boolean isConfirmEmail() {
+        return isConfirmEmail;
+    }
+
+    public void setConfirmEmail(boolean confirmEmail) {
+        isConfirmEmail = confirmEmail;
     }
 
     public Collection<EntityRoleuser> getRolesuser() {
@@ -217,6 +231,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
                     && email.equals(object.getEmail())
                     && isBlocked == object.isBlocked()
                     && isDeleted == object.isDeleted()
+                    && isConfirmEmail == object.isConfirmEmail()
                     && (rolesuser.size() == object.getRolesuser().size() && rolesuser.containsAll(object.getRolesuser()))
                     && (tokens.size() == object.getTokens().size() && tokens.containsAll(object.getTokens()))
                     && profile.equals(object.getProfile());
@@ -228,7 +243,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
     public int hashCode(){
     	int superHashCode = super.hashCode();
         return UtilHashCode.createSubHashCode(superHashCode, username, passwordEncode, email, isBlocked, isDeleted,
-                rolesuser, tokens, profile);
+                isConfirmEmail, rolesuser, tokens, profile);
     }
     //</editor-fold>
 }
