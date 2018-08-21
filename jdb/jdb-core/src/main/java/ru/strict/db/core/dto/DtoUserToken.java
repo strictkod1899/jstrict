@@ -25,13 +25,13 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
         tokens = new LinkedList<>();
     }
 
-    public DtoUserToken(String username, String passwordEncode) {
-        super(username, passwordEncode);
+    public DtoUserToken(String username, String email, String passwordEncode) {
+        super(username, email, passwordEncode);
         initialize();
     }
 
-    public DtoUserToken(ID id, String username, String passwordEncode) {
-        super(id, username, passwordEncode);
+    public DtoUserToken(ID id, String username, String email, String passwordEncode) {
+        super(id, username, email, passwordEncode);
         initialize();
     }
     //</editor-fold>

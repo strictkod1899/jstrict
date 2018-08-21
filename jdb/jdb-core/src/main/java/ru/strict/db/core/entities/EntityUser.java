@@ -2,7 +2,10 @@ package ru.strict.db.core.entities;
 
 import java.util.Collection;
 import java.util.LinkedList;
+
+import ru.strict.utils.UtilData;
 import ru.strict.utils.UtilHashCode;
+import ru.strict.validates.ValidateBaseValue;
 
 /**
  * Пользователь системы
@@ -18,6 +21,18 @@ public class EntityUser<ID> extends EntityBase<ID> {
      */
     private String passwordEncode;
     /**
+     * Адрес электронной почты
+     */
+    private String email;
+    /**
+     * Пользователь заблокирован
+     */
+    private boolean isBlocked;
+    /**
+     * Пользователь удален
+     */
+    private boolean isDeleted;
+    /**
      * Роли пользователя
      */
     private Collection<EntityRoleuser> rolesuser;
@@ -31,15 +46,20 @@ public class EntityUser<ID> extends EntityBase<ID> {
     private Collection<EntityJWTToken> tokens;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void initialize(String username, String passwordEncode){
-        if(username == null) {
+    private void initialize(String username, String passwordEncode, String email){
+        if(!ValidateBaseValue.isNotEmptyOrNull(username)) {
             throw new NullPointerException("username is NULL");
-        } else if(passwordEncode == null) {
+        } else if(!ValidateBaseValue.isNotEmptyOrNull(passwordEncode)) {
             throw new NullPointerException("passwordEncode is NULL");
+        } else if(!ValidateBaseValue.isNotEmptyOrNull(email)) {
+            throw new NullPointerException("email is NULL");
         }
 
         this.username = username;
         this.passwordEncode = passwordEncode;
+        this.email = email;
+        isBlocked = false;
+        isDeleted = false;
         rolesuser = new LinkedList<>();
         tokens = new LinkedList<>();
         profile = null;
@@ -49,19 +69,22 @@ public class EntityUser<ID> extends EntityBase<ID> {
         super();
         username = null;
         passwordEncode = null;
+        email = null;
+        isBlocked = false;
+        isDeleted = false;
         rolesuser = new LinkedList<>();
         tokens = new LinkedList<>();
         profile = null;
     }
 
-    public EntityUser(String username, String passwordEncode) {
+    public EntityUser(String username, String passwordEncode, String email) {
         super();
-        initialize(username, passwordEncode);
+        initialize(username, passwordEncode, email);
     }
 
-    public EntityUser(ID id, String username, String passwordEncode) {
+    public EntityUser(ID id, String username, String passwordEncode, String email) {
         super(id);
-        initialize(username, passwordEncode);
+        initialize(username, passwordEncode, email);
     }
     //</editor-fold>
 
@@ -71,7 +94,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
     }
 
     public void setUsername(String username) {
-        if(username == null) {
+        if(!ValidateBaseValue.isNotEmptyOrNull(username)) {
             throw new NullPointerException("username is NULL");
         }
 
@@ -83,11 +106,39 @@ public class EntityUser<ID> extends EntityBase<ID> {
     }
 
     public void setPasswordEncode(String passwordEncode) {
-        if(passwordEncode == null) {
+        if(!ValidateBaseValue.isNotEmptyOrNull(passwordEncode)) {
             throw new NullPointerException("passwordEncode is NULL");
         }
 
         this.passwordEncode = passwordEncode;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        if(!ValidateBaseValue.isNotEmptyOrNull(email)) {
+            throw new NullPointerException("email is NULL");
+        }
+
+        this.email = email;
+    }
+
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        isBlocked = blocked;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     public Collection<EntityRoleuser> getRolesuser() {
@@ -163,6 +214,9 @@ public class EntityUser<ID> extends EntityBase<ID> {
             EntityUser object = (EntityUser) obj;
             return super.equals(object) && username.equals(object.getUsername())
                     && passwordEncode.equals(object.getPasswordEncode())
+                    && email.equals(object.getEmail())
+                    && isBlocked == object.isBlocked()
+                    && isDeleted == object.isDeleted()
                     && (rolesuser.size() == object.getRolesuser().size() && rolesuser.containsAll(object.getRolesuser()))
                     && (tokens.size() == object.getTokens().size() && tokens.containsAll(object.getTokens()))
                     && profile.equals(object.getProfile());
@@ -173,7 +227,8 @@ public class EntityUser<ID> extends EntityBase<ID> {
     @Override
     public int hashCode(){
     	int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, username, passwordEncode, rolesuser, tokens, profile);
+        return UtilHashCode.createSubHashCode(superHashCode, username, passwordEncode, email, isBlocked, isDeleted,
+                rolesuser, tokens, profile);
     }
     //</editor-fold>
 }

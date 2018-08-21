@@ -3,6 +3,7 @@ package ru.strict.db.core.dto;
 import java.util.Collection;
 import java.util.LinkedList;
 import ru.strict.utils.UtilHashCode;
+import ru.strict.validates.ValidateBaseValue;
 
 /**
  * Базовая информация о пользователе (логин, роли, профиль)
@@ -14,6 +15,18 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
      */
     private String username;
     /**
+     * Адрес электронной почты
+     */
+    private String email;
+    /**
+     * Пользователь заблокирован
+     */
+    private boolean isBlocked;
+    /**
+     * Пользователь удален
+     */
+    private boolean isDeleted;
+    /**
      * Роли пользователя
      */
     private Collection<DtoRoleuser> rolesuser;
@@ -23,12 +36,17 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     private DtoProfile profile;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void initialize(String username){
-        if(username == null) {
+    private void initialize(String username, String email){
+        if(!ValidateBaseValue.isNotEmptyOrNull(username)) {
             throw new NullPointerException("username is NULL");
+        } else if(!ValidateBaseValue.isNotEmptyOrNull(email)) {
+            throw new NullPointerException("email is NULL");
         }
 
         this.username = username;
+        this.email = email;
+        isBlocked = false;
+        isDeleted = false;
         rolesuser = new LinkedList<>();
         profile = null;
     }
@@ -36,18 +54,21 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     public DtoUserBase() {
         super();
         username = null;
+        email = null;
+        isBlocked = false;
+        isDeleted = false;
         rolesuser = new LinkedList<>();
         profile = null;
     }
 
-    public DtoUserBase(String username) {
+    public DtoUserBase(String username, String email) {
         super();
-        initialize(username);
+        initialize(username, email);
     }
 
-    public DtoUserBase(ID id, String username) {
+    public DtoUserBase(ID id, String username, String email) {
         super(id);
-        initialize(username);
+        initialize(username, email);
     }
     //</editor-fold>
 
@@ -57,11 +78,39 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     }
 
     public void setUsername(String username) {
-        if(username == null) {
+        if(!ValidateBaseValue.isNotEmptyOrNull(username)) {
             throw new NullPointerException("username is NULL");
         }
 
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        if(!ValidateBaseValue.isNotEmptyOrNull(email)) {
+            throw new NullPointerException("email is NULL");
+        }
+
+        this.email = email;
+    }
+
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        isBlocked = blocked;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     public Collection<DtoRoleuser> getRolesuser() {
@@ -110,6 +159,9 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         if(obj!=null && obj instanceof DtoUserBase) {
             DtoUserBase object = (DtoUserBase) obj;
             return super.equals(object) && username.equals(object.getUsername())
+                    && email.equals(object.getEmail())
+                    && isBlocked == object.isBlocked()
+                    && isDeleted == object.isDeleted()
                     && (rolesuser.size() == object.getRolesuser().size() && rolesuser.containsAll(object.getRolesuser()))
                     && profile.equals(object.getProfile());
         }else
@@ -119,7 +171,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, username, rolesuser, profile);
+        return UtilHashCode.createSubHashCode(superHashCode, username, email, isBlocked, isDeleted, rolesuser, profile);
     }
     //</editor-fold>
 }
