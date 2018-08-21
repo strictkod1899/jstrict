@@ -83,10 +83,10 @@ public class MapperDtoFactory implements IFactory<IMapper, MapperDtoType> {
     }
 
     private MapperDtoBase<EntityUser, DtoUser> createMapperUserToken(){
-        MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRolesser = new MapperDtoRoleuser();
+        MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRolesuser = new MapperDtoRoleuser();
         MapperDtoBase<EntityProfile, DtoProfile> mapperProfile = new MapperDtoProfile();
         MapperDtoBase<EntityJWTUserToken, DtoJWTUserToken> mapperToken = new MapperDtoJWTUserToken<>();
-        return new MapperDtoUserToken(mapperRolesser, mapperProfile, mapperToken);
+        return new MapperDtoUserToken(mapperRolesuser, mapperProfile, mapperToken);
     }
 
     private MapperDtoBase<EntityUserOnRole, DtoUserOnRole> createMapperUserOnRole(){

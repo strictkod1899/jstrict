@@ -18,23 +18,22 @@ public class EntityRoleuser extends EntityBase {
     /**
      * Набор символов характеризующих роль
      */
-    @Column(name = "code")
+    @Column(name = "code", nullable = false)
     private String code;
 
     /**
      * Описание роли
      */
-    @Column(name = "description")
+    @Column(name = "description", nullable = true)
     private String description;
 
     /**
      * Пользователи свзяанные с ролью
      */
-    @ManyToMany(cascade = CascadeType.REFRESH)
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinTable(name = "user_on_role",
-            joinColumns = @JoinColumn(name = "userx_id"),
-            inverseJoinColumns = @JoinColumn(name = "roleuser_id")
-    )
+            joinColumns = @JoinColumn(name = "roleuser_id", insertable = false, updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "userx_id", insertable = false, updatable = false))
     private Collection<EntityUser> users;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

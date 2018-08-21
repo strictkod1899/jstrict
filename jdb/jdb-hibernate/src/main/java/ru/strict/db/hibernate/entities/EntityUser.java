@@ -18,33 +18,52 @@ public class EntityUser extends EntityBase {
     /**
      * Логин пользователя
      */
-    @Column(name = "username")
+    @Column(name = "username", nullable = false)
     private String username;
     /**
      * Зашифрованный пароль пользователя
      */
-    @Column(name = "passwordencode")
+    @Column(name = "passwordencode", nullable = false)
     private String passwordEncode;
     /**
      * Роли пользователя
      */
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinTable(name = "user_on_role",
-            joinColumns = @JoinColumn(name = "roleuser_id"),
-            inverseJoinColumns = @JoinColumn(name = "userx_id")
-    )
+            joinColumns = @JoinColumn(name = "userx_id", insertable = false, updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "roleuser_id", insertable = false, updatable = false))
     private Collection<EntityRoleuser> rolesuser;
     /**
-     * Профиль пользователя
+     * Профиль пользователя. Используется конструкция OneToMany, но фактически реализована связь OneToOne
      */
-    @Transient
-    //@OneToOne(mappedBy = "userId", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, orphanRemoval = true)
-    private EntityProfile profile;
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private Collection<EntityProfile> profile;
     /**
      * Токены пользователя
      */
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.REFRESH ,orphanRemoval = true)
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Collection<EntityJWTUserToken> tokens;
+
+    public EntityProfile getProfile() {
+        EntityProfile result = null;
+
+        if(profile != null){
+            result = profile.stream().findFirst().orElse(null);
+        }
+
+        return result;
+    }
+
+    public void setProfile(EntityProfile profile) {
+        if(this.profile != null && profile != null){
+            this.profile.removeAll(this.profile);
+            this.profile.add(profile);
+        }
+    }
+
+    protected void setProfiles(Collection<EntityProfile> profile) {
+        this.profile = profile;
+    }
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String username, String passwordEncode){
@@ -58,7 +77,7 @@ public class EntityUser extends EntityBase {
         this.passwordEncode = passwordEncode;
         rolesuser = new LinkedList<>();
         tokens = new LinkedList<>();
-        profile = null;
+        profile = new LinkedList<>();
     }
 
     public EntityUser() {
@@ -67,7 +86,7 @@ public class EntityUser extends EntityBase {
         passwordEncode = null;
         rolesuser = new LinkedList<>();
         tokens = new LinkedList<>();
-        profile = null;
+        profile = new LinkedList<>();
     }
 
     public EntityUser(String username, String passwordEncode) {
@@ -155,14 +174,6 @@ public class EntityUser extends EntityBase {
         }
 
         this.tokens = tokens;
-    }
-
-    public EntityProfile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(EntityProfile profile) {
-        this.profile = profile;
     }
     //</editor-fold>
 

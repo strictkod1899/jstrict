@@ -16,7 +16,7 @@ public abstract class EntityNamed extends EntityBase {
     /**
      * Наименование записи
      */
-    @Column(name = "caption")
+    @Column(name = "caption", nullable = false)
     private String caption;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

@@ -1,6 +1,7 @@
 package ru.strict.db.hibernate.repositories;
 
 import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoBase;
 import ru.strict.db.hibernate.entities.EntityBase;
@@ -34,11 +35,23 @@ public abstract class RepositoryHibernateBase
 
     @Override
     public DTO create(DTO dto) {
-        try(Session session = createConnection()){
+        Session session = null;
+        try{
+            session = createConnection();
             session.beginTransaction();
             E entity = getDtoMapper().map(dto);
             session.save(entity);
             session.getTransaction().commit();
+        }catch(Exception ex){
+            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+            if(session != null) {
+                session.getTransaction().rollback();
+            }
+            throw ex;
+        }finally{
+            if(session != null) {
+                session.close();
+            }
         }
         return dto;
     }
@@ -46,11 +59,24 @@ public abstract class RepositoryHibernateBase
     @Override
     public DTO read(UUID id) {
         DTO result = null;
-        try(Session session = createConnection()){
+        Session session = null;
+        try{
+            session = createConnection();
             session.beginTransaction();
             E entity = session.get(getEntityClass(), id);
             result = getDtoMapper().map(entity);
             session.getTransaction().commit();
+            session.close();
+        }catch(Exception ex){
+            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+            if(session != null) {
+                session.getTransaction().rollback();
+            }
+            throw ex;
+        }finally{
+            if(session != null) {
+                session.close();
+            }
         }
         return result;
     }
@@ -58,7 +84,9 @@ public abstract class RepositoryHibernateBase
     @Override
     public List<DTO> readAll(DbRequests requests) {
         List<DTO> result = new LinkedList<>();
-        try(Session session = createConnection()){
+        Session session = null;
+        try{
+            session = createConnection();
             session.beginTransaction();
             EntityManagerFactory entityManagerFactory = session.getEntityManagerFactory();
             EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -70,34 +98,90 @@ public abstract class RepositoryHibernateBase
             entities.stream().forEach(entity -> result.add(getDtoMapper().map(entity)));
 
             session.getTransaction().commit();
+            session.close();
+        }catch(Exception ex){
+            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+            if(session != null) {
+                session.getTransaction().rollback();
+            }
+            throw ex;
+        }finally{
+            if(session != null) {
+                session.close();
+            }
         }
         return result;
     }
 
     @Override
     public DTO update(DTO dto) {
-        try(Session session = createConnection()){
+        Session session = null;
+        try{
+            session = createConnection();
             session.beginTransaction();
             E entity = getDtoMapper().map(dto);
             session.update(entity);
             session.getTransaction().commit();
+            session.close();
+        }catch(Exception ex){
+            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+            if(session != null) {
+                session.getTransaction().rollback();
+            }
+            throw ex;
+        }finally{
+            if(session != null) {
+                session.close();
+            }
         }
         return dto;
     }
 
     @Override
     public void delete(UUID id) {
-        try(Session session = createConnection()){
+        Session session = null;
+        try{
+            session = createConnection();
             session.beginTransaction();
             E entity = getDtoMapper().map(read(id));
             session.delete(entity);
             session.getTransaction().commit();
+            session.close();
+        }catch(Exception ex){
+            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+            if(session != null) {
+                session.getTransaction().rollback();
+            }
+            throw ex;
+        }finally{
+            if(session != null) {
+                session.close();
+            }
         }
     }
 
     @Override
     public int readCount(DbRequests requests) {
-        throw new UnsupportedOperationException("Method not implemented");
+        int result = -1;
+        String sql = createSqlCount() + (requests==null ? "" : requests.getSql());
+        Session session = null;
+        try{
+            session = createConnection();
+            NativeQuery resultQuery = session.createNativeQuery(sql);
+            result = (Integer) resultQuery.list().get(0);
+        }catch(Exception ex){
+            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+            if(session != null) {
+                session.getTransaction().rollback();
+            }
+            throw ex;
+        }finally{
+            if(session != null) {
+                session.close();
+            }
+        }
+
+        return result;
     }
 
     @Override

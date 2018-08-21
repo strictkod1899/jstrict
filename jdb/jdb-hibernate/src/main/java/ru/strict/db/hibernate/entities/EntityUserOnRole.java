@@ -16,23 +16,23 @@ public class EntityUserOnRole extends EntityBase {
     /**
      * Идентификатор пользователя
      */
-    @Column(name = "userx_id")
+    @Column(name = "userx_id", nullable = false)
     private UUID userId;
     /**
      * Пользователь
      */
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, orphanRemoval = false)
     @JoinColumn(name = "userx_id", insertable = false, updatable = false)
     private EntityUser user;
     /**
      * Идентификатор роли
      */
-    @Column(name = "roleuser_id")
+    @Column(name = "roleuser_id", nullable = false)
     private UUID roleId;
     /**
      * Роль пользователя
      */
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, orphanRemoval = false)
     @JoinColumn(name = "roleuser_id", insertable = false, updatable = false)
     private EntityRoleuser role;
 

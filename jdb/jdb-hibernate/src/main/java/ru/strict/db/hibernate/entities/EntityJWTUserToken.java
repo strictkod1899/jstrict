@@ -17,23 +17,23 @@ public class EntityJWTUserToken extends EntityJWTToken {
     /**
      * Идентификатор пользователя, связанного с данным токеном
      */
-    @Column(name = "userx_id")
+    @Column(name = "userx_id", nullable = false)
     private UUID userId;
     /**
      * Пользователь, связанного с данным токеном
      */
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "userx_id", insertable = false, updatable = false)
     private EntityUser user;
     /**
      * Идентификатор роли пользователя, связанного с данным токеном
      */
-    @Column(name = "roleuser_id")
+    @Column(name = "roleuser_id", nullable = false)
     private UUID roleUserId;
     /**
      * Роль пользователя, связанного с данным токеном
      */
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name="roleuser_id", insertable = false, updatable = false)
     private EntityRoleuser roleUser;
 
