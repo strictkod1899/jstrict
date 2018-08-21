@@ -19,6 +19,10 @@ public class MapperSqlUserSecurity implements RowMapper<EntityUserSecurity> {
         entity.setId(resultSet.getObject("id"));
         entity.setUsername(resultSet.getString(COLUMNS_NAME[0]));
         entity.setPasswordEncode(resultSet.getString(COLUMNS_NAME[1]));
+        entity.setEmail(resultSet.getString(COLUMNS_NAME[2]));
+        entity.setBlocked(resultSet.getBoolean(COLUMNS_NAME[3]));
+        entity.setDeleted(resultSet.getBoolean(COLUMNS_NAME[4]));
+        entity.setConfirmEmail(resultSet.getBoolean(COLUMNS_NAME[5]));
         return entity;
     }
 }

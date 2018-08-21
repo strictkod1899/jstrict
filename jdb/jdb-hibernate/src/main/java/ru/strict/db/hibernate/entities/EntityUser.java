@@ -1,6 +1,7 @@
 package ru.strict.db.hibernate.entities;
 
 import ru.strict.utils.UtilHashCode;
+import ru.strict.validates.ValidateBaseValue;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -25,6 +26,26 @@ public class EntityUser extends EntityBase {
      */
     @Column(name = "passwordencode", nullable = false)
     private String passwordEncode;
+    /**
+     * Адрес электронной почты
+     */
+    @Column(name = "email", nullable = false)
+    private String email;
+    /**
+     * Пользователь заблокирован
+     */
+    @Column(name = "isBlocked", nullable = false)
+    private boolean isBlocked;
+    /**
+     * Пользователь удален
+     */
+    @Column(name = "isDeleted", nullable = false)
+    private boolean isDeleted;
+    /**
+     * Адрес электронной почты подтвержден
+     */
+    @Column(name = "isConfirmEmail", nullable = false)
+    private boolean isConfirmEmail;
     /**
      * Роли пользователя
      */
@@ -66,37 +87,47 @@ public class EntityUser extends EntityBase {
     }
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void initialize(String username, String passwordEncode){
-        if(username == null) {
+    private void initialize(String username, String passwordEncode, String email){
+        if(!ValidateBaseValue.isNotEmptyOrNull(username)) {
             throw new NullPointerException("username is NULL");
-        } else if(passwordEncode == null) {
+        } else if(!ValidateBaseValue.isNotEmptyOrNull(passwordEncode)) {
             throw new NullPointerException("passwordEncode is NULL");
+        } else if(!ValidateBaseValue.isNotEmptyOrNull(email)) {
+            throw new NullPointerException("email is NULL");
         }
 
         this.username = username;
         this.passwordEncode = passwordEncode;
+        this.email = email;
+        isBlocked = false;
+        isDeleted = false;
+        isConfirmEmail = false;
         rolesuser = new LinkedList<>();
         tokens = new LinkedList<>();
-        profile = new LinkedList<>();
+        profile = null;
     }
 
     public EntityUser() {
         super();
         username = null;
         passwordEncode = null;
+        email = null;
+        isBlocked = false;
+        isDeleted = false;
+        isConfirmEmail = false;
         rolesuser = new LinkedList<>();
         tokens = new LinkedList<>();
-        profile = new LinkedList<>();
+        profile = null;
     }
 
-    public EntityUser(String username, String passwordEncode) {
+    public EntityUser(String username, String passwordEncode, String email) {
         super();
-        initialize(username, passwordEncode);
+        initialize(username, passwordEncode, email);
     }
 
-    public EntityUser(UUID id, String username, String passwordEncode) {
+    public EntityUser(UUID id, String username, String passwordEncode, String email) {
         super(id);
-        initialize(username, passwordEncode);
+        initialize(username, passwordEncode, email);
     }
     //</editor-fold>
 
@@ -123,6 +154,38 @@ public class EntityUser extends EntityBase {
         }
 
         this.passwordEncode = passwordEncode;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        isBlocked = blocked;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public boolean isConfirmEmail() {
+        return isConfirmEmail;
+    }
+
+    public void setConfirmEmail(boolean confirmEmail) {
+        isConfirmEmail = confirmEmail;
     }
 
     public Collection<EntityRoleuser> getRolesuser() {
@@ -174,6 +237,10 @@ public class EntityUser extends EntityBase {
         }
 
         this.tokens = tokens;
+    }
+
+    public void setProfile(Collection<EntityProfile> profile) {
+        this.profile = profile;
     }
     //</editor-fold>
 
