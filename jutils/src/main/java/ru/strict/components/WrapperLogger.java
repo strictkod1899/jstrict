@@ -105,7 +105,7 @@ public class WrapperLogger{
      * @param args Аргументы для String.format
      */
     public void debug(String format, String...args){
-        wrappedObject.trace(String.format(format, args));
+        wrappedObject.debug(String.format(format, args));
     }
 
     /**
@@ -122,7 +122,7 @@ public class WrapperLogger{
      * @param args Аргументы для String.format
      */
     public void info(String format, String...args){
-        wrappedObject.trace(String.format(format, args));
+        wrappedObject.info(String.format(format, args));
     }
 
     /**
@@ -139,7 +139,7 @@ public class WrapperLogger{
      * @param args Аргументы для String.format
      */
     public void warn(String format, String...args){
-        wrappedObject.trace(String.format(format, args));
+        wrappedObject.warn(String.format(format, args));
     }
 
     /**
@@ -183,7 +183,7 @@ public class WrapperLogger{
      * @param args Аргументы для String.format
      */
     public void error(String format, String...args){
-        wrappedObject.trace(String.format(format, args));
+        wrappedObject.error(String.format(format, args));
     }
 
     /**
@@ -227,7 +227,7 @@ public class WrapperLogger{
      * @param args Аргументы для String.format
      */
     public void fatal(String format, String...args){
-        wrappedObject.trace(String.format(format, args));
+        wrappedObject.fatal(String.format(format, args));
     }
     //</editor-fold>
 
