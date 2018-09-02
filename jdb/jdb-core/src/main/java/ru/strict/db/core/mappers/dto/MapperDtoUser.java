@@ -29,6 +29,10 @@ public class MapperDtoUser<E extends EntityUser, DTO extends DtoUser>
         EntityUser entity = new EntityUser();
         entity.setId(baseEntity.getId());
         entity.setUsername(baseEntity.getUsername());
+        entity.setEmail(baseEntity.getEmail());
+        entity.setBlocked(baseEntity.isBlocked());
+        entity.setDeleted(baseEntity.isDeleted());
+        entity.setConfirmEmail(baseEntity.isConfirmEmail());
         entity.setRolesuser(baseEntity.getRolesuser());
         entity.setProfile(baseEntity.getProfile());
         entity.setPasswordEncode(dto.getPasswordEncode());
@@ -42,6 +46,10 @@ public class MapperDtoUser<E extends EntityUser, DTO extends DtoUser>
         DtoUser dto = new DtoUser();
         dto.setId(baseDto.getId());
         dto.setUsername(baseDto.getUsername());
+        dto.setEmail(baseDto.getEmail());
+        dto.setBlocked(baseDto.isBlocked());
+        dto.setDeleted(baseDto.isDeleted());
+        dto.setConfirmEmail(baseDto.isConfirmEmail());
         dto.setRolesuser(baseDto.getRolesuser());
         dto.setProfile(baseDto.getProfile());
         dto.setPasswordEncode(entity.getPasswordEncode());

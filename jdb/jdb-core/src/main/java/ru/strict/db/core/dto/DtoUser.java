@@ -1,6 +1,7 @@
 package ru.strict.db.core.dto;
 
 import ru.strict.utils.UtilHashCode;
+import ru.strict.validates.ValidateBaseValue;
 
 /**
  * Пользователь системы
@@ -14,7 +15,7 @@ public class DtoUser<ID> extends DtoUserBase<ID> {
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String passwordEncode){
-        if(passwordEncode == null) {
+        if(!ValidateBaseValue.isNotEmptyOrNull(passwordEncode)) {
             throw new NullPointerException("passwordEncode is NULL");
         }
 
@@ -25,13 +26,13 @@ public class DtoUser<ID> extends DtoUserBase<ID> {
         passwordEncode = null;
     }
 
-    public DtoUser(String username, String passwordEncode) {
-        super(username);
+    public DtoUser(String username, String email, String passwordEncode) {
+        super(username, email);
         initialize(passwordEncode);
     }
 
-    public DtoUser(ID id, String username, String passwordEncode) {
-        super(id, username);
+    public DtoUser(ID id, String username, String email, String passwordEncode) {
+        super(id, username, email);
         initialize(passwordEncode);
     }
     //</editor-fold>
