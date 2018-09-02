@@ -31,6 +31,30 @@ public class ValidateBaseValue {
         return result;
     }
 
+    public static boolean isMinLength(String str, int minLength){
+        boolean result = false;
+        if(str.length() >= minLength){
+            result = true;
+        }
+        return result;
+    }
+
+    public static boolean isMaxLength(String str, int maxLength){
+        boolean result = false;
+        if(str.length() <= maxLength){
+            result = true;
+        }
+        return result;
+    }
+
+    public static boolean isRangeLength(String str, int minLength, int maxLength){
+        boolean result = false;
+        if(str.length() >= minLength && str.length() <= maxLength){
+            result = true;
+        }
+        return result;
+    }
+
     /**
      * Проверка корректности приведения строки к целочисленному типу
      *
