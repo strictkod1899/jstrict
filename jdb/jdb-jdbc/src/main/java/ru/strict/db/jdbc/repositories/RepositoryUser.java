@@ -12,6 +12,7 @@ import ru.strict.db.core.entities.EntityUserOnRole;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.repositories.RepositoryBase;
+import ru.strict.db.core.repositories.interfaces.IRepositoryUser;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlUser;
@@ -21,7 +22,8 @@ import java.sql.Connection;
 import java.util.*;
 
 public class RepositoryUser<ID, DTO extends DtoUserBase>
-        extends RepositoryNamedBase<ID, EntityUser, DTO> {
+        extends RepositoryNamedBase<ID, EntityUser, DTO>
+        implements IRepositoryUser<ID, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "email",
             "isBlocked", "isDeleted", "isConfirmEmail"};
@@ -78,6 +80,15 @@ public class RepositoryUser<ID, DTO extends DtoUserBase>
             ((DtoUserToken)dto).setTokens(tokens);
         }
         return dto;
+    }
+
+    @Override
+    public DTO readByEmail(String email) {
+        DbRequests requests = new DbRequests(getTableName(), true);
+        requests.add(new DbWhere(getTableName(), "email", email, "="));
+
+        DTO result = readAll(requests).stream().findFirst().orElse(null);
+        return result;
     }
 
     @Override

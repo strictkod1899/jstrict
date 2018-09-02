@@ -1,5 +1,8 @@
 package ru.strict.utils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -9,6 +12,17 @@ import java.util.TimeZone;
  * Управление датами
  */
 public class UtilDate {
+
+    public static Date getDateWithoutTime(Date date){
+        Date result = null;
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            result = formatter.parse(formatter.format(date));
+        } catch (ParseException e) {
+            result = null;
+        }
+        return result;
+    }
 
     /**
      * Получить текущее число месяца
@@ -124,5 +138,32 @@ public class UtilDate {
         long hours = millis / 1000 / 60;
         UtilLogger.info(UtilDate.class, "diffByMinutes - finished");
         return hours;
+    }
+
+    public static Date addDaysToDate(Date date, int countDaysToAdd){
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.setTimeInMillis(date.getTime());
+        cal.add(Calendar.DAY_OF_YEAR, countDaysToAdd);
+
+        return cal.getTime();
+    }
+
+    public static Date addMonthsToDate(Date date, int countMonthsToAdd){
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.setTimeInMillis(date.getTime());
+        cal.add(Calendar.MONTH, countMonthsToAdd);
+
+        return cal.getTime();
+    }
+
+    public static Date addYearsToDate(Date date, int countYearsToAdd){
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.setTimeInMillis(date.getTime());
+        cal.add(Calendar.YEAR, countYearsToAdd);
+
+        return cal.getTime();
     }
 }
