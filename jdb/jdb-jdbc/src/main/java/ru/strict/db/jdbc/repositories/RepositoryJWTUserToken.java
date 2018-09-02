@@ -9,6 +9,7 @@ import ru.strict.db.core.entities.EntityJWTUserToken;
 import ru.strict.db.core.entities.EntityUserOnRole;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
+import ru.strict.db.core.repositories.interfaces.IRepositoryJWTToken;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlJWTToken;
@@ -20,7 +21,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class RepositoryJWTUserToken<ID>
-        extends RepositoryJdbcBase<ID, EntityJWTUserToken, DtoJWTUserToken> {
+        extends RepositoryJdbcBase<ID, EntityJWTUserToken, DtoJWTUserToken>
+        implements IRepositoryJWTToken<ID> {
 
     private static final String[] COLUMNS_NAME = new String[] {"accessToken", "refreshToken", "expireTimeAccess", "expireTimeRefresh",
             "issuedAt", "issuer", "subject", "notBefore", "audience", "secret", "algorithm", "type", "userx_id", "roleuser_id"};
@@ -52,6 +54,7 @@ public class RepositoryJWTUserToken<ID>
         return valuesByColumn;
     }
 
+    @Override
     public DtoJWTUserToken readByAccessToken(String caption){
         DbRequests requests = new DbRequests(getTableName(), true);
         requests.add(new DbWhere(getTableName(), "accessToken", caption, "="));
@@ -60,6 +63,7 @@ public class RepositoryJWTUserToken<ID>
         return result;
     }
 
+    @Override
     public DtoJWTUserToken readByRefreshToken(String caption){
         DbRequests requests = new DbRequests(getTableName(), true);
         requests.add(new DbWhere(getTableName(), "refreshToken", caption, "="));
