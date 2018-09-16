@@ -13,7 +13,7 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
     /**
      * Токены пользователя
      */
-    private Collection<DtoJWTUserToken> tokens;
+    private Collection<DtoJWTToken> tokens;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(){
@@ -40,7 +40,7 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
     /**
      * Добавить токен
      */
-    public void addToken(DtoJWTUserToken token){
+    public void addToken(DtoJWTToken token){
         if(token == null) {
             throw new NullPointerException("token is NULL");
         }
@@ -50,11 +50,11 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
         }
     }
 
-    public Collection<DtoJWTUserToken> getTokens() {
+    public Collection<DtoJWTToken> getTokens() {
         return tokens;
     }
 
-    public void setTokens(Collection<DtoJWTUserToken> tokens) {
+    public void setTokens(Collection<DtoJWTToken> tokens) {
         if(tokens == null) {
             throw new NullPointerException("tokens is NULL");
         }

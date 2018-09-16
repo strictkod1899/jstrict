@@ -12,6 +12,5 @@ public enum MapperDtoType {
     USER_ON_ROLE,
     PROFILE,
     PROFILE_INFO,
-    JWT_TOKEN,
-    JWT_USER_TOKEN
+    JWT_TOKEN
 }

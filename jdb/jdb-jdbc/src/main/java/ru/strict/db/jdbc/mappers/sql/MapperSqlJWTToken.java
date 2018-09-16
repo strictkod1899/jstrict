@@ -32,6 +32,8 @@ public class MapperSqlJWTToken extends MapperSqlBase<EntityJWTToken> {
             entity.setSecret(resultSet.getString(COLUMNS_NAME[9]));
             entity.setAlgorithm(resultSet.getString(COLUMNS_NAME[10]));
             entity.setType(resultSet.getString(COLUMNS_NAME[11]));
+            entity.setUserId(resultSet.getObject(COLUMNS_NAME[12]));
+            entity.setRoleUserId(resultSet.getObject(COLUMNS_NAME[13]));
         }catch(SQLException ex){
             throw new WrapperRuntimeException(ex);
         }

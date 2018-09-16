@@ -3,9 +3,9 @@ package ru.strict.db.spring.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
-import ru.strict.db.core.dto.DtoJWTUserToken;
+import ru.strict.db.core.dto.DtoJWTToken;
 import ru.strict.db.core.dto.DtoUserToken;
-import ru.strict.db.core.entities.EntityJWTUserToken;
+import ru.strict.db.core.entities.EntityJWTToken;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.requests.DbRequests;
@@ -31,12 +31,12 @@ public class RepositoryUserFillToken<ID>
         dto = super.fill(dto);
 
         // Добавление токенов
-        RepositorySpringBase<ID, EntityJWTUserToken, DtoJWTUserToken> repositoryToken =
-                new RepositoryJWTUserToken<>(getConnectionSource(), GenerateIdType.NONE);
+        RepositorySpringBase<ID, EntityJWTToken, DtoJWTToken> repositoryToken =
+                new RepositoryJWTToken<>(getConnectionSource(), GenerateIdType.NONE);
         DbRequests requests = new DbRequests(repositoryToken.getTableName(), true);
         requests.add(new DbWhere(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));
 
-        List<DtoJWTUserToken> tokens = repositoryToken.readAll(requests);
+        List<DtoJWTToken> tokens = repositoryToken.readAll(requests);
         dto.setTokens(tokens);
         return dto;
     }

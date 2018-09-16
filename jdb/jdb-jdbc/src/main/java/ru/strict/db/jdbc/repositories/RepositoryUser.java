@@ -3,20 +3,17 @@ package ru.strict.db.jdbc.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.*;
-import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.dto.DtoUserOnRole;
-import ru.strict.db.core.entities.EntityJWTUserToken;
+import ru.strict.db.core.entities.EntityJWTToken;
 import ru.strict.db.core.entities.EntityProfileInfo;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.entities.EntityUserOnRole;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.IRepository;
-import ru.strict.db.core.repositories.RepositoryBase;
 import ru.strict.db.core.repositories.interfaces.IRepositoryUser;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlUser;
-import ru.strict.utils.UtilLogger;
 
 import java.sql.Connection;
 import java.util.*;
@@ -71,12 +68,12 @@ public class RepositoryUser<ID, DTO extends DtoUserBase>
 
         // Добавление токенов
         if(dto instanceof DtoUserToken) {
-            RepositoryJdbcBase<ID, EntityJWTUserToken, DtoJWTUserToken> repositoryToken =
-                    new RepositoryJWTUserToken<>(getConnectionSource(), GenerateIdType.NONE);
+            RepositoryJdbcBase<ID, EntityJWTToken, DtoJWTToken> repositoryToken =
+                    new RepositoryJWTToken<>(getConnectionSource(), GenerateIdType.NONE);
             requests = new DbRequests(repositoryToken.getTableName(), true);
             requests.add(new DbWhere(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));
 
-            List<DtoJWTUserToken> tokens = repositoryToken.readAll(requests);
+            List<DtoJWTToken> tokens = repositoryToken.readAll(requests);
             ((DtoUserToken)dto).setTokens(tokens);
         }
         return dto;

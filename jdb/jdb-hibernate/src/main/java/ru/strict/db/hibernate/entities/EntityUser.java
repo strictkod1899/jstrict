@@ -63,7 +63,7 @@ public class EntityUser extends EntityBase {
      * Токены пользователя
      */
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private Collection<EntityJWTUserToken> tokens;
+    private Collection<EntityJWTToken> tokens;
 
     public EntityProfile getProfile() {
         EntityProfile result = null;
@@ -217,7 +217,7 @@ public class EntityUser extends EntityBase {
     /**
      * Добавить токен
      */
-    public void addToken(EntityJWTUserToken token){
+    public void addToken(EntityJWTToken token){
         if(token == null) {
             throw new NullPointerException("token is NULL");
         }
@@ -227,11 +227,11 @@ public class EntityUser extends EntityBase {
         }
     }
 
-    public Collection<EntityJWTUserToken> getTokens() {
+    public Collection<EntityJWTToken> getTokens() {
         return tokens;
     }
 
-    public void setTokens(Collection<EntityJWTUserToken> tokens) {
+    public void setTokens(Collection<EntityJWTToken> tokens) {
         if(tokens == null) {
             throw new NullPointerException("tokens is NULL");
         }

@@ -37,8 +37,37 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
      * Тип токена
      */
     private String type;
+    /**
+     * Идентификатор пользователя, связанного с данным токеном
+     */
+    private ID userId;
+    /**
+     * Пользователь, связанного с данным токеном
+     */
+    private DtoUser user;
+    /**
+     * Идентификатор роли пользователя, связанного с данным токеном
+     */
+    private ID roleUserId;
+    /**
+     * Роль пользователя, связанного с данным токеном
+     */
+    private DtoRoleuser roleUser;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
+    private void initialize(ID userId, ID roleUserId){
+        if(userId == null){
+            throw new NullPointerException("userId is NULL");
+        } else if(roleUserId == null){
+            throw new NullPointerException("roleUserId is NULL");
+        }
+
+        this.userId = userId;
+        this.roleUserId = roleUserId;
+        user = null;
+        roleUser = null;
+    }
+
     public DtoJWTToken() {
         super();
         issuer = null;
@@ -47,9 +76,14 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
         secret = null;
         algorithm = null;
         type = null;
+        userId = null;
+        user = null;
+        roleUserId = null;
+        roleUser = null;
     }
 
-    public DtoJWTToken(String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt) {
+    public DtoJWTToken(String accessToken, String refreshToken, Date expireTimeAccess,
+                       Date expireTimeRefresh, Date issuedAt, ID userId, ID roleUserId) {
         super(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
         issuer = null;
         subject = null;
@@ -57,9 +91,11 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
         secret = null;
         algorithm = null;
         type = null;
+        initialize(userId, roleUserId);
     }
 
-    public DtoJWTToken(ID id, String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt) {
+    public DtoJWTToken(ID id, String accessToken, String refreshToken, Date expireTimeAccess,
+                       Date expireTimeRefresh, Date issuedAt, ID userId, ID roleUserId) {
         super(id, accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
         issuer = null;
         subject = null;
@@ -67,6 +103,7 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
         secret = null;
         algorithm = null;
         type = null;
+        initialize(userId, roleUserId);
     }
     //</editor-fold>
 
@@ -126,6 +163,46 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
     public void setType(String type) {
         this.type = type;
     }
+
+    public ID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(ID userId) {
+        if(userId == null) {
+            throw new NullPointerException("userId is NULL");
+        }
+
+        this.userId = userId;
+    }
+
+    public DtoUser getUser() {
+        return user;
+    }
+
+    public void setUser(DtoUser user) {
+        this.user = user;
+    }
+
+    public ID getRoleUserId() {
+        return roleUserId;
+    }
+
+    public void setRoleUserId(ID roleUserId) {
+        if(roleUserId == null) {
+            throw new NullPointerException("roleUserId is NULL");
+        }
+
+        this.roleUserId = roleUserId;
+    }
+
+    public DtoRoleuser getRoleUser() {
+        return roleUser;
+    }
+
+    public void setRoleUser(DtoRoleuser roleUser) {
+        this.roleUser = roleUser;
+    }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
@@ -144,7 +221,11 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
                     && notBefore.equals(object.getNotBefore())
                     && secret.equals(object.getSecret())
                     && algorithm.equals(object.getAlgorithm())
-                    && type.equals(object.getType());
+                    && type.equals(object.getType())
+                    && userId.equals(object.getUserId())
+                    && user.equals(object.getUser())
+                    && roleUserId.equals(object.getRoleUserId())
+                    && roleUser.equals(object.getRoleUser());
         }else
             return false;
     }
@@ -152,7 +233,8 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, issuer, subject, notBefore, secret, algorithm, type);
+        return UtilHashCode.createSubHashCode(superHashCode, issuer, subject, notBefore, secret,
+                algorithm, type, userId, roleUserId);
     }
     //</editor-fold>
 }

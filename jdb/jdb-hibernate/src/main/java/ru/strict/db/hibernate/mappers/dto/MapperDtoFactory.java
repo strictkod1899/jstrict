@@ -40,9 +40,6 @@ public class MapperDtoFactory implements IFactory<IMapper, MapperDtoType> {
             case JWT_TOKEN:
                 mapper = createMapperJWTToken();
                 break;
-            case JWT_USER_TOKEN:
-                mapper = createMapperJWTUserToken();
-                break;
             case USER_TOKEN:
                 mapper = createMapperUserToken();
                 break;
@@ -85,7 +82,7 @@ public class MapperDtoFactory implements IFactory<IMapper, MapperDtoType> {
     private MapperDtoBase<EntityUser, DtoUser> createMapperUserToken(){
         MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRolesuser = new MapperDtoRoleuser();
         MapperDtoBase<EntityProfile, DtoProfile> mapperProfile = new MapperDtoProfile();
-        MapperDtoBase<EntityJWTUserToken, DtoJWTUserToken> mapperToken = new MapperDtoJWTUserToken<>();
+        MapperDtoBase<EntityJWTToken, DtoJWTToken> mapperToken = new MapperDtoJWTToken<>();
         return new MapperDtoUserToken(mapperRolesuser, mapperProfile, mapperToken);
     }
 
@@ -96,12 +93,8 @@ public class MapperDtoFactory implements IFactory<IMapper, MapperDtoType> {
     }
 
     private MapperDtoBase<EntityJWTToken, DtoJWTToken> createMapperJWTToken(){
-        return new MapperDtoJWTToken();
-    }
-
-    private MapperDtoBase<EntityJWTUserToken, DtoJWTUserToken> createMapperJWTUserToken(){
         MapperDtoBase<EntityUser, DtoUser> mapperUser = new MapperDtoUser();
         MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRolesser = new MapperDtoRoleuser();
-        return new MapperDtoJWTUserToken(mapperUser, mapperRolesser);
+        return new MapperDtoJWTToken(mapperUser, mapperRolesser);
     }
 }

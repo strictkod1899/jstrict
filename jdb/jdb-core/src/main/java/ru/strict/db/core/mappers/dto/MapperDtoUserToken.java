@@ -1,7 +1,7 @@
 package ru.strict.db.core.mappers.dto;
 
 import ru.strict.db.core.dto.*;
-import ru.strict.db.core.entities.EntityJWTUserToken;
+import ru.strict.db.core.entities.EntityJWTToken;
 import ru.strict.db.core.entities.EntityProfile;
 import ru.strict.db.core.entities.EntityRoleuser;
 import ru.strict.db.core.entities.EntityUser;
@@ -14,7 +14,7 @@ import java.util.Optional;
 public class MapperDtoUserToken<E extends EntityUser, DTO extends DtoUserToken>
         extends MapperDtoUser<E, DTO> {
 
-    private MapperDtoBase<EntityJWTUserToken, DtoJWTUserToken> mapperToken;
+    private MapperDtoBase<EntityJWTToken, DtoJWTToken> mapperToken;
 
     public MapperDtoUserToken(){
         super();
@@ -23,7 +23,7 @@ public class MapperDtoUserToken<E extends EntityUser, DTO extends DtoUserToken>
 
     public MapperDtoUserToken(MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRoleuser,
                               MapperDtoBase<EntityProfile, DtoProfile> mapperProfile,
-                              MapperDtoBase<EntityJWTUserToken, DtoJWTUserToken> mapperToken){
+                              MapperDtoBase<EntityJWTToken, DtoJWTToken> mapperToken){
         super(mapperRoleuser, mapperProfile);
         this.mapperToken = mapperToken;
     }
@@ -43,7 +43,7 @@ public class MapperDtoUserToken<E extends EntityUser, DTO extends DtoUserToken>
         entity.setProfile(baseEntity.getProfile());
         entity.setPasswordEncode(baseEntity.getPasswordEncode());
         Optional.ofNullable(mapperToken).ifPresent((mapper) ->
-                dto.getTokens().stream().forEach(token -> entity.addToken(mapper.map((DtoJWTUserToken) token))));
+                dto.getTokens().stream().forEach(token -> entity.addToken(mapper.map((DtoJWTToken) token))));
         return entity;
     }
 
@@ -62,7 +62,7 @@ public class MapperDtoUserToken<E extends EntityUser, DTO extends DtoUserToken>
         dto.setProfile(baseDto.getProfile());
         dto.setPasswordEncode(baseDto.getPasswordEncode());
         Optional.ofNullable(mapperToken).ifPresent((mapper) ->
-                entity.getTokens().stream().forEach(token -> dto.addToken(mapper.map((EntityJWTUserToken) token))));
+                entity.getTokens().stream().forEach(token -> dto.addToken(mapper.map((EntityJWTToken) token))));
         return dto;
     }
 }

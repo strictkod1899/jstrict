@@ -1,12 +1,11 @@
 package ru.strict.db.hibernate.mappers.dto;
 
 import ru.strict.db.core.dto.*;
-import ru.strict.db.hibernate.entities.EntityJWTUserToken;
+import ru.strict.db.hibernate.entities.EntityJWTToken;
 import ru.strict.db.hibernate.entities.EntityProfile;
 import ru.strict.db.hibernate.entities.EntityRoleuser;
 import ru.strict.db.hibernate.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
-import ru.strict.db.hibernate.mappers.dto.MapperDtoUser;
 
 import java.util.Optional;
 
@@ -16,7 +15,7 @@ import java.util.Optional;
 public class MapperDtoUserToken<E extends EntityUser, DTO extends DtoUserToken>
         extends MapperDtoUser<E, DTO> {
 
-    private MapperDtoBase<EntityJWTUserToken, DtoJWTUserToken> mapperToken;
+    private MapperDtoBase<EntityJWTToken, DtoJWTToken> mapperToken;
 
     public MapperDtoUserToken(){
         super();
@@ -25,7 +24,7 @@ public class MapperDtoUserToken<E extends EntityUser, DTO extends DtoUserToken>
 
     public MapperDtoUserToken(MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRoleuser,
                               MapperDtoBase<EntityProfile, DtoProfile> mapperProfile,
-                              MapperDtoBase<EntityJWTUserToken, DtoJWTUserToken> mapperToken){
+                              MapperDtoBase<EntityJWTToken, DtoJWTToken> mapperToken){
         super(mapperRoleuser, mapperProfile);
         this.mapperToken = mapperToken;
     }
@@ -45,7 +44,7 @@ public class MapperDtoUserToken<E extends EntityUser, DTO extends DtoUserToken>
         entity.setProfile(baseEntity.getProfile());
         entity.setPasswordEncode(baseEntity.getPasswordEncode());
         Optional.ofNullable(mapperToken).ifPresent((mapper) ->
-                dto.getTokens().stream().forEach(token -> entity.addToken(mapper.map((DtoJWTUserToken) token))));
+                dto.getTokens().stream().forEach(token -> entity.addToken(mapper.map((DtoJWTToken) token))));
         return entity;
     }
 
@@ -64,7 +63,7 @@ public class MapperDtoUserToken<E extends EntityUser, DTO extends DtoUserToken>
         dto.setProfile(baseDto.getProfile());
         dto.setPasswordEncode(baseDto.getPasswordEncode());
         Optional.ofNullable(mapperToken).ifPresent((mapper) ->
-                entity.getTokens().stream().forEach(token -> dto.addToken(mapper.map((EntityJWTUserToken) token))));
+                entity.getTokens().stream().forEach(token -> dto.addToken(mapper.map(token))));
         return dto;
     }
 }
