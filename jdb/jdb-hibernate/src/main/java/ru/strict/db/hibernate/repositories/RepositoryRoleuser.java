@@ -11,12 +11,12 @@ public class RepositoryRoleuser extends RepositoryNamedBase<EntityRoleuser, DtoR
 
     private static final String[] COLUMNS_NAME = new String[] {"code", "description"};
 
-    public RepositoryRoleuser(CreateConnectionHibernate connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryRoleuser(CreateConnectionHibernate connectionSource, GenerateIdType generateIdType) {
         super("roleuser",
                 COLUMNS_NAME,
                 connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.ROLE_USER),
-                isGenerateId);
+                generateIdType);
     }
 
     @Override

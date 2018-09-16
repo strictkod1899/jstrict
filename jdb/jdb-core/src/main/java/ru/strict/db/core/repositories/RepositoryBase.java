@@ -5,6 +5,7 @@ import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.requests.DbRequests;
+import ru.strict.db.core.requests.DbWhere;
 import ru.strict.utils.UtilLogger;
 import ru.strict.components.WrapperLogger;
 import ru.strict.utils.UtilHashCode;
@@ -48,16 +49,6 @@ public abstract class RepositoryBase
     private String[] columnsName;
 
     /**
-     * Кэшированный список объектов
-     */
-    private List<DTO> objects;
-
-    /**
-     * Текущее состояние кэшированный значений
-     */
-    private RepositoryDataState state;
-
-    /**
      * Метка: если значение true, то идентификатор должен генерироваться на стороне базы данных,
      * иначе при создании записи id будет взято из dto-объекта
      */
@@ -80,20 +71,11 @@ public abstract class RepositoryBase
 
         this.connectionSource = connectionSource;
         this.dtoMapper = dtoMapper;
-        objects = new LinkedList<>();
-        state = RepositoryDataState.NONE;
         this.generateIdType = generateIdType;
         this.tableName = tableName;
         this.columnsName = columnsName;
     }
     //</editor-fold>
-
-    /**
-     * Проверить существование записи в базе данных с переданным идентификатором
-     * @param id
-     * @return
-     */
-    public abstract boolean IsRowExists(ID id);
 
     /**
      * Возвращает конечный класс репозитория, от чьего имени будет вестись логирование.
@@ -209,6 +191,21 @@ public abstract class RepositoryBase
         else
             return create(dto);
     }
+
+    @Override
+    public boolean IsRowExists(ID id) {
+        boolean result = false;
+
+        DbRequests requests = new DbRequests(getTableName(), false);
+        requests.add(new DbWhere(getTableName(), "id", id, "="));
+
+        int count = readCount(requests);
+        if(count > 0){
+            result = true;
+        }
+
+        return result;
+    }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="sql generate">
@@ -249,38 +246,15 @@ public abstract class RepositoryBase
         return dtoMapper;
     }
 
-    protected void setObjects(List<DTO> objects) {
-        if(objects == null){
-            throw new NullPointerException();
-        }
-
-        this.objects = objects;
-    }
-
-    protected void setState(RepositoryDataState state) {
-        if(state == null){
-            throw new NullPointerException();
-        }
-
-        this.state = state;
-    }
-
     public SOURCE getConnectionSource() {
         return connectionSource;
-    }
-
-    public List<DTO> getObjects() {
-        return objects;
-    }
-
-    public RepositoryDataState getState() {
-        return state;
     }
 
     public GenerateIdType getGenerateIdType() {
         return generateIdType;
     }
 
+    @Override
     public String getTableName() {
         return tableName;
     }
@@ -301,7 +275,7 @@ public abstract class RepositoryBase
         if(obj!=null && obj instanceof RepositoryBase) {
             RepositoryBase object = (RepositoryBase) obj;
             return super.equals(object) && tableName.equals(object.getTableName())
-                    && connectionSource.equals(connectionSource) && state.equals(object.getState())
+                    && connectionSource.equals(connectionSource)
                     && generateIdType == object.getGenerateIdType()
                     && (columnsName.length == object.getColumnsName().length
                             && Arrays.asList(columnsName).containsAll(Arrays.asList(object.getColumnsName())));
@@ -311,7 +285,7 @@ public abstract class RepositoryBase
 
     @Override
     public int hashCode(){
-        return UtilHashCode.createHashCode(tableName, connectionSource, state, generateIdType, columnsName);
+        return UtilHashCode.createHashCode(tableName, connectionSource, generateIdType, columnsName);
     }
     //</editor-fold>
 }

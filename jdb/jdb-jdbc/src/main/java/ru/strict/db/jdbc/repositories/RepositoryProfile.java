@@ -23,11 +23,11 @@ public class RepositoryProfile<ID>
 
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id"};
 
-    public RepositoryProfile(ICreateConnection<Connection> connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryProfile(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
         super("profile", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.PROFILE),
                 new MapperSqlProfile(COLUMNS_NAME),
-                isGenerateId);
+                generateIdType);
     }
 
     @Override

@@ -17,8 +17,8 @@ import java.util.Map;
 public class RepositoryUserFillToken<ID>
         extends RepositoryUser<ID, DtoUserToken> {
 
-    public RepositoryUserFillToken(CreateConnectionByDataSource connectionSource, GenerateIdType isGenerateId) {
-        super(connectionSource, new MapperDtoFactory().instance(MapperDtoType.USER_TOKEN), isGenerateId);
+    public RepositoryUserFillToken(CreateConnectionByDataSource connectionSource, GenerateIdType generateIdType) {
+        super(connectionSource, new MapperDtoFactory().instance(MapperDtoType.USER_TOKEN), generateIdType);
     }
 
     @Override

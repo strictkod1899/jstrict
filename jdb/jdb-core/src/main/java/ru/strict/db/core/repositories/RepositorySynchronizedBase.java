@@ -19,8 +19,8 @@ public abstract class RepositorySynchronizedBase
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public RepositorySynchronizedBase(String tableName, String[] columnsName, SOURCE connectionSource
-            , MapperDtoBase<E, DTO> dtoMapper, GenerateIdType isGenerateId) {
-        super(tableName, columnsName, connectionSource, dtoMapper, isGenerateId);
+            , MapperDtoBase<E, DTO> dtoMapper, GenerateIdType generateIdType) {
+        super(tableName, columnsName, connectionSource, dtoMapper, generateIdType);
     }
     //</editor-fold>
 

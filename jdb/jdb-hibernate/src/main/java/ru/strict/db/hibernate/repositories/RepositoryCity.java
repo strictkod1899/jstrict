@@ -11,12 +11,12 @@ public class RepositoryCity extends RepositoryNamedBase<EntityCity, DtoCity> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption", "country_id"};
 
-    public RepositoryCity(CreateConnectionHibernate connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryCity(CreateConnectionHibernate connectionSource, GenerateIdType generateIdType) {
         super("city",
                 COLUMNS_NAME,
                 connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.CITY),
-                isGenerateId);
+                generateIdType);
     }
 
     @Override

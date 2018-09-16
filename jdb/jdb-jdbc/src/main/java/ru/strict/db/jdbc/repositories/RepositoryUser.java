@@ -30,8 +30,8 @@ public class RepositoryUser<ID, DTO extends DtoUserBase>
 
     public RepositoryUser(ICreateConnection<Connection> connectionSource,
                           MapperDtoBase<EntityUser, DTO> dtoMapper,
-                          GenerateIdType isGenerateId) {
-        super("userx", COLUMNS_NAME, connectionSource, dtoMapper, new MapperSqlUser(COLUMNS_NAME), isGenerateId);
+                          GenerateIdType generateIdType) {
+        super("userx", COLUMNS_NAME, connectionSource, dtoMapper, new MapperSqlUser(COLUMNS_NAME), generateIdType);
     }
 
     @Override

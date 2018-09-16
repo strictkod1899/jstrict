@@ -11,12 +11,12 @@ public class RepositoryCountry extends RepositoryNamedBase<EntityCountry, DtoCou
 
     private static final String[] COLUMNS_NAME = new String[] {"caption"};
 
-    public RepositoryCountry(CreateConnectionHibernate connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryCountry(CreateConnectionHibernate connectionSource, GenerateIdType generateIdType) {
         super("country",
                 COLUMNS_NAME,
                 connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.COUNTRY),
-                isGenerateId);
+                generateIdType);
     }
 
     @Override

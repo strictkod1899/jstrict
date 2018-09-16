@@ -24,12 +24,12 @@ public class RepositoryUser<DTO extends DtoUserBase>
 
     public RepositoryUser(CreateConnectionHibernate connectionSource,
                           MapperDtoBase<EntityUser, DTO> dtoMapper,
-                          GenerateIdType isGenerateId) {
+                          GenerateIdType generateIdType) {
         super("userx",
                 COLUMNS_NAME,
                 connectionSource,
                 dtoMapper,
-                isGenerateId);
+                generateIdType);
     }
 
     @Override

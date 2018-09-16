@@ -11,10 +11,10 @@ import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
 public class RepositoryUserFillToken<ID> extends RepositoryUser<DtoUserToken> {
 
     public RepositoryUserFillToken(CreateConnectionHibernate connectionSource,
-                          GenerateIdType isGenerateId) {
+                          GenerateIdType generateIdType) {
         super(connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.USER_TOKEN),
-                isGenerateId);
+                generateIdType);
     }
 
     @Override

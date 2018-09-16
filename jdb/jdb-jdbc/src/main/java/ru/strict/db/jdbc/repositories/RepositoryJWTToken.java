@@ -21,11 +21,11 @@ public class RepositoryJWTToken<ID>
     private static final String[] COLUMNS_NAME = new String[] {"accessToken", "refreshToken", "expireTimeAccess", "expireTimeRefresh",
             "issuedAt", "issuer", "subject", "notBefore", "audience", "secret", "algorithm", "type"};
 
-    public RepositoryJWTToken(ICreateConnection<Connection> connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryJWTToken(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
         super("token", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.JWT_TOKEN),
                 new MapperSqlJWTToken(COLUMNS_NAME),
-                isGenerateId);
+                generateIdType);
     }
 
     @Override

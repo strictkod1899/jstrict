@@ -11,12 +11,12 @@ public class RepositoryUserOnRole extends RepositoryHibernateBase<EntityUserOnRo
 
     private static final String[] COLUMNS_NAME = new String[] {"userx_id", "roleuser_id"};
 
-    public RepositoryUserOnRole(CreateConnectionHibernate connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryUserOnRole(CreateConnectionHibernate connectionSource, GenerateIdType generateIdType) {
         super("user_on_role",
                 COLUMNS_NAME,
                 connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.USER_ON_ROLE),
-                isGenerateId);
+                generateIdType);
     }
 
     @Override

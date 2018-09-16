@@ -14,12 +14,12 @@ public class RepositoryProfile extends RepositoryHibernateBase<EntityProfile, Dt
 
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id"};
 
-    public RepositoryProfile(CreateConnectionHibernate connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryProfile(CreateConnectionHibernate connectionSource, GenerateIdType generateIdType) {
         super("profile",
                 COLUMNS_NAME,
                 connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.PROFILE),
-                isGenerateId);
+                generateIdType);
     }
 
     @Override

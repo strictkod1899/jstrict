@@ -22,11 +22,11 @@ public class RepositoryRoleuser<ID>
 
     private static final String[] COLUMNS_NAME = new String[] {"code", "description"};
 
-    public RepositoryRoleuser(ICreateConnection<Connection> connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryRoleuser(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
         super("roleuser", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.ROLE_USER),
                 new MapperSqlRoleuser(COLUMNS_NAME),
-                isGenerateId);
+                generateIdType);
     }
 
     @Override

@@ -27,11 +27,11 @@ public class RepositoryJWTUserToken<ID>
     private static final String[] COLUMNS_NAME = new String[] {"accessToken", "refreshToken", "expireTimeAccess", "expireTimeRefresh",
             "issuedAt", "issuer", "subject", "notBefore", "audience", "secret", "algorithm", "type", "userx_id", "roleuser_id"};
 
-    public RepositoryJWTUserToken(ICreateConnection<Connection> connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryJWTUserToken(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
         super("token", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.JWT_USER_TOKEN),
                 new MapperSqlJWTUserToken(COLUMNS_NAME),
-                isGenerateId);
+                generateIdType);
     }
 
     @Override

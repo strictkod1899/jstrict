@@ -22,11 +22,11 @@ public class RepositoryCountry<ID>
 
     private static final String[] COLUMNS_NAME = new String[] {"caption"};
 
-    public RepositoryCountry(CreateConnectionByDataSource connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryCountry(CreateConnectionByDataSource connectionSource, GenerateIdType generateIdType) {
         super("country", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.COUNTRY),
                 new MapperSqlCountry(COLUMNS_NAME),
-                isGenerateId);
+                generateIdType);
     }
 
     @Override

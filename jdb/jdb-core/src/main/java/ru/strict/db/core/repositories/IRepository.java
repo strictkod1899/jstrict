@@ -68,4 +68,18 @@ public interface IRepository<ID, DTO extends DtoBase> {
      * @return Созданный/прочитанный объект
      */
     DTO createOrRead(DTO dto);
+
+    /**
+     * Получить наименование таблицы, с которой связан данный репозиторий
+     * @return
+     */
+    String getTableName();
+
+    /**
+     * Получить наименование столбца, который представляет столбец с идентификатором
+     * @return
+     */
+    default String getColumnIdName(){
+        return "id";
+    }
 }

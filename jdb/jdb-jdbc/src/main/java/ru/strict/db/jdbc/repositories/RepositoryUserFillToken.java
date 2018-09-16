@@ -23,8 +23,8 @@ import java.util.*;
 public class RepositoryUserFillToken<ID>
         extends RepositoryUser<ID, DtoUserToken> {
 
-    public RepositoryUserFillToken(ICreateConnection<Connection> connectionSource, GenerateIdType isGenerateId) {
-        super(connectionSource, new MapperDtoFactory().instance(MapperDtoType.USER_TOKEN), isGenerateId);
+    public RepositoryUserFillToken(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
+        super(connectionSource, new MapperDtoFactory().instance(MapperDtoType.USER_TOKEN), generateIdType);
     }
 
     @Override

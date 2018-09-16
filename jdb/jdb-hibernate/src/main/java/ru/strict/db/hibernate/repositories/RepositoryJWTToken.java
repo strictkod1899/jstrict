@@ -12,12 +12,12 @@ public class RepositoryJWTToken extends RepositoryHibernateBase<EntityJWTToken, 
     private static final String[] COLUMNS_NAME = new String[] {"accessToken", "refreshToken", "expireTimeAccess", "expireTimeRefresh",
             "issuedAt", "issuer", "subject", "notBefore", "audience", "secret", "algorithm", "type"};
 
-    public RepositoryJWTToken(CreateConnectionHibernate connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryJWTToken(CreateConnectionHibernate connectionSource, GenerateIdType generateIdType) {
         super("token",
                 COLUMNS_NAME,
                 connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.JWT_TOKEN),
-                isGenerateId);
+                generateIdType);
     }
 
     @Override

@@ -37,8 +37,8 @@ public abstract class RepositoryJdbcBase
     public RepositoryJdbcBase(String tableName, String[] columnsName,
                               ICreateConnection<Connection> connectionSource,
                               MapperDtoBase<E, DTO> dtoMapper,
-                              MapperSqlBase<E> sqlMapper, GenerateIdType isGenerateId) {
-        super(tableName, columnsName, connectionSource, dtoMapper, isGenerateId);
+                              MapperSqlBase<E> sqlMapper, GenerateIdType generateIdType) {
+        super(tableName, columnsName, connectionSource, dtoMapper, generateIdType);
         this.sqlMapper = sqlMapper;
     }
     //</editor-fold>
@@ -230,8 +230,6 @@ public abstract class RepositoryJdbcBase
             while(resultSet.next()) {
                 result.add(getDtoMapper().map(sqlMapper.map(resultSet)));
             }
-
-            setObjects(result);
         } catch (SQLException ex) {
             LOGGER.error(ex.getClass().toString(), ex.getMessage());
             if(connection != null) {

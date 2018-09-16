@@ -29,8 +29,8 @@ public abstract class RepositoryNamedBase
                                ICreateConnection<Connection> connectionSource,
                                MapperDtoBase<E, DTO> dtoMapper,
                                MapperSqlBase<E> sqlMapper,
-                               GenerateIdType isGenerateId) {
-        super(tableName, columnsName, connectionSource, dtoMapper, sqlMapper, isGenerateId);
+                               GenerateIdType generateIdType) {
+        super(tableName, columnsName, connectionSource, dtoMapper, sqlMapper, generateIdType);
     }
 
     @Override

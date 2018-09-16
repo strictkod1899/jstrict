@@ -18,11 +18,11 @@ public class RepositoryCity<ID>
 
     private static final String[] COLUMNS_NAME = new String[] {"caption", "country_id"};
 
-    public RepositoryCity(CreateConnectionByDataSource connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryCity(CreateConnectionByDataSource connectionSource, GenerateIdType generateIdType) {
         super("city", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory().instance(MapperDtoType.CITY),
                 new MapperSqlCity(COLUMNS_NAME),
-                isGenerateId);
+                generateIdType);
     }
 
     @Override
