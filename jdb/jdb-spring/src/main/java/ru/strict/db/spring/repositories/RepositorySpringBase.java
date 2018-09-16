@@ -57,7 +57,13 @@ public abstract class RepositorySpringBase
         E entity = getDtoMapper().map(dto);
         MapSqlParameterSource parameters = getParameters(entity);
         String sql = null;
-        switch(getGenerateIdType()){
+
+        GenerateIdType usingGenerateIdType = getGenerateIdType();
+        if(dto.getId() != null){
+            usingGenerateIdType = GenerateIdType.NONE;
+        }
+
+        switch(usingGenerateIdType){
             case NUMBER:
                 KeyHolder keyHolder = new GeneratedKeyHolder();
                 sql = createSqlInsertShort(parameters.getParameterNames());

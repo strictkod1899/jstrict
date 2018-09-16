@@ -52,7 +52,13 @@ public abstract class RepositoryJdbcBase
         String sql = null;
         E entity = getDtoMapper().map(dto);
         Connection connection = null;
-        switch(getGenerateIdType()){
+
+        GenerateIdType usingGenerateIdType = getGenerateIdType();
+        if(dto.getId() != null){
+            usingGenerateIdType = GenerateIdType.NONE;
+        }
+
+        switch(usingGenerateIdType){
             case NUMBER:
                 parameters = getParameters(entity, 0);
                 sql = createSqlInsertShort(parameters.size());
