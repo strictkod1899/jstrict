@@ -4,7 +4,6 @@ import ru.strict.utils.UtilHashCode;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * JWT-токен
@@ -12,7 +11,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "token")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class EntityJWTToken extends EntityToken {
+public class EntityJWTToken<ID> extends EntityToken<ID> {
 
     /**
      * Издатель токена
@@ -53,27 +52,27 @@ public class EntityJWTToken extends EntityToken {
      * Идентификатор пользователя, связанного с данным токеном
      */
     @Column(name = "userx_id", nullable = false)
-    private UUID userId;
+    private ID userId;
     /**
      * Пользователь, связанного с данным токеном
      */
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "userx_id", insertable = false, updatable = false)
-    private EntityUser user;
+    private EntityUser<ID> user;
     /**
      * Идентификатор роли пользователя, связанного с данным токеном
      */
     @Column(name = "roleuser_id", nullable = false)
-    private UUID roleUserId;
+    private ID roleUserId;
     /**
      * Роль пользователя, связанного с данным токеном
      */
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name="roleuser_id", insertable = false, updatable = false)
-    private EntityRoleuser roleUser;
+    private EntityRoleuser<ID> roleUser;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void initialize(UUID userId, UUID roleUserId){
+    private void initialize(ID userId, ID roleUserId){
         if(userId == null){
             throw new NullPointerException("userId is NULL");
         } else if(roleUserId == null){
@@ -101,7 +100,7 @@ public class EntityJWTToken extends EntityToken {
     }
 
     public EntityJWTToken(String accessToken, String refreshToken, Date expireTimeAccess,
-                          Date expireTimeRefresh, Date issuedAt, UUID userId, UUID roleUserId) {
+                          Date expireTimeRefresh, Date issuedAt, ID userId, ID roleUserId) {
         super(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
         issuer = null;
         subject = null;
@@ -112,8 +111,8 @@ public class EntityJWTToken extends EntityToken {
         initialize(userId, roleUserId);
     }
 
-    public EntityJWTToken(UUID id, String accessToken, String refreshToken, Date expireTimeAccess,
-                          Date expireTimeRefresh, Date issuedAt, UUID userId, UUID roleUserId) {
+    public EntityJWTToken(ID id, String accessToken, String refreshToken, Date expireTimeAccess,
+                          Date expireTimeRefresh, Date issuedAt, ID userId, ID roleUserId) {
         super(id, accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
         issuer = null;
         subject = null;
@@ -182,11 +181,11 @@ public class EntityJWTToken extends EntityToken {
         this.type = type;
     }
 
-    public UUID getUserId() {
+    public ID getUserId() {
         return userId;
     }
 
-    public void setUserId(UUID userId) {
+    public void setUserId(ID userId) {
         if(userId == null) {
             throw new NullPointerException("userId is NULL");
         }
@@ -194,19 +193,19 @@ public class EntityJWTToken extends EntityToken {
         this.userId = userId;
     }
 
-    public EntityUser getUser() {
+    public EntityUser<ID> getUser() {
         return user;
     }
 
-    public void setUser(EntityUser user) {
+    public void setUser(EntityUser<ID> user) {
         this.user = user;
     }
 
-    public UUID getRoleUserId() {
+    public ID getRoleUserId() {
         return roleUserId;
     }
 
-    public void setRoleUserId(UUID roleUserId) {
+    public void setRoleUserId(ID roleUserId) {
         if(roleUserId == null) {
             throw new NullPointerException("roleUserId is NULL");
         }
@@ -214,11 +213,11 @@ public class EntityJWTToken extends EntityToken {
         this.roleUserId = roleUserId;
     }
 
-    public EntityRoleuser getRoleUser() {
+    public EntityRoleuser<ID> getRoleUser() {
         return roleUser;
     }
 
-    public void setRoleUser(EntityRoleuser roleUser) {
+    public void setRoleUser(EntityRoleuser<ID> roleUser) {
         this.roleUser = roleUser;
     }
     //</editor-fold>

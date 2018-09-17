@@ -12,26 +12,25 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityUser и DtoUserBase
  */
-public class MapperDtoUserBase<E extends EntityUser, DTO extends DtoUserBase>
-        extends MapperDtoBase<E, DTO> {
+public class MapperDtoUserBase<ID> extends MapperDtoBase<ID, EntityUser<ID>, DtoUserBase<ID>> {
 
-    private MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRoleuser;
-    private MapperDtoBase<EntityProfile, DtoProfile> mapperProfile;
+    private MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser;
+    private MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> mapperProfile;
 
     public MapperDtoUserBase(){
         this.mapperRoleuser = null;
         this.mapperProfile = null;
     }
 
-    public MapperDtoUserBase(MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRoleuser
-            , MapperDtoBase<EntityProfile, DtoProfile> mapperProfile){
+    public MapperDtoUserBase(MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser
+            , MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> mapperProfile){
         this.mapperRoleuser = mapperRoleuser;
         this.mapperProfile = mapperProfile;
     }
 
     @Override
-    protected EntityUser implementMap(DtoUserBase dto) {
-        EntityUser entity = new EntityUser();
+    protected EntityUser<ID> implementMap(DtoUserBase<ID> dto) {
+        EntityUser<ID> entity = new EntityUser();
         entity.setId(dto.getId());
         entity.setEmail(dto.getEmail());
         entity.setBlocked(dto.isBlocked());
@@ -45,8 +44,8 @@ public class MapperDtoUserBase<E extends EntityUser, DTO extends DtoUserBase>
     }
 
     @Override
-    protected DtoUserBase implementMap(EntityUser entity) {
-        DtoUserBase dto = new DtoUserBase();
+    protected DtoUserBase<ID> implementMap(EntityUser<ID> entity) {
+        DtoUserBase<ID> dto = new DtoUserBase();
         dto.setId(entity.getId());
         dto.setUsername(entity.getUsername());
         dto.setEmail(entity.getEmail());

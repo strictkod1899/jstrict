@@ -7,27 +7,26 @@ import ru.strict.db.hibernate.entities.EntityRoleuser;
 import ru.strict.db.hibernate.entities.EntityUser;
 
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Двухсторонний маппинг объектов типа EntityRoleuser и DtoRoleuser
  */
-public class MapperDtoRoleuser extends MapperDtoBase<EntityRoleuser, DtoRoleuser> {
+public class MapperDtoRoleuser<ID> extends MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> {
 
-    private MapperDtoBase<EntityUser, DtoUser> mapperUser;
+    private MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser;
 
     public MapperDtoRoleuser(){
         mapperUser = null;
     }
 
-    public MapperDtoRoleuser(MapperDtoBase<EntityUser, DtoUser> mapperUser){
+    public MapperDtoRoleuser(MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser){
         this.mapperUser = mapperUser;
     }
 
     @Override
-    protected EntityRoleuser implementMap(DtoRoleuser dto) {
-        EntityRoleuser entity = new EntityRoleuser();
-        entity.setId((UUID)dto.getId());
+    protected EntityRoleuser<ID> implementMap(DtoRoleuser<ID> dto) {
+        EntityRoleuser<ID> entity = new EntityRoleuser();
+        entity.setId(dto.getId());
         entity.setDescription(dto.getDescription());
         entity.setCode(dto.getCode());
         Optional.ofNullable(mapperUser).ifPresent((mapper) ->
@@ -36,8 +35,8 @@ public class MapperDtoRoleuser extends MapperDtoBase<EntityRoleuser, DtoRoleuser
     }
 
     @Override
-    protected DtoRoleuser implementMap(EntityRoleuser entity) {
-        DtoRoleuser dto = new DtoRoleuser();
+    protected DtoRoleuser<ID> implementMap(EntityRoleuser<ID> entity) {
+        DtoRoleuser<ID> dto = new DtoRoleuser();
         dto.setId(entity.getId());
         dto.setDescription(entity.getDescription());
         dto.setCode(entity.getCode());

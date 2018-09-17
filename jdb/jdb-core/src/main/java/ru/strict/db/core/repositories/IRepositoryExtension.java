@@ -10,7 +10,7 @@ import java.util.List;
  * @param <ID> Тип идентификатора
  * @param <DTO> Тип Dto-сущности базы данных
  */
-public interface IRepositoryExtension<ID, DTO extends DtoBase> extends IRepository<ID, DTO> {
+public interface IRepositoryExtension<ID, DTO extends DtoBase<ID>> extends IRepository<ID, DTO> {
 
     /**
      * Получить объект из базы данных по переданному id, подгрузив в качестве объектов внешние ссылки

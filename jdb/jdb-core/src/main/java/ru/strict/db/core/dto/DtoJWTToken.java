@@ -44,7 +44,7 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
     /**
      * Пользователь, связанного с данным токеном
      */
-    private DtoUser user;
+    private DtoUser<ID> user;
     /**
      * Идентификатор роли пользователя, связанного с данным токеном
      */
@@ -52,7 +52,7 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
     /**
      * Роль пользователя, связанного с данным токеном
      */
-    private DtoRoleuser roleUser;
+    private DtoRoleuser<ID> roleUser;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(ID userId, ID roleUserId){
@@ -176,11 +176,11 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
         this.userId = userId;
     }
 
-    public DtoUser getUser() {
+    public DtoUser<ID> getUser() {
         return user;
     }
 
-    public void setUser(DtoUser user) {
+    public void setUser(DtoUser<ID> user) {
         this.user = user;
     }
 
@@ -196,11 +196,11 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
         this.roleUserId = roleUserId;
     }
 
-    public DtoRoleuser getRoleUser() {
+    public DtoRoleuser<ID> getRoleUser() {
         return roleUser;
     }
 
-    public void setRoleUser(DtoRoleuser roleUser) {
+    public void setRoleUser(DtoRoleuser<ID> roleUser) {
         this.roleUser = roleUser;
     }
     //</editor-fold>

@@ -7,7 +7,7 @@ import ru.strict.db.core.mappers.sql.MapperSqlBase;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MapperSqlJWTToken extends MapperSqlBase<EntityJWTToken> {
+public class MapperSqlJWTToken<ID> extends MapperSqlBase<ID, EntityJWTToken<ID>> {
 
     private final String[] COLUMNS_NAME;
 
@@ -16,10 +16,10 @@ public class MapperSqlJWTToken extends MapperSqlBase<EntityJWTToken> {
     }
 
     @Override
-    public EntityJWTToken implementMap(ResultSet resultSet) {
-        EntityJWTToken entity = new EntityJWTToken();
+    public EntityJWTToken<ID> implementMap(ResultSet resultSet) {
+        EntityJWTToken<ID> entity = new EntityJWTToken();
         try {
-            entity.setId(resultSet.getObject("id"));
+            entity.setId((ID)resultSet.getObject("id"));
             entity.setAccessToken(resultSet.getString(COLUMNS_NAME[0]));
             entity.setRefreshToken(resultSet.getString(COLUMNS_NAME[1]));
             entity.setExpireTimeAccess(resultSet.getDate(COLUMNS_NAME[2]));
@@ -32,8 +32,8 @@ public class MapperSqlJWTToken extends MapperSqlBase<EntityJWTToken> {
             entity.setSecret(resultSet.getString(COLUMNS_NAME[9]));
             entity.setAlgorithm(resultSet.getString(COLUMNS_NAME[10]));
             entity.setType(resultSet.getString(COLUMNS_NAME[11]));
-            entity.setUserId(resultSet.getObject(COLUMNS_NAME[12]));
-            entity.setRoleUserId(resultSet.getObject(COLUMNS_NAME[13]));
+            entity.setUserId((ID)resultSet.getObject(COLUMNS_NAME[12]));
+            entity.setRoleUserId((ID)resultSet.getObject(COLUMNS_NAME[13]));
         }catch(SQLException ex){
             throw new WrapperRuntimeException(ex);
         }

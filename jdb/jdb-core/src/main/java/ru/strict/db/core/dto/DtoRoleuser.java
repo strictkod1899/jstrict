@@ -22,7 +22,7 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
     /**
      * Пользователи свзяанные с ролью
      */
-    private Collection<DtoUser> users;
+    private Collection<DtoUser<ID>> users;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String code, String description){
@@ -74,11 +74,11 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
         this.description = description;
     }
 
-    public Collection<DtoUser> getUsers() {
+    public Collection<DtoUser<ID>> getUsers() {
         return users;
     }
 
-    public void setUsers(Collection<DtoUser> users) {
+    public void setUsers(Collection<DtoUser<ID>> users) {
         if(users == null) {
             throw new NullPointerException("users is NULL");
         }
@@ -90,7 +90,7 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
      * Добавить пользователя использующего данную роль
      * @param user
      */
-    public void addUser(DtoUser user) {
+    public void addUser(DtoUser<ID> user) {
         if(user == null) {
             throw new NullPointerException("user is NULL");
         }

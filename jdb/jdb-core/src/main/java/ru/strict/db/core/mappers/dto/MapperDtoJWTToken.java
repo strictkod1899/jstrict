@@ -12,25 +12,25 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityJWTToken и DtoJWTToken
  */
-public class MapperDtoJWTToken<E extends EntityJWTToken, DTO extends DtoJWTToken> extends MapperDtoBase<E, DTO> {
+public class MapperDtoJWTToken<ID> extends MapperDtoBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>> {
 
-    private MapperDtoBase<EntityUser, DtoUser> mapperUser;
-    private MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRoleuser;
+    private MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser;
+    private MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser;
 
     public MapperDtoJWTToken(){
         mapperUser = null;
         mapperRoleuser = null;
     }
 
-    public MapperDtoJWTToken(MapperDtoBase<EntityUser, DtoUser> mapperUser,
-                                 MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRoleuser){
+    public MapperDtoJWTToken(MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser,
+                                 MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser){
         this.mapperUser = mapperUser;
         this.mapperRoleuser = mapperRoleuser;
     }
 
     @Override
-    protected EntityJWTToken implementMap(DtoJWTToken dto) {
-        EntityJWTToken entity = new EntityJWTToken();
+    protected EntityJWTToken<ID> implementMap(DtoJWTToken<ID> dto) {
+        EntityJWTToken<ID> entity = new EntityJWTToken();
         entity.setId(dto.getId());
         entity.setAccessToken(dto.getAccessToken());
         entity.setRefreshToken(dto.getRefreshToken());
@@ -52,8 +52,8 @@ public class MapperDtoJWTToken<E extends EntityJWTToken, DTO extends DtoJWTToken
     }
 
     @Override
-    protected DtoJWTToken implementMap(EntityJWTToken entity) {
-        DtoJWTToken dto = new DtoJWTToken();
+    protected DtoJWTToken<ID> implementMap(EntityJWTToken<ID> entity) {
+        DtoJWTToken<ID> dto = new DtoJWTToken();
         dto.setId(entity.getId());
         dto.setAccessToken(entity.getAccessToken());
         dto.setRefreshToken(entity.getRefreshToken());

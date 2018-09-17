@@ -3,37 +3,36 @@ package ru.strict.db.hibernate.mappers.dto;
 import ru.strict.db.core.dto.DtoJWTToken;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.dto.DtoUser;
-import ru.strict.db.hibernate.entities.EntityJWTToken;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
+import ru.strict.db.hibernate.entities.EntityJWTToken;
 import ru.strict.db.hibernate.entities.EntityRoleuser;
 import ru.strict.db.hibernate.entities.EntityUser;
 
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Двухсторонний маппинг объектов типа EntityJWTToken и DtoJWTToken
  */
-public class MapperDtoJWTToken<E extends EntityJWTToken, DTO extends DtoJWTToken> extends MapperDtoBase<E, DTO> {
+public class MapperDtoJWTToken<ID> extends MapperDtoBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>> {
 
-    private MapperDtoBase<EntityUser, DtoUser> mapperUser;
-    private MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRoleuser;
+    private MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser;
+    private MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser;
 
     public MapperDtoJWTToken(){
         mapperUser = null;
         mapperRoleuser = null;
     }
 
-    public MapperDtoJWTToken(MapperDtoBase<EntityUser, DtoUser> mapperUser,
-                             MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRoleuser){
+    public MapperDtoJWTToken(MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser,
+                                 MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser){
         this.mapperUser = mapperUser;
         this.mapperRoleuser = mapperRoleuser;
     }
 
     @Override
-    protected EntityJWTToken implementMap(DtoJWTToken dto) {
-        EntityJWTToken entity = new EntityJWTToken();
-        entity.setId((UUID)dto.getId());
+    protected EntityJWTToken<ID> implementMap(DtoJWTToken<ID> dto) {
+        EntityJWTToken<ID> entity = new EntityJWTToken();
+        entity.setId(dto.getId());
         entity.setAccessToken(dto.getAccessToken());
         entity.setRefreshToken(dto.getRefreshToken());
         entity.setExpireTimeAccess(dto.getExpireTimeAccess());
@@ -46,16 +45,16 @@ public class MapperDtoJWTToken<E extends EntityJWTToken, DTO extends DtoJWTToken
         entity.setSecret(dto.getSecret());
         entity.setAlgorithm(dto.getAlgorithm());
         entity.setType(dto.getType());
-        entity.setUserId((UUID)dto.getUserId());
+        entity.setUserId(dto.getUserId());
         Optional.ofNullable(mapperUser).ifPresent((mapper) -> entity.setUser(mapper.map(dto.getUser())));
-        entity.setRoleUserId((UUID)dto.getRoleUserId());
+        entity.setRoleUserId(dto.getRoleUserId());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) -> entity.setRoleUser(mapper.map(dto.getRoleUser())));
         return entity;
     }
 
     @Override
-    protected DtoJWTToken implementMap(EntityJWTToken entity) {
-        DtoJWTToken dto = new DtoJWTToken();
+    protected DtoJWTToken<ID> implementMap(EntityJWTToken<ID> entity) {
+        DtoJWTToken<ID> dto = new DtoJWTToken();
         dto.setId(entity.getId());
         dto.setAccessToken(entity.getAccessToken());
         dto.setRefreshToken(entity.getRefreshToken());

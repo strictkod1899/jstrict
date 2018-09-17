@@ -12,21 +12,21 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityCity и DtoCity
  */
-public class MapperDtoCity extends MapperDtoBase<EntityCity, DtoCity> {
+public class MapperDtoCity<ID> extends MapperDtoBase<ID, EntityCity<ID>, DtoCity<ID>> {
 
-    private MapperDtoBase<EntityCountry, DtoCountry> mapperCountry;
+    private MapperDtoBase<ID, EntityCountry<ID>, DtoCountry<ID>> mapperCountry;
 
     public MapperDtoCity(){
         mapperCountry = null;
     }
 
-    public MapperDtoCity(MapperDtoBase<EntityCountry, DtoCountry> mapperCountry){
+    public MapperDtoCity(MapperDtoBase<ID, EntityCountry<ID>, DtoCountry<ID>> mapperCountry){
         this.mapperCountry = mapperCountry;
     }
 
     @Override
-    protected EntityCity implementMap(DtoCity dto) {
-        EntityCity entity = new EntityCity();
+    protected EntityCity<ID> implementMap(DtoCity<ID> dto) {
+        EntityCity<ID> entity = new EntityCity();
         entity.setId(dto.getId());
         entity.setCaption(dto.getCaption());
         entity.setCountryId(dto.getCountryId());
@@ -35,8 +35,8 @@ public class MapperDtoCity extends MapperDtoBase<EntityCity, DtoCity> {
     }
 
     @Override
-    protected DtoCity implementMap(EntityCity entity) {
-        DtoCity dto = new DtoCity();
+    protected DtoCity<ID> implementMap(EntityCity<ID> entity) {
+        DtoCity<ID> dto = new DtoCity();
         dto.setId(entity.getId());
         dto.setCaption(entity.getCaption());
         dto.setCountryId(entity.getCountryId());

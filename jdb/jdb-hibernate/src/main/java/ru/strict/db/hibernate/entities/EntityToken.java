@@ -5,13 +5,12 @@ import ru.strict.utils.UtilHashCode;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Токен
  */
 @MappedSuperclass
-public class EntityToken extends EntityBase {
+public class EntityToken<ID> extends EntityBase<ID> {
     /**
      * Токен авторизации
      */
@@ -73,7 +72,7 @@ public class EntityToken extends EntityBase {
         initialize(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
     }
 
-    public EntityToken(UUID id, String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt) {
+    public EntityToken(ID id, String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt) {
         super(id);
         initialize(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
     }

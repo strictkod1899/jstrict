@@ -5,7 +5,6 @@ import ru.strict.utils.UtilHashCode;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.UUID;
 
 /**
  * Страна
@@ -13,13 +12,13 @@ import java.util.UUID;
 @Entity
 @Table(name = "country")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class EntityCountry extends EntityNamed {
+public class EntityCountry<ID> extends EntityNamed<ID> {
 
     /**
      * Города связанные со страной
      */
     @OneToMany(mappedBy = "countryId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private Collection<EntityCity> cities;
+    private Collection<EntityCity<ID>> cities;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public EntityCountry() {
@@ -32,14 +31,14 @@ public class EntityCountry extends EntityNamed {
         cities = new LinkedList<>();
     }
 
-    public EntityCountry(UUID id, String caption) {
+    public EntityCountry(ID id, String caption) {
         super(id, caption);
         cities = new LinkedList<>();
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public void addCity(EntityCity city){
+    public void addCity(EntityCity<ID> city){
         if(city == null) {
             throw new NullPointerException();
         }
@@ -49,11 +48,11 @@ public class EntityCountry extends EntityNamed {
         }
     }
 
-    public Collection<EntityCity> getCities() {
+    public Collection<EntityCity<ID>> getCities() {
         return cities;
     }
 
-    public void setCities(Collection<EntityCity> cities) {
+    public void setCities(Collection<EntityCity<ID>> cities) {
         if(cities == null) {
             throw new NullPointerException();
         }

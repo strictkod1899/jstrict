@@ -6,12 +6,16 @@ import ru.strict.db.core.dto.DtoProfileInfo;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityProfileInfo;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
+import ru.strict.utils.UtilClassOperations;
+
+import java.io.Serializable;
 
 /**
  * Репозиторий таблицы "profile" с расширенными данными.
  * Определяет столбцы: "name", "surname", "middlename", "userx_id", "datebirth", "phone", "city_id"
  */
-public class RepositoryProfileInfo extends RepositoryHibernateBase<EntityProfileInfo, DtoProfileInfo> {
+public class RepositoryProfileInfo<ID extends Serializable>
+        extends RepositoryHibernateBase<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id", "datebirth",
             "phone", "city_id"};
@@ -20,18 +24,18 @@ public class RepositoryProfileInfo extends RepositoryHibernateBase<EntityProfile
         super("profile",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory().instance(MapperDtoType.PROFILE_INFO),
+                new MapperDtoFactory<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>>().instance(MapperDtoType.PROFILE_INFO),
                 generateIdType);
     }
 
     @Override
-    protected DtoProfileInfo fill(DtoProfileInfo dto) {
+    protected DtoProfileInfo<ID> fill(DtoProfileInfo<ID> dto) {
         return dto;
     }
 
     @Override
-    protected Class<EntityProfileInfo> getEntityClass() {
-        return EntityProfileInfo.class;
+    protected Class<EntityProfileInfo<ID>> getEntityClass() {
+        return UtilClassOperations.<EntityProfileInfo<ID>>castClass(EntityProfileInfo.class);
     }
 
     @Override

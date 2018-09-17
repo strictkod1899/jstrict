@@ -15,7 +15,7 @@ public class DtoCity<ID> extends DtoNamed<ID> {
     /**
      * Страна связанная с данным городом
      */
-    private DtoCountry country;
+    private DtoCountry<ID> country;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(ID countryId){
@@ -57,11 +57,11 @@ public class DtoCity<ID> extends DtoNamed<ID> {
         this.countryId = countryId;
     }
 
-    public DtoCountry getCountry() {
+    public DtoCountry<ID> getCountry() {
         return country;
     }
 
-    public void setCountry(DtoCountry country) {
+    public void setCountry(DtoCountry<ID> country) {
         this.country = country;
     }
     //</editor-fold>

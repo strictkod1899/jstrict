@@ -9,7 +9,7 @@ import java.sql.ResultSet;
  * Базовая реализация маппера из выборки sql-запроса (ResultSet) в entity
  * @param <T> Entity-класс
  */
-public abstract class MapperSqlBase<T extends EntityBase>
+public abstract class MapperSqlBase<ID, T extends EntityBase<ID>>
         extends MapperBase<ResultSet, T> {
 
     @Override

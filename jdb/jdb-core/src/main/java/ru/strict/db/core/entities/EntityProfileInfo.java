@@ -26,7 +26,7 @@ public class EntityProfileInfo<ID> extends EntityProfile<ID> {
     /**
      * Город связанный с пользователем
      */
-    private EntityCity city;
+    private EntityCity<ID> city;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(Date dateBirth, String phone, ID cityId){
@@ -81,11 +81,11 @@ public class EntityProfileInfo<ID> extends EntityProfile<ID> {
         this.cityId = cityId;
     }
 
-    public EntityCity getCity() {
+    public EntityCity<ID> getCity() {
         return city;
     }
 
-    public void setCity(EntityCity city) {
+    public void setCity(EntityCity<ID> city) {
         this.city = city;
     }
     //</editor-fold>

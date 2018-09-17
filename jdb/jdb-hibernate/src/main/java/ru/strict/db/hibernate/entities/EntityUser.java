@@ -6,7 +6,6 @@ import ru.strict.validates.ValidateBaseValue;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.UUID;
 
 /**
  * Пользователь системы
@@ -14,7 +13,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "userx")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class EntityUser extends EntityBase {
+public class EntityUser<ID> extends EntityBase<ID> {
 
     /**
      * Логин пользователя
@@ -53,20 +52,20 @@ public class EntityUser extends EntityBase {
     @JoinTable(name = "user_on_role",
             joinColumns = @JoinColumn(name = "userx_id", insertable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "roleuser_id", insertable = false, updatable = false))
-    private Collection<EntityRoleuser> rolesuser;
+    private Collection<EntityRoleuser<ID>> rolesuser;
     /**
      * Профиль пользователя. Используется конструкция OneToMany, но фактически реализована связь OneToOne
      */
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private Collection<EntityProfile> profile;
+    private Collection<EntityProfile<ID>> profile;
     /**
      * Токены пользователя
      */
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private Collection<EntityJWTToken> tokens;
+    private Collection<EntityJWTToken<ID>> tokens;
 
-    public EntityProfile getProfile() {
-        EntityProfile result = null;
+    public EntityProfile<ID> getProfile() {
+        EntityProfile<ID> result = null;
 
         if(profile != null){
             result = profile.stream().findFirst().orElse(null);
@@ -75,14 +74,14 @@ public class EntityUser extends EntityBase {
         return result;
     }
 
-    public void setProfile(EntityProfile profile) {
+    public void setProfile(EntityProfile<ID> profile) {
         if(this.profile != null && profile != null){
             this.profile.removeAll(this.profile);
             this.profile.add(profile);
         }
     }
 
-    protected void setProfiles(Collection<EntityProfile> profile) {
+    protected void setProfiles(Collection<EntityProfile<ID>> profile) {
         this.profile = profile;
     }
 
@@ -125,7 +124,7 @@ public class EntityUser extends EntityBase {
         initialize(username, passwordEncode, email);
     }
 
-    public EntityUser(UUID id, String username, String passwordEncode, String email) {
+    public EntityUser(ID id, String username, String passwordEncode, String email) {
         super(id);
         initialize(username, passwordEncode, email);
     }
@@ -188,11 +187,11 @@ public class EntityUser extends EntityBase {
         isConfirmEmail = confirmEmail;
     }
 
-    public Collection<EntityRoleuser> getRolesuser() {
+    public Collection<EntityRoleuser<ID>> getRolesuser() {
         return rolesuser;
     }
 
-    public void setRolesuser(Collection<EntityRoleuser> rolesuser) {
+    public void setRolesuser(Collection<EntityRoleuser<ID>> rolesuser) {
         if(rolesuser == null) {
             throw new NullPointerException("rolesuser is NULL");
         }
@@ -204,7 +203,7 @@ public class EntityUser extends EntityBase {
      * Добавить роль, которую использует данный пользователь
      * @param roleuser
      */
-    public void addRoleuser(EntityRoleuser roleuser){
+    public void addRoleuser(EntityRoleuser<ID> roleuser){
         if(roleuser == null) {
             throw new NullPointerException("roleuser is NULL");
         }
@@ -217,7 +216,7 @@ public class EntityUser extends EntityBase {
     /**
      * Добавить токен
      */
-    public void addToken(EntityJWTToken token){
+    public void addToken(EntityJWTToken<ID> token){
         if(token == null) {
             throw new NullPointerException("token is NULL");
         }
@@ -227,11 +226,11 @@ public class EntityUser extends EntityBase {
         }
     }
 
-    public Collection<EntityJWTToken> getTokens() {
+    public Collection<EntityJWTToken<ID>> getTokens() {
         return tokens;
     }
 
-    public void setTokens(Collection<EntityJWTToken> tokens) {
+    public void setTokens(Collection<EntityJWTToken<ID>> tokens) {
         if(tokens == null) {
             throw new NullPointerException("tokens is NULL");
         }
@@ -239,7 +238,7 @@ public class EntityUser extends EntityBase {
         this.tokens = tokens;
     }
 
-    public void setProfile(Collection<EntityProfile> profile) {
+    public void setProfile(Collection<EntityProfile<ID>> profile) {
         this.profile = profile;
     }
     //</editor-fold>

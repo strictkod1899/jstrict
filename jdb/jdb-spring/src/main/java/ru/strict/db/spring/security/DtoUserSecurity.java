@@ -34,7 +34,7 @@ public class DtoUserSecurity<ID> extends DtoUser<ID> implements UserDetails{
 
 	//<editor-fold defaultState="collapsed" desc="Get/Set">
 	@Override
-	public void addRoleuser(DtoRoleuser roleuser){
+	public void addRoleuser(DtoRoleuser<ID> roleuser){
 		this.authorities = new HashSet<>();
 		if (roleuser.getCode() != null && !"".equals(roleuser.getCode())) {
 			GrantedAuthority grandAuthority = new GrantedAuthority() {

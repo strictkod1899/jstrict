@@ -10,21 +10,21 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityCountry и DtoCountry
  */
-public class MapperDtoCountry extends MapperDtoBase<EntityCountry, DtoCountry> {
+public class MapperDtoCountry<ID> extends MapperDtoBase<ID, EntityCountry<ID>, DtoCountry<ID>> {
 
-    private MapperDtoBase<EntityCity, DtoCity> mapperCity;
+    private MapperDtoBase<ID, EntityCity<ID>, DtoCity<ID>> mapperCity;
 
     public MapperDtoCountry(){
         mapperCity = null;
     }
 
-    public MapperDtoCountry(MapperDtoBase<EntityCity, DtoCity> mapperCity){
+    public MapperDtoCountry(MapperDtoBase<ID, EntityCity<ID>, DtoCity<ID>> mapperCity){
         this.mapperCity = mapperCity;
     }
 
     @Override
-    protected EntityCountry implementMap(DtoCountry dto) {
-        EntityCountry entity = new EntityCountry();
+    protected EntityCountry<ID> implementMap(DtoCountry<ID> dto) {
+        EntityCountry<ID> entity = new EntityCountry();
         entity.setId(dto.getId());
         entity.setCaption(dto.getCaption());
         Optional.ofNullable(mapperCity).ifPresent((mapper) ->
@@ -33,8 +33,8 @@ public class MapperDtoCountry extends MapperDtoBase<EntityCountry, DtoCountry> {
     }
 
     @Override
-    protected DtoCountry implementMap(EntityCountry entity) {
-        DtoCountry dto = new DtoCountry();
+    protected DtoCountry<ID> implementMap(EntityCountry<ID> entity) {
+        DtoCountry<ID> dto = new DtoCountry();
         dto.setId(entity.getId());
         dto.setCaption(entity.getCaption());
         Optional.ofNullable(mapperCity).ifPresent((mapper) ->

@@ -33,11 +33,11 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     /**
      * Роли пользователя
      */
-    private Collection<DtoRoleuser> rolesuser;
+    private Collection<DtoRoleuser<ID>> rolesuser;
     /**
      * Профиль пользователя
      */
-    private DtoProfile profile;
+    private DtoProfile<ID> profile;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String username, String email){
@@ -127,7 +127,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         isConfirmEmail = confirmEmail;
     }
 
-    public Collection<DtoRoleuser> getRolesuser() {
+    public Collection<DtoRoleuser<ID>> getRolesuser() {
         return rolesuser;
     }
 
@@ -135,7 +135,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
      * Добавить роль, которую использует данный пользователь
      * @param roleuser
      */
-    public void addRoleuser(DtoRoleuser roleuser){
+    public void addRoleuser(DtoRoleuser<ID> roleuser){
         if(roleuser == null) {
             throw new NullPointerException("roleuser is NULL");
         }
@@ -145,7 +145,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         }
     }
 
-    public void setRolesuser(Collection<DtoRoleuser> rolesuser) {
+    public void setRolesuser(Collection<DtoRoleuser<ID>> rolesuser) {
         if(rolesuser == null) {
             throw new NullPointerException("rolesuser is NULL");
         }
@@ -153,11 +153,11 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         this.rolesuser = rolesuser;
     }
 
-    public DtoProfile getProfile() {
+    public DtoProfile<ID> getProfile() {
         return profile;
     }
 
-    public void setProfile(DtoProfile profile) {
+    public void setProfile(DtoProfile<ID> profile) {
         this.profile = profile;
     }
     //</editor-fold>

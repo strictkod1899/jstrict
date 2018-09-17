@@ -6,11 +6,14 @@ import ru.strict.db.core.dto.DtoProfile;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityProfile;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
+import ru.strict.utils.UtilClassOperations;
+
+import java.io.Serializable;
 
 /**
  * Репозиторий таблицы "profile". Определяет столбцы: "name", "surname", "middlename", "user_id"
  */
-public class RepositoryProfile extends RepositoryHibernateBase<EntityProfile, DtoProfile> {
+public class RepositoryProfile<ID extends Serializable> extends RepositoryHibernateBase<ID, EntityProfile<ID>, DtoProfile<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id"};
 
@@ -18,18 +21,18 @@ public class RepositoryProfile extends RepositoryHibernateBase<EntityProfile, Dt
         super("profile",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory().instance(MapperDtoType.PROFILE),
+                new MapperDtoFactory<ID, EntityProfile<ID>, DtoProfile<ID>>().instance(MapperDtoType.PROFILE),
                 generateIdType);
     }
 
     @Override
-    protected DtoProfile fill(DtoProfile dto){
+    protected DtoProfile<ID> fill(DtoProfile<ID> dto){
         return dto;
     }
 
     @Override
-    protected Class<EntityProfile> getEntityClass() {
-        return EntityProfile.class;
+    protected Class<EntityProfile<ID>> getEntityClass() {
+        return UtilClassOperations.<EntityProfile<ID>>castClass(EntityProfile.class);
     }
 
     @Override

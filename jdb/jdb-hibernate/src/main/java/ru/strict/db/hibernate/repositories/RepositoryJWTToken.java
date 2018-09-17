@@ -8,16 +8,19 @@ import ru.strict.db.core.repositories.interfaces.IRepositoryJWTToken;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityJWTToken;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
+import ru.strict.utils.UtilClassOperations;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.io.Serializable;
 import java.util.UUID;
 
-public class RepositoryJWTToken extends RepositoryHibernateBase<EntityJWTToken, DtoJWTToken>
-        implements IRepositoryJWTToken<UUID> {
+public class RepositoryJWTToken<ID extends Serializable>
+        extends RepositoryHibernateBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>>
+        implements IRepositoryJWTToken<ID> {
 
     private static final String[] COLUMNS_NAME = new String[] {"accessToken", "refreshToken",
             "expireTimeAccess", "expireTimeRefresh", "issuedAt", "issuer", "subject", "notBefore",
@@ -27,23 +30,23 @@ public class RepositoryJWTToken extends RepositoryHibernateBase<EntityJWTToken, 
         super("token",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory().instance(MapperDtoType.JWT_TOKEN),
+                new MapperDtoFactory<ID, EntityJWTToken<ID>, DtoJWTToken<ID>>().instance(MapperDtoType.JWT_TOKEN),
                 generateIdType);
     }
 
     @Override
-    public DtoJWTToken readByAccessToken(String caption) {
-        DtoJWTToken result = null;
+    public DtoJWTToken<ID> readByAccessToken(String caption) {
+        DtoJWTToken<ID> result = null;
         try(Session session = createConnection()){
             session.beginTransaction();
             EntityManagerFactory entityManagerFactory = session.getEntityManagerFactory();
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<EntityJWTToken> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
-            Root<EntityJWTToken> criteriaRoot = criteriaEntity.from(getEntityClass());
+            CriteriaQuery<EntityJWTToken<ID>> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
+            Root<EntityJWTToken<ID>> criteriaRoot = criteriaEntity.from(getEntityClass());
             criteriaEntity.select(criteriaRoot);
             criteriaEntity.where(criteriaBuilder.equal(criteriaRoot.get("accessToken"), caption));
-            EntityJWTToken entity = entityManager.createQuery(criteriaEntity)
+            EntityJWTToken<ID> entity = entityManager.createQuery(criteriaEntity)
                     .getResultStream()
                     .findFirst()
                     .orElse(null);
@@ -55,18 +58,18 @@ public class RepositoryJWTToken extends RepositoryHibernateBase<EntityJWTToken, 
     }
 
     @Override
-    public DtoJWTToken readByRefreshToken(String caption) {
-        DtoJWTToken result = null;
+    public DtoJWTToken<ID> readByRefreshToken(String caption) {
+        DtoJWTToken<ID> result = null;
         try(Session session = createConnection()){
             session.beginTransaction();
             EntityManagerFactory entityManagerFactory = session.getEntityManagerFactory();
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<EntityJWTToken> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
-            Root<EntityJWTToken> criteriaRoot = criteriaEntity.from(getEntityClass());
+            CriteriaQuery<EntityJWTToken<ID>> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
+            Root<EntityJWTToken<ID>> criteriaRoot = criteriaEntity.from(getEntityClass());
             criteriaEntity.select(criteriaRoot);
             criteriaEntity.where(criteriaBuilder.equal(criteriaRoot.get("refreshToken"), caption));
-            EntityJWTToken entity = entityManager.createQuery(criteriaEntity)
+            EntityJWTToken<ID> entity = entityManager.createQuery(criteriaEntity)
                     .getResultStream()
                     .findFirst()
                     .orElse(null);
@@ -78,13 +81,13 @@ public class RepositoryJWTToken extends RepositoryHibernateBase<EntityJWTToken, 
     }
 
     @Override
-    protected DtoJWTToken fill(DtoJWTToken dto){
+    protected DtoJWTToken<ID> fill(DtoJWTToken dto){
         return dto;
     }
 
     @Override
-    protected Class<EntityJWTToken> getEntityClass() {
-        return EntityJWTToken.class;
+    protected Class<EntityJWTToken<ID>> getEntityClass() {
+        return UtilClassOperations.<EntityJWTToken<ID>>castClass(EntityJWTToken.class);
     }
 
     @Override

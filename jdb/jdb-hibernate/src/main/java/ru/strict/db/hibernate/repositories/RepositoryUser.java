@@ -7,23 +7,25 @@ import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.interfaces.IRepositoryUser;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityUser;
+import ru.strict.utils.UtilClassOperations;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.io.Serializable;
 import java.util.UUID;
 
-public class RepositoryUser<DTO extends DtoUserBase>
-        extends RepositoryNamedBase<EntityUser, DTO>
-        implements IRepositoryUser<UUID, DTO> {
+public class RepositoryUser<ID extends Serializable, DTO extends DtoUserBase<ID>>
+        extends RepositoryNamedBase<ID, EntityUser<ID>, DTO>
+        implements IRepositoryUser<ID, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "email",
             "isBlocked", "isDeleted", "isConfirmEmail"};
 
     public RepositoryUser(CreateConnectionHibernate connectionSource,
-                          MapperDtoBase<EntityUser, DTO> dtoMapper,
+                          MapperDtoBase<ID, EntityUser<ID>, DTO> dtoMapper,
                           GenerateIdType generateIdType) {
         super("userx",
                 COLUMNS_NAME,
@@ -50,11 +52,11 @@ public class RepositoryUser<DTO extends DtoUserBase>
             EntityManagerFactory entityManagerFactory = session.getEntityManagerFactory();
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<EntityUser> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
-            Root<EntityUser> criteriaRoot = criteriaEntity.from(getEntityClass());
+            CriteriaQuery<EntityUser<ID>> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
+            Root<EntityUser<ID>> criteriaRoot = criteriaEntity.from(getEntityClass());
             criteriaEntity.select(criteriaRoot);
             criteriaEntity.where(criteriaBuilder.equal(criteriaRoot.get("email"), email));
-            EntityUser entity = entityManager.createQuery(criteriaEntity)
+            EntityUser<ID> entity = entityManager.createQuery(criteriaEntity)
                     .getResultStream()
                     .findFirst()
                     .orElse(null);
@@ -66,8 +68,8 @@ public class RepositoryUser<DTO extends DtoUserBase>
     }
 
     @Override
-    protected Class<EntityUser> getEntityClass() {
-        return EntityUser.class;
+    protected Class<EntityUser<ID>> getEntityClass() {
+        return UtilClassOperations.<EntityUser<ID>>castClass(EntityUser.class);
     }
 
     @Override

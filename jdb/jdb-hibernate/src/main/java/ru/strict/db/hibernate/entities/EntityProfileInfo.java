@@ -4,7 +4,6 @@ import ru.strict.utils.UtilHashCode;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Расширенная информация профиля пользователя (имя, фамилия, отчество, дата рождения, телефон, город)
@@ -12,7 +11,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "profile")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class EntityProfileInfo extends EntityProfileBase {
+public class EntityProfileInfo<ID> extends EntityProfileBase<ID> {
 
     /**
      * Дата рождения
@@ -30,17 +29,17 @@ public class EntityProfileInfo extends EntityProfileBase {
      * Идентификатор города
      */
     @Column(name = "city_id", nullable = true)
-    private UUID cityId;
+    private ID cityId;
 
     /**
      * Город связанный с пользователем
      */
     @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, orphanRemoval = false)
     @JoinColumn(name = "city_id", insertable = false, updatable = false)
-    private EntityCity city;
+    private EntityCity<ID> city;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void initialize(Date dateBirth, String phone, UUID cityId){
+    private void initialize(Date dateBirth, String phone, ID cityId){
         this.dateBirth = dateBirth;
         this.phone = phone;
         this.cityId = cityId;
@@ -55,14 +54,14 @@ public class EntityProfileInfo extends EntityProfileBase {
         city = null;
     }
 
-    public EntityProfileInfo(String name, String surname, String middlename, UUID userId, Date dateBirth, String phone,
-                             UUID cityId) {
+    public EntityProfileInfo(String name, String surname, String middlename, ID userId, Date dateBirth, String phone,
+                             ID cityId) {
         super(name, surname, middlename, userId);
         initialize(dateBirth, phone, cityId);
     }
 
-    public EntityProfileInfo(UUID id, String name, String surname, String middlename, UUID userId, Date dateBirth, String phone,
-                             UUID cityId) {
+    public EntityProfileInfo(ID id, String name, String surname, String middlename, ID userId, Date dateBirth, String phone,
+                             ID cityId) {
         super(id, name, surname, middlename, userId);
         initialize(dateBirth, phone, cityId);
     }
@@ -85,19 +84,19 @@ public class EntityProfileInfo extends EntityProfileBase {
         this.phone = phone;
     }
 
-    public UUID getCityId() {
+    public ID getCityId() {
         return cityId;
     }
 
-    public void setCityId(UUID cityId) {
+    public void setCityId(ID cityId) {
         this.cityId = cityId;
     }
 
-    public EntityCity getCity() {
+    public EntityCity<ID> getCity() {
         return city;
     }
 
-    public void setCity(EntityCity city) {
+    public void setCity(EntityCity<ID> city) {
         this.city = city;
     }
     //</editor-fold>

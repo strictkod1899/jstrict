@@ -44,7 +44,7 @@ public class EntityJWTToken<ID> extends EntityToken<ID> {
     /**
      * Пользователь, связанного с данным токеном
      */
-    private EntityUser user;
+    private EntityUser<ID> user;
     /**
      * Идентификатор роли пользователя, связанного с данным токеном
      */
@@ -52,7 +52,7 @@ public class EntityJWTToken<ID> extends EntityToken<ID> {
     /**
      * Роль пользователя, связанного с данным токеном
      */
-    private EntityRoleuser roleUser;
+    private EntityRoleuser<ID> roleUser;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(ID userId, ID roleUserId){
@@ -176,11 +176,11 @@ public class EntityJWTToken<ID> extends EntityToken<ID> {
         this.userId = userId;
     }
 
-    public EntityUser getUser() {
+    public EntityUser<ID> getUser() {
         return user;
     }
 
-    public void setUser(EntityUser user) {
+    public void setUser(EntityUser<ID> user) {
         this.user = user;
     }
 
@@ -196,11 +196,11 @@ public class EntityJWTToken<ID> extends EntityToken<ID> {
         this.roleUserId = roleUserId;
     }
 
-    public EntityRoleuser getRoleUser() {
+    public EntityRoleuser<ID> getRoleUser() {
         return roleUser;
     }
 
-    public void setRoleUser(EntityRoleuser roleUser) {
+    public void setRoleUser(EntityRoleuser<ID> roleUser) {
         this.roleUser = roleUser;
     }
     //</editor-fold>

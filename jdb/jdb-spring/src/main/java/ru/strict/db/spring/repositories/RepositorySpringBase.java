@@ -27,7 +27,7 @@ import java.util.*;
  * Базовый класс репозитория с использованием Spring Jdbc
  */
 public abstract class RepositorySpringBase
-        <ID, E extends EntityBase, DTO extends DtoBase>
+        <ID, E extends EntityBase<ID>, DTO extends DtoBase<ID>>
         extends RepositoryBase<ID, Connection, CreateConnectionByDataSource, E, DTO> {
 
     /**
@@ -43,7 +43,9 @@ public abstract class RepositorySpringBase
     //<editor-fold defaultState="collapsed" desc="constructors">
     public RepositorySpringBase(String tableName, String[] columnsName,
                                 CreateConnectionByDataSource connectionSource,
-                                MapperDtoBase<E, DTO> dtoMapper, RowMapper<E> springMapper, GenerateIdType generateIdType) {
+                                MapperDtoBase<ID, E, DTO> dtoMapper,
+                                RowMapper<E> springMapper,
+                                GenerateIdType generateIdType) {
         super(tableName, columnsName, connectionSource, dtoMapper, generateIdType);
         this.springJdbc = new NamedParameterJdbcTemplate(getConnectionSource().getConnectionSource());
         this.springMapper = springMapper;
@@ -68,14 +70,14 @@ public abstract class RepositorySpringBase
                 KeyHolder keyHolder = new GeneratedKeyHolder();
                 sql = createSqlInsertShort(parameters.getParameterNames());
                 springJdbc.update(sql, parameters, keyHolder);
-                dto.setId(keyHolder.getKey());
+                dto.setId((ID) keyHolder.getKey());
                 break;
             case UUID:
                 sql = createSqlInsertFull(parameters.getParameterNames());
                 Object id = UUID.randomUUID();
                 parameters.addValue("id", id);
                 springJdbc.update(sql, parameters);
-                dto.setId(id);
+                dto.setId((ID)id);
                 break;
             case NONE:
                 sql = createSqlInsertFull(parameters.getParameterNames());

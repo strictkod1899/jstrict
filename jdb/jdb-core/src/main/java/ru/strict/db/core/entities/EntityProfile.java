@@ -30,7 +30,7 @@ public class EntityProfile<ID> extends EntityBase<ID> {
     /**
      * Пользователь системы связанный с данным профилем
      */
-    private EntityUser user;
+    private EntityUser<ID> user;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String name, String surname, String middlename, ID userId){
@@ -114,11 +114,11 @@ public class EntityProfile<ID> extends EntityBase<ID> {
         this.userId = userId;
     }
 
-    public EntityUser getUser() {
+    public EntityUser<ID> getUser() {
         return user;
     }
 
-    public void setUser(EntityUser user) {
+    public void setUser(EntityUser<ID> user) {
         this.user = user;
     }
     //</editor-fold>

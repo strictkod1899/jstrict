@@ -12,25 +12,25 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityUserSecurity и DtoUserSecurity
  */
-public class MapperDtoUserSecurity extends MapperDtoBase<EntityUserSecurity, DtoUserSecurity> {
+public class MapperDtoUserSecurity<ID> extends MapperDtoBase<ID, EntityUserSecurity<ID>, DtoUserSecurity<ID>> {
 
-    private MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRoleuser;
-    private MapperDtoBase<EntityProfile, DtoProfile> mapperProfile;
+    private MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser;
+    private MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> mapperProfile;
 
     public MapperDtoUserSecurity(){
         this.mapperRoleuser = null;
         this.mapperProfile = null;
     }
 
-    public MapperDtoUserSecurity(MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRoleuser
-            , MapperDtoBase<EntityProfile, DtoProfile> mapperProfile){
+    public MapperDtoUserSecurity(MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser
+            , MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> mapperProfile){
         this.mapperRoleuser = mapperRoleuser;
         this.mapperProfile = mapperProfile;
     }
 
     @Override
-    protected EntityUserSecurity implementMap(DtoUserSecurity dto) {
-        EntityUserSecurity entity = new EntityUserSecurity();
+    protected EntityUserSecurity<ID> implementMap(DtoUserSecurity<ID> dto) {
+        EntityUserSecurity<ID> entity = new EntityUserSecurity();
         entity.setId(dto.getId());
         entity.setEmail(dto.getEmail());
         entity.setBlocked(dto.isBlocked());
@@ -38,15 +38,15 @@ public class MapperDtoUserSecurity extends MapperDtoBase<EntityUserSecurity, Dto
         entity.setConfirmEmail(dto.isConfirmEmail());
         entity.setUsername(dto.getUsername());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) ->
-                dto.getRolesuser().stream().forEach(r -> entity.addRoleuser(mapper.map((DtoRoleuser) r))));
+                dto.getRolesuser().stream().forEach(r -> entity.addRoleuser(mapper.map(r))));
         Optional.ofNullable(mapperProfile).ifPresent((mapper) -> entity.setProfile(mapper.map(dto.getProfile())));
         entity.setPasswordEncode(dto.getPasswordEncode());
         return entity;
     }
 
     @Override
-    protected DtoUserSecurity implementMap(EntityUserSecurity entity) {
-        DtoUserSecurity dto = new DtoUserSecurity();
+    protected DtoUserSecurity<ID> implementMap(EntityUserSecurity<ID> entity) {
+        DtoUserSecurity<ID> dto = new DtoUserSecurity();
         dto.setId(entity.getId());
         dto.setUsername(entity.getUsername());
         dto.setEmail(entity.getEmail());
@@ -54,7 +54,7 @@ public class MapperDtoUserSecurity extends MapperDtoBase<EntityUserSecurity, Dto
         dto.setDeleted(entity.isDeleted());
         dto.setConfirmEmail(entity.isConfirmEmail());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) ->
-                entity.getRolesuser().stream().forEach(r -> dto.addRoleuser(mapper.map((EntityRoleuser) r))));
+                entity.getRolesuser().stream().forEach(r -> dto.addRoleuser(mapper.map(r))));
         Optional.ofNullable(mapperProfile).ifPresent((mapper) -> dto.setProfile(mapper.map(entity.getProfile())));
         dto.setPasswordEncode(entity.getPasswordEncode());
         return dto;

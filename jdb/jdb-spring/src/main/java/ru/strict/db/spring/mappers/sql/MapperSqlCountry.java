@@ -7,7 +7,7 @@ import ru.strict.db.core.entities.EntityCountry;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MapperSqlCountry implements RowMapper<EntityCountry> {
+public class MapperSqlCountry<ID> implements RowMapper<EntityCountry<ID>> {
 
     private final String[] COLUMNS_NAME;
 
@@ -16,10 +16,10 @@ public class MapperSqlCountry implements RowMapper<EntityCountry> {
     }
 
     @Override
-    public EntityCountry mapRow(ResultSet resultSet, int i) throws SQLException {
-        EntityCountry entity = new EntityCountry();
+    public EntityCountry<ID> mapRow(ResultSet resultSet, int i) throws SQLException {
+        EntityCountry<ID> entity = new EntityCountry();
         try {
-            entity.setId(resultSet.getObject("id"));
+            entity.setId((ID)resultSet.getObject("id"));
             entity.setCaption(resultSet.getString(COLUMNS_NAME[0]));
         }catch(SQLException ex){
             throw new WrapperRuntimeException(ex);

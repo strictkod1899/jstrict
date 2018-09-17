@@ -22,7 +22,7 @@ import java.util.List;
  * @param <DTO> Тип Dto-сущности базы данных
  */
 public abstract class RepositoryBase
-        <ID, CONNECTION, SOURCE extends ICreateConnection<CONNECTION>, E, DTO extends DtoBase>
+        <ID, CONNECTION, SOURCE extends ICreateConnection<CONNECTION>, E, DTO extends DtoBase<ID>>
         implements IRepositoryExtension<ID, DTO> {
 
     protected final WrapperLogger LOGGER = UtilLogger.createLogger(getThisClass());
@@ -36,7 +36,7 @@ public abstract class RepositoryBase
     /**
      * Маппер связанной сущности/dto
      */
-    private MapperDtoBase<E, DTO> dtoMapper;
+    private MapperDtoBase<ID, E, DTO> dtoMapper;
 
     /**
      * Наименование таблицы
@@ -56,7 +56,7 @@ public abstract class RepositoryBase
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public RepositoryBase(String tableName, String[] columnsName, SOURCE connectionSource,
-                          MapperDtoBase<E, DTO> dtoMapper, GenerateIdType generateIdType) {
+                          MapperDtoBase<ID, E, DTO> dtoMapper, GenerateIdType generateIdType) {
         if(tableName == null){
             throw new NullPointerException("tableName is NULL");
         } else if(columnsName == null){
@@ -93,7 +93,7 @@ public abstract class RepositoryBase
         if(dto == null){
             throw new NullPointerException("dto is NULL");
         }
-        if(IsRowExists((ID)dto.getId()))
+        if(IsRowExists(dto.getId()))
             return update(dto);
         else
             return create(dto);
@@ -105,8 +105,8 @@ public abstract class RepositoryBase
         if(dto == null){
             throw new NullPointerException("dto is NULL");
         }
-        if(IsRowExists((ID)dto.getId()))
-            return read((ID)dto.getId());
+        if(IsRowExists(dto.getId()))
+            return read(dto.getId());
         else
             return create(dto);
     }
@@ -186,8 +186,8 @@ public abstract class RepositoryBase
         if(dto == null){
             throw new NullPointerException("dto is NULL");
         }
-        if(IsRowExists((ID)dto.getId()))
-            return readFill((ID)dto.getId());
+        if(IsRowExists(dto.getId()))
+            return readFill(dto.getId());
         else
             return create(dto);
     }
@@ -242,7 +242,7 @@ public abstract class RepositoryBase
         return connectionSource.createConnection();
     }
 
-    protected MapperDtoBase<E, DTO> getDtoMapper() {
+    protected MapperDtoBase<ID, E, DTO> getDtoMapper() {
         return dtoMapper;
     }
 

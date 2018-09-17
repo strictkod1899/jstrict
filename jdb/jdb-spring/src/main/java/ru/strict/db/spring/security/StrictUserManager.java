@@ -12,28 +12,30 @@ import ru.strict.utils.UtilHashCode;
  * Специальный класс, который предоставляет данные пользователя для SpringSecurity.
  * Производит загрузку пользователей из базы данных
  */
-public class StrictUserManager {
+public class StrictUserManager<ID> {
 
-	private HashMap<String, DtoUserSecurity> users;
+	private HashMap<String, DtoUserSecurity<ID>> users;
 
-	public StrictUserManager(RepositoryUserSecurity rUser) {
+	public StrictUserManager(RepositoryUserSecurity<ID> repositoryUser) {
 		users = new HashMap();
-		loadUsers(rUser);
+		loadUsers(repositoryUser);
 	}
 
-	public void loadUsers(RepositoryUserSecurity rUser){
+	public void loadUsers(RepositoryUserSecurity<ID> repositoryUser){
 		/*
 		Загружаем пользователей из базы данных
 		*/
-		List<DtoUserSecurity> listUsers = rUser.readAll(null);
-		for(DtoUserSecurity user : listUsers)
-			users.put(user.getUsername(), user);
+		List<DtoUserSecurity<ID>> users = repositoryUser.readAll(null);
+		for(DtoUserSecurity<ID> user : users) {
+			this.users.put(user.getUsername(), user);
+		}
 	}
 
-	public DtoUserSecurity getUser(String username){
+	public DtoUserSecurity<ID> getUser(String username){
 		try {
-			if (!users.containsKey(username))
+			if (!users.containsKey(username)) {
 				throw new UsernameNotFoundException(username + " not found");
+			}
 
 			return users.get(username);
 		}catch(UsernameNotFoundException ex){
@@ -41,7 +43,7 @@ public class StrictUserManager {
 		}
 	}
 
-	public HashMap<String, DtoUserSecurity> getUsers() {
+	public HashMap<String, DtoUserSecurity<ID>> getUsers() {
 		return users;
 	}
 

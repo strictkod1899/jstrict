@@ -7,7 +7,7 @@ import ru.strict.db.core.mappers.sql.MapperSqlBase;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MapperSqlRoleuser extends MapperSqlBase<EntityRoleuser> {
+public class MapperSqlRoleuser<ID> extends MapperSqlBase<ID, EntityRoleuser<ID>> {
 
     private final String[] COLUMNS_NAME;
 
@@ -16,10 +16,10 @@ public class MapperSqlRoleuser extends MapperSqlBase<EntityRoleuser> {
     }
 
     @Override
-    public EntityRoleuser implementMap(ResultSet resultSet) {
-        EntityRoleuser entity = new EntityRoleuser();
+    public EntityRoleuser<ID> implementMap(ResultSet resultSet) {
+        EntityRoleuser<ID> entity = new EntityRoleuser();
         try {
-            entity.setId(resultSet.getObject("id"));
+            entity.setId((ID)resultSet.getObject("id"));
             entity.setCode(resultSet.getString(COLUMNS_NAME[0]));
             entity.setDescription(resultSet.getString(COLUMNS_NAME[1]));
         }catch(SQLException ex){

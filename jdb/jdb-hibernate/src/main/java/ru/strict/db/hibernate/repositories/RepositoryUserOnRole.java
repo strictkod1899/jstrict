@@ -6,8 +6,12 @@ import ru.strict.db.core.dto.DtoUserOnRole;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityUserOnRole;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
+import ru.strict.utils.UtilClassOperations;
 
-public class RepositoryUserOnRole extends RepositoryHibernateBase<EntityUserOnRole, DtoUserOnRole> {
+import java.io.Serializable;
+
+public class RepositoryUserOnRole<ID extends Serializable>
+        extends RepositoryHibernateBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"userx_id", "roleuser_id"};
 
@@ -15,18 +19,18 @@ public class RepositoryUserOnRole extends RepositoryHibernateBase<EntityUserOnRo
         super("user_on_role",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory().instance(MapperDtoType.USER_ON_ROLE),
+                new MapperDtoFactory<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>>().instance(MapperDtoType.USER_ON_ROLE),
                 generateIdType);
     }
 
     @Override
-    protected DtoUserOnRole fill(DtoUserOnRole dto){
+    protected DtoUserOnRole<ID> fill(DtoUserOnRole<ID> dto){
         return dto;
     }
 
     @Override
-    protected Class<EntityUserOnRole> getEntityClass() {
-        return EntityUserOnRole.class;
+    protected Class<EntityUserOnRole<ID>> getEntityClass() {
+        return UtilClassOperations.<EntityUserOnRole<ID>>castClass(EntityUserOnRole.class);
     }
 
     @Override

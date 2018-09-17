@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class RepositoryJWTToken<ID>
-        extends RepositoryJdbcBase<ID, EntityJWTToken, DtoJWTToken>
+        extends RepositoryJdbcBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>>
         implements IRepositoryJWTToken<ID> {
 
     private static final String[] COLUMNS_NAME = new String[] {"accessToken", "refreshToken", "expireTimeAccess",
@@ -28,13 +28,13 @@ public class RepositoryJWTToken<ID>
 
     public RepositoryJWTToken(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
         super("token", COLUMNS_NAME, connectionSource,
-                new MapperDtoFactory().instance(MapperDtoType.JWT_TOKEN),
-                new MapperSqlJWTToken(COLUMNS_NAME),
+                new MapperDtoFactory<ID, EntityJWTToken<ID>, DtoJWTToken<ID>>().instance(MapperDtoType.JWT_TOKEN),
+                new MapperSqlJWTToken<ID>(COLUMNS_NAME),
                 generateIdType);
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(EntityJWTToken entity) {
+    protected Map<Integer, Object> getValueByColumn(EntityJWTToken<ID> entity) {
         Map<Integer, Object> valuesByColumn = new LinkedHashMap();
         valuesByColumn.put(0, entity.getAccessToken());
         valuesByColumn.put(1, entity.getRefreshToken());
@@ -54,34 +54,34 @@ public class RepositoryJWTToken<ID>
     }
 
     @Override
-    public DtoJWTToken readByAccessToken(String caption){
+    public DtoJWTToken<ID> readByAccessToken(String caption){
         DbRequests requests = new DbRequests(getTableName(), true);
         requests.add(new DbWhere(getTableName(), "accessToken", caption, "="));
 
-        DtoJWTToken result = readAll(requests).stream().findFirst().orElse(null);
+        DtoJWTToken<ID> result = readAll(requests).stream().findFirst().orElse(null);
         return result;
     }
 
     @Override
-    public DtoJWTToken readByRefreshToken(String caption){
+    public DtoJWTToken<ID> readByRefreshToken(String caption){
         DbRequests requests = new DbRequests(getTableName(), true);
         requests.add(new DbWhere(getTableName(), "refreshToken", caption, "="));
 
-        DtoJWTToken result = readAll(requests).stream().findFirst().orElse(null);
+        DtoJWTToken<ID> result = readAll(requests).stream().findFirst().orElse(null);
         return result;
     }
 
     @Override
-    protected DtoJWTToken fill(DtoJWTToken dto){
+    protected DtoJWTToken<ID> fill(DtoJWTToken<ID> dto){
         // Добавление пользователя
-        IRepository<ID, DtoUser> repositoryUser = new RepositoryUser(getConnectionSource(),
+        IRepository<ID, DtoUser<ID>> repositoryUser = new RepositoryUser(getConnectionSource(),
                 new MapperDtoFactory().instance(MapperDtoType.USER),
                 GenerateIdType.NONE);
-        dto.setUser(repositoryUser.read((ID) dto.getUserId()));
+        dto.setUser(repositoryUser.read(dto.getUserId()));
 
         // Добавление роли пользователя
-        IRepository<ID, DtoRoleuser> repositoryRoleuser = new RepositoryRoleuser(getConnectionSource(), GenerateIdType.NONE);
-        dto.setRoleUser(repositoryRoleuser.read((ID) dto.getRoleUserId()));
+        IRepository<ID, DtoRoleuser<ID>> repositoryRoleuser = new RepositoryRoleuser(getConnectionSource(), GenerateIdType.NONE);
+        dto.setRoleUser(repositoryRoleuser.read(dto.getRoleUserId()));
         return dto;
     }
 

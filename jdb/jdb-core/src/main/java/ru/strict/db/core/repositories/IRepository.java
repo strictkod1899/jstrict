@@ -10,7 +10,7 @@ import java.util.List;
  * @param <ID> Тип идентификатора
  * @param <DTO> Тип Dto-сущности базы данных
  */
-public interface IRepository<ID, DTO extends DtoBase> {
+public interface IRepository<ID, DTO extends DtoBase<ID>> {
 
     /**
      * Добавить в базу данных новый объект, переданный в качестве параметра

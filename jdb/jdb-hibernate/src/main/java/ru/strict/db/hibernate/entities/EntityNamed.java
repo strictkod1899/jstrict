@@ -11,7 +11,7 @@ import java.util.UUID;
  * Именованный entity (содержит строку заголовка)
  */
 @MappedSuperclass
-public abstract class EntityNamed extends EntityBase {
+public abstract class EntityNamed<ID> extends EntityBase<ID> {
 
     /**
      * Наименование записи
@@ -38,7 +38,7 @@ public abstract class EntityNamed extends EntityBase {
         initialize(caption);
     }
 
-    public EntityNamed(UUID id, String caption) {
+    public EntityNamed(ID id, String caption) {
         super(id);
         initialize(caption);
     }

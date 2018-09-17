@@ -13,7 +13,7 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
     /**
      * Города свзяанные со страной
      */
-    private Collection<DtoCity> cities;
+    private Collection<DtoCity<ID>> cities;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public DtoCountry() {
@@ -33,11 +33,11 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public Collection<DtoCity> getCities() {
+    public Collection<DtoCity<ID>> getCities() {
         return cities;
     }
 
-    public void setCities(Collection<DtoCity> cities) {
+    public void setCities(Collection<DtoCity<ID>> cities) {
         if(cities == null) {
             throw new NullPointerException();
         }
@@ -45,7 +45,7 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
         this.cities = cities;
     }
 
-    public void addCity(DtoCity city){
+    public void addCity(DtoCity<ID> city){
         if(city == null) {
             throw new NullPointerException();
         }
@@ -55,7 +55,7 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
         }
     }
 
-    public void addCities(Collection<DtoCity> cities){
+    public void addCities(Collection<DtoCity<ID>> cities){
         if(this.cities!=null) {
             this.cities.addAll(cities);
         }

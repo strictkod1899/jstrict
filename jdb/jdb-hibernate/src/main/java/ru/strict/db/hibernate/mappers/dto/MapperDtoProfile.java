@@ -4,42 +4,39 @@ import ru.strict.db.core.dto.DtoProfile;
 import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.hibernate.entities.EntityProfile;
-import ru.strict.db.hibernate.entities.EntityProfileBase;
 import ru.strict.db.hibernate.entities.EntityUser;
 
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Двухсторонний маппинг объектов типа EntityProfile и DtoProfile
  */
-public class MapperDtoProfile<E extends EntityProfileBase, DTO extends DtoProfile>
-        extends MapperDtoBase<E, DTO> {
+public class MapperDtoProfile<ID> extends MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> {
 
-    private MapperDtoBase<EntityUser, DtoUser> mapperUser;
+    private MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser;
 
     public MapperDtoProfile(){
         mapperUser = null;
     }
 
-    public MapperDtoProfile(MapperDtoBase<EntityUser, DtoUser> mapperUser){
+    public MapperDtoProfile(MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser){
         this.mapperUser = mapperUser;
     }
 
     @Override
-    protected EntityProfile implementMap(DtoProfile dto) {
+    protected EntityProfile<ID> implementMap(DtoProfile<ID> dto) {
         EntityProfile entity = new EntityProfile();
-        entity.setId((UUID)dto.getId());
+        entity.setId(dto.getId());
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
         entity.setMiddlename(dto.getMiddlename());
-        entity.setUserId((UUID)dto.getUserId());
+        entity.setUserId(dto.getUserId());
         Optional.ofNullable(mapperUser).ifPresent((mapper) -> entity.setUser(mapper.map(dto.getUser())));
         return entity;
     }
 
     @Override
-    protected DtoProfile implementMap(EntityProfileBase entity) {
+    protected DtoProfile<ID> implementMap(EntityProfile<ID> entity) {
         DtoProfile dto = new DtoProfile();
         dto.setId(entity.getId());
         dto.setName(entity.getName());

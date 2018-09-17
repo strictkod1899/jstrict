@@ -39,15 +39,15 @@ public class EntityUser<ID> extends EntityBase<ID> {
     /**
      * Роли пользователя
      */
-    private Collection<EntityRoleuser> rolesuser;
+    private Collection<EntityRoleuser<ID>> rolesuser;
     /**
      * Профиль пользователя
      */
-    private EntityProfile profile;
+    private EntityProfile<ID> profile;
     /**
      * Токены пользователя
      */
-    private Collection<EntityJWTToken> tokens;
+    private Collection<EntityJWTToken<ID>> tokens;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String username, String passwordEncode, String email){
@@ -155,11 +155,11 @@ public class EntityUser<ID> extends EntityBase<ID> {
         isConfirmEmail = confirmEmail;
     }
 
-    public Collection<EntityRoleuser> getRolesuser() {
+    public Collection<EntityRoleuser<ID>> getRolesuser() {
         return rolesuser;
     }
 
-    public void setRolesuser(Collection<EntityRoleuser> rolesuser) {
+    public void setRolesuser(Collection<EntityRoleuser<ID>> rolesuser) {
         if(rolesuser == null) {
             throw new NullPointerException("rolesuser is NULL");
         }
@@ -171,7 +171,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
      * Добавить роль, которую использует данный пользователь
      * @param roleuser
      */
-    public void addRoleuser(EntityRoleuser roleuser){
+    public void addRoleuser(EntityRoleuser<ID> roleuser){
         if(roleuser == null) {
             throw new NullPointerException("roleuser is NULL");
         }
@@ -184,7 +184,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
     /**
      * Добавить токен
      */
-    public void addToken(EntityJWTToken token){
+    public void addToken(EntityJWTToken<ID> token){
         if(token == null) {
             throw new NullPointerException("token is NULL");
         }
@@ -194,11 +194,11 @@ public class EntityUser<ID> extends EntityBase<ID> {
         }
     }
 
-    public Collection<EntityJWTToken> getTokens() {
+    public Collection<EntityJWTToken<ID>> getTokens() {
         return tokens;
     }
 
-    public void setTokens(Collection<EntityJWTToken> tokens) {
+    public void setTokens(Collection<EntityJWTToken<ID>> tokens) {
         if(tokens == null) {
             throw new NullPointerException("tokens is NULL");
         }
@@ -206,11 +206,11 @@ public class EntityUser<ID> extends EntityBase<ID> {
         this.tokens = tokens;
     }
 
-    public EntityProfile getProfile() {
+    public EntityProfile<ID> getProfile() {
         return profile;
     }
 
-    public void setProfile(EntityProfile profile) {
+    public void setProfile(EntityProfile<ID> profile) {
         this.profile = profile;
     }
     //</editor-fold>

@@ -6,7 +6,7 @@ import ru.strict.db.core.entities.EntityUserOnRole;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MapperSqlUserOnRole implements RowMapper<EntityUserOnRole> {
+public class MapperSqlUserOnRole<ID> implements RowMapper<EntityUserOnRole<ID>> {
 
     private final String[] COLUMNS_NAME;
 
@@ -15,11 +15,11 @@ public class MapperSqlUserOnRole implements RowMapper<EntityUserOnRole> {
     }
 
     @Override
-    public EntityUserOnRole mapRow(ResultSet resultSet, int i) throws SQLException {
-        EntityUserOnRole entity = new EntityUserOnRole();
-        entity.setId(resultSet.getObject("id"));
-        entity.setUserId(resultSet.getObject(COLUMNS_NAME[0]));
-        entity.setRoleId(resultSet.getObject(COLUMNS_NAME[1]));
+    public EntityUserOnRole<ID> mapRow(ResultSet resultSet, int i) throws SQLException {
+        EntityUserOnRole<ID> entity = new EntityUserOnRole();
+        entity.setId((ID)resultSet.getObject("id"));
+        entity.setUserId((ID)resultSet.getObject(COLUMNS_NAME[0]));
+        entity.setRoleId((ID)resultSet.getObject(COLUMNS_NAME[1]));
         return entity;
     }
 }

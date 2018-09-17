@@ -3,7 +3,6 @@ package ru.strict.db.hibernate.entities;
 import ru.strict.utils.UtilHashCode;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 /**
  * Основная информация профиля пользователя (имя, фамилия, отчество)
@@ -11,7 +10,7 @@ import java.util.UUID;
 @Table(name = "profile")
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class EntityProfileBase extends EntityBase {
+public abstract class EntityProfileBase<ID> extends EntityBase<ID> {
 
     /**
      * Имя
@@ -35,17 +34,17 @@ public abstract class EntityProfileBase extends EntityBase {
      * Идентификатор пользователя
      */
     @Column(name = "userx_id", nullable = false)
-    private UUID userId;
+    private ID userId;
 
     /**
      * Пользователь системы связанный с данным профилем
      */
     @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, orphanRemoval = false)
     @JoinColumn(name = "userx_id", insertable = false, updatable = false)
-    private EntityUser user;
+    private EntityUser<ID> user;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void initialize(String name, String surname, String middlename, UUID userId){
+    private void initialize(String name, String surname, String middlename, ID userId){
         if(name == null) {
             throw new NullPointerException("name is NULL");
         } else if(surname == null) {
@@ -70,12 +69,12 @@ public abstract class EntityProfileBase extends EntityBase {
         user = null;
     }
 
-    public EntityProfileBase(String name, String surname, String middlename, UUID userId) {
+    public EntityProfileBase(String name, String surname, String middlename, ID userId) {
         super();
         initialize(name, surname, middlename, userId);
     }
 
-    public EntityProfileBase(UUID id, String name, String surname, String middlename, UUID userId) {
+    public EntityProfileBase(ID id, String name, String surname, String middlename, ID userId) {
         super(id);
         initialize(name, surname, middlename, userId);
     }
@@ -114,11 +113,11 @@ public abstract class EntityProfileBase extends EntityBase {
         this.middlename = middlename;
     }
 
-    public UUID getUserId() {
+    public ID getUserId() {
         return userId;
     }
 
-    public void setUserId(UUID userId) {
+    public void setUserId(ID userId) {
         if(userId == null) {
             throw new NullPointerException("userId is NULL");
         }
@@ -126,11 +125,11 @@ public abstract class EntityProfileBase extends EntityBase {
         this.userId = userId;
     }
 
-    public EntityUser getUser() {
+    public EntityUser<ID> getUser() {
         return user;
     }
 
-    public void setUser(EntityUser user) {
+    public void setUser(EntityUser<ID> user) {
         this.user = user;
     }
     //</editor-fold>

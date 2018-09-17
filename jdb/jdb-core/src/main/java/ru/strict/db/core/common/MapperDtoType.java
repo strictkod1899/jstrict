@@ -7,6 +7,7 @@ public enum MapperDtoType {
     COUNTRY,
     CITY,
     ROLE_USER,
+    USER_BASE,
     USER,
     USER_TOKEN,
     USER_ON_ROLE,

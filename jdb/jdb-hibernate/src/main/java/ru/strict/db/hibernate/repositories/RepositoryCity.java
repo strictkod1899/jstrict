@@ -6,8 +6,11 @@ import ru.strict.db.core.dto.DtoCity;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityCity;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
+import ru.strict.utils.UtilClassOperations;
 
-public class RepositoryCity extends RepositoryNamedBase<EntityCity, DtoCity> {
+import java.io.Serializable;
+
+public class RepositoryCity<ID extends Serializable> extends RepositoryNamedBase<ID, EntityCity<ID>, DtoCity<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption", "country_id"};
 
@@ -15,7 +18,7 @@ public class RepositoryCity extends RepositoryNamedBase<EntityCity, DtoCity> {
         super("city",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory().instance(MapperDtoType.CITY),
+                new MapperDtoFactory<ID, EntityCity<ID>, DtoCity<ID>>().instance(MapperDtoType.CITY),
                 generateIdType);
     }
 
@@ -30,8 +33,8 @@ public class RepositoryCity extends RepositoryNamedBase<EntityCity, DtoCity> {
     }
 
     @Override
-    protected Class<EntityCity> getEntityClass() {
-        return EntityCity.class;
+    protected Class<EntityCity<ID>> getEntityClass() {
+        return UtilClassOperations.<EntityCity<ID>>castClass(EntityCity.class);
     }
 
     @Override

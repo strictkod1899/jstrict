@@ -5,7 +5,6 @@ import ru.strict.utils.UtilHashCode;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.UUID;
 
 /**
  * Роль пользователя в системе (например, администратор, пользователь, неавторизированный пользователь и др.)
@@ -13,7 +12,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "roleuser")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class EntityRoleuser extends EntityBase {
+public class EntityRoleuser<ID> extends EntityBase<ID> {
 
     /**
      * Набор символов характеризующих роль
@@ -34,7 +33,7 @@ public class EntityRoleuser extends EntityBase {
     @JoinTable(name = "user_on_role",
             joinColumns = @JoinColumn(name = "roleuser_id", insertable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "userx_id", insertable = false, updatable = false))
-    private Collection<EntityUser> users;
+    private Collection<EntityUser<ID>> users;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String code, String description){
@@ -59,7 +58,7 @@ public class EntityRoleuser extends EntityBase {
         initialize(code, description);
     }
 
-    public EntityRoleuser(UUID id, String code, String description) {
+    public EntityRoleuser(ID id, String code, String description) {
         super(id);
         initialize(code, description);
     }
@@ -90,7 +89,7 @@ public class EntityRoleuser extends EntityBase {
      * Добавить пользователя использующего данную роль
      * @param user
      */
-    public void addUser(EntityUser user) {
+    public void addUser(EntityUser<ID> user) {
         if(user == null) {
             throw new NullPointerException("user is NULL");
         }
@@ -100,11 +99,11 @@ public class EntityRoleuser extends EntityBase {
         }
     }
 
-    public Collection<EntityUser> getUsers() {
+    public Collection<EntityUser<ID>> getUsers() {
         return users;
     }
 
-    public void setUsers(Collection<EntityUser> users) {
+    public void setUsers(Collection<EntityUser<ID>> users) {
         if(users == null) {
             throw new NullPointerException("users is NULL");
         }

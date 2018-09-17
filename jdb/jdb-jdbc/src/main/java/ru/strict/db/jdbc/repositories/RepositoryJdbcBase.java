@@ -25,19 +25,20 @@ import java.util.Date;
  * @param <DTO> Тип Dto-сущности базы данных
  */
 public abstract class RepositoryJdbcBase
-        <ID, E extends EntityBase, DTO extends DtoBase>
+        <ID, E extends EntityBase<ID>, DTO extends DtoBase<ID>>
         extends RepositoryBase<ID, Connection, ICreateConnection<Connection>, E, DTO> {
 
     /**
      * Объект для преобразования полученных данных из sql-запроса в объект сущности азы данных (entity)
      */
-    private MapperSqlBase<E> sqlMapper;
+    private MapperSqlBase<ID, E> sqlMapper;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public RepositoryJdbcBase(String tableName, String[] columnsName,
                               ICreateConnection<Connection> connectionSource,
-                              MapperDtoBase<E, DTO> dtoMapper,
-                              MapperSqlBase<E> sqlMapper, GenerateIdType generateIdType) {
+                              MapperDtoBase<ID, E, DTO> dtoMapper,
+                              MapperSqlBase<ID, E> sqlMapper,
+                              GenerateIdType generateIdType) {
         super(tableName, columnsName, connectionSource, dtoMapper, generateIdType);
         this.sqlMapper = sqlMapper;
     }
@@ -71,7 +72,7 @@ public abstract class RepositoryJdbcBase
 
                     try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                         if (generatedKeys.next()) {
-                            dto.setId(generatedKeys.getLong(1));
+                            dto.setId((ID)(Object)generatedKeys.getLong(1));
                         }else {
                             throw new SQLException("Creating user failed, no ID obtained");
                         }
@@ -127,7 +128,7 @@ public abstract class RepositoryJdbcBase
                     }
                 }
 
-                dto.setId(id);
+                dto.setId((ID)id);
                 break;
             case NONE:
                 parameters = getParameters(entity, 1);
@@ -578,7 +579,7 @@ public abstract class RepositoryJdbcBase
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public MapperSqlBase<E> getSqlMapper() {
+    public MapperSqlBase<ID, E> getSqlMapper() {
         return sqlMapper;
     }
     //</editor-fold>

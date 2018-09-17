@@ -13,29 +13,30 @@ import ru.strict.db.core.requests.DbWhere;
 import java.sql.Connection;
 import java.util.*;
 
-public class RepositoryUserFillToken<ID>
-        extends RepositoryUser<ID, DtoUserToken> {
+public class RepositoryUserFillToken<ID> extends RepositoryUser<ID, DtoUserToken<ID>> {
 
     public RepositoryUserFillToken(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
-        super(connectionSource, new MapperDtoFactory().instance(MapperDtoType.USER_TOKEN), generateIdType);
+        super(connectionSource,
+                new MapperDtoFactory<ID, EntityUser<ID>, DtoUserToken<ID>>().instance(MapperDtoType.USER_TOKEN),
+                generateIdType);
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(EntityUser entity){
+    protected Map<Integer, Object> getValueByColumn(EntityUser<ID> entity){
         return super.getValueByColumn(entity);
     }
 
     @Override
-    protected DtoUserToken fill(DtoUserToken dto){
+    protected DtoUserToken<ID> fill(DtoUserToken<ID> dto){
         dto = super.fill(dto);
 
         // Добавление токенов
-        RepositoryJdbcBase<ID, EntityJWTToken, DtoJWTToken> repositoryToken =
+        RepositoryJdbcBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>> repositoryToken =
                 new RepositoryJWTToken<>(getConnectionSource(), GenerateIdType.NONE);
         DbRequests requests = new DbRequests(repositoryToken.getTableName(), true);
         requests.add(new DbWhere(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));
 
-        List<DtoJWTToken> tokens = repositoryToken.readAll(requests);
+        List<DtoJWTToken<ID>> tokens = repositoryToken.readAll(requests);
         dto.setTokens(tokens);
         return dto;
     }

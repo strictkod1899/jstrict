@@ -13,9 +13,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Базовый класс репозитория с использованием Jdbc для таблиц со столбцом наименования (caption)
@@ -23,14 +23,14 @@ import java.util.UUID;
  * @param <DTO> Тип Dto-сущности базы данных
  */
 public abstract class RepositoryNamedBase
-        <E extends EntityBase, DTO extends DtoBase>
-        extends RepositoryHibernateBase<E, DTO>
-        implements IRepositoryNamed<UUID, DTO> {
+        <ID extends Serializable, E extends EntityBase<ID>, DTO extends DtoBase<ID>>
+        extends RepositoryHibernateBase<ID, E, DTO>
+        implements IRepositoryNamed<ID, DTO> {
 
     public RepositoryNamedBase(String tableName,
                                String[] columnsName,
                                CreateConnectionHibernate connectionSource,
-                               MapperDtoBase<E, DTO> dtoMapper,
+                               MapperDtoBase<ID, E, DTO> dtoMapper,
                                GenerateIdType generateIdType) {
         super(tableName, columnsName, connectionSource, dtoMapper, generateIdType);
     }

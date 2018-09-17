@@ -8,7 +8,7 @@ import ru.strict.db.core.mappers.sql.MapperSqlBase;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MapperSqlCountry extends MapperSqlBase<EntityCountry> {
+public class MapperSqlCountry<ID> extends MapperSqlBase<ID, EntityCountry<ID>> {
 
     private final String[] COLUMNS_NAME;
 
@@ -17,10 +17,10 @@ public class MapperSqlCountry extends MapperSqlBase<EntityCountry> {
     }
 
     @Override
-    public EntityCountry implementMap(ResultSet resultSet) {
-        EntityCountry entity = new EntityCountry();
+    public EntityCountry<ID> implementMap(ResultSet resultSet) {
+        EntityCountry<ID> entity = new EntityCountry();
         try {
-            entity.setId(resultSet.getObject("id"));
+            entity.setId((ID)resultSet.getObject("id"));
             entity.setCaption(resultSet.getString(COLUMNS_NAME[0]));
         }catch(SQLException ex){
             throw new WrapperRuntimeException(ex);

@@ -6,7 +6,7 @@ import ru.strict.db.core.entities.EntityUser;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MapperSqlUser implements RowMapper<EntityUser> {
+public class MapperSqlUser<ID> implements RowMapper<EntityUser<ID>> {
 
     private final String[] COLUMNS_NAME;
 
@@ -15,9 +15,9 @@ public class MapperSqlUser implements RowMapper<EntityUser> {
     }
 
     @Override
-    public EntityUser mapRow(ResultSet resultSet, int i) throws SQLException {
-        EntityUser entity = new EntityUser();
-        entity.setId(resultSet.getObject("id"));
+    public EntityUser<ID> mapRow(ResultSet resultSet, int i) throws SQLException {
+        EntityUser<ID> entity = new EntityUser();
+        entity.setId((ID)resultSet.getObject("id"));
         entity.setUsername(resultSet.getString(COLUMNS_NAME[0]));
         entity.setPasswordEncode(resultSet.getString(COLUMNS_NAME[1]));
         entity.setEmail(resultSet.getString(COLUMNS_NAME[2]));

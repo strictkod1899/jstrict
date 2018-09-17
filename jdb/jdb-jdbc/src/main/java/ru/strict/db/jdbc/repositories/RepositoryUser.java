@@ -18,21 +18,25 @@ import ru.strict.db.jdbc.mappers.sql.MapperSqlUser;
 import java.sql.Connection;
 import java.util.*;
 
-public class RepositoryUser<ID, DTO extends DtoUserBase>
-        extends RepositoryNamedBase<ID, EntityUser, DTO>
+public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
+        extends RepositoryNamedBase<ID, EntityUser<ID>, DTO>
         implements IRepositoryUser<ID, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "email",
             "isBlocked", "isDeleted", "isConfirmEmail"};
 
     public RepositoryUser(ICreateConnection<Connection> connectionSource,
-                          MapperDtoBase<EntityUser, DTO> dtoMapper,
+                          MapperDtoBase<ID, EntityUser<ID>, DTO> dtoMapper,
                           GenerateIdType generateIdType) {
-        super("userx", COLUMNS_NAME, connectionSource, dtoMapper, new MapperSqlUser(COLUMNS_NAME), generateIdType);
+        super("userx", COLUMNS_NAME,
+                connectionSource,
+                dtoMapper,
+                new MapperSqlUser<ID>(COLUMNS_NAME),
+                generateIdType);
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(EntityUser entity){
+    protected Map<Integer, Object> getValueByColumn(EntityUser<ID> entity){
         Map<Integer, Object> valuesByColumn = new LinkedHashMap();
         valuesByColumn.put(0, entity.getUsername());
         valuesByColumn.put(1, entity.getPasswordEncode());
@@ -46,36 +50,26 @@ public class RepositoryUser<ID, DTO extends DtoUserBase>
     @Override
     protected DTO fill(DTO dto){
         // Добавление ролей пользователей
-        RepositoryJdbcBase<ID, EntityUserOnRole, DtoUserOnRole> repositoryUserOnRole =
+        RepositoryJdbcBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>> repositoryUserOnRole =
                 new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
         DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
         requests.add(new DbWhere(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
-        List<DtoUserOnRole> userOnRoles = repositoryUserOnRole.readAll(requests);
+        List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
 
-        IRepository<ID, DtoRoleuser> repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
-        Collection<DtoRoleuser> roleusers = new LinkedList<>();
+        IRepository<ID, DtoRoleuser<ID>> repositoryRoleuser =
+                new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
+        Collection<DtoRoleuser<ID>> roleusers = new LinkedList<>();
         for(DtoUserOnRole<ID> userOnRole : userOnRoles) {
             roleusers.add(repositoryRoleuser.read(userOnRole.getRoleId()));
         }
         dto.setRolesuser(roleusers);
 
         // Добавления профиля
-        RepositoryJdbcBase<ID, EntityProfileInfo, DtoProfileInfo> repositoryProfile =
+        RepositoryJdbcBase<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>> repositoryProfile =
                 new RepositoryProfileInfo<>(getConnectionSource(), GenerateIdType.NONE);
         requests = new DbRequests(repositoryProfile.getTableName(), true);
         requests.add(new DbWhere(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
         dto.setProfile(repositoryProfile.readAll(requests).stream().findFirst().orElse(null));
-
-        // Добавление токенов
-        if(dto instanceof DtoUserToken) {
-            RepositoryJdbcBase<ID, EntityJWTToken, DtoJWTToken> repositoryToken =
-                    new RepositoryJWTToken<>(getConnectionSource(), GenerateIdType.NONE);
-            requests = new DbRequests(repositoryToken.getTableName(), true);
-            requests.add(new DbWhere(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));
-
-            List<DtoJWTToken> tokens = repositoryToken.readAll(requests);
-            ((DtoUserToken)dto).setTokens(tokens);
-        }
         return dto;
     }
 
