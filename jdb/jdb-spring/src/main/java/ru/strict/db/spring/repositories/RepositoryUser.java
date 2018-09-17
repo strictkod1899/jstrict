@@ -47,7 +47,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
     @Override
     protected DTO fill(DTO dto){
         // Добавление ролей пользователей
-        RepositorySpringBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>> repositoryUserOnRole =
+        IRepository<ID, DtoUserOnRole<ID>> repositoryUserOnRole =
                 new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
         DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
         requests.add(new DbWhere(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
@@ -61,7 +61,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
         dto.setRolesuser(roleusers);
 
         // Добавления профиля
-        RepositorySpringBase<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>> repositoryProfile =
+        IRepository<ID, DtoProfileInfo<ID>> repositoryProfile =
                 new RepositoryProfileInfo<>(getConnectionSource(), GenerateIdType.NONE);
         requests = new DbRequests(repositoryProfile.getTableName(), true);
         requests.add(new DbWhere(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));

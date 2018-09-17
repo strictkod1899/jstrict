@@ -7,6 +7,7 @@ import ru.strict.db.core.dto.*;
 import ru.strict.db.core.entities.EntityJWTToken;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
+import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
 
@@ -31,7 +32,7 @@ public class RepositoryUserFillToken<ID> extends RepositoryUser<ID, DtoUserToken
         dto = super.fill(dto);
 
         // Добавление токенов
-        RepositoryJdbcBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>> repositoryToken =
+        IRepository<ID, DtoJWTToken<ID>> repositoryToken =
                 new RepositoryJWTToken<>(getConnectionSource(), GenerateIdType.NONE);
         DbRequests requests = new DbRequests(repositoryToken.getTableName(), true);
         requests.add(new DbWhere(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));

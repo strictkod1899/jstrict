@@ -40,7 +40,7 @@ public class RepositoryRoleuser<ID>
     @Override
     protected DtoRoleuser<ID> fill(DtoRoleuser<ID> dto){
         // Добавление пользователей
-        RepositoryJdbcBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>> repositoryUserOnRole =
+        IRepository<ID, DtoUserOnRole<ID>> repositoryUserOnRole =
                 new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
         DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
         requests.add(new DbWhere(repositoryUserOnRole.getTableName(), "roleuser_id", dto.getId(), "="));

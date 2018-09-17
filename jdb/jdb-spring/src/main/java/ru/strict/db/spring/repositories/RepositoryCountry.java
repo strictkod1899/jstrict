@@ -9,6 +9,7 @@ import ru.strict.db.core.dto.DtoCountry;
 import ru.strict.db.core.entities.EntityCity;
 import ru.strict.db.core.entities.EntityCountry;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
+import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.spring.mappers.sql.MapperSqlCountry;
@@ -38,7 +39,7 @@ public class RepositoryCountry<ID>
 
     @Override
     protected DtoCountry<ID> fill(DtoCountry<ID> dto){
-        RepositorySpringBase<ID, EntityCity<ID>, DtoCity<ID>> repositoryCity =
+        IRepository<ID, DtoCity<ID>> repositoryCity =
                 new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
         DbRequests requests = new DbRequests(repositoryCity.getTableName(), true);
         requests.add(new DbWhere(repositoryCity.getTableName(), "country_id", dto.getId(), "="));
