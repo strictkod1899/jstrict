@@ -78,7 +78,7 @@ public class MapperDtoFactory<ID, E extends EntityBase<ID>, DTO extends DtoBase<
 
     private MapperDtoBase<ID, EntityUser<ID>, DtoUserBase<ID>> createMapperUserBase(){
         MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRolesser = new MapperDtoRoleuser();
-        MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> mapperProfile = new MapperDtoProfile();
+        MapperDtoBase<ID, EntityProfileBase<ID>, DtoProfile<ID>> mapperProfile = new MapperDtoProfile();
         return new MapperDtoUserBase(mapperRolesser, mapperProfile);
     }
 

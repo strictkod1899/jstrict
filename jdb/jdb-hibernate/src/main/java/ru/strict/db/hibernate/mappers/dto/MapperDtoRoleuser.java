@@ -30,7 +30,7 @@ public class MapperDtoRoleuser<ID> extends MapperDtoBase<ID, EntityRoleuser<ID>,
         entity.setDescription(dto.getDescription());
         entity.setCode(dto.getCode());
         Optional.ofNullable(mapperUser).ifPresent((mapper) ->
-                dto.getUsers().stream().forEach((r) -> entity.addUser(mapper.map((DtoUser) r))));
+                dto.getUsers().stream().forEach((r) -> entity.addUser(mapper.map(r))));
         return entity;
     }
 
@@ -41,7 +41,7 @@ public class MapperDtoRoleuser<ID> extends MapperDtoBase<ID, EntityRoleuser<ID>,
         dto.setDescription(entity.getDescription());
         dto.setCode(entity.getCode());
         Optional.ofNullable(mapperUser).ifPresent((mapper) ->
-                entity.getUsers().stream().forEach(r -> dto.addUser(mapper.map((EntityUser) r))));
+                entity.getUsers().stream().forEach(r -> dto.addUser(mapper.map(r))));
         return dto;
     }
 }

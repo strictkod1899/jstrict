@@ -29,7 +29,7 @@ public class MapperDtoCountry<ID> extends MapperDtoBase<ID, EntityCountry<ID>, D
         entity.setId(dto.getId());
         entity.setCaption(dto.getCaption());
         Optional.ofNullable(mapperCity).ifPresent((mapper) ->
-                dto.getCities().stream().forEach((r) -> entity.addCity(mapper.map((DtoCity) r))));
+                dto.getCities().stream().forEach((r) -> entity.addCity(mapper.map(r))));
         return entity;
     }
 
@@ -39,7 +39,7 @@ public class MapperDtoCountry<ID> extends MapperDtoBase<ID, EntityCountry<ID>, D
         dto.setId(entity.getId());
         dto.setCaption(entity.getCaption());
         Optional.ofNullable(mapperCity).ifPresent((mapper) ->
-                entity.getCities().stream().forEach((r) -> dto.addCity(mapper.map((EntityCity) r))));
+                entity.getCities().stream().forEach((r) -> dto.addCity(mapper.map(r))));
         return dto;
     }
 }

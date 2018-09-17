@@ -57,15 +57,15 @@ public class EntityUser<ID> extends EntityBase<ID> {
      * Профиль пользователя. Используется конструкция OneToMany, но фактически реализована связь OneToOne
      */
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private Collection<EntityProfile<ID>> profile;
+    private Collection<EntityProfileBase<ID>> profile;
     /**
      * Токены пользователя
      */
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Collection<EntityJWTToken<ID>> tokens;
 
-    public EntityProfile<ID> getProfile() {
-        EntityProfile<ID> result = null;
+    public EntityProfileBase<ID> getProfile() {
+        EntityProfileBase<ID> result = null;
 
         if(profile != null){
             result = profile.stream().findFirst().orElse(null);
@@ -74,14 +74,14 @@ public class EntityUser<ID> extends EntityBase<ID> {
         return result;
     }
 
-    public void setProfile(EntityProfile<ID> profile) {
+    public void setProfile(EntityProfileBase<ID> profile) {
         if(this.profile != null && profile != null){
             this.profile.removeAll(this.profile);
             this.profile.add(profile);
         }
     }
 
-    protected void setProfiles(Collection<EntityProfile<ID>> profile) {
+    protected void setProfiles(Collection<EntityProfileBase<ID>> profile) {
         this.profile = profile;
     }
 
@@ -238,7 +238,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
         this.tokens = tokens;
     }
 
-    public void setProfile(Collection<EntityProfile<ID>> profile) {
+    public void setProfile(Collection<EntityProfileBase<ID>> profile) {
         this.profile = profile;
     }
     //</editor-fold>
