@@ -48,7 +48,7 @@ public abstract class RepositoryJdbcBase
     @Override
     public final DTO create(DTO dto) {
         LOGGER.info("Trying a db entity create");
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         JdbcSqlParameters parameters;
         String sql = null;
         E entity = getDtoMapper().map(dto);
@@ -95,6 +95,14 @@ public abstract class RepositoryJdbcBase
                             LOGGER.error(ex.getClass().toString(), ex.getMessage());
                         }
                     }
+
+                    if(statement != null) {
+                        try {
+                            statement.close();
+                        } catch (SQLException ex) {
+                            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                        }
+                    }
                 }
                 break;
             case UUID:
@@ -122,6 +130,14 @@ public abstract class RepositoryJdbcBase
                     if(connection != null) {
                         try {
                             connection.close();
+                        } catch (SQLException ex) {
+                            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                        }
+                    }
+
+                    if(statement != null) {
+                        try {
+                            statement.close();
                         } catch (SQLException ex) {
                             LOGGER.error(ex.getClass().toString(), ex.getMessage());
                         }
@@ -157,6 +173,14 @@ public abstract class RepositoryJdbcBase
                             LOGGER.error(ex.getClass().toString(), ex.getMessage());
                         }
                     }
+
+                    if(statement != null) {
+                        try {
+                            statement.close();
+                        } catch (SQLException ex) {
+                            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                        }
+                    }
                 }
                 break;
             default:
@@ -173,8 +197,8 @@ public abstract class RepositoryJdbcBase
     @Override
     public DTO read(ID id) {
         LOGGER.info("Trying a db entity read");
-        PreparedStatement statement;
-        ResultSet resultSet;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         DTO result = null;
         Connection connection = null;
         try{
@@ -215,6 +239,22 @@ public abstract class RepositoryJdbcBase
                     LOGGER.error(ex.getClass().toString(), ex.getMessage());
                 }
             }
+
+            if(resultSet != null){
+                try {
+                    resultSet.close();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                }
+            }
+
+            if(statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                }
+            }
         }
 
         LOGGER.info("Finished a db entity read");
@@ -225,8 +265,8 @@ public abstract class RepositoryJdbcBase
     @Override
     public List<DTO> readAll(DbRequests requests) {
         LOGGER.info("Trying a db entity read all");
-        PreparedStatement statement;
-        ResultSet resultSet;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         List<DTO> result = new LinkedList<>();
         Connection connection = null;
         try{
@@ -255,6 +295,22 @@ public abstract class RepositoryJdbcBase
                     LOGGER.error(ex.getClass().toString(), ex.getMessage());
                 }
             }
+
+            if(resultSet != null){
+                try {
+                    resultSet.close();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                }
+            }
+
+            if(statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                }
+            }
         }
 
         LOGGER.info("Finished a db entity read all");
@@ -270,7 +326,7 @@ public abstract class RepositoryJdbcBase
         parameters.addLast("id", dto.getId());
         String sql = createSqlUpdate();
 
-        PreparedStatement statement;
+        PreparedStatement statement = null;
 
         Connection connection = null;
         try{
@@ -292,6 +348,14 @@ public abstract class RepositoryJdbcBase
             if(connection != null) {
                 try {
                     connection.close();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                }
+            }
+
+            if(statement != null) {
+                try {
+                    statement.close();
                 } catch (SQLException ex) {
                     LOGGER.error(ex.getClass().toString(), ex.getMessage());
                 }
@@ -307,7 +371,7 @@ public abstract class RepositoryJdbcBase
         String sql = createSqlDelete();
         JdbcSqlParameters parameters = new JdbcSqlParameters();
         parameters.addLast("id", id);
-        PreparedStatement statement;
+        PreparedStatement statement = null;
 
         Connection connection = null;
         try{
@@ -333,6 +397,14 @@ public abstract class RepositoryJdbcBase
                     LOGGER.error(ex.getClass().toString(), ex.getMessage());
                 }
             }
+
+            if(statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                }
+            }
         }
         LOGGER.info("Successful a db entity deleted");
     }
@@ -342,8 +414,8 @@ public abstract class RepositoryJdbcBase
     public int readCount(DbRequests requests) {
         LOGGER.info("Trying a db entity read count");
 
-        PreparedStatement statement;
-        ResultSet resultSet;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         int result = -1;
         Connection connection = null;
         try{
@@ -367,6 +439,22 @@ public abstract class RepositoryJdbcBase
             if(connection != null) {
                 try {
                     connection.close();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                }
+            }
+
+            if(resultSet != null){
+                try {
+                    resultSet.close();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                }
+            }
+
+            if(statement != null) {
+                try {
+                    statement.close();
                 } catch (SQLException ex) {
                     LOGGER.error(ex.getClass().toString(), ex.getMessage());
                 }
@@ -466,7 +554,8 @@ public abstract class RepositoryJdbcBase
         String sql = "SELECT COUNT(*) FROM " + getTableName() + " WHERE id = ?;";
         JdbcSqlParameters parameters = new JdbcSqlParameters();
         parameters.addLast("id", id);
-        PreparedStatement statement;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         boolean isExists = false;
         Connection connection = null;
         try{
@@ -474,7 +563,7 @@ public abstract class RepositoryJdbcBase
             statement = connection.prepareStatement(sql);
             statement = setParametersToPrepareStatement(statement, parameters);
 
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             resultSet.next();
             if(resultSet.getInt(1)>0)
                 isExists = true;
@@ -492,6 +581,22 @@ public abstract class RepositoryJdbcBase
             if(connection != null) {
                 try {
                     connection.close();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                }
+            }
+
+            if(resultSet != null){
+                try {
+                    resultSet.close();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                }
+            }
+
+            if(statement != null) {
+                try {
+                    statement.close();
                 } catch (SQLException ex) {
                     LOGGER.error(ex.getClass().toString(), ex.getMessage());
                 }
