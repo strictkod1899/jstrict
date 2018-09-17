@@ -10,21 +10,21 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityProfile и DtoProfile
  */
-public class MapperDtoProfile<E extends EntityProfile, DTO extends DtoProfile>
-        extends MapperDtoBase<E, DTO> {
+public class MapperDtoProfile<ID>
+        extends MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> {
 
-    private MapperDtoBase<EntityUser, DtoUser> mapperUser;
+    private MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser;
 
     public MapperDtoProfile(){
         mapperUser = null;
     }
 
-    public MapperDtoProfile(MapperDtoBase<EntityUser, DtoUser> mapperUser){
+    public MapperDtoProfile(MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser){
         this.mapperUser = mapperUser;
     }
 
     @Override
-    protected EntityProfile implementMap(DtoProfile dto) {
+    protected EntityProfile<ID> implementMap(DtoProfile<ID> dto) {
         EntityProfile entity = new EntityProfile();
         entity.setId(dto.getId());
         entity.setName(dto.getName());
@@ -36,7 +36,7 @@ public class MapperDtoProfile<E extends EntityProfile, DTO extends DtoProfile>
     }
 
     @Override
-    protected DtoProfile implementMap(EntityProfile entity) {
+    protected DtoProfile<ID> implementMap(EntityProfile<ID> entity) {
         DtoProfile dto = new DtoProfile();
         dto.setId(entity.getId());
         dto.setName(entity.getName());

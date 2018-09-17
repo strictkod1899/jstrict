@@ -18,19 +18,19 @@ import java.util.Map;
  * @param <ID> Тип идентификатора
  */
 public class RepositoryProfile<ID>
-        extends RepositorySpringBase<ID, EntityProfile, DtoProfile> {
+        extends RepositorySpringBase<ID, EntityProfile<ID>, DtoProfile<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id"};
 
-    public RepositoryProfile(CreateConnectionByDataSource connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryProfile(CreateConnectionByDataSource connectionSource, GenerateIdType generateIdType) {
         super("profile", COLUMNS_NAME, connectionSource,
-                new MapperDtoFactory().instance(MapperDtoType.PROFILE),
-                new MapperSqlProfile(COLUMNS_NAME),
-                isGenerateId);
+                new MapperDtoFactory<ID, EntityProfile<ID>, DtoProfile<ID>>().instance(MapperDtoType.PROFILE),
+                new MapperSqlProfile<ID>(COLUMNS_NAME),
+                generateIdType);
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(EntityProfile entity){
+    protected Map<Integer, Object> getValueByColumn(EntityProfile<ID> entity){
         Map<Integer, Object> valuesByColumn = new LinkedHashMap();
         valuesByColumn.put(0, entity.getName());
         valuesByColumn.put(1, entity.getSurname());
@@ -40,12 +40,12 @@ public class RepositoryProfile<ID>
     }
 
     @Override
-    protected DtoProfile fill(DtoProfile dto){
-        IRepository<ID, DtoUser> repositoryUser =
+    protected DtoProfile<ID> fill(DtoProfile<ID> dto){
+        IRepository<ID, DtoUser<ID>> repositoryUser =
                 new RepositoryUser(getConnectionSource(),
                         new MapperDtoFactory().instance(MapperDtoType.USER),
                         GenerateIdType.NONE);
-        dto.setUser(repositoryUser.read((ID) dto.getUserId()));
+        dto.setUser(repositoryUser.read(dto.getUserId()));
         return dto;
     }
 

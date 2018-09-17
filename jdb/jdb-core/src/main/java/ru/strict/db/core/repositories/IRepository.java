@@ -10,7 +10,7 @@ import java.util.List;
  * @param <ID> Тип идентификатора
  * @param <DTO> Тип Dto-сущности базы данных
  */
-public interface IRepository<ID, DTO extends DtoBase> {
+public interface IRepository<ID, DTO extends DtoBase<ID>> {
 
     /**
      * Добавить в базу данных новый объект, переданный в качестве параметра
@@ -68,4 +68,18 @@ public interface IRepository<ID, DTO extends DtoBase> {
      * @return Созданный/прочитанный объект
      */
     DTO createOrRead(DTO dto);
+
+    /**
+     * Получить наименование таблицы, с которой связан данный репозиторий
+     * @return
+     */
+    String getTableName();
+
+    /**
+     * Получить наименование столбца, который представляет столбец с идентификатором
+     * @return
+     */
+    default String getColumnIdName(){
+        return "id";
+    }
 }

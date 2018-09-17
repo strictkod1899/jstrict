@@ -6,21 +6,24 @@ import ru.strict.db.core.dto.DtoCountry;
 import ru.strict.db.hibernate.entities.EntityCountry;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
+import ru.strict.utils.UtilClassOperations;
 
-public class RepositoryCountry extends RepositoryNamedBase<EntityCountry, DtoCountry> {
+import java.io.Serializable;
+
+public class RepositoryCountry<ID extends Serializable> extends RepositoryNamedBase<ID, EntityCountry<ID>, DtoCountry<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption"};
 
-    public RepositoryCountry(CreateConnectionHibernate connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryCountry(CreateConnectionHibernate connectionSource, GenerateIdType generateIdType) {
         super("country",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory().instance(MapperDtoType.COUNTRY),
-                isGenerateId);
+                new MapperDtoFactory<ID, EntityCountry<ID>, DtoCountry<ID>>().instance(MapperDtoType.COUNTRY),
+                generateIdType);
     }
 
     @Override
-    protected DtoCountry fill(DtoCountry dto){
+    protected DtoCountry<ID> fill(DtoCountry<ID> dto){
         return dto;
     }
 
@@ -30,8 +33,8 @@ public class RepositoryCountry extends RepositoryNamedBase<EntityCountry, DtoCou
     }
 
     @Override
-    protected Class<EntityCountry> getEntityClass() {
-        return EntityCountry.class;
+    protected Class<EntityCountry<ID>> getEntityClass() {
+        return UtilClassOperations.<EntityCountry<ID>>castClass(EntityCountry.class);
     }
 
     @Override

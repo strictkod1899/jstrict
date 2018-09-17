@@ -7,7 +7,7 @@ import ru.strict.db.core.mappers.sql.MapperSqlBase;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MapperSqlProfileInfo extends MapperSqlBase<EntityProfileInfo> {
+public class MapperSqlProfileInfo<ID> extends MapperSqlBase<ID, EntityProfileInfo<ID>> {
 
     private final String[] COLUMNS_NAME;
 
@@ -16,17 +16,17 @@ public class MapperSqlProfileInfo extends MapperSqlBase<EntityProfileInfo> {
     }
 
     @Override
-    public EntityProfileInfo implementMap(ResultSet resultSet) {
-        EntityProfileInfo entity = new EntityProfileInfo();
+    public EntityProfileInfo<ID> implementMap(ResultSet resultSet) {
+        EntityProfileInfo<ID> entity = new EntityProfileInfo();
         try {
-            entity.setId(resultSet.getObject("id"));
+            entity.setId((ID)resultSet.getObject("id"));
             entity.setName(resultSet.getString(COLUMNS_NAME[0]));
             entity.setSurname(resultSet.getString(COLUMNS_NAME[1]));
             entity.setMiddlename(resultSet.getString(COLUMNS_NAME[2]));
-            entity.setUserId(resultSet.getObject(COLUMNS_NAME[3]));
+            entity.setUserId((ID)resultSet.getObject(COLUMNS_NAME[3]));
             entity.setDateBirth(resultSet.getDate(COLUMNS_NAME[4]));
             entity.setPhone(resultSet.getString(COLUMNS_NAME[5]));
-            entity.setCityId(resultSet.getObject(COLUMNS_NAME[6]));
+            entity.setCityId((ID)resultSet.getObject(COLUMNS_NAME[6]));
         }catch(SQLException ex){
             throw new WrapperRuntimeException(ex);
         }

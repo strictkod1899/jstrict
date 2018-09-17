@@ -26,7 +26,7 @@ public class DtoProfileInfo<ID> extends DtoProfile<ID> {
     /**
      * Город связанный с пользователем
      */
-    private DtoCity city;
+    private DtoCity<ID> city;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(Date dateBirth, String phone, ID cityId){
@@ -81,11 +81,11 @@ public class DtoProfileInfo<ID> extends DtoProfile<ID> {
         this.cityId = cityId;
     }
 
-    public DtoCity getCity() {
+    public DtoCity<ID> getCity() {
         return city;
     }
 
-    public void setCity(DtoCity city) {
+    public void setCity(DtoCity<ID> city) {
         this.city = city;
     }
     //</editor-fold>

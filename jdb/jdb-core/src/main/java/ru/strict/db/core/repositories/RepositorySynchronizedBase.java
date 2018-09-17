@@ -14,13 +14,16 @@ import ru.strict.db.core.mappers.dto.MapperDtoBase;
  * @param <DTO>     Тип Dto-сущности базы данных
  */
 public abstract class RepositorySynchronizedBase
-        <ID, CONNECTION, SOURCE extends ICreateConnection<CONNECTION>, E extends EntityBase, DTO extends DtoBase>
+        <ID, CONNECTION, SOURCE extends ICreateConnection<CONNECTION>,
+                E extends EntityBase<ID>, DTO extends DtoBase<ID>>
         extends RepositoryBase<ID, CONNECTION, SOURCE, E, DTO> {
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public RepositorySynchronizedBase(String tableName, String[] columnsName, SOURCE connectionSource
-            , MapperDtoBase<E, DTO> dtoMapper, GenerateIdType isGenerateId) {
-        super(tableName, columnsName, connectionSource, dtoMapper, isGenerateId);
+    public RepositorySynchronizedBase(String tableName, String[] columnsName,
+                                      SOURCE connectionSource,
+                                      MapperDtoBase<ID, E, DTO> dtoMapper,
+                                      GenerateIdType generateIdType) {
+        super(tableName, columnsName, connectionSource, dtoMapper, generateIdType);
     }
     //</editor-fold>
 

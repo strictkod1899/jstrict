@@ -22,7 +22,7 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
     /**
      * Пользователи свзяанные с ролью
      */
-    private Collection<EntityUser> users;
+    private Collection<EntityUser<ID>> users;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String code, String description){
@@ -78,7 +78,7 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
      * Добавить пользователя использующего данную роль
      * @param user
      */
-    public void addUser(EntityUser user) {
+    public void addUser(EntityUser<ID> user) {
         if(user == null) {
             throw new NullPointerException("user is NULL");
         }
@@ -88,11 +88,11 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
         }
     }
 
-    public Collection<EntityUser> getUsers() {
+    public Collection<EntityUser<ID>> getUsers() {
         return users;
     }
 
-    public void setUsers(Collection<EntityUser> users) {
+    public void setUsers(Collection<EntityUser<ID>> users) {
         if(users == null) {
             throw new NullPointerException("users is NULL");
         }

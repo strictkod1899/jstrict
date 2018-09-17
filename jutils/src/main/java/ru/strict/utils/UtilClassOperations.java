@@ -32,5 +32,15 @@ public class UtilClassOperations {
         return result;
     }
 
-
+    /**
+     * Пример использования:
+     * Class<List<Object>> clazz = ClassUtil.<List<Object>>castClass(List.class);
+     * @param aClass
+     * @param <T>
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> Class<T> castClass(Class<?> aClass) {
+        return (Class<T>)aClass;
+    }
 }

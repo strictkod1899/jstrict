@@ -25,20 +25,21 @@ import java.util.Date;
  * @param <DTO> Тип Dto-сущности базы данных
  */
 public abstract class RepositoryJdbcBase
-        <ID, E extends EntityBase, DTO extends DtoBase>
+        <ID, E extends EntityBase<ID>, DTO extends DtoBase<ID>>
         extends RepositoryBase<ID, Connection, ICreateConnection<Connection>, E, DTO> {
 
     /**
      * Объект для преобразования полученных данных из sql-запроса в объект сущности азы данных (entity)
      */
-    private MapperSqlBase<E> sqlMapper;
+    private MapperSqlBase<ID, E> sqlMapper;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public RepositoryJdbcBase(String tableName, String[] columnsName,
                               ICreateConnection<Connection> connectionSource,
-                              MapperDtoBase<E, DTO> dtoMapper,
-                              MapperSqlBase<E> sqlMapper, GenerateIdType isGenerateId) {
-        super(tableName, columnsName, connectionSource, dtoMapper, isGenerateId);
+                              MapperDtoBase<ID, E, DTO> dtoMapper,
+                              MapperSqlBase<ID, E> sqlMapper,
+                              GenerateIdType generateIdType) {
+        super(tableName, columnsName, connectionSource, dtoMapper, generateIdType);
         this.sqlMapper = sqlMapper;
     }
     //</editor-fold>
@@ -47,12 +48,18 @@ public abstract class RepositoryJdbcBase
     @Override
     public final DTO create(DTO dto) {
         LOGGER.info("Trying a db entity create");
-        PreparedStatement statement;
+        PreparedStatement statement = null;
         JdbcSqlParameters parameters;
         String sql = null;
         E entity = getDtoMapper().map(dto);
         Connection connection = null;
-        switch(getGenerateIdType()){
+
+        GenerateIdType usingGenerateIdType = getGenerateIdType();
+        if(dto.getId() != null){
+            usingGenerateIdType = GenerateIdType.NONE;
+        }
+
+        switch(usingGenerateIdType){
             case NUMBER:
                 parameters = getParameters(entity, 0);
                 sql = createSqlInsertShort(parameters.size());
@@ -65,7 +72,7 @@ public abstract class RepositoryJdbcBase
 
                     try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                         if (generatedKeys.next()) {
-                            dto.setId(generatedKeys.getLong(1));
+                            dto.setId((ID)(Object)generatedKeys.getLong(1));
                         }else {
                             throw new SQLException("Creating user failed, no ID obtained");
                         }
@@ -84,6 +91,14 @@ public abstract class RepositoryJdbcBase
                     if(connection != null) {
                         try {
                             connection.close();
+                        } catch (SQLException ex) {
+                            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                        }
+                    }
+
+                    if(statement != null) {
+                        try {
+                            statement.close();
                         } catch (SQLException ex) {
                             LOGGER.error(ex.getClass().toString(), ex.getMessage());
                         }
@@ -119,9 +134,17 @@ public abstract class RepositoryJdbcBase
                             LOGGER.error(ex.getClass().toString(), ex.getMessage());
                         }
                     }
+
+                    if(statement != null) {
+                        try {
+                            statement.close();
+                        } catch (SQLException ex) {
+                            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                        }
+                    }
                 }
 
-                dto.setId(id);
+                dto.setId((ID)id);
                 break;
             case NONE:
                 parameters = getParameters(entity, 1);
@@ -150,6 +173,14 @@ public abstract class RepositoryJdbcBase
                             LOGGER.error(ex.getClass().toString(), ex.getMessage());
                         }
                     }
+
+                    if(statement != null) {
+                        try {
+                            statement.close();
+                        } catch (SQLException ex) {
+                            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                        }
+                    }
                 }
                 break;
             default:
@@ -166,8 +197,8 @@ public abstract class RepositoryJdbcBase
     @Override
     public DTO read(ID id) {
         LOGGER.info("Trying a db entity read");
-        PreparedStatement statement;
-        ResultSet resultSet;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         DTO result = null;
         Connection connection = null;
         try{
@@ -208,6 +239,22 @@ public abstract class RepositoryJdbcBase
                     LOGGER.error(ex.getClass().toString(), ex.getMessage());
                 }
             }
+
+            if(resultSet != null){
+                try {
+                    resultSet.close();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                }
+            }
+
+            if(statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                }
+            }
         }
 
         LOGGER.info("Finished a db entity read");
@@ -218,8 +265,8 @@ public abstract class RepositoryJdbcBase
     @Override
     public List<DTO> readAll(DbRequests requests) {
         LOGGER.info("Trying a db entity read all");
-        PreparedStatement statement;
-        ResultSet resultSet;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         List<DTO> result = new LinkedList<>();
         Connection connection = null;
         try{
@@ -230,8 +277,6 @@ public abstract class RepositoryJdbcBase
             while(resultSet.next()) {
                 result.add(getDtoMapper().map(sqlMapper.map(resultSet)));
             }
-
-            setObjects(result);
         } catch (SQLException ex) {
             LOGGER.error(ex.getClass().toString(), ex.getMessage());
             if(connection != null) {
@@ -246,6 +291,22 @@ public abstract class RepositoryJdbcBase
             if(connection != null) {
                 try {
                     connection.close();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                }
+            }
+
+            if(resultSet != null){
+                try {
+                    resultSet.close();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                }
+            }
+
+            if(statement != null) {
+                try {
+                    statement.close();
                 } catch (SQLException ex) {
                     LOGGER.error(ex.getClass().toString(), ex.getMessage());
                 }
@@ -265,7 +326,7 @@ public abstract class RepositoryJdbcBase
         parameters.addLast("id", dto.getId());
         String sql = createSqlUpdate();
 
-        PreparedStatement statement;
+        PreparedStatement statement = null;
 
         Connection connection = null;
         try{
@@ -287,6 +348,14 @@ public abstract class RepositoryJdbcBase
             if(connection != null) {
                 try {
                     connection.close();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                }
+            }
+
+            if(statement != null) {
+                try {
+                    statement.close();
                 } catch (SQLException ex) {
                     LOGGER.error(ex.getClass().toString(), ex.getMessage());
                 }
@@ -302,7 +371,7 @@ public abstract class RepositoryJdbcBase
         String sql = createSqlDelete();
         JdbcSqlParameters parameters = new JdbcSqlParameters();
         parameters.addLast("id", id);
-        PreparedStatement statement;
+        PreparedStatement statement = null;
 
         Connection connection = null;
         try{
@@ -328,6 +397,14 @@ public abstract class RepositoryJdbcBase
                     LOGGER.error(ex.getClass().toString(), ex.getMessage());
                 }
             }
+
+            if(statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                }
+            }
         }
         LOGGER.info("Successful a db entity deleted");
     }
@@ -337,8 +414,8 @@ public abstract class RepositoryJdbcBase
     public int readCount(DbRequests requests) {
         LOGGER.info("Trying a db entity read count");
 
-        PreparedStatement statement;
-        ResultSet resultSet;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         int result = -1;
         Connection connection = null;
         try{
@@ -362,6 +439,22 @@ public abstract class RepositoryJdbcBase
             if(connection != null) {
                 try {
                     connection.close();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                }
+            }
+
+            if(resultSet != null){
+                try {
+                    resultSet.close();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                }
+            }
+
+            if(statement != null) {
+                try {
+                    statement.close();
                 } catch (SQLException ex) {
                     LOGGER.error(ex.getClass().toString(), ex.getMessage());
                 }
@@ -461,7 +554,8 @@ public abstract class RepositoryJdbcBase
         String sql = "SELECT COUNT(*) FROM " + getTableName() + " WHERE id = ?;";
         JdbcSqlParameters parameters = new JdbcSqlParameters();
         parameters.addLast("id", id);
-        PreparedStatement statement;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         boolean isExists = false;
         Connection connection = null;
         try{
@@ -469,7 +563,7 @@ public abstract class RepositoryJdbcBase
             statement = connection.prepareStatement(sql);
             statement = setParametersToPrepareStatement(statement, parameters);
 
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             resultSet.next();
             if(resultSet.getInt(1)>0)
                 isExists = true;
@@ -487,6 +581,22 @@ public abstract class RepositoryJdbcBase
             if(connection != null) {
                 try {
                     connection.close();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                }
+            }
+
+            if(resultSet != null){
+                try {
+                    resultSet.close();
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                }
+            }
+
+            if(statement != null) {
+                try {
+                    statement.close();
                 } catch (SQLException ex) {
                     LOGGER.error(ex.getClass().toString(), ex.getMessage());
                 }
@@ -574,7 +684,7 @@ public abstract class RepositoryJdbcBase
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public MapperSqlBase<E> getSqlMapper() {
+    public MapperSqlBase<ID, E> getSqlMapper() {
         return sqlMapper;
     }
     //</editor-fold>

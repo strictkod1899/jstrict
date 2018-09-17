@@ -10,22 +10,22 @@ import java.util.UUID;
  * Базовый entity-класс
  */
 @MappedSuperclass
-public abstract class EntityBase implements Serializable {
+public abstract class EntityBase<ID> implements Serializable {
 
     /**
      * Идентификатор записи
      */
     @Id
     @Column(name = "id")
-    @GeneratedValue(generator = "uuid")
-    private UUID id;
+    @GeneratedValue()
+    private ID id;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public EntityBase() {
         id = null;
     }
 
-    public EntityBase(UUID id) {
+    public EntityBase(ID id) {
         if(id == null) {
             throw new NullPointerException("id is NULL");
         }
@@ -35,11 +35,11 @@ public abstract class EntityBase implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public UUID getId() {
+    public ID getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(ID id) {
         this.id = id;
     }
     //</editor-fold>

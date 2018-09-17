@@ -1,34 +1,31 @@
 package ru.strict.db.hibernate.mappers.dto;
 
-import ru.strict.db.core.dto.DtoProfile;
-import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.dto.DtoUserBase;
-import ru.strict.db.hibernate.entities.EntityProfile;
-import ru.strict.db.hibernate.entities.EntityRoleuser;
-import ru.strict.db.hibernate.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
+import ru.strict.db.hibernate.entities.EntityUser;
 
 /**
  * Двухсторонний маппинг объектов типа EntityUser и DtoUser
  */
-public class MapperDtoUser<E extends EntityUser, DTO extends DtoUser>
-        extends MapperDtoUserBase<E, DTO> {
+public class MapperDtoUser<ID> extends MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> {
+
+    private MapperDtoBase<ID, EntityUser<ID>, DtoUserBase<ID>> mapperBase;
 
     public MapperDtoUser(){
         super();
+        mapperBase = null;
     }
 
-    public MapperDtoUser(MapperDtoBase<EntityRoleuser, DtoRoleuser> mapperRoleuser
-            , MapperDtoBase<EntityProfile, DtoProfile> mapperProfile){
-        super(mapperRoleuser, mapperProfile);
+    public MapperDtoUser(MapperDtoBase<ID, EntityUser<ID>, DtoUserBase<ID>> mapperBase) {
+        this.mapperBase = mapperBase;
     }
 
     @Override
-    protected EntityUser implementMap(DtoUser dto) {
-        EntityUser baseEntity = super.implementMap(dto);
+    protected EntityUser<ID> implementMap(DtoUser<ID> dto) {
+        EntityUser<ID> baseEntity = mapperBase.map(dto);
 
-        EntityUser entity = new EntityUser();
+        EntityUser<ID> entity = new EntityUser();
         entity.setId(baseEntity.getId());
         entity.setUsername(baseEntity.getUsername());
         entity.setEmail(baseEntity.getEmail());
@@ -42,10 +39,10 @@ public class MapperDtoUser<E extends EntityUser, DTO extends DtoUser>
     }
 
     @Override
-    protected DtoUser implementMap(EntityUser entity) {
-        DtoUserBase baseDto = super.implementMap(entity);
+    protected DtoUser<ID> implementMap(EntityUser<ID> entity) {
+        DtoUserBase<ID> baseDto = mapperBase.map(entity);
 
-        DtoUser dto = new DtoUser();
+        DtoUser<ID> dto = new DtoUser();
         dto.setId(baseDto.getId());
         dto.setUsername(baseDto.getUsername());
         dto.setEmail(baseDto.getEmail());

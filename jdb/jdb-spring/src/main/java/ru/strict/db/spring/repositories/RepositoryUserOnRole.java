@@ -15,19 +15,19 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class RepositoryUserOnRole<ID>
-        extends RepositorySpringBase<ID, EntityUserOnRole, DtoUserOnRole> {
+        extends RepositorySpringBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"userx_id", "roleuser_id"};
 
-    public RepositoryUserOnRole(CreateConnectionByDataSource connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryUserOnRole(CreateConnectionByDataSource connectionSource, GenerateIdType generateIdType) {
         super("user_on_role", COLUMNS_NAME, connectionSource,
-                new MapperDtoFactory().instance(MapperDtoType.USER_ON_ROLE),
-                new MapperSqlUserOnRole(COLUMNS_NAME),
-                isGenerateId);
+                new MapperDtoFactory<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>>().instance(MapperDtoType.USER_ON_ROLE),
+                new MapperSqlUserOnRole<ID>(COLUMNS_NAME),
+                generateIdType);
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(EntityUserOnRole entity) {
+    protected Map<Integer, Object> getValueByColumn(EntityUserOnRole<ID> entity) {
         Map<Integer, Object> valuesByColumn = new LinkedHashMap();
         valuesByColumn.put(0, entity.getUserId());
         valuesByColumn.put(1, entity.getRoleId());
@@ -35,16 +35,16 @@ public class RepositoryUserOnRole<ID>
     }
 
     @Override
-    protected DtoUserOnRole fill(DtoUserOnRole dto){
+    protected DtoUserOnRole<ID> fill(DtoUserOnRole<ID> dto){
         // Добавление пользователя
-        IRepository<ID, DtoUser> repositoryUser = new RepositoryUser(getConnectionSource(),
+        IRepository<ID, DtoUser<ID>> repositoryUser = new RepositoryUser(getConnectionSource(),
                 new MapperDtoFactory().instance(MapperDtoType.USER),
                 GenerateIdType.NONE);
-        dto.setUser(repositoryUser.read((ID) dto.getUserId()));
+        dto.setUser(repositoryUser.read(dto.getUserId()));
 
         // Добавление роли пользователя
-        IRepository<ID, DtoRoleuser> repositoryRoleuser = new RepositoryRoleuser(getConnectionSource(), GenerateIdType.NONE);
-        dto.setRole(repositoryRoleuser.read((ID) dto.getRoleId()));
+        IRepository<ID, DtoRoleuser<ID>> repositoryRoleuser = new RepositoryRoleuser(getConnectionSource(), GenerateIdType.NONE);
+        dto.setRole(repositoryRoleuser.read(dto.getRoleId()));
         return dto;
     }
 

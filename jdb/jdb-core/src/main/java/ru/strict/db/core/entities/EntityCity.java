@@ -15,7 +15,7 @@ public class EntityCity<ID> extends EntityNamed<ID> {
     /**
      * Страна связанная с данным городом
      */
-    private EntityCountry country;
+    private EntityCountry<ID> country;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(ID countryId){
@@ -57,11 +57,11 @@ public class EntityCity<ID> extends EntityNamed<ID> {
         this.countryId = countryId;
     }
 
-    public EntityCountry getCountry() {
+    public EntityCountry<ID> getCountry() {
         return country;
     }
 
-    public void setCountry(EntityCountry country) {
+    public void setCountry(EntityCountry<ID> country) {
         this.country = country;
     }
     //</editor-fold>

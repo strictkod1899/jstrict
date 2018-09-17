@@ -6,21 +6,25 @@ import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityRoleuser;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
+import ru.strict.utils.UtilClassOperations;
 
-public class RepositoryRoleuser extends RepositoryNamedBase<EntityRoleuser, DtoRoleuser> {
+import java.io.Serializable;
+
+public class RepositoryRoleuser<ID extends Serializable>
+        extends RepositoryNamedBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"code", "description"};
 
-    public RepositoryRoleuser(CreateConnectionHibernate connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryRoleuser(CreateConnectionHibernate connectionSource, GenerateIdType generateIdType) {
         super("roleuser",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory().instance(MapperDtoType.ROLE_USER),
-                isGenerateId);
+                new MapperDtoFactory<ID, EntityRoleuser<ID>, DtoRoleuser<ID>>().instance(MapperDtoType.ROLE_USER),
+                generateIdType);
     }
 
     @Override
-    protected DtoRoleuser fill(DtoRoleuser dto){
+    protected DtoRoleuser<ID> fill(DtoRoleuser<ID> dto){
         return dto;
     }
 
@@ -30,8 +34,8 @@ public class RepositoryRoleuser extends RepositoryNamedBase<EntityRoleuser, DtoR
     }
 
     @Override
-    protected Class<EntityRoleuser> getEntityClass() {
-        return EntityRoleuser.class;
+    protected Class<EntityRoleuser<ID>> getEntityClass() {
+        return UtilClassOperations.<EntityRoleuser<ID>>castClass(EntityRoleuser.class);
     }
 
     @Override

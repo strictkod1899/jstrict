@@ -13,7 +13,7 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
     /**
      * Города свзяанные со страной
      */
-    private Collection<EntityCity> cities;
+    private Collection<EntityCity<ID>> cities;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public EntityCountry() {
@@ -33,7 +33,7 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public void addCity(EntityCity city){
+    public void addCity(EntityCity<ID> city){
         if(city == null) {
             throw new NullPointerException();
         }
@@ -43,11 +43,11 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
         }
     }
 
-    public Collection<EntityCity> getCities() {
+    public Collection<EntityCity<ID>> getCities() {
         return cities;
     }
 
-    public void setCities(Collection<EntityCity> cities) {
+    public void setCities(Collection<EntityCity<ID>> cities) {
         if(cities == null) {
             throw new NullPointerException();
         }

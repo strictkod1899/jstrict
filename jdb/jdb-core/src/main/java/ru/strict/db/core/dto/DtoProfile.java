@@ -30,7 +30,7 @@ public class DtoProfile<ID> extends DtoBase<ID> {
     /**
      * Пользователь системы связанный с данным профилем
      */
-    private DtoUser user;
+    private DtoUser<ID> user;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String name, String surname, String middlename, ID userId){
@@ -114,11 +114,11 @@ public class DtoProfile<ID> extends DtoBase<ID> {
         this.userId = userId;
     }
 
-    public DtoUser getUser() {
+    public DtoUser<ID> getUser() {
         return user;
     }
 
-    public void setUser(DtoUser user) {
+    public void setUser(DtoUser<ID> user) {
         this.user = user;
     }
     //</editor-fold>

@@ -19,11 +19,15 @@ import java.util.List;
  * @param <DTO> Тип Dto-сущности базы данных
  */
 public abstract class RepositoryNamedBase
-        <ID, E extends EntityBase, DTO extends DtoBase>
+        <ID, E extends EntityBase<ID>, DTO extends DtoBase<ID>>
         extends RepositorySpringBase<ID, E, DTO>
         implements IRepositoryNamed<ID, DTO> {
 
-    public RepositoryNamedBase(String tableName, String[] columnsName, CreateConnectionByDataSource connectionSource, MapperDtoBase<E, DTO> dtoMapper, RowMapper<E> springMapper, GenerateIdType generateIdType) {
+    public RepositoryNamedBase(String tableName, String[] columnsName,
+                               CreateConnectionByDataSource connectionSource,
+                               MapperDtoBase<ID, E, DTO> dtoMapper,
+                               RowMapper<E> springMapper,
+                               GenerateIdType generateIdType) {
         super(tableName, columnsName, connectionSource, dtoMapper, springMapper, generateIdType);
     }
 

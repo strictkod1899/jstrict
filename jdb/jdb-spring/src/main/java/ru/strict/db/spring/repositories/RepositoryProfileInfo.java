@@ -20,20 +20,20 @@ import java.util.Map;
  * @param <ID> Тип идентификатора
  */
 public class RepositoryProfileInfo<ID>
-        extends RepositorySpringBase<ID, EntityProfileInfo, DtoProfileInfo> {
+        extends RepositorySpringBase<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id", "datebirth",
             "phone", "city_id"};
 
-    public RepositoryProfileInfo(CreateConnectionByDataSource connectionSource, GenerateIdType isGenerateId) {
+    public RepositoryProfileInfo(CreateConnectionByDataSource connectionSource, GenerateIdType generateIdType) {
         super("profile", COLUMNS_NAME, connectionSource,
-                new MapperDtoFactory().instance(MapperDtoType.PROFILE_INFO),
-                new MapperSqlProfileInfo(COLUMNS_NAME),
-                isGenerateId);
+                new MapperDtoFactory<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>>().instance(MapperDtoType.PROFILE_INFO),
+                new MapperSqlProfileInfo<ID>(COLUMNS_NAME),
+                generateIdType);
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(EntityProfileInfo entity){
+    protected Map<Integer, Object> getValueByColumn(EntityProfileInfo<ID> entity){
         Map<Integer, Object> valuesByColumn = new LinkedHashMap();
         valuesByColumn.put(0, entity.getName());
         valuesByColumn.put(1, entity.getSurname());
@@ -46,15 +46,15 @@ public class RepositoryProfileInfo<ID>
     }
 
     @Override
-    protected DtoProfileInfo fill(DtoProfileInfo dto){
-        IRepository<ID, DtoUser> rUser =
+    protected DtoProfileInfo<ID> fill(DtoProfileInfo<ID> dto){
+        IRepository<ID, DtoUser<ID>> rUser =
                 new RepositoryUser<>(getConnectionSource(),
                         new MapperDtoFactory().instance(MapperDtoType.USER),
                         GenerateIdType.NONE);
-        dto.setUser(rUser.read((ID) dto.getUserId()));
+        dto.setUser(rUser.read(dto.getUserId()));
 
-        IRepository<ID, DtoCity> repositoryCity = new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
-        dto.setCity(repositoryCity.read((ID) dto.getCityId()));
+        IRepository<ID, DtoCity<ID>> repositoryCity = new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
+        dto.setCity(repositoryCity.read(dto.getCityId()));
         return dto;
     }
 

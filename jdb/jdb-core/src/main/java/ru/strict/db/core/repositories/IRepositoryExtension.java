@@ -10,7 +10,7 @@ import java.util.List;
  * @param <ID> Тип идентификатора
  * @param <DTO> Тип Dto-сущности базы данных
  */
-public interface IRepositoryExtension<ID, DTO extends DtoBase> extends IRepository<ID, DTO> {
+public interface IRepositoryExtension<ID, DTO extends DtoBase<ID>> extends IRepository<ID, DTO> {
 
     /**
      * Получить объект из базы данных по переданному id, подгрузив в качестве объектов внешние ссылки
@@ -44,4 +44,11 @@ public interface IRepositoryExtension<ID, DTO extends DtoBase> extends IReposito
      * @return Еоличество записей из базы данных
      */
     int readCount(DbRequests requests);
+
+    /**
+     * Проверить существование записи в базе данных с переданным идентификатором
+     * @param id
+     * @return
+     */
+    boolean IsRowExists(ID id);
 }

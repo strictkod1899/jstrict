@@ -3,39 +3,38 @@ package ru.strict.db.hibernate.mappers.dto;
 import ru.strict.db.core.dto.DtoCity;
 import ru.strict.db.core.dto.DtoProfile;
 import ru.strict.db.core.dto.DtoProfileInfo;
-import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.hibernate.entities.EntityCity;
-import ru.strict.db.hibernate.entities.EntityProfile;
+import ru.strict.db.hibernate.entities.EntityProfileBase;
 import ru.strict.db.hibernate.entities.EntityProfileInfo;
-import ru.strict.db.hibernate.entities.EntityUser;
 
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Двухсторонний маппинг объектов типа EntityProfileInfo и DtoProfileInfo
  */
-public class MapperDtoProfileInfo<E extends EntityProfileInfo, DTO extends DtoProfileInfo>
-        extends MapperDtoProfile<E, DTO> {
+public class MapperDtoProfileInfo<ID> extends MapperDtoBase<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>> {
 
-    private MapperDtoBase<EntityCity, DtoCity> mapperCity;
+    private MapperDtoBase<ID, EntityProfileBase<ID>, DtoProfile<ID>> mapperBase;
+    private MapperDtoBase<ID, EntityCity<ID>, DtoCity<ID>> mapperCity;
 
     public MapperDtoProfileInfo(){
         super();
         mapperCity = null;
+        mapperBase = null;
     }
 
-    public MapperDtoProfileInfo(MapperDtoBase<EntityUser, DtoUser> mapperUser, MapperDtoBase<EntityCity, DtoCity> mapperCity){
-        super(mapperUser);
+    public MapperDtoProfileInfo(MapperDtoBase<ID, EntityProfileBase<ID>, DtoProfile<ID>> mapperBase,
+                                MapperDtoBase<ID, EntityCity<ID>, DtoCity<ID>> mapperCity){
+        this.mapperBase = mapperBase;
         this.mapperCity = mapperCity;
     }
 
     @Override
-    protected EntityProfileInfo implementMap(DtoProfileInfo dto) {
-        EntityProfile baseEntity = super.implementMap(dto);
+    protected EntityProfileInfo<ID> implementMap(DtoProfileInfo<ID> dto) {
+        EntityProfileBase<ID> baseEntity = mapperBase.map(dto);
 
-        EntityProfileInfo entity = new EntityProfileInfo();
+        EntityProfileInfo<ID> entity = new EntityProfileInfo();
         entity.setId(baseEntity.getId());
         entity.setName(baseEntity.getName());
         entity.setSurname(baseEntity.getSurname());
@@ -44,16 +43,16 @@ public class MapperDtoProfileInfo<E extends EntityProfileInfo, DTO extends DtoPr
         entity.setUser(baseEntity.getUser());
         entity.setDateBirth(dto.getDateBirth());
         entity.setPhone(dto.getPhone());
-        entity.setCityId((UUID)dto.getCityId());
+        entity.setCityId(dto.getCityId());
         Optional.ofNullable(mapperCity).ifPresent((mapper) -> entity.setCity(mapper.map(dto.getCity())));
         return entity;
     }
 
     @Override
-    protected DtoProfileInfo implementMap(EntityProfileInfo entity) {
-        DtoProfile baseDto = super.implementMap(entity);
+    protected DtoProfileInfo<ID> implementMap(EntityProfileInfo<ID> entity) {
+        DtoProfile<ID> baseDto = mapperBase.map(entity);
 
-        DtoProfileInfo dto = new DtoProfileInfo();
+        DtoProfileInfo<ID> dto = new DtoProfileInfo();
         dto.setId(baseDto.getId());
         dto.setName(baseDto.getName());
         dto.setSurname(baseDto.getSurname());

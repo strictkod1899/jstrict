@@ -21,11 +21,11 @@ public abstract class MapperBase<S, T extends MapTarget>
 
     @Override
     public S map(T t){
-        return t ==null ? null : implementMap(t);
+        return t == null ? null : implementMap(t);
     }
 
     @Override
     public T map(S entity){
-        return entity==null ? null : implementMap(entity);
+        return entity == null ? null : implementMap(entity);
     }
 }

@@ -10,37 +10,37 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityRoleuser и DtoRoleuser
  */
-public class MapperDtoRoleuser extends MapperDtoBase<EntityRoleuser, DtoRoleuser> {
+public class MapperDtoRoleuser<ID> extends MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> {
 
-    private MapperDtoBase<EntityUser, DtoUser> mapperUser;
+    private MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser;
 
     public MapperDtoRoleuser(){
         mapperUser = null;
     }
 
-    public MapperDtoRoleuser(MapperDtoBase<EntityUser, DtoUser> mapperUser){
+    public MapperDtoRoleuser(MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser){
         this.mapperUser = mapperUser;
     }
 
     @Override
-    protected EntityRoleuser implementMap(DtoRoleuser dto) {
-        EntityRoleuser entity = new EntityRoleuser();
+    protected EntityRoleuser<ID> implementMap(DtoRoleuser<ID> dto) {
+        EntityRoleuser<ID> entity = new EntityRoleuser();
         entity.setId(dto.getId());
         entity.setDescription(dto.getDescription());
         entity.setCode(dto.getCode());
         Optional.ofNullable(mapperUser).ifPresent((mapper) ->
-                dto.getUsers().stream().forEach((r) -> entity.addUser(mapper.map((DtoUser) r))));
+                dto.getUsers().stream().forEach((r) -> entity.addUser(mapper.map(r))));
         return entity;
     }
 
     @Override
-    protected DtoRoleuser implementMap(EntityRoleuser entity) {
-        DtoRoleuser dto = new DtoRoleuser();
+    protected DtoRoleuser<ID> implementMap(EntityRoleuser<ID> entity) {
+        DtoRoleuser<ID> dto = new DtoRoleuser();
         dto.setId(entity.getId());
         dto.setDescription(entity.getDescription());
         dto.setCode(entity.getCode());
         Optional.ofNullable(mapperUser).ifPresent((mapper) ->
-                entity.getUsers().stream().forEach(r -> dto.addUser(mapper.map((EntityUser) r))));
+                entity.getUsers().stream().forEach(r -> dto.addUser(mapper.map(r))));
         return dto;
     }
 }
