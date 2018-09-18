@@ -3,7 +3,7 @@ package ru.strict.db.hibernate.entities;
 import ru.strict.utils.UtilHashCode;
 
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.HashSet;
 
 /**
  * Роль пользователя в системе (например, администратор, пользователь, неавторизированный пользователь и др.)
@@ -33,14 +33,14 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
 
         this.code = code;
         this.description = description;
-        users = new LinkedList<>();
+        users = new HashSet<>();
     }
 
 	public EntityRoleuser() {
         super();
         code = null;
         description = null;
-        users = new LinkedList<>();
+        users = new HashSet<>();
     }
 
     public EntityRoleuser(String code, String description) {

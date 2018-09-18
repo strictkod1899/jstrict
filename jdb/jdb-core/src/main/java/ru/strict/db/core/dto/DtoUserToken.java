@@ -3,7 +3,7 @@ package ru.strict.db.core.dto;
 import ru.strict.utils.UtilHashCode;
 
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.HashSet;
 
 /**
  * Информация о токенах пользователя и его основные данные
@@ -17,12 +17,12 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(){
-        tokens = new LinkedList<>();
+        tokens = new HashSet<>();
     }
 
     public DtoUserToken() {
         super();
-        tokens = new LinkedList<>();
+        tokens = new HashSet<>();
     }
 
     public DtoUserToken(String username, String email, String passwordEncode) {

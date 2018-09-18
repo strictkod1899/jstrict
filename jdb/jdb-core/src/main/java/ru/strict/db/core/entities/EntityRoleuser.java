@@ -1,7 +1,7 @@
 package ru.strict.db.core.entities;
 
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.HashSet;
 import ru.strict.utils.UtilHashCode;
 
 /**
@@ -32,14 +32,14 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
 
         this.code = code;
         this.description = description;
-        users = new LinkedList<>();
+        users = new HashSet<>();
     }
 
 	public EntityRoleuser() {
         super();
         code = null;
         description = null;
-        users = new LinkedList<>();
+        users = new HashSet<>();
     }
 
     public EntityRoleuser(String code, String description) {

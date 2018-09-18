@@ -1,6 +1,7 @@
 package ru.strict.db.core.dto;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import ru.strict.utils.UtilHashCode;
 
@@ -32,14 +33,14 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
 
         this.code = code;
         this.description = description;
-        users = new LinkedList<>();
+        users = new HashSet<>();
     }
 
     public DtoRoleuser() {
         super();
         code = null;
         description = null;
-        users = new LinkedList<>();
+        users = new HashSet<>();
     }
 
     public DtoRoleuser(String code, String description) {

@@ -3,7 +3,7 @@ package ru.strict.db.hibernate.entities;
 import ru.strict.utils.UtilHashCode;
 
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.HashSet;
 
 /**
  * Страна
@@ -18,17 +18,17 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
     //<editor-fold defaultState="collapsed" desc="constructors">
     public EntityCountry() {
         super();
-        cities = new LinkedList<>();
+        cities = new HashSet<>();
     }
 
     public EntityCountry(String caption) {
         super(caption);
-        cities = new LinkedList<>();
+        cities = new HashSet<>();
     }
 
     public EntityCountry(ID id, String caption) {
         super(id, caption);
-        cities = new LinkedList<>();
+        cities = new HashSet<>();
     }
     //</editor-fold>
 
