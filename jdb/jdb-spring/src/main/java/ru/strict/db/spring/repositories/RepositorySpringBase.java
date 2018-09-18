@@ -220,9 +220,9 @@ public abstract class RepositorySpringBase
     }
     //</editor-fold>
 
-    //<editor-fold defaultState="collapsed" desc="IsRowExists">
+    //<editor-fold defaultState="collapsed" desc="isRowExists">
     @Override
-    public boolean IsRowExists(ID id){
+    public boolean isRowExists(ID id){
         LOGGER.info("Trying a determine is db row exists");
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("id", id);

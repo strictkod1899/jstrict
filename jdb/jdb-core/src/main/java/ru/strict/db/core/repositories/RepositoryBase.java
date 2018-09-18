@@ -11,7 +11,6 @@ import ru.strict.components.WrapperLogger;
 import ru.strict.utils.UtilHashCode;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -93,7 +92,7 @@ public abstract class RepositoryBase
         if(dto == null){
             throw new NullPointerException("dto is NULL");
         }
-        if(IsRowExists(dto.getId()))
+        if(isRowExists(dto.getId()))
             return update(dto);
         else
             return create(dto);
@@ -105,7 +104,7 @@ public abstract class RepositoryBase
         if(dto == null){
             throw new NullPointerException("dto is NULL");
         }
-        if(IsRowExists(dto.getId()))
+        if(isRowExists(dto.getId()))
             return read(dto.getId());
         else
             return create(dto);
@@ -186,14 +185,14 @@ public abstract class RepositoryBase
         if(dto == null){
             throw new NullPointerException("dto is NULL");
         }
-        if(IsRowExists(dto.getId()))
+        if(isRowExists(dto.getId()))
             return readFill(dto.getId());
         else
             return create(dto);
     }
 
     @Override
-    public boolean IsRowExists(ID id) {
+    public boolean isRowExists(ID id) {
         boolean result = false;
 
         DbRequests requests = new DbRequests(getTableName(), false);

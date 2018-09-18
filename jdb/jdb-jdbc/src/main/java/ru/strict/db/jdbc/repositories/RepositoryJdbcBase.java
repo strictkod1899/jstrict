@@ -548,7 +548,7 @@ public abstract class RepositoryJdbcBase
     protected abstract Map getValueByColumn(E entity);
 
     @Override
-    public boolean IsRowExists(ID id){
+    public boolean isRowExists(ID id){
         LOGGER.info("Trying a determine is db row exists");
 
         String sql = "SELECT COUNT(*) FROM " + getTableName() + " WHERE id = ?;";

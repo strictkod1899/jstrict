@@ -185,7 +185,7 @@ public abstract class RepositoryHibernateBase
     }
 
     @Override
-    public boolean IsRowExists(ID id) {
+    public boolean isRowExists(ID id) {
         return read(id) != null;
     }
 
