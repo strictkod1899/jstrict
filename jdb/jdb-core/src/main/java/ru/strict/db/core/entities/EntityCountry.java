@@ -1,7 +1,7 @@
 package ru.strict.db.core.entities;
 
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.HashSet;
 
 import ru.strict.utils.UtilHashCode;
 
@@ -18,31 +18,21 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
     //<editor-fold defaultState="collapsed" desc="constructors">
     public EntityCountry() {
         super();
-        cities = new LinkedList<>();
+        cities = new HashSet<>();
     }
 
     public EntityCountry(String caption) {
         super(caption);
-        cities = new LinkedList<>();
+        cities = new HashSet<>();
     }
 
     public EntityCountry(ID id, String caption) {
         super(id, caption);
-        cities = new LinkedList<>();
+        cities = new HashSet<>();
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public void addCity(EntityCity<ID> city){
-        if(city == null) {
-            throw new NullPointerException();
-        }
-
-        if(cities != null){
-            cities.add(city);
-        }
-    }
-
     public Collection<EntityCity<ID>> getCities() {
         return cities;
     }
@@ -52,7 +42,40 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
             throw new NullPointerException();
         }
 
+        for(EntityCity<ID> city : cities){
+            city.setCountrySafe(this);
+        }
+
         this.cities = cities;
+    }
+
+    public void addCity(EntityCity<ID> city){
+        addCity(city, true);
+    }
+
+    protected void addCitySafe(EntityCity<ID> city){
+        addCity(city, false);
+    }
+
+    private void addCity(EntityCity<ID> city, boolean isCircleMode){
+        if(city == null) {
+            throw new NullPointerException();
+        }
+
+        if(cities != null){
+            if(isCircleMode) {
+                city.setCountrySafe(this);
+            }
+            cities.add(city);
+        }
+    }
+
+    public void addCities(Collection<EntityCity<ID>> cities){
+        if(cities!=null) {
+            for(EntityCity<ID> city : cities){
+                addCity(city);
+            }
+        }
     }
     //</editor-fold>
 
@@ -66,7 +89,7 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof EntityCountry) {
             EntityCountry object = (EntityCountry) obj;
-            return super.equals(object) && (cities.size() == object.getCities().size() && cities.containsAll(object.getCities()));
+            return super.equals(object);
         }else
             return false;
     }
@@ -74,7 +97,7 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
     @Override
     public int hashCode(){
     	int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, cities);
+        return UtilHashCode.createSubHashCode(superHashCode);
     }
     //</editor-fold>
 }

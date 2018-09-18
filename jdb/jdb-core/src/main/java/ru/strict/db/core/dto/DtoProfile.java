@@ -30,7 +30,7 @@ public class DtoProfile<ID> extends DtoBase<ID> {
     /**
      * Пользователь системы связанный с данным профилем
      */
-    private DtoUser<ID> user;
+    private DtoUserBase<ID> user;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String name, String surname, String middlename, ID userId){
@@ -114,11 +114,23 @@ public class DtoProfile<ID> extends DtoBase<ID> {
         this.userId = userId;
     }
 
-    public DtoUser<ID> getUser() {
+    public DtoUserBase<ID> getUser() {
         return user;
     }
 
-    public void setUser(DtoUser<ID> user) {
+    public void setUser(DtoUserBase<ID> user) {
+        setUser(user, true);
+    }
+
+    protected void setUserSafe(DtoUserBase<ID> user) {
+        setUser(user, false);
+    }
+
+    private void setUser(DtoUserBase<ID> user, boolean isCircleMode) {
+        if(isCircleMode && user != null){
+            user.setProfileSafe(this);
+        }
+
         this.user = user;
     }
     //</editor-fold>
@@ -134,8 +146,7 @@ public class DtoProfile<ID> extends DtoBase<ID> {
         if(obj!=null && obj instanceof DtoProfile) {
             DtoProfile object = (DtoProfile) obj;
             return super.equals(object) && name.equals(object.getName()) && surname.equals(object.getSurname())
-                    && middlename.equals(object.getMiddlename()) && userId.equals(object.getUserId())
-                    && user.equals(object.getUser());
+                    && middlename.equals(object.getMiddlename()) && userId.equals(object.getUserId());
         }else
             return false;
     }
@@ -143,7 +154,7 @@ public class DtoProfile<ID> extends DtoBase<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, name, surname, middlename, userId, user);
+        return UtilHashCode.createSubHashCode(superHashCode, name, surname, middlename, userId);
     }
     //</editor-fold>
 }

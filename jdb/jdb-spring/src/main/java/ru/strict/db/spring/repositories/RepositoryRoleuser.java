@@ -5,6 +5,7 @@ import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.dto.DtoUser;
+import ru.strict.db.core.dto.DtoUserBase;
 import ru.strict.db.core.dto.DtoUserOnRole;
 import ru.strict.db.core.entities.EntityRoleuser;
 import ru.strict.db.core.entities.EntityUserOnRole;
@@ -45,10 +46,10 @@ public class RepositoryRoleuser<ID>
         requests.add(new DbWhere(repositoryUserOnRole.getTableName(), "roleuser_id", dto.getId(), "="));
         List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
 
-        IRepository<ID, DtoUser<ID>> repositoryUser = new RepositoryUser<>(getConnectionSource(),
+        IRepository<ID, DtoUserBase<ID>> repositoryUser = new RepositoryUser<>(getConnectionSource(),
                 new MapperDtoFactory().instance(MapperDtoType.USER),
                 GenerateIdType.NONE);
-        Collection<DtoUser<ID>> users = new LinkedList<>();
+        Collection<DtoUserBase<ID>> users = new LinkedList<>();
         for(DtoUserOnRole<ID> userOnRole : userOnRoles) {
             users.add(repositoryUser.read(userOnRole.getUserId()));
         }

@@ -3,87 +3,50 @@ package ru.strict.db.hibernate.entities;
 import ru.strict.utils.UtilHashCode;
 import ru.strict.validates.ValidateBaseValue;
 
-import javax.persistence.*;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.HashSet;
 
 /**
  * Пользователь системы
  */
-@Entity
-@Table(name = "userx")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class EntityUser<ID> extends EntityBase<ID> {
 
     /**
      * Логин пользователя
      */
-    @Column(name = "username", nullable = false)
     private String username;
     /**
      * Зашифрованный пароль пользователя
      */
-    @Column(name = "passwordencode", nullable = false)
     private String passwordEncode;
     /**
      * Адрес электронной почты
      */
-    @Column(name = "email", nullable = false)
     private String email;
     /**
      * Пользователь заблокирован
      */
-    @Column(name = "isBlocked", nullable = false)
     private boolean isBlocked;
     /**
      * Пользователь удален
      */
-    @Column(name = "isDeleted", nullable = false)
     private boolean isDeleted;
     /**
      * Адрес электронной почты подтвержден
      */
-    @Column(name = "isConfirmEmail", nullable = false)
     private boolean isConfirmEmail;
     /**
      * Роли пользователя
      */
-    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-    @JoinTable(name = "user_on_role",
-            joinColumns = @JoinColumn(name = "userx_id", insertable = false, updatable = false),
-            inverseJoinColumns = @JoinColumn(name = "roleuser_id", insertable = false, updatable = false))
-    private Collection<EntityRoleuser<ID>> rolesuser;
+    private Collection<EntityRoleuser<ID>> roles;
     /**
-     * Профиль пользователя. Используется конструкция OneToMany, но фактически реализована связь OneToOne
+     * Профиль пользователя
      */
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private Collection<EntityProfileBase<ID>> profile;
+    private EntityProfileBase<ID> profile;
     /**
      * Токены пользователя
      */
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Collection<EntityJWTToken<ID>> tokens;
-
-    public EntityProfileBase<ID> getProfile() {
-        EntityProfileBase<ID> result = null;
-
-        if(profile != null){
-            result = profile.stream().findFirst().orElse(null);
-        }
-
-        return result;
-    }
-
-    public void setProfile(EntityProfileBase<ID> profile) {
-        if(this.profile != null && profile != null){
-            this.profile.removeAll(this.profile);
-            this.profile.add(profile);
-        }
-    }
-
-    protected void setProfiles(Collection<EntityProfileBase<ID>> profile) {
-        this.profile = profile;
-    }
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String username, String passwordEncode, String email){
@@ -101,8 +64,8 @@ public class EntityUser<ID> extends EntityBase<ID> {
         isBlocked = false;
         isDeleted = false;
         isConfirmEmail = false;
-        rolesuser = new LinkedList<>();
-        tokens = new LinkedList<>();
+        roles = new HashSet<>();
+        tokens = new HashSet<>();
         profile = null;
     }
 
@@ -114,8 +77,8 @@ public class EntityUser<ID> extends EntityBase<ID> {
         isBlocked = false;
         isDeleted = false;
         isConfirmEmail = false;
-        rolesuser = new LinkedList<>();
-        tokens = new LinkedList<>();
+        roles = new HashSet<>();
+        tokens = new HashSet<>();
         profile = null;
     }
 
@@ -136,7 +99,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
     }
 
     public void setUsername(String username) {
-        if(username == null) {
+        if(!ValidateBaseValue.isNotEmptyOrNull(username)) {
             throw new NullPointerException("username is NULL");
         }
 
@@ -148,7 +111,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
     }
 
     public void setPasswordEncode(String passwordEncode) {
-        if(passwordEncode == null) {
+        if(!ValidateBaseValue.isNotEmptyOrNull(passwordEncode)) {
             throw new NullPointerException("passwordEncode is NULL");
         }
 
@@ -160,6 +123,10 @@ public class EntityUser<ID> extends EntityBase<ID> {
     }
 
     public void setEmail(String email) {
+        if(!ValidateBaseValue.isNotEmptyOrNull(email)) {
+            throw new NullPointerException("email is NULL");
+        }
+
         this.email = email;
     }
 
@@ -187,42 +154,48 @@ public class EntityUser<ID> extends EntityBase<ID> {
         isConfirmEmail = confirmEmail;
     }
 
-    public Collection<EntityRoleuser<ID>> getRolesuser() {
-        return rolesuser;
+    public Collection<EntityRoleuser<ID>> getRoles() {
+        return roles;
     }
 
-    public void setRolesuser(Collection<EntityRoleuser<ID>> rolesuser) {
-        if(rolesuser == null) {
-            throw new NullPointerException("rolesuser is NULL");
+    public void setRoles(Collection<EntityRoleuser<ID>> roles) {
+        if(roles == null) {
+            throw new NullPointerException();
         }
 
-        this.rolesuser = rolesuser;
+        for(EntityRoleuser<ID> role : roles){
+            role.addUserSafe(this);
+        }
+
+        this.roles = roles;
     }
 
-    /**
-     * Добавить роль, которую использует данный пользователь
-     * @param roleuser
-     */
-    public void addRoleuser(EntityRoleuser<ID> roleuser){
-        if(roleuser == null) {
-            throw new NullPointerException("roleuser is NULL");
+    public void addRole(EntityRoleuser<ID> role){
+        addRole(role, true);
+    }
+
+    protected void addRoleSafe(EntityRoleuser<ID> role){
+        addRole(role, false);
+    }
+
+    private void addRole(EntityRoleuser<ID> role, boolean isCircleMode){
+        if(role == null) {
+            throw new NullPointerException();
         }
 
-        if(rolesuser!=null) {
-            rolesuser.add(roleuser);
+        if(role != null){
+            if(isCircleMode) {
+                role.addUserSafe(this);
+            }
+            roles.add(role);
         }
     }
 
-    /**
-     * Добавить токен
-     */
-    public void addToken(EntityJWTToken<ID> token){
-        if(token == null) {
-            throw new NullPointerException("token is NULL");
-        }
-
-        if(tokens!=null) {
-            tokens.add(token);
+    public void addRoles(Collection<EntityRoleuser<ID>> roles){
+        if(roles!=null) {
+            for(EntityRoleuser<ID> user : roles){
+                addRole(user);
+            }
         }
     }
 
@@ -232,13 +205,61 @@ public class EntityUser<ID> extends EntityBase<ID> {
 
     public void setTokens(Collection<EntityJWTToken<ID>> tokens) {
         if(tokens == null) {
-            throw new NullPointerException("tokens is NULL");
+            throw new NullPointerException();
+        }
+
+        for(EntityJWTToken<ID> token : tokens){
+            token.setUser(this);
         }
 
         this.tokens = tokens;
     }
 
-    public void setProfile(Collection<EntityProfileBase<ID>> profile) {
+    public void addToken(EntityJWTToken<ID> token){
+        addToken(token, true);
+    }
+
+    protected void addTokenSafe(EntityJWTToken<ID> token){
+        addToken(token, false);
+    }
+
+    private void addToken(EntityJWTToken<ID> token, boolean isCircleMode){
+        if(token == null) {
+            throw new NullPointerException();
+        }
+
+        if(tokens != null){
+            if(isCircleMode) {
+                token.setUserSafe(this);
+            }
+            tokens.add(token);
+        }
+    }
+
+    public void addTokens(Collection<EntityJWTToken<ID>> tokens){
+        if(tokens!=null) {
+            for(EntityJWTToken<ID> city : tokens){
+                addToken(city);
+            }
+        }
+    }
+
+    public EntityProfileBase<ID> getProfile() {
+        return profile;
+    }
+
+    public void setProfile(EntityProfileBase<ID> profile) {
+        setProfile(profile, true);
+    }
+
+    protected void setProfileSafe(EntityProfileBase<ID> profile) {
+        setProfile(profile, false);
+    }
+
+    private void setProfile(EntityProfileBase<ID> profile, boolean isCircleMode) {
+        if(isCircleMode && profile != null){
+            profile.setUserSafe(this);
+        }
         this.profile = profile;
     }
     //</editor-fold>
@@ -256,9 +277,10 @@ public class EntityUser<ID> extends EntityBase<ID> {
             EntityUser object = (EntityUser) obj;
             return super.equals(object) && username.equals(object.getUsername())
                     && passwordEncode.equals(object.getPasswordEncode())
-                    && (rolesuser.size() == object.getRolesuser().size() && rolesuser.containsAll(object.getRolesuser()))
-                    && (tokens.size() == object.getTokens().size() && tokens.containsAll(object.getTokens()))
-                    && profile.equals(object.getProfile());
+                    && email.equals(object.getEmail())
+                    && isBlocked == object.isBlocked()
+                    && isDeleted == object.isDeleted()
+                    && isConfirmEmail == object.isConfirmEmail();
         }else
             return false;
     }
@@ -266,7 +288,8 @@ public class EntityUser<ID> extends EntityBase<ID> {
     @Override
     public int hashCode(){
     	int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, username, passwordEncode, rolesuser, tokens, profile);
+        return UtilHashCode.createSubHashCode(superHashCode, username, passwordEncode, email, isBlocked, isDeleted,
+                isConfirmEmail);
     }
     //</editor-fold>
 }

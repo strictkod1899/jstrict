@@ -1,6 +1,7 @@
 package ru.strict.db.core.dto;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import ru.strict.utils.UtilHashCode;
 
@@ -22,7 +23,7 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
     /**
      * Пользователи свзяанные с ролью
      */
-    private Collection<DtoUser<ID>> users;
+    private Collection<DtoUserBase<ID>> users;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String code, String description){
@@ -32,14 +33,14 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
 
         this.code = code;
         this.description = description;
-        users = new LinkedList<>();
+        users = new HashSet<>();
     }
 
     public DtoRoleuser() {
         super();
         code = null;
         description = null;
-        users = new LinkedList<>();
+        users = new HashSet<>();
     }
 
     public DtoRoleuser(String code, String description) {
@@ -74,29 +75,48 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
         this.description = description;
     }
 
-    public Collection<DtoUser<ID>> getUsers() {
+    public Collection<DtoUserBase<ID>> getUsers() {
         return users;
     }
 
-    public void setUsers(Collection<DtoUser<ID>> users) {
+    public void setUsers(Collection<DtoUserBase<ID>> users) {
         if(users == null) {
-            throw new NullPointerException("users is NULL");
+            throw new NullPointerException();
+        }
+
+        for(DtoUserBase<ID> user : users){
+            user.addRoleSafe(this);
         }
 
         this.users = users;
     }
 
-    /**
-     * Добавить пользователя использующего данную роль
-     * @param user
-     */
-    public void addUser(DtoUser<ID> user) {
+    public void addUser(DtoUserBase<ID> user){
+        addUser(user, true);
+    }
+
+    protected void addUserSafe(DtoUserBase<ID> user){
+        addUser(user, false);
+    }
+
+    private void addUser(DtoUserBase<ID> user, boolean isCircleMode){
         if(user == null) {
-            throw new NullPointerException("user is NULL");
+            throw new NullPointerException();
         }
 
-        if(users!=null) {
+        if(user != null){
+            if(isCircleMode) {
+                user.addRoleSafe(this);
+            }
             users.add(user);
+        }
+    }
+
+    public void addUsers(Collection<DtoUserBase<ID>> users){
+        if(users!=null) {
+            for(DtoUserBase<ID> user : users){
+                addUser(user);
+            }
         }
     }
     //</editor-fold>
@@ -112,8 +132,7 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
         if(obj!=null && obj instanceof DtoRoleuser) {
             DtoRoleuser object = (DtoRoleuser) obj;
             return super.equals(object) && code.equals(object.getCode())
-                    && description.equals(object.getDescription())
-                    && (users.size() == object.getUsers().size() && users.containsAll(object.getUsers()));
+                    && description.equals(object.getDescription());
         }else
             return false;
     }
@@ -121,7 +140,7 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, code, description, users);
+        return UtilHashCode.createSubHashCode(superHashCode, code, description);
     }
     //</editor-fold>
 }

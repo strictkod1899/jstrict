@@ -78,25 +78,6 @@ CONSTRAINT fk_profile_userx_id FOREIGN KEY (userx_id) REFERENCES userx(id) ON UP
 CONSTRAINT fk_profile_city_id FOREIGN KEY (city_id) REFERENCES city(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-// Два варианта токена
-// 1 - JwtToken
-CREATE TABLE token(
-id INTEGER NOT NULL,
-accessToken TEXT NOT NULL,
-refreshToken TEXT NOT NULL,
-expireTimeAccess DATE NOT NULL,
-expireTimeRefresh DATE NOT NULL,
-issuedAt DATE NOT NULL,
-issuer TEXT,
-subject TEXT,
-notBefore DATE,
-audience TEXT,
-secret TEXT,
-algorithm TEXT,
-type TEXT
-);
-
-// 2 - JwtUserToken
 CREATE TABLE token(
 id INTEGER NOT NULL,
 accessToken TEXT NOT NULL,

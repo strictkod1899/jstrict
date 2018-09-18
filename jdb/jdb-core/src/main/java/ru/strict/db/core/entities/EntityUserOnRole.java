@@ -109,8 +109,7 @@ public class EntityUserOnRole<ID> extends EntityBase<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof EntityUserOnRole) {
             EntityUserOnRole object = (EntityUserOnRole) obj;
-            return super.equals(object) && userId.equals(object.getUserId()) && roleId.equals(object.getRoleId())
-                    && user.equals(object.getUser()) && role.equals(object.getRole());
+            return super.equals(object) && userId.equals(object.getUserId()) && roleId.equals(object.getRoleId());
         }else
             return false;
     }
@@ -118,7 +117,7 @@ public class EntityUserOnRole<ID> extends EntityBase<ID> {
     @Override
     public int hashCode(){
     	int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, userId, roleId, user, role);
+        return UtilHashCode.createSubHashCode(superHashCode, userId, roleId);
     }
     //</editor-fold>
 }

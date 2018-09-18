@@ -1,25 +1,26 @@
 package ru.strict.db.hibernate.mappers.dto;
 
 import ru.strict.db.core.dto.DtoProfile;
-import ru.strict.db.core.dto.DtoUser;
-import ru.strict.db.core.mappers.dto.MapperDtoBase;
+import ru.strict.db.core.dto.DtoUserBase;
 import ru.strict.db.hibernate.entities.EntityProfile;
 import ru.strict.db.hibernate.entities.EntityUser;
+import ru.strict.db.core.mappers.dto.MapperDtoBase;
 
 import java.util.Optional;
 
 /**
  * Двухсторонний маппинг объектов типа EntityProfile и DtoProfile
  */
-public class MapperDtoProfile<ID> extends MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> {
+public class MapperDtoProfile<ID>
+        extends MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> {
 
-    private MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser;
+    private MapperDtoBase<ID, EntityUser<ID>, DtoUserBase<ID>> mapperUser;
 
     public MapperDtoProfile(){
         mapperUser = null;
     }
 
-    public MapperDtoProfile(MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser){
+    public MapperDtoProfile(MapperDtoBase<ID, EntityUser<ID>, DtoUserBase<ID>> mapperUser){
         this.mapperUser = mapperUser;
     }
 

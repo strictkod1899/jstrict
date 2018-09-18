@@ -44,7 +44,7 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
     /**
      * Пользователь, связанного с данным токеном
      */
-    private DtoUser<ID> user;
+    private DtoUserToken<ID> user;
     /**
      * Идентификатор роли пользователя, связанного с данным токеном
      */
@@ -176,11 +176,22 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
         this.userId = userId;
     }
 
-    public DtoUser<ID> getUser() {
+    public DtoUserToken<ID> getUser() {
         return user;
     }
 
-    public void setUser(DtoUser<ID> user) {
+    public void setUser(DtoUserToken<ID> user) {
+        setUser(user, true);
+    }
+
+    protected void setUserSafe(DtoUserToken<ID> user) {
+        setUser(user, false);
+    }
+
+    private void setUser(DtoUserToken<ID> user, boolean isCircleMode) {
+        if(isCircleMode && user != null){
+            user.addTokenSafe(this);
+        }
         this.user = user;
     }
 
@@ -223,9 +234,7 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
                     && algorithm.equals(object.getAlgorithm())
                     && type.equals(object.getType())
                     && userId.equals(object.getUserId())
-                    && user.equals(object.getUser())
-                    && roleUserId.equals(object.getRoleUserId())
-                    && roleUser.equals(object.getRoleUser());
+                    && roleUserId.equals(object.getRoleUserId());
         }else
             return false;
     }

@@ -162,7 +162,8 @@ public class EntityToken<ID> extends EntityBase<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
+        return UtilHashCode.createSubHashCode(superHashCode, accessToken, refreshToken, expireTimeAccess,
+                expireTimeRefresh, issuedAt);
     }
     //</editor-fold>
 }

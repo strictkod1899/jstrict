@@ -2,11 +2,11 @@ package ru.strict.db.hibernate.mappers.dto;
 
 import ru.strict.db.core.dto.DtoJWTToken;
 import ru.strict.db.core.dto.DtoRoleuser;
-import ru.strict.db.core.dto.DtoUser;
-import ru.strict.db.core.mappers.dto.MapperDtoBase;
+import ru.strict.db.core.dto.DtoUserToken;
 import ru.strict.db.hibernate.entities.EntityJWTToken;
 import ru.strict.db.hibernate.entities.EntityRoleuser;
 import ru.strict.db.hibernate.entities.EntityUser;
+import ru.strict.db.core.mappers.dto.MapperDtoBase;
 
 import java.util.Optional;
 
@@ -15,7 +15,7 @@ import java.util.Optional;
  */
 public class MapperDtoJWTToken<ID> extends MapperDtoBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>> {
 
-    private MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser;
+    private MapperDtoBase<ID, EntityUser<ID>, DtoUserToken<ID>> mapperUser;
     private MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser;
 
     public MapperDtoJWTToken(){
@@ -23,7 +23,7 @@ public class MapperDtoJWTToken<ID> extends MapperDtoBase<ID, EntityJWTToken<ID>,
         mapperRoleuser = null;
     }
 
-    public MapperDtoJWTToken(MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser,
+    public MapperDtoJWTToken(MapperDtoBase<ID, EntityUser<ID>, DtoUserToken<ID>> mapperUser,
                                  MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser){
         this.mapperUser = mapperUser;
         this.mapperRoleuser = mapperRoleuser;

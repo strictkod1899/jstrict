@@ -55,7 +55,7 @@ public class RepositoryUserSecurity<ID>
         for(DtoUserOnRole<ID> userOnRole : userOnRoles) {
             roleusers.add(repositoryRoleuser.read(userOnRole.getRoleId()));
         }
-        dto.setRolesuser(roleusers);
+        dto.setRoles(roleusers);
 
         // Добавления профиля
         RepositorySpringBase<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>> repositoryProfile =

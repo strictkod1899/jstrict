@@ -3,7 +3,7 @@ package ru.strict.db.core.dto;
 import ru.strict.utils.UtilHashCode;
 
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.HashSet;
 
 /**
  * Информация о токенах пользователя и его основные данные
@@ -17,12 +17,12 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(){
-        tokens = new LinkedList<>();
+        tokens = new HashSet<>();
     }
 
     public DtoUserToken() {
         super();
-        tokens = new LinkedList<>();
+        tokens = new HashSet<>();
     }
 
     public DtoUserToken(String username, String email, String passwordEncode) {
@@ -37,31 +37,50 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    /**
-     * Добавить токен
-     */
-    public void addToken(DtoJWTToken<ID> token){
-        if(token == null) {
-            throw new NullPointerException("token is NULL");
-        }
-
-        if(tokens!=null) {
-            tokens.add(token);
-        }
-    }
-
     public Collection<DtoJWTToken<ID>> getTokens() {
         return tokens;
     }
 
     public void setTokens(Collection<DtoJWTToken<ID>> tokens) {
         if(tokens == null) {
-            throw new NullPointerException("tokens is NULL");
+            throw new NullPointerException();
+        }
+
+        for(DtoJWTToken<ID> token : tokens){
+            token.setUser(this);
         }
 
         this.tokens = tokens;
     }
 
+    public void addToken(DtoJWTToken<ID> token){
+        addToken(token, true);
+    }
+
+    protected void addTokenSafe(DtoJWTToken<ID> token){
+        addToken(token, false);
+    }
+
+    private void addToken(DtoJWTToken<ID> token, boolean isCircleMode){
+        if(token == null) {
+            throw new NullPointerException();
+        }
+
+        if(tokens != null){
+            if(isCircleMode) {
+                token.setUserSafe(this);
+            }
+            tokens.add(token);
+        }
+    }
+
+    public void addTokens(Collection<DtoJWTToken<ID>> tokens){
+        if(tokens!=null) {
+            for(DtoJWTToken<ID> city : tokens){
+                addToken(city);
+            }
+        }
+    }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
@@ -74,7 +93,7 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DtoUserToken) {
             DtoUserToken object = (DtoUserToken) obj;
-            return super.equals(object) && (tokens.size() == object.getTokens().size() && tokens.containsAll(object.getTokens()));
+            return super.equals(object);
         }else
             return false;
     }
@@ -82,7 +101,7 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, tokens);
+        return UtilHashCode.createSubHashCode(superHashCode);
     }
     //</editor-fold>
 }

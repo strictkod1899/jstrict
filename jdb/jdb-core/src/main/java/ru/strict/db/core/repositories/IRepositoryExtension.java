@@ -50,5 +50,5 @@ public interface IRepositoryExtension<ID, DTO extends DtoBase<ID>> extends IRepo
      * @param id
      * @return
      */
-    boolean IsRowExists(ID id);
+    boolean isRowExists(ID id);
 }

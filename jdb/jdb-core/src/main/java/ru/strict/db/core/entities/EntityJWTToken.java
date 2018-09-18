@@ -181,6 +181,17 @@ public class EntityJWTToken<ID> extends EntityToken<ID> {
     }
 
     public void setUser(EntityUser<ID> user) {
+        setUser(user, true);
+    }
+
+    protected void setUserSafe(EntityUser<ID> user) {
+        setUser(user, false);
+    }
+
+    private void setUser(EntityUser<ID> user, boolean isCircleMode) {
+        if(isCircleMode && user != null){
+            user.addTokenSafe(this);
+        }
         this.user = user;
     }
 
@@ -223,9 +234,7 @@ public class EntityJWTToken<ID> extends EntityToken<ID> {
                     && algorithm.equals(object.getAlgorithm())
                     && type.equals(object.getType())
                     && userId.equals(object.getUserId())
-                    && user.equals(object.getUser())
-                    && roleUserId.equals(object.getRoleUserId())
-                    && roleUser.equals(object.getRoleUser());
+                    && roleUserId.equals(object.getRoleUserId());
         }else
             return false;
     }

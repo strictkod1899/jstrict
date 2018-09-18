@@ -100,7 +100,7 @@ public class EntityProfileInfo<ID> extends EntityProfile<ID> {
         if(obj!=null && obj instanceof EntityProfileInfo){
             EntityProfileInfo object = (EntityProfileInfo) obj;
             return super.equals(object) && dateBirth.equals(object.getDateBirth()) && phone.equals(object.getPhone())
-                    && cityId.equals(object.getCityId()) && city.equals(object.getCity());
+                    && cityId.equals(object.getCityId());
         }else
             return false;
     }
@@ -108,7 +108,7 @@ public class EntityProfileInfo<ID> extends EntityProfile<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, dateBirth, phone, cityId, city);
+        return UtilHashCode.createSubHashCode(superHashCode, dateBirth, phone, cityId);
     }
     //</editor-fold>
 }

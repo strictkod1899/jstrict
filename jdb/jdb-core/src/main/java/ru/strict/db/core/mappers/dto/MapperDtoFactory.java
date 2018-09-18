@@ -61,7 +61,7 @@ public class MapperDtoFactory<ID, E extends EntityBase<ID>, DTO extends DtoBase<
     }
 
     private MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> createMapperProfile(){
-        MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser = new MapperDtoUser();
+        MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser = createMapperUser();
         return new MapperDtoProfile(mapperUser);
     }
 
@@ -71,7 +71,7 @@ public class MapperDtoFactory<ID, E extends EntityBase<ID>, DTO extends DtoBase<
     }
 
     private MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> createMapperRoleuser(){
-        MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser = new MapperDtoUser();
+        MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser = createMapperUser();
         return new MapperDtoRoleuser(mapperUser);
     }
 
@@ -91,13 +91,13 @@ public class MapperDtoFactory<ID, E extends EntityBase<ID>, DTO extends DtoBase<
     }
 
     private MapperDtoBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>> createMapperUserOnRole(){
-        MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser = new MapperDtoUser();
+        MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser = createMapperUser();
         MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRolesser = new MapperDtoRoleuser();
         return new MapperDtoUserOnRole(mapperUser, mapperRolesser);
     }
 
     private MapperDtoBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>> createMapperJWTToken(){
-        MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser = new MapperDtoUser();
+        MapperDtoBase<ID, EntityUser<ID>, DtoUserToken<ID>> mapperUser = createMapperUserToken();
         MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRolesser = new MapperDtoRoleuser();
         return new MapperDtoJWTToken(mapperUser, mapperRolesser);
     }

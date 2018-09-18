@@ -1,7 +1,7 @@
 package ru.strict.db.core.entities;
 
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.HashSet;
 import ru.strict.utils.UtilHashCode;
 
 /**
@@ -32,14 +32,14 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
 
         this.code = code;
         this.description = description;
-        users = new LinkedList<>();
+        users = new HashSet<>();
     }
 
 	public EntityRoleuser() {
         super();
         code = null;
         description = null;
-        users = new LinkedList<>();
+        users = new HashSet<>();
     }
 
     public EntityRoleuser(String code, String description) {
@@ -74,30 +74,49 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
         this.description = description;
     }
 
-    /**
-     * Добавить пользователя использующего данную роль
-     * @param user
-     */
-    public void addUser(EntityUser<ID> user) {
-        if(user == null) {
-            throw new NullPointerException("user is NULL");
-        }
-
-        if(users!=null) {
-            users.add(user);
-        }
-    }
-
     public Collection<EntityUser<ID>> getUsers() {
         return users;
     }
 
     public void setUsers(Collection<EntityUser<ID>> users) {
         if(users == null) {
-            throw new NullPointerException("users is NULL");
+            throw new NullPointerException();
+        }
+
+        for(EntityUser<ID> user : users){
+            user.addRoleSafe(this);
         }
 
         this.users = users;
+    }
+
+    public void addUser(EntityUser<ID> user){
+        addUser(user, true);
+    }
+
+    protected void addUserSafe(EntityUser<ID> user){
+        addUser(user, false);
+    }
+
+    private void addUser(EntityUser<ID> user, boolean isCircleMode){
+        if(user == null) {
+            throw new NullPointerException();
+        }
+
+        if(user != null){
+            if(isCircleMode) {
+                user.addRoleSafe(this);
+            }
+            users.add(user);
+        }
+    }
+
+    public void addUsers(Collection<EntityUser<ID>> users){
+        if(users!=null) {
+            for(EntityUser<ID> user : users){
+                addUser(user);
+            }
+        }
     }
     //</editor-fold>
 
@@ -112,8 +131,7 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
         if(obj!=null && obj instanceof EntityRoleuser) {
             EntityRoleuser object = (EntityRoleuser) obj;
             return super.equals(object) && code.equals(object.getCode())
-                    && description.equals(object.getDescription())
-                    && (users.size() == object.getUsers().size() && users.containsAll(object.getUsers()));
+                    && description.equals(object.getDescription());
         }else
             return false;
     }
@@ -121,7 +139,7 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
     @Override
     public int hashCode(){
     	int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, code, description, users);
+        return UtilHashCode.createSubHashCode(superHashCode, code, description);
     }
     //</editor-fold>
 }

@@ -62,6 +62,18 @@ public class DtoCity<ID> extends DtoNamed<ID> {
     }
 
     public void setCountry(DtoCountry<ID> country) {
+        setCountry(country, true);
+    }
+
+    protected void setCountrySafe(DtoCountry<ID> country) {
+        setCountry(country, false);
+    }
+
+    private void setCountry(DtoCountry<ID> country, boolean isCircleMode){
+        if(isCircleMode && country != null){
+            country.addCitySafe(this);
+        }
+
         this.country = country;
     }
     //</editor-fold>
@@ -76,7 +88,7 @@ public class DtoCity<ID> extends DtoNamed<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DtoCity) {
             DtoCity object = (DtoCity) obj;
-            return super.equals(object) && countryId.equals(object.getCountryId()) && country.equals(object.getCountry());
+            return super.equals(object) && countryId.equals(object.getCountryId());
         }else
             return false;
     }
@@ -84,7 +96,7 @@ public class DtoCity<ID> extends DtoNamed<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, countryId, country);
+        return UtilHashCode.createSubHashCode(superHashCode, countryId);
     }
     //</editor-fold>
 }
