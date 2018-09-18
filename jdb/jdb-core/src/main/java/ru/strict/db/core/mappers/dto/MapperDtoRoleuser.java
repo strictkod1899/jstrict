@@ -1,7 +1,7 @@
 package ru.strict.db.core.mappers.dto;
 
 import ru.strict.db.core.dto.DtoRoleuser;
-import ru.strict.db.core.dto.DtoUser;
+import ru.strict.db.core.dto.DtoUserBase;
 import ru.strict.db.core.entities.EntityRoleuser;
 import ru.strict.db.core.entities.EntityUser;
 
@@ -12,13 +12,13 @@ import java.util.Optional;
  */
 public class MapperDtoRoleuser<ID> extends MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> {
 
-    private MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser;
+    private MapperDtoBase<ID, EntityUser<ID>, DtoUserBase<ID>> mapperUser;
 
     public MapperDtoRoleuser(){
         mapperUser = null;
     }
 
-    public MapperDtoRoleuser(MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser){
+    public MapperDtoRoleuser(MapperDtoBase<ID, EntityUser<ID>, DtoUserBase<ID>> mapperUser){
         this.mapperUser = mapperUser;
     }
 

@@ -22,7 +22,7 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
     /**
      * Пользователи свзяанные с ролью
      */
-    private Collection<DtoUser<ID>> users;
+    private Collection<DtoUserBase<ID>> users;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String code, String description){
@@ -74,29 +74,48 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
         this.description = description;
     }
 
-    public Collection<DtoUser<ID>> getUsers() {
+    public Collection<DtoUserBase<ID>> getUsers() {
         return users;
     }
 
-    public void setUsers(Collection<DtoUser<ID>> users) {
+    public void setUsers(Collection<DtoUserBase<ID>> users) {
         if(users == null) {
-            throw new NullPointerException("users is NULL");
+            throw new NullPointerException();
+        }
+
+        for(DtoUserBase<ID> user : users){
+            user.addRoleSafe(this);
         }
 
         this.users = users;
     }
 
-    /**
-     * Добавить пользователя использующего данную роль
-     * @param user
-     */
-    public void addUser(DtoUser<ID> user) {
+    public void addUser(DtoUserBase<ID> user){
+        addUser(user, true);
+    }
+
+    protected void addUserSafe(DtoUserBase<ID> user){
+        addUser(user, false);
+    }
+
+    private void addUser(DtoUserBase<ID> user, boolean isCircleMode){
         if(user == null) {
-            throw new NullPointerException("user is NULL");
+            throw new NullPointerException();
         }
 
-        if(users!=null) {
+        if(user != null){
+            if(isCircleMode) {
+                user.addRoleSafe(this);
+            }
             users.add(user);
+        }
+    }
+
+    public void addUsers(Collection<DtoUserBase<ID>> users){
+        if(users!=null) {
+            for(DtoUserBase<ID> user : users){
+                addUser(user);
+            }
         }
     }
     //</editor-fold>

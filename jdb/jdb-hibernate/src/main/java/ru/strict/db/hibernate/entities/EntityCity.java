@@ -2,27 +2,19 @@ package ru.strict.db.hibernate.entities;
 
 import ru.strict.utils.UtilHashCode;
 
-import javax.persistence.*;
-
 /**
  * Город
  */
-@Entity
-@Table(name = "city")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class EntityCity<ID> extends EntityNamed<ID> {
 
     /**
      * Идентификатор страны
      */
-    @Column(name = "country_id", nullable = false)
     private ID countryId;
 
     /**
      * Страна связанная с данным городом
      */
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-    @JoinColumn(name = "country_id", insertable = false, updatable = false, nullable = false)
     private EntityCountry<ID> country;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
@@ -70,6 +62,18 @@ public class EntityCity<ID> extends EntityNamed<ID> {
     }
 
     public void setCountry(EntityCountry<ID> country) {
+        setCountry(country, true);
+    }
+
+    protected void setCountrySafe(EntityCountry<ID> country) {
+        setCountry(country, false);
+    }
+
+    private void setCountry(EntityCountry<ID> country, boolean isCircleMode){
+        if(isCircleMode && country != null){
+            country.addCitySafe(this);
+        }
+
         this.country = country;
     }
     //</editor-fold>

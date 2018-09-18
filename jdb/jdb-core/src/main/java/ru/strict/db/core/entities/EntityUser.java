@@ -3,7 +3,6 @@ package ru.strict.db.core.entities;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import ru.strict.utils.UtilData;
 import ru.strict.utils.UtilHashCode;
 import ru.strict.validates.ValidateBaseValue;
 
@@ -39,7 +38,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
     /**
      * Роли пользователя
      */
-    private Collection<EntityRoleuser<ID>> rolesuser;
+    private Collection<EntityRoleuser<ID>> roles;
     /**
      * Профиль пользователя
      */
@@ -65,7 +64,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
         isBlocked = false;
         isDeleted = false;
         isConfirmEmail = false;
-        rolesuser = new LinkedList<>();
+        roles = new LinkedList<>();
         tokens = new LinkedList<>();
         profile = null;
     }
@@ -78,7 +77,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
         isBlocked = false;
         isDeleted = false;
         isConfirmEmail = false;
-        rolesuser = new LinkedList<>();
+        roles = new LinkedList<>();
         tokens = new LinkedList<>();
         profile = null;
     }
@@ -155,42 +154,48 @@ public class EntityUser<ID> extends EntityBase<ID> {
         isConfirmEmail = confirmEmail;
     }
 
-    public Collection<EntityRoleuser<ID>> getRolesuser() {
-        return rolesuser;
+    public Collection<EntityRoleuser<ID>> getRoles() {
+        return roles;
     }
 
-    public void setRolesuser(Collection<EntityRoleuser<ID>> rolesuser) {
-        if(rolesuser == null) {
-            throw new NullPointerException("rolesuser is NULL");
+    public void setRoles(Collection<EntityRoleuser<ID>> roles) {
+        if(roles == null) {
+            throw new NullPointerException();
         }
 
-        this.rolesuser = rolesuser;
+        for(EntityRoleuser<ID> role : roles){
+            role.addUserSafe(this);
+        }
+
+        this.roles = roles;
     }
 
-    /**
-     * Добавить роль, которую использует данный пользователь
-     * @param roleuser
-     */
-    public void addRoleuser(EntityRoleuser<ID> roleuser){
-        if(roleuser == null) {
-            throw new NullPointerException("roleuser is NULL");
+    public void addRole(EntityRoleuser<ID> role){
+        addRole(role, true);
+    }
+
+    protected void addRoleSafe(EntityRoleuser<ID> role){
+        addRole(role, false);
+    }
+
+    private void addRole(EntityRoleuser<ID> role, boolean isCircleMode){
+        if(role == null) {
+            throw new NullPointerException();
         }
 
-        if(rolesuser!=null) {
-            rolesuser.add(roleuser);
+        if(role != null){
+            if(isCircleMode) {
+                role.addUserSafe(this);
+            }
+            roles.add(role);
         }
     }
 
-    /**
-     * Добавить токен
-     */
-    public void addToken(EntityJWTToken<ID> token){
-        if(token == null) {
-            throw new NullPointerException("token is NULL");
-        }
-
-        if(tokens!=null) {
-            tokens.add(token);
+    public void addRoles(Collection<EntityRoleuser<ID>> roles){
+        if(roles!=null) {
+            for(EntityRoleuser<ID> user : roles){
+                addRole(user);
+            }
         }
     }
 
@@ -200,10 +205,43 @@ public class EntityUser<ID> extends EntityBase<ID> {
 
     public void setTokens(Collection<EntityJWTToken<ID>> tokens) {
         if(tokens == null) {
-            throw new NullPointerException("tokens is NULL");
+            throw new NullPointerException();
+        }
+
+        for(EntityJWTToken<ID> token : tokens){
+            token.setUser(this);
         }
 
         this.tokens = tokens;
+    }
+
+    public void addToken(EntityJWTToken<ID> token){
+        addToken(token, true);
+    }
+
+    protected void addTokenSafe(EntityJWTToken<ID> token){
+        addToken(token, false);
+    }
+
+    private void addToken(EntityJWTToken<ID> token, boolean isCircleMode){
+        if(token == null) {
+            throw new NullPointerException();
+        }
+
+        if(tokens != null){
+            if(isCircleMode) {
+                token.setUserSafe(this);
+            }
+            tokens.add(token);
+        }
+    }
+
+    public void addTokens(Collection<EntityJWTToken<ID>> tokens){
+        if(tokens!=null) {
+            for(EntityJWTToken<ID> city : tokens){
+                addToken(city);
+            }
+        }
     }
 
     public EntityProfile<ID> getProfile() {
@@ -211,6 +249,17 @@ public class EntityUser<ID> extends EntityBase<ID> {
     }
 
     public void setProfile(EntityProfile<ID> profile) {
+        setProfile(profile, true);
+    }
+
+    protected void setProfileSafe(EntityProfile<ID> profile) {
+        setProfile(profile, false);
+    }
+
+    private void setProfile(EntityProfile<ID> profile, boolean isCircleMode) {
+        if(isCircleMode && profile != null){
+            profile.setUserSafe(this);
+        }
         this.profile = profile;
     }
     //</editor-fold>
@@ -232,7 +281,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
                     && isBlocked == object.isBlocked()
                     && isDeleted == object.isDeleted()
                     && isConfirmEmail == object.isConfirmEmail()
-                    && (rolesuser.size() == object.getRolesuser().size() && rolesuser.containsAll(object.getRolesuser()))
+                    && (roles.size() == object.getRoles().size() && roles.containsAll(object.getRoles()))
                     && (tokens.size() == object.getTokens().size() && tokens.containsAll(object.getTokens()))
                     && profile.equals(object.getProfile());
         }else
@@ -243,7 +292,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
     public int hashCode(){
     	int superHashCode = super.hashCode();
         return UtilHashCode.createSubHashCode(superHashCode, username, passwordEncode, email, isBlocked, isDeleted,
-                isConfirmEmail, rolesuser, tokens, profile);
+                isConfirmEmail, roles, tokens, profile);
     }
     //</editor-fold>
 }

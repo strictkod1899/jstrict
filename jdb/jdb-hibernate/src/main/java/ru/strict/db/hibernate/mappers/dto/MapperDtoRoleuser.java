@@ -1,10 +1,10 @@
 package ru.strict.db.hibernate.mappers.dto;
 
 import ru.strict.db.core.dto.DtoRoleuser;
-import ru.strict.db.core.dto.DtoUser;
-import ru.strict.db.core.mappers.dto.MapperDtoBase;
+import ru.strict.db.core.dto.DtoUserBase;
 import ru.strict.db.hibernate.entities.EntityRoleuser;
 import ru.strict.db.hibernate.entities.EntityUser;
+import ru.strict.db.core.mappers.dto.MapperDtoBase;
 
 import java.util.Optional;
 
@@ -13,13 +13,13 @@ import java.util.Optional;
  */
 public class MapperDtoRoleuser<ID> extends MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> {
 
-    private MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser;
+    private MapperDtoBase<ID, EntityUser<ID>, DtoUserBase<ID>> mapperUser;
 
     public MapperDtoRoleuser(){
         mapperUser = null;
     }
 
-    public MapperDtoRoleuser(MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser){
+    public MapperDtoRoleuser(MapperDtoBase<ID, EntityUser<ID>, DtoUserBase<ID>> mapperUser){
         this.mapperUser = mapperUser;
     }
 

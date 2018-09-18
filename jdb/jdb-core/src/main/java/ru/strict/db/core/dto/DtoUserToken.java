@@ -37,31 +37,50 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    /**
-     * Добавить токен
-     */
-    public void addToken(DtoJWTToken<ID> token){
-        if(token == null) {
-            throw new NullPointerException("token is NULL");
-        }
-
-        if(tokens!=null) {
-            tokens.add(token);
-        }
-    }
-
     public Collection<DtoJWTToken<ID>> getTokens() {
         return tokens;
     }
 
     public void setTokens(Collection<DtoJWTToken<ID>> tokens) {
         if(tokens == null) {
-            throw new NullPointerException("tokens is NULL");
+            throw new NullPointerException();
+        }
+
+        for(DtoJWTToken<ID> token : tokens){
+            token.setUser(this);
         }
 
         this.tokens = tokens;
     }
 
+    public void addToken(DtoJWTToken<ID> token){
+        addToken(token, true);
+    }
+
+    protected void addTokenSafe(DtoJWTToken<ID> token){
+        addToken(token, false);
+    }
+
+    private void addToken(DtoJWTToken<ID> token, boolean isCircleMode){
+        if(token == null) {
+            throw new NullPointerException();
+        }
+
+        if(tokens != null){
+            if(isCircleMode) {
+                token.setUserSafe(this);
+            }
+            tokens.add(token);
+        }
+    }
+
+    public void addTokens(Collection<DtoJWTToken<ID>> tokens){
+        if(tokens!=null) {
+            for(DtoJWTToken<ID> city : tokens){
+                addToken(city);
+            }
+        }
+    }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">

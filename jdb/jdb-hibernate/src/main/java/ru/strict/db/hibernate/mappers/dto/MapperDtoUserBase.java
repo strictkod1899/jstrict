@@ -3,10 +3,10 @@ package ru.strict.db.hibernate.mappers.dto;
 import ru.strict.db.core.dto.DtoProfile;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.dto.DtoUserBase;
+import ru.strict.db.core.entities.EntityProfile;
+import ru.strict.db.core.entities.EntityRoleuser;
+import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
-import ru.strict.db.hibernate.entities.EntityProfileBase;
-import ru.strict.db.hibernate.entities.EntityRoleuser;
-import ru.strict.db.hibernate.entities.EntityUser;
 
 import java.util.Optional;
 
@@ -16,7 +16,7 @@ import java.util.Optional;
 public class MapperDtoUserBase<ID> extends MapperDtoBase<ID, EntityUser<ID>, DtoUserBase<ID>> {
 
     private MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser;
-    private MapperDtoBase<ID, EntityProfileBase<ID>, DtoProfile<ID>> mapperProfile;
+    private MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> mapperProfile;
 
     public MapperDtoUserBase(){
         this.mapperRoleuser = null;
@@ -24,7 +24,7 @@ public class MapperDtoUserBase<ID> extends MapperDtoBase<ID, EntityUser<ID>, Dto
     }
 
     public MapperDtoUserBase(MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser
-            , MapperDtoBase<ID, EntityProfileBase<ID>, DtoProfile<ID>> mapperProfile){
+            , MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> mapperProfile){
         this.mapperRoleuser = mapperRoleuser;
         this.mapperProfile = mapperProfile;
     }
@@ -39,7 +39,7 @@ public class MapperDtoUserBase<ID> extends MapperDtoBase<ID, EntityUser<ID>, Dto
         entity.setConfirmEmail(dto.isConfirmEmail());
         entity.setUsername(dto.getUsername());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) ->
-                dto.getRolesuser().stream().forEach(r -> entity.addRoleuser(mapper.map(r))));
+                dto.getRoles().stream().forEach(r -> entity.addRole(mapper.map(r))));
         Optional.ofNullable(mapperProfile).ifPresent((mapper) -> entity.setProfile(mapper.map(dto.getProfile())));
         return entity;
     }
@@ -54,7 +54,7 @@ public class MapperDtoUserBase<ID> extends MapperDtoBase<ID, EntityUser<ID>, Dto
         dto.setDeleted(entity.isDeleted());
         dto.setConfirmEmail(entity.isConfirmEmail());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) ->
-                entity.getRolesuser().stream().forEach(r -> dto.addRoleuser(mapper.map(r))));
+                entity.getRoles().stream().forEach(r -> dto.addRole(mapper.map(r))));
         Optional.ofNullable(mapperProfile).ifPresent((mapper) -> dto.setProfile(mapper.map(entity.getProfile())));
         return dto;
     }

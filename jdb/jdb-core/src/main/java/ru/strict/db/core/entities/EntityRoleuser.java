@@ -74,30 +74,49 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
         this.description = description;
     }
 
-    /**
-     * Добавить пользователя использующего данную роль
-     * @param user
-     */
-    public void addUser(EntityUser<ID> user) {
-        if(user == null) {
-            throw new NullPointerException("user is NULL");
-        }
-
-        if(users!=null) {
-            users.add(user);
-        }
-    }
-
     public Collection<EntityUser<ID>> getUsers() {
         return users;
     }
 
     public void setUsers(Collection<EntityUser<ID>> users) {
         if(users == null) {
-            throw new NullPointerException("users is NULL");
+            throw new NullPointerException();
+        }
+
+        for(EntityUser<ID> user : users){
+            user.addRoleSafe(this);
         }
 
         this.users = users;
+    }
+
+    public void addUser(EntityUser<ID> user){
+        addUser(user, true);
+    }
+
+    protected void addUserSafe(EntityUser<ID> user){
+        addUser(user, false);
+    }
+
+    private void addUser(EntityUser<ID> user, boolean isCircleMode){
+        if(user == null) {
+            throw new NullPointerException();
+        }
+
+        if(user != null){
+            if(isCircleMode) {
+                user.addRoleSafe(this);
+            }
+            users.add(user);
+        }
+    }
+
+    public void addUsers(Collection<EntityUser<ID>> users){
+        if(users!=null) {
+            for(EntityUser<ID> user : users){
+                addUser(user);
+            }
+        }
     }
     //</editor-fold>
 

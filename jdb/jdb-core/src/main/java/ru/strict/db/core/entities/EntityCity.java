@@ -62,6 +62,18 @@ public class EntityCity<ID> extends EntityNamed<ID> {
     }
 
     public void setCountry(EntityCountry<ID> country) {
+        setCountry(country, true);
+    }
+
+    protected void setCountrySafe(EntityCountry<ID> country) {
+        setCountry(country, false);
+    }
+
+    private void setCountry(EntityCountry<ID> country, boolean isCircleMode){
+        if(isCircleMode && country != null){
+            country.addCitySafe(this);
+        }
+
         this.country = country;
     }
     //</editor-fold>

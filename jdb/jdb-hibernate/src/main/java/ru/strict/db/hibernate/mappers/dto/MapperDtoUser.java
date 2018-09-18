@@ -2,8 +2,8 @@ package ru.strict.db.hibernate.mappers.dto;
 
 import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.dto.DtoUserBase;
-import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.hibernate.entities.EntityUser;
+import ru.strict.db.core.mappers.dto.MapperDtoBase;
 
 /**
  * Двухсторонний маппинг объектов типа EntityUser и DtoUser
@@ -12,12 +12,8 @@ public class MapperDtoUser<ID> extends MapperDtoBase<ID, EntityUser<ID>, DtoUser
 
     private MapperDtoBase<ID, EntityUser<ID>, DtoUserBase<ID>> mapperBase;
 
-    public MapperDtoUser(){
-        super();
-        mapperBase = null;
-    }
-
     public MapperDtoUser(MapperDtoBase<ID, EntityUser<ID>, DtoUserBase<ID>> mapperBase) {
+        super();
         this.mapperBase = mapperBase;
     }
 
@@ -32,7 +28,7 @@ public class MapperDtoUser<ID> extends MapperDtoBase<ID, EntityUser<ID>, DtoUser
         entity.setBlocked(baseEntity.isBlocked());
         entity.setDeleted(baseEntity.isDeleted());
         entity.setConfirmEmail(baseEntity.isConfirmEmail());
-        entity.setRolesuser(baseEntity.getRolesuser());
+        entity.setRoles(baseEntity.getRoles());
         entity.setProfile(baseEntity.getProfile());
         entity.setPasswordEncode(dto.getPasswordEncode());
         return entity;
@@ -49,7 +45,7 @@ public class MapperDtoUser<ID> extends MapperDtoBase<ID, EntityUser<ID>, DtoUser
         dto.setBlocked(baseDto.isBlocked());
         dto.setDeleted(baseDto.isDeleted());
         dto.setConfirmEmail(baseDto.isConfirmEmail());
-        dto.setRolesuser(baseDto.getRolesuser());
+        dto.setRoles(baseDto.getRoles());
         dto.setProfile(baseDto.getProfile());
         dto.setPasswordEncode(entity.getPasswordEncode());
         return dto;

@@ -62,6 +62,18 @@ public class DtoCity<ID> extends DtoNamed<ID> {
     }
 
     public void setCountry(DtoCountry<ID> country) {
+        setCountry(country, true);
+    }
+
+    protected void setCountrySafe(DtoCountry<ID> country) {
+        setCountry(country, false);
+    }
+
+    private void setCountry(DtoCountry<ID> country, boolean isCircleMode){
+        if(isCircleMode && country != null){
+            country.addCitySafe(this);
+        }
+
         this.country = country;
     }
     //</editor-fold>

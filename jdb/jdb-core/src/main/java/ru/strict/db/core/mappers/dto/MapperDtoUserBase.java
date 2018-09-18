@@ -38,7 +38,7 @@ public class MapperDtoUserBase<ID> extends MapperDtoBase<ID, EntityUser<ID>, Dto
         entity.setConfirmEmail(dto.isConfirmEmail());
         entity.setUsername(dto.getUsername());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) ->
-                dto.getRolesuser().stream().forEach(r -> entity.addRoleuser(mapper.map(r))));
+                dto.getRoles().stream().forEach(r -> entity.addRole(mapper.map(r))));
         Optional.ofNullable(mapperProfile).ifPresent((mapper) -> entity.setProfile(mapper.map(dto.getProfile())));
         return entity;
     }
@@ -53,7 +53,7 @@ public class MapperDtoUserBase<ID> extends MapperDtoBase<ID, EntityUser<ID>, Dto
         dto.setDeleted(entity.isDeleted());
         dto.setConfirmEmail(entity.isConfirmEmail());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) ->
-                entity.getRolesuser().stream().forEach(r -> dto.addRoleuser(mapper.map(r))));
+                entity.getRoles().stream().forEach(r -> dto.addRole(mapper.map(r))));
         Optional.ofNullable(mapperProfile).ifPresent((mapper) -> dto.setProfile(mapper.map(entity.getProfile())));
         return dto;
     }

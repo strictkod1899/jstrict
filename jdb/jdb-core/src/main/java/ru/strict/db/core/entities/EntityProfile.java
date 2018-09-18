@@ -119,6 +119,18 @@ public class EntityProfile<ID> extends EntityBase<ID> {
     }
 
     public void setUser(EntityUser<ID> user) {
+        setUser(user, true);
+    }
+
+    protected void setUserSafe(EntityUser<ID> user) {
+        setUser(user, false);
+    }
+
+    private void setUser(EntityUser<ID> user, boolean isCircleMode) {
+        if(isCircleMode && user != null){
+            user.setProfileSafe(this);
+        }
+
         this.user = user;
     }
     //</editor-fold>

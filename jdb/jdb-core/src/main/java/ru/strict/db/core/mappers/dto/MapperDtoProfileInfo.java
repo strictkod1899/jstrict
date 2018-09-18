@@ -18,10 +18,10 @@ public class MapperDtoProfileInfo<ID>
     private MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> mapperBase;
     private MapperDtoBase<ID, EntityCity<ID>, DtoCity<ID>> mapperCity;
 
-    public MapperDtoProfileInfo(){
+    public MapperDtoProfileInfo(MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> mapperBase){
         super();
         mapperCity = null;
-        mapperBase = null;
+        this.mapperBase = mapperBase;
     }
 
     public MapperDtoProfileInfo(MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> mapperBase,

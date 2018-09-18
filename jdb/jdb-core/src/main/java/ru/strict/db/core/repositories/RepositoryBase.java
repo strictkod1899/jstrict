@@ -133,7 +133,7 @@ public abstract class RepositoryBase
      *      for(DtoUserOnRole<ID> userOnRole : userOnRoles) {
      *          roleusers.add(repositoryRoleuser.read(userOnRole.getRoleId()));
      *      }
-     *      dto.setRolesuser(roleusers);
+     *      dto.setRoles(roleusers);
      *      return dto;
      * </pre></code>
      * <p><b>Пример использования:</b></p>
@@ -197,7 +197,7 @@ public abstract class RepositoryBase
         boolean result = false;
 
         DbRequests requests = new DbRequests(getTableName(), false);
-        requests.add(new DbWhere(getTableName(), "id", id, "="));
+        requests.add(new DbWhere(getTableName(), getColumnIdName(), id, "="));
 
         int count = readCount(requests);
         if(count > 0){

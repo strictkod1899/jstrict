@@ -5,6 +5,9 @@ import ru.strict.db.core.dto.*;
 import ru.strict.db.hibernate.entities.*;
 import ru.strict.db.core.mappers.IMapper;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
+import ru.strict.db.core.mappers.dto.MapperDtoCity;
+import ru.strict.db.core.mappers.dto.MapperDtoCountry;
+import ru.strict.db.core.mappers.dto.MapperDtoUserOnRole;
 import ru.strict.patterns.IFactory;
 
 /**
@@ -62,7 +65,7 @@ public class MapperDtoFactory<ID, E extends EntityBase<ID>, DTO extends DtoBase<
     }
 
     private MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> createMapperProfile(){
-        MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser = new MapperDtoUser();
+        MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser = createMapperUser();
         return new MapperDtoProfile(mapperUser);
     }
 
@@ -72,13 +75,13 @@ public class MapperDtoFactory<ID, E extends EntityBase<ID>, DTO extends DtoBase<
     }
 
     private MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> createMapperRoleuser(){
-        MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser = new MapperDtoUser();
+        MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser = createMapperUser();
         return new MapperDtoRoleuser(mapperUser);
     }
 
     private MapperDtoBase<ID, EntityUser<ID>, DtoUserBase<ID>> createMapperUserBase(){
         MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRolesser = new MapperDtoRoleuser();
-        MapperDtoBase<ID, EntityProfileBase<ID>, DtoProfile<ID>> mapperProfile = new MapperDtoProfile();
+        MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> mapperProfile = new MapperDtoProfile();
         return new MapperDtoUserBase(mapperRolesser, mapperProfile);
     }
 
@@ -92,13 +95,13 @@ public class MapperDtoFactory<ID, E extends EntityBase<ID>, DTO extends DtoBase<
     }
 
     private MapperDtoBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>> createMapperUserOnRole(){
-        MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser = new MapperDtoUser();
+        MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser = createMapperUser();
         MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRolesser = new MapperDtoRoleuser();
         return new MapperDtoUserOnRole(mapperUser, mapperRolesser);
     }
 
     private MapperDtoBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>> createMapperJWTToken(){
-        MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser = new MapperDtoUser();
+        MapperDtoBase<ID, EntityUser<ID>, DtoUserToken<ID>> mapperUser = createMapperUserToken();
         MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRolesser = new MapperDtoRoleuser();
         return new MapperDtoJWTToken(mapperUser, mapperRolesser);
     }

@@ -3,25 +3,27 @@ package ru.strict.db.hibernate.mappers.dto;
 import ru.strict.db.core.dto.DtoCity;
 import ru.strict.db.core.dto.DtoProfile;
 import ru.strict.db.core.dto.DtoProfileInfo;
-import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.hibernate.entities.EntityCity;
+import ru.strict.db.hibernate.entities.EntityProfile;
 import ru.strict.db.hibernate.entities.EntityProfileBase;
 import ru.strict.db.hibernate.entities.EntityProfileInfo;
+import ru.strict.db.core.mappers.dto.MapperDtoBase;
 
 import java.util.Optional;
 
 /**
  * Двухсторонний маппинг объектов типа EntityProfileInfo и DtoProfileInfo
  */
-public class MapperDtoProfileInfo<ID> extends MapperDtoBase<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>> {
+public class MapperDtoProfileInfo<ID>
+        extends MapperDtoBase<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>> {
 
     private MapperDtoBase<ID, EntityProfileBase<ID>, DtoProfile<ID>> mapperBase;
     private MapperDtoBase<ID, EntityCity<ID>, DtoCity<ID>> mapperCity;
 
-    public MapperDtoProfileInfo(){
+    public MapperDtoProfileInfo(MapperDtoBase<ID, EntityProfileBase<ID>, DtoProfile<ID>> mapperBase){
         super();
         mapperCity = null;
-        mapperBase = null;
+        this.mapperBase = mapperBase;
     }
 
     public MapperDtoProfileInfo(MapperDtoBase<ID, EntityProfileBase<ID>, DtoProfile<ID>> mapperBase,

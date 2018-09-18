@@ -5,7 +5,6 @@ import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.entities.EntityProfile;
 import ru.strict.db.core.entities.EntityRoleuser;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
-import ru.strict.db.core.mappers.dto.MapperDtoRoleuser;
 
 import java.util.Optional;
 
@@ -38,7 +37,7 @@ public class MapperDtoUserSecurity<ID> extends MapperDtoBase<ID, EntityUserSecur
         entity.setConfirmEmail(dto.isConfirmEmail());
         entity.setUsername(dto.getUsername());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) ->
-                dto.getRolesuser().stream().forEach(r -> entity.addRoleuser(mapper.map(r))));
+                dto.getRoles().stream().forEach(r -> entity.addRole(mapper.map(r))));
         Optional.ofNullable(mapperProfile).ifPresent((mapper) -> entity.setProfile(mapper.map(dto.getProfile())));
         entity.setPasswordEncode(dto.getPasswordEncode());
         return entity;
@@ -54,7 +53,7 @@ public class MapperDtoUserSecurity<ID> extends MapperDtoBase<ID, EntityUserSecur
         dto.setDeleted(entity.isDeleted());
         dto.setConfirmEmail(entity.isConfirmEmail());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) ->
-                entity.getRolesuser().stream().forEach(r -> dto.addRoleuser(mapper.map(r))));
+                entity.getRoles().stream().forEach(r -> dto.addRole(mapper.map(r))));
         Optional.ofNullable(mapperProfile).ifPresent((mapper) -> dto.setProfile(mapper.map(entity.getProfile())));
         dto.setPasswordEncode(entity.getPasswordEncode());
         return dto;

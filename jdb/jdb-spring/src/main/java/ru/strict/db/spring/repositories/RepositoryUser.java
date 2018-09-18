@@ -58,7 +58,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
         for(DtoUserOnRole<ID> userOnRole : userOnRoles) {
             roleusers.add(repositoryRoleuser.read(userOnRole.getRoleId()));
         }
-        dto.setRolesuser(roleusers);
+        dto.setRoles(roleusers);
 
         // Добавления профиля
         IRepository<ID, DtoProfileInfo<ID>> repositoryProfile =

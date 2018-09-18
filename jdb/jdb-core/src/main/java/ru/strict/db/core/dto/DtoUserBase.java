@@ -33,7 +33,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     /**
      * Роли пользователя
      */
-    private Collection<DtoRoleuser<ID>> rolesuser;
+    private Collection<DtoRoleuser<ID>> roles;
     /**
      * Профиль пользователя
      */
@@ -52,7 +52,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         isBlocked = false;
         isDeleted = false;
         isConfirmEmail = false;
-        rolesuser = new LinkedList<>();
+        roles = new LinkedList<>();
         profile = null;
     }
 
@@ -63,7 +63,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         isBlocked = false;
         isDeleted = false;
         isConfirmEmail = false;
-        rolesuser = new LinkedList<>();
+        roles = new LinkedList<>();
         profile = null;
     }
 
@@ -127,30 +127,49 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         isConfirmEmail = confirmEmail;
     }
 
-    public Collection<DtoRoleuser<ID>> getRolesuser() {
-        return rolesuser;
+    public Collection<DtoRoleuser<ID>> getRoles() {
+        return roles;
     }
 
-    /**
-     * Добавить роль, которую использует данный пользователь
-     * @param roleuser
-     */
-    public void addRoleuser(DtoRoleuser<ID> roleuser){
-        if(roleuser == null) {
-            throw new NullPointerException("roleuser is NULL");
+    public void setRoles(Collection<DtoRoleuser<ID>> roles) {
+        if(roles == null) {
+            throw new NullPointerException();
         }
 
-        if(rolesuser!=null) {
-            rolesuser.add(roleuser);
+        for(DtoRoleuser<ID> role : roles){
+            role.addUserSafe(this);
+        }
+
+        this.roles = roles;
+    }
+
+    public void addRole(DtoRoleuser<ID> role){
+        addRole(role, true);
+    }
+
+    protected void addRoleSafe(DtoRoleuser<ID> role){
+        addRole(role, false);
+    }
+
+    private void addRole(DtoRoleuser<ID> role, boolean isCircleMode){
+        if(role == null) {
+            throw new NullPointerException();
+        }
+
+        if(role != null){
+            if(isCircleMode) {
+                role.addUserSafe(this);
+            }
+            roles.add(role);
         }
     }
 
-    public void setRolesuser(Collection<DtoRoleuser<ID>> rolesuser) {
-        if(rolesuser == null) {
-            throw new NullPointerException("rolesuser is NULL");
+    public void addRoles(Collection<DtoRoleuser<ID>> roles){
+        if(roles!=null) {
+            for(DtoRoleuser<ID> user : roles){
+                addRole(user);
+            }
         }
-
-        this.rolesuser = rolesuser;
     }
 
     public DtoProfile<ID> getProfile() {
@@ -158,6 +177,17 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     }
 
     public void setProfile(DtoProfile<ID> profile) {
+        setProfile(profile, true);
+    }
+
+    protected void setProfileSafe(DtoProfile<ID> profile) {
+        setProfile(profile, false);
+    }
+
+    private void setProfile(DtoProfile<ID> profile, boolean isCircleMode) {
+        if(isCircleMode && profile != null){
+            profile.setUserSafe(this);
+        }
         this.profile = profile;
     }
     //</editor-fold>
@@ -177,7 +207,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
                     && isBlocked == object.isBlocked()
                     && isDeleted == object.isDeleted()
                     && isConfirmEmail == object.isConfirmEmail()
-                    && (rolesuser.size() == object.getRolesuser().size() && rolesuser.containsAll(object.getRolesuser()))
+                    && (roles.size() == object.getRoles().size() && roles.containsAll(object.getRoles()))
                     && profile.equals(object.getProfile());
         }else
             return false;
@@ -187,7 +217,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     public int hashCode(){
         int superHashCode = super.hashCode();
         return UtilHashCode.createSubHashCode(superHashCode, username, email, isBlocked, isDeleted,
-                isConfirmEmail, rolesuser, profile);
+                isConfirmEmail, roles, profile);
     }
     //</editor-fold>
 }

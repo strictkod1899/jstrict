@@ -6,6 +6,7 @@ import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoJWTToken;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.dto.DtoUser;
+import ru.strict.db.core.dto.DtoUserToken;
 import ru.strict.db.core.entities.EntityJWTToken;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
@@ -74,8 +75,8 @@ public class RepositoryJWTToken<ID>
     @Override
     protected DtoJWTToken<ID> fill(DtoJWTToken<ID> dto){
         // Добавление пользователя
-        IRepository<ID, DtoUser<ID>> repositoryUser = new RepositoryUser(getConnectionSource(),
-                new MapperDtoFactory().instance(MapperDtoType.USER),
+        IRepository<ID, DtoUserToken<ID>> repositoryUser = new RepositoryUser(getConnectionSource(),
+                new MapperDtoFactory().instance(MapperDtoType.USER_TOKEN),
                 GenerateIdType.NONE);
         dto.setUser(repositoryUser.read(dto.getUserId()));
 

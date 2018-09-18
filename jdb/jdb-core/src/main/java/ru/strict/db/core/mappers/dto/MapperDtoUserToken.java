@@ -2,8 +2,6 @@ package ru.strict.db.core.mappers.dto;
 
 import ru.strict.db.core.dto.*;
 import ru.strict.db.core.entities.EntityJWTToken;
-import ru.strict.db.core.entities.EntityProfile;
-import ru.strict.db.core.entities.EntityRoleuser;
 import ru.strict.db.core.entities.EntityUser;
 
 import java.util.Optional;
@@ -16,10 +14,10 @@ public class MapperDtoUserToken<ID> extends MapperDtoBase<ID, EntityUser<ID>, Dt
     private MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperBase;
     private MapperDtoBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>> mapperToken;
 
-    public MapperDtoUserToken(){
+    public MapperDtoUserToken(MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperBase){
         super();
         this.mapperToken = null;
-        this.mapperBase = null;
+        this.mapperBase = mapperBase;
     }
 
     public MapperDtoUserToken(MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperBase,
@@ -39,7 +37,7 @@ public class MapperDtoUserToken<ID> extends MapperDtoBase<ID, EntityUser<ID>, Dt
         entity.setBlocked(baseEntity.isBlocked());
         entity.setDeleted(baseEntity.isDeleted());
         entity.setConfirmEmail(baseEntity.isConfirmEmail());
-        entity.setRolesuser(baseEntity.getRolesuser());
+        entity.setRoles(baseEntity.getRoles());
         entity.setProfile(baseEntity.getProfile());
         entity.setPasswordEncode(baseEntity.getPasswordEncode());
         Optional.ofNullable(mapperToken).ifPresent((mapper) ->
@@ -58,7 +56,7 @@ public class MapperDtoUserToken<ID> extends MapperDtoBase<ID, EntityUser<ID>, Dt
         dto.setBlocked(baseDto.isBlocked());
         dto.setDeleted(baseDto.isDeleted());
         dto.setConfirmEmail(baseDto.isConfirmEmail());
-        dto.setRolesuser(baseDto.getRolesuser());
+        dto.setRoles(baseDto.getRoles());
         dto.setProfile(baseDto.getProfile());
         dto.setPasswordEncode(baseDto.getPasswordEncode());
         Optional.ofNullable(mapperToken).ifPresent((mapper) ->

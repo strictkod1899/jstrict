@@ -42,22 +42,39 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
             throw new NullPointerException();
         }
 
+        for(DtoCity<ID> city : cities){
+            city.setCountrySafe(this);
+        }
+
         this.cities = cities;
     }
 
     public void addCity(DtoCity<ID> city){
+        addCity(city, true);
+    }
+
+    protected void addCitySafe(DtoCity<ID> city){
+        addCity(city, false);
+    }
+
+    private void addCity(DtoCity<ID> city, boolean isCircleMode){
         if(city == null) {
             throw new NullPointerException();
         }
 
         if(cities != null){
+            if(isCircleMode) {
+                city.setCountrySafe(this);
+            }
             cities.add(city);
         }
     }
 
     public void addCities(Collection<DtoCity<ID>> cities){
-        if(this.cities!=null) {
-            this.cities.addAll(cities);
+        if(cities!=null) {
+            for(DtoCity<ID> city : cities){
+                addCity(city);
+            }
         }
     }
     //</editor-fold>
