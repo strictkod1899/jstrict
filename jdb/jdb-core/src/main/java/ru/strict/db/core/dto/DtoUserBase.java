@@ -206,9 +206,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
                     && email.equals(object.getEmail())
                     && isBlocked == object.isBlocked()
                     && isDeleted == object.isDeleted()
-                    && isConfirmEmail == object.isConfirmEmail()
-                    && (roles.size() == object.getRoles().size() && roles.containsAll(object.getRoles()))
-                    && profile.equals(object.getProfile());
+                    && isConfirmEmail == object.isConfirmEmail();
         }else
             return false;
     }
@@ -217,7 +215,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     public int hashCode(){
         int superHashCode = super.hashCode();
         return UtilHashCode.createSubHashCode(superHashCode, username, email, isBlocked, isDeleted,
-                isConfirmEmail, roles, profile);
+                isConfirmEmail);
     }
     //</editor-fold>
 }

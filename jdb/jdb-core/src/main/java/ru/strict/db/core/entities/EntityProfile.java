@@ -146,8 +146,7 @@ public class EntityProfile<ID> extends EntityBase<ID> {
         if(obj!=null && obj instanceof EntityProfile) {
             EntityProfile object = (EntityProfile) obj;
             return super.equals(object) && name.equals(object.getName()) && surname.equals(object.getSurname())
-                    && middlename.equals(object.getMiddlename()) && userId.equals(object.getUserId())
-                    && user.equals(object.getUser());
+                    && middlename.equals(object.getMiddlename()) && userId.equals(object.getUserId());
         }else
             return false;
     }
@@ -155,7 +154,7 @@ public class EntityProfile<ID> extends EntityBase<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, name, surname, middlename, userId, user);
+        return UtilHashCode.createSubHashCode(superHashCode, name, surname, middlename, userId);
     }
     //</editor-fold>
 }

@@ -129,7 +129,7 @@ public class EntityUserOnRole<ID> extends EntityBase<ID> {
     @Override
     public int hashCode(){
     	int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, userId, roleId, user, role);
+        return UtilHashCode.createSubHashCode(superHashCode, userId, roleId);
     }
     //</editor-fold>
 }

@@ -280,10 +280,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
                     && email.equals(object.getEmail())
                     && isBlocked == object.isBlocked()
                     && isDeleted == object.isDeleted()
-                    && isConfirmEmail == object.isConfirmEmail()
-                    && (roles.size() == object.getRoles().size() && roles.containsAll(object.getRoles()))
-                    && (tokens.size() == object.getTokens().size() && tokens.containsAll(object.getTokens()))
-                    && profile.equals(object.getProfile());
+                    && isConfirmEmail == object.isConfirmEmail();
         }else
             return false;
     }
@@ -292,7 +289,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
     public int hashCode(){
     	int superHashCode = super.hashCode();
         return UtilHashCode.createSubHashCode(superHashCode, username, passwordEncode, email, isBlocked, isDeleted,
-                isConfirmEmail, roles, tokens, profile);
+                isConfirmEmail);
     }
     //</editor-fold>
 }

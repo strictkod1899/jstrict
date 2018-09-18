@@ -89,7 +89,7 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DtoCountry) {
             DtoCountry object = (DtoCountry) obj;
-            return super.equals(object) && (cities.size() == object.getCities().size() && cities.containsAll(object.getCities()));
+            return super.equals(object);
         }else
             return false;
     }
@@ -97,7 +97,7 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, cities);
+        return UtilHashCode.createSubHashCode(superHashCode);
     }
     //</editor-fold>
 }

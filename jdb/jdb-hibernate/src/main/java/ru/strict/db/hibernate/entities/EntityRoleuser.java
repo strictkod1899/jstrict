@@ -132,8 +132,7 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
         if(obj!=null && obj instanceof EntityRoleuser) {
             EntityRoleuser object = (EntityRoleuser) obj;
             return super.equals(object) && code.equals(object.getCode())
-                    && description.equals(object.getDescription())
-                    && (users.size() == object.getUsers().size() && users.containsAll(object.getUsers()));
+                    && description.equals(object.getDescription());
         }else
             return false;
     }
@@ -141,7 +140,7 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
     @Override
     public int hashCode(){
     	int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, code, description, users);
+        return UtilHashCode.createSubHashCode(superHashCode, code, description);
     }
     //</editor-fold>
 }

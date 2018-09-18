@@ -93,7 +93,7 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DtoUserToken) {
             DtoUserToken object = (DtoUserToken) obj;
-            return super.equals(object) && (tokens.size() == object.getTokens().size() && tokens.containsAll(object.getTokens()));
+            return super.equals(object);
         }else
             return false;
     }
@@ -101,7 +101,7 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, tokens);
+        return UtilHashCode.createSubHashCode(superHashCode);
     }
     //</editor-fold>
 }

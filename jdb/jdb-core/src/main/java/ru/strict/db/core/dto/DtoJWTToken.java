@@ -234,9 +234,7 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
                     && algorithm.equals(object.getAlgorithm())
                     && type.equals(object.getType())
                     && userId.equals(object.getUserId())
-                    && user.equals(object.getUser())
-                    && roleUserId.equals(object.getRoleUserId())
-                    && roleUser.equals(object.getRoleUser());
+                    && roleUserId.equals(object.getRoleUserId());
         }else
             return false;
     }

@@ -131,8 +131,7 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
         if(obj!=null && obj instanceof DtoRoleuser) {
             DtoRoleuser object = (DtoRoleuser) obj;
             return super.equals(object) && code.equals(object.getCode())
-                    && description.equals(object.getDescription())
-                    && (users.size() == object.getUsers().size() && users.containsAll(object.getUsers()));
+                    && description.equals(object.getDescription());
         }else
             return false;
     }
@@ -140,7 +139,7 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
     @Override
     public int hashCode(){
         int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, code, description, users);
+        return UtilHashCode.createSubHashCode(superHashCode, code, description);
     }
     //</editor-fold>
 }
