@@ -1,13 +1,14 @@
 package ru.strict.db.core.dto;
 
 import ru.strict.db.core.mappers.MapTarget;
+import ru.strict.utils.UtilData;
 import ru.strict.utils.UtilHashCode;
 
 /**
  * Базовый entity-класс
  * @param <ID> Тип поля ID
  */
-public abstract class DtoBase<ID>  implements MapTarget {
+public abstract class DtoBase<ID> implements MapTarget, Comparable<DtoBase<ID>> {
 
     /**
      * Идентификатор записи
@@ -56,6 +57,11 @@ public abstract class DtoBase<ID>  implements MapTarget {
     @Override
     public int hashCode(){
         return UtilHashCode.createHashCode(id);
+    }
+
+    @Override
+    public int compareTo(DtoBase<ID> object){
+        return UtilData.compareTo(getId(), object.getId());
     }
     //</editor-fold>
 }

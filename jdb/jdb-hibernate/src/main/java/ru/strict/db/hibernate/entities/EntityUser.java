@@ -4,7 +4,7 @@ import ru.strict.utils.UtilHashCode;
 import ru.strict.validates.ValidateBaseValue;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.TreeSet;
 
 /**
  * Пользователь системы
@@ -64,8 +64,8 @@ public class EntityUser<ID> extends EntityBase<ID> {
         isBlocked = false;
         isDeleted = false;
         isConfirmEmail = false;
-        roles = new HashSet<>();
-        tokens = new HashSet<>();
+        roles = new TreeSet<>();
+        tokens = new TreeSet<>();
         profile = null;
     }
 
@@ -77,8 +77,8 @@ public class EntityUser<ID> extends EntityBase<ID> {
         isBlocked = false;
         isDeleted = false;
         isConfirmEmail = false;
-        roles = new HashSet<>();
-        tokens = new HashSet<>();
+        roles = new TreeSet<>();
+        tokens = new TreeSet<>();
         profile = null;
     }
 

@@ -1,7 +1,7 @@
 package ru.strict.db.core.dto;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.TreeSet;
 import ru.strict.utils.UtilHashCode;
 import ru.strict.validates.ValidateBaseValue;
 
@@ -52,7 +52,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         isBlocked = false;
         isDeleted = false;
         isConfirmEmail = false;
-        roles = new HashSet<>();
+        roles = new TreeSet<>();
         profile = null;
     }
 
@@ -63,7 +63,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         isBlocked = false;
         isDeleted = false;
         isConfirmEmail = false;
-        roles = new HashSet<>();
+        roles = new TreeSet<>();
         profile = null;
     }
 

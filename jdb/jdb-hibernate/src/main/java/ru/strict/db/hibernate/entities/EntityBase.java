@@ -1,5 +1,6 @@
 package ru.strict.db.hibernate.entities;
 
+import ru.strict.utils.UtilData;
 import ru.strict.utils.UtilHashCode;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import java.util.UUID;
  * Базовый entity-класс
  */
 @MappedSuperclass
-public abstract class EntityBase<ID> implements Serializable {
+public abstract class EntityBase<ID> implements Serializable, Comparable<EntityBase<ID>> {
 
     /**
      * Идентификатор записи
@@ -62,6 +63,11 @@ public abstract class EntityBase<ID> implements Serializable {
     @Override
     public int hashCode(){
         return UtilHashCode.createHashCode(id);
+    }
+
+    @Override
+    public int compareTo(EntityBase<ID> object){
+        return UtilData.compareTo(getId(), object.getId());
     }
     //</editor-fold>
 }

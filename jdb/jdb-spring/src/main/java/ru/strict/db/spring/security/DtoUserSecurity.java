@@ -43,6 +43,11 @@ public class DtoUserSecurity<ID> extends DtoUser<ID> implements UserDetails{
 				public String getAuthority() {
 					return roleuser.getCode();
 				}
+
+				@Override
+				public int hashCode(){
+					return UtilHashCode.createHashCode(roleuser);
+				}
 			};
 			this.authorities.add(grandAuthority);
 		}
