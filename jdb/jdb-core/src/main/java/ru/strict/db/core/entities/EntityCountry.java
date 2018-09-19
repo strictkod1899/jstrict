@@ -1,7 +1,7 @@
 package ru.strict.db.core.entities;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.TreeSet;
 
 import ru.strict.utils.UtilHashCode;
 
@@ -18,17 +18,17 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
     //<editor-fold defaultState="collapsed" desc="constructors">
     public EntityCountry() {
         super();
-        cities = new HashSet<>();
+        cities = new TreeSet<>();
     }
 
     public EntityCountry(String caption) {
         super(caption);
-        cities = new HashSet<>();
+        cities = new TreeSet<>();
     }
 
     public EntityCountry(ID id, String caption) {
         super(id, caption);
-        cities = new HashSet<>();
+        cities = new TreeSet<>();
     }
     //</editor-fold>
 

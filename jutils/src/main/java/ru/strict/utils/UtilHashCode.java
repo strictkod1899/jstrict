@@ -51,31 +51,9 @@ public class UtilHashCode {
                 for (Object collectionObject : collectionObjects)
                     result = processHashCode(result, collectionObject);
             }else
-                result = CONSTANT * result + getIntegerValueItem(object);
+                result = CONSTANT * result + object.hashCode();
         }
 
         return result;
-    }
-
-    private static int getIntegerValueItem(Object object){
-        int itemValue = 0;
-        if(object == null)
-            itemValue = 0;
-        else if (object instanceof Integer || object instanceof Byte || object instanceof Short
-                || object instanceof Character)
-            itemValue = (int) object;
-        else if (object instanceof Long)
-            itemValue = ((int) ((long) object - ((long) object >>> 32)));
-        else if (object instanceof Float)
-            itemValue = Float.floatToIntBits((float) object);
-        else if (object instanceof Double) {
-            long longObject = Double.doubleToLongBits((double) object);
-            itemValue = ((int) (longObject - (longObject >>> 32)));
-        } else if (object instanceof Boolean)
-            itemValue = ((Boolean) object ? 1 : 0);
-        else
-            itemValue = object.hashCode();
-
-        return itemValue;
     }
 }

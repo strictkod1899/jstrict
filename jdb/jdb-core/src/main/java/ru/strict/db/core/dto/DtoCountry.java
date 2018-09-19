@@ -1,7 +1,7 @@
 package ru.strict.db.core.dto;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.TreeSet;
 
 import ru.strict.utils.UtilHashCode;
 
@@ -18,17 +18,17 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
     //<editor-fold defaultState="collapsed" desc="constructors">
     public DtoCountry() {
         super();
-        cities = new HashSet<>();
+        cities = new TreeSet<>();
     }
 
     public DtoCountry(String caption) {
         super(caption);
-        cities = new HashSet<>();
+        cities = new TreeSet<>();
     }
 
     public DtoCountry(ID id, String caption) {
         super(id, caption);
-        cities = new HashSet<>();
+        cities = new TreeSet<>();
     }
     //</editor-fold>
 

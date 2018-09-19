@@ -3,6 +3,7 @@ package ru.strict.utils;
 import ru.strict.validates.ValidateBaseValue;
 
 import java.io.UnsupportedEncodingException;
+import java.util.UUID;
 
 public class UtilData {
 
@@ -45,6 +46,18 @@ public class UtilData {
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public static <T> int compareTo(T source, T compareValue){
+        int result = -1;
+
+        if(compareValue instanceof Comparable){
+            result = ((Comparable) source).compareTo(compareValue);
+        }else {
+            throw new UnsupportedOperationException("This type for Id not supported");
         }
 
         return result;
