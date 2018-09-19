@@ -61,22 +61,22 @@
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jdb-core</artifactId>
-                <version>0.1.16</version>
+                <version>0.1.15</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jdb-jdbc</artifactId>
-                <version>0.1.11</version>
+                <version>0.1.10</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jdb-spring</artifactId>
-                <version>0.1.11</version>
+                <version>0.1.10</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jdb-hibernate</artifactId>
-                <version>0.1.6</version>
+                <version>0.1.5</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
