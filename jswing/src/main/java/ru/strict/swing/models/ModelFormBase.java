@@ -11,7 +11,7 @@ public abstract class ModelFormBase extends ModelViewBase {
 
     private String pathIcon;
 
-    private void initDefault(){
+    private void initialize(){
         setWidth((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth());
         setHeight((int)Toolkit.getDefaultToolkit().getScreenSize().getHeight());
         this.title = "";
@@ -20,7 +20,7 @@ public abstract class ModelFormBase extends ModelViewBase {
 
     public ModelFormBase() {
         super();
-        initDefault();
+        initialize();
     }
 
     /**

@@ -1,4 +1,4 @@
-package ru.strict.swing.controllers.views.panels;
+package ru.strict.swing.controllers.panels;
 
 import ru.strict.swing.models.panels.ModelPanelContent;
 import ru.strict.swing.views.components.PanelContent;

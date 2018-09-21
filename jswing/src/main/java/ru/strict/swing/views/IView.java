@@ -5,14 +5,20 @@ import ru.strict.swing.models.ModelViewBase;
 /**
  * Базовая реализация графического элемента
  */
-public interface ViewBase<M extends ModelViewBase>{
+public interface IView<M extends ModelViewBase>{
 
     /**
      * Конструирование графического элемента
      * @param model Модель по которой создается графический элемент
      * @return Созданный графический элемент
      */
-    ViewBase build(M model);
+    IView build(M model);
+
+    /**
+     * Определить, состояние сборки объекта: собран он или нет
+     * @return
+     */
+    boolean isBuilt();
 
     /**
      * Установить новую действующую модель

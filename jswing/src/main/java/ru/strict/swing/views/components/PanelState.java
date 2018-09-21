@@ -6,14 +6,12 @@ import ru.strict.swing.models.panels.ModelPanelState;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import java.awt.*;
 
 /**
  * Класс панели состояния, расположенной вверху окна для закрытия, сворачивания и изменения размера окна программы
  */
-public class PanelState<M extends ModelPanelState> extends Panel<M> {
+public class PanelState<M extends ModelPanelState> extends PanelBase<M> {
 
     private GridBagLayout layout;
     private GridBagConstraints constraints;
@@ -36,12 +34,18 @@ public class PanelState<M extends ModelPanelState> extends Panel<M> {
         constraints.insets = new Insets(0, 0, 0, 0);
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.WEST;
+
         layout.setConstraints(model.getPanelLeft(), constraints);
         add(model.getPanelLeft());
         constraints.gridx = 1;
+        constraints.weightx = 0;
         layout.setConstraints(model.getPanelRight(), constraints);
         add(model.getPanelRight());
         strictMenu = new MenuDefault(this, layout, constraints);
+
+        model.getPanelLeft().setSize(new Dimension(0, getPreferredSize().height));
+        model.getPanelLeft().setPreferredSize(new Dimension(0, getPreferredSize().height));
+
         UtilLogger.info(PanelState.class, "build - finished");
         return this;
     }

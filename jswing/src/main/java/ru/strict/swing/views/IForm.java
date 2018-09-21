@@ -5,7 +5,7 @@ import ru.strict.swing.models.ModelFormBase;
 /**
  * Базовая форма
  */
-public interface FormBase<M extends ModelFormBase> extends ViewBase<M> {
+public interface IForm<M extends ModelFormBase> extends IView<M> {
 
     /**
      * Запуск формы
@@ -31,11 +31,4 @@ public interface FormBase<M extends ModelFormBase> extends ViewBase<M> {
      * Установить ширину формы по содержимому
      */
     void packWidth();
-
-    @Override
-    M getModel();
-
-    @Override
-    void setModel(M model);
-
 }

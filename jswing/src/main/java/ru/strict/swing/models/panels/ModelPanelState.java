@@ -27,6 +27,8 @@ public class ModelPanelState extends ModelPanel {
 
     private boolean visibleExit;
 
+    private boolean moveForm;
+
     private void initDefault(){
         this.panelLeft = new JPanel();
         this.panelRight = new JPanel();
@@ -37,6 +39,7 @@ public class ModelPanelState extends ModelPanel {
         visibleTurn = true;
         visibleChangeSize = true;
         visibleExit = true;
+        moveForm = true;
     }
 
     public ModelPanelState() {
@@ -162,5 +165,13 @@ public class ModelPanelState extends ModelPanel {
      */
     public void setVisibleExit(boolean visibleExit) {
         this.visibleExit = visibleExit;
+    }
+
+    public boolean isMoveForm() {
+        return moveForm;
+    }
+
+    public void setMoveForm(boolean moveForm) {
+        this.moveForm = moveForm;
     }
 }

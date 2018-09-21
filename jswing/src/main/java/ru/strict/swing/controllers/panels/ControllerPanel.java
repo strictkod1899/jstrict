@@ -1,16 +1,16 @@
-package ru.strict.swing.controllers.views.dialogs;
+package ru.strict.swing.controllers.panels;
 
-import ru.strict.swing.controllers.views.ControllerFormBase;
-import ru.strict.swing.models.dialogs.ModelDialog;
-import ru.strict.swing.views.dialogs.Dialog;
+import ru.strict.swing.controllers.ControllerViewBase;
+import ru.strict.swing.models.panels.ModelPanel;
+import ru.strict.swing.views.components.PanelBase;
 
 /**
- * Контроллера управления формой диалога
+ * Контроллер графической панели
  */
-public class ControllerDialog<O extends Dialog, M extends ModelDialog>
-        extends ControllerFormBase<O, M> {
+public class ControllerPanel<O extends PanelBase, M extends ModelPanel>
+        extends ControllerViewBase<O, M> {
 
-    public ControllerDialog(O object, M model){
+    public ControllerPanel(O object, M model){
         super(object, model);
     }
 
