@@ -5,10 +5,10 @@ import ru.strict.swing.models.panels.ModelPanelContent;
 /**
  * Графическая панель содержимого
  */
-public class PanelContent<M extends ModelPanelContent> extends Panel<M> {
+public class PanelContent<M extends ModelPanelContent> extends PanelBase<M> {
 
     @Override
-    public Panel build(M model) {
+    public PanelBase build(M model) {
         return super.build(model);
     }
 

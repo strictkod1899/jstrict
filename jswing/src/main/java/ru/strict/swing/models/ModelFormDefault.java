@@ -1,9 +1,6 @@
-package ru.strict.swing.models.dialogs;
+package ru.strict.swing.models;
 
-/**
- * Модель стандартной формы диалога
- */
-public class ModelDialogDefault extends ModelDialog {
+public class ModelFormDefault extends ModelFormBase {
 
     private boolean visibleTurn;
 
@@ -11,18 +8,24 @@ public class ModelDialogDefault extends ModelDialog {
 
     private boolean visibleExit;
 
-    /**
-     * Инициализация панели состояния и содержимого
-     */
-    private void initDefault(){
+    private boolean moveForm;
+
+    private int hGap;
+
+    private int vGap;
+
+    private void initialize(){
+        hGap = 1;
+        vGap = 1;
         visibleTurn = true;
         visibleChangeSize = true;
         visibleExit = true;
+        moveForm = true;
     }
 
-    public ModelDialogDefault() {
+    public ModelFormDefault() {
         super();
-        initDefault();
+        initialize();
     }
 
     /**
@@ -65,5 +68,35 @@ public class ModelDialogDefault extends ModelDialog {
      */
     public void setVisibleExit(boolean visibleExit) {
         this.visibleExit = visibleExit;
+    }
+
+    public boolean isMoveForm() {
+        return moveForm;
+    }
+
+    public void setMoveForm(boolean moveForm) {
+        this.moveForm = moveForm;
+    }
+
+    /**
+     * Интервал между компонентами
+     */
+    public int gethGap() {
+        return hGap;
+    }
+
+    /**
+     * Интервал между компонентами
+     */
+    public void sethGap(int hGap) {
+        this.hGap = hGap;
+    }
+
+    public int getvGap() {
+        return vGap;
+    }
+
+    public void setvGap(int vGap) {
+        this.vGap = vGap;
     }
 }

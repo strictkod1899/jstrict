@@ -1,9 +1,10 @@
 package ru.strict.swing.views.dialogs;
 
+import ru.strict.swing.models.ModelFormDefault;
+import ru.strict.swing.views.utils.CommonViewMethods;
 import ru.strict.swing.views.components.PanelContent;
 import ru.strict.swing.views.components.PanelState;
 import ru.strict.utils.UtilLogger;
-import ru.strict.swing.models.dialogs.ModelDialogDefault;
 import ru.strict.swing.enums.Colors;
 
 import javax.swing.*;
@@ -12,7 +13,7 @@ import java.awt.*;
 /**
  * Фрейм диалога с панелью состояния
  */
-public class DialogDefault<M extends ModelDialogDefault> extends Dialog<M> {
+public class DialogDefault<M extends ModelFormDefault> extends DialogBase<M> {
 
     private PanelState panelState;
 
@@ -31,71 +32,71 @@ public class DialogDefault<M extends ModelDialogDefault> extends Dialog<M> {
         getContentPane().setBackground(Colors.BACKGROUND_FORM.getColor());
         setModalityType(ModalityType.APPLICATION_MODAL);
 
+        setLayout(new FlowLayout(FlowLayout.CENTER, model.gethGap(), model.getvGap()));
+
         // Создание стандартной панели и содержимого
-        add(getPanelState(), BorderLayout.NORTH);
-        add(getPanelContent(), BorderLayout.CENTER);
+        add(panelState, BorderLayout.NORTH);
+        add(panelContent, BorderLayout.CENTER);
         UtilLogger.info(DialogDefault.class, "build - finished");
         return this;
     }
 
     @Override
-    public void setLayout(LayoutManager manager) {
-        try {
-            getGeneralMethods().setLayout(manager);
-        }catch(java.lang.NullPointerException ex) {
-            super.setLayout(manager);
+    public void setLayout(LayoutManager layout) {
+        if(panelContent != null) {
+            CommonViewMethods.setLayout(panelContent, layout);
+        }else{
+            super.setLayout(layout);
+        }
+    }
+
+    @Override
+    public void setBackground(Color color) {
+        if(panelContent != null) {
+            CommonViewMethods.setBackground(panelContent, color);
+        }else{
+            super.setBackground(color);
         }
     }
 
     @Override
     public Component add(Component comp) {
-        return getGeneralMethods().add(comp);
-    }
+        Component result = null;
 
-    @Override
-    public void setBackground(Color bgColor) {
-        try {
-            getGeneralMethods().setBackground(bgColor);
-        }catch(java.lang.NullPointerException ex) {
-            super.setBackground(bgColor);
+        if(comp != null){
+            result = panelContent.add(comp);
+        }else{
+            result = super.add(comp);
         }
+
+        return result;
     }
 
     @Override
-    public void setModel(M model) {
-        super.setModel(model);
+    public Color getBackground() {
+        Color result = null;
+        if(panelContent != null) {
+            result = panelContent.getBackground();
+        }else{
+            result = super.getBackground();
+        }
+
+        return result;
     }
 
-    @Override
-    public M getModel() {
-        return super.getModel();
-    }
-
-    /**
-     * Получить панель состояния
-     */
-    public PanelState getPanelState(){
+    protected PanelState getPanelState() {
         return panelState;
     }
 
-    /**
-     * Установить панель состояния
-     */
-    public void setPanelState(PanelState panelState){
-        this.panelState = panelState;
-    }
-
-    /**
-     * Получить панель содержимого
-     */
-    public PanelContent getPanelContent(){
+    protected PanelContent getPanelContent() {
         return panelContent;
     }
 
-    /**
-     * Установить панель содержимого
-     */
-    public void setPanelContent(PanelContent panelContent){
+    public void setPanelState(PanelState panelState) {
+        this.panelState = panelState;
+    }
+
+    public void setPanelContent(PanelContent panelContent) {
         this.panelContent = panelContent;
     }
 }

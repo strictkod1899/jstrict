@@ -1,8 +1,7 @@
 package ru.strict.swing.models;
 
 import ru.strict.swing.enums.Colors;
-import ru.strict.swing.enums.Fonts;
-import ru.strict.utils.UtilFrame;
+import ru.strict.swing.utils.UtilSwing;
 
 import java.awt.*;
 
@@ -15,9 +14,7 @@ public abstract class ModelViewBase extends ModelBase {
 
     private Color background;
 
-    private Font fontText;
-
-    private int gap;
+    private Color foreground;
 
     private int width, height;
 
@@ -25,13 +22,9 @@ public abstract class ModelViewBase extends ModelBase {
 
     private int minWidth, minHeight;
 
-    private void initDefault(){
+    private void initialize(){
         background = Colors.BACKGROUND_FORM.getColor();
-        fontText = new Font(Fonts.UBUNTU.getFontName(), Font.PLAIN,
-                UtilFrame.calcSizeByRatio(Toolkit.getDefaultToolkit().getScreenSize().width,
-                        Toolkit.getDefaultToolkit().getScreenSize().height,
-                        RATIO_FONT_TEXT));
-        gap = 1;
+        foreground = new Color(42, 45, 52);
         width = 0;
         height = 0;
         maxWidth = 0;
@@ -42,7 +35,15 @@ public abstract class ModelViewBase extends ModelBase {
 
     public ModelViewBase(){
         super();
-        initDefault();
+        initialize();
+    }
+
+    public Color getForeground() {
+        return foreground;
+    }
+
+    public void setForeground(Color foreground) {
+        this.foreground = foreground;
     }
 
     /**
@@ -57,34 +58,6 @@ public abstract class ModelViewBase extends ModelBase {
      */
     public void setBackground(Color background) {
         this.background = background;
-    }
-
-    /**
-     * Шрифт основного текста
-     */
-    public Font getFontText() {
-        return fontText;
-    }
-
-    /**
-     * Шрифт основного текста
-     */
-    public void setFontText(Font fontText) {
-        this.fontText = fontText;
-    }
-
-    /**
-     * Интервал между компонентами
-     */
-    public int getGap() {
-        return gap;
-    }
-
-    /**
-     * Интервал между компонентами
-     */
-    public void setGap(int gap) {
-        this.gap = gap;
     }
 
     /**

@@ -1,35 +1,37 @@
 package ru.strict.swing.views.components;
 
-import java.awt.*;
 
-import javax.swing.*;
+import javax.swing.JTextField;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 @SuppressWarnings("serial")
 public class TextFieldPlaceholder extends JTextField {
 
     private String placeholder;
 
-    private void init(){
+    private void initialize(){
         placeholder = "";
     }
 
     public TextFieldPlaceholder() {
-        init();
+        initialize();
     }
 
     public TextFieldPlaceholder(final int countColumns) {
         super(countColumns);
-        init();
+        initialize();
     }
 
     public TextFieldPlaceholder(final String text) {
         super(text);
-        init();
+        initialize();
     }
 
     public TextFieldPlaceholder(final String text, final int countColumns) {
         super(text, countColumns);
-        init();
+        initialize();
     }
 
     public void setPlaceholder(final String placeholder) {

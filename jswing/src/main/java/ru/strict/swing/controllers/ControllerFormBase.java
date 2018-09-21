@@ -1,35 +1,37 @@
-package ru.strict.swing.controllers.views;
+package ru.strict.swing.controllers;
 
 import ru.strict.swing.models.ModelFormBase;
-import ru.strict.swing.views.FormBase;
+import ru.strict.swing.views.IForm;
 
 import java.awt.event.ActionEvent;
 
 /**
  * Контроллер базовой формы
  */
-public abstract class ControllerFormBase<O extends FormBase, M extends ModelFormBase>
-        extends ControllerViewBase<O, M> {
+public abstract class ControllerFormBase<O extends IForm, M extends ModelFormBase>
+        extends ControllerViewBase<O, M>
+        implements IControllerForm<O, M> {
 
     public ControllerFormBase(O object, M model) {
         super(object, model);
     }
 
-    @Override
-    public O build() {
-        return super.build();
-    }
-
     /**
      * Запуск формы
      */
+    @Override
     public void launch(){
+        if(!isBuilt()){
+            build();
+        }
+
         getObject().launch();
     }
 
     /**
      * Завершение работы формы
      */
+    @Override
     public void destroy() {
         getObject().destroy();
     }
@@ -44,6 +46,7 @@ public abstract class ControllerFormBase<O extends FormBase, M extends ModelForm
     /**
      * Обновление состояния формы
      */
+    @Override
     public void updateForm() {
         getObject().updateView();
     }

@@ -5,7 +5,7 @@ import ru.strict.swing.models.ModelBase;
 /**
  * Базовый контроллер
  */
-public abstract class ControllerBase<O extends Object, M extends ModelBase> {
+public abstract class ControllerBase<O extends Object, M extends ModelBase> implements IController<O, M>{
 
     private O object;
     private M model;
@@ -21,15 +21,10 @@ public abstract class ControllerBase<O extends Object, M extends ModelBase> {
     }
 
     /**
-     * Создание объекта
-     * @return Созданный объект
-     */
-    public abstract O build();
-
-    /**
      * Получить связанный с контроллером объект
      * @return
      */
+    @Override
     public O getObject() {
         return object;
     }
@@ -38,6 +33,7 @@ public abstract class ControllerBase<O extends Object, M extends ModelBase> {
      * Установить связанный с контроллером объект
      * @param object Связанный с контроллером объект
      */
+    @Override
     public void setObject(O object) {
         this.object = object;
     }
@@ -46,6 +42,7 @@ public abstract class ControllerBase<O extends Object, M extends ModelBase> {
      * Получить связанную с объектом модель
      * @return
      */
+    @Override
     public M getModel() {
         return model;
     }
@@ -54,6 +51,7 @@ public abstract class ControllerBase<O extends Object, M extends ModelBase> {
      * Установить связанную с объектом модель
      * @param model Связанная с объектом модель
      */
+    @Override
     public void setModel(M model) {
         this.model = model;
     }

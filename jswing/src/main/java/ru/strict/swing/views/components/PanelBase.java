@@ -1,22 +1,31 @@
 package ru.strict.swing.views.components;
 
 import ru.strict.swing.models.panels.ModelPanel;
-import ru.strict.swing.views.ViewBase;
+import ru.strict.swing.views.IView;
 
 import javax.swing.*;
 
 /**
  * Графическая панель
  */
-public class Panel<M extends ModelPanel> extends JPanel implements ViewBase<M> {
+public class PanelBase<M extends ModelPanel> extends JPanel implements IView<M> {
 
     private M model;
+    private boolean isBuilt;
 
     @Override
-    public Panel build(M model) {
-        setModel(model);
+    public PanelBase build(M model) {
+        this.model = model;
         setBackground(model.getBackground());
+
+        isBuilt = true;
+
         return this;
+    }
+
+    @Override
+    public boolean isBuilt() {
+        return isBuilt;
     }
 
     @Override
