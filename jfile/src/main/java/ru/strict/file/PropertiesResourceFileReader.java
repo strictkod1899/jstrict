@@ -26,5 +26,7 @@ public abstract class PropertiesResourceFileReader extends PropertiesFileReader 
     private void initializePathToDirectory(){
         pathToDirectory = UtilResources.getResourceAsFile(getFileName(), getThisClass()).getAbsolutePath()
                 .replace("\\" + getFileName(), "");
+        pathToDirectory = UtilResources.getResourceAsFile(getSuffixFileName(), getThisClass()).getAbsolutePath()
+                .replace("\\" + getSuffixFileName(), "");
     }
 }
