@@ -1,21 +1,29 @@
 package ru.strict.file;
 
+import ru.strict.components.LoggerWrapper;
 import ru.strict.utils.UtilProperties;
 import ru.strict.validates.ValidateBaseValue;
 
 public abstract class PropertiesFileReader {
 
+    protected static final LoggerWrapper LOGGER = new LoggerWrapper(PropertiesFileReader.class);
+
     private String propertiesFileName;
     private String suffix;
 
-    public PropertiesFileReader(String propertiesFileName) {
+    private void initialize(String propertiesFileName, String suffix){
         this.propertiesFileName = propertiesFileName;
-        suffix = null;
+        this.suffix = suffix;
+        LOGGER.info("Connected to properties-files:\n\t'%s'\n\t'%s'",
+                getPathToFile(), getPathToSuffixFile());
+    }
+
+    public PropertiesFileReader(String propertiesFileName) {
+        initialize(propertiesFileName, null);
     }
 
     public PropertiesFileReader(String propertiesFileName, String suffix) {
-        this.propertiesFileName = propertiesFileName;
-        this.suffix = suffix;
+        initialize(propertiesFileName, suffix);
     }
 
     protected String getFileName(){
