@@ -3,16 +3,10 @@ package ru.strict.db.hibernate.connection;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import ru.strict.components.WrapperLogger;
-import ru.strict.db.core.connections.ConnectionInfo;
+import ru.strict.components.LoggerWrapper;
 import ru.strict.db.core.connections.CreateConnectionBase;
 import ru.strict.db.hibernate.common.SessionFactorySingleton;
 import ru.strict.utils.UtilLogger;
-
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 /**
  * Конструктор соединения с базой данных, на основе информации переданной в объекте класса HibernateConnectionInfo
@@ -25,7 +19,7 @@ import java.sql.SQLException;
  */
 public class CreateConnectionHibernate extends CreateConnectionBase<HibernateConnectionInfo, Session> {
 
-    protected final WrapperLogger LOGGER = UtilLogger.createLogger(CreateConnectionHibernate.class);
+    protected final LoggerWrapper LOGGER = UtilLogger.createLogger(CreateConnectionHibernate.class);
 
     public CreateConnectionHibernate(HibernateConnectionInfo connectionSource) {
         super(connectionSource);

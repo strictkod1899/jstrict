@@ -1,7 +1,7 @@
 package ru.strict.db.core.migration.components;
 
+import ru.strict.components.LoggerWrapper;
 import ru.strict.utils.UtilLogger;
-import ru.strict.components.WrapperLogger;
 import ru.strict.utils.UtilHashCode;
 
 import java.util.Collection;
@@ -17,7 +17,7 @@ public class MigrationTable
         <COLUMN extends MigrationColumn, FK extends MigrationForeignKey>
         implements MigrationComponent {
 
-    protected final WrapperLogger LOGGER = UtilLogger.createLogger(MigrationTable.class);
+    protected final LoggerWrapper LOGGER = UtilLogger.createLogger(MigrationTable.class);
 
     /**
      * Наименование таблицы

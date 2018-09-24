@@ -1,7 +1,7 @@
 package ru.strict.components;
 
 /**
- * Конфигурация логирования. Используется в классе WrapperLogger
+ * Конфигурация логирования. Используется в классе LoggerWrapper
  */
 class LoggerConfiguration {
 

@@ -3,7 +3,7 @@ package ru.strict.db.core.migration;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.migration.components.MigrationTable;
 import ru.strict.utils.UtilLogger;
-import ru.strict.components.WrapperLogger;
+import ru.strict.components.LoggerWrapper;
 import ru.strict.utils.UtilHashCode;
 
 import java.sql.Connection;
@@ -22,7 +22,7 @@ public class MigrationDatabase
         <SOURCE extends ICreateConnection<Connection>, TABLE extends MigrationTable>
         implements IMigration {
 
-    protected final WrapperLogger LOGGER = UtilLogger.createLogger(MigrationDatabase.class);
+    protected final LoggerWrapper LOGGER = UtilLogger.createLogger(MigrationDatabase.class);
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),

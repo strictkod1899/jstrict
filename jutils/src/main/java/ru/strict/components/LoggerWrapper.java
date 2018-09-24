@@ -5,7 +5,7 @@ import org.apache.log4j.*;
 /**
  * Логирование. Класс инициализирует конфигурацию по-умолчанию для консольного вывода и записи в файл 'logs/report.log'
  */
-public class WrapperLogger{
+public class LoggerWrapper {
 
     private Logger wrappedObject;
     private LoggerConfiguration configuration;
@@ -19,12 +19,12 @@ public class WrapperLogger{
         defaultConfiguration();
     }
 
-    public WrapperLogger(Class clazz) {
+    public LoggerWrapper(Class clazz) {
         this.wrappedObject = Logger.getLogger(clazz.getName());
         initialize();
     }
 
-    public WrapperLogger(String className) {
+    public LoggerWrapper(String className) {
         this.wrappedObject = Logger.getLogger(className);
         initialize();
     }
@@ -267,8 +267,8 @@ public class WrapperLogger{
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof WrapperLogger) {
-            WrapperLogger object = (WrapperLogger) obj;
+        if(obj instanceof LoggerWrapper) {
+            LoggerWrapper object = (LoggerWrapper) obj;
             return wrappedObject.equals(object.getWrappedObject());
         }else
             return false;
