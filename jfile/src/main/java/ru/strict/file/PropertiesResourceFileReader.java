@@ -2,9 +2,9 @@ package ru.strict.file;
 
 import ru.strict.utils.UtilResources;
 
-public abstract class PropertiesResourceFileReader extends PropertiesFileReader {
+import java.io.File;
 
-    private String pathToDirectory;
+public abstract class PropertiesResourceFileReader extends PropertiesFileReader {
 
     public PropertiesResourceFileReader(String propertiesFileName) {
         super(propertiesFileName);
@@ -19,14 +19,11 @@ public abstract class PropertiesResourceFileReader extends PropertiesFileReader 
     protected abstract Class getThisClass();
 
     @Override
-    protected String getPathToDirectory() {
-        return pathToDirectory;
-    }
+    protected String initializePathToDirectory(){
+        UtilResources.getResourceAsFile(getSuffixFileName(), getThisClass());
+        File appFile = UtilResources.getResourceAsFile(getFileName(), getThisClass());
 
-    private void initializePathToDirectory(){
-        pathToDirectory = UtilResources.getResourceAsFile(getFileName(), getThisClass()).getAbsolutePath()
-                .replace("\\" + getFileName(), "");
-        pathToDirectory = UtilResources.getResourceAsFile(getSuffixFileName(), getThisClass()).getAbsolutePath()
-                .replace("\\" + getSuffixFileName(), "");
+        String pathToDirectory = appFile.getAbsolutePath().substring(0, appFile.getAbsolutePath().lastIndexOf(File.separator));
+        return pathToDirectory;
     }
 }

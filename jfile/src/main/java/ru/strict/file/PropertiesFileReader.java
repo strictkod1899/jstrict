@@ -4,16 +4,22 @@ import ru.strict.components.LoggerWrapper;
 import ru.strict.utils.UtilProperties;
 import ru.strict.validates.ValidateBaseValue;
 
+import java.io.File;
+
 public abstract class PropertiesFileReader {
 
     protected static final LoggerWrapper LOGGER = new LoggerWrapper(PropertiesFileReader.class);
 
+    private String pathToDirectory;
     private String propertiesFileName;
     private String suffix;
 
     private void initialize(String propertiesFileName, String suffix){
         this.propertiesFileName = propertiesFileName;
         this.suffix = suffix;
+
+        pathToDirectory = initializePathToDirectory();
+
         LOGGER.info("Connected to properties-files:\n\t'%s'\n\t'%s'",
                 getPathToFile(), getPathToSuffixFile());
     }
@@ -49,13 +55,17 @@ public abstract class PropertiesFileReader {
         return result;
     }
 
-    protected abstract String getPathToDirectory();
+    public String getPathToDirectory() {
+        return pathToDirectory;
+    }
+
+    protected abstract String initializePathToDirectory();
 
     public String getPathToFile(){
-        return String.format("%s/%s", getPathToDirectory(), getFileName());
+        return String.format("%s%s%s", getPathToDirectory(), File.separator, getFileName());
     }
 
     public String getPathToSuffixFile(){
-        return String.format("%s/%s", getPathToDirectory(), getSuffixFileName());
+        return String.format("%s%s%s", getPathToDirectory(), File.separator, getSuffixFileName());
     }
 }
