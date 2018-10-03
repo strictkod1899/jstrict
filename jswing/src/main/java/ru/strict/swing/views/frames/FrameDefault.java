@@ -17,10 +17,15 @@ public class FrameDefault<M> extends FrameBase<M> {
     private PanelState panelState;
     private PanelBase panelContent;
 
+    private int vGap;
+    private int hGap;
+
     public FrameDefault(M model) {
         super(model);
         panelState = new PanelState(this);
         panelContent = new PanelBase();
+        vGap = 1;
+        hGap = 1;
     }
 
     @Override
@@ -42,7 +47,7 @@ public class FrameDefault<M> extends FrameBase<M> {
         setUndecorated(true);
         getContentPane().setBackground(Colors.BACKGROUND_FORM.getColor());
 
-        setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
+        setLayout(new FlowLayout(FlowLayout.CENTER, hGap, vGap));
 
         // Создание стандартной панели и содержимого
         add(panelState, BorderLayout.NORTH);
@@ -135,5 +140,21 @@ public class FrameDefault<M> extends FrameBase<M> {
 
     protected void setActionExit(ActionListener action){
         panelState.setActionExit(action);
+    }
+
+    protected int getvGap() {
+        return vGap;
+    }
+
+    protected void setvGap(int vGap) {
+        this.vGap = vGap;
+    }
+
+    protected int gethGap() {
+        return hGap;
+    }
+
+    protected void sethGap(int hGap) {
+        this.hGap = hGap;
     }
 }
