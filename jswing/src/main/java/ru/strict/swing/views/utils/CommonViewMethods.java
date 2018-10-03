@@ -26,22 +26,56 @@ public class CommonViewMethods {
      */
     public static void build(Window window) {
         window.setBackground(new Color(255, 255, 255));
-        window.setMaximumSize(new Dimension(0, 0));
-        window.setMinimumSize(new Dimension(0, 0));
 
-        int width = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-        int height = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        int width = window.getPreferredSize().width;
+        int height = window.getPreferredSize().height;
+
+        if(width == 0){
+            width = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        }
+        if(height == 0){
+            height = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        }
 
         window.setSize(width, height);
         window.setPreferredSize(new Dimension(width, height));
-        window.setMaximumSize(new Dimension(width, height));
+        refreshSize(window);
+    }
+
+    public static void refreshSize(Container container) {
+        int maxWidth = container.getMaximumSize().width;
+        int maxHeight = container.getMaximumSize().height;
+        int minWidth = container.getMinimumSize().width;
+        int minHeight = container.getMinimumSize().height;
+
+        int width = container.getPreferredSize().width;
+        int height = container.getPreferredSize().height;
+
+        if (maxWidth > 0 && width > maxWidth) {
+            container.setSize(maxWidth, container.getPreferredSize().height);
+            container.setPreferredSize(new Dimension(maxWidth, container.getPreferredSize().height));
+        }
+        if (maxHeight > 0 && height > maxHeight) {
+            container.setSize(container.getPreferredSize().width, maxHeight);
+            container.setPreferredSize(new Dimension(container.getPreferredSize().width, maxHeight));
+        }
+
+        if (minWidth > 0 && width < minWidth) {
+            container.setSize(minWidth, container.getPreferredSize().height);
+            container.setPreferredSize(new Dimension(minWidth, container.getPreferredSize().height));
+        }
+
+        if (minHeight > 0 && height < minHeight) {
+            container.setSize(container.getPreferredSize().width, minHeight);
+            container.setPreferredSize(new Dimension(container.getPreferredSize().width, minHeight));
+        }
     }
 
     /**
      * Установить размер формы по содержимому
      */
     public static void pack(Container container) {
-        UtilLogger.info(CommonViewMethods.class, "pack - started");
+        UtilLogger.info(CommonViewMethods.class, "pack  started");
         Component[] components = container.getComponents();
         int width = 0;
         int height = 0;
@@ -52,14 +86,14 @@ public class CommonViewMethods {
 
         container.setSize(width, height);
         container.setPreferredSize(new Dimension(width, height));
-        UtilLogger.info(CommonViewMethods.class, "pack - finished");
+        UtilLogger.info(CommonViewMethods.class, "pack  finished");
     }
 
     /**
      * Установить высоту формы по содержимому
      */
     public static void packHeight(Container container) {
-        UtilLogger.info(CommonViewMethods.class, "packHeight - started");
+        UtilLogger.info(CommonViewMethods.class, "packHeight  started");
         Component[] components = container.getComponents();
         int height = 0;
         for (Component component : components) {
@@ -67,14 +101,14 @@ public class CommonViewMethods {
         }
         container.setSize(container.getPreferredSize().width, height);
         container.setPreferredSize(new Dimension(container.getWidth(), height));
-        UtilLogger.info(CommonViewMethods.class, "packHeight - finished");
+        UtilLogger.info(CommonViewMethods.class, "packHeight  finished");
     }
 
     /**
      * Установить ширину формы по содержимому
      */
     public static void packWidth(Container container) {
-        UtilLogger.info(CommonViewMethods.class, "packWidth - started");
+        UtilLogger.info(CommonViewMethods.class, "packWidth  started");
         Component[] components = container.getComponents();
         int width = 0;
         for (Component component : components) {
@@ -82,6 +116,6 @@ public class CommonViewMethods {
         }
         container.setSize(width, container.getPreferredSize().height);
         container.setPreferredSize(new Dimension(width, container.getHeight()));
-        UtilLogger.info(CommonViewMethods.class, "packWidth - finished");
+        UtilLogger.info(CommonViewMethods.class, "packWidth  finished");
     }
 }

@@ -10,10 +10,21 @@ import java.awt.*;
  */
 public class PanelBase extends JPanel implements IView {
 
+    private boolean isBuilt;
+
     @Override
     public PanelBase build() {
         setBackground(new Color(255, 255, 255));
+        isBuilt = true;
         return this;
+    }
+
+    @Override
+    public void launch() {
+        if(!isBuilt) {
+            build();
+        }
+        setVisible(true);
     }
 
     @Override
@@ -26,5 +37,13 @@ public class PanelBase extends JPanel implements IView {
     @Override
     public void destroy() {
         setVisible(false);
+    }
+
+    protected boolean isBuilt() {
+        return isBuilt;
+    }
+
+    protected void setBuilt(boolean built) {
+        isBuilt = built;
     }
 }

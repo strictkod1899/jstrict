@@ -6,6 +6,8 @@ import ru.strict.swing.enums.Colors;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Класс определяет окно с панелью состояния
@@ -13,16 +15,25 @@ import java.awt.*;
 public class FrameDefault<M> extends FrameBase<M> {
 
     private PanelState panelState;
-    private JPanel panelContent;
+    private PanelBase panelContent;
 
     public FrameDefault(M model) {
         super(model);
-        panelState = new PanelState().build();
-        panelContent = new PanelBase().build();
+        panelState = new PanelState(this);
+        panelContent = new PanelBase();
     }
 
     @Override
     public FrameDefault<M> build(){
+        super.build();
+
+        if(panelState.getActionExit() == null){
+            panelState.setActionExit(this::actionExit);
+        }
+
+        panelState.build();
+        panelContent.build();
+
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
@@ -90,11 +101,39 @@ public class FrameDefault<M> extends FrameBase<M> {
         super.destroy();
     }
 
+    private void actionExit(ActionEvent event){
+        destroy();
+    }
+
     protected PanelState getPanelState() {
         return panelState;
     }
 
     protected JPanel getPanelContent() {
         return panelContent;
+    }
+
+    protected void setVisibleChangeSize(boolean isVisible){
+        panelState.setVisibleChangeSize(isVisible);
+    }
+
+    protected void setVisibleTurn(boolean isVisible){
+        panelState.setVisibleTurn(isVisible);
+    }
+
+    protected void setVisibleExit(boolean isVisible){
+        panelState.setVisibleExit(isVisible);
+    }
+
+    protected void setMoveForm(boolean isMove){
+        panelState.setMoveForm(isMove);
+    }
+
+    protected void setVisiblePanelState(boolean isVisible){
+        panelState.setVisible(isVisible);
+    }
+
+    protected void setActionExit(ActionListener action){
+        panelState.setActionExit(action);
     }
 }

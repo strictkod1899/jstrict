@@ -1,10 +1,10 @@
 package ru.strict.swing.views.components;
 
+import ru.strict.patterns.mvc.views.IView;
 import ru.strict.swing.enums.Colors;
 import ru.strict.swing.enums.Icons;
 import ru.strict.swing.utils.MouseActionChangeBackground;
 import ru.strict.swing.utils.UtilSwing;
-import ru.strict.swing.views.IForm;
 import ru.strict.utils.UtilImage;
 import ru.strict.utils.UtilResources;
 import ru.strict.validates.ValidateBaseValue;
@@ -37,8 +37,11 @@ public class PanelState extends PanelBase {
     private GridBagConstraints constraints;
     private MenuDefault strictMenu;
 
-    public PanelState() {
+    private Container parentWindow;
+
+    public PanelState(Container parentWindow) {
         super();
+        this.parentWindow = parentWindow;
         buttonSize = 12;
         iconSize = (int)(buttonSize * 1.5);
         vGap = 10;
@@ -54,6 +57,7 @@ public class PanelState extends PanelBase {
 
     @Override
     public PanelState build() {
+        super.build();
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
         // Установка диспетчера компоновки
@@ -70,7 +74,7 @@ public class PanelState extends PanelBase {
         JPanel panelRight = createPanelRight();
 
         if(isMoveForm) {
-            MouseMotionMoved mouse = new MouseMotionMoved(getParent());
+            MouseMotionMoved mouse = new MouseMotionMoved(parentWindow);
             panelLeft.addMouseListener(mouse);
             panelRight.addMouseListener(mouse);
             panelLeft.addMouseMotionListener(mouse);
@@ -215,7 +219,7 @@ public class PanelState extends PanelBase {
                     public void mouseReleased(MouseEvent event) {
                         setButtonPressedValue(event, false);
                         event.getComponent().setBackground(getBackground());
-                        ((IForm) getParent().getParent().getParent().getParent()).destroy();
+                        ((IView) getParent().getParent().getParent().getParent()).destroy();
                         actionExit.actionPerformed(null);
                     }
                 });
@@ -261,7 +265,7 @@ public class PanelState extends PanelBase {
         private final Container parent;
         private Point position;
 
-        MouseMotionMoved(final Container parent){
+        public MouseMotionMoved(final Container parent){
             this.parent = parent;
         }
 

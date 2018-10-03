@@ -16,6 +16,12 @@ import java.util.List;
  */
 public class UtilSwing {
 
+    public static void refresh(Component component){
+        component.validate();
+        component.invalidate();
+        component.repaint();
+    }
+
     /**
      * Получить значение компонента по содержанию предшествующего JLabel (без учета регистра)
      * @param components Проверяемые компоненты

@@ -1,6 +1,6 @@
 package ru.strict.swing.views.frames;
 
-import ru.strict.swing.views.IForm;
+import ru.strict.patterns.mvc.views.IView;
 import ru.strict.swing.views.utils.CommonViewMethods;
 
 import javax.swing.*;
@@ -8,9 +8,10 @@ import javax.swing.*;
 /**
  * Базовый фрейм
  */
-public class FrameBase<M> extends JFrame implements IForm {
+public class FrameBase<M> extends JFrame implements IView {
 
     private M model;
+    private boolean isBuilt;
 
     public FrameBase(M model) {
         this.model = model;
@@ -21,12 +22,15 @@ public class FrameBase<M> extends JFrame implements IForm {
         CommonViewMethods.build(this);
         getContentPane().setBackground(getBackground());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        isBuilt = true;
         return this;
     }
 
     @Override
     public void launch(){
-        build();
+        if(!isBuilt) {
+            build();
+        }
         setVisible(true);
     }
 
@@ -45,14 +49,20 @@ public class FrameBase<M> extends JFrame implements IForm {
         CommonViewMethods.pack(this);
     }
 
-    @Override
-    public void packHeight() {
+    protected void packHeight() {
         CommonViewMethods.packHeight(this);
     }
 
-    @Override
-    public void packWidth() {
+    protected void packWidth() {
         CommonViewMethods.packWidth(this);
+    }
+
+    protected boolean isBuilt() {
+        return isBuilt;
+    }
+
+    protected void setBuilt(boolean built) {
+        isBuilt = built;
     }
 
     protected M getModel() {
