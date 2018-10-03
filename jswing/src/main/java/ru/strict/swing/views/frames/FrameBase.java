@@ -14,17 +14,19 @@ public class FrameBase<M> extends JFrame implements IForm {
 
     public FrameBase(M model) {
         this.model = model;
-        build();
     }
 
-    private void build(){
+    @Override
+    public FrameBase<M> build(){
         CommonViewMethods.build(this);
         getContentPane().setBackground(getBackground());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        return this;
     }
 
     @Override
     public void launch(){
+        build();
         setVisible(true);
     }
 
@@ -55,5 +57,9 @@ public class FrameBase<M> extends JFrame implements IForm {
 
     protected M getModel() {
         return model;
+    }
+
+    protected void setModel(M model) {
+        this.model = model;
     }
 }

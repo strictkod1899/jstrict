@@ -9,7 +9,7 @@ public interface IView {
      */
     void refresh();
 
-    void launch();
+    IView build();
 
     void destroy();
 }

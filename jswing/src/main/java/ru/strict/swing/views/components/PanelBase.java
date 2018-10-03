@@ -10,12 +10,10 @@ import java.awt.*;
  */
 public class PanelBase extends JPanel implements IView {
 
-    public PanelBase() {
-        build();
-    }
-
-    private void build() {
+    @Override
+    public PanelBase build() {
         setBackground(new Color(255, 255, 255));
+        return this;
     }
 
     @Override
@@ -23,11 +21,6 @@ public class PanelBase extends JPanel implements IView {
         validate();
         invalidate();
         repaint();
-    }
-
-    @Override
-    public void launch() {
-        setVisible(true);
     }
 
     @Override

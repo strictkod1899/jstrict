@@ -15,4 +15,6 @@ public interface IForm extends IView {
      * Установить ширину формы по содержимому
      */
     void packWidth();
+
+    void launch();
 }

@@ -17,12 +17,12 @@ public class FrameDefault<M> extends FrameBase<M> {
 
     public FrameDefault(M model) {
         super(model);
-        panelState = new PanelState();
-        panelContent = new PanelBase();
-        build();
+        panelState = new PanelState().build();
+        panelContent = new PanelBase().build();
     }
 
-    private void build(){
+    @Override
+    public FrameDefault<M> build(){
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
@@ -36,6 +36,8 @@ public class FrameDefault<M> extends FrameBase<M> {
         // Создание стандартной панели и содержимого
         add(panelState, BorderLayout.NORTH);
         add(panelContent, BorderLayout.CENTER);
+
+        return this;
     }
 
     @Override

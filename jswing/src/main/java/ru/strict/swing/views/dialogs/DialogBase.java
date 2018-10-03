@@ -14,22 +14,25 @@ public class DialogBase<M> extends JDialog implements IForm {
 
     public DialogBase(M model) {
         this.model = model;
-        build();
     }
 
-    private void build(){
+    @Override
+    public DialogBase<M> build(){
         CommonViewMethods.build(this);
         getContentPane().setBackground(getBackground());
+        return this;
     }
 
     @Override
     public void launch(){
+        build();
         setVisible(true);
     }
 
     @Override
     public void destroy(){
-        System.exit(0);
+        model = null;
+        setVisible(false);
     }
 
     @Override
@@ -54,5 +57,9 @@ public class DialogBase<M> extends JDialog implements IForm {
 
     protected M getModel() {
         return model;
+    }
+
+    protected void setModel(M model) {
+        this.model = model;
     }
 }

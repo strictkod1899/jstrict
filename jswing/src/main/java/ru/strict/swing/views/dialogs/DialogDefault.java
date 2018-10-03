@@ -17,12 +17,12 @@ public class DialogDefault<M> extends DialogBase<M> {
 
     public DialogDefault(M model) {
         super(model);
-        panelState = new PanelState();
-        panelContent = new PanelBase();
-        build();
+        panelState = new PanelState().build();
+        panelContent = new PanelBase().build();
     }
 
-    private void build(){
+    @Override
+    public DialogDefault<M> build(){
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
@@ -37,6 +37,8 @@ public class DialogDefault<M> extends DialogBase<M> {
         // Создание стандартной панели и содержимого
         add(panelState, BorderLayout.NORTH);
         add(panelContent, BorderLayout.CENTER);
+
+        return this;
     }
 
     @Override

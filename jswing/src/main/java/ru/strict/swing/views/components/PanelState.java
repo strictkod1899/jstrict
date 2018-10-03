@@ -50,16 +50,10 @@ public class PanelState extends PanelBase {
         isVisibleExit = true;
         isMoveForm = true;
         font = new Font(Font.DIALOG_INPUT, Font.PLAIN, 12);
-        build();
     }
 
     @Override
-    public void refresh() {
-        super.refresh();
-        build();
-    }
-
-    private void build() {
+    public PanelState build() {
         layout = new GridBagLayout();
         constraints = new GridBagConstraints();
         // Установка диспетчера компоновки
@@ -93,6 +87,20 @@ public class PanelState extends PanelBase {
 
         panelLeft.setSize(new Dimension(0, getPreferredSize().height));
         panelLeft.setPreferredSize(new Dimension(0, getPreferredSize().height));
+
+        return this;
+    }
+
+    @Override
+    public void destroy() {
+        title = null;
+        iconPath = null;
+        actionExit = null;
+        font = null;
+        layout = null;
+        constraints = null;
+        strictMenu = null;
+        super.destroy();
     }
 
     private JPanel createPanelLeft(){
