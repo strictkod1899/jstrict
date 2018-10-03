@@ -1,4 +1,4 @@
-package ru.strict.file;
+package ru.strict.file.properties;
 
 import ru.strict.components.Log4jWrapper;
 import ru.strict.utils.UtilProperties;

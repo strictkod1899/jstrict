@@ -1,4 +1,4 @@
-package ru.strict.file.controllers.xml;
+package ru.strict.file.xml;
 
 import org.jdom2.Attribute;
 import org.jdom2.Element;

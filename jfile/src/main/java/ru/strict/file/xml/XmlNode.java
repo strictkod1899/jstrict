@@ -1,4 +1,4 @@
-package ru.strict.file.controllers.xml;
+package ru.strict.file.xml;
 
 import org.jdom2.Element;
 
@@ -8,17 +8,11 @@ import java.util.List;
 
 /**
  * <pre>
- * Класс используется для задания пути парсинга xml-файла.
+ * Класс используется для задания пути парсинга xml-файла относительно корневого элемента
  * Чтобы начать пользоваться объектом этого класса, необходимо вызвать метод next(); </pre>
  * <p><b>Пример использования:</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
- *     ControllerXml controllerXml = new ControllerXml(new File("file.xml"), new ModelXml());
- *     controllerXml.build();
- *     StrictXmlNodes xmlNodes = new StrictXmlNodes();
- *     xmlNodes.add(new Element(controllerXml.getModel().getRootElement().getName()))
- *     java.util.List<Element> values = controllerXml.readValue(xmlNodes);
- *     if(!values.isEmpty())
- *        setVersion(Integer.valueOf(values.get(0).getChild("version").getValue()));
+ *
  * </pre></code>
  */
 public class XmlNode<E extends Element> {
@@ -54,13 +48,13 @@ public class XmlNode<E extends Element> {
 
     /**
      * Добавляемые элементы пути
-     *
      * @param elements
      */
     public XmlNode(E... elements) {
         nodes = new ArrayList<>();
-        for (E element : elements)
+        for (E element : elements) {
             nodes.add(element);
+        }
         currentIndex = -1;
         elementsMark = new ArrayList<>(10);
         Collections.addAll(elementsMark, false);
