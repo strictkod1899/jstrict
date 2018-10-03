@@ -36,27 +36,27 @@
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jutils</artifactId>
-                <version>0.1.17</version>
+                <version>0.1.18</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jfile</artifactId>
-                <version>0.1.1</version>
+                <version>0.1.2</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jpatterns</artifactId>
-                <version>0.1.4</version>
+                <version>0.1.5</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jswing</artifactId>
-                <version>0.1.1</version>
+                <version>0.1.2</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jneuralnetwork</artifactId>
-                <version>0.1.1</version>
+                <version>0.1.2</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
@@ -66,22 +66,22 @@
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jdb-jdbc</artifactId>
-                <version>0.1.11</version>
+                <version>0.1.12</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jdb-spring</artifactId>
-                <version>0.1.11</version>
+                <version>0.1.12</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jdb-hibernate</artifactId>
-                <version>0.1.6</version>
+                <version>0.1.7</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jdb-mybatis</artifactId>
-                <version>0.1.0</version>
+                <version>0.1.1</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>

@@ -1,14 +1,12 @@
 package ru.strict.swing.views.utils;
 
 import ru.strict.utils.UtilLogger;
-import ru.strict.swing.models.ModelFormBase;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**
  * Класс предоставляет методы используемые в окнах фрейма, диалога и панели.
- * Он используется, чтобы предотвратить дублирование кода кастомной работе с компонентами класса Window.
+ * Он используется, чтобы предотвратить дублирование кода при кастомной работе с компонентами класса Window.
  * Например, т.к. диалоговое окно и окно фрейма представляют разные классы
  */
 public class CommonViewMethods {
@@ -16,7 +14,7 @@ public class CommonViewMethods {
     /**
      * Обновление окна
      */
-    public static void updateView(Window window) {
+    public static void refresh(Window window) {
         window.validate();
         window.invalidate();
         window.repaint();
@@ -25,15 +23,18 @@ public class CommonViewMethods {
     /**
      * Создание формы
      *
-     * @param model
-     * @param <M>
      */
-    public static <M extends ModelFormBase> void build(Window window, M model) {
-        window.setBackground(model.getBackground());
+    public static void build(Window window) {
+        window.setBackground(new Color(255, 255, 255));
+        window.setMaximumSize(new Dimension(0, 0));
+        window.setMinimumSize(new Dimension(0, 0));
 
-        window.setSize(model.getWidth(), model.getHeight());
-        window.setPreferredSize(new Dimension(model.getWidth(), model.getHeight()));
-        window.setMaximumSize(new Dimension(model.getWidth(), model.getHeight()));
+        int width = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        int height = (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+
+        window.setSize(width, height);
+        window.setPreferredSize(new Dimension(width, height));
+        window.setMaximumSize(new Dimension(width, height));
     }
 
     /**
@@ -82,45 +83,5 @@ public class CommonViewMethods {
         container.setSize(width, container.getPreferredSize().height);
         container.setPreferredSize(new Dimension(width, container.getHeight()));
         UtilLogger.info(CommonViewMethods.class, "packWidth - finished");
-    }
-
-    /**
-     * Добавить компонент к текущему окну
-     * @param comp
-     * @return
-     */
-    public static Component add(Container container, Component comp) {
-        container.add(comp);
-        return comp;
-    }
-
-    /**
-     * Установить менеджер компоновки
-     */
-    public static void setLayout(Container container, LayoutManager layout) {
-        if(container != null && layout != null){
-            container.setLayout(layout);
-        }
-    }
-
-    /**
-     * Установить цвет фона
-     */
-    public static void setBackground(Container container, Color color) {
-        if(container != null && color != null) {
-            container.setBackground(color);
-        }
-    }
-
-    /**
-     * Добавить компонент к текущему окну
-     * @param comp
-     * @return
-     */
-    public static Component add(Window window, Component comp) {
-        if(window != null && comp != null) {
-            window.add(comp);
-        }
-        return comp;
     }
 }

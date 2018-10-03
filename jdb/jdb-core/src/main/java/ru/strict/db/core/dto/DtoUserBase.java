@@ -41,9 +41,9 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String username, String email){
-        if(!ValidateBaseValue.isNotEmptyOrNull(username)) {
+        if(ValidateBaseValue.isEmptyOrNull(username)) {
             throw new NullPointerException("username is NULL");
-        } else if(!ValidateBaseValue.isNotEmptyOrNull(email)) {
+        } else if(ValidateBaseValue.isEmptyOrNull(email)) {
             throw new NullPointerException("email is NULL");
         }
 
@@ -84,7 +84,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     }
 
     public void setUsername(String username) {
-        if(!ValidateBaseValue.isNotEmptyOrNull(username)) {
+        if(ValidateBaseValue.isEmptyOrNull(username)) {
             throw new NullPointerException("username is NULL");
         }
 
@@ -96,7 +96,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     }
 
     public void setEmail(String email) {
-        if(!ValidateBaseValue.isNotEmptyOrNull(email)) {
+        if(ValidateBaseValue.isEmptyOrNull(email)) {
             throw new NullPointerException("email is NULL");
         }
 

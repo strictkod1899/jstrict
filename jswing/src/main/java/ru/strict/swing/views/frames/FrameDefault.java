@@ -1,10 +1,7 @@
 package ru.strict.swing.views.frames;
 
-import ru.strict.swing.models.ModelFormDefault;
-import ru.strict.swing.views.utils.CommonViewMethods;
-import ru.strict.swing.views.components.PanelContent;
+import ru.strict.swing.views.components.PanelBase;
 import ru.strict.swing.views.components.PanelState;
-import ru.strict.utils.UtilLogger;
 import ru.strict.swing.enums.Colors;
 
 import javax.swing.*;
@@ -13,16 +10,19 @@ import java.awt.*;
 /**
  * Класс определяет окно с панелью состояния
  */
-public class FrameDefault<M extends ModelFormDefault> extends FrameBase<M> {
+public class FrameDefault<M> extends FrameBase<M> {
 
     private PanelState panelState;
-    private PanelContent panelContent;
+    private JPanel panelContent;
 
-    @Override
-    public FrameDefault build(M model){
-        super.build(model);
-        UtilLogger.info(FrameDefault.class, "build - started");
+    public FrameDefault(M model) {
+        super(model);
+        panelState = new PanelState();
+        panelContent = new PanelBase();
+        build();
+    }
 
+    private void build(){
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
@@ -31,20 +31,17 @@ public class FrameDefault<M extends ModelFormDefault> extends FrameBase<M> {
         setUndecorated(true);
         getContentPane().setBackground(Colors.BACKGROUND_FORM.getColor());
 
-        setLayout(new FlowLayout(FlowLayout.CENTER, model.gethGap(), model.getvGap()));
+        setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
 
         // Создание стандартной панели и содержимого
         add(panelState, BorderLayout.NORTH);
         add(panelContent, BorderLayout.CENTER);
-
-        UtilLogger.info(FrameDefault.class, "build - finished");
-        return this;
     }
 
     @Override
     public void setLayout(LayoutManager layout) {
-        if(panelContent != null) {
-            CommonViewMethods.setLayout(panelContent, layout);
+        if(panelContent != null && layout != null) {
+            panelContent.setLayout(layout);
         }else{
             super.setLayout(layout);
         }
@@ -52,8 +49,8 @@ public class FrameDefault<M extends ModelFormDefault> extends FrameBase<M> {
 
     @Override
     public void setBackground(Color color) {
-        if(panelContent != null) {
-            CommonViewMethods.setBackground(panelContent, color);
+        if(panelContent != null && color != null) {
+            panelContent.setBackground(color);
         }else{
             super.setBackground(color);
         }
@@ -63,7 +60,7 @@ public class FrameDefault<M extends ModelFormDefault> extends FrameBase<M> {
     public Component add(Component comp) {
         Component result = null;
 
-        if(comp != null){
+        if(panelContent != null && comp != null){
             result = panelContent.add(comp);
         }else{
             result = super.add(comp);
@@ -84,19 +81,18 @@ public class FrameDefault<M extends ModelFormDefault> extends FrameBase<M> {
         return result;
     }
 
+    @Override
+    public void destroy() {
+        panelState = null;
+        panelContent = null;
+        super.destroy();
+    }
+
     protected PanelState getPanelState() {
         return panelState;
     }
 
-    protected PanelContent getPanelContent() {
+    protected JPanel getPanelContent() {
         return panelContent;
-    }
-
-    public void setPanelState(PanelState panelState) {
-        this.panelState = panelState;
-    }
-
-    public void setPanelContent(PanelContent panelContent) {
-        this.panelContent = panelContent;
     }
 }

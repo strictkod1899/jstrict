@@ -50,11 +50,11 @@ public class EntityUser<ID> extends EntityBase<ID> {
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String username, String passwordEncode, String email){
-        if(!ValidateBaseValue.isNotEmptyOrNull(username)) {
+        if(ValidateBaseValue.isEmptyOrNull(username)) {
             throw new NullPointerException("username is NULL");
-        } else if(!ValidateBaseValue.isNotEmptyOrNull(passwordEncode)) {
+        } else if(ValidateBaseValue.isEmptyOrNull(passwordEncode)) {
             throw new NullPointerException("passwordEncode is NULL");
-        } else if(!ValidateBaseValue.isNotEmptyOrNull(email)) {
+        } else if(ValidateBaseValue.isEmptyOrNull(email)) {
             throw new NullPointerException("email is NULL");
         }
 
@@ -99,7 +99,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
     }
 
     public void setUsername(String username) {
-        if(!ValidateBaseValue.isNotEmptyOrNull(username)) {
+        if(ValidateBaseValue.isEmptyOrNull(username)) {
             throw new NullPointerException("username is NULL");
         }
 
@@ -111,7 +111,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
     }
 
     public void setPasswordEncode(String passwordEncode) {
-        if(!ValidateBaseValue.isNotEmptyOrNull(passwordEncode)) {
+        if(ValidateBaseValue.isEmptyOrNull(passwordEncode)) {
             throw new NullPointerException("passwordEncode is NULL");
         }
 
@@ -123,7 +123,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
     }
 
     public void setEmail(String email) {
-        if(!ValidateBaseValue.isNotEmptyOrNull(email)) {
+        if(ValidateBaseValue.isEmptyOrNull(email)) {
             throw new NullPointerException("email is NULL");
         }
 

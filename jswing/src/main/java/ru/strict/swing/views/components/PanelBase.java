@@ -1,40 +1,37 @@
 package ru.strict.swing.views.components;
 
-import ru.strict.swing.models.panels.ModelPanel;
-import ru.strict.swing.views.IView;
+import ru.strict.patterns.mvc.views.IView;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Графическая панель
  */
-public class PanelBase<M extends ModelPanel> extends JPanel implements IView<M> {
+public class PanelBase extends JPanel implements IView {
 
-    private M model;
-    private boolean isBuilt;
+    public PanelBase() {
+        build();
+    }
 
-    @Override
-    public PanelBase build(M model) {
-        this.model = model;
-        setBackground(model.getBackground());
-
-        isBuilt = true;
-
-        return this;
+    private void build() {
+        setBackground(new Color(255, 255, 255));
     }
 
     @Override
-    public boolean isBuilt() {
-        return isBuilt;
+    public void refresh() {
+        validate();
+        invalidate();
+        repaint();
     }
 
     @Override
-    public void setModel(M model) {
-        this.model = model;
+    public void launch() {
+        setVisible(true);
     }
 
     @Override
-    public M getModel() {
-        return model;
+    public void destroy() {
+        setVisible(false);
     }
 }

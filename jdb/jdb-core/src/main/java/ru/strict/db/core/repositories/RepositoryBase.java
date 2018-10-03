@@ -7,7 +7,7 @@ import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
 import ru.strict.utils.UtilLogger;
-import ru.strict.components.LoggerWrapper;
+import ru.strict.components.Log4jWrapper;
 import ru.strict.utils.UtilHashCode;
 
 import java.util.Arrays;
@@ -24,7 +24,7 @@ public abstract class RepositoryBase
         <ID, CONNECTION, SOURCE extends ICreateConnection<CONNECTION>, E, DTO extends DtoBase<ID>>
         implements IRepositoryExtension<ID, DTO> {
 
-    protected final LoggerWrapper LOGGER = UtilLogger.createLogger(getThisClass());
+    protected final Log4jWrapper LOGGER = UtilLogger.createLogger(getThisClass());
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),

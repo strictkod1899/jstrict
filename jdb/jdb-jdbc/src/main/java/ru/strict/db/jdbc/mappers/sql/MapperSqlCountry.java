@@ -1,8 +1,6 @@
 package ru.strict.db.jdbc.mappers.sql;
 
-import ru.strict.components.WrapperRuntimeException;
 import ru.strict.db.core.entities.EntityCountry;
-import ru.strict.db.core.entities.EntityRoleuser;
 import ru.strict.db.core.mappers.sql.MapperSqlBase;
 
 import java.sql.ResultSet;
@@ -23,7 +21,7 @@ public class MapperSqlCountry<ID> extends MapperSqlBase<ID, EntityCountry<ID>> {
             entity.setId((ID)resultSet.getObject("id"));
             entity.setCaption(resultSet.getString(COLUMNS_NAME[0]));
         }catch(SQLException ex){
-            throw new WrapperRuntimeException(ex);
+            throw new RuntimeException(ex);
         }
         return entity;
     }

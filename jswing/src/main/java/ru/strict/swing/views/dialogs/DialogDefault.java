@@ -1,10 +1,7 @@
 package ru.strict.swing.views.dialogs;
 
-import ru.strict.swing.models.ModelFormDefault;
-import ru.strict.swing.views.utils.CommonViewMethods;
-import ru.strict.swing.views.components.PanelContent;
+import ru.strict.swing.views.components.PanelBase;
 import ru.strict.swing.views.components.PanelState;
-import ru.strict.utils.UtilLogger;
 import ru.strict.swing.enums.Colors;
 
 import javax.swing.*;
@@ -13,16 +10,19 @@ import java.awt.*;
 /**
  * Фрейм диалога с панелью состояния
  */
-public class DialogDefault<M extends ModelFormDefault> extends DialogBase<M> {
+public class DialogDefault<M> extends DialogBase<M> {
 
     private PanelState panelState;
+    private JPanel panelContent;
 
-    private PanelContent panelContent;
+    public DialogDefault(M model) {
+        super(model);
+        panelState = new PanelState();
+        panelContent = new PanelBase();
+        build();
+    }
 
-    @Override
-    public DialogDefault build(M model){
-        super.build(model);
-        UtilLogger.info(DialogDefault.class, "build - started");
+    private void build(){
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
@@ -32,19 +32,17 @@ public class DialogDefault<M extends ModelFormDefault> extends DialogBase<M> {
         getContentPane().setBackground(Colors.BACKGROUND_FORM.getColor());
         setModalityType(ModalityType.APPLICATION_MODAL);
 
-        setLayout(new FlowLayout(FlowLayout.CENTER, model.gethGap(), model.getvGap()));
+        setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
 
         // Создание стандартной панели и содержимого
         add(panelState, BorderLayout.NORTH);
         add(panelContent, BorderLayout.CENTER);
-        UtilLogger.info(DialogDefault.class, "build - finished");
-        return this;
     }
 
     @Override
     public void setLayout(LayoutManager layout) {
-        if(panelContent != null) {
-            CommonViewMethods.setLayout(panelContent, layout);
+        if(panelContent != null && layout != null) {
+            panelContent.setLayout(layout);
         }else{
             super.setLayout(layout);
         }
@@ -52,8 +50,8 @@ public class DialogDefault<M extends ModelFormDefault> extends DialogBase<M> {
 
     @Override
     public void setBackground(Color color) {
-        if(panelContent != null) {
-            CommonViewMethods.setBackground(panelContent, color);
+        if(panelContent != null && color != null) {
+            panelContent.setBackground(color);
         }else{
             super.setBackground(color);
         }
@@ -63,7 +61,7 @@ public class DialogDefault<M extends ModelFormDefault> extends DialogBase<M> {
     public Component add(Component comp) {
         Component result = null;
 
-        if(comp != null){
+        if(panelContent != null && comp != null){
             result = panelContent.add(comp);
         }else{
             result = super.add(comp);
@@ -84,19 +82,18 @@ public class DialogDefault<M extends ModelFormDefault> extends DialogBase<M> {
         return result;
     }
 
+    @Override
+    public void destroy() {
+        panelState = null;
+        panelContent = null;
+        super.destroy();
+    }
+
     protected PanelState getPanelState() {
         return panelState;
     }
 
-    protected PanelContent getPanelContent() {
+    protected JPanel getPanelContent() {
         return panelContent;
-    }
-
-    public void setPanelState(PanelState panelState) {
-        this.panelState = panelState;
-    }
-
-    public void setPanelContent(PanelContent panelContent) {
-        this.panelContent = panelContent;
     }
 }

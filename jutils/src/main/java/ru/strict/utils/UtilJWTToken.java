@@ -28,16 +28,16 @@ public class UtilJWTToken {
         if(issuedAt != null){
             builder.setIssuedAt(issuedAt);
         }
-        if(ValidateBaseValue.isNotEmptyOrNull(issuer)){
+        if(!ValidateBaseValue.isEmptyOrNull(issuer)){
             builder.setIssuer(issuer);
         }
-        if(ValidateBaseValue.isNotEmptyOrNull(subject)){
+        if(!ValidateBaseValue.isEmptyOrNull(subject)){
             builder.setSubject(subject);
         }
         if(notBefore != null){
             builder.setNotBefore(notBefore);
         }
-        if(ValidateBaseValue.isNotEmptyOrNull(audience)){
+        if(!ValidateBaseValue.isEmptyOrNull(audience)){
             builder.setAudience(audience);
         }
 

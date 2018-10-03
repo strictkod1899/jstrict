@@ -1,8 +1,5 @@
 package ru.strict.validates;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,23 +9,30 @@ import java.util.regex.Pattern;
 public class ValidateBaseValue {
 
     /**
-     * Проверка строки, чтобы она была не пустой и не равно нулю
+     * Проверка строки, чтобы она была не пустой и не равна нулю
      *
      * @param str Проверяемая строка
      * @return Если строка не содержит пустых символов и является корректной, то возвращается true, иначе false
      */
-    public static boolean isNotEmptyOrNull(String str) {
+    public static boolean isEmptyOrNull(String str) {
         boolean result = false;
 
-        if (str != null) {
-            Pattern pattern = Pattern.compile("\\S");
-            Matcher match = pattern.matcher(str);
-            if(match.find()){
-                result = true;
-            }
+        if(str == null || str.length() == 0){
+            result = true;
         }
 
         return result;
+    }
+
+    /**
+     * Проверка строки, чтобы она была не пустой, не равна нулю и не содержала одних пробелов
+     *
+     * @param str Проверяемая строка
+     * @return Если строка не содержит пустых символов и является корректной, то возвращается true, иначе false
+     */
+    public static boolean isEmptySpaceOrNull(String str) {
+        String strTrim = str.trim();
+        return isEmptyOrNull(strTrim);
     }
 
     public static boolean isMinLength(String str, int minLength){

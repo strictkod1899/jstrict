@@ -17,16 +17,6 @@ import java.util.List;
 public class UtilSwing {
 
     /**
-     * Обновить визуальное состояние компонента
-     * @param component
-     */
-    public static void updateState(Component component){
-        component.repaint();
-        component.invalidate();
-        component.validate();
-    }
-
-    /**
      * Получить значение компонента по содержанию предшествующего JLabel (без учета регистра)
      * @param components Проверяемые компоненты
      * @param tfCaption Значение JLabel, после которого получаем значение компонента

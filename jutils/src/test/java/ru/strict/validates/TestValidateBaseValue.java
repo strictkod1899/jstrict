@@ -51,8 +51,8 @@ public class TestValidateBaseValue {
     public static Collection setUp(){
         return Arrays.asList(new Object[][]{
                 {"Hello World", "22", "22.8", "1994/06/18", "06/08/1994", '/', "00:00:00",
-                        "   ", "2,2", "22,8", "18/06/1994", "1994/08/18", "24:00:00"},
-                {",", "-22", "+22.8", "1994-06-18", "06-08-1994", '-', "23:59:59",
+                        "", "2,2", "22,8", "18/06/1994", "1994/08/18", "24:00:00"},
+                {"   ", "-22", "+22.8", "1994-06-18", "06-08-1994", '-', "23:59:59",
                         "", "+2.2", "+22,8", "1994-06-32", "32-08-1994", "00:61:00"},
                 {" A", "+22", "-22.8", "1994 06 18", "06 08 1994", ' ', "07:15:05",
                         null, "-2.2", "-22,8", "1994 06 0", "0 08 1994", "00:00:61"},
@@ -61,7 +61,7 @@ public class TestValidateBaseValue {
 
     @Test
     public void testTrueIsValidateString(){
-        Assert.assertTrue(ValidateBaseValue.isNotEmptyOrNull(trueText));
+        Assert.assertTrue(!ValidateBaseValue.isEmptyOrNull(trueText));
     }
 
     @Test
@@ -91,7 +91,7 @@ public class TestValidateBaseValue {
 
     @Test
     public void testFalseIsValidateString(){
-        Assert.assertFalse(ValidateBaseValue.isNotEmptyOrNull(falseText));
+        Assert.assertFalse(!ValidateBaseValue.isEmptyOrNull(falseText));
     }
 
     @Test

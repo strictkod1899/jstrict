@@ -1,6 +1,6 @@
 package ru.strict.db.jdbc.mappers.sql;
 
-import ru.strict.components.WrapperRuntimeException;
+
 import ru.strict.db.core.entities.EntityProfileInfo;
 import ru.strict.db.core.mappers.sql.MapperSqlBase;
 
@@ -28,7 +28,7 @@ public class MapperSqlProfileInfo<ID> extends MapperSqlBase<ID, EntityProfileInf
             entity.setPhone(resultSet.getString(COLUMNS_NAME[5]));
             entity.setCityId((ID)resultSet.getObject(COLUMNS_NAME[6]));
         }catch(SQLException ex){
-            throw new WrapperRuntimeException(ex);
+            throw new RuntimeException(ex);
         }
         return entity;
     }

@@ -1,6 +1,6 @@
 package ru.strict.file;
 
-import ru.strict.components.LoggerWrapper;
+import ru.strict.components.Log4jWrapper;
 import ru.strict.utils.UtilProperties;
 import ru.strict.validates.ValidateBaseValue;
 
@@ -8,7 +8,7 @@ import java.io.File;
 
 public abstract class PropertiesFileReader {
 
-    protected static final LoggerWrapper LOGGER = new LoggerWrapper(PropertiesFileReader.class);
+    protected static final Log4jWrapper LOGGER = new Log4jWrapper(PropertiesFileReader.class);
 
     private String pathToDirectory;
     private String propertiesFileName;
@@ -39,7 +39,7 @@ public abstract class PropertiesFileReader {
     protected String getSuffixFileName(){
         String result = null;
 
-        if(ValidateBaseValue.isNotEmptyOrNull(suffix)){
+        if(!ValidateBaseValue.isEmptyOrNull(suffix)){
             result = String.format("%s_%s.properties", propertiesFileName, suffix);
         }else{
             result = getFileName();
@@ -49,7 +49,7 @@ public abstract class PropertiesFileReader {
 
     public String readValue(String key){
         String result = UtilProperties.getValue(getPathToSuffixFile(), key);
-        if(!ValidateBaseValue.isNotEmptyOrNull(result)){
+        if(ValidateBaseValue.isEmptyOrNull(result)){
             result = UtilProperties.getValue(getPathToFile(), key);
         }
         return result;

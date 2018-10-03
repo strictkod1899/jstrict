@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>jswing</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
     <packaging>jar</packaging>
     <name>jswing</name>
     <url>http://maven.apache.org</url>
@@ -24,7 +24,7 @@
         </dependency>
         <dependency>
             <groupId>ru.strict</groupId>
-            <artifactId>jfile</artifactId>
+            <artifactId>jpatterns</artifactId>
         </dependency>
     </dependencies>
 

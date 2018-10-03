@@ -1,27 +1,26 @@
 package ru.strict.swing.views.frames;
 
-import ru.strict.swing.models.ModelFormBase;
 import ru.strict.swing.views.IForm;
 import ru.strict.swing.views.utils.CommonViewMethods;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 /**
  * Базовый фрейм
  */
-public class FrameBase<M extends ModelFormBase>
-        extends JFrame
-        implements IForm<M> {
+public class FrameBase<M> extends JFrame implements IForm {
 
     private M model;
-    private boolean isBuilt;
 
-    @Override
-    public FrameBase build(M model){
+    public FrameBase(M model) {
         this.model = model;
-        CommonViewMethods.build(this, model);
-        isBuilt = true;
-        return this;
+        build();
+    }
+
+    private void build(){
+        CommonViewMethods.build(this);
+        getContentPane().setBackground(getBackground());
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     @Override
@@ -35,13 +34,8 @@ public class FrameBase<M extends ModelFormBase>
     }
 
     @Override
-    public void updateView(){
-        CommonViewMethods.updateView(this);
-    }
-
-    @Override
-    public boolean isBuilt() {
-        return isBuilt;
+    public void refresh(){
+        CommonViewMethods.refresh(this);
     }
 
     @Override
@@ -59,13 +53,7 @@ public class FrameBase<M extends ModelFormBase>
         CommonViewMethods.packWidth(this);
     }
 
-    @Override
-    public void setModel(M model) {
-        this.model = model;
-    }
-
-    @Override
-    public M getModel() {
+    protected M getModel() {
         return model;
     }
 }

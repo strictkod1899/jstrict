@@ -1,6 +1,6 @@
 package ru.strict.db.jdbc.repositories;
 
-import ru.strict.components.WrapperRuntimeException;
+
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoBase;
@@ -86,7 +86,7 @@ public abstract class RepositoryJdbcBase
                             LOGGER.error(ex.getClass().toString(), ex.getMessage());
                         }
                     }
-                    throw new WrapperRuntimeException(ex);
+                    throw new RuntimeException(ex);
                 }finally {
                     if(connection != null) {
                         try {
@@ -125,7 +125,7 @@ public abstract class RepositoryJdbcBase
                             LOGGER.error(ex.getClass().toString(), ex.getMessage());
                         }
                     }
-                    throw new WrapperRuntimeException(ex);
+                    throw new RuntimeException(ex);
                 }finally {
                     if(connection != null) {
                         try {
@@ -164,7 +164,7 @@ public abstract class RepositoryJdbcBase
                             LOGGER.error(ex.getClass().toString(), ex.getMessage());
                         }
                     }
-                    throw new WrapperRuntimeException(ex);
+                    throw new RuntimeException(ex);
                 }finally {
                     if(connection != null) {
                         try {
@@ -230,7 +230,7 @@ public abstract class RepositoryJdbcBase
                     LOGGER.error(ex.getClass().toString(), ex.getMessage());
                 }
             }
-            throw new WrapperRuntimeException(ex);
+            throw new RuntimeException(ex);
         }finally {
             if(connection != null) {
                 try {
@@ -286,7 +286,7 @@ public abstract class RepositoryJdbcBase
                     LOGGER.error(ex.getClass().toString(), ex.getMessage());
                 }
             }
-            throw new WrapperRuntimeException(ex);
+            throw new RuntimeException(ex);
         }finally {
             if(connection != null) {
                 try {
@@ -343,7 +343,7 @@ public abstract class RepositoryJdbcBase
                     LOGGER.error(ex.getClass().toString(), ex.getMessage());
                 }
             }
-            throw new WrapperRuntimeException(ex);
+            throw new RuntimeException(ex);
         }finally {
             if(connection != null) {
                 try {
@@ -388,7 +388,7 @@ public abstract class RepositoryJdbcBase
                     LOGGER.error(ex.getClass().toString(), ex.getMessage());
                 }
             }
-            throw new WrapperRuntimeException(ex);
+            throw new RuntimeException(ex);
         }finally {
             if(connection != null) {
                 try {
@@ -434,7 +434,7 @@ public abstract class RepositoryJdbcBase
                     LOGGER.error(ex.getClass().toString(), ex.getMessage());
                 }
             }
-            throw new WrapperRuntimeException(ex);
+            throw new RuntimeException(ex);
         }finally {
             if(connection != null) {
                 try {
@@ -576,7 +576,7 @@ public abstract class RepositoryJdbcBase
                     LOGGER.error(ex.getClass().toString(), ex.getMessage());
                 }
             }
-            throw new WrapperRuntimeException(ex);
+            throw new RuntimeException(ex);
         }finally {
             if(connection != null) {
                 try {

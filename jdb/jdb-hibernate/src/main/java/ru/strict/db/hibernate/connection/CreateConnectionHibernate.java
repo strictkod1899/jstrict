@@ -3,7 +3,7 @@ package ru.strict.db.hibernate.connection;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import ru.strict.components.LoggerWrapper;
+import ru.strict.components.Log4jWrapper;
 import ru.strict.db.core.connections.CreateConnectionBase;
 import ru.strict.db.hibernate.common.SessionFactorySingleton;
 import ru.strict.utils.UtilLogger;
@@ -19,7 +19,7 @@ import ru.strict.utils.UtilLogger;
  */
 public class CreateConnectionHibernate extends CreateConnectionBase<HibernateConnectionInfo, Session> {
 
-    protected final LoggerWrapper LOGGER = UtilLogger.createLogger(CreateConnectionHibernate.class);
+    protected final Log4jWrapper LOGGER = UtilLogger.createLogger(CreateConnectionHibernate.class);
 
     public CreateConnectionHibernate(HibernateConnectionInfo connectionSource) {
         super(connectionSource);

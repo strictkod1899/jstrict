@@ -1,6 +1,6 @@
 package ru.strict.db.jdbc.mappers.sql;
 
-import ru.strict.components.WrapperRuntimeException;
+
 import ru.strict.db.core.entities.EntityJWTToken;
 import ru.strict.db.core.mappers.sql.MapperSqlBase;
 
@@ -35,7 +35,7 @@ public class MapperSqlJWTToken<ID> extends MapperSqlBase<ID, EntityJWTToken<ID>>
             entity.setUserId((ID)resultSet.getObject(COLUMNS_NAME[12]));
             entity.setRoleUserId((ID)resultSet.getObject(COLUMNS_NAME[13]));
         }catch(SQLException ex){
-            throw new WrapperRuntimeException(ex);
+            throw new RuntimeException(ex);
         }
         return entity;
     }

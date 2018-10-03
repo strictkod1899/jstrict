@@ -2,7 +2,7 @@ package ru.strict.db.mybatis.connection;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import ru.strict.components.LoggerWrapper;
+import ru.strict.components.Log4jWrapper;
 import ru.strict.db.core.connections.CreateConnectionBase;
 import ru.strict.utils.UtilLogger;
 
@@ -17,7 +17,7 @@ import ru.strict.utils.UtilLogger;
  */
 public class CreateConnectionByMybatis extends CreateConnectionBase<MybatisConnectionInfo, SqlSession> {
 
-    protected final LoggerWrapper LOGGER = UtilLogger.createLogger(CreateConnectionByMybatis.class);
+    protected final Log4jWrapper LOGGER = UtilLogger.createLogger(CreateConnectionByMybatis.class);
 
     public CreateConnectionByMybatis(MybatisConnectionInfo connectionSource) {
         super(connectionSource);

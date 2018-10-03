@@ -3,7 +3,6 @@ package ru.strict.utils;
 import ru.strict.validates.ValidateBaseValue;
 
 import java.io.UnsupportedEncodingException;
-import java.util.UUID;
 
 public class UtilData {
 
@@ -39,7 +38,7 @@ public class UtilData {
     public static String convertStringToEncode(String value, String defaultEncoding, String encodingOutput){
         String result = null;
         try {
-            if(ValidateBaseValue.isNotEmptyOrNull(defaultEncoding)) {
+            if(!ValidateBaseValue.isEmptyOrNull(defaultEncoding)) {
                 result = new String(value.getBytes(defaultEncoding), encodingOutput);
             }else{
                 result = new String(value.getBytes(), encodingOutput);

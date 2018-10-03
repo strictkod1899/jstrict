@@ -1,7 +1,7 @@
 package ru.strict.db.spring.mappers.sql;
 
 import org.springframework.jdbc.core.RowMapper;
-import ru.strict.components.WrapperRuntimeException;
+
 import ru.strict.db.core.entities.EntityCity;
 
 import java.sql.ResultSet;
@@ -23,7 +23,7 @@ public class MapperSqlCity<ID> implements RowMapper<EntityCity<ID>> {
             entity.setCaption(resultSet.getString(COLUMNS_NAME[0]));
             entity.setCountryId((ID)resultSet.getObject(COLUMNS_NAME[1]));
         }catch(SQLException ex){
-            throw new WrapperRuntimeException(ex);
+            throw new RuntimeException(ex);
         }
         return entity;
     }

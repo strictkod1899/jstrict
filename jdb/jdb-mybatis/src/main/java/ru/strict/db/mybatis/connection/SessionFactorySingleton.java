@@ -21,7 +21,7 @@ public class SessionFactorySingleton {
     private static String configFilePath;
 
     public static void initialize(MybatisConnectionInfo connectionInfo){
-        if(ValidateBaseValue.isNotEmptyOrNull(connectionInfo.getConfigFilePath())){
+        if(!ValidateBaseValue.isEmptyOrNull(connectionInfo.getConfigFilePath())){
             configFilePath = connectionInfo.getConfigFilePath();
         }else {
             BasicDataSource dataSource = new BasicDataSource();
@@ -47,7 +47,7 @@ public class SessionFactorySingleton {
                 //configuration.addMapper(BlogMapper.class);
 
                 instance = new SqlSessionFactoryBuilder().build(configuration);
-            }else if(ValidateBaseValue.isNotEmptyOrNull(configFilePath)){
+            }else if(!ValidateBaseValue.isEmptyOrNull(configFilePath)){
                 InputStream configStream = null;
                 try {
                     configStream = Resources.getResourceAsStream(configFilePath);

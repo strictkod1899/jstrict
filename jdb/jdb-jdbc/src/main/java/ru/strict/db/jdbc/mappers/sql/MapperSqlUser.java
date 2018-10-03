@@ -1,6 +1,6 @@
 package ru.strict.db.jdbc.mappers.sql;
 
-import ru.strict.components.WrapperRuntimeException;
+
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.sql.MapperSqlBase;
 
@@ -27,7 +27,7 @@ public class MapperSqlUser<ID> extends MapperSqlBase<ID, EntityUser<ID>> {
             entity.setDeleted(resultSet.getBoolean(COLUMNS_NAME[4]));
             entity.setConfirmEmail(resultSet.getBoolean(COLUMNS_NAME[5]));
         }catch(SQLException ex){
-            throw new WrapperRuntimeException(ex);
+            throw new RuntimeException(ex);
         }
         return entity;
     }

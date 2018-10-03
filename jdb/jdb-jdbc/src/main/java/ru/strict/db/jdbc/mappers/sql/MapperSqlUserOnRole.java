@@ -1,6 +1,6 @@
 package ru.strict.db.jdbc.mappers.sql;
 
-import ru.strict.components.WrapperRuntimeException;
+
 import ru.strict.db.core.entities.EntityUserOnRole;
 import ru.strict.db.core.mappers.sql.MapperSqlBase;
 
@@ -23,7 +23,7 @@ public class MapperSqlUserOnRole<ID> extends MapperSqlBase<ID, EntityUserOnRole<
             entity.setUserId((ID)resultSet.getObject(COLUMNS_NAME[0]));
             entity.setRoleId((ID)resultSet.getObject(COLUMNS_NAME[1]));
         }catch(SQLException ex){
-            throw new WrapperRuntimeException(ex);
+            throw new RuntimeException(ex);
         }
 
         return entity;

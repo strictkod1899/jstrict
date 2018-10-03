@@ -1,27 +1,11 @@
 package ru.strict.swing.views;
 
-import ru.strict.swing.models.ModelFormBase;
+import ru.strict.patterns.mvc.views.IView;
 
 /**
  * Базовая форма
  */
-public interface IForm<M extends ModelFormBase> extends IView<M> {
-
-    /**
-     * Запуск формы
-     */
-    void launch();
-
-    /**
-     * Завершение работы формы
-     */
-    void destroy();
-
-    /**
-     * Обновление состояния формы
-     */
-    void updateView();
-
+public interface IForm extends IView {
     /**
      * Установить высоту формы по содержимому
      */

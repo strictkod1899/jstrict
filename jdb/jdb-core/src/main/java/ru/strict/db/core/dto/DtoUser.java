@@ -15,7 +15,7 @@ public class DtoUser<ID> extends DtoUserBase<ID> {
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String passwordEncode){
-        if(!ValidateBaseValue.isNotEmptyOrNull(passwordEncode)) {
+        if(ValidateBaseValue.isEmptyOrNull(passwordEncode)) {
             throw new NullPointerException("passwordEncode is NULL");
         }
 

@@ -12,10 +12,17 @@
     </parent>
 
     <artifactId>jpatterns</artifactId>
-    <version>0.1.4</version>
+    <version>0.1.5</version>
     <packaging>jar</packaging>
     <name>jpatterns</name>
     <url>http://maven.apache.org</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>ru.strict</groupId>
+            <artifactId>jutils</artifactId>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
