@@ -225,4 +225,10 @@ public abstract class RepositoryMybatisBase
     public Class<MAPPER> getMybatisMapper() {
         return mybatisMapper;
     }
+
+    @Override
+    public void close(){
+        mybatisMapper = null;
+        super.close();
+    }
 }

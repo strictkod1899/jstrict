@@ -6,6 +6,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
  * Используется для SAX-парсинга.
  * </pre>
  */
-public class HandlerXmlRead extends DefaultHandler {
+public class HandlerXmlRead extends DefaultHandler implements Closeable {
 
     /**
      * Установленный путь считывания элемента
@@ -231,9 +232,19 @@ public class HandlerXmlRead extends DefaultHandler {
      */
     private void endFinalElement(){
         // Сохраняем этот элемент в список результата
-        if(listElements.get(0).getText().equals("") && currentContent!=null && !listElements.get(0).getText().equals(currentContent))
+        if(listElements.get(0).getText().equals("") && currentContent!=null && !listElements.get(0).getText().equals(currentContent)) {
             listElements.get(0).addContent(currentContent);
+        }
         path.addInner(listElements.get(0));
         listElements.remove(listElements.size()-1);
+    }
+
+    @Override
+    public void close(){
+        path = null;
+        currentPathElement = null;
+        currentElement = null;
+        currentContent = null;
+        listElements = null;
     }
 }

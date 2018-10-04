@@ -46,26 +46,39 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
 
     @Override
     protected DTO fill(DTO dto){
-        // Добавление ролей пользователей
-        IRepository<ID, DtoUserOnRole<ID>> repositoryUserOnRole =
-                new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
-        DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
-        requests.add(new DbWhere(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
-        List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
+        IRepository<ID, DtoUserOnRole<ID>> repositoryUserOnRole = null;
+        IRepository<ID, DtoRoleuser<ID>> repositoryRoleuser = null;
+        IRepository<ID, DtoProfileInfo<ID>> repositoryProfile = null;
+        try {
+            // Добавление ролей пользователей
+            repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
+            DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
+            requests.add(new DbWhere(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
+            List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
 
-        IRepository<ID, DtoRoleuser<ID>> repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
-        Collection<DtoRoleuser<ID>> roleusers = new LinkedList<>();
-        for(DtoUserOnRole<ID> userOnRole : userOnRoles) {
-            roleusers.add(repositoryRoleuser.read(userOnRole.getRoleId()));
+            repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
+            Collection<DtoRoleuser<ID>> roleusers = new LinkedList<>();
+            for (DtoUserOnRole<ID> userOnRole : userOnRoles) {
+                roleusers.add(repositoryRoleuser.read(userOnRole.getRoleId()));
+            }
+            dto.setRoles(roleusers);
+
+            // Добавления профиля
+            repositoryProfile = new RepositoryProfileInfo<>(getConnectionSource(), GenerateIdType.NONE);
+            requests = new DbRequests(repositoryProfile.getTableName(), true);
+            requests.add(new DbWhere(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
+            dto.setProfile(repositoryProfile.readAll(requests).stream().findFirst().orElse(null));
+        }finally {
+            if(repositoryUserOnRole != null){
+                repositoryUserOnRole.close();
+            }
+            if(repositoryRoleuser != null){
+                repositoryRoleuser.close();
+            }
+            if(repositoryProfile != null){
+                repositoryProfile.close();
+            }
         }
-        dto.setRoles(roleusers);
-
-        // Добавления профиля
-        IRepository<ID, DtoProfileInfo<ID>> repositoryProfile =
-                new RepositoryProfileInfo<>(getConnectionSource(), GenerateIdType.NONE);
-        requests = new DbRequests(repositoryProfile.getTableName(), true);
-        requests.add(new DbWhere(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
-        dto.setProfile(repositoryProfile.readAll(requests).stream().findFirst().orElse(null));
         return dto;
     }
 

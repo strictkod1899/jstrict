@@ -10,12 +10,13 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-public class XmlManager {
+public class XmlManager implements Closeable{
 
     private File xmlFile;
     private SAXBuilder parser;
@@ -106,11 +107,28 @@ public class XmlManager {
         try {
             SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
             SAXParser saxParser = saxParserFactory.newSAXParser();
-            DefaultHandler defaultHandler = new HandlerXmlRead(parents);
-            saxParser.parse(xmlFile, defaultHandler);
-            return parents.getElementsInner();
+            HandlerXmlRead defaultHandler = null;
+            try {
+                defaultHandler = new HandlerXmlRead(parents);
+                saxParser.parse(xmlFile, defaultHandler);
+                return parents.getElementsInner();
+            }finally {
+                if(defaultHandler != null){
+                    defaultHandler.close();
+                }
+            }
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    @Override
+    public void close(){
+        xmlFile = null;
+        parser = null;
+        docXml = null;
+        xmlOut = null;
+        formatXmlDoc = null;
+        rootElement = null;
     }
 }

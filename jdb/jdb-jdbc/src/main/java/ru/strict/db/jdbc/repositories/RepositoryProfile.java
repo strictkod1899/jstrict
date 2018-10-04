@@ -42,11 +42,17 @@ public class RepositoryProfile<ID>
 
     @Override
     protected DtoProfile<ID> fill(DtoProfile<ID> dto){
-        IRepository<ID, DtoUser<ID>> repositoryUser =
-                new RepositoryUser(getConnectionSource(),
-                        new MapperDtoFactory().instance(MapperDtoType.USER),
-                        GenerateIdType.NONE);
+        IRepository<ID, DtoUser<ID>> repositoryUser = null;
+        try {
+            repositoryUser = new RepositoryUser(getConnectionSource(),
+                    new MapperDtoFactory().instance(MapperDtoType.USER),
+                    GenerateIdType.NONE);
             dto.setUser(repositoryUser.read(dto.getUserId()));
+        }finally {
+            if(repositoryUser != null){
+                repositoryUser.close();
+            }
+        }
         return dto;
     }
 

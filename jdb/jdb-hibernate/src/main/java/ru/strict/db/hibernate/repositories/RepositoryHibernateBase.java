@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoBase;
+import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.hibernate.entities.EntityBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.RepositoryBase;
@@ -66,7 +67,6 @@ public abstract class RepositoryHibernateBase
             E entity = session.get(getEntityClass(), id);
             result = getDtoMapper().map(entity);
             session.getTransaction().commit();
-            session.close();
         }catch(Exception ex){
             LOGGER.error(ex.getClass().toString(), ex.getMessage());
             if(session != null) {
@@ -85,11 +85,13 @@ public abstract class RepositoryHibernateBase
     public List<DTO> readAll(DbRequests requests) {
         List<DTO> result = new LinkedList<>();
         Session session = null;
+        EntityManagerFactory entityManagerFactory = null;
+        EntityManager entityManager = null;
         try{
             session = createConnection();
             session.beginTransaction();
-            EntityManagerFactory entityManagerFactory = session.getEntityManagerFactory();
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            entityManagerFactory = session.getEntityManagerFactory();
+            entityManager = entityManagerFactory.createEntityManager();
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery<E> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
             Root<E> criteriaRoot = criteriaEntity.from(getEntityClass());
@@ -98,7 +100,6 @@ public abstract class RepositoryHibernateBase
             entities.stream().forEach(entity -> result.add(getDtoMapper().map(entity)));
 
             session.getTransaction().commit();
-            session.close();
         }catch(Exception ex){
             LOGGER.error(ex.getClass().toString(), ex.getMessage());
             if(session != null) {
@@ -106,6 +107,14 @@ public abstract class RepositoryHibernateBase
             }
             throw ex;
         }finally{
+            if(entityManager != null) {
+                entityManager.close();
+            }
+
+            if(entityManagerFactory != null){
+                entityManagerFactory.close();
+            }
+
             if(session != null) {
                 session.close();
             }
@@ -122,7 +131,6 @@ public abstract class RepositoryHibernateBase
             E entity = getDtoMapper().map(dto);
             session.update(entity);
             session.getTransaction().commit();
-            session.close();
         }catch(Exception ex){
             LOGGER.error(ex.getClass().toString(), ex.getMessage());
             if(session != null) {
@@ -146,7 +154,6 @@ public abstract class RepositoryHibernateBase
             E entity = getDtoMapper().map(read(id));
             session.delete(entity);
             session.getTransaction().commit();
-            session.close();
         }catch(Exception ex){
             LOGGER.error(ex.getClass().toString(), ex.getMessage());
             if(session != null) {
@@ -186,7 +193,9 @@ public abstract class RepositoryHibernateBase
 
     @Override
     public boolean isRowExists(ID id) {
-        return read(id) != null;
+        DbRequests requests = new DbRequests(getTableName(), true);
+        requests.add(new DbWhere(getTableName(), getColumnIdName(), id, "="));
+        return readCount(requests) > 0;
     }
 
     protected abstract Class<E> getEntityClass();

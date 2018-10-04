@@ -7,12 +7,15 @@ import ru.strict.neuralnetwork.functions.ActivateFunction;
 import ru.strict.neuralnetwork.networks.NeuralNetwork;
 import ru.strict.neuralnetwork.structures.NeuralNetworkStructure;
 
+import java.io.Closeable;
+
 /**
  * Базовый класс фабрики нейронной сети
  * @param <STRUCT> Структура нейронной сети
  * @param <NETWORK> Нейронная сеть
  */
-public abstract class NeuralNetworkFactory<STRUCT extends NeuralNetworkStructure, NETWORK extends NeuralNetwork> {
+public abstract class NeuralNetworkFactory<STRUCT extends NeuralNetworkStructure, NETWORK extends NeuralNetwork>
+        implements Closeable{
 
     /**
      * Количесво входных нейронов
@@ -95,4 +98,11 @@ public abstract class NeuralNetworkFactory<STRUCT extends NeuralNetworkStructure
         structure.setUseBias(isUseBias);
     }
     //</editor-fold>
+
+    @Override
+    public void close(){
+        structure = null;
+        data = null;
+        activateFunction = null;
+    }
 }

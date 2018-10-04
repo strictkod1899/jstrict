@@ -39,21 +39,32 @@ public class RepositoryRoleuser<ID>
 
     @Override
     protected DtoRoleuser<ID> fill(DtoRoleuser<ID> dto){
-        // Добавление пользователей
-        IRepository<ID, DtoUserOnRole<ID>> repositoryUserOnRole =
-                new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
-        DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
-        requests.add(new DbWhere(repositoryUserOnRole.getTableName(), "roleuser_id", dto.getId(), "="));
-        List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
+        IRepository<ID, DtoUserOnRole<ID>> repositoryUserOnRole = null;
+        IRepository<ID, DtoUserBase<ID>> repositoryUser = null;
+        try {
+            // Добавление пользователей
+            repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
+            DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
+            requests.add(new DbWhere(repositoryUserOnRole.getTableName(), "roleuser_id", dto.getId(), "="));
+            List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
 
-        IRepository<ID, DtoUserBase<ID>> repositoryUser = new RepositoryUser<>(getConnectionSource(),
-                new MapperDtoFactory().instance(MapperDtoType.USER),
-                GenerateIdType.NONE);
-        Collection<DtoUserBase<ID>> users = new LinkedList<>();
-        for(DtoUserOnRole<ID> userOnRole : userOnRoles) {
-            users.add(repositoryUser.read(userOnRole.getUserId()));
+            repositoryUser = new RepositoryUser<>(getConnectionSource(),
+                    new MapperDtoFactory().instance(MapperDtoType.USER),
+                    GenerateIdType.NONE);
+            Collection<DtoUserBase<ID>> users = new LinkedList<>();
+            for (DtoUserOnRole<ID> userOnRole : userOnRoles) {
+                users.add(repositoryUser.read(userOnRole.getUserId()));
+            }
+            dto.setUsers(users);
+        }finally {
+            if(repositoryUserOnRole != null){
+                repositoryUserOnRole.close();
+            }
+
+            if(repositoryUser != null){
+                repositoryUser.close();
+            }
         }
-        dto.setUsers(users);
         return dto;
     }
 

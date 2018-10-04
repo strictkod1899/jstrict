@@ -47,10 +47,14 @@ public class RepositoryUser<ID extends Serializable, DTO extends DtoUserBase<ID>
     @Override
     public DTO readByEmail(String email) {
         DTO result = null;
-        try(Session session = createConnection()){
+        Session session = null;
+        EntityManagerFactory entityManagerFactory = null;
+        EntityManager entityManager = null;
+        try{
+            session = createConnection();
             session.beginTransaction();
-            EntityManagerFactory entityManagerFactory = session.getEntityManagerFactory();
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            entityManagerFactory = session.getEntityManagerFactory();
+            entityManager = entityManagerFactory.createEntityManager();
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery<EntityUser<ID>> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
             Root<EntityUser<ID>> criteriaRoot = criteriaEntity.from(getEntityClass());
@@ -63,6 +67,24 @@ public class RepositoryUser<ID extends Serializable, DTO extends DtoUserBase<ID>
             result = getDtoMapper().map(entity);
 
             session.getTransaction().commit();
+        }catch(Exception ex){
+            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+            if(session != null) {
+                session.getTransaction().rollback();
+            }
+            throw ex;
+        }finally{
+            if(entityManager != null) {
+                entityManager.close();
+            }
+
+            if(entityManagerFactory != null){
+                entityManagerFactory.close();
+            }
+
+            if(session != null) {
+                session.close();
+            }
         }
         return result;
     }

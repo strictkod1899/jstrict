@@ -4,6 +4,7 @@ import ru.strict.neuralnetwork.data.*;
 import ru.strict.neuralnetwork.functions.ActivateFunction;
 import ru.strict.neuralnetwork.structures.NeuralNetworkStructure;
 
+import java.io.Closeable;
 import java.util.List;
 
 /**
@@ -137,4 +138,11 @@ public abstract class NeuralNetwork<DATA extends NeuralNetworkData, STRUCT exten
         return activateFunction;
     }
     //</editor-fold>
+
+    @Override
+    public void close(){
+        data = null;
+        structure = null;
+        activateFunction = null;
+    }
 }

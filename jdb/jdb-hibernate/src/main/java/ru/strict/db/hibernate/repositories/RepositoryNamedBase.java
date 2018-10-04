@@ -38,10 +38,14 @@ public abstract class RepositoryNamedBase
     @Override
     public DTO readByName(String caption){
         DTO result = null;
-        try(Session session = createConnection()){
+        Session session = null;
+        EntityManagerFactory entityManagerFactory = null;
+        EntityManager entityManager = null;
+        try{
+            session = createConnection();
             session.beginTransaction();
-            EntityManagerFactory entityManagerFactory = session.getEntityManagerFactory();
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            entityManagerFactory = session.getEntityManagerFactory();
+            entityManager = entityManagerFactory.createEntityManager();
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery<E> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
             Root<E> criteriaRoot = criteriaEntity.from(getEntityClass());
@@ -54,6 +58,24 @@ public abstract class RepositoryNamedBase
             result = getDtoMapper().map(entity);
 
             session.getTransaction().commit();
+        }catch(Exception ex){
+            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+            if(session != null) {
+                session.getTransaction().rollback();
+            }
+            throw ex;
+        }finally{
+            if(entityManager != null) {
+                entityManager.close();
+            }
+
+            if(entityManagerFactory != null){
+                entityManagerFactory.close();
+            }
+
+            if(session != null) {
+                session.close();
+            }
         }
         return result;
     }
@@ -61,10 +83,14 @@ public abstract class RepositoryNamedBase
     @Override
     public List<DTO> readAllByName(String caption){
         List<DTO> result = new LinkedList<>();
-        try(Session session = createConnection()){
+        Session session = null;
+        EntityManagerFactory entityManagerFactory = null;
+        EntityManager entityManager = null;
+        try{
+            session = createConnection();
             session.beginTransaction();
-            EntityManagerFactory entityManagerFactory = session.getEntityManagerFactory();
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            entityManagerFactory = session.getEntityManagerFactory();
+            entityManager = entityManagerFactory.createEntityManager();
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery<E> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
             Root<E> criteriaRoot = criteriaEntity.from(getEntityClass());
@@ -74,6 +100,24 @@ public abstract class RepositoryNamedBase
             entities.stream().forEach(entity -> result.add(getDtoMapper().map(entity)));
 
             session.getTransaction().commit();
+        }catch(Exception ex){
+            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+            if(session != null) {
+                session.getTransaction().rollback();
+            }
+            throw ex;
+        }finally{
+            if(entityManager != null) {
+                entityManager.close();
+            }
+
+            if(entityManagerFactory != null){
+                entityManagerFactory.close();
+            }
+
+            if(session != null) {
+                session.close();
+            }
         }
         return result;
     }

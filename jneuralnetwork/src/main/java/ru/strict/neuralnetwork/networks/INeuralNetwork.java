@@ -3,10 +3,12 @@ package ru.strict.neuralnetwork.networks;
 import ru.strict.neuralnetwork.data.Neuron;
 import ru.strict.neuralnetwork.data.ResponseTestNeuron;
 
+import java.io.Closeable;
+
 /**
  * Базовый интерфейс для реализации нейронной сети
  */
-public interface INeuralNetwork {
+public interface INeuralNetwork extends Closeable{
     /**
      * Обучить нейронную сеть на ранее заданных обучающих данных
      * @param epochs Количество эпох
@@ -27,4 +29,6 @@ public interface INeuralNetwork {
      * @return Выходные нейроны
      */
     Neuron[] calc(Neuron[] inputNeurons);
+
+    void close();
 }

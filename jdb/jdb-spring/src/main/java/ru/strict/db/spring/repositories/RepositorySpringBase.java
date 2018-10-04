@@ -290,4 +290,11 @@ public abstract class RepositorySpringBase
         return springMapper;
     }
     //</editor-fold>
+
+    @Override
+    public void close(){
+        springJdbc = null;
+        springMapper = null;
+        super.close();
+    }
 }

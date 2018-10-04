@@ -4,9 +4,11 @@ import ru.strict.components.Log4jWrapper;
 import ru.strict.utils.UtilProperties;
 import ru.strict.validates.ValidateBaseValue;
 
+import java.io.Closeable;
 import java.io.File;
+import java.io.IOException;
 
-public abstract class PropertiesFileReader {
+public abstract class PropertiesFileReader implements Closeable{
 
     protected static final Log4jWrapper LOGGER = new Log4jWrapper(PropertiesFileReader.class);
 
@@ -67,5 +69,12 @@ public abstract class PropertiesFileReader {
 
     public String getPathToSuffixFile(){
         return String.format("%s%s%s", getPathToDirectory(), File.separator, getSuffixFileName());
+    }
+
+    @Override
+    public void close() {
+        pathToDirectory = null;
+        propertiesFileName = null;
+        suffix = null;
     }
 }

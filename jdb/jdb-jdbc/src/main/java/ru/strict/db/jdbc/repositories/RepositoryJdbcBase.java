@@ -565,8 +565,9 @@ public abstract class RepositoryJdbcBase
 
             resultSet = statement.executeQuery();
             resultSet.next();
-            if(resultSet.getInt(1)>0)
+            if(resultSet.getInt(1)>0) {
                 isExists = true;
+            }
         } catch (SQLException ex) {
             LOGGER.error(ex.getClass().toString(), ex.getMessage());
             if(connection != null) {
@@ -688,4 +689,10 @@ public abstract class RepositoryJdbcBase
         return sqlMapper;
     }
     //</editor-fold>
+
+    @Override
+    public void close(){
+        sqlMapper = null;
+        super.close();
+    }
 }

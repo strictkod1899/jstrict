@@ -10,6 +10,7 @@ import ru.strict.utils.UtilLogger;
 import ru.strict.components.Log4jWrapper;
 import ru.strict.utils.UtilHashCode;
 
+import java.io.Closeable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -285,6 +286,15 @@ public abstract class RepositoryBase
     @Override
     public int hashCode(){
         return UtilHashCode.createHashCode(tableName, connectionSource, generateIdType, columnsName);
+    }
+
+    @Override
+    public void close(){
+        connectionSource = null;
+        dtoMapper = null;
+        tableName = null;
+        columnsName = null;
+        generateIdType = null;
     }
     //</editor-fold>
 }

@@ -33,14 +33,22 @@ public class RepositoryUserFillToken<ID>
     protected DtoUserToken<ID> fill(DtoUserToken<ID> dto){
         dto = super.fill(dto);
 
-        // Добавление токенов
-        IRepository<ID, DtoJWTToken<ID>> repositoryToken =
-                new RepositoryJWTToken<>(getConnectionSource(), GenerateIdType.NONE);
-        DbRequests requests = new DbRequests(repositoryToken.getTableName(), true);
-        requests.add(new DbWhere(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));
+        IRepository<ID, DtoJWTToken<ID>> repositoryToken = null;
 
-        List<DtoJWTToken<ID>> tokens = repositoryToken.readAll(requests);
-        dto.setTokens(tokens);
+        try {
+            // Добавление токенов
+            repositoryToken =
+                    new RepositoryJWTToken<>(getConnectionSource(), GenerateIdType.NONE);
+            DbRequests requests = new DbRequests(repositoryToken.getTableName(), true);
+            requests.add(new DbWhere(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));
+
+            List<DtoJWTToken<ID>> tokens = repositoryToken.readAll(requests);
+            dto.setTokens(tokens);
+        }finally {
+            if(repositoryToken != null){
+                repositoryToken.close();
+            }
+        }
         return dto;
     }
 

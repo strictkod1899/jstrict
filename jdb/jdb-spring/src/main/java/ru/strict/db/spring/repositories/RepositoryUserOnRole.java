@@ -36,15 +36,26 @@ public class RepositoryUserOnRole<ID>
 
     @Override
     protected DtoUserOnRole<ID> fill(DtoUserOnRole<ID> dto){
-        // Добавление пользователя
-        IRepository<ID, DtoUser<ID>> repositoryUser = new RepositoryUser(getConnectionSource(),
-                new MapperDtoFactory().instance(MapperDtoType.USER),
-                GenerateIdType.NONE);
-        dto.setUser(repositoryUser.read(dto.getUserId()));
+        IRepository<ID, DtoUser<ID>> repositoryUser = null;
+        IRepository<ID, DtoRoleuser<ID>> repositoryRoleuser = null;
+        try {
+            // Добавление пользователя
+            repositoryUser = new RepositoryUser(getConnectionSource(),
+                    new MapperDtoFactory().instance(MapperDtoType.USER),
+                    GenerateIdType.NONE);
+            dto.setUser(repositoryUser.read(dto.getUserId()));
 
-        // Добавление роли пользователя
-        IRepository<ID, DtoRoleuser<ID>> repositoryRoleuser = new RepositoryRoleuser(getConnectionSource(), GenerateIdType.NONE);
-        dto.setRole(repositoryRoleuser.read(dto.getRoleId()));
+            // Добавление роли пользователя
+            repositoryRoleuser = new RepositoryRoleuser(getConnectionSource(), GenerateIdType.NONE);
+            dto.setRole(repositoryRoleuser.read(dto.getRoleId()));
+        }finally {
+            if(repositoryUser != null){
+                repositoryUser.close();
+            }
+            if(repositoryRoleuser != null){
+                repositoryRoleuser.close();
+            }
+        }
         return dto;
     }
 

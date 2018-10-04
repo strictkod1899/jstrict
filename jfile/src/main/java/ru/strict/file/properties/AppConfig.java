@@ -38,4 +38,10 @@ public class AppConfig extends PropertiesResourceFileReader {
     public AppEnvironment getEnvironment() {
         return environment;
     }
+
+    @Override
+    public void close(){
+        environment = null;
+        super.close();
+    }
 }

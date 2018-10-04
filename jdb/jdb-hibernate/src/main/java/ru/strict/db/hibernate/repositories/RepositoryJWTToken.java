@@ -37,10 +37,14 @@ public class RepositoryJWTToken<ID extends Serializable>
     @Override
     public DtoJWTToken<ID> readByAccessToken(String caption) {
         DtoJWTToken<ID> result = null;
-        try(Session session = createConnection()){
+        Session session = null;
+        EntityManagerFactory entityManagerFactory = null;
+        EntityManager entityManager = null;
+        try{
+            session = createConnection();
             session.beginTransaction();
-            EntityManagerFactory entityManagerFactory = session.getEntityManagerFactory();
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            entityManagerFactory = session.getEntityManagerFactory();
+            entityManager = entityManagerFactory.createEntityManager();
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery<EntityJWTToken<ID>> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
             Root<EntityJWTToken<ID>> criteriaRoot = criteriaEntity.from(getEntityClass());
@@ -53,6 +57,24 @@ public class RepositoryJWTToken<ID extends Serializable>
             result = getDtoMapper().map(entity);
 
             session.getTransaction().commit();
+        }catch(Exception ex){
+            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+            if(session != null) {
+                session.getTransaction().rollback();
+            }
+            throw ex;
+        }finally{
+            if(entityManager != null) {
+                entityManager.close();
+            }
+
+            if(entityManagerFactory != null){
+                entityManagerFactory.close();
+            }
+
+            if(session != null) {
+                session.close();
+            }
         }
         return result;
     }
@@ -60,10 +82,14 @@ public class RepositoryJWTToken<ID extends Serializable>
     @Override
     public DtoJWTToken<ID> readByRefreshToken(String caption) {
         DtoJWTToken<ID> result = null;
-        try(Session session = createConnection()){
+        Session session = null;
+        EntityManagerFactory entityManagerFactory = null;
+        EntityManager entityManager = null;
+        try{
+            session = createConnection();
             session.beginTransaction();
-            EntityManagerFactory entityManagerFactory = session.getEntityManagerFactory();
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            entityManagerFactory = session.getEntityManagerFactory();
+            entityManager = entityManagerFactory.createEntityManager();
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery<EntityJWTToken<ID>> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
             Root<EntityJWTToken<ID>> criteriaRoot = criteriaEntity.from(getEntityClass());
@@ -76,6 +102,24 @@ public class RepositoryJWTToken<ID extends Serializable>
             result = getDtoMapper().map(entity);
 
             session.getTransaction().commit();
+        }catch(Exception ex){
+            LOGGER.error(ex.getClass().toString(), ex.getMessage());
+            if(session != null) {
+                session.getTransaction().rollback();
+            }
+            throw ex;
+        }finally{
+            if(entityManager != null) {
+                entityManager.close();
+            }
+
+            if(entityManagerFactory != null){
+                entityManagerFactory.close();
+            }
+
+            if(session != null) {
+                session.close();
+            }
         }
         return result;
     }
