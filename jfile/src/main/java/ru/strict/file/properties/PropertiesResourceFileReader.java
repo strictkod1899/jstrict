@@ -3,6 +3,8 @@ package ru.strict.file.properties;
 import ru.strict.utils.UtilResources;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public abstract class PropertiesResourceFileReader extends PropertiesFileReader {
 
@@ -20,8 +22,13 @@ public abstract class PropertiesResourceFileReader extends PropertiesFileReader 
 
     @Override
     protected String initializePathToDirectory(){
-        UtilResources.getResourceAsFile(getSuffixFileName(), getThisClass());
-        File appFile = UtilResources.getResourceAsFile(getFileName(), getThisClass());
+        if(!(new File(getSuffixFileName()).exists())) {
+            UtilResources.getResourceAsFile(getSuffixFileName(), getThisClass());
+        }
+        File appFile = new File(getFileName());
+        if(!appFile.exists()) {
+            appFile = UtilResources.getResourceAsFile(getFileName(), getThisClass());
+        }
 
         String pathToDirectory = appFile.getAbsolutePath().substring(0, appFile.getAbsolutePath().lastIndexOf(File.separator));
         return pathToDirectory;
