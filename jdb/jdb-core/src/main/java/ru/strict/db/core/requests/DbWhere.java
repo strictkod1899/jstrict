@@ -1,7 +1,8 @@
 package ru.strict.db.core.requests;
 
-import ru.strict.utils.UtilHashCode;
 
+
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -112,8 +113,7 @@ public class DbWhere extends DbRequestBase {
 
     @Override
     public int hashCode(){
-        int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, columnName, columnValue, operator, templateSymbol);
+        return Objects.hash(getTableName(), columnName, columnValue, operator, templateSymbol);
     }
     //</editor-fold>
 }

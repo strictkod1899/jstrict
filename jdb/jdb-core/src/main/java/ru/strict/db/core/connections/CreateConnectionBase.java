@@ -1,6 +1,7 @@
 package ru.strict.db.core.connections;
 
-import ru.strict.utils.UtilHashCode;
+
+import java.util.Objects;
 
 /**
  * Конструктор соединения с базой данных
@@ -43,7 +44,7 @@ public abstract class CreateConnectionBase<SOURCE, CONNECTION> implements ICreat
 
     @Override
     public int hashCode(){
-        return UtilHashCode.createHashCode(connectionSource);
+        return Objects.hash(connectionSource);
     }
     //</editor-fold>
 }

@@ -15,12 +15,11 @@ public class UtilHash {
      * @return
      */
     public static String hashMd5(String str){
-        UtilLogger.info(UtilHash.class, "hashMd5 - started");
         MessageDigest md = null;
         try {
             md = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException ex) {
-            UtilLogger.error(UtilHash.class, ex.getClass().toString(), ex.getMessage());
+            throw new RuntimeException(ex);
         }
         md.update(str.getBytes());
         byte byteData[] = md.digest();
@@ -32,7 +31,6 @@ public class UtilHash {
             if (hex.length() == 1) hexString.append('0');
             hexString.append(hex);
         }
-        UtilLogger.info(UtilHash.class, "hashMd5 - finished");
         return hexString.toString();
     }
 
@@ -54,21 +52,19 @@ public class UtilHash {
      * @throws UnsupportedEncodingException
      */
     public static String hashSha1(String Param) {
-        UtilLogger.info(UtilHash.class, "hashSha1 - started");
         MessageDigest SHA = null;
         try {
             SHA = MessageDigest.getInstance("SHA-1");
         } catch (NoSuchAlgorithmException ex) {
-            UtilLogger.error(UtilHash.class, ex.getClass().toString(), ex.getMessage());
+            throw new RuntimeException(ex);
         }
         SHA.reset();
         try {
             SHA.update(Param.getBytes("UTF-8"), 0, Param.length());
         } catch (UnsupportedEncodingException ex) {
-            UtilLogger.error(UtilHash.class, ex.getClass().toString(), ex.getMessage());
+            throw new RuntimeException(ex);
         }
         byte[] sha1hash = SHA.digest();
-        UtilLogger.info(UtilHash.class, "hashSha1 - finished");
         return bytesToHexStr(sha1hash);
     }
 
@@ -79,7 +75,6 @@ public class UtilHash {
      * @return String
      */
     private static String bytesToHexStr(byte[] raw) {
-        UtilLogger.info(UtilHash.class, "bytesToHexStr - started");
         char[] kDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
         int length = raw.length;
         char[] hex = new char[length * 2];
@@ -90,7 +85,6 @@ public class UtilHash {
             hex[i * 2 + 0] = kDigits[highIndex];
             hex[i * 2 + 1] = kDigits[lowIndex];
         }
-        UtilLogger.info(UtilHash.class, "bytesToHexStr - finished");
         return new String(hex);
     }
 }

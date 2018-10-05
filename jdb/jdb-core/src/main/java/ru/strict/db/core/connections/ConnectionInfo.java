@@ -1,6 +1,7 @@
 package ru.strict.db.core.connections;
 
-import ru.strict.utils.UtilHashCode;
+
+import java.util.Objects;
 
 /**
  * Необходимая информация для создания соединения с базой данных
@@ -79,7 +80,7 @@ public class ConnectionInfo {
 
     @Override
     public int hashCode(){
-        return UtilHashCode.createHashCode(password, username, driver, url);
+        return Objects.hash(password, username, driver, url);
     }
     //</editor-fold>
 }

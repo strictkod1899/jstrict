@@ -6,7 +6,6 @@ import org.hibernate.SessionFactory;
 import ru.strict.components.Log4jWrapper;
 import ru.strict.db.core.connections.CreateConnectionBase;
 import ru.strict.db.hibernate.common.SessionFactorySingleton;
-import ru.strict.utils.UtilLogger;
 
 /**
  * Конструктор соединения с базой данных, на основе информации переданной в объекте класса HibernateConnectionInfo
@@ -18,8 +17,6 @@ import ru.strict.utils.UtilLogger;
  * </pre></code>
  */
 public class CreateConnectionHibernate extends CreateConnectionBase<HibernateConnectionInfo, Session> {
-
-    protected final Log4jWrapper LOGGER = UtilLogger.createLogger(CreateConnectionHibernate.class);
 
     public CreateConnectionHibernate(HibernateConnectionInfo connectionSource) {
         super(connectionSource);

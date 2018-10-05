@@ -1,9 +1,10 @@
 package ru.strict.db.hibernate.connection;
 
-import ru.strict.utils.UtilHashCode;
+
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Необходимая информация для создания соединения с базой данных, при использовании Hibernate
@@ -200,7 +201,8 @@ public class HibernateConnectionInfo {
 
     @Override
     public int hashCode(){
-        return UtilHashCode.createHashCode(password, username, driver, url);
+        return Objects.hash(dialect, password, username, driver, url, poolSize, autoCommit, providerClass,
+                useSecondLevelCache, useQueryCache, showSql, currentSessionContextClass, packages, entityClasses);
     }
     //</editor-fold>
 }

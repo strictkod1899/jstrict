@@ -1,6 +1,7 @@
 package ru.strict.db.core.requests;
 
-import ru.strict.utils.UtilHashCode;
+
+import java.util.Objects;
 
 /**
  * Базовое определние условия sql-запроса
@@ -37,7 +38,7 @@ public abstract class DbRequestBase implements IDbRequest {
 
     @Override
     public int hashCode(){
-        return UtilHashCode.createHashCode(tableName);
+        return Objects.hash(tableName);
     }
     //</editor-fold>
 }

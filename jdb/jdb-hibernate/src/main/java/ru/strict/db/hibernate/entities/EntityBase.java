@@ -1,10 +1,11 @@
 package ru.strict.db.hibernate.entities;
 
 import ru.strict.utils.UtilData;
-import ru.strict.utils.UtilHashCode;
+
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -62,7 +63,7 @@ public abstract class EntityBase<ID> implements Serializable, Comparable<EntityB
 
     @Override
     public int hashCode(){
-        return UtilHashCode.createHashCode(id);
+        return Objects.hash(id);
     }
 
     @Override

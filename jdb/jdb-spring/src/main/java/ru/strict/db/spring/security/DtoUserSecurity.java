@@ -4,10 +4,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.dto.DtoUser;
-import ru.strict.utils.UtilHashCode;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 
 /**
  * Пользователь системы
@@ -46,7 +46,7 @@ public class DtoUserSecurity<ID> extends DtoUser<ID> implements UserDetails{
 
 				@Override
 				public int hashCode(){
-					return UtilHashCode.createHashCode(roleuser);
+					return Objects.hash(roleuser);
 				}
 			};
 			this.authorities.add(grandAuthority);
@@ -105,8 +105,8 @@ public class DtoUserSecurity<ID> extends DtoUser<ID> implements UserDetails{
 
 	@Override
     public int hashCode(){
-        int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, authorities);
+		return Objects.hash(getId(), getUsername(), getEmail(), isBlocked(), isDeleted(), isConfirmEmail(),
+				getRoles(), getProfile(), getPasswordEncode(), authorities);
     }
 	//</editor-fold>
 }

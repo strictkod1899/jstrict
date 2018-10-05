@@ -1,8 +1,9 @@
 package ru.strict.db.hibernate.entities;
 
-import ru.strict.utils.UtilHashCode;
+
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * Основная информация профиля пользователя (имя, фамилия, отчество)
@@ -164,8 +165,7 @@ public abstract class EntityProfileBase<ID> extends EntityBase<ID> {
 
     @Override
     public int hashCode(){
-        int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, name, surname, middlename, userId);
+        return Objects.hash(getId(), name, surname, middlename, userId, user);
     }
     //</editor-fold>
 }

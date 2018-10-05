@@ -1,7 +1,9 @@
 package ru.strict.db.core.dto;
 
-import ru.strict.utils.UtilHashCode;
+
 import ru.strict.validates.ValidateBaseValue;
+
+import java.util.Objects;
 
 /**
  * Пользователь системы
@@ -69,8 +71,8 @@ public class DtoUser<ID> extends DtoUserBase<ID> {
 
     @Override
     public int hashCode(){
-        int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, passwordEncode);
+        return Objects.hash(getId(), getUsername(), getEmail(), isBlocked(), isDeleted(), isConfirmEmail(),
+                getRoles(), getProfile(), passwordEncode);
     }
     //</editor-fold>
 }

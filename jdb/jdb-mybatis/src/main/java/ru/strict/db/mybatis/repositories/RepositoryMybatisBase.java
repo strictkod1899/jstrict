@@ -12,6 +12,7 @@ import ru.strict.db.mybatis.mappers.sql.MapperSqlBase;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlExtension;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public abstract class RepositoryMybatisBase
@@ -224,6 +225,12 @@ public abstract class RepositoryMybatisBase
 
     public Class<MAPPER> getMybatisMapper() {
         return mybatisMapper;
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(getConnectionSource(), getDtoMapper(), getTableName(), getColumnsName(),
+                getGenerateIdType(), mybatisMapper);
     }
 
     @Override

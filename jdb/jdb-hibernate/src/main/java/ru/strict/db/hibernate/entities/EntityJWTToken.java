@@ -1,8 +1,9 @@
 package ru.strict.db.hibernate.entities;
 
-import ru.strict.utils.UtilHashCode;
+
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * JWT-токен
@@ -241,9 +242,9 @@ public class EntityJWTToken<ID> extends EntityToken<ID> {
 
     @Override
     public int hashCode(){
-        int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, issuer, subject, notBefore, secret,
-                algorithm, type, userId, roleUserId);
+        return Objects.hash(getId(), getAccessToken(), getRefreshToken(), getExpireTimeAccess(),
+                getExpireTimeRefresh(), getIssuedAt(), issuer, subject, notBefore, audience, secret,
+                algorithm, type, userId, user, roleUserId, roleUser);
     }
     //</editor-fold>
 }

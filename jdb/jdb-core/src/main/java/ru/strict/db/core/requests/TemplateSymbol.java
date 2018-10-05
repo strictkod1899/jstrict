@@ -1,6 +1,7 @@
 package ru.strict.db.core.requests;
 
-import ru.strict.utils.UtilHashCode;
+
+import java.util.Objects;
 
 /**
  * Шаблонный символ сравнения строк
@@ -51,7 +52,7 @@ public class TemplateSymbol {
 
     @Override
     public int hashCode(){
-        return UtilHashCode.createHashCode(templateSymbol, pointTemplateSymbol);
+        return Objects.hash(templateSymbol, pointTemplateSymbol);
     }
     //</editor-fold>
 }

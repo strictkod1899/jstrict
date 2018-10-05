@@ -2,11 +2,12 @@ package ru.strict.db.spring.security;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.strict.utils.UtilHashCode;
+
 
 /**
  * Специальный класс, который предоставляет данные пользователя для SpringSecurity.
@@ -64,7 +65,7 @@ public class StrictUserManager<ID> {
 
 	@Override
     public int hashCode(){
-        return UtilHashCode.createHashCode(users);
+        return Objects.hash(users);
     }
 	//</editor-fold>
 }

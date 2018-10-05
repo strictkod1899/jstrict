@@ -4,7 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import ru.strict.components.Log4jWrapper;
 import ru.strict.db.core.connections.CreateConnectionBase;
-import ru.strict.utils.UtilLogger;
+
 
 /**
  * Конструктор соединения с базой данных, на основе информации переданной в объекте класса HibernateConnectionInfo
@@ -16,8 +16,6 @@ import ru.strict.utils.UtilLogger;
  * </pre></code>
  */
 public class CreateConnectionByMybatis extends CreateConnectionBase<MybatisConnectionInfo, SqlSession> {
-
-    protected final Log4jWrapper LOGGER = UtilLogger.createLogger(CreateConnectionByMybatis.class);
 
     public CreateConnectionByMybatis(MybatisConnectionInfo connectionSource) {
         super(connectionSource);

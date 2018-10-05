@@ -6,13 +6,14 @@ import ru.strict.db.core.dto.DtoBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
-import ru.strict.utils.UtilLogger;
+
 import ru.strict.components.Log4jWrapper;
-import ru.strict.utils.UtilHashCode;
+
 
 import java.io.Closeable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Базовый класс репозитория
@@ -24,8 +25,6 @@ import java.util.List;
 public abstract class RepositoryBase
         <ID, CONNECTION, SOURCE extends ICreateConnection<CONNECTION>, E, DTO extends DtoBase<ID>>
         implements IRepositoryExtension<ID, DTO> {
-
-    protected final Log4jWrapper LOGGER = UtilLogger.createLogger(getThisClass());
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
@@ -89,7 +88,6 @@ public abstract class RepositoryBase
     //<editor-fold defaultState="collapsed" desc="CRUD">
     @Override
     public DTO createOrUpdate(DTO dto) {
-        LOGGER.info("Trying a db entity create or update");
         if(dto == null){
             throw new NullPointerException("dto is NULL");
         }
@@ -101,7 +99,6 @@ public abstract class RepositoryBase
 
     @Override
     public DTO createOrRead(DTO dto) {
-        LOGGER.info("Trying a db entity create or read");
         if(dto == null){
             throw new NullPointerException("dto is NULL");
         }
@@ -164,25 +161,20 @@ public abstract class RepositoryBase
 
     @Override
     public DTO readFill(ID id) {
-        LOGGER.info("Trying a db entity read");
         DTO user = read(id);
         user = fill(user);
-        LOGGER.info("Successful a db entity read");
         return user;
     }
 
     @Override
     public List<DTO> readAllFill(DbRequests requests) {
-        LOGGER.info("Trying a db entity read all");
         List<DTO> users = readAll(requests);
         users.stream().forEach((dto)-> dto = fill(dto));
-        LOGGER.info("Successful a db entity read all");
         return users;
     }
 
     @Override
     public DTO createOrReadFill(DTO dto) {
-        LOGGER.info("Trying a db entity create or read");
         if(dto == null){
             throw new NullPointerException("dto is NULL");
         }
@@ -285,7 +277,7 @@ public abstract class RepositoryBase
 
     @Override
     public int hashCode(){
-        return UtilHashCode.createHashCode(tableName, connectionSource, generateIdType, columnsName);
+        return Objects.hash(connectionSource, dtoMapper, tableName, columnsName, generateIdType);
     }
 
     @Override

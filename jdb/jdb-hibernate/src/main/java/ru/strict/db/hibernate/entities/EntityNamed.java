@@ -1,10 +1,11 @@
 package ru.strict.db.hibernate.entities;
 
-import ru.strict.utils.UtilHashCode;
+
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -75,8 +76,7 @@ public abstract class EntityNamed<ID> extends EntityBase<ID> {
 
     @Override
     public int hashCode(){
-    	int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, caption);
+        return Objects.hash(getId(), caption);
     }
     //</editor-fold>
 }

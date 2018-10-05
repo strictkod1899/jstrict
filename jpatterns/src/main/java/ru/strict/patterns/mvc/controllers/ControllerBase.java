@@ -7,9 +7,16 @@ public abstract class ControllerBase<V extends IView, M> implements IController 
     private V view;
     private M model;
 
+    public ControllerBase() {}
+
     public ControllerBase(V view, M model) {
         this.view = view;
         this.model = model;
+    }
+
+    @Override
+    public void launch() {
+        view.launch();
     }
 
     @Override
@@ -25,5 +32,13 @@ public abstract class ControllerBase<V extends IView, M> implements IController 
 
     protected M getModel() {
         return model;
+    }
+
+    protected void setView(V view) {
+        this.view = view;
+    }
+
+    protected void setModel(M model) {
+        this.model = model;
     }
 }

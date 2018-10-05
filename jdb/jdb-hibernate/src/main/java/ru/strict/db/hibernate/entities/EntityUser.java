@@ -1,9 +1,10 @@
 package ru.strict.db.hibernate.entities;
 
-import ru.strict.utils.UtilHashCode;
+
 import ru.strict.validates.ValidateBaseValue;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.TreeSet;
 
 /**
@@ -287,9 +288,8 @@ public class EntityUser<ID> extends EntityBase<ID> {
 
     @Override
     public int hashCode(){
-    	int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, username, passwordEncode, email, isBlocked, isDeleted,
-                isConfirmEmail);
+        return Objects.hash(getId(), getUsername(), getEmail(), isBlocked(), isDeleted(), isConfirmEmail(),
+                getRoles(), getProfile(), getPasswordEncode(), tokens);
     }
     //</editor-fold>
 }

@@ -55,7 +55,6 @@ public abstract class RepositorySpringBase
     //<editor-fold defaultState="collapsed" desc="CRUD">
     @Override
     public final DTO create(DTO dto) {
-        LOGGER.info("Trying a db entity create");
         E entity = getDtoMapper().map(dto);
         MapSqlParameterSource parameters = getParameters(entity);
         String sql = null;
@@ -85,64 +84,51 @@ public abstract class RepositorySpringBase
                 springJdbc.update(sql, parameters);
                 break;
             default:
-                String errorMessage = "Type for generate id is not determine. Entity was not created into database";
-                LOGGER.error(errorMessage);
-                throw new IllegalArgumentException(errorMessage);
+                throw new IllegalArgumentException("Type for generate id is not determine. Entity was not created into database");
         }
-
-        LOGGER.info("Finished a db entity created");
 
         return dto;
     }
 
     @Override
     public final DTO read(ID id) {
-        LOGGER.info("Trying a db entity read");
         SqlParameterSource parameters = new MapSqlParameterSource("id", id);
         String sql = String.format("%s WHERE id = :id", createSqlSelect());
         E entity = springJdbc.queryForObject(sql, parameters, springMapper);
-        LOGGER.info("Successful a db entity read");
         return getDtoMapper().map(entity);
     }
 
     @Override
     public final List<DTO> readAll(DbRequests requests) {
-        LOGGER.info("Trying a db entity read all");
         String sql = createSqlSelect() + (requests==null?"":requests.getSql());
         List<DTO> result = new LinkedList<>();
         List<E> entities = springJdbc.query(sql, springMapper);
         for(E entity : entities) {
             result.add(getDtoMapper().map(entity));
         }
-        LOGGER.info("Successful a db entity read all");
         return result;
     }
 
     @Override
     public DTO update(DTO dto) {
-        LOGGER.info("Trying a db entity update");
         E entity = getDtoMapper().map(dto);
         MapSqlParameterSource parameters = getParameters(entity);
         String sql = createSqlUpdate(parameters.getParameterNames());
         parameters.addValue("id", dto.getId());
         springJdbc.update(sql, parameters);
-        LOGGER.info("Successful a db entity updated");
         return dto;
     }
 
     @Override
     public void delete(ID id) {
-        LOGGER.info("Trying a db entity delete");
         String sql = createSqlDelete();
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("id", id);
         springJdbc.update(sql, parameters);
-        LOGGER.info("Successful a db entity deleted");
     }
 
     @Override
     public int readCount(DbRequests requests) {
-        LOGGER.info("Trying a db entity read all");
         String sql = createSqlCount() + (requests==null ? "" : requests.getSql());
         Integer result = springJdbc.queryForObject(sql, new MapSqlParameterSource(), new MapperSqlCountRows());
 
@@ -223,7 +209,6 @@ public abstract class RepositorySpringBase
     //<editor-fold defaultState="collapsed" desc="isRowExists">
     @Override
     public boolean isRowExists(ID id){
-        LOGGER.info("Trying a determine is db row exists");
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("id", id);
         boolean isExists = springJdbc

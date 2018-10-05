@@ -58,7 +58,6 @@ public class RepositoryJWTToken<ID extends Serializable>
 
             session.getTransaction().commit();
         }catch(Exception ex){
-            LOGGER.error(ex.getClass().toString(), ex.getMessage());
             if(session != null) {
                 session.getTransaction().rollback();
             }
@@ -103,7 +102,6 @@ public class RepositoryJWTToken<ID extends Serializable>
 
             session.getTransaction().commit();
         }catch(Exception ex){
-            LOGGER.error(ex.getClass().toString(), ex.getMessage());
             if(session != null) {
                 session.getTransaction().rollback();
             }

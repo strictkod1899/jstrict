@@ -23,7 +23,6 @@ public class UtilImage {
      * @return
      */
     public static ImageIcon resizeImage(String pathImage, int width, int height) {
-        UtilLogger.info(UtilImage.class, "resizeImage - started");
         BufferedImage bufferedImage = null;
         try {
             bufferedImage = ImageIO.read(new File(pathImage));
@@ -43,7 +42,6 @@ public class UtilImage {
         g2.drawRenderedImage(bufferedImage, xform);
         g2.dispose();
         ImageIcon iconBack = new ImageIcon(target);
-        UtilLogger.info(UtilImage.class, "resizeImage - finished");
         return iconBack;
     }
 }

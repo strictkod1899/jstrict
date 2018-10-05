@@ -1,9 +1,10 @@
 package ru.strict.db.core.entities;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.TreeSet;
 
-import ru.strict.utils.UtilHashCode;
+
 
 /**
  * Страна
@@ -96,8 +97,7 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
 
     @Override
     public int hashCode(){
-    	int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode);
+        return Objects.hash(getId(), getCaption(), cities);
     }
     //</editor-fold>
 }

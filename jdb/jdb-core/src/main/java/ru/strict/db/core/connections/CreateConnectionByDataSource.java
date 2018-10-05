@@ -1,8 +1,5 @@
 package ru.strict.db.core.connections;
 
-import ru.strict.components.Log4jWrapper;
-import ru.strict.utils.UtilLogger;
-
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -18,23 +15,17 @@ import java.sql.SQLException;
  */
 public class CreateConnectionByDataSource extends CreateConnectionBase<DataSource, Connection> {
 
-    protected final Log4jWrapper LOGGER = UtilLogger.createLogger(CreateConnectionByDataSource.class);
-
     public CreateConnectionByDataSource(DataSource connectionSource) {
         super(connectionSource);
     }
 
     @Override
     public Connection createConnection() {
-        LOGGER.info("Trying a connection create to database using DataSource: '%s'",
-                getConnectionSource().toString());
         try {
             Connection connection = getConnectionSource().getConnection();
-            LOGGER.info("Connection is created");
             return connection;
         } catch (SQLException ex) {
-            LOGGER.error(ex.getClass().toString(), ex.getMessage());
-            return null;
+            throw new RuntimeException(ex);
         }
     }
 }

@@ -1,6 +1,7 @@
 package ru.strict.db.core.entities;
 
-import ru.strict.utils.UtilHashCode;
+
+import java.util.Objects;
 
 /**
  * Основная информация профиля пользователя (имя, фамилия, отчество)
@@ -153,8 +154,7 @@ public class EntityProfile<ID> extends EntityBase<ID> {
 
     @Override
     public int hashCode(){
-        int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, name, surname, middlename, userId);
+        return Objects.hash(getId(), name, surname, middlename, userId, user);
     }
     //</editor-fold>
 }

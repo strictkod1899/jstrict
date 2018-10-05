@@ -68,7 +68,6 @@ public class RepositoryUser<ID extends Serializable, DTO extends DtoUserBase<ID>
 
             session.getTransaction().commit();
         }catch(Exception ex){
-            LOGGER.error(ex.getClass().toString(), ex.getMessage());
             if(session != null) {
                 session.getTransaction().rollback();
             }

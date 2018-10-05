@@ -1,8 +1,7 @@
 package ru.strict.db.core.dto;
 
-import ru.strict.utils.UtilHashCode;
-
 import java.util.Collection;
+import java.util.Objects;
 import java.util.TreeSet;
 
 /**
@@ -100,8 +99,8 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
 
     @Override
     public int hashCode(){
-        int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode);
+        return Objects.hash(getId(), getUsername(), getEmail(), isBlocked(), isDeleted(), isConfirmEmail(),
+                getRoles(), getProfile(), getPasswordEncode(), tokens);
     }
     //</editor-fold>
 }

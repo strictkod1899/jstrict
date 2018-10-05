@@ -1,8 +1,9 @@
 package ru.strict.db.hibernate.entities;
 
-import ru.strict.utils.UtilHashCode;
+
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.TreeSet;
 
 /**
@@ -96,8 +97,7 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
 
     @Override
     public int hashCode(){
-    	int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode);
+        return Objects.hash(getId(), getCaption(), cities);
     }
     //</editor-fold>
 }

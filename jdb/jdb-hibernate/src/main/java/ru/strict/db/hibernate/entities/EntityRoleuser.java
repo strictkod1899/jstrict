@@ -1,8 +1,9 @@
 package ru.strict.db.hibernate.entities;
 
-import ru.strict.utils.UtilHashCode;
+
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.TreeSet;
 
 /**
@@ -139,8 +140,7 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
 
     @Override
     public int hashCode(){
-    	int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, code, description);
+        return Objects.hash(getId(), code, description, users);
     }
     //</editor-fold>
 }

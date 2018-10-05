@@ -56,7 +56,7 @@ public class UtilData {
         if(compareValue instanceof Comparable){
             result = ((Comparable) source).compareTo(compareValue);
         }else {
-            throw new UnsupportedOperationException("This type for Id not supported");
+            throw new UnsupportedOperationException("This type for comparable not supported");
         }
 
         return result;

@@ -1,6 +1,7 @@
 package ru.strict.db.core.dto;
 
-import ru.strict.utils.UtilHashCode;
+
+import java.util.Objects;
 
 /**
  * Город
@@ -95,8 +96,7 @@ public class DtoCity<ID> extends DtoNamed<ID> {
 
     @Override
     public int hashCode(){
-        int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, countryId);
+        return Objects.hash(getId(), getCaption(), countryId);
     }
     //</editor-fold>
 }

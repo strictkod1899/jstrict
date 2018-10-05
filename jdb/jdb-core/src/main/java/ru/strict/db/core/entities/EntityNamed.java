@@ -1,6 +1,7 @@
 package ru.strict.db.core.entities;
 
-import ru.strict.utils.UtilHashCode;
+
+import java.util.Objects;
 
 /**
  * Именованный entity (содержит строку заголовка)
@@ -68,8 +69,7 @@ public abstract class EntityNamed<ID> extends EntityBase<ID> {
 
     @Override
     public int hashCode(){
-    	int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, caption);
+        return Objects.hash(getId(), caption);
     }
     //</editor-fold>
 }

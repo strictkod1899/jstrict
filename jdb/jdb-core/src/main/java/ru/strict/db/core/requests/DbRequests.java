@@ -1,7 +1,7 @@
 package ru.strict.db.core.requests;
 
 import java.util.*;
-import ru.strict.utils.UtilHashCode;
+
 
 /**
  * Набор условий для добавления к sql-запросу
@@ -86,7 +86,7 @@ public class DbRequests extends LinkedList<DbRequestBase> implements IDbRequest 
 
     @Override
     public int hashCode(){
-        return UtilHashCode.createHashCode(selectTableName, isAnd, this);
+        return Objects.hash(selectTableName, isAnd, this);
     }
     //</editor-fold>
 }

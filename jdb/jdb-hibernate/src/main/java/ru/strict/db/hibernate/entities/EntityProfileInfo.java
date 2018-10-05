@@ -1,9 +1,10 @@
 package ru.strict.db.hibernate.entities;
 
-import ru.strict.utils.UtilHashCode;
+
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Расширенная информация профиля пользователя (имя, фамилия, отчество, дата рождения, телефон, город)
@@ -118,8 +119,8 @@ public class EntityProfileInfo<ID> extends EntityProfileBase<ID> {
 
     @Override
     public int hashCode(){
-        int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, dateBirth, phone, cityId);
+        return Objects.hash(getId(), getName(), getSurname(), getMiddlename(), getUserId(), getUser(),
+                dateBirth, phone, cityId, city);
     }
     //</editor-fold>
 }

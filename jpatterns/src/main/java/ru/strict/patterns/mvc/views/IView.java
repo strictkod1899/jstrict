@@ -11,5 +11,7 @@ public interface IView {
 
     IView build();
 
+    void launch();
+
     void destroy();
 }

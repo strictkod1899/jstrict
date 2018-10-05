@@ -1,9 +1,6 @@
 package ru.strict.db.mybatis.connection;
 
-import ru.strict.utils.UtilHashCode;
-
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Objects;
 
 /**
  * Необходимая информация для создания соединения с базой данных, при использовании Hibernate
@@ -77,16 +74,19 @@ public class MybatisConnectionInfo {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof MybatisConnectionInfo) {
             MybatisConnectionInfo object = (MybatisConnectionInfo) obj;
-            return password.equals(object.getPassword())
-                    && username.equals(object.getUsername()) && driver.equals(object.getDriver())
-                    && url.equals(object.getUrl());
-        }else
+            return Objects.equals(configFilePath, object.getConfigFilePath())
+                    && Objects.equals(driver, object.getDriver())
+                    && Objects.equals(url, object.getUrl())
+                    && Objects.equals(password, object.getPassword())
+                    && Objects.equals(username, object.getUsername());
+        }else {
             return false;
+        }
     }
 
     @Override
     public int hashCode(){
-        return UtilHashCode.createHashCode(password, username, driver, url);
+        return Objects.hash(configFilePath, driver, url, password, username);
     }
     //</editor-fold>
 }

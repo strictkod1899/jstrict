@@ -2,7 +2,9 @@ package ru.strict.db.core.dto;
 
 import ru.strict.db.core.mappers.MapTarget;
 import ru.strict.utils.UtilData;
-import ru.strict.utils.UtilHashCode;
+
+import java.util.Objects;
+
 
 /**
  * Базовый entity-класс
@@ -56,7 +58,7 @@ public abstract class DtoBase<ID> implements MapTarget, Comparable<DtoBase<ID>> 
 
     @Override
     public int hashCode(){
-        return UtilHashCode.createHashCode(id);
+        return Objects.hash(id);
     }
 
     @Override

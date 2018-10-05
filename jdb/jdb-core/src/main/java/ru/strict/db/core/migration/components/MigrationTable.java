@@ -1,11 +1,12 @@
 package ru.strict.db.core.migration.components;
 
 import ru.strict.components.Log4jWrapper;
-import ru.strict.utils.UtilLogger;
-import ru.strict.utils.UtilHashCode;
+
+
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -16,8 +17,6 @@ import java.util.stream.Collectors;
 public class MigrationTable
         <COLUMN extends MigrationColumn, FK extends MigrationForeignKey>
         implements MigrationComponent {
-
-    protected final Log4jWrapper LOGGER = UtilLogger.createLogger(MigrationTable.class);
 
     /**
      * Наименование таблицы
@@ -51,7 +50,6 @@ public class MigrationTable
 
     @Override
     public String getSql(){
-        LOGGER.info("Trying a table sql query created");
         StringBuilder sql = new StringBuilder();
         sql.append(String.format("CREATE TABLE %s ( ", getName()));
 
@@ -71,7 +69,6 @@ public class MigrationTable
         }
 
         sql.append(" );");
-        LOGGER.info("Table sql query is created");
         return sql.toString();
     }
 
@@ -141,7 +138,7 @@ public class MigrationTable
 
     @Override
     public int hashCode(){
-        return UtilHashCode.createHashCode(name, primaryKey, columns, foreignKeys);
+        return Objects.hash(name, primaryKey, columns, foreignKeys);
     }
     //</editor-fold>
 }

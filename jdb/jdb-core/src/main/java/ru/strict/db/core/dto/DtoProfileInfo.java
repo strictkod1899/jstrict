@@ -1,7 +1,8 @@
 package ru.strict.db.core.dto;
 
 import java.util.Date;
-import ru.strict.utils.UtilHashCode;
+import java.util.Objects;
+
 
 /**
  * Расширенная информация профиля пользователя (имя, фамилия, отчество, дата рождения, телефон, город)
@@ -107,8 +108,8 @@ public class DtoProfileInfo<ID> extends DtoProfile<ID> {
 
     @Override
     public int hashCode(){
-        int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, dateBirth, phone, cityId);
+        return Objects.hash(getId(), getName(), getSurname(), getMiddlename(), getUserId(), getUser(),
+                dateBirth, phone, cityId, city);
     }
     //</editor-fold>
 }

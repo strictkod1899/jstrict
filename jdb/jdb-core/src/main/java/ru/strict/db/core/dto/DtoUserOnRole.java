@@ -1,6 +1,7 @@
 package ru.strict.db.core.dto;
 
-import ru.strict.utils.UtilHashCode;
+
+import java.util.Objects;
 
 /**
  * Связка пользователя с ролью
@@ -116,8 +117,7 @@ public class DtoUserOnRole<ID> extends DtoBase<ID> {
 
     @Override
     public int hashCode(){
-        int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, userId, roleId);
+        return Objects.hash(getId(), userId, user, roleId, role);
     }
     //</editor-fold>
 }

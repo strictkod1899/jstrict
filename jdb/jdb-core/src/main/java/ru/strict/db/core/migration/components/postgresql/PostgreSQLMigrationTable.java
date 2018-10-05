@@ -2,8 +2,9 @@ package ru.strict.db.core.migration.components.postgresql;
 
 import ru.strict.db.core.migration.components.MigrationColumn;
 import ru.strict.db.core.migration.components.MigrationTable;
-import ru.strict.utils.UtilHashCode;
 
+
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -100,8 +101,7 @@ public class PostgreSQLMigrationTable
 
     @Override
     public int hashCode(){
-        int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, schema, isAutoincrement);
+        return Objects.hash(getName(), getPrimaryKey(), getColumns(), getForeignKeys(), schema, isAutoincrement);
     }
     //</editor-fold>
 }

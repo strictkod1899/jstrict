@@ -23,8 +23,7 @@ public class UtilTray {
      * @param items Элементы всплывающего меню
      */
     public static void setTray(String tooltip, String pathIcon, ActionListener eventDoubleClick
-            , boolean isExitVisible, JMenuItem...items){
-        UtilLogger.info(UtilTray.class, "setTray - started");
+            , boolean isExitVisible, JMenuItem...items) throws UnsupportedOperationException{
         final TrayIcon trayIcon;
 
         if (SystemTray.isSupported()) {
@@ -56,14 +55,12 @@ public class UtilTray {
             try {
                 tray.add(trayIcon);
             } catch (AWTException ex) {
-                UtilLogger.error(UtilTray.class, "System tray not can be added"
-                        , ex.getClass().toString(), ex.getMessage());
+                throw new RuntimeException(ex);
             }
 
         } else {
-            UtilLogger.error(UtilTray.class, "System tray not supported");
+            throw new UnsupportedOperationException("System tray not supported");
         }
-        UtilLogger.info(UtilTray.class, "setTray - finished");
     }
 
     private static JMenuItem getItemExit(){

@@ -28,7 +28,6 @@ public class UtilResources {
      * @return
      */
     public static File getResourceAsFile(String resourcePath, Class classThisJarFile) {
-        UtilLogger.info(UtilResources.class, "getResourceAsFile - started");
         try {
             ClassLoader classLoader = null;
             if(classThisJarFile == null) {
@@ -63,11 +62,9 @@ public class UtilResources {
                     out.write(buffer, 0, bytesRead);
                 }
             }
-            UtilLogger.info(UtilResources.class, "getResourceAsFile - finished");
             return file;
         } catch (IOException ex) {
-            UtilLogger.error(UtilResources.class, ex.getClass().toString(), ex.getMessage());
-            return null;
+            throw new RuntimeException(ex);
         }
     }
 
@@ -89,7 +86,6 @@ public class UtilResources {
      * @return
      */
     public static File getResourceAsFileTemp(String resourcePath, Class classThisJarFile) {
-        UtilLogger.info(UtilResources.class, "getResourceAsFileTemp - started");
         try {
             ClassLoader classLoader = null;
             if(classThisJarFile == null) {
@@ -112,11 +108,9 @@ public class UtilResources {
                     out.write(buffer, 0, bytesRead);
                 }
             }
-            UtilLogger.info(UtilResources.class, "getResourceAsFileTemp - finished");
             return tempFile;
         } catch (IOException ex) {
-            UtilLogger.error(UtilResources.class, ex.getClass().toString(), ex.getMessage());
-            return null;
+            throw new RuntimeException(ex);
         }
     }
 
@@ -147,8 +141,7 @@ public class UtilResources {
         try {
             return new File(classLoader.getResource(pathFile).getFile());
         }catch(java.lang.NullPointerException ex){
-            UtilLogger.error(UtilResources.class, ex.getClass().toString(), ex.getMessage());
-            return null;
+            throw new RuntimeException(ex);
         }
     }
 
@@ -179,8 +172,7 @@ public class UtilResources {
         try{
             return classLoader.getResourceAsStream(pathFile);
         }catch(java.lang.NullPointerException ex){
-            UtilLogger.error(UtilResources.class, ex.getClass().toString(), ex.getMessage());
-            return null;
+            throw new RuntimeException(ex);
         }
     }
 }

@@ -3,14 +3,15 @@ package ru.strict.db.core.migration;
 import ru.strict.components.Log4jWrapper;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.migration.components.MigrationTable;
-import ru.strict.utils.UtilLogger;
-import ru.strict.utils.UtilHashCode;
+
+
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -21,8 +22,6 @@ import java.util.stream.Collectors;
 public class MigrationDatabase
         <SOURCE extends ICreateConnection<Connection>, TABLE extends MigrationTable>
         implements IMigration {
-
-    protected final Log4jWrapper LOGGER = UtilLogger.createLogger(MigrationDatabase.class);
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
@@ -47,7 +46,6 @@ public class MigrationDatabase
 
     @Override
     public void migration() {
-        LOGGER.info("Database migration is started");
         for(TABLE table : getTables()){
             String sql = table.getSql();
 
@@ -55,10 +53,9 @@ public class MigrationDatabase
                 Statement statement = connection.createStatement();
                 statement.executeUpdate(sql);
             } catch (SQLException ex) {
-                LOGGER.error(ex.getClass().toString(), ex.getMessage());
+                throw new RuntimeException(ex);
             }
         }
-        LOGGER.info("Database migration is finished");
     }
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
@@ -100,7 +97,7 @@ public class MigrationDatabase
 
     @Override
     public int hashCode(){
-        return UtilHashCode.createHashCode(connectionSource, tables);
+        return Objects.hash(connectionSource, tables);
     }
     //</editor-fold>
 }

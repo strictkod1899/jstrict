@@ -1,6 +1,7 @@
 package ru.strict.db.core.migration.components;
 
-import ru.strict.utils.UtilHashCode;
+
+import java.util.Objects;
 
 /**
  * Внешний ключ таблицы для миграции в базу данных
@@ -111,7 +112,7 @@ public class MigrationForeignKey implements MigrationComponent {
 
     @Override
     public int hashCode(){
-        return UtilHashCode.createHashCode(name, column, tableRef, columnRef, updateBehavior, deleteBehavior);
+        return Objects.hash(name, column, tableRef, columnRef, updateBehavior, deleteBehavior);
     }
     //</editor-fold>
 }

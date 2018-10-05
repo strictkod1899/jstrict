@@ -15,7 +15,7 @@ import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.spring.mappers.sql.MapperSqlUser;
-import ru.strict.utils.UtilLogger;
+
 
 import java.util.*;
 

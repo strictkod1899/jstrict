@@ -44,7 +44,6 @@ public abstract class RepositoryHibernateBase
             session.save(entity);
             session.getTransaction().commit();
         }catch(Exception ex){
-            LOGGER.error(ex.getClass().toString(), ex.getMessage());
             if(session != null) {
                 session.getTransaction().rollback();
             }
@@ -68,7 +67,6 @@ public abstract class RepositoryHibernateBase
             result = getDtoMapper().map(entity);
             session.getTransaction().commit();
         }catch(Exception ex){
-            LOGGER.error(ex.getClass().toString(), ex.getMessage());
             if(session != null) {
                 session.getTransaction().rollback();
             }
@@ -101,7 +99,6 @@ public abstract class RepositoryHibernateBase
 
             session.getTransaction().commit();
         }catch(Exception ex){
-            LOGGER.error(ex.getClass().toString(), ex.getMessage());
             if(session != null) {
                 session.getTransaction().rollback();
             }
@@ -132,7 +129,6 @@ public abstract class RepositoryHibernateBase
             session.update(entity);
             session.getTransaction().commit();
         }catch(Exception ex){
-            LOGGER.error(ex.getClass().toString(), ex.getMessage());
             if(session != null) {
                 session.getTransaction().rollback();
             }
@@ -155,7 +151,6 @@ public abstract class RepositoryHibernateBase
             session.delete(entity);
             session.getTransaction().commit();
         }catch(Exception ex){
-            LOGGER.error(ex.getClass().toString(), ex.getMessage());
             if(session != null) {
                 session.getTransaction().rollback();
             }
@@ -177,7 +172,6 @@ public abstract class RepositoryHibernateBase
             NativeQuery resultQuery = session.createNativeQuery(sql);
             result = (Integer) resultQuery.list().get(0);
         }catch(Exception ex){
-            LOGGER.error(ex.getClass().toString(), ex.getMessage());
             if(session != null) {
                 session.getTransaction().rollback();
             }

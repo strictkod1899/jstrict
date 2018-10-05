@@ -61,7 +61,6 @@ public class UtilProperties {
      */
     public static String getValue(String pathFile, String caption,
                                   String encodingFile, String encodingOutput){
-        UtilLogger.info(UtilProperties.class, "getValue - started");
         //Инициализируем специальный объект Properties типа Hashtable для удобной работы с данными
         Properties prop = new Properties();
 
@@ -77,11 +76,9 @@ public class UtilProperties {
             }else{
                 result = prop.getProperty(caption);
             }
-            UtilLogger.info(UtilProperties.class, "getValue - finished");
             return result;
-        } catch (IOException e) {
-            UtilLogger.error(UtilProperties.class, e.getClass().toString(), e.getMessage());
-            return "";
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
@@ -91,19 +88,15 @@ public class UtilProperties {
      * @return
      */
     public static Properties getValues(String pathFile){
-        UtilLogger.info(UtilProperties.class, "getValues - started");
         //Инициализируем специальный объект Properties типа Hashtable для удобной работы с данными
         Properties result = new Properties();
 
         try (FileInputStream fileInputStream = new FileInputStream(pathFile);){
             //Обращаемся к файлу и получаем данные
             result.load(fileInputStream);
-            // Получаем свойство в кодировке UTF-8
-            UtilLogger.info(UtilProperties.class, "getValues - finished");
             return result;
-        } catch (IOException e) {
-            UtilLogger.error(UtilProperties.class, e.getClass().toString(), e.getMessage());
-            return null;
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
     }
 }

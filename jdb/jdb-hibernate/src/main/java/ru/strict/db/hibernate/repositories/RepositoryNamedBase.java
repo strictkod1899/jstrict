@@ -59,7 +59,6 @@ public abstract class RepositoryNamedBase
 
             session.getTransaction().commit();
         }catch(Exception ex){
-            LOGGER.error(ex.getClass().toString(), ex.getMessage());
             if(session != null) {
                 session.getTransaction().rollback();
             }
@@ -101,7 +100,6 @@ public abstract class RepositoryNamedBase
 
             session.getTransaction().commit();
         }catch(Exception ex){
-            LOGGER.error(ex.getClass().toString(), ex.getMessage());
             if(session != null) {
                 session.getTransaction().rollback();
             }

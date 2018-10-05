@@ -1,7 +1,7 @@
 package ru.strict.db.core.connections;
 
 import ru.strict.components.Log4jWrapper;
-import ru.strict.utils.UtilLogger;
+
 
 import java.sql.Connection;
 import java.sql.Driver;
@@ -19,17 +19,12 @@ import java.sql.SQLException;
  */
 public class CreateConnectionByConnectionInfo extends CreateConnectionBase<ConnectionInfo, Connection> {
 
-    protected final Log4jWrapper LOGGER = UtilLogger.createLogger(CreateConnectionByConnectionInfo.class);
-
     public CreateConnectionByConnectionInfo(ConnectionInfo connectionSource) {
         super(connectionSource);
     }
 
     @Override
     public Connection createConnection() {
-        LOGGER.info("Trying a connection create to database by url: '%s' and user: '%s'",
-                getConnectionSource().getUrl(),
-                getConnectionSource().getUsername());
         try {
             // Путь к базе данных
             String connectUrl = getConnectionSource().getUrl();
@@ -39,11 +34,9 @@ public class CreateConnectionByConnectionInfo extends CreateConnectionBase<Conne
             DriverManager.registerDriver(jdbcDriver);
             // Соединение с Базой Данных
             Connection connection = DriverManager.getConnection(connectUrl, getConnectionSource().getUsername(), getConnectionSource().getPassword());
-            LOGGER.info("Connection is created");
             return connection;
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
-            LOGGER.error(ex.getClass().toString(), ex.getMessage());
-            return null;
+            throw new RuntimeException(ex);
         }
     }
 }

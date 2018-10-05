@@ -1,8 +1,9 @@
 package ru.strict.db.core.dto;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.TreeSet;
-import ru.strict.utils.UtilHashCode;
+
 import ru.strict.validates.ValidateBaseValue;
 
 /**
@@ -213,9 +214,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
 
     @Override
     public int hashCode(){
-        int superHashCode = super.hashCode();
-        return UtilHashCode.createSubHashCode(superHashCode, username, email, isBlocked, isDeleted,
-                isConfirmEmail);
+        return Objects.hash(getId(), username, email, isBlocked, isDeleted, isConfirmEmail, roles, profile);
     }
     //</editor-fold>
 }
