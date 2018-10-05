@@ -1,7 +1,7 @@
-package ru.strict.db.core.migration.components.postgresql;
+package ru.strict.db.migration.components.postgresql;
 
-import ru.strict.db.core.migration.components.MigrationColumn;
-import ru.strict.db.core.migration.components.MigrationTable;
+import ru.strict.db.migration.components.MigrationColumn;
+import ru.strict.db.migration.components.MigrationTable;
 
 
 import java.util.Objects;

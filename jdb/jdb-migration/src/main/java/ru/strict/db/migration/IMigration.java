@@ -1,4 +1,4 @@
-package ru.strict.db.core.migration;
+package ru.strict.db.migration;
 
 /**
  * Описание базовой функциональности миграции

@@ -1,7 +1,7 @@
-package ru.strict.db.core.migration;
+package ru.strict.db.migration;
 
 import ru.strict.db.core.connections.ICreateConnection;
-import ru.strict.db.core.migration.components.MigrationTable;
+import ru.strict.db.migration.components.MigrationTable;
 
 import java.sql.Connection;
 import java.sql.SQLException;

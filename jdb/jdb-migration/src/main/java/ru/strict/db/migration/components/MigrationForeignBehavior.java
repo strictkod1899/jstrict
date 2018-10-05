@@ -1,4 +1,4 @@
-package ru.strict.db.core.migration.components;
+package ru.strict.db.migration.components;
 
 /**
  * Типы поведения внешних ключей при удалении/обновлении связанной записи
