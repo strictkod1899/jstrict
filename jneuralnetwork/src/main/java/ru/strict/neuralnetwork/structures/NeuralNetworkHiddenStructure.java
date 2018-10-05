@@ -6,6 +6,7 @@ import ru.strict.neuralnetwork.data.Synapse;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Структура нейронной сети с поддержкой скрытых слоев
@@ -131,11 +132,27 @@ public class NeuralNetworkHiddenStructure extends NeuralNetworkStructure {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Base override">
+    @Override
     public NeuralNetworkHiddenStructure clone(){
         NeuralNetworkHiddenStructure clone =
                 new NeuralNetworkHiddenStructure(getCountInputs(),getCountOutputs(), getBias().getValue()==0?false:true);
         clone.setLayoutsHidden(layoutsHidden);
         return clone;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj!=null && obj instanceof NeuralNetworkHiddenStructure) {
+            NeuralNetworkHiddenStructure object = (NeuralNetworkHiddenStructure) obj;
+            return super.equals(obj) && Objects.equals(layoutsHidden, object.getLayoutsHidden());
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), layoutsHidden);
     }
     //</editor-fold>
 }

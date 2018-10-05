@@ -10,7 +10,7 @@ import java.util.List;
  * Нейронная сеть с поддержкой скрытых слоев
  */
 public abstract class NeuralNetworkHidden<DATA extends NeuralNetworkData, STRUCT extends NeuralNetworkHiddenStructure>
-        extends NeuralNetwork<DATA, STRUCT> {
+        extends NeuralNetworkBase<DATA, STRUCT> {
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
     public NeuralNetworkHidden(DATA data, STRUCT structure, ActivateFunction activateFunction) {

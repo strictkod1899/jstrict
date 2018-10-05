@@ -1,10 +1,7 @@
 package ru.strict.db.core.migration;
 
-import ru.strict.components.Log4jWrapper;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.migration.components.MigrationTable;
-
-
 
 import java.sql.Connection;
 import java.sql.SQLException;

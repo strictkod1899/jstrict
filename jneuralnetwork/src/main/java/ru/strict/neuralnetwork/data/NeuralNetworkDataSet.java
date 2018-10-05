@@ -1,6 +1,7 @@
 package ru.strict.neuralnetwork.data;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Единичный набор данных для использования в нейронной сети.
@@ -80,17 +81,26 @@ public class NeuralNetworkDataSet {
         return String.format("DataSet [%s/%s]: inputs - %s; outputs - %s", countInput, countOutput, inputs.toString(), outputs.toString());
     }
 
-    /*public boolean equals(Object obj){
-        if(obj==null)
+    @Override
+    public boolean equals(Object obj) {
+        if(obj!=null && obj instanceof NeuralNetworkDataSet) {
+            NeuralNetworkDataSet object = (NeuralNetworkDataSet) obj;
+            return countInput == object.countInput &&
+                    countOutput == object.countOutput &&
+                    Arrays.equals(inputNeurons, object.inputNeurons) &&
+                    Arrays.equals(outputNeurons, object.outputNeurons);
+        }else{
             return false;
-
-        Neuron neuron = (Neuron) obj;
-        return neuron.entryId.equals(entryId) && neuron.value == value && neuron.caption.equals(caption)
-                && neuron.getType().equals(getType());
+        }
     }
 
-    public Neuron clone(){
-        return new Neuron(UUID.fromString(entryId.toString()), value, caption, NeuronType.values()[type.ordinal()]);
-    }*/
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(countInput, countOutput);
+        result = 31 * result + Arrays.hashCode(inputNeurons);
+        result = 31 * result + Arrays.hashCode(outputNeurons);
+        return result;
+    }
+
     //</editor-fold>
 }

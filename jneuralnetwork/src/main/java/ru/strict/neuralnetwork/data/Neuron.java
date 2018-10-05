@@ -125,6 +125,7 @@ public class Neuron implements Cloneable{
         return Objects.hash(entryId, value, caption, type);
     }
 
+    @Override
     public Neuron clone(){
         return new Neuron(UUID.fromString(entryId.toString()), value, caption, NeuronType.values()[type.ordinal()]);
     }

@@ -1,5 +1,8 @@
 package ru.strict.neuralnetwork.data;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  * Скрытый слой нейронной сети
  */
@@ -59,4 +62,23 @@ public class LayoutHidden {
         return neurons.length;
     }
     //</editor-fold>
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj!=null && obj instanceof LayoutHidden) {
+            LayoutHidden object = (LayoutHidden) obj;
+            return Arrays.equals(neurons, object.getNeurons()) &&
+                    Objects.equals(bias, object.getBias());
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(bias);
+        result = 31 * result + Arrays.hashCode(neurons);
+        return result;
+    }
 }

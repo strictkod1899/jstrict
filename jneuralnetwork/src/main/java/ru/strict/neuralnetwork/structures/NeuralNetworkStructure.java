@@ -4,9 +4,7 @@ import ru.strict.neuralnetwork.data.Neuron;
 import ru.strict.neuralnetwork.data.NeuronType;
 import ru.strict.neuralnetwork.data.Synapse;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Базовая структура нейронной сети
@@ -136,4 +134,29 @@ public abstract class NeuralNetworkStructure implements Cloneable{
     }
 
     //</editor-fold>
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj!=null && obj instanceof NeuralNetworkStructure) {
+            NeuralNetworkStructure object = (NeuralNetworkStructure) obj;
+            return countInputs == object.countInputs &&
+                    countOutputs == object.countOutputs &&
+                    Arrays.equals(inputNeurons, object.inputNeurons) &&
+                    Arrays.equals(outputNeurons, object.outputNeurons) &&
+                    Objects.equals(bias, object.bias) &&
+                    Objects.equals(synapses, object.synapses) &&
+                    Objects.equals(random, object.random);
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(countInputs, countOutputs, bias, synapses, random);
+        result = 31 * result + Arrays.hashCode(inputNeurons);
+        result = 31 * result + Arrays.hashCode(outputNeurons);
+        return result;
+    }
 }

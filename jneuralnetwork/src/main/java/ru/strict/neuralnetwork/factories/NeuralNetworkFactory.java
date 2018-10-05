@@ -4,7 +4,7 @@ import ru.strict.neuralnetwork.data.NeuralNetworkDataSet;
 import ru.strict.neuralnetwork.data.Neuron;
 import ru.strict.neuralnetwork.data.NeuralNetworkData;
 import ru.strict.neuralnetwork.functions.ActivateFunction;
-import ru.strict.neuralnetwork.networks.NeuralNetwork;
+import ru.strict.neuralnetwork.networks.NeuralNetworkBase;
 import ru.strict.neuralnetwork.structures.NeuralNetworkStructure;
 
 import java.io.Closeable;
@@ -14,7 +14,7 @@ import java.io.Closeable;
  * @param <STRUCT> Структура нейронной сети
  * @param <NETWORK> Нейронная сеть
  */
-public abstract class NeuralNetworkFactory<STRUCT extends NeuralNetworkStructure, NETWORK extends NeuralNetwork>
+public abstract class NeuralNetworkFactory<STRUCT extends NeuralNetworkStructure, NETWORK extends NeuralNetworkBase>
         implements Closeable{
 
     /**

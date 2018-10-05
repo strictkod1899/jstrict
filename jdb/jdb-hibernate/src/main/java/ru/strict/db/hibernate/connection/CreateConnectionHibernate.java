@@ -3,7 +3,6 @@ package ru.strict.db.hibernate.connection;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import ru.strict.components.Log4jWrapper;
 import ru.strict.db.core.connections.CreateConnectionBase;
 import ru.strict.db.hibernate.common.SessionFactorySingleton;
 

@@ -2,6 +2,7 @@ package ru.strict.neuralnetwork.data;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -124,11 +125,31 @@ public class NeuralNetworkData implements Cloneable{
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Base override">
+    @Override
     public NeuralNetworkData clone(){
         NeuralNetworkData clone = new NeuralNetworkData(countInputs, countOutputs);
         clone.setTrainingSets(trainingSets);
         clone.setTestSets(testSets);
         return clone;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj!=null && obj instanceof NeuralNetworkData) {
+            NeuralNetworkData object = (NeuralNetworkData) obj;
+            return Objects.equals(trainingSets, object.getTrainingSets()) &&
+                    Objects.equals(testSets, object.getTestSets()) &&
+                    Objects.equals(countInputs, object.getCountInputs()) &&
+                    Objects.equals(countOutputs, object.getCountOutputs());
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(countInputs, countOutputs, trainingSets, testSets);
+    }
+
     //</editor-fold>
 }

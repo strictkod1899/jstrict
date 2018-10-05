@@ -1,9 +1,5 @@
 package ru.strict.db.core.migration.components;
 
-import ru.strict.components.Log4jWrapper;
-
-
-
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Objects;

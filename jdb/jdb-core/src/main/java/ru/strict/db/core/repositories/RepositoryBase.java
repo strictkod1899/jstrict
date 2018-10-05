@@ -6,12 +6,6 @@ import ru.strict.db.core.dto.DtoBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
-
-import ru.strict.components.Log4jWrapper;
-
-
-import java.io.Closeable;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 

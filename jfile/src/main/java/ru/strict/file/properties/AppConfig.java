@@ -2,6 +2,8 @@ package ru.strict.file.properties;
 
 import ru.strict.file.data.AppEnvironment;
 
+import java.util.Objects;
+
 public class AppConfig extends PropertiesResourceFileReader {
 
     private AppEnvironment environment;
@@ -37,6 +39,21 @@ public class AppConfig extends PropertiesResourceFileReader {
 
     public AppEnvironment getEnvironment() {
         return environment;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj!=null && obj instanceof AppConfig){
+            AppConfig object = (AppConfig) obj;
+            return super.equals(obj) && Objects.equals(environment, object.getEnvironment());
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(getPathToDirectory(), getPropertiesFileName(), getSuffix());
     }
 
     @Override

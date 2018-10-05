@@ -2,7 +2,6 @@ package ru.strict.db.mybatis.connection;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import ru.strict.components.Log4jWrapper;
 import ru.strict.db.core.connections.CreateConnectionBase;
 
 

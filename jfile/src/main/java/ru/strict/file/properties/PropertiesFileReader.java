@@ -1,16 +1,13 @@
 package ru.strict.file.properties;
 
-import ru.strict.components.Log4jWrapper;
 import ru.strict.utils.UtilProperties;
 import ru.strict.validates.ValidateBaseValue;
 
 import java.io.Closeable;
 import java.io.File;
-import java.io.IOException;
+import java.util.Objects;
 
 public abstract class PropertiesFileReader implements Closeable{
-
-    protected static final Log4jWrapper LOGGER = new Log4jWrapper(PropertiesFileReader.class);
 
     private String pathToDirectory;
     private String propertiesFileName;
@@ -21,9 +18,6 @@ public abstract class PropertiesFileReader implements Closeable{
         this.suffix = suffix;
 
         pathToDirectory = initializePathToDirectory();
-
-        LOGGER.info("Connected to properties-files:\n\t'%s'\n\t'%s'",
-                getPathToFile(), getPathToSuffixFile());
     }
 
     public PropertiesFileReader(String propertiesFileName) {
@@ -61,6 +55,14 @@ public abstract class PropertiesFileReader implements Closeable{
         return pathToDirectory;
     }
 
+    protected String getPropertiesFileName() {
+        return propertiesFileName;
+    }
+
+    protected String getSuffix() {
+        return suffix;
+    }
+
     protected abstract String initializePathToDirectory();
 
     public String getPathToFile(){
@@ -76,5 +78,22 @@ public abstract class PropertiesFileReader implements Closeable{
         pathToDirectory = null;
         propertiesFileName = null;
         suffix = null;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj!=null && obj instanceof PropertiesFileReader){
+            PropertiesFileReader object = (PropertiesFileReader) obj;
+            return Objects.equals(pathToDirectory, object.getPathToDirectory())
+                    && Objects.equals(propertiesFileName, object.getPropertiesFileName())
+                    && Objects.equals(suffix, object.getSuffix());
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(pathToDirectory, propertiesFileName, suffix);
     }
 }
