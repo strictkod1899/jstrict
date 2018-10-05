@@ -100,10 +100,13 @@ public class EntityProfileInfo<ID> extends EntityProfile<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof EntityProfileInfo){
             EntityProfileInfo object = (EntityProfileInfo) obj;
-            return super.equals(object) && dateBirth.equals(object.getDateBirth()) && phone.equals(object.getPhone())
-                    && cityId.equals(object.getCityId());
-        }else
+            return super.equals(obj) && Objects.equals(dateBirth, object.getDateBirth())
+                    && Objects.equals(phone, object.getPhone())
+                    && Objects.equals(cityId, object.getCityId())
+                    && Objects.equals(city, object.getCity());
+        }else {
             return false;
+        }
     }
 
     @Override

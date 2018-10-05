@@ -1,5 +1,7 @@
 package ru.strict.neuralnetwork.data;
 
+import java.util.Objects;
+
 /**
  * Синапс - связь между двумя нейронами
  */
@@ -57,11 +59,19 @@ public class Synapse {
     }
 
     public boolean equals(Object obj){
-        if(obj == null)
+        if(obj != null && obj instanceof Synapse) {
+            Synapse object = (Synapse) obj;
+            return Objects.equals(sourceNeuron, object.getSourceNeuron())
+                    && Objects.equals(targetNeuron, object.getTargetNeuron())
+                    && Objects.equals(weight, object.getWeight());
+        } else {
             return false;
-        Synapse synapse = (Synapse) obj;
-        return synapse.getSourceNeuron().equals(sourceNeuron) && synapse.getTargetNeuron().equals(targetNeuron)
-                && synapse.weight == weight;
+        }
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(sourceNeuron, targetNeuron, weight);
     }
     //</editor-fold>
 }

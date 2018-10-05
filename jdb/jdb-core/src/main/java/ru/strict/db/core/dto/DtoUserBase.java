@@ -203,13 +203,16 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DtoUserBase) {
             DtoUserBase object = (DtoUserBase) obj;
-            return super.equals(object) && username.equals(object.getUsername())
-                    && email.equals(object.getEmail())
-                    && isBlocked == object.isBlocked()
-                    && isDeleted == object.isDeleted()
-                    && isConfirmEmail == object.isConfirmEmail();
-        }else
+            return super.equals(obj) && Objects.equals(username, object.getUsername())
+                    && Objects.equals(email, object.getEmail())
+                    && Objects.equals(isBlocked, object.isBlocked())
+                    && Objects.equals(isDeleted, object.isDeleted())
+                    && Objects.equals(isConfirmEmail, object.isConfirmEmail())
+                    && Objects.equals(roles, object.getRoles())
+                    && Objects.equals(profile, object.getProfile());
+        }else {
             return false;
+        }
     }
 
     @Override

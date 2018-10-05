@@ -143,13 +143,14 @@ public class EntityToken<ID> extends EntityBase<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof EntityToken) {
             EntityToken object = (EntityToken) obj;
-            return super.equals(object) && accessToken.equals(object.getAccessToken())
-                    && refreshToken.equals(object.getRefreshToken())
-                    && expireTimeAccess.equals(object.getExpireTimeAccess())
-                    && expireTimeRefresh.equals(object.getExpireTimeRefresh())
-                    && issuedAt.equals(object.getIssuedAt());
-        }else
+            return super.equals(obj) && Objects.equals(accessToken, object.getAccessToken())
+                    && Objects.equals(refreshToken, object.getRefreshToken())
+                    && Objects.equals(expireTimeAccess, object.getExpireTimeAccess())
+                    && Objects.equals(expireTimeRefresh, object.getExpireTimeRefresh())
+                    && Objects.equals(issuedAt, object.getIssuedAt());
+        }else {
             return false;
+        }
     }
 
     @Override

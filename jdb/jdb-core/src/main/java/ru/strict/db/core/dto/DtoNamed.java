@@ -62,9 +62,10 @@ public abstract class DtoNamed<ID> extends DtoBase<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DtoNamed) {
             DtoNamed object = (DtoNamed) obj;
-            return super.equals(object) && caption.equals(object.getCaption());
-        }else
+            return super.equals(obj) && Objects.equals(caption, object.getCaption());
+        }else {
             return false;
+        }
     }
 
     @Override

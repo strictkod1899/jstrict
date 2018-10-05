@@ -90,9 +90,10 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof EntityCountry) {
             EntityCountry object = (EntityCountry) obj;
-            return super.equals(object);
-        }else
+            return super.equals(obj) && Objects.equals(cities, object.getCities());
+        }else {
             return false;
+        }
     }
 
     @Override

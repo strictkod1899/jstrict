@@ -64,9 +64,10 @@ public class DtoUser<ID> extends DtoUserBase<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DtoUser) {
             DtoUser object = (DtoUser) obj;
-            return super.equals(object) && passwordEncode.equals(object.getPasswordEncode());
-        }else
+            return super.equals(obj) && Objects.equals(passwordEncode, object.getPasswordEncode());
+        }else {
             return false;
+        }
     }
 
     @Override

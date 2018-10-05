@@ -104,11 +104,13 @@ public class DbWhere extends DbRequestBase {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DbWhere) {
             DbWhere object = (DbWhere) obj;
-            return super.equals(object) && columnName.equals(object.getColumnName())
-                    && columnValue.equals(object.getColumnValue()) && operator.equals(object.getOperator())
-                    && templateSymbol.equals(object.getTemplateSymbol());
-        }else
+            return super.equals(obj) && Objects.equals(columnName, object.getColumnName())
+                    && Objects.equals(columnValue, object.getColumnValue())
+                    && Objects.equals(operator, object.getOperator())
+                    && Objects.equals(templateSymbol, object.getTemplateSymbol());
+        }else {
             return false;
+        }
     }
 
     @Override

@@ -276,14 +276,18 @@ public class EntityUser<ID> extends EntityBase<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof EntityUser) {
             EntityUser object = (EntityUser) obj;
-            return super.equals(object) && username.equals(object.getUsername())
-                    && passwordEncode.equals(object.getPasswordEncode())
-                    && email.equals(object.getEmail())
-                    && isBlocked == object.isBlocked()
-                    && isDeleted == object.isDeleted()
-                    && isConfirmEmail == object.isConfirmEmail();
-        }else
+            return super.equals(obj) && Objects.equals(username, object.getUsername())
+                    && Objects.equals(passwordEncode, object.getPasswordEncode())
+                    && Objects.equals(email, object.getEmail())
+                    && Objects.equals(isBlocked, object.isBlocked())
+                    && Objects.equals(isDeleted, object.isDeleted())
+                    && Objects.equals(isConfirmEmail, object.isConfirmEmail())
+                    && Objects.equals(roles, object.getRoles())
+                    && Objects.equals(profile, object.getProfile())
+                    && Objects.equals(tokens, object.getTokens());
+        }else {
             return false;
+        }
     }
 
     @Override

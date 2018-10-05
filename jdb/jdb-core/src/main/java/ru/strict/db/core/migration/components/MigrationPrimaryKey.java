@@ -55,9 +55,11 @@ public class MigrationPrimaryKey implements MigrationComponent {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof MigrationPrimaryKey) {
             MigrationPrimaryKey object = (MigrationPrimaryKey) obj;
-            return name.equals(object.getName()) && column.equals(object.getColumn());
-        }else
+            return Objects.equals(name, object.getName())
+                    && Objects.equals(column, object.getColumn());
+        }else {
             return false;
+        }
     }
 
     @Override

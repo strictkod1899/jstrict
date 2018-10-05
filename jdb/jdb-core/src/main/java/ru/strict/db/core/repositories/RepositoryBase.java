@@ -266,13 +266,14 @@ public abstract class RepositoryBase
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof RepositoryBase) {
             RepositoryBase object = (RepositoryBase) obj;
-            return super.equals(object) && tableName.equals(object.getTableName())
-                    && connectionSource.equals(connectionSource)
-                    && generateIdType == object.getGenerateIdType()
-                    && (columnsName.length == object.getColumnsName().length
-                            && Arrays.asList(columnsName).containsAll(Arrays.asList(object.getColumnsName())));
-        }else
+            return Objects.equals(connectionSource, object.getConnectionSource())
+                    && Objects.equals(dtoMapper, object.getDtoMapper())
+                    && Objects.equals(tableName, object.getTableName())
+                    && Objects.equals(columnsName, object.getColumnsName())
+                    && Objects.equals(generateIdType, object.getGenerateIdType());
+        }else{
             return false;
+        }
     }
 
     @Override

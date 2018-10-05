@@ -92,9 +92,10 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DtoUserToken) {
             DtoUserToken object = (DtoUserToken) obj;
-            return super.equals(object);
-        }else
+            return super.equals(obj) && Objects.equals(tokens, object.getTokens());
+        }else {
             return false;
+        }
     }
 
     @Override

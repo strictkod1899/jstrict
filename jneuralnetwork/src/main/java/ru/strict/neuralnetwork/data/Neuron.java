@@ -1,5 +1,6 @@
 package ru.strict.neuralnetwork.data;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -108,12 +109,20 @@ public class Neuron implements Cloneable{
     }
 
     public boolean equals(Object obj){
-        if(obj==null)
+        if(obj!=null && obj instanceof Neuron) {
+            Neuron object = (Neuron) obj;
+            return Objects.equals(entryId, object.getEntryId())
+                    && Objects.equals(value, object.getValue())
+                    && Objects.equals(caption, object.getCaption())
+                    && Objects.equals(type, object.getType());
+        }else{
             return false;
+        }
+    }
 
-        Neuron neuron = (Neuron) obj;
-        return neuron.entryId.equals(entryId) && neuron.value == value && neuron.caption.equals(caption)
-                && neuron.getType().equals(getType());
+    @Override
+    public int hashCode(){
+        return Objects.hash(entryId, value, caption, type);
     }
 
     public Neuron clone(){

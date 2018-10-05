@@ -57,9 +57,10 @@ public class PostgreSQLDbWhere extends DbWhere {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof PostgreSQLDbWhere) {
             PostgreSQLDbWhere object = (PostgreSQLDbWhere) obj;
-            return super.equals(object) && ignoreCase == object.isIgnoreCase();
-        }else
+            return super.equals(object) && Objects.equals(ignoreCase, object.isIgnoreCase());
+        }else {
             return false;
+        }
     }
 
     @Override

@@ -90,9 +90,10 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DtoCountry) {
             DtoCountry object = (DtoCountry) obj;
-            return super.equals(object);
-        }else
+            return super.equals(obj) && Objects.equals(cities, object.getCities());
+        }else {
             return false;
+        }
     }
 
     @Override

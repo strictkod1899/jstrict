@@ -31,9 +31,10 @@ public abstract class DbRequestBase implements IDbRequest {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DbRequestBase) {
             DbRequestBase object = (DbRequestBase) obj;
-            return super.equals(object) && tableName.equals(object.getTableName());
-        }else
+            return Objects.equals(tableName, object.getTableName());
+        }else {
             return false;
+        }
     }
 
     @Override

@@ -51,9 +51,10 @@ public abstract class DtoBase<ID> implements MapTarget, Comparable<DtoBase<ID>> 
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DtoBase) {
             DtoBase object = (DtoBase) obj;
-            return object.getId().equals(id);
-        }else
+            return Objects.equals(id, object.getId());
+        }else {
             return false;
+        }
     }
 
     @Override

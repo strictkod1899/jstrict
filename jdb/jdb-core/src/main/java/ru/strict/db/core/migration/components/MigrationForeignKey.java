@@ -101,13 +101,15 @@ public class MigrationForeignKey implements MigrationComponent {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof MigrationForeignKey) {
             MigrationForeignKey object = (MigrationForeignKey) obj;
-            return name.equals(object.getName()) && column.equals(object.getColumn())
-                    && tableRef.equals(object.getTableRef())
-                    && columnRef.equals(object.getColumnRef())
-                    && updateBehavior.equals(object.getUpdateBehavior())
-                    && deleteBehavior.equals(object.getDeleteBehavior());
-        }else
+            return Objects.equals(name, object.getName())
+                    && Objects.equals(column, object.getColumn())
+                    && Objects.equals(tableRef, object.getTableRef())
+                    && Objects.equals(columnRef, object.getColumnRef())
+                    && Objects.equals(updateBehavior, object.getUpdateBehavior())
+                    && Objects.equals(deleteBehavior, object.getDeleteBehavior());
+        } else {
             return false;
+        }
     }
 
     @Override

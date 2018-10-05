@@ -77,16 +77,16 @@ public class DbRequests extends LinkedList<DbRequestBase> implements IDbRequest 
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DbRequests) {
             DbRequests object = (DbRequests) obj;
-            return super.equals(object) && selectTableName.equals(object.getSelectTableName())
-                    && isAnd == object.isAnd()
-                    && (size() == object.size() && this.containsAll(object));
-        }else
+            return Objects.equals(selectTableName, object.getSelectTableName())
+                    && Objects.equals(isAnd, object.isAnd());
+        }else {
             return false;
+        }
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(selectTableName, isAnd, this);
+        return Objects.hash(selectTableName, isAnd);
     }
     //</editor-fold>
 }

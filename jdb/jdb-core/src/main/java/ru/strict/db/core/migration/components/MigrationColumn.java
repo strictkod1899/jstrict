@@ -86,10 +86,13 @@ public class MigrationColumn implements MigrationComponent {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof MigrationColumn) {
             MigrationColumn object = (MigrationColumn) obj;
-            return name.equals(object.getName()) && type.equals(object.getType()) && isNotNull == object.isNotNull()
-                    && defaultValue.equals(object.getDefaultValue());
-        }else
+            return Objects.equals(name, object.getName())
+                    && Objects.equals(type, object.getType())
+                    && Objects.equals(isNotNull, object.isNotNull())
+                    && Objects.equals(defaultValue, object.getDefaultValue());
+        }else {
             return false;
+        }
     }
 
     @Override

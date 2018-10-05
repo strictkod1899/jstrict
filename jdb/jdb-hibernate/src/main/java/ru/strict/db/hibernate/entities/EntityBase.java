@@ -56,9 +56,10 @@ public abstract class EntityBase<ID> implements Serializable, Comparable<EntityB
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof EntityBase && obj!=null) {
             EntityBase object = (EntityBase) obj;
-            return id.equals(object.getId());
-        }else
+            return Objects.equals(id, object.getId());
+        }else {
             return false;
+        }
     }
 
     @Override

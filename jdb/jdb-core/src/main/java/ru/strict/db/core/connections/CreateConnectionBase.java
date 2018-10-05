@@ -37,9 +37,10 @@ public abstract class CreateConnectionBase<SOURCE, CONNECTION> implements ICreat
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof CreateConnectionBase) {
             CreateConnectionBase object = (CreateConnectionBase) obj;
-            return connectionSource.equals(object.getConnectionSource());
-        }else
+            return Objects.equals(connectionSource, object.getConnectionSource());
+        }else {
             return false;
+        }
     }
 
     @Override

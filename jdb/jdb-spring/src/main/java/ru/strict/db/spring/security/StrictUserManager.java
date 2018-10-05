@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-
 /**
  * Специальный класс, который предоставляет данные пользователя для SpringSecurity.
  * Производит загрузку пользователей из базы данных
@@ -58,9 +57,10 @@ public class StrictUserManager<ID> {
 	public boolean equals(Object obj){
 		if(obj!=null && obj instanceof StrictUserManager) {
 			StrictUserManager object = (StrictUserManager) obj;
-			return users.size() == object.getUsers().size() && users.values().containsAll(object.getUsers().values());
-		}else
+			return Objects.equals(users, object.getUsers());
+		}else {
 			return false;
+		}
 	}
 
 	@Override

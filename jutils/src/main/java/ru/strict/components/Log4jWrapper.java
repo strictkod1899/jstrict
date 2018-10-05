@@ -282,11 +282,12 @@ public class Log4jWrapper implements ILogger{
 
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof Log4jWrapper) {
+        if(obj != null && obj instanceof Log4jWrapper) {
             Log4jWrapper object = (Log4jWrapper) obj;
             return wrappedObject.equals(object.getWrappedObject());
-        }else
+        }else {
             return false;
+        }
     }
     //</editor-fold>
 }

@@ -89,14 +89,16 @@ public class EntityCity<ID> extends EntityNamed<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof EntityCity) {
             EntityCity object = (EntityCity) obj;
-            return super.equals(object) && countryId.equals(object.getCountryId());
-        }else
+            return super.equals(obj) && Objects.equals(countryId, object.getCountryId())
+                    && Objects.equals(country, object.getCountry());
+        }else {
             return false;
+        }
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(getId(), getCaption(), countryId);
+        return Objects.hash(getId(), getCaption(), countryId, country);
     }
     //</editor-fold>
 }

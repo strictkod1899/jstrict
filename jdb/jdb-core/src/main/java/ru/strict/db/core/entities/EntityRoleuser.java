@@ -131,10 +131,12 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof EntityRoleuser) {
             EntityRoleuser object = (EntityRoleuser) obj;
-            return super.equals(object) && code.equals(object.getCode())
-                    && description.equals(object.getDescription());
-        }else
+            return super.equals(obj) && Objects.equals(code, object.getCode())
+                    && Objects.equals(description, object.getDescription())
+                    && Objects.equals(users, object.getUsers());
+        }else {
             return false;
+        }
     }
 
     @Override

@@ -71,11 +71,13 @@ public class ConnectionInfo {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof ConnectionInfo) {
             ConnectionInfo object = (ConnectionInfo) obj;
-            return password.equals(object.getPassword())
-                    && username.equals(object.getUsername()) && driver.equals(object.getDriver())
-                    && url.equals(object.getUrl());
-        }else
+            return Objects.equals(password, object.getPassword())
+                    && Objects.equals(username, object.getUsername())
+                    && Objects.equals(driver, object.getDriver())
+                    && Objects.equals(url, object.getUrl());
+        }else {
             return false;
+        }
     }
 
     @Override

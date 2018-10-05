@@ -129,11 +129,13 @@ public class MigrationTable
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof MigrationTable) {
             MigrationTable object = (MigrationTable) obj;
-            return name.equals(object.getName()) && primaryKey.equals(object.getPrimaryKey())
-                    && (columns.size() == object.getColumns().size() && columns.containsAll(object.getColumns()))
-                    && (foreignKeys.size() == object.getForeignKeys().size() && foreignKeys.containsAll(object.getForeignKeys()));
-        }else
+            return Objects.equals(name, object.getName())
+                    && Objects.equals(primaryKey, object.getPrimaryKey())
+                    && Objects.equals(columns, object.getColumns())
+                    && Objects.equals(foreignKeys, object.getForeignKeys());
+        }else {
             return false;
+        }
     }
 
     @Override

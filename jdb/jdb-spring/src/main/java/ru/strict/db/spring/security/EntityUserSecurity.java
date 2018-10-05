@@ -26,14 +26,5 @@ public class EntityUserSecurity<ID> extends EntityUser<ID> {
 	public String toString(){
 		return String.format("entity [%s]: %s", String.valueOf(getId()), getUsername());
 	}
-
-	@Override
-	public boolean equals(Object obj){
-		if(obj!=null && obj instanceof EntityUserSecurity) {
-			EntityUserSecurity object = (EntityUserSecurity) obj;
-			return super.equals(object);
-		}else
-			return false;
-	}
 	//</editor-fold>
 }

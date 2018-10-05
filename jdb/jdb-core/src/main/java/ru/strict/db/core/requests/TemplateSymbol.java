@@ -44,10 +44,11 @@ public class TemplateSymbol {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof TemplateSymbol) {
             TemplateSymbol object = (TemplateSymbol) obj;
-            return super.equals(object) && templateSymbol.equals(object.getTemplateSymbol())
-                    && pointTemplateSymbol.equals(object.getPointTemplateSymbol());
-        }else
+            return Objects.equals(templateSymbol, object.getTemplateSymbol())
+                    && Objects.equals(pointTemplateSymbol, object.getPointTemplateSymbol());
+        }else {
             return false;
+        }
     }
 
     @Override

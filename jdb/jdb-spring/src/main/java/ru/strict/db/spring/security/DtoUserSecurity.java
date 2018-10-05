@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.dto.DtoUser;
+import ru.strict.validates.ValidateBaseValue;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -36,7 +37,7 @@ public class DtoUserSecurity<ID> extends DtoUser<ID> implements UserDetails{
 	@Override
 	public void addRole(DtoRoleuser<ID> roleuser){
 		this.authorities = new HashSet<>();
-		if (roleuser.getCode() != null && !"".equals(roleuser.getCode())) {
+		if (roleuser.getCode() != null && !ValidateBaseValue.isEmptyOrNull(roleuser.getCode())) {
 			GrantedAuthority grandAuthority = new GrantedAuthority() {
 				private static final long serialVersionUID = 3958183417696804555L;
 
@@ -95,12 +96,12 @@ public class DtoUserSecurity<ID> extends DtoUser<ID> implements UserDetails{
 
 	@Override
 	public boolean equals(Object obj){
-		if(obj!=null && obj instanceof DtoUserSecurity) {
+    	if(obj != null && obj instanceof DtoUserSecurity) {
 			DtoUserSecurity object = (DtoUserSecurity) obj;
-			return super.equals(object)
-					&& (authorities.size() == object.getAuthorities().size() && authorities.containsAll(object.getAuthorities()));
-		}else
+			return super.equals(object) && Objects.equals(authorities, object.getAuthorities());
+		} else {
 			return false;
+		}
 	}
 
 	@Override

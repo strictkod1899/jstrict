@@ -89,8 +89,8 @@ public class MigrationDatabase
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof MigrationDatabase) {
             MigrationDatabase object = (MigrationDatabase) obj;
-            return connectionSource.equals(object.getConnectionSource())
-                    && (tables.size() == object.getTables().size() && tables.containsAll(object.getTables()));
+            return Objects.equals(connectionSource, object.getConnectionSource())
+                    && Objects.equals(tables, object.getTables());
         }else
             return false;
     }

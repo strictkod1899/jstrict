@@ -62,9 +62,10 @@ public abstract class EntityNamed<ID> extends EntityBase<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof EntityNamed) {
             EntityNamed object = (EntityNamed) obj;
-            return super.equals(object) && caption.equals(object.getCaption());
-        }else
+            return super.equals(obj) && Objects.equals(caption, object.getCaption());
+        }else {
             return false;
+        }
     }
 
     @Override

@@ -192,11 +192,23 @@ public class HibernateConnectionInfo {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof HibernateConnectionInfo) {
             HibernateConnectionInfo object = (HibernateConnectionInfo) obj;
-            return password.equals(object.getPassword())
-                    && username.equals(object.getUsername()) && driver.equals(object.getDriver())
-                    && url.equals(object.getUrl());
-        }else
+            return Objects.equals(dialect, object.getDialect())
+                    && Objects.equals(password, object.getPassword())
+                    && Objects.equals(username, object.getUsername())
+                    && Objects.equals(driver, object.getDriver())
+                    && Objects.equals(url, object.getUrl())
+                    && Objects.equals(poolSize, object.getPoolSize())
+                    && Objects.equals(autoCommit, object.isAutoCommit())
+                    && Objects.equals(providerClass, object.getProviderClass())
+                    && Objects.equals(useSecondLevelCache, object.isUseSecondLevelCache())
+                    && Objects.equals(useQueryCache, object.isUseQueryCache())
+                    && Objects.equals(showSql, object.isShowSql())
+                    && Objects.equals(currentSessionContextClass, object.getCurrentSessionContextClass())
+                    && Objects.equals(packages, object.getPackages())
+                    && Objects.equals(entityClasses, object.getEntityClasses());
+        }else {
             return false;
+        }
     }
 
     @Override

@@ -157,10 +157,14 @@ public abstract class EntityProfileBase<ID> extends EntityBase<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof EntityProfileBase) {
             EntityProfileBase object = (EntityProfileBase) obj;
-            return super.equals(object) && name.equals(object.getName()) && surname.equals(object.getSurname())
-                    && middlename.equals(object.getMiddlename()) && userId.equals(object.getUserId());
-        }else
+            return super.equals(obj) && Objects.equals(name, object.getName())
+                    && Objects.equals(surname, object.getSurname())
+                    && Objects.equals(middlename, object.getMiddlename())
+                    && Objects.equals(userId, object.getUserId())
+                    && Objects.equals(user, object.getUser());
+        }else {
             return false;
+        }
     }
 
     @Override

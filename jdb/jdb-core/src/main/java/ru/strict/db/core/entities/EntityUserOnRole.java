@@ -110,9 +110,13 @@ public class EntityUserOnRole<ID> extends EntityBase<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof EntityUserOnRole) {
             EntityUserOnRole object = (EntityUserOnRole) obj;
-            return super.equals(object) && userId.equals(object.getUserId()) && roleId.equals(object.getRoleId());
-        }else
+            return super.equals(obj) && Objects.equals(userId, object.getUserId())
+                    && Objects.equals(user, object.getUser())
+                    && Objects.equals(roleId, object.getRoleId())
+                    && Objects.equals(role, object.getRole());
+        }else {
             return false;
+        }
     }
 
     @Override

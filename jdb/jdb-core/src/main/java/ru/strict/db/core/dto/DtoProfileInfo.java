@@ -100,10 +100,13 @@ public class DtoProfileInfo<ID> extends DtoProfile<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DtoProfileInfo){
             DtoProfileInfo object = (DtoProfileInfo) obj;
-            return super.equals(object) && dateBirth.equals(object.getDateBirth()) && phone.equals(object.getPhone())
-                    && cityId.equals(object.getCityId());
-        }else
+            return super.equals(obj) && Objects.equals(dateBirth, object.getDateBirth())
+                    && Objects.equals(phone, object.getPhone())
+                    && Objects.equals(cityId, object.getCityId())
+                    && Objects.equals(city, object.getCity());
+        }else {
             return false;
+        }
     }
 
     @Override

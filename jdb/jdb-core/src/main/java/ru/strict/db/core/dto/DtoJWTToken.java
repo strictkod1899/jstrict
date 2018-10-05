@@ -228,16 +228,20 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DtoJWTToken) {
             DtoJWTToken object = (DtoJWTToken) obj;
-            return super.equals(object) && issuer.equals(object.getIssuer())
-                    && subject.equals(object.getSubject())
-                    && notBefore.equals(object.getNotBefore())
-                    && secret.equals(object.getSecret())
-                    && algorithm.equals(object.getAlgorithm())
-                    && type.equals(object.getType())
-                    && userId.equals(object.getUserId())
-                    && roleUserId.equals(object.getRoleUserId());
-        }else
+            return super.equals(obj) && Objects.equals(issuer, object.getIssuer())
+                    && Objects.equals(subject, object.getSubject())
+                    && Objects.equals(notBefore, object.getNotBefore())
+                    && Objects.equals(audience, object.getAudience())
+                    && Objects.equals(secret, object.getSecret())
+                    && Objects.equals(algorithm, object.getAlgorithm())
+                    && Objects.equals(type, object.getType())
+                    && Objects.equals(userId, object.getUserId())
+                    && Objects.equals(user, object.getUser())
+                    && Objects.equals(roleUserId, object.getRoleUserId())
+                    && Objects.equals(roleUser, object.getRoleUser());
+        }else {
             return false;
+        }
     }
 
     @Override

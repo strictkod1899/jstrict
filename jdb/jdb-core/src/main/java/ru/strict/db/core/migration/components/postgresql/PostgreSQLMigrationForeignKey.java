@@ -52,9 +52,10 @@ public class PostgreSQLMigrationForeignKey extends MigrationForeignKey {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof PostgreSQLMigrationForeignKey) {
             PostgreSQLMigrationForeignKey object = (PostgreSQLMigrationForeignKey) obj;
-            return super.equals(object) && schema.equals(object.getSchema());
-        }else
+            return super.equals(object) && Objects.equals(schema, object.getSchema());
+        }else {
             return false;
+        }
     }
 
     @Override
