@@ -6,8 +6,9 @@ import java.util.*;
 /**
  * Набор условий для добавления к sql-запросу
  */
-public class DbRequests extends LinkedList<DbRequestBase> implements IDbRequest {
+public class DbRequests implements IDbRequest {
 
+    private List<DbRequestBase> requests;
     /**
      * Наименование таблицы из основной конструкции select
      */
@@ -21,6 +22,7 @@ public class DbRequests extends LinkedList<DbRequestBase> implements IDbRequest 
     public DbRequests(String selectTableName, boolean isAnd) {
         this.selectTableName = selectTableName;
         this.isAnd = isAnd;
+        requests = new ArrayList<>();
     }
     //</editor-fold>
 
@@ -40,7 +42,7 @@ public class DbRequests extends LinkedList<DbRequestBase> implements IDbRequest 
 
         Collection<String> tableNames = new LinkedList<>();
 
-        for(DbRequestBase request : this){
+        for(DbRequestBase request : requests){
             if(!tableNames.contains(request.getTableName()) && !request.getTableName().equals(selectTableName))
                 tableNames.add(request.getTableName());
         }
@@ -48,7 +50,7 @@ public class DbRequests extends LinkedList<DbRequestBase> implements IDbRequest 
         for(String tableName : tableNames)
             result+=", " + tableName;
 
-        if(!isEmpty())
+        if(!requests.isEmpty())
             result+=" WHERE ";
         else
             return "";
@@ -59,12 +61,24 @@ public class DbRequests extends LinkedList<DbRequestBase> implements IDbRequest 
         else
             symbol = "OR";
 
-        result += get(0).getSql() + " ";
+        result += requests.get(0).getSql() + " ";
 
-        for(int i=1; i<size(); i++)
-            result += symbol + " " + get(i).getSql() + " ";
+        for(int i=1; i<requests.size(); i++)
+            result += symbol + " " + requests.get(i).getSql() + " ";
 
         return result;
+    }
+
+    public void add(DbRequestBase request){
+        if(request != null){
+            requests.add(request);
+        }else{
+            throw new IllegalArgumentException("request is NULL");
+        }
+    }
+
+    public List<DbRequestBase> getRequests() {
+        return requests;
     }
 
     //<editor-fold defaultState="collapsed" desc="Base override">
@@ -78,7 +92,8 @@ public class DbRequests extends LinkedList<DbRequestBase> implements IDbRequest 
         if(obj!=null && obj instanceof DbRequests) {
             DbRequests object = (DbRequests) obj;
             return Objects.equals(selectTableName, object.getSelectTableName())
-                    && Objects.equals(isAnd, object.isAnd());
+                    && Objects.equals(isAnd, object.isAnd())
+                    && Objects.equals(requests, object.getRequests());
         }else {
             return false;
         }
@@ -86,7 +101,7 @@ public class DbRequests extends LinkedList<DbRequestBase> implements IDbRequest 
 
     @Override
     public int hashCode(){
-        return Objects.hash(selectTableName, isAnd);
+        return Objects.hash(selectTableName, isAnd, requests);
     }
     //</editor-fold>
 }
