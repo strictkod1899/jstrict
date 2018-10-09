@@ -67,6 +67,7 @@ public class MapperDtoJWTToken<ID> extends MapperDtoBase<ID, EntityJWTToken<ID>,
         dto.setSecret(entity.getSecret());
         dto.setAlgorithm(entity.getAlgorithm());
         dto.setType(entity.getType());
+        dto.setUserId(entity.getUserId());
         Optional.ofNullable(mapperUser).ifPresent((mapper) -> dto.setUser(mapper.map(entity.getUser())));
         dto.setRoleUserId(entity.getRoleUserId());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) -> dto.setRoleUser(mapper.map(entity.getRoleUser())));
