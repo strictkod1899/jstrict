@@ -1,6 +1,6 @@
 package ru.strict.components;
 
- interface ILogger {
+ public interface ILogger {
      void trace(String message);
 
     /**
