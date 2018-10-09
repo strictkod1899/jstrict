@@ -90,11 +90,6 @@ public class DtoUserSecurity<ID> extends DtoUser<ID> implements UserDetails{
 
 	//<editor-fold defaultState="collapsed" desc="Base override">
 	@Override
-	public String toString(){
-		return String.format("dto [%s]: %s", String.valueOf(getId()), getUsername());
-	}
-
-	@Override
 	public boolean equals(Object obj){
     	if(obj != null && obj instanceof DtoUserSecurity) {
 			DtoUserSecurity object = (DtoUserSecurity) obj;

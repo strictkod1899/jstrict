@@ -30,7 +30,7 @@ public abstract class CreateConnectionBase<SOURCE, CONNECTION> implements ICreat
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("Connection source: %s", connectionSource.toString());
+        return connectionSource.toString();
     }
 
     @Override

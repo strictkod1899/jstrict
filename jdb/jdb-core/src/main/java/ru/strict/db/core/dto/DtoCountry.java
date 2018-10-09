@@ -83,7 +83,7 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("dto country [%s]: %s", String.valueOf(getId()), getCaption());
+        return String.format("country [%s]: %s", String.valueOf(getId()), getCaption());
     }
 
     @Override

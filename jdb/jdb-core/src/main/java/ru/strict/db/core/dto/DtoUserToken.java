@@ -85,7 +85,7 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("dto usertoken [%s]: %s", String.valueOf(getId()), getUsername());
+        return String.format("user [%s]: %s/%s", String.valueOf(getId()), getUsername(), getPasswordEncode());
     }
 
     @Override

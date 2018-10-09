@@ -48,7 +48,7 @@ public class MigrationPrimaryKey implements MigrationComponent {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("Primary key: %s to column %s", name, column);
+        return getSql();
     }
 
     @Override

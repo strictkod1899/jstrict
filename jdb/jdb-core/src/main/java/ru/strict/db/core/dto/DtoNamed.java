@@ -55,7 +55,7 @@ public abstract class DtoNamed<ID> extends DtoBase<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("dto named [%s]: %s", String.valueOf(getId()), caption);
+        return String.format("[%s]: %s", String.valueOf(getId()), caption);
     }
 
     @Override

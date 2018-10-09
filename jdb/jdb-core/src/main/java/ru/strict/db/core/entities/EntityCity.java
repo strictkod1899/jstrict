@@ -82,7 +82,7 @@ public class EntityCity<ID> extends EntityNamed<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("entity city [%s]: %s, country - %s", String.valueOf(getId()), getCaption(), countryId);
+        return String.format("city [%s]: %s, country - %s", String.valueOf(getId()), getCaption(), countryId);
     }
 
     @Override

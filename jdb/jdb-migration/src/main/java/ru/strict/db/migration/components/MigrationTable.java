@@ -117,8 +117,7 @@ public class MigrationTable
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        String columnsName = String.join("; ", columns.stream().map((column) -> column.getName()).collect(Collectors.toList()));
-        return String.format("Table: %s. Columns: %s", name, columnsName);
+        return getSql();
     }
 
     @Override

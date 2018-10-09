@@ -55,7 +55,7 @@ public abstract class EntityNamed<ID> extends EntityBase<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("entity named [%s]: %s", String.valueOf(getId()), caption);
+        return String.format("[%s]: %s", String.valueOf(getId()), caption);
     }
 
     @Override

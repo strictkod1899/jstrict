@@ -44,7 +44,7 @@ public abstract class EntityBase<ID> implements MapTarget, Comparable<EntityBase
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("entity base [%s]", String.valueOf(id));
+        return id.toString();
     }
 
     @Override

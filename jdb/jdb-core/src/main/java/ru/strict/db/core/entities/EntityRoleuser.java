@@ -124,7 +124,7 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("entity roleuser [%s]: %s (%s)", String.valueOf(getId()), code, description);
+        return String.format("roleuser [%s]: %s (%s)", String.valueOf(getId()), code, description);
     }
 
     @Override

@@ -139,7 +139,7 @@ public class EntityProfile<ID> extends EntityBase<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("entity profile [%s]: %s %s %s", String.valueOf(getId()), surname, name, middlename);
+        return String.format("profile [%s]: %s %s %s", String.valueOf(getId()), surname, name, middlename);
     }
 
     @Override

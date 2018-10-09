@@ -78,7 +78,7 @@ public class MigrationDatabase
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        String tablesName = String.join("; ", tables.stream().map((table) -> table.getName()).collect(Collectors.toList()));
+        String tablesName = String.join(";\n", tables.stream().map((table) -> table.getName()).collect(Collectors.toList()));
         return String.format("MigrationDatabase tables: %s", tablesName);
     }
 

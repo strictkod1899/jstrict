@@ -103,7 +103,7 @@ public class DtoUserOnRole<ID> extends DtoBase<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("dto useronrole [%s]. user: %s. role: %s.", String.valueOf(getId()), userId, roleId);
+        return String.format("useronrole [%s]. user: %s. role: %s.", String.valueOf(getId()), userId, roleId);
     }
 
     @Override

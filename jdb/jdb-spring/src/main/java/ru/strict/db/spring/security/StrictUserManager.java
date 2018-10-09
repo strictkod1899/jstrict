@@ -50,7 +50,7 @@ public class StrictUserManager<ID> {
 	//<editor-fold defaultState="collapsed" desc="Base override">
 	@Override
 	public String toString(){
-		return String.format("UserManager: count %s", users.size());
+		return String.format("UserManager. Count users: %s", users.size());
 	}
 
 	@Override

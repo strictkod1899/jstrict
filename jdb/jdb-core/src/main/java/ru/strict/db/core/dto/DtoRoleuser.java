@@ -124,7 +124,7 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("dto roleuser [%s]: %s (%s)", String.valueOf(getId()), code, description);
+        return String.format("roleuser [%s]: %s (%s)", String.valueOf(getId()), code, description);
     }
 
     @Override

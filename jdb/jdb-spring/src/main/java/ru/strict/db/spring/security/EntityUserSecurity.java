@@ -20,11 +20,4 @@ public class EntityUserSecurity<ID> extends EntityUser<ID> {
 		super(id, username, passwordEncode, email);
 	}
 	//</editor-fold>
-
-	//<editor-fold defaultState="collapsed" desc="Base override">
-	@Override
-	public String toString(){
-		return String.format("entity [%s]: %s", String.valueOf(getId()), getUsername());
-	}
-	//</editor-fold>
 }

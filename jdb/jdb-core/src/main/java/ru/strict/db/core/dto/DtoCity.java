@@ -82,7 +82,7 @@ public class DtoCity<ID> extends DtoNamed<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("dto city [%s]: %s, country - %s", String.valueOf(getId()), getCaption(), countryId);
+        return String.format("city [%s]: %s, country - %s", String.valueOf(getId()), getCaption(), countryId);
     }
 
     @Override

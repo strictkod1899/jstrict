@@ -37,7 +37,7 @@ public class TemplateSymbol {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("'%s' to %s", templateSymbol, pointTemplateSymbol.name());
+        return String.format("'%s' into %s", templateSymbol, pointTemplateSymbol.name());
     }
 
     @Override

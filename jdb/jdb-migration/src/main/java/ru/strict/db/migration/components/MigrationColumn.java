@@ -79,7 +79,7 @@ public class MigrationColumn implements MigrationComponent {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("%s %s %s", name, type, (isNotNull? "NOT NULL": "Nullable"));
+        return getSql();
     }
 
     @Override

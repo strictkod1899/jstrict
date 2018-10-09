@@ -220,7 +220,7 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("entity jwt-token [%s]: access - %s, refresh - %s", String.valueOf(getId()),
+        return String.format("jwt-token [%s]: access - %s, refresh - %s", String.valueOf(getId()),
                 getAccessToken(), getRefreshToken());
     }
 

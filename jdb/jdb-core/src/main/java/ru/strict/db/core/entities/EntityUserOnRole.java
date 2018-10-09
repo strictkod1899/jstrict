@@ -103,7 +103,7 @@ public class EntityUserOnRole<ID> extends EntityBase<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("entity useronrole [%s]. user: %s. role: %s.", String.valueOf(getId()), userId, roleId);
+        return String.format("useronrole [%s]. user: %s. role: %s.", String.valueOf(getId()), userId, roleId);
     }
 
     @Override

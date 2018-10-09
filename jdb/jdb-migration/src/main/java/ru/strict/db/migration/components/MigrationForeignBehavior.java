@@ -43,7 +43,7 @@ public enum MigrationForeignBehavior implements MigrationComponent {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("Foreign behaviour: %s", sql);
+        return getSql();
     }
     //</editor-fold>
 }

@@ -93,7 +93,7 @@ public class DtoProfileInfo<ID> extends DtoProfile<ID> {
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     public String toString(){
-        return String.format("entity profileinfo [%s]: %s %s %s\n%tD, phone - %s, city - %s", String.valueOf(getId()),
+        return String.format("profileinfo [%s]: %s %s %s\n%tD, phone - %s, city - %s", String.valueOf(getId()),
                 getSurname(), getName(), getMiddlename(), dateBirth, phone, cityId);
     }
 

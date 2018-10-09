@@ -44,7 +44,7 @@ public abstract class DtoBase<ID> implements MapTarget, Comparable<DtoBase<ID>> 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("dto base [%s]", String.valueOf(id));
+        return id.toString();
     }
 
     @Override

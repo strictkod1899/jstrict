@@ -268,8 +268,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("entity user [%s]: %s.\nPassword: %s", String.valueOf(getId()), getUsername(),
-                passwordEncode);
+        return String.format("user [%s]: %s/%s", String.valueOf(getId()), getUsername(), passwordEncode);
     }
 
     @Override

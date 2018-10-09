@@ -86,8 +86,7 @@ public class PostgreSQLMigrationTable
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        String columnsName = String.join("; ", getColumns().stream().map((column) -> column.getName()).collect(Collectors.toList()));
-        return String.format("Table: %s.%s. Columns: %s", schema, getName(), columnsName);
+        return getSql();
     }
 
     @Override

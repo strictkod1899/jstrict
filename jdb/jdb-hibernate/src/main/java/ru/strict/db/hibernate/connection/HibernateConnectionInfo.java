@@ -185,7 +185,7 @@ public class HibernateConnectionInfo {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("%s [%s] - %s/%s", driver, url, username, password);
+        return String.format("%s [%s]. User: %s/%s", driver, url, username, password);
     }
 
     @Override
