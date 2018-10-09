@@ -6,17 +6,14 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
-import org.xml.sax.helpers.DefaultHandler;
-
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-public class XmlManager implements Closeable{
+public class XmlManager implements AutoCloseable{
 
     private File xmlFile;
     private SAXBuilder parser;

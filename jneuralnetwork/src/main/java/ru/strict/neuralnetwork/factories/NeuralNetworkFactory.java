@@ -7,15 +7,13 @@ import ru.strict.neuralnetwork.functions.ActivateFunction;
 import ru.strict.neuralnetwork.networks.NeuralNetworkBase;
 import ru.strict.neuralnetwork.structures.NeuralNetworkStructure;
 
-import java.io.Closeable;
-
 /**
  * Базовый класс фабрики нейронной сети
  * @param <STRUCT> Структура нейронной сети
  * @param <NETWORK> Нейронная сеть
  */
 public abstract class NeuralNetworkFactory<STRUCT extends NeuralNetworkStructure, NETWORK extends NeuralNetworkBase>
-        implements Closeable{
+        implements AutoCloseable{
 
     /**
      * Количесво входных нейронов

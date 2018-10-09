@@ -2,12 +2,10 @@ package ru.strict.file.properties;
 
 import ru.strict.utils.UtilProperties;
 import ru.strict.validates.ValidateBaseValue;
-
-import java.io.Closeable;
 import java.io.File;
 import java.util.Objects;
 
-public abstract class PropertiesFileReader implements Closeable{
+public abstract class PropertiesFileReader implements AutoCloseable{
 
     private String pathToDirectory;
     private String propertiesFileName;

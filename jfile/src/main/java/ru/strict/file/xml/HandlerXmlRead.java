@@ -5,8 +5,6 @@ import org.jdom2.Element;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,7 +15,7 @@ import java.util.List;
  * Используется для SAX-парсинга.
  * </pre>
  */
-public class HandlerXmlRead extends DefaultHandler implements Closeable {
+public class HandlerXmlRead extends DefaultHandler implements AutoCloseable {
 
     /**
      * Установленный путь считывания элемента

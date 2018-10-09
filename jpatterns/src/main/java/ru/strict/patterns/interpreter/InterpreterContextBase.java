@@ -2,7 +2,7 @@ package ru.strict.patterns.interpreter;
 
 import java.io.*;
 
-public class InterpreterContextBase implements IInterpreterContext, Closeable {
+public class InterpreterContextBase implements IInterpreterContext, AutoCloseable {
 
     private BufferedReader reader;
     private File fileForRead;

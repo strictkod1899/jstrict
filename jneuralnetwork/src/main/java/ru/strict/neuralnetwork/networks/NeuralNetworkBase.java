@@ -3,8 +3,6 @@ package ru.strict.neuralnetwork.networks;
 import ru.strict.neuralnetwork.data.*;
 import ru.strict.neuralnetwork.functions.ActivateFunction;
 import ru.strict.neuralnetwork.structures.NeuralNetworkStructure;
-
-import java.io.Closeable;
 import java.util.List;
 import java.util.Objects;
 
