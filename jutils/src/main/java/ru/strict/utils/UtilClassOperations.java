@@ -34,7 +34,7 @@ public class UtilClassOperations {
 
     /**
      * Пример использования:
-     * Class<List<Object>> clazz = ClassUtil.<List<Object>>castClass(List.class);
+     * Class<List<Object>> clazz = UtilClassOperations.<List<Object>>castClass(List.class);
      * @param aClass
      * @param <T>
      * @return
