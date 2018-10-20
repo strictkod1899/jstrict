@@ -10,12 +10,10 @@ public abstract class PropertiesResourceFileReader extends PropertiesFileReader 
 
     public PropertiesResourceFileReader(String propertiesFileName) {
         super(propertiesFileName);
-        initializePathToDirectory();
     }
 
     public PropertiesResourceFileReader(String propertiesFileName, String suffix) {
         super(propertiesFileName, suffix);
-        initializePathToDirectory();
     }
 
     protected abstract Class getThisClass();
