@@ -31,13 +31,17 @@ public class ValidateBaseValue {
      * @return Если строка не содержит пустых символов и является корректной, то возвращается true, иначе false
      */
     public static boolean isEmptySpaceOrNull(String str) {
+        if(str == null){
+            return true;
+        }
+
         String strTrim = str.trim();
         return isEmptyOrNull(strTrim);
     }
 
     public static boolean isMinLength(String str, int minLength){
         boolean result = false;
-        if(str.length() >= minLength){
+        if(str != null && str.length() >= minLength){
             result = true;
         }
         return result;
@@ -45,7 +49,7 @@ public class ValidateBaseValue {
 
     public static boolean isMaxLength(String str, int maxLength){
         boolean result = false;
-        if(str.length() <= maxLength){
+        if(str != null && str.length() <= maxLength){
             result = true;
         }
         return result;
@@ -53,7 +57,7 @@ public class ValidateBaseValue {
 
     public static boolean isRangeLength(String str, int minLength, int maxLength){
         boolean result = false;
-        if(str.length() >= minLength && str.length() <= maxLength){
+        if(str != null && str.length() >= minLength && str.length() <= maxLength){
             result = true;
         }
         return result;
@@ -102,11 +106,11 @@ public class ValidateBaseValue {
      * @param splitSymbol Разделяемый символ (например YYYY-MM-DD, YYYY/MM/DD)
      * @return
      */
-    public static boolean isDateYear(String str, char splitSymbol) {
+    public static boolean isDateStartYear(String str, char splitSymbol) {
         boolean result = false;
 
         if (str != null) {
-            Pattern pattern = Pattern.compile("(19|20)\\d\\d[" + splitSymbol + " /.](0[1-9]|1[012])[" + splitSymbol + " /.](0[1-9]|[12][0-9]|3[01])");
+            Pattern pattern = Pattern.compile("[0-9]{4}["+splitSymbol+"](0[1-9]|1[012])["+splitSymbol+"](0[1-9]|[12][0-9]|3[01])");
             Matcher match = pattern.matcher(str);
             result = match.matches();
         }
@@ -115,17 +119,17 @@ public class ValidateBaseValue {
     }
 
     /**
-     * Проверка даты в формате DD/MM/YYYY
+     * Проверка даты в формате DD-MM-YYYY
      *
      * @param str Проверяемая строка
      * @param splitSymbol Разделяемый символ (например DD/MM/YYYY, DD-MM-YYYY)
      * @return
      */
-    public static boolean isDateDay(String str, char splitSymbol) {
+    public static boolean isDateStartDay(String str, char splitSymbol) {
         boolean result = false;
 
         if (str != null) {
-            Pattern pattern = Pattern.compile("(0[1-9]|[12][0-9]|3[01])[" + splitSymbol + " /.](0[1-9]|1[012])[" + splitSymbol + " /.](19|20)\\d\\d");
+            Pattern pattern = Pattern.compile("(0[1-9]|[12][0-9]|3[01])["+splitSymbol+"](0[1-9]|1[012])["+splitSymbol+"][0-9]{4}");
             Matcher match = pattern.matcher(str);
             result = match.matches();
         }
@@ -137,13 +141,14 @@ public class ValidateBaseValue {
      * Проверка времени в формате HH:MM:SS
      *
      * @param str Проверяемая строка
+     * @param splitSymbol Разделяемый символ (например HH:MM:SS, HH-MM-SS)
      * @return
      */
-    public static boolean isTime(String str) {
+    public static boolean isTime(String str, char splitSymbol) {
         boolean result = false;
 
         if (str != null) {
-            Pattern pattern = Pattern.compile("^([0-1]\\d|2[0-3])(:[0-5]\\d){2}$");
+            Pattern pattern = Pattern.compile("^([0-1]\\d|2[0-3])("+splitSymbol+"[0-5]\\d){2}$");
             Matcher match = pattern.matcher(str);
             result = match.matches();
         }
