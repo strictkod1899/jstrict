@@ -49,7 +49,29 @@ package ru.strict.components;
      */
      void warn(String format, String...args);
 
-    /**
+
+     /**
+      * Логирование предупреждения
+      * <p><b>Пример использования:</b></p>
+      * <code><pre style="background-color: white; font-family: consolas">
+      *      Logger.warn(ex);
+      * </pre></code>
+      * @param ex Исключение
+      */
+     void warn(Exception ex);
+
+     /**
+      * Логирование предупреждения
+      * <p><b>Пример использования:</b></p>
+      * <code><pre style="background-color: white; font-family: consolas">
+      *      Logger.warn("My message", ex);
+      * </pre></code>
+      * @param customMessage Пользовательское (дополнительное) сообщение
+      * @param ex Исключение
+      */
+     void warn(String customMessage, Exception ex);
+
+     /**
      * Логирование исключения
      * @param message Сообщение исключения
      */
@@ -59,24 +81,22 @@ package ru.strict.components;
      * Логирование исключения
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
-     *      Logger.error(ex.getClass().toString(), ex.getMessage());
+     *      Logger.error(ex);
      * </pre></code>
-     * @param type Тип исключения
-     * @param message Сообщение исключения
+     * @param ex Исключение
      */
-     void error(String type,  String message);
+     void error(Exception ex);
 
     /**
      * Логирование исключения
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
-     *      Logger.error(ex.getClass().toString(), "My message", ex.getMessage());
+     *      Logger.error("My message", ex);
      * </pre></code>
      * @param customMessage Пользовательское (дополнительное) сообщение
-     * @param type Тип исключения
-     * @param message Сообщение исключения
+     * @param ex Исключение
      */
-     void error(String type, String customMessage, String message);
+     void error(String customMessage, Exception ex);
 
     /**
      * Сообщение исключения
@@ -95,24 +115,22 @@ package ru.strict.components;
      * Логирование исключения
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
-     *      Logger.error(ex.getClass().toString(), ex.getMessage());
+     *      Logger.fatal(ex);
      * </pre></code>
-     * @param type Тип исключения
-     * @param message Сообщение исключения
+     * @param ex Исключение
      */
-     void fatal(String type,  String message);
+     void fatal(Exception ex);
 
     /**
      * Логирование исключения
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
-     *      Logger.error(ex.getClass().toString(), "My message", ex.getMessage());
+     *      Logger.fatal("My message", ex);
      * </pre></code>
      * @param customMessage Пользовательское (дополнительное) сообщение
-     * @param type Тип исключения
-     * @param message Сообщение исключения
+     * @param ex Исключение
      */
-     void fatal(String type, String customMessage, String message);
+     void fatal(String customMessage, Exception ex);
 
     /**
      * Сообщение исключения

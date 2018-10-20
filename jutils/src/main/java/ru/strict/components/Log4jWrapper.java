@@ -97,52 +97,35 @@ public class Log4jWrapper implements ILogger{
         wrappedObject.warn(message);
     }
 
-    /**
-     * Сообщение предупреждения
-     * @param format Сообщение для String.format
-     * @param args Аргументы для String.format
-     */
+
+    @Override
+    public void warn(Exception ex){
+        wrappedObject.warn(String.format("%s - %s", ex.getClass().toGenericString(), ex.getMessage()));
+    }
+
+    @Override
+    public void warn(String customMessage, Exception ex){
+        wrappedObject.warn(String.format("%s: [%s] - %s", customMessage, ex.getClass().toString(), ex.getMessage()));
+    }
+
     @Override
     public void warn(String format, String...args){
         wrappedObject.warn(String.format(format, args));
     }
 
-    /**
-     * Логирование исключения
-     * @param message Сообщение исключения
-     */
     @Override
     public void error(String message){
         wrappedObject.error(message);
     }
 
-    /**
-     * Логирование исключения
-     * <p><b>Пример использования:</b></p>
-     * <code><pre style="background-color: white; font-family: consolas">
-     *      Logger.error(ex.getClass().toString(), ex.getMessage());
-     * </pre></code>
-     * @param type Тип исключения
-     * @param message Сообщение исключения
-     */
     @Override
-    public void error(String type,  String message){
-        wrappedObject.error(String.format("%s - %s", type, message));
+    public void error(Exception ex){
+        wrappedObject.error(String.format("%s - %s", ex.getClass().toGenericString(), ex.getMessage()));
     }
 
-    /**
-     * Логирование исключения
-     * <p><b>Пример использования:</b></p>
-     * <code><pre style="background-color: white; font-family: consolas">
-     *      Logger.error(ex.getClass().toString(), "My message", ex.getMessage());
-     * </pre></code>
-     * @param customMessage Пользовательское (дополнительное) сообщение
-     * @param type Тип исключения
-     * @param message Сообщение исключения
-     */
     @Override
-    public void error(String type, String customMessage, String message){
-        wrappedObject.error(String.format("%s \n %s - %s", customMessage, type, message));
+    public void error(String customMessage, Exception ex){
+        wrappedObject.error(String.format("%s: [%s] - %s", customMessage, ex.getClass().toString(), ex.getMessage()));
     }
 
     /**
@@ -164,33 +147,14 @@ public class Log4jWrapper implements ILogger{
         wrappedObject.fatal(message);
     }
 
-    /**
-     * Логирование исключения
-     * <p><b>Пример использования:</b></p>
-     * <code><pre style="background-color: white; font-family: consolas">
-     *      Logger.error(ex.getClass().toString(), ex.getMessage());
-     * </pre></code>
-     * @param type Тип исключения
-     * @param message Сообщение исключения
-     */
     @Override
-    public void fatal(String type,  String message){
-        wrappedObject.fatal(String.format("%s - %s", type, message));
+    public void fatal(Exception ex){
+        wrappedObject.fatal(String.format("%s - %s", ex.getClass().toString(), ex.getMessage()));
     }
 
-    /**
-     * Логирование исключения
-     * <p><b>Пример использования:</b></p>
-     * <code><pre style="background-color: white; font-family: consolas">
-     *      Logger.error(ex.getClass().toString(), "My message", ex.getMessage());
-     * </pre></code>
-     * @param customMessage Пользовательское (дополнительное) сообщение
-     * @param type Тип исключения
-     * @param message Сообщение исключения
-     */
     @Override
-    public void fatal(String type, String customMessage, String message){
-        wrappedObject.fatal(String.format("%s \n %s - %s", customMessage, type, message));
+    public void fatal(String customMessage, Exception ex){
+        wrappedObject.fatal(String.format("%s: [%s] - %s", customMessage, ex.getClass().toString(), ex.getMessage()));
     }
 
     /**
