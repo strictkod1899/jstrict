@@ -2,6 +2,7 @@ package ru.strict.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class UtilJson {
@@ -19,6 +20,15 @@ public class UtilJson {
         try {
             ObjectMapper mapper = new ObjectMapper();
             return mapper.readValue(new File(pathToJson), clazz);
+        }catch(IOException ex){
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public static <O> O loadFromJson(InputStream stream, Class<O> clazz){
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(stream, clazz);
         }catch(IOException ex){
             throw new RuntimeException(ex);
         }
