@@ -12,12 +12,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 @RunWith(Parameterized.class)
-public class TestUtilDate {
+public class TestDateDifferent {
 
     private Date date1, date2;
     private int resultYear, resultMonth, resultDay, resultHour, resultMinutes;
 
-    public TestUtilDate(Date date1, Date date2, int resultYear, int resultMonth, int resultDay, int resultHour, int resultMinutes) {
+    public TestDateDifferent(Date date1, Date date2, int resultYear, int resultMonth, int resultDay, int resultHour, int resultMinutes) {
         this.date1 = date1;
         this.date2 = date2;
         this.resultYear = resultYear;
@@ -36,7 +36,6 @@ public class TestUtilDate {
                 {date1, date2, 1, 13, 397, 9528, 571680}
         });
     }
-
 
     @Test
     public void testCountYear(){
