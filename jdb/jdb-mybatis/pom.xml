@@ -108,7 +108,7 @@
                         <configuration>
                             <printSummary>true</printSummary>
                             <includes>
-                                <include>ru/strict/db/**</include>
+                                <include>ru/strict/db/mybatis/**</include>
                             </includes>
                         </configuration>
                     </execution>

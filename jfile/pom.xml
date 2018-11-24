@@ -113,7 +113,7 @@
                         <configuration>
                             <printSummary>true</printSummary>
                             <includes>
-                                <include>ru/strict/utils/**</include>
+                                <include>ru/strict/file/**</include>
                             </includes>
                         </configuration>
                     </execution>
