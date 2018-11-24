@@ -11,7 +11,6 @@ public class MapperSqlCountRows implements RowMapper<Integer> {
 
     @Override
     public Integer mapRow(ResultSet resultSet, int i) throws SQLException {
-        resultSet.next();
         Integer result = resultSet.getInt(1);
         return result;
     }

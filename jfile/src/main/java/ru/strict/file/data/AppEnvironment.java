@@ -3,6 +3,7 @@ package ru.strict.file.data;
 import java.util.Arrays;
 
 public enum AppEnvironment {
+    TEST("test"),
     DEVELOPMENT("development"),
     PRODUCTION("production");
 
@@ -16,7 +17,7 @@ public enum AppEnvironment {
         return value;
     }
 
-    public static AppEnvironment getEnvironmentByString(String environment){
+    public static AppEnvironment getByString(String environment){
         return Arrays.stream(AppEnvironment.values())
                 .filter(env -> env.getValue().equals(environment))
                 .findFirst()

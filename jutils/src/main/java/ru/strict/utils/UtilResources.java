@@ -41,19 +41,9 @@ public class UtilResources {
                 return null;
             }
 
-            int lastSeparator = resourcePath.lastIndexOf(File.separator);
-            if(lastSeparator<0)
-                lastSeparator = resourcePath.lastIndexOf('/');
-
-            if(lastSeparator>0) {
-                String dirs = resourcePath.substring(0, lastSeparator);
-                if (!new File(dirs).exists())
-                    new File(dirs).mkdirs();
-            }
-
             File file = new File(resourcePath);
-            if(!file.exists())
-                file.createNewFile();
+
+            UtilFile.createFileIfNotExists(file);
 
             try (FileOutputStream out = new FileOutputStream(file)) {
                 byte[] buffer = new byte[1024];

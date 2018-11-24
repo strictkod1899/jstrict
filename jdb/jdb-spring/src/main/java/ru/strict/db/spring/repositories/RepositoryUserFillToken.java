@@ -5,7 +5,6 @@ import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.DtoJWTToken;
 import ru.strict.db.core.dto.DtoUserToken;
-import ru.strict.db.core.entities.EntityJWTToken;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
@@ -40,7 +39,7 @@ public class RepositoryUserFillToken<ID>
             repositoryToken =
                     new RepositoryJWTToken<>(getConnectionSource(), GenerateIdType.NONE);
             DbRequests requests = new DbRequests(repositoryToken.getTableName(), true);
-            requests.add(new DbWhere(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));
+            requests.addWhere(new DbWhere(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));
 
             List<DtoJWTToken<ID>> tokens = repositoryToken.readAll(requests);
             dto.setTokens(tokens);

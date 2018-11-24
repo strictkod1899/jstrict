@@ -46,7 +46,7 @@ public class RepositoryCountry<ID>
         try {
             repositoryCity = new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
             DbRequests requests = new DbRequests(repositoryCity.getTableName(), true);
-            requests.add(new DbWhere(repositoryCity.getTableName(), "country_id", dto.getId(), "="));
+            requests.addWhere(new DbWhere(repositoryCity.getTableName(), "country_id", dto.getId(), "="));
 
             List<DtoCity<ID>> cities = repositoryCity.readAll(requests);
             dto.setCities(cities);

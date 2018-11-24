@@ -23,10 +23,6 @@ public abstract class EntityBase<ID> implements MapTarget, Comparable<EntityBase
     }
 
     public EntityBase(ID id) {
-        if(id == null) {
-            throw new NullPointerException("id is NULL");
-        }
-
         this.id = id;
     }
     //</editor-fold>

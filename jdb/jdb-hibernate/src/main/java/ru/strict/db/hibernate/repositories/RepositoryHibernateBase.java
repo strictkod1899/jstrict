@@ -188,7 +188,7 @@ public abstract class RepositoryHibernateBase
     @Override
     public boolean isRowExists(ID id) {
         DbRequests requests = new DbRequests(getTableName(), true);
-        requests.add(new DbWhere(getTableName(), getColumnIdName(), id, "="));
+        requests.addWhere(new DbWhere(getTableName(), getColumnIdName(), id, "="));
         return readCount(requests) > 0;
     }
 

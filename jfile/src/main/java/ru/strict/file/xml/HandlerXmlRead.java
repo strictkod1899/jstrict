@@ -1,10 +1,14 @@
 package ru.strict.file.xml;
 
 import org.jdom2.Attribute;
+import org.jdom2.AttributeType;
 import org.jdom2.Element;
+import org.jdom2.Namespace;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+import ru.strict.validates.ValidateBaseRegex;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -53,41 +57,45 @@ public class HandlerXmlRead extends DefaultHandler implements AutoCloseable {
     }
 
     @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+    public void startElement(String uri, String localName, String qName, Attributes attributes) {
         processElement = true;
 
         // Если все элементы указанного пути еще не пройдены
         if(path.getCodeState()!=-2) {
             // Если есть неиспользованные элементы
-            if (path.getCodeState() != -1)
+            if (path.getCodeState() != -1) {
                 currentPathElement = getPathElement();
+            }
 
             checkElement(qName, uri, attributes);
-        }else if(path.getCodeState()==-2)
+        }else if(path.getCodeState()==-2) {
             createCurrentElement(qName, uri, attributes);
+        }
     }
 
     @Override
-    public void characters(char[] ch, int start, int length) throws SAXException {
+    public void characters(char[] ch, int start, int length) {
         if(path.getCodeState()==-2 && processElement) {
-            currentContent = "";
             currentContent += new String(ch, start, length);
         }
     }
 
     @Override
-    public void endElement(String uri, String localName, String qName) throws SAXException {
+    public void endElement(String uri, String localName, String qName){
         // Если список пути был инициализирован и наименование текущего элемента равно текущему элементу пути
-        if (path.getCodeState()!=0 && qName.equals(path.getCurrent().getName()))
-            endLastPathElement(qName);
+        if (path.getCodeState()!=0 && qName.equals(path.getCurrent().getName())) {
+            endLastPathElement();
+        }
 
         // Если пройдены все элементы пути
-        if(path.getCodeState()==-2)
+        if(path.getCodeState()==-2) {
             endCurrentElement();
+        }
 
         // Если осталься финальный (главный) элемент в списке и завершается именно он
-        if(listElements.size()==1 && qName.equals(listElements.get(0).getName()))
+        if(listElements.size()==1 && qName.equals(listElements.get(0).getName())) {
             endFinalElement();
+        }
 
         // Заврешение обработки текущего элемента
         processElement = false;
@@ -98,10 +106,14 @@ public class HandlerXmlRead extends DefaultHandler implements AutoCloseable {
      * @return
      */
     private Element getPathElement() {
-        if (path.getCodeState() == 0 || path.getCurrentMark())
-            return path.next();
-        else
-            return path.getCurrent();
+        Element result = null;
+        if (path.getCodeState() == 0 || path.getCurrentMark()) {
+            result = path.next();
+        }else {
+            result = path.getCurrent();
+        }
+
+        return result;
     }
 
     /**
@@ -111,15 +123,17 @@ public class HandlerXmlRead extends DefaultHandler implements AutoCloseable {
     private void checkElement(String qName, String uri, Attributes attributes){
         // Если текущий элемент равен соответствующему элементу указанного пути
         if (qName.equals(currentPathElement.getName())) {
-            if(path.isCheckAttributes())
+            if(path.isCheckAttributes()) {
                 checkAttributes(attributes);
-            else
+            }else {
                 // Говорим, что мы находимся в подходящем элементе
                 path.markCurrent();
+            }
         }
 
-        if(path.getCountMarkTrue()==path.size())
+        if(path.getCountMarkTrue()==path.size()) {
             initFinalElement(qName, uri, attributes);
+        }
     }
 
     /**
@@ -128,13 +142,15 @@ public class HandlerXmlRead extends DefaultHandler implements AutoCloseable {
      */
     private void checkAttributes(Attributes attributes){
         boolean result;
-        if(!path.isStrongCheckAttributes())
+        if(!path.isStrongCheckAttributes()) {
             result = checkAttributeNoStrong(attributes);
-        else
+        }else {
             result = checkAttributeStrong(attributes);
+        }
 
-        if(result)
+        if(result) {
             path.markCurrent();
+        }
     }
 
     /**
@@ -143,17 +159,22 @@ public class HandlerXmlRead extends DefaultHandler implements AutoCloseable {
      * @param attributes
      */
     private boolean checkAttributeNoStrong(Attributes attributes){
+        boolean result = true;
         Iterator<Attribute> iterAttributesCurrentPathElement = currentPathElement.getAttributes().iterator();
         while(iterAttributesCurrentPathElement.hasNext()){
             Attribute attribute = iterAttributesCurrentPathElement.next();
             if(attributes.getValue(attribute.getName())!=null){
-                if(!attributes.getValue(attribute.getName()).equals(attribute.getValue()))
-                    return false;
-            }else
-                return false;
+                if(!attributes.getValue(attribute.getName()).equals(attribute.getValue())) {
+                    result = false;
+                    break;
+                }
+            } else {
+                result = false;
+                break;
+            }
         }
 
-        return true;
+        return result;
     }
 
     /**
@@ -177,14 +198,18 @@ public class HandlerXmlRead extends DefaultHandler implements AutoCloseable {
     private void createCurrentElement(String qName, String uri, Attributes attributes){
         // Если в текущем списке элементов уже хранятся элементы, тогда добавляем к последнему последние считанные значения
         if(listElements.size()>0) {
-            if(currentContent!=null)
-                listElements.get(listElements.size()-1).addContent(currentContent);
+            if(currentContent!=null) {
+                listElements.get(listElements.size() - 1).addContent(currentContent);
+            }
             currentContent = "";
         }
 
         currentElement = new Element(qName, uri);
-        for(int i=0; i<attributes.getLength(); i++)
-            currentElement.setAttribute(attributes.getQName(i), attributes.getValue(i));
+        for(int i=0; i<attributes.getLength(); i++) {
+            if(ValidateBaseRegex.isCaption(attributes.getQName(i))) {
+                currentElement.setAttribute(attributes.getQName(i), attributes.getValue(i));
+            }
+        }
         listElements.add(currentElement);
     }
 
@@ -194,17 +219,19 @@ public class HandlerXmlRead extends DefaultHandler implements AutoCloseable {
     private void initFinalElement(String qName, String uri, Attributes attributes){
         Element elementMain = new Element(qName, uri);
 
-        for(int i=0; i<attributes.getLength(); i++)
-            elementMain.setAttribute(attributes.getQName(i), attributes.getValue(i));
+        for(int i=0; i<attributes.getLength(); i++) {
+            if(ValidateBaseRegex.isCaption(attributes.getQName(i))) {
+                elementMain.setAttribute(attributes.getQName(i), attributes.getValue(i));
+            }
+        }
 
         listElements.add(elementMain);
     }
 
     /**
      * Завершение последнего из отмеченных элементов пути
-     * @param qName
      */
-    private void endLastPathElement(String qName){
+    private void endLastPathElement(){
         path.unmarkCurrent();
         path.back();
     }
@@ -219,9 +246,10 @@ public class HandlerXmlRead extends DefaultHandler implements AutoCloseable {
         }
 
         // Если текущий элемент является вложенным в предыдущий
-        if(listElements.size()>1)
+        if(listElements.size()>1) {
             // Добавляем текущий элемент к предыдущему
-            listElements.get(listElements.size()-2).addContent(listElements.get(listElements.size()-1));
+            listElements.get(listElements.size() - 2).addContent(listElements.get(listElements.size() - 1));
+        }
         listElements.remove(listElements.size()-1);
     }
 
@@ -230,7 +258,8 @@ public class HandlerXmlRead extends DefaultHandler implements AutoCloseable {
      */
     private void endFinalElement(){
         // Сохраняем этот элемент в список результата
-        if(listElements.get(0).getText().equals("") && currentContent!=null && !listElements.get(0).getText().equals(currentContent)) {
+        if(listElements.get(0).getText().equals("") && currentContent!=null &&
+                !listElements.get(0).getText().equals(currentContent)) {
             listElements.get(0).addContent(currentContent);
         }
         path.addInner(listElements.get(0));

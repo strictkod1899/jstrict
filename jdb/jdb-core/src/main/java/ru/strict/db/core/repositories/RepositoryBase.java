@@ -116,7 +116,7 @@ public abstract class RepositoryBase
      *      RepositoryJdbcBase<ID, SOURCE, EntityUserOnRole, DtoUserOnRole> repositoryUserOnRole =
      *                 new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
      *      DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
-     *      requests.add(new DbWhere(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
+     *      requests.addWhere(new DbWhere(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
      *      List<DtoUserOnRole> userOnRoles = repositoryUserOnRole.readAll(requests);
      *
      *      IRepository<ID, DtoRoleuser> repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
@@ -133,7 +133,7 @@ public abstract class RepositoryBase
      *     RepositoryJdbcBase<ID, SOURCE, EntityCity, DtoCity> repositoryCity =
      *             new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
      *     DbRequests requests = new DbRequests(repositoryCity.getTableName(), true);
-     *     requests.add(new DbWhere(repositoryCity.getTableName(), "country_id", dto.getId(), "="));
+     *     requests.addWhere(new DbWhere(repositoryCity.getTableName(), "country_id", dto.getId(), "="));
      *
      *     List<DtoCity> cities = repositoryCity.readAll(requests);
      *     dto.setCities(cities);
@@ -183,7 +183,7 @@ public abstract class RepositoryBase
         boolean result = false;
 
         DbRequests requests = new DbRequests(getTableName(), false);
-        requests.add(new DbWhere(getTableName(), getColumnIdName(), id, "="));
+        requests.addWhere(new DbWhere(getTableName(), getColumnIdName(), id, "="));
 
         int count = readCount(requests);
         if(count > 0){

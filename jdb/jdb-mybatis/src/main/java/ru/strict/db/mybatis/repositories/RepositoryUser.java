@@ -35,7 +35,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
     @Override
     public DTO readByEmail(String email) {
         DbRequests requests = new DbRequests(getTableName(), true);
-        requests.add(new DbWhere(getTableName(), "email", email, "="));
+        requests.addWhere(new DbWhere(getTableName(), "email", email, "="));
 
         DTO result = readAll(requests).stream().findFirst().orElse(null);
         return result;

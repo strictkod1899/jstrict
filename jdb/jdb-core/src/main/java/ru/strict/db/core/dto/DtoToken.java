@@ -1,9 +1,5 @@
 package ru.strict.db.core.dto;
 
-import ru.strict.db.core.entities.EntityBase;
-import ru.strict.db.core.entities.EntityJWTToken;
-
-
 import java.util.Date;
 import java.util.Objects;
 
@@ -38,12 +34,6 @@ public class DtoToken<ID> extends DtoBase<ID> {
             throw new NullPointerException("accessToken is NULL");
         } else if(refreshToken == null) {
             throw new NullPointerException("refreshToken is NULL");
-        } else if(expireTimeAccess == null) {
-            throw new NullPointerException("expireTimeAccess is NULL");
-        } else if(expireTimeRefresh == null) {
-            throw new NullPointerException("expireTimeRefresh is NULL");
-        } else if(issuedAt == null) {
-            throw new NullPointerException("issuedAt is NULL");
         }
 
         this.accessToken = accessToken;

@@ -36,7 +36,7 @@ public abstract class RepositoryNamedBase
     @Override
     public DTO readByName(String caption){
         DbRequests requests = new DbRequests(getTableName(), true);
-        requests.add(new DbWhere(getTableName(), getColumnWithName(), caption, "="));
+        requests.addWhere(new DbWhere(getTableName(), getColumnWithName(), caption, "="));
 
         DTO result = readAll(requests).stream().findFirst().orElse(null);
         return result;
@@ -45,7 +45,7 @@ public abstract class RepositoryNamedBase
     @Override
     public List<DTO> readAllByName(String caption){
         DbRequests requests = new DbRequests(getTableName(), true);
-        requests.add(new DbWhere(getTableName(), getColumnWithName(), caption, "="));
+        requests.addWhere(new DbWhere(getTableName(), getColumnWithName(), caption, "="));
 
         List<DTO> result = readAll(requests);
         return result;

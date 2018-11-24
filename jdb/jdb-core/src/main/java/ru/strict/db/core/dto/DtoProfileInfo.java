@@ -3,7 +3,6 @@ package ru.strict.db.core.dto;
 import java.util.Date;
 import java.util.Objects;
 
-
 /**
  * Расширенная информация профиля пользователя (имя, фамилия, отчество, дата рождения, телефон, город)
  */

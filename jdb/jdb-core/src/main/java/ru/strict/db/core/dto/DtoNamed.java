@@ -1,6 +1,5 @@
 package ru.strict.db.core.dto;
 
-
 import java.util.Objects;
 
 /**

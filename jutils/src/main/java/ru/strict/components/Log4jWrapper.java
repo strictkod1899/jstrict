@@ -5,6 +5,8 @@ import org.apache.log4j.PatternLayout;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.RollingFileAppender;
 
+import java.util.Arrays;
+
 /**
  * Логирование. Класс инициализирует конфигурацию по-умолчанию для консольного вывода и записи в файл 'logs/report.log'
  */
@@ -100,12 +102,14 @@ public class Log4jWrapper implements ILogger{
 
     @Override
     public void warn(Exception ex){
-        wrappedObject.warn(String.format("%s - %s", ex.getClass().toGenericString(), ex.getMessage()));
+        wrappedObject.warn(String.format("%s - %s\n%s", ex.getClass().toGenericString(), ex.getMessage(),
+                Arrays.toString(ex.getStackTrace())));
     }
 
     @Override
     public void warn(String customMessage, Exception ex){
-        wrappedObject.warn(String.format("%s: [%s] - %s", customMessage, ex.getClass().toString(), ex.getMessage()));
+        wrappedObject.warn(String.format("%s: [%s] - %s\n%s", customMessage, ex.getClass().toString(), ex.getMessage(),
+                Arrays.toString(ex.getStackTrace())));
     }
 
     @Override
@@ -120,12 +124,14 @@ public class Log4jWrapper implements ILogger{
 
     @Override
     public void error(Exception ex){
-        wrappedObject.error(String.format("%s - %s", ex.getClass().toGenericString(), ex.getMessage()));
+        wrappedObject.error(String.format("%s - %s\n%s", ex.getClass().toGenericString(), ex.getMessage(),
+                Arrays.toString(ex.getStackTrace())));
     }
 
     @Override
     public void error(String customMessage, Exception ex){
-        wrappedObject.error(String.format("%s: [%s] - %s", customMessage, ex.getClass().toString(), ex.getMessage()));
+        wrappedObject.error(String.format("%s: [%s] - %s\n%s", customMessage, ex.getClass().toString(), ex.getMessage(),
+                Arrays.toString(ex.getStackTrace())));
     }
 
     /**
@@ -149,12 +155,14 @@ public class Log4jWrapper implements ILogger{
 
     @Override
     public void fatal(Exception ex){
-        wrappedObject.fatal(String.format("%s - %s", ex.getClass().toString(), ex.getMessage()));
+        wrappedObject.fatal(String.format("%s - %s\n%s", ex.getClass().toString(), ex.getMessage(),
+                Arrays.toString(ex.getStackTrace())));
     }
 
     @Override
     public void fatal(String customMessage, Exception ex){
-        wrappedObject.fatal(String.format("%s: [%s] - %s", customMessage, ex.getClass().toString(), ex.getMessage()));
+        wrappedObject.fatal(String.format("%s: [%s] - %s\n%s", customMessage, ex.getClass().toString(), ex.getMessage(),
+                Arrays.toString(ex.getStackTrace())));
     }
 
     /**

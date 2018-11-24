@@ -5,11 +5,8 @@ import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.*;
 import ru.strict.db.core.dto.DtoUserBase;
 import ru.strict.db.core.dto.DtoUserOnRole;
-import ru.strict.db.core.entities.EntityProfileInfo;
 import ru.strict.db.core.entities.EntityUser;
-import ru.strict.db.core.entities.EntityUserOnRole;
 import ru.strict.db.core.repositories.IRepository;
-import ru.strict.db.core.repositories.RepositoryBase;
 import ru.strict.db.core.repositories.interfaces.IRepositoryUser;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
@@ -53,7 +50,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
             // Добавление ролей пользователей
             repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
             DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
-            requests.add(new DbWhere(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
+            requests.addWhere(new DbWhere(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
             List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
 
             repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
@@ -66,7 +63,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
             // Добавления профиля
             repositoryProfile = new RepositoryProfileInfo<>(getConnectionSource(), GenerateIdType.NONE);
             requests = new DbRequests(repositoryProfile.getTableName(), true);
-            requests.add(new DbWhere(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
+            requests.addWhere(new DbWhere(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
             dto.setProfile(repositoryProfile.readAll(requests).stream().findFirst().orElse(null));
         }finally {
             if(repositoryUserOnRole != null){
@@ -85,7 +82,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
     @Override
     public DTO readByEmail(String email) {
         DbRequests requests = new DbRequests(getTableName(), true);
-        requests.add(new DbWhere(getTableName(), "email", email, "="));
+        requests.addWhere(new DbWhere(getTableName(), "email", email, "="));
 
         DTO result = readAll(requests).stream().findFirst().orElse(null);
         return result;

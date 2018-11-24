@@ -2,7 +2,7 @@ package ru.strict.utils;
 
 import ru.strict.validates.ValidateBaseValue;
 
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 
 public class UtilData {
 
@@ -60,5 +60,42 @@ public class UtilData {
         }
 
         return result;
+    }
+
+    /**
+     * Объединить строки с использованием общего разделителя.
+     * Пустые или нулевые строки будут пропущены
+     */
+    public static String join(String separator, String...strings) {
+        String result = "";
+        for(String item : strings){
+            if(!ValidateBaseValue.isEmptySpaceOrNull(item)){
+                if(!ValidateBaseValue.isEmptyOrNull(result)){
+                    result += separator;
+                }
+    
+                result += item;
+            }
+        }
+    
+        return result;
+    }
+
+    /**
+     * Если строка равна null, тогда вернется пустая строка
+     * @param str
+     * @return
+     */
+    public static String nullToEmpty(String str){
+        return str == null ? "" : str;
+    }
+
+    /**
+     * Если строка пустая, тогда вернется null
+     * @param str
+     * @return
+     */
+    public static String emptyToNull(String str){
+        return ValidateBaseValue.isEmptyOrNull(str) ? null : str;
     }
 }

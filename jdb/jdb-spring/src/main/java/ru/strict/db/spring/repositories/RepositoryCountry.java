@@ -3,10 +3,8 @@ package ru.strict.db.spring.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
-import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoCity;
 import ru.strict.db.core.dto.DtoCountry;
-import ru.strict.db.core.entities.EntityCity;
 import ru.strict.db.core.entities.EntityCountry;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
@@ -43,7 +41,7 @@ public class RepositoryCountry<ID>
         try {
             repositoryCity = new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
             DbRequests requests = new DbRequests(repositoryCity.getTableName(), true);
-            requests.add(new DbWhere(repositoryCity.getTableName(), "country_id", dto.getId(), "="));
+            requests.addWhere(new DbWhere(repositoryCity.getTableName(), "country_id", dto.getId(), "="));
 
             List<DtoCity<ID>> cities = repositoryCity.readAll(requests);
             dto.setCities(cities);

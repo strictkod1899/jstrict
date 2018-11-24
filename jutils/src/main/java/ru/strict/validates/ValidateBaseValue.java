@@ -15,13 +15,7 @@ public class ValidateBaseValue {
      * @return Если строка не содержит пустых символов и является корректной, то возвращается true, иначе false
      */
     public static boolean isEmptyOrNull(String str) {
-        boolean result = false;
-
-        if(str == null || str.length() == 0){
-            result = true;
-        }
-
-        return result;
+        return str == null || str.length() == 0;
     }
 
     /**
@@ -35,8 +29,7 @@ public class ValidateBaseValue {
             return true;
         }
 
-        String strTrim = str.trim();
-        return isEmptyOrNull(strTrim);
+        return isEmptyOrNull(str.trim());
     }
 
     public static boolean isMinLength(String str, int minLength){

@@ -1,6 +1,5 @@
 package ru.strict.db.core.dto;
 
-
 import ru.strict.validates.ValidateBaseValue;
 
 import java.util.Objects;

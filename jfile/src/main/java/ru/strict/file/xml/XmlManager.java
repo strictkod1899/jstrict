@@ -23,26 +23,25 @@ public class XmlManager implements AutoCloseable{
 
     private Element rootElement;
 
-    public XmlManager(String xmlFilePath, String rootElementName) {
-        this.xmlFile = new File(xmlFilePath);
+    public XmlManager(File xmlFile, String rootElementName) throws IOException {
+        this.xmlFile = xmlFile;
         createConnection(rootElementName);
+    }
+
+    public XmlManager(String xmlFilePath, String rootElementName) throws IOException {
+        this(new File(xmlFilePath), rootElementName);
     }
 
     /**
      * Соединение с xml файлом.
      * Если файл не создан, то он будет создан с заданным корневым элементом
      */
-    private void createConnection(String rootElementName) {
+    private void createConnection(String rootElementName) throws IOException {
         parser = new SAXBuilder();
 
         // Если xml-файл не создан
         if (!xmlFile.exists()){
-            try {
-                // Создаем новый xml-файл
-                xmlFile.createNewFile();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            xmlFile.createNewFile();
         }
 
         try {
@@ -62,13 +61,9 @@ public class XmlManager implements AutoCloseable{
         formatXmlDoc = Format.getPrettyFormat();
     }
 
-    public void saveToXml(){
-        try {
-            xmlOut = new XMLOutputter(formatXmlDoc);
-            xmlOut.output(docXml, new FileOutputStream(xmlFile));
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+    public void saveToXml() throws IOException {
+        xmlOut = new XMLOutputter(formatXmlDoc);
+        xmlOut.output(docXml, new FileOutputStream(xmlFile));
     }
 
     /**
@@ -100,7 +95,7 @@ public class XmlManager implements AutoCloseable{
      * @param parents Установленный путь считывания элемента
      * @return
      */
-    public List<Element> readValue(XmlNode parents){
+    public List<Element> readValue(XmlNode parents) throws XmlReadException {
         try {
             SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
             SAXParser saxParser = saxParserFactory.newSAXParser();
@@ -115,7 +110,9 @@ public class XmlManager implements AutoCloseable{
                 }
             }
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            throw new XmlReadException(
+                    String.format("Ошибка при обработке xml-файла [%s]", xmlFile.getAbsolutePath()),
+                    ex);
         }
     }
 

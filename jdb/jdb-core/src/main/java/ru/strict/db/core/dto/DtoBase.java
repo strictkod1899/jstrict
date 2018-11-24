@@ -5,7 +5,6 @@ import ru.strict.utils.UtilData;
 
 import java.util.Objects;
 
-
 /**
  * Базовый entity-класс
  * @param <ID> Тип поля ID
@@ -23,10 +22,6 @@ public abstract class DtoBase<ID> implements MapTarget, Comparable<DtoBase<ID>> 
     }
 
     public DtoBase(ID id) {
-        if(id == null) {
-            throw new NullPointerException("id is NULL");
-        }
-
         this.id = id;
     }
     //</editor-fold>

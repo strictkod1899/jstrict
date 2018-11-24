@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.TreeSet;
 
-
 /**
  * Роль пользователя в системе (например, администратор, пользователь, неавторизированный пользователь и др.)
  */

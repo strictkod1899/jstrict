@@ -86,17 +86,17 @@ public abstract class RepositoryJdbcBase
                     }
                     throw new RuntimeException(ex);
                 }finally {
-                    if(connection != null) {
+                    if(statement != null) {
                         try {
-                            connection.close();
+                            statement.close();
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
                     }
 
-                    if(statement != null) {
+                    if(connection != null) {
                         try {
-                            statement.close();
+                            connection.close();
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
@@ -124,17 +124,17 @@ public abstract class RepositoryJdbcBase
                     }
                     throw new RuntimeException(ex);
                 }finally {
-                    if(connection != null) {
+                    if(statement != null) {
                         try {
-                            connection.close();
+                            statement.close();
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
                     }
 
-                    if(statement != null) {
+                    if(connection != null) {
                         try {
-                            statement.close();
+                            connection.close();
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
@@ -162,17 +162,17 @@ public abstract class RepositoryJdbcBase
                     }
                     throw new RuntimeException(ex);
                 }finally {
-                    if(connection != null) {
+                    if(statement != null) {
                         try {
-                            connection.close();
+                            statement.close();
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
                     }
 
-                    if(statement != null) {
+                    if(connection != null) {
                         try {
-                            statement.close();
+                            connection.close();
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
@@ -220,14 +220,6 @@ public abstract class RepositoryJdbcBase
             }
             throw new RuntimeException(ex);
         }finally {
-            if(connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
             if(resultSet != null){
                 try {
                     resultSet.close();
@@ -239,6 +231,14 @@ public abstract class RepositoryJdbcBase
             if(statement != null) {
                 try {
                     statement.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+            if(connection != null) {
+                try {
+                    connection.close();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -272,14 +272,6 @@ public abstract class RepositoryJdbcBase
             }
             throw new RuntimeException(ex);
         }finally {
-            if(connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
             if(resultSet != null){
                 try {
                     resultSet.close();
@@ -291,6 +283,14 @@ public abstract class RepositoryJdbcBase
             if(statement != null) {
                 try {
                     statement.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+            if(connection != null) {
+                try {
+                    connection.close();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -325,17 +325,17 @@ public abstract class RepositoryJdbcBase
             }
             throw new RuntimeException(ex);
         }finally {
-            if(connection != null) {
+            if(statement != null) {
                 try {
-                    connection.close();
+                    statement.close();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
             }
 
-            if(statement != null) {
+            if(connection != null) {
                 try {
-                    statement.close();
+                    connection.close();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -367,17 +367,17 @@ public abstract class RepositoryJdbcBase
             }
             throw new RuntimeException(ex);
         }finally {
-            if(connection != null) {
+            if(statement != null) {
                 try {
-                    connection.close();
+                    statement.close();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
             }
 
-            if(statement != null) {
+            if(connection != null) {
                 try {
-                    statement.close();
+                    connection.close();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -409,14 +409,6 @@ public abstract class RepositoryJdbcBase
             }
             throw new RuntimeException(ex);
         }finally {
-            if(connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
             if(resultSet != null){
                 try {
                     resultSet.close();
@@ -428,6 +420,15 @@ public abstract class RepositoryJdbcBase
             if(statement != null) {
                 try {
                     statement.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+
+            if(connection != null) {
+                try {
+                    connection.close();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -547,14 +548,6 @@ public abstract class RepositoryJdbcBase
             }
             throw new RuntimeException(ex);
         }finally {
-            if(connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
             if(resultSet != null){
                 try {
                     resultSet.close();
@@ -566,6 +559,14 @@ public abstract class RepositoryJdbcBase
             if(statement != null) {
                 try {
                     statement.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+            if(connection != null) {
+                try {
+                    connection.close();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }

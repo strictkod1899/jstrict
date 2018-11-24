@@ -4,11 +4,9 @@ import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.DtoRoleuser;
-import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.dto.DtoUserBase;
 import ru.strict.db.core.dto.DtoUserOnRole;
 import ru.strict.db.core.entities.EntityRoleuser;
-import ru.strict.db.core.entities.EntityUserOnRole;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.requests.DbRequests;
@@ -45,7 +43,7 @@ public class RepositoryRoleuser<ID>
             // Добавление пользователей
             repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
             DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
-            requests.add(new DbWhere(repositoryUserOnRole.getTableName(), "roleuser_id", dto.getId(), "="));
+            requests.addWhere(new DbWhere(repositoryUserOnRole.getTableName(), "roleuser_id", dto.getId(), "="));
             List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
 
             repositoryUser = new RepositoryUser<>(getConnectionSource(),

@@ -9,6 +9,7 @@ import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
+import ru.strict.validates.ValidateBaseValue;
 
 import java.util.List;
 
@@ -33,8 +34,11 @@ public abstract class RepositoryNamedBase
 
     @Override
     public DTO readByName(String caption){
+        if(ValidateBaseValue.isEmptyOrNull(caption)){
+            throw new NullPointerException("caption for read by name is NULL");
+        }
         DbRequests requests = new DbRequests(getTableName(), true);
-        requests.add(new DbWhere(getTableName(), getColumnWithName(), caption, "="));
+        requests.addWhere(new DbWhere(getTableName(), getColumnWithName(), caption, "="));
 
         DTO result = readAll(requests).stream().findFirst().orElse(null);
         return result;
@@ -42,8 +46,11 @@ public abstract class RepositoryNamedBase
 
     @Override
     public List<DTO> readAllByName(String caption){
+        if(ValidateBaseValue.isEmptyOrNull(caption)){
+            throw new NullPointerException("caption for read all by name is NULL");
+        }
         DbRequests requests = new DbRequests(getTableName(), true);
-        requests.add(new DbWhere(getTableName(), getColumnWithName(), caption, "="));
+        requests.addWhere(new DbWhere(getTableName(), getColumnWithName(), caption, "="));
 
         List<DTO> result = readAll(requests);
         return result;

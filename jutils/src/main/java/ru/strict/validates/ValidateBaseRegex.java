@@ -171,6 +171,25 @@ public class ValidateBaseRegex {
     }
 
     /**
+     * Проверка набора из букв и цифр, а также символов _ и -
+     *
+     * @param str Проверяемая строка
+     * @return
+     */
+    public static boolean isCaption(String str) {
+        boolean result = false;
+
+        if (str != null) {
+            Pattern pattern = Pattern.compile("^[\\w-]+");
+            Matcher match = pattern.matcher(str);
+            result = match.matches();
+        }
+
+        return result;
+    }
+
+
+    /**
      * Проверка набора из букв и цифр (латиница):
      *
      * @param str Проверяемая строка

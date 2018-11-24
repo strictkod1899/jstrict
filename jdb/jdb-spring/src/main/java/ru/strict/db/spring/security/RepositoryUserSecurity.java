@@ -47,7 +47,7 @@ public class RepositoryUserSecurity<ID>
         RepositorySpringBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>> repositoryUserOnRole =
                 new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
         DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
-        requests.add(new DbWhere(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
+        requests.addWhere(new DbWhere(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
         List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
 
         IRepository<ID, DtoRoleuser<ID>> repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
@@ -61,7 +61,7 @@ public class RepositoryUserSecurity<ID>
         RepositorySpringBase<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>> repositoryProfile =
                 new RepositoryProfileInfo<>(getConnectionSource(), GenerateIdType.NONE);
         requests = new DbRequests(repositoryProfile.getTableName(), true);
-        requests.add(new DbWhere(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
+        requests.addWhere(new DbWhere(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
         dto.setProfile(repositoryProfile.readAll(requests).stream().findFirst().orElse(null));
         return dto;
     }

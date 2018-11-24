@@ -13,13 +13,75 @@ import java.util.TimeZone;
  */
 public class UtilDate {
 
+    /**
+     * Получить дату из строки формата dd.MM.yyyy
+     */
+    public static Date getDateFromString1(String dateString){
+        Date result = null;
+        if(dateString != null) {
+            DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+            try {
+                result = formatter.parse(dateString);
+            } catch (ParseException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Получить дату из строки формата dd/MM/yyyy
+     */
+    public static Date getDateFromString2(String dateString){
+        Date result = null;
+        if(dateString != null) {
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                result = formatter.parse(dateString);
+            } catch (ParseException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Преобразовать дату в строку формата dd.MM.yyyy
+     */
+    public static String formatDate1(Date date){
+        String result = null;
+        if(date != null) {
+            DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+            result = formatter.format(date);
+        }
+
+        return result;
+    }
+
+    /**
+     * Преобразовать дату в строку формата dd/MM/yyyy
+     */
+    public static String formatDate2(Date date){
+        String result = null;
+        if(date != null) {
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            result = formatter.format(date);
+        }
+
+        return result;
+    }
+
     public static Date getDateWithoutTime(Date date){
         Date result = null;
-        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            result = formatter.parse(formatter.format(date));
-        } catch (ParseException e) {
-            result = null;
+        if(date != null) {
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                result = formatter.parse(formatter.format(date));
+            } catch (ParseException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         return result;
     }
