@@ -9,52 +9,91 @@ import java.lang.reflect.InvocationTargetException;
 public class UtilReflection {
 
     /**
-     * Создать объект определенного класса, с передачей параметров
+     * Создать объект определенного класса, с передачей параметров, используя только доступные конструктуоры
      * @param clazzInstance Класс объект, которого надо создать
      */
-    public static <INSTANCE> INSTANCE createInstance(Class<INSTANCE> clazzInstance, Object...userParameters) {
-        Constructor constructor = null;
-        Constructor[] arrConstructors = clazzInstance.getConstructors();
-        // Если были переданы параметры конструктора
-        if (userParameters != null && userParameters.length != 0) {
-            for (Constructor cons : arrConstructors) {
-                int consParametersCount = cons.getParameterCount();
+    public static <INSTANCE> INSTANCE createInstance(Class<INSTANCE> clazzInstance, Object...userConstructorParameters) {
+        INSTANCE result = null;
+        Constructor targetConstructor = findConstructor(clazzInstance.getConstructors(), userConstructorParameters);
 
-                if (consParametersCount == userParameters.length) {
-                    Class[] consParameters = cons.getParameterTypes();
-                    for (int i = 0; i < consParametersCount; i++) {
-                        Class consParameter = consParameters[i];
-                        if (consParameter != userParameters[i].getClass() && !isPrimitive(userParameters[i].getClass(), consParameter)) {
-                            boolean checkBySuperClass = isSuperClass(consParameter, userParameters[i].getClass());
+        if(targetConstructor!=null) {
+            try {
+                result = (INSTANCE) targetConstructor.newInstance(userConstructorParameters);
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Создать объект определенного класса, с передачей параметров, используя не только публичные конструктуоры, но и приватные
+     * @param clazzInstance Класс объект, которого надо создать
+     */
+    public static <INSTANCE> INSTANCE createDeclaredInstance(Class<INSTANCE> clazzInstance, Object...userConstructorParameters) {
+        INSTANCE result = null;
+        Constructor targetConstructor = findConstructor(clazzInstance.getDeclaredConstructors(), userConstructorParameters);
+
+        if(targetConstructor!=null) {
+            try {
+                boolean isAccessible = targetConstructor.isAccessible();
+                if(!isAccessible) {
+                    targetConstructor.setAccessible(true);
+                }
+                result = (INSTANCE) targetConstructor.newInstance(userConstructorParameters);
+                if(!isAccessible) {
+                    targetConstructor.setAccessible(false);
+                }
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+
+        return result;
+    }
+
+    private static Constructor findConstructor(Constructor[] constructors, Object[] userConstructorParameters){
+        Constructor targetConstructor = null;
+
+        // Если были переданы параметры конструктора
+        if (userConstructorParameters != null && userConstructorParameters.length != 0) {
+            for (Constructor constructor : constructors) {
+                int constructorParametersCount = constructor.getParameterCount();
+
+                if (constructorParametersCount == userConstructorParameters.length) {
+                    Class[] constructorParameters = constructor.getParameterTypes();
+                    for (int i = 0; i < constructorParametersCount; i++) {
+                        Class constructorParameter = constructorParameters[i];
+                        if (constructorParameter != userConstructorParameters[i].getClass() && !isPrimitive(userConstructorParameters[i].getClass(), constructorParameter)) {
+                            boolean checkBySuperClass = isSuperClass(constructorParameter, userConstructorParameters[i].getClass());
                             if(!checkBySuperClass) {
                                 break;
                             }
                         }
 
-                        if (i == consParametersCount - 1)
-                            constructor = cons;
+                        if (i == constructorParametersCount - 1)
+                            targetConstructor = constructor;
                     }
                 }
             }
         } else {
             // Если требуется вызывать пустой конструктор
-            for (Constructor cons : arrConstructors) {
-                if (cons.getParameterCount() == 0)
-                    constructor = cons;
+            for (Constructor constructor : constructors) {
+                if (constructor.getParameterCount() == 0)
+                    targetConstructor = constructor;
             }
         }
 
-        if(constructor!=null) {
-            try {
-                return (INSTANCE) constructor.newInstance(userParameters);
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException ex) {
-                ex.printStackTrace();
-                return null;
-            }
-        }else
-            return null;
+        return targetConstructor;
     }
 
+    /**
+     * Проверить, является ли класс экземпляром другого класса
+     * @param checkClass Проверяемый класс
+     * @param startClass Класс, относительно которого проверяем принадлежность к экземпляру
+     * @return
+     */
     public static boolean isInstanceOf(Class checkClass, Class startClass){
         boolean result = false;
         if(checkClass == startClass){
@@ -70,18 +109,23 @@ public class UtilReflection {
         boolean result = false;
 
         Class superClass = startClass.getSuperclass();
-        if (superClass != Object.class) {
-            if (checkClass == superClass) {
-                result = true;
-            }else{
-                result = isSuperClass(checkClass, superClass);
 
-                if(!result){
-                    result = isInterface(checkClass, superClass);
+        if(superClass != null) {
+            if (superClass != Object.class) {
+                if (checkClass == superClass) {
+                    result = true;
+                } else {
+                    result = isSuperClass(checkClass, superClass);
+
+                    if (!result) {
+                        result = isInterface(checkClass, superClass);
+                    }
                 }
             }
-        }else {
-            result = isInterface(checkClass, startClass);
+
+            if (superClass == Object.class || !result) {
+                result = isInterface(checkClass, startClass);
+            }
         }
 
         return result;
