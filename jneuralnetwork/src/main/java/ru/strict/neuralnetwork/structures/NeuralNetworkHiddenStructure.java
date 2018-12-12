@@ -4,7 +4,7 @@ import ru.strict.neuralnetwork.data.LayoutHidden;
 import ru.strict.neuralnetwork.data.Neuron;
 import ru.strict.neuralnetwork.data.Synapse;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,15 +38,16 @@ public class NeuralNetworkHiddenStructure extends NeuralNetworkStructure {
     //<editor-fold defaultstate="collapsed" desc="constructors">
     public NeuralNetworkHiddenStructure(int countInput, int countOutput, boolean isUseBias) {
         super(countInput, countOutput, isUseBias);
-        this.layoutsHidden = new LinkedList<>();
+        this.layoutsHidden = new ArrayList<>();
     }
 
     public NeuralNetworkHiddenStructure(int countInputs, int countHiddens, int countOutputs, boolean isUseBias) {
         super(countInputs, countOutputs, isUseBias);
-        if(countHiddens < 1)
+        if(countHiddens < 1) {
             throw new IllegalArgumentException("Neural Network structure do not should have hidden neurons count is negative. [Hidden neurons count < 1]");
+        }
 
-        this.layoutsHidden = new LinkedList<>();
+        this.layoutsHidden = new ArrayList<>();
         layoutsHidden.add(new LayoutHidden(countHiddens));
         layoutsHidden.get(0).setBias(isUseBias);
     }
@@ -60,22 +61,26 @@ public class NeuralNetworkHiddenStructure extends NeuralNetworkStructure {
             for(Neuron hidden : hiddens){
                 if(i==0) {
                     Neuron[] inputs = getInputNeurons();
-                    for(Neuron input : inputs)
+                    for(Neuron input : inputs) {
                         generateSynapse(input, hidden);
+                    }
 
                     Neuron bias = getBias();
-                    if(bias.getValue()==1)
+                    if(bias.getValue()==1) {
                         generateSynapse(bias, hidden);
+                    }
                 }
 
                 if(i>0){
                     Neuron[] preHiddens = layoutsHidden.get(i-1).getNeurons();
-                    for(Neuron preHidden : preHiddens)
+                    for(Neuron preHidden : preHiddens) {
                         generateSynapse(preHidden, hidden);
+                    }
 
                     Neuron bias = layoutsHidden.get(i-1).getBias();
-                    if(bias.getValue()==1)
+                    if(bias.getValue()==1) {
                         generateSynapse(bias, hidden);
+                    }
                 }
 
                 if(i==countLayouts-1){
@@ -84,8 +89,9 @@ public class NeuralNetworkHiddenStructure extends NeuralNetworkStructure {
                         generateSynapse(hidden, output);
 
                         Neuron bias = layoutsHidden.get(i).getBias();
-                        if(bias.getValue()==1)
+                        if(bias.getValue()==1) {
                             generateSynapse(bias, output);
+                        }
                     }
                 }
             }
@@ -94,10 +100,11 @@ public class NeuralNetworkHiddenStructure extends NeuralNetworkStructure {
 
     private void generateSynapse(Neuron sourceNeuron, Neuron targetNeuron){
         Synapse synapse = findSynapse(sourceNeuron, targetNeuron);
-        if(synapse==null)
+        if(synapse==null) {
             addSynapse(new Synapse(sourceNeuron, targetNeuron, generateWeight()));
-        else
+        } else {
             setSynapseWeight(synapse, generateWeight());
+        }
     }
 
     //<editor-fold defaultstate="collapsed" desc="Get/Set">
@@ -110,6 +117,9 @@ public class NeuralNetworkHiddenStructure extends NeuralNetworkStructure {
      * @param countHiddenNeurons Количество нейронов в скрытом слое
      */
     public void addLayoutHidden(int countHiddenNeurons){
+        if(countHiddenNeurons < 1){
+            throw new IllegalArgumentException("Neural Network structure do not should have hidden neurons count is negative. [Hidden neurons count < 1]");
+        }
         LayoutHidden layoutHidden = new LayoutHidden(countHiddenNeurons);
         layoutHidden.setBias(getBias().getValue()==1? true: false);
         layoutsHidden.add(layoutHidden);

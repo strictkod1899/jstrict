@@ -252,7 +252,7 @@ public abstract class RepositoryJdbcBase
     public List<DTO> readAll(DbRequests requests) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<DTO> result = new LinkedList<>();
+        List<DTO> result = new ArrayList<>();
         Connection connection = null;
         try{
             connection = createConnection();

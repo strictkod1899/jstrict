@@ -2,6 +2,7 @@ package ru.strict.neuralnetwork.data;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Единичный набор данных для использования в нейронной сети.
@@ -73,6 +74,7 @@ public class NeuralNetworkDataSet {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Base override">
+    @Override
     public String toString(){
         final StringBuilder inputs = new StringBuilder("");
         final StringBuilder outputs = new StringBuilder("");
@@ -101,6 +103,5 @@ public class NeuralNetworkDataSet {
         result = 31 * result + Arrays.hashCode(outputNeurons);
         return result;
     }
-
     //</editor-fold>
 }

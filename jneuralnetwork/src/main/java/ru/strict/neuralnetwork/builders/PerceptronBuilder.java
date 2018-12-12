@@ -1,4 +1,4 @@
-package ru.strict.neuralnetwork.factories;
+package ru.strict.neuralnetwork.builders;
 
 import ru.strict.neuralnetwork.functions.ActivateFunction;
 import ru.strict.neuralnetwork.networks.Perceptron;
@@ -8,8 +8,8 @@ import ru.strict.neuralnetwork.structures.NeuralNetworkHiddenStructure;
  * Фабрика нейронной сети - Перцептрон
  * <p><b>Пример использования:</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
- *     NeuralNetworkHiddenFactory<NeuralNetworkHiddenStructure,Perceptron> factory
- *                 = new PerceptronFactory(3, 6, 2, new Sigmoid(), true);
+ *     NeuralNetworkHiddenBuilder<NeuralNetworkHiddenStructure,Perceptron> factory
+ *                 = new PerceptronBuilder(3, 6, 2, new Sigmoid(), true);
  *
  *     // Обучающие данные
  *     Neuron[] inputSet = new Neuron[]{new Neuron(1, "Title1" ,NeuronType.INPUT), new Neuron(0, "Title2", NeuronType.INPUT)
@@ -39,15 +39,15 @@ import ru.strict.neuralnetwork.structures.NeuralNetworkHiddenStructure;
  *     }
  * </pre></code>
  */
-public class PerceptronFactory<STRUCT extends NeuralNetworkHiddenStructure, NETWORK extends Perceptron>
-        extends NeuralNetworkHiddenFactory<STRUCT, NETWORK> {
+public class PerceptronBuilder<STRUCT extends NeuralNetworkHiddenStructure, NETWORK extends Perceptron>
+        extends NeuralNetworkHiddenBuilder<STRUCT, NETWORK> {
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    public PerceptronFactory(int countInputs, int countOutputs, ActivateFunction activateFunction) {
+    public PerceptronBuilder(int countInputs, int countOutputs, ActivateFunction activateFunction) {
         super(countInputs, countOutputs, activateFunction);
     }
 
-    public PerceptronFactory(int countInputs, int countHiddens, int countOutputs
+    public PerceptronBuilder(int countInputs, int countHiddens, int countOutputs
             , ActivateFunction activateFunction, boolean isUseBias) {
         super(countInputs, countHiddens, countOutputs, activateFunction, isUseBias);
     }

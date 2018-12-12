@@ -120,7 +120,7 @@ public abstract class RepositoryBase
      *      List<DtoUserOnRole> userOnRoles = repositoryUserOnRole.readAll(requests);
      *
      *      IRepository<ID, DtoRoleuser> repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
-     *      Collection<DtoRoleuser> roleusers = new LinkedList<>();
+     *      Collection<DtoRoleuser> roleusers = new ArrayList<>();
      *      for(DtoUserOnRole<ID> userOnRole : userOnRoles) {
      *          roleusers.add(repositoryRoleuser.read(userOnRole.getRoleId()));
      *      }

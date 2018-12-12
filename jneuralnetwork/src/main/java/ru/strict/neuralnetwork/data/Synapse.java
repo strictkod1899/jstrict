@@ -54,10 +54,12 @@ public class Synapse {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Base override">
+    @Override
     public String toString(){
         return String.format("Synapse [weight=%s] from %s to %s", weight, sourceNeuron, targetNeuron);
     }
 
+    @Override
     public boolean equals(Object obj){
         if(obj != null && obj instanceof Synapse) {
             Synapse object = (Synapse) obj;

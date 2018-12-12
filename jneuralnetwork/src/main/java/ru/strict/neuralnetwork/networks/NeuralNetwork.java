@@ -3,8 +3,8 @@ package ru.strict.neuralnetwork.networks;
 import ru.strict.neuralnetwork.data.*;
 import ru.strict.neuralnetwork.functions.ActivateFunction;
 import ru.strict.neuralnetwork.structures.NeuralNetworkStructure;
+
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Основа реализации нейронной сети
@@ -12,7 +12,7 @@ import java.util.Objects;
  * @param <DATA> Данные для обучения и тестирования нейронной сети
  * @param <STRUCT> Структура нейронной сети
  */
-public abstract class NeuralNetworkBase<DATA extends NeuralNetworkData, STRUCT extends NeuralNetworkStructure>
+public abstract class NeuralNetwork<DATA extends NeuralNetworkData, STRUCT extends NeuralNetworkStructure>
         implements INeuralNetwork {
 
     /**
@@ -40,7 +40,7 @@ public abstract class NeuralNetworkBase<DATA extends NeuralNetworkData, STRUCT e
             throw new NullPointerException("Neural Network do not supported null value. [ActivateFunction is null]");
     }
 
-    public NeuralNetworkBase(DATA data, STRUCT structure, ActivateFunction activateFunction) {
+    public NeuralNetwork(DATA data, STRUCT structure, ActivateFunction activateFunction) {
         try{
             ensureCreateInstance(data, structure, activateFunction);
         }catch(Exception ex){throw ex;}
@@ -137,28 +137,4 @@ public abstract class NeuralNetworkBase<DATA extends NeuralNetworkData, STRUCT e
         return activateFunction;
     }
     //</editor-fold>
-
-    @Override
-    public boolean equals(Object obj) {
-        if(obj!=null && obj instanceof NeuralNetworkBase) {
-            NeuralNetworkBase<?, ?> object = (NeuralNetworkBase<?, ?>) obj;
-            return Objects.equals(data, object.data) &&
-                    Objects.equals(structure, object.structure) &&
-                    Objects.equals(activateFunction, object.activateFunction);
-        }else{
-            return false;
-        }
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(data, structure, activateFunction);
-    }
-
-    @Override
-    public void close(){
-        data = null;
-        structure = null;
-        activateFunction = null;
-    }
 }

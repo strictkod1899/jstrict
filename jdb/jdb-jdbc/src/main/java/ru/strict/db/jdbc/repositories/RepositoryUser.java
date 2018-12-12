@@ -60,7 +60,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
             List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
 
             repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
-            Collection<DtoRoleuser<ID>> roleusers = new LinkedList<>();
+            Collection<DtoRoleuser<ID>> roleusers = new ArrayList<>();
             for (DtoUserOnRole<ID> userOnRole : userOnRoles) {
                 roleusers.add(repositoryRoleuser.read(userOnRole.getRoleId()));
             }

@@ -104,10 +104,12 @@ public class Neuron implements Cloneable{
 //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Base override">
+    @Override
     public String toString(){
         return String.format("neuron [%s]: value - %s; type - %s; caption - %s", entryId.toString(), value, type, caption);
     }
 
+    @Override
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof Neuron) {
             Neuron object = (Neuron) obj;

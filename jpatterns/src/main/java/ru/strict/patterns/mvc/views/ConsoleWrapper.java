@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public abstract class ConsoleWrapper<M> extends ViewBase<M> implements IInteractiveView {
 
@@ -68,7 +68,7 @@ public abstract class ConsoleWrapper<M> extends ViewBase<M> implements IInteract
 
     @Override
     public Integer inputCommand(String message, int minValue, int maxValues){
-        Collection<Integer> correctValues = new LinkedList<>();
+        Collection<Integer> correctValues = new ArrayList<>();
         for (int i = minValue; i <= maxValues; i++){
             correctValues.add(i);
         }

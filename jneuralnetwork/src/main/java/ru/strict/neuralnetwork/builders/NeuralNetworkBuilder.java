@@ -1,10 +1,10 @@
-package ru.strict.neuralnetwork.factories;
+package ru.strict.neuralnetwork.builders;
 
 import ru.strict.neuralnetwork.data.NeuralNetworkDataSet;
 import ru.strict.neuralnetwork.data.Neuron;
 import ru.strict.neuralnetwork.data.NeuralNetworkData;
 import ru.strict.neuralnetwork.functions.ActivateFunction;
-import ru.strict.neuralnetwork.networks.NeuralNetworkBase;
+import ru.strict.neuralnetwork.networks.NeuralNetwork;
 import ru.strict.neuralnetwork.structures.NeuralNetworkStructure;
 
 /**
@@ -12,8 +12,7 @@ import ru.strict.neuralnetwork.structures.NeuralNetworkStructure;
  * @param <STRUCT> Структура нейронной сети
  * @param <NETWORK> Нейронная сеть
  */
-public abstract class NeuralNetworkFactory<STRUCT extends NeuralNetworkStructure, NETWORK extends NeuralNetworkBase>
-        implements AutoCloseable{
+public abstract class NeuralNetworkBuilder<STRUCT extends NeuralNetworkStructure, NETWORK extends NeuralNetwork> {
 
     /**
      * Количесво входных нейронов
@@ -37,7 +36,7 @@ public abstract class NeuralNetworkFactory<STRUCT extends NeuralNetworkStructure
     private ActivateFunction activateFunction;
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    public NeuralNetworkFactory(int countInputs, int countOutputs, ActivateFunction activateFunction) {
+    public NeuralNetworkBuilder(int countInputs, int countOutputs, ActivateFunction activateFunction) {
         this.countInputs = countInputs;
         this.countOutputs = countOutputs;
         data = new NeuralNetworkData(countInputs, countOutputs);
@@ -96,11 +95,4 @@ public abstract class NeuralNetworkFactory<STRUCT extends NeuralNetworkStructure
         structure.setUseBias(isUseBias);
     }
     //</editor-fold>
-
-    @Override
-    public void close(){
-        structure = null;
-        data = null;
-        activateFunction = null;
-    }
 }

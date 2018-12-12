@@ -162,16 +162,16 @@ public class Perceptron extends NeuralNetworkHidden<NeuralNetworkData, NeuralNet
     //</editor-fold>
 
     @Override
-    public ResponseTestNeuron[] test() {
+    public TestResult[] test() {
         List<NeuralNetworkDataSet> testSets = getData().getTestSets();
-        ResponseTestNeuron[] responses = new ResponseTestNeuron[testSets.size()];
+        TestResult[] responses = new TestResult[testSets.size()];
         for(int i=0; i<testSets.size(); i++){
             NeuralNetworkDataSet testSet = testSets.get(i);
             Neuron[] originalActualNeurons = calc(testSet.getInputNeurons());
             Neuron[] actualNeurons = new Neuron[originalActualNeurons.length];
             for (int j=0; j<actualNeurons.length; j++)
                 actualNeurons[j] = originalActualNeurons[j].clone();
-            responses[i] = new ResponseTestNeuron(testSet.getOutputNeurons(), actualNeurons);
+            responses[i] = new TestResult(testSet.getOutputNeurons(), actualNeurons);
         }
         return responses;
     }

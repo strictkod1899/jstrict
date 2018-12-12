@@ -1,7 +1,7 @@
 package ru.strict.db.migration.components;
 
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -38,9 +38,9 @@ public class MigrationTable
         }
 
         this.name = name;
-        columns = new LinkedList<>();
+        columns = new ArrayList<>();
         primaryKey = null;
-        foreignKeys = new LinkedList<>();
+        foreignKeys = new ArrayList<>();
     }
     //</editor-fold>
 

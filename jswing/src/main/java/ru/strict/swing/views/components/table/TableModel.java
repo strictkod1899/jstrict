@@ -325,7 +325,7 @@ public class TableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         try {
-            listContentTable = new ArrayList<>(listContentTable);
+            listContentTable = new LinkedList<>(listContentTable);
             return listContentTable.get(rowIndex).get(columnIndex);
         } catch (IndexOutOfBoundsException | NoSuchElementException ex) {
             return null;

@@ -1,12 +1,12 @@
 package ru.strict.neuralnetwork.networks;
 
 import ru.strict.neuralnetwork.data.Neuron;
-import ru.strict.neuralnetwork.data.ResponseTestNeuron;
+import ru.strict.neuralnetwork.data.TestResult;
 
 /**
  * Базовый интерфейс для реализации нейронной сети
  */
-public interface INeuralNetwork extends AutoCloseable{
+public interface INeuralNetwork {
     /**
      * Обучить нейронную сеть на ранее заданных обучающих данных
      * @param epochs Количество эпох
@@ -19,7 +19,7 @@ public interface INeuralNetwork extends AutoCloseable{
      * Протестировать нейронную сеть на установленных тестовых данных
      * @return Результат расчета на тестовой выборке
      */
-    ResponseTestNeuron[] test();
+    TestResult[] test();
 
     /**
      * Расчитать результат на основе переданных входных нейронов
@@ -27,6 +27,4 @@ public interface INeuralNetwork extends AutoCloseable{
      * @return Выходные нейроны
      */
     Neuron[] calc(Neuron[] inputNeurons);
-
-    void close();
 }

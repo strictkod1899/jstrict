@@ -2,7 +2,7 @@ package ru.strict.db.hibernate.connection;
 
 
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -71,8 +71,8 @@ public class HibernateConnectionInfo {
         this.useQueryCache = false;
         this.showSql = true;
         this.currentSessionContextClass = "thread";
-        packages = new LinkedList<>();
-        entityClasses = new LinkedList<>();
+        packages = new ArrayList<>();
+        entityClasses = new ArrayList<>();
     }
     //</editor-fold>
 

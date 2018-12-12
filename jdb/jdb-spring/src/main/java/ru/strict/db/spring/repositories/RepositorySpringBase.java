@@ -101,7 +101,7 @@ public abstract class RepositorySpringBase
     @Override
     public final List<DTO> readAll(DbRequests requests) {
         String sql = createSqlSelect() + (requests==null?"":requests.getSql());
-        List<DTO> result = new LinkedList<>();
+        List<DTO> result = new ArrayList<>();
         List<E> entities = springJdbc.query(sql, springMapper);
         for(E entity : entities) {
             result.add(getDtoMapper().map(entity));

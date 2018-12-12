@@ -49,7 +49,7 @@ public class RepositoryRoleuser<ID>
             repositoryUser = new RepositoryUser<>(getConnectionSource(),
                     new MapperDtoFactory().instance(MapperDtoType.USER),
                     GenerateIdType.NONE);
-            Collection<DtoUserBase<ID>> users = new LinkedList<>();
+            Collection<DtoUserBase<ID>> users = new ArrayList<>();
             for (DtoUserOnRole<ID> userOnRole : userOnRoles) {
                 users.add(repositoryUser.read(userOnRole.getUserId()));
             }

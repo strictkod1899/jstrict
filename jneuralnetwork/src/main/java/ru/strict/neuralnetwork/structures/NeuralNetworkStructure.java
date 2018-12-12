@@ -34,7 +34,7 @@ public abstract class NeuralNetworkStructure implements Cloneable{
         this.countOutputs = countOutputs;
         inputNeurons = new Neuron[countInputs];
         outputNeurons = new Neuron[countOutputs];
-        synapses = new LinkedList<>();
+        synapses = new ArrayList<>();
 
         for(int i = 0; i< countInputs; i++)
             inputNeurons[i] = new Neuron(0, NeuronType.INPUT);
@@ -135,7 +135,7 @@ public abstract class NeuralNetworkStructure implements Cloneable{
 
     //</editor-fold>
 
-
+    //<editor-fold defaultstate="collapsed" desc="Base override">
     @Override
     public boolean equals(Object obj) {
         if(obj!=null && obj instanceof NeuralNetworkStructure) {
@@ -159,4 +159,5 @@ public abstract class NeuralNetworkStructure implements Cloneable{
         result = 31 * result + Arrays.hashCode(outputNeurons);
         return result;
     }
+    //</editor-fold>
 }

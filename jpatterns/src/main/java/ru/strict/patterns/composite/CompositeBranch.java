@@ -1,6 +1,6 @@
 package ru.strict.patterns.composite;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +13,7 @@ public abstract class CompositeBranch<COMPOSIT extends IComposite> extends Compo
 
 	public CompositeBranch(){
 		super();
-		childs = new LinkedList<>();
+		childs = new ArrayList<>();
 	}
 
 	@Override

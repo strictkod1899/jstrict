@@ -104,7 +104,7 @@ public class DbRequests implements IDbRequest {
             return result;
         }
 
-        Collection<String> tableNames = new LinkedList<>();
+        Collection<String> tableNames = new ArrayList<>();
 
         // Добавляем наименования используемых таблиц в SELECT
         for(DbWhere request : whereRequests){

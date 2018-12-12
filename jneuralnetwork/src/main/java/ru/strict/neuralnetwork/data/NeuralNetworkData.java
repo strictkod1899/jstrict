@@ -1,6 +1,6 @@
 package ru.strict.neuralnetwork.data;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -46,8 +46,8 @@ public class NeuralNetworkData implements Cloneable{
     public NeuralNetworkData(int countInputs, int countOutputs) {
         this.countInputs = countInputs;
         this.countOutputs = countOutputs;
-        trainingSets = new LinkedList();
-        testSets = new LinkedList();
+        trainingSets = new ArrayList();
+        testSets = new ArrayList();
     }
     //</editor-fold>
 
@@ -56,9 +56,9 @@ public class NeuralNetworkData implements Cloneable{
      * @return
      */
     public List<NeuralNetworkDataSet> getRandomTrainingSets() {
-        List<NeuralNetworkDataSet> randomTrainingSets = new LinkedList<>();
+        List<NeuralNetworkDataSet> randomTrainingSets = new ArrayList<>();
         Random random = new Random();
-        List<Integer> usedIndeces = new LinkedList();
+        List<Integer> usedIndeces = new ArrayList();
         while(randomTrainingSets.size()!=trainingSets.size()){
             int i = random.nextInt(trainingSets.size());
             if(!usedIndeces.contains(i)) {
@@ -150,6 +150,5 @@ public class NeuralNetworkData implements Cloneable{
     public int hashCode() {
         return Objects.hash(countInputs, countOutputs, trainingSets, testSets);
     }
-
     //</editor-fold>
 }

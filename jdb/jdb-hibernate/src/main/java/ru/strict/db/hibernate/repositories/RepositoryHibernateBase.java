@@ -17,7 +17,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.io.Serializable;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class RepositoryHibernateBase
@@ -81,7 +81,7 @@ public abstract class RepositoryHibernateBase
 
     @Override
     public List<DTO> readAll(DbRequests requests) {
-        List<DTO> result = new LinkedList<>();
+        List<DTO> result = new ArrayList<>();
         Session session = null;
         EntityManagerFactory entityManagerFactory = null;
         EntityManager entityManager = null;

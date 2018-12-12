@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -37,7 +37,7 @@ public class MigrationDatabase
             throw new NullPointerException("connectionSource is NULL");
         }
         this.connectionSource = connectionSource;
-        tables = new LinkedList<>();
+        tables = new ArrayList<>();
     }
     //</editor-fold>
 

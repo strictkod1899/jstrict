@@ -9,7 +9,7 @@ import java.util.List;
  * @param <ID> Тип идентификатора
  * @param <DTO> Тип Dto-сущности базы данных
  */
-public interface IRepositoryNamed <ID, DTO extends DtoBase<ID>> extends IRepository<ID, DTO> {
+public interface IRepositoryNamed<ID, DTO extends DtoBase<ID>> extends IRepositoryExtension<ID, DTO> {
 
     /**
      * Чтение записи из базы данных по наименованию
