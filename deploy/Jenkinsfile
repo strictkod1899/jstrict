@@ -49,6 +49,24 @@ pipeline{
                 """
             }
         }
+        stage('download-dependencies'){
+            when{
+                environment name: 'IS_SHOULD_BUILD', value: '0'
+            }
+            steps{
+                powershell """
+                try{
+                	deploy/download_dependencies.ps1
+                } catch {
+                	Write-Error ""
+                	Write-Error "[ERROR]: DOWNLOAD DEPENDENCIES ERROR"
+                	Write-Error "[ERROR]: \$(\$_.Exception)"
+                	Write-Error ""
+                	exit 1
+                }
+                """
+            }
+        }
         stage('test'){
             when{
                 environment name: 'IS_SHOULD_BUILD', value: '0'

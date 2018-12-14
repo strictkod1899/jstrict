@@ -7,7 +7,10 @@ param(
 	[string]$appProjectRootPath,
 	# required
 	# example: myapp.jar
-	[string]$appFileName
+	[string]$appFileName,
+	# optional
+	# default = false
+	[bool]$isCopyLibs
 )
 
 Write-Host ""
@@ -46,6 +49,7 @@ try{
 	Write-Host "[INFO]: - deploy_folder_root = ${deploy_folder_root}"
 	Write-Host "[INFO]: - deploy_folder_target = ${deploy_folder_target}"
 	Write-Host "[INFO]: - deploy_folder_libs_path = ${deploy_folder_libs_path}"
+	Write-Host "[INFO]: - isCopyLibs = ${isCopyLibs}"
 
 	Write-Host ""
 	Write-Host "[INFO]:			- start deploy folder clean"
@@ -59,10 +63,21 @@ try{
 	Write-Host ""
 	Write-Host "[INFO]:			- start project copy to deploy folder"
 	Write-Host ""
-	New-Item $deploy_folder_libs_path -ItemType Directory -ErrorAction Stop
-	Copy-Item $app_file_path -Destination $deploy_folder_target
-	Copy-Item "${app_libs_path}/*" -Destination "${deploy_folder_libs_path}"
-	Copy-Item "${deploy_folder_sources}/*" -Destination $deploy_folder_target
+	Copy-Item $app_file_path -Destination $deploy_folder_target -ErrorAction Stop
+	If((Test-Path -Path "${app_libs_path}")){
+		if($isCopyLibs -eq $True){
+			New-Item $deploy_folder_libs_path -ItemType Directory -ErrorAction Stop
+			Copy-Item "${app_libs_path}/*" -Destination "${deploy_folder_libs_path}"
+		}
+	} else {
+		Write-Warning "[WARN]: libs folder [${app_libs_path}] does not exists"
+	}
+
+	If(Test-Path -Path "${deploy_folder_sources}"){
+		Copy-Item "${deploy_folder_sources}/*" -Destination $deploy_folder_target
+	} else {
+		Write-Warning "[WARN]: sources folder [${deploy_folder_sources}] does not exists"
+	}
 
 	Write-Host ""
 	Write-Host "			- SUCCESS A PROJECT RELEASE"

@@ -2,11 +2,21 @@
 # Скрипт запускать из корневой директории проекта
 
 try{
+	./deploy/download_dependencies.ps1
+} catch {
+	Write-Error ""
+	Write-Error "[ERROR]: DOWNLOAD DEPENDENCIES ERROR"
+	Write-Error "[ERROR]: $($_.Exception)"
+	Write-Error ""
+	exit 1
+}
+
+try{
 	./deploy/test.ps1
 } catch {
 	Write-Error ""
 	Write-Error "[ERROR]: TESTS ERROR"
-	Write-Error "[ERROR]: Branch for deploy is NULL"
+	Write-Error "[ERROR]: $($_.Exception)"
 	Write-Error ""
 	exit 1
 }
@@ -16,7 +26,7 @@ try{
 } catch {
 	Write-Error ""
 	Write-Error "[ERROR]: BUILD ERROR"
-	Write-Error "[ERROR]: Branch for deploy is NULL"
+	Write-Error "[ERROR]: $($_.Exception)"
 	Write-Error ""
 	exit 1
 }
@@ -26,7 +36,7 @@ try{
 } catch {
 	Write-Error ""
 	Write-Error "[ERROR]: RELEASE ERROR"
-	Write-Error "[ERROR]: Branch for deploy is NULL"
+	Write-Error "[ERROR]: $($_.Exception)"
 	Write-Error ""
 	exit 1
 }
