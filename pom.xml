@@ -11,7 +11,7 @@
     </parent>
 	-->
   <artifactId>jstrict</artifactId>
-  <version>0.1.2</version>
+  <version>0.1.3</version>
   <packaging>pom</packaging>
   <name>jstrict</name>
   <url>http://maven.apache.org</url>
@@ -30,62 +30,62 @@
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jutils</artifactId>
-        <version>0.1.20</version>
+        <version>0.1.21</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jfile</artifactId>
-        <version>0.1.4</version>
+        <version>0.1.5</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jpatterns</artifactId>
-        <version>0.1.7</version>
+        <version>0.1.8</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jswing</artifactId>
-        <version>0.1.4</version>
+        <version>0.1.5</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jneuralnetwork</artifactId>
-        <version>0.1.4</version>
+        <version>0.1.5</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jdb-core</artifactId>
-        <version>0.1.19</version>
+        <version>0.1.20</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jdb-jdbc</artifactId>
-        <version>0.1.14</version>
+        <version>0.1.15</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jdb-spring</artifactId>
-        <version>0.1.14</version>
+        <version>0.1.15</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jdb-hibernate</artifactId>
-        <version>0.1.9</version>
+        <version>0.1.10</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jdb-mybatis</artifactId>
-        <version>0.1.3</version>
+        <version>0.1.4</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jdb-migration</artifactId>
-        <version>0.1.2</version>
+        <version>0.1.3</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>ioc</artifactId>
-        <version>0.1.3</version>
+        <version>0.1.4</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
