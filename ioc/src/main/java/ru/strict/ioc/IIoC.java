@@ -1,5 +1,7 @@
 package ru.strict.ioc;
 
+import ru.strict.ioc.exceptions.MatchInstanceTypeException;
+
 public interface IIoC {
     /**
      * Добавить компонент с названием <caption> как экземпляр класса <component>,
@@ -67,4 +69,19 @@ public interface IIoC {
      * @return
      */
     <RESULT> RESULT getComponent(String caption);
+
+    /**
+     * Удалить session-компонент
+     * @param clazz Класс, используемый в качестве ключа для доступа к компоненту
+     * @param <RESULT>
+     * @throws MatchInstanceTypeException
+     */
+    <RESULT> void closeSessionInstance(Class<RESULT> clazz) throws MatchInstanceTypeException;
+
+    /**
+     * Удалить session-компонент
+     * @param caption Название, используемое в качестве ключа для доступа к компоненту
+     * @throws MatchInstanceTypeException
+     */
+    void closeSessionInstance(String caption) throws MatchInstanceTypeException;
 }

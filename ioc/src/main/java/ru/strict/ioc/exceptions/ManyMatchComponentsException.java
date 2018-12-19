@@ -1,4 +1,4 @@
-package ru.strict.ioc;
+package ru.strict.ioc.exceptions;
 
 public class ManyMatchComponentsException extends RuntimeException {
 

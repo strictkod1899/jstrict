@@ -1,5 +1,7 @@
 package ru.strict.ioc;
 
+import ru.strict.ioc.exceptions.SessionInstanceExistsException;
+import ru.strict.ioc.exceptions.SingletonInstanceExistsException;
 import ru.strict.utils.UtilData;
 
 import java.util.Optional;
@@ -10,6 +12,7 @@ class IoCData {
     private Object[] constructorArguments;
     private InstanceType type;
     private Object singletonInstance;
+    private Object sessionInstance;
 
     public IoCData(Class clazzInstance, Object[] constructorArguments, InstanceType type) {
         this.clazzInstance = clazzInstance;
@@ -46,6 +49,21 @@ class IoCData {
             throw new SingletonInstanceExistsException(this.singletonInstance, singletonInstance);
         }
         this.singletonInstance = singletonInstance;
+    }
+
+    public <T> T getSessionInstance() {
+        return (T) sessionInstance;
+    }
+
+    public void setSessionInstance(Object sessionInstance) {
+        if(this.sessionInstance != null){
+            throw new SessionInstanceExistsException(this.sessionInstance, sessionInstance);
+        }
+        this.sessionInstance = sessionInstance;
+    }
+
+    public void closeSessionInstance(){
+        this.sessionInstance = null;
     }
 
     @Override

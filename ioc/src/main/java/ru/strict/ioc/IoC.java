@@ -1,5 +1,7 @@
 package ru.strict.ioc;
 
+import ru.strict.ioc.exceptions.ManyMatchComponentsException;
+import ru.strict.ioc.exceptions.MatchInstanceTypeException;
 import ru.strict.utils.UtilReflection;
 
 import java.util.HashMap;
@@ -147,7 +149,10 @@ public class IoC implements IIoC {
     public <RESULT> RESULT getComponent(String caption) {
         RESULT result = null;
         if(caption != null) {
-            IoCKeys key = components.keySet().stream().filter((k) -> caption.equals(k.getCaption())).findFirst().orElse(null);
+            IoCKeys key = components.keySet().stream()
+                    .filter((k) -> caption.equals(k.getCaption()))
+                    .findFirst()
+                    .orElse(null);
             if (key != null) {
                 result = getInstance(key);
             }
@@ -171,6 +176,43 @@ public class IoC implements IIoC {
         return result;
     }
 
+    @Override
+    public <RESULT> void closeSessionInstance(Class<RESULT> clazz) throws MatchInstanceTypeException {
+        if(clazz != null) {
+            IoCKeys key = components.keySet().stream()
+                    .filter((k) -> k.getClazz() != null && UtilReflection.isInstanceOf(clazz, k.getClazz()))
+                    .findFirst()
+                    .orElse(null);
+            if (key != null) {
+                closeSessionInstanceProcess(key);
+            }
+        }
+    }
+
+    @Override
+    public void closeSessionInstance(String caption) throws MatchInstanceTypeException {
+        if(caption != null) {
+            IoCKeys key = components.keySet().stream()
+                    .filter((k) -> caption.equals(k.getCaption()))
+                    .findFirst()
+                    .orElse(null);
+            if (key != null) {
+                closeSessionInstanceProcess(key);
+            }
+        }
+    }
+
+    private void closeSessionInstanceProcess(IoCKeys key) throws MatchInstanceTypeException {
+        if (key != null) {
+            IoCData instanceData = components.get(key);
+            if (instanceData.getType() == InstanceType.SESSION) {
+                instanceData.closeSessionInstance();
+            } else {
+                throw new MatchInstanceTypeException(InstanceType.SESSION, instanceData.getType());
+            }
+        }
+    }
+
     private <RESULT> RESULT getInstance(IoCKeys key){
         RESULT result = null;
 
@@ -179,12 +221,20 @@ public class IoC implements IIoC {
             case REQUEST:
                 result = createInstance(instanceData.getClazzInstance(), instanceData.getConstructorArguments());
                 break;
+            case SESSION:
+                if(instanceData.getSessionInstance() != null){
+                    result = instanceData.getSessionInstance();
+                } else {
+                    result = createInstance(instanceData.getClazzInstance(), instanceData.getConstructorArguments());
+                    instanceData.setSessionInstance(result);
+                }
+                break;
             case SINGLETON:
                 if(instanceData.getSingletonInstance() != null){
                     result = instanceData.getSingletonInstance();
                 } else {
                     result = createInstance(instanceData.getClazzInstance(), instanceData.getConstructorArguments());
-                    components.get(key).setSingletonInstance(result);
+                    instanceData.setSingletonInstance(result);
                 }
                 break;
         }
