@@ -24,6 +24,7 @@
         <module>jpatterns</module>
         <module>jneuralnetwork</module>
         <module>ioc</module>
+        <module>installer</module>
     </modules>
     <!-- Переместить в корневой pom.xml проекта-->
     <properties>
@@ -103,6 +104,11 @@
                 <groupId>ru.strict</groupId>
                 <artifactId>ioc</artifactId>
                 <version>0.1.5</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>installer</artifactId>
+                <version>0.1.0</version>
             </dependency>
 
             <dependency>

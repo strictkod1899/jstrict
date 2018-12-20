@@ -4,11 +4,10 @@
 try{
 	./deploy/download_dependencies.ps1
 } catch {
-	Write-Error ""
-	Write-Error "[ERROR]: DOWNLOAD DEPENDENCIES ERROR"
-	Write-Error "[ERROR]: $($_.Exception)"
-	Write-Error ""
-	exit 1
+	Write-Warning ""
+	Write-Warning "[WARN]: DOWNLOAD DEPENDENCIES ERROR"
+	Write-Warning "[WARN]: $($_.Exception)"
+	Write-Warning ""
 }
 
 try{

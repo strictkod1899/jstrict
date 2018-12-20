@@ -7,8 +7,8 @@ param(
 )
 
 # modules without root pom.xml
-$childModulesPath = "./jutils/pom.xml", "./ioc/pom.xml", "./jfile/pom.xml", "./jpatterns/pom.xml", "./jswing/pom.xml", "./jneuralnetwork/pom.xml", "./jdb/pom.xml", "./jdb/jdb-core/pom.xml", "./jdb/jdb-migration/pom.xml", "./jdb/jdb-jdbc/pom.xml", "./jdb/jdb-spring/pom.xml", "./jdb/jdb-hibernate/pom.xml", "./jdb/jdb-mybatis/pom.xml"
-$modulesPath = "./pom.xml", "./jutils/pom.xml", "./ioc/pom.xml", "./jfile/pom.xml", "./jpatterns/pom.xml", "./jswing/pom.xml", "./jneuralnetwork/pom.xml", "./jdb/pom.xml", "./jdb/jdb-core/pom.xml", "./jdb/jdb-migration/pom.xml", "./jdb/jdb-jdbc/pom.xml", "./jdb/jdb-spring/pom.xml", "./jdb/jdb-hibernate/pom.xml", "./jdb/jdb-mybatis/pom.xml"
+$childModulesPath = "./installer/pom.xml", "./jutils/pom.xml", "./ioc/pom.xml", "./jfile/pom.xml", "./jpatterns/pom.xml", "./jswing/pom.xml", "./jneuralnetwork/pom.xml", "./jdb/pom.xml", "./jdb/jdb-core/pom.xml", "./jdb/jdb-migration/pom.xml", "./jdb/jdb-jdbc/pom.xml", "./jdb/jdb-spring/pom.xml", "./jdb/jdb-hibernate/pom.xml", "./jdb/jdb-mybatis/pom.xml"
+$modulesPath = "./pom.xml", "./installer/pom.xml", "./jutils/pom.xml", "./ioc/pom.xml", "./jfile/pom.xml", "./jpatterns/pom.xml", "./jswing/pom.xml", "./jneuralnetwork/pom.xml", "./jdb/pom.xml", "./jdb/jdb-core/pom.xml", "./jdb/jdb-migration/pom.xml", "./jdb/jdb-jdbc/pom.xml", "./jdb/jdb-spring/pom.xml", "./jdb/jdb-hibernate/pom.xml", "./jdb/jdb-mybatis/pom.xml"
 
 if($branch -eq $null -Or $branch -eq ''){
 	Write-Error ""
@@ -21,11 +21,10 @@ if($branch -eq $null -Or $branch -eq ''){
 try{
 	./deploy/download_dependencies.ps1
 } catch {
-	Write-Error ""
-	Write-Error "[ERROR]: DOWNLOAD DEPENDENCIES ERROR"
-	Write-Error "[ERROR]: $($_.Exception)"
-	Write-Error ""
-	exit 1
+	Write-Warning ""
+	Write-Warning "[WARN]: DOWNLOAD DEPENDENCIES ERROR"
+	Write-Warning "[WARN]: $($_.Exception)"
+	Write-Warning ""
 }
 
 try{
@@ -58,6 +57,7 @@ try{
 	./deploy/update_dependency_version_maven -dependencyGroupId "ru.strict" -dependencyArtifactId "jdb-spring" -modulesPath $modulesPath
 	./deploy/update_dependency_version_maven -dependencyGroupId "ru.strict" -dependencyArtifactId "jdb-hibernate" -modulesPath $modulesPath
 	./deploy/update_dependency_version_maven -dependencyGroupId "ru.strict" -dependencyArtifactId "jdb-mybatis" -modulesPath $modulesPath
+	./deploy/update_dependency_version_maven -dependencyGroupId "ru.strict" -dependencyArtifactId "installer" -modulesPath $modulesPath
 } catch {
 	Write-Error ""
 	Write-Error "[ERROR]: UPDATE VERSION ERROR"
