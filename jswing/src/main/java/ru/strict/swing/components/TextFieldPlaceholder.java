@@ -1,4 +1,4 @@
-package ru.strict.swing.views.components;
+package ru.strict.swing.components;
 
 
 import javax.swing.JTextField;

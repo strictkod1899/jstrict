@@ -1,44 +1,42 @@
-package ru.strict.swing.enums;
-
-import java.awt.Color;
+package ru.strict.fx;
 
 /**
  * Доступные для использования цвета
  */
-public enum Colors {
+public enum Color {
 
     /**
      * Базовый цвет для фона окна
      */
-    BACKGROUND_FORM(255, 255, 255),
+    BACKGROUND_FORM("#FFFFFF"),
 
     /**
      * Базовый цвет компонентов
      */
-    BACKGROUND_COMP(77, 126, 190),
+    BACKGROUND_COMP("#4D7EBE"),
 
     /**
      * Базовый цвет компонентов (вариант 2)
      */
-    BACKGROUND_COMP_2(150, 182, 223),
+    BACKGROUND_COMP_2("#96B6DF"),
 
     /**
      * Цвет наведения курсора мыши на элементы
      */
-    BACKGROUND_SELECT(250, 250, 250),
+    BACKGROUND_SELECT("#FAFAFA"),
 
     /**
      * Цвет наведения курсора мыши на кнопку выхода
      */
-    BACKGROUND_SELECT_FIRE(230, 50, 50);
+    BACKGROUND_SELECT_FIRE("#E63232");
 
-    private Color color;
+    private String code;
 
-    Colors(int r, int g, int b){
-        color = new Color(r, g, b);
+    Color(String code){
+        this.code = code;
     }
 
-    public Color getColor() {
-        return color;
+    public String getCode() {
+        return code;
     }
 }

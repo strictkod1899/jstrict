@@ -1,26 +1,26 @@
-package ru.strict.swing.views.dialogs;
+package ru.strict.swing;
 
 import ru.strict.patterns.mvc.views.IView;
-import ru.strict.swing.views.utils.CommonViewMethods;
 
 import javax.swing.*;
 
 /**
- * Фрейм диалога
+ * Базовый фрейм
  */
-public class DialogBase<M> extends JDialog implements IView {
+public class FrameBase<M> extends JFrame implements IView {
 
     private M model;
     private boolean isBuilt;
 
-    public DialogBase(M model) {
+    public FrameBase(M model) {
         this.model = model;
     }
 
     @Override
-    public DialogBase<M> build(){
+    public FrameBase<M> build(){
         CommonViewMethods.build(this);
         getContentPane().setBackground(getBackground());
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         isBuilt = true;
         return this;
     }
@@ -35,8 +35,7 @@ public class DialogBase<M> extends JDialog implements IView {
 
     @Override
     public void destroy(){
-        model = null;
-        setVisible(false);
+        System.exit(0);
     }
 
     @Override

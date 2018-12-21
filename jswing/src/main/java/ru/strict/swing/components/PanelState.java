@@ -1,10 +1,10 @@
-package ru.strict.swing.views.components;
+package ru.strict.swing.components;
 
 import ru.strict.patterns.mvc.views.IView;
-import ru.strict.swing.enums.Colors;
-import ru.strict.swing.enums.Icons;
-import ru.strict.swing.utils.MouseActionChangeBackground;
-import ru.strict.swing.utils.UtilSwing;
+import ru.strict.swing.Color;
+import ru.strict.swing.Icon;
+import ru.strict.swing.MouseActionChangeBackground;
+import ru.strict.swing.UtilSwing;
 import ru.strict.utils.UtilImage;
 import ru.strict.utils.UtilResources;
 import ru.strict.validates.ValidateBaseValue;
@@ -62,7 +62,7 @@ public class PanelState extends PanelBase {
         constraints = new GridBagConstraints();
         // Установка диспетчера компоновки
         setLayout(layout);
-        setBackground(Colors.BACKGROUND_COMP.getColor());
+        setBackground(Color.BACKGROUND_COMP.getColor());
 
         constraints.gridx = 0;
         constraints.weightx = 1;
@@ -135,12 +135,12 @@ public class PanelState extends PanelBase {
     private JPanel createPanelRight(){
         // Получаем массив кнопок (Свернуть, Изменить размер)
         final JPanel[] buttonsControl = UtilSwing.createButtonsImage(hGap, vGap,
-                getBackground(), Colors.BACKGROUND_SELECT.getColor(), null,
-                UtilImage.resizeImage(UtilResources.getResourceAsFileTemp(Icons.TURN.getPath()).getAbsolutePath(),
+                getBackground(), Color.BACKGROUND_SELECT.getColor(), null,
+                UtilImage.resizeImage(UtilResources.getResourceAsFileTemp(Icon.TURN.getPath()).getAbsolutePath(),
                         buttonSize, buttonSize),
-                UtilImage.resizeImage(UtilResources.getResourceAsFileTemp(Icons.CHANGE_SIZE.getPath()).getAbsolutePath(),
+                UtilImage.resizeImage(UtilResources.getResourceAsFileTemp(Icon.CHANGE_SIZE.getPath()).getAbsolutePath(),
                         buttonSize, buttonSize),
-                UtilImage.resizeImage(UtilResources.getResourceAsFileTemp(Icons.CHANGE_SIZE_FULL.getPath()).getAbsolutePath(),
+                UtilImage.resizeImage(UtilResources.getResourceAsFileTemp(Icon.CHANGE_SIZE_FULL.getPath()).getAbsolutePath(),
                         buttonSize, buttonSize));
 
         // Кнопка "Свернуть окно"
@@ -148,7 +148,7 @@ public class PanelState extends PanelBase {
             @Override
             public void mousePressed(MouseEvent event) {
                 setButtonPressedValue(event, true);
-                event.getComponent().setBackground(Colors.BACKGROUND_SELECT.getColor());
+                event.getComponent().setBackground(Color.BACKGROUND_SELECT.getColor());
             }
 
             @Override
@@ -164,7 +164,7 @@ public class PanelState extends PanelBase {
             @Override
             public void mousePressed(MouseEvent event) {
                 setButtonPressedValue(event, true);
-                event.getComponent().setBackground(Colors.BACKGROUND_SELECT.getColor());
+                event.getComponent().setBackground(Color.BACKGROUND_SELECT.getColor());
             }
 
             @Override
@@ -185,7 +185,7 @@ public class PanelState extends PanelBase {
             @Override
             public void mousePressed(MouseEvent event) {
                 setButtonPressedValue(event, true);
-                event.getComponent().setBackground(Colors.BACKGROUND_SELECT.getColor());
+                event.getComponent().setBackground(Color.BACKGROUND_SELECT.getColor());
             }
 
             @Override
@@ -206,13 +206,13 @@ public class PanelState extends PanelBase {
 
         // Кнпока "Закрыть окно"
         JPanel panelExit = UtilSwing.createButtonImage(hGap, vGap,
-                getBackground(), Colors.BACKGROUND_SELECT_FIRE.getColor(),
-                UtilImage.resizeImage(UtilResources.getResourceAsFileTemp(Icons.CLOSE.getPath()).getAbsolutePath(),
+                getBackground(), Color.BACKGROUND_SELECT_FIRE.getColor(),
+                UtilImage.resizeImage(UtilResources.getResourceAsFileTemp(Icon.CLOSE.getPath()).getAbsolutePath(),
                         buttonSize, buttonSize), new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent event) {
                         setButtonPressedValue(event, true);
-                        event.getComponent().setBackground(Colors.BACKGROUND_SELECT.getColor());
+                        event.getComponent().setBackground(Color.BACKGROUND_SELECT.getColor());
                     }
 
                     @Override

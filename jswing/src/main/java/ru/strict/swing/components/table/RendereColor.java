@@ -1,5 +1,5 @@
 
-package ru.strict.swing.views.components.table;
+package ru.strict.swing.components.table;
 
 import java.awt.Color;
 import javax.swing.table.DefaultTableCellRenderer;

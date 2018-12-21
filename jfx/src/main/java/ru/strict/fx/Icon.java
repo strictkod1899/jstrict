@@ -1,9 +1,13 @@
-package ru.strict.swing.enums;
+package ru.strict.fx;
+
+import ru.strict.utils.UtilResources;
+
+import java.io.File;
 
 /**
  * Доступные для использования значки
  */
-public enum Icons {
+public enum Icon {
 
     /**
      * Сворачивание окна программы
@@ -112,11 +116,15 @@ public enum Icons {
     private String path;
     public final String DIRECT_ICON = "images/icons/";
 
-    Icons(String path){
+    Icon(String path){
         this.path = DIRECT_ICON + path;
     }
 
     public String getPath() {
         return path;
+    }
+
+    public File getFile(){
+        return UtilResources.getResource(path, Icon.class);
     }
 }

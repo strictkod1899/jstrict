@@ -1,4 +1,4 @@
-package ru.strict.swing.views.components;
+package ru.strict.swing.components;
 
 import ru.strict.patterns.mvc.views.IView;
 

@@ -1,8 +1,7 @@
-package ru.strict.swing.views.frames;
+package ru.strict.swing;
 
-import ru.strict.swing.views.components.PanelBase;
-import ru.strict.swing.views.components.PanelState;
-import ru.strict.swing.enums.Colors;
+import ru.strict.swing.components.PanelBase;
+import ru.strict.swing.components.PanelState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,7 +44,7 @@ public class FrameDefault<M> extends FrameBase<M> {
             e.printStackTrace();
         }
         setUndecorated(true);
-        getContentPane().setBackground(Colors.BACKGROUND_FORM.getColor());
+        getContentPane().setBackground(Color.BACKGROUND_FORM.getColor());
 
         setLayout(new FlowLayout(FlowLayout.CENTER, hGap, vGap));
 
@@ -66,7 +65,7 @@ public class FrameDefault<M> extends FrameBase<M> {
     }
 
     @Override
-    public void setBackground(Color color) {
+    public void setBackground(java.awt.Color color) {
         if(panelContent != null && color != null) {
             panelContent.setBackground(color);
         }else{
@@ -88,8 +87,8 @@ public class FrameDefault<M> extends FrameBase<M> {
     }
 
     @Override
-    public Color getBackground() {
-        Color result = null;
+    public java.awt.Color getBackground() {
+        java.awt.Color result = null;
         if(panelContent != null) {
             result = panelContent.getBackground();
         }else{

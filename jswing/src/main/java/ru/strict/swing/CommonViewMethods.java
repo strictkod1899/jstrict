@@ -1,15 +1,16 @@
-package ru.strict.swing.views.utils;
+package ru.strict.swing;
 
 import ru.strict.utils.UtilLogger;
 
 import java.awt.*;
+import java.awt.Color;
 
 /**
  * Класс предоставляет методы используемые в окнах фрейма, диалога и панели.
  * Он используется, чтобы предотвратить дублирование кода при кастомной работе с компонентами класса Window.
  * Например, т.к. диалоговое окно и окно фрейма представляют разные классы
  */
-public class CommonViewMethods {
+class CommonViewMethods {
 
     /**
      * Обновление окна

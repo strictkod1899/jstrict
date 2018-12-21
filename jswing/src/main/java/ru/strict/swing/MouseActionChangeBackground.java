@@ -1,22 +1,23 @@
-package ru.strict.swing.utils;
+package ru.strict.swing;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
  * Событие реагирующее на наведение мыши на кнопку для смены цвета
  */
-public class MouseActionChangeBackground extends MouseAdapter {
+class MouseActionChangeBackground extends MouseAdapter {
 
     // Проверяем была ли нажата какая-нибудь кнопка или нет
     private boolean isButPressed = false;
 
     private JPanel panel;
-    private Color selectColor, baseColor;
+    private java.awt.Color selectColor, baseColor;
 
-    public MouseActionChangeBackground(JPanel panel, Color selectColor, Color baseColor) {
+    public MouseActionChangeBackground(JPanel panel, java.awt.Color selectColor, Color baseColor) {
         this.panel = panel;
         this.selectColor = selectColor;
         this.baseColor = baseColor;

@@ -1,4 +1,4 @@
-package ru.strict.swing.views.components.table;
+package ru.strict.swing.components.table;
 
 import ru.strict.validates.ValidateBaseValue;
 

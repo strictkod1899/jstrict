@@ -1,14 +1,13 @@
-package ru.strict.swing.utils;
+package ru.strict.swing;
 
-import ru.strict.swing.views.components.TextFieldPlaceholder;
+import ru.strict.swing.components.TextFieldPlaceholder;
 import ru.strict.utils.UtilLogger;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
+import java.awt.Color;
 import java.awt.event.MouseListener;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -133,7 +132,7 @@ public class UtilSwing {
      * @param font Шрифт кнопки
      * @return
      */
-    public static JLabel createButtonLabel(String title, Color color, Font font){
+    public static JLabel createButtonLabel(String title, java.awt.Color color, Font font){
         JLabel lab = new JLabel(title);
         lab.setBackground(color);
         lab.setFont(font);
@@ -152,7 +151,7 @@ public class UtilSwing {
      * @param mouse События реагирующие на действия мыши
      * @return
      */
-    public static JPanel createButtonLabel(int hgap, int vgap, final Color baseColor, final Color selectColor, String text, Font font, MouseListener...mouse){
+    public static JPanel createButtonLabel(int hgap, int vgap, final java.awt.Color baseColor, final java.awt.Color selectColor, String text, Font font, MouseListener...mouse){
         UtilLogger.info(UtilSwing.class, "StrictControllerFrame.createButtonLabel - started");
         FlowLayout layout = new FlowLayout(FlowLayout.CENTER, hgap, vgap);
         final JPanel panel = new JPanel();
@@ -185,7 +184,7 @@ public class UtilSwing {
      * @param texts Текст кнопкок
      * @return
      */
-    public static JPanel[] createButtonLabels(int hgap, int vgap, final Color baseColor, final Color selectColor, Font font, MouseListener mouse, String...texts){
+    public static JPanel[] createButtonLabels(int hgap, int vgap, final java.awt.Color baseColor, final java.awt.Color selectColor, Font font, MouseListener mouse, String...texts){
         UtilLogger.info(UtilSwing.class, "StrictControllerFrame.createButtonLabels - started");
         JPanel [] arrPanel;
         if(texts!=null) {
@@ -212,7 +211,7 @@ public class UtilSwing {
      * @param mouse События реагирующие на действия мыши
      * @return
      */
-    public static JPanel createButtonImage(int hgap, int vgap, final Color baseColor, final Color selectColor, ImageIcon image, MouseListener...mouse){
+    public static JPanel createButtonImage(int hgap, int vgap, final java.awt.Color baseColor, final java.awt.Color selectColor, ImageIcon image, MouseListener...mouse){
         UtilLogger.info(UtilSwing.class, "StrictControllerFrame.createButtonImage - started");
         FlowLayout layout = new FlowLayout(FlowLayout.CENTER, hgap, vgap);
         JPanel panel = new JPanel();
@@ -244,7 +243,7 @@ public class UtilSwing {
      * @param images Изображения кнопок
      * @return
      */
-    public static JPanel[] createButtonsImage(int hgap, int vgap, final Color baseColor, final Color selectColor, MouseListener mouse, ImageIcon...images){
+    public static JPanel[] createButtonsImage(int hgap, int vgap, final java.awt.Color baseColor, final java.awt.Color selectColor, MouseListener mouse, ImageIcon...images){
         UtilLogger.info(UtilSwing.class, "StrictControllerFrame.createButtonsImage - started");
         JPanel [] arrPanel;
         if(images!=null) {
@@ -272,7 +271,7 @@ public class UtilSwing {
      * @param mouse События реагирующие на действия мыши
      * @return
      */
-    public static JPanel createButtonImageText(int hgap, int vgap, final Color baseColor, final Color selectColor, ImageIcon image, String text, Font font, MouseListener...mouse){
+    public static JPanel createButtonImageText(int hgap, int vgap, final java.awt.Color baseColor, final java.awt.Color selectColor, ImageIcon image, String text, Font font, MouseListener...mouse){
         UtilLogger.info(UtilSwing.class, "StrictControllerFrame.createButtonImageText - started");
         FlowLayout layout = new FlowLayout(FlowLayout.CENTER, hgap, vgap);
         final JPanel panel = new JPanel();
@@ -311,7 +310,7 @@ public class UtilSwing {
      * @param images Изображения кнопок
      * @return
      */
-    public static JPanel[] createButtonsImageText(int hgap, int vgap, final Color baseColor, final Color selectColor,
+    public static JPanel[] createButtonsImageText(int hgap, int vgap, final java.awt.Color baseColor, final Color selectColor,
                                                   MouseListener [] mouses, String [] texts, Font font, ImageIcon...images){
         UtilLogger.info(UtilSwing.class, "StrictControllerFrame.createButtonsImageText - started");
         JPanel [] arrPanel;
