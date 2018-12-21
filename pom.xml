@@ -26,6 +26,7 @@
         <module>jneuralnetwork</module>
         <module>ioc</module>
         <module>installer</module>
+        <module>jmq</module>
     </modules>
     <!-- Переместить в корневой pom.xml проекта-->
     <properties>
@@ -114,6 +115,16 @@
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jfx</artifactId>
+                <version>0.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jmq-rabbit</artifactId>
+                <version>0.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jmq-kafka</artifactId>
                 <version>0.1.0</version>
             </dependency>
 
