@@ -4,11 +4,11 @@
   <parent>
     <groupId>ru.strict</groupId>
     <artifactId>jstrict</artifactId>
-    <version>0.1.4</version>
+    <version>0.1.5</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>jpatterns</artifactId>
-  <version>0.1.9</version>
+  <version>0.1.10</version>
   <packaging>jar</packaging>
   <name>jpatterns</name>
   <url>http://maven.apache.org</url>
@@ -17,7 +17,6 @@
       <groupId>ru.strict</groupId>
       <artifactId>jutils</artifactId>
     </dependency>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

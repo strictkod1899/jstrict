@@ -4,11 +4,11 @@
   <parent>
     <groupId>ru.strict</groupId>
     <artifactId>jdb</artifactId>
-    <version>0.1.4</version>
+    <version>0.1.5</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>jdb-hibernate</artifactId>
-  <version>0.1.11</version>
+  <version>0.1.12</version>
   <packaging>jar</packaging>
   <name>jdb-hibernate</name>
   <url>http://maven.apache.org</url>
@@ -43,7 +43,6 @@
       <groupId>ru.strict</groupId>
       <artifactId>jdb-core</artifactId>
     </dependency>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
