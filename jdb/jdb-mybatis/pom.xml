@@ -4,11 +4,11 @@
   <parent>
     <groupId>ru.strict</groupId>
     <artifactId>jdb</artifactId>
-    <version>0.1.4</version>
+    <version>0.1.5</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>jdb-mybatis</artifactId>
-  <version>0.1.5</version>
+  <version>0.1.6</version>
   <packaging>jar</packaging>
   <name>jdb-mybatis</name>
   <url>http://maven.apache.org</url>
@@ -27,7 +27,6 @@
       <artifactId>commons-dbcp</artifactId>
       <version>1.2.2</version>
     </dependency>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
