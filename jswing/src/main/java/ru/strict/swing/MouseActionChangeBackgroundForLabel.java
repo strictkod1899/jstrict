@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 /**
  * Событие реагирующее на наведение мыши на JLabel для смены цвета
  */
-class MouseActionChangeBackgroundForLabel extends MouseAdapter {
+public class MouseActionChangeBackgroundForLabel extends MouseAdapter {
 
     // Проверяем была ли нажата какая-нибудь кнопка или нет
     private boolean isButPressed = false;

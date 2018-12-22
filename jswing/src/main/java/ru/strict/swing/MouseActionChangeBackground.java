@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 /**
  * Событие реагирующее на наведение мыши на кнопку для смены цвета
  */
-class MouseActionChangeBackground extends MouseAdapter {
+public class MouseActionChangeBackground extends MouseAdapter {
 
     // Проверяем была ли нажата какая-нибудь кнопка или нет
     private boolean isButPressed = false;

@@ -7,8 +7,8 @@ param(
 )
 
 # modules without root pom.xml
-$childModulesPath = "./installer/pom.xml", "./jutils/pom.xml", "./ioc/pom.xml", "./jfile/pom.xml", "./jpatterns/pom.xml", "./jfx/pom.xml", "./jswing/pom.xml", "./jneuralnetwork/pom.xml", "./jdb/pom.xml", "./jdb/jdb-core/pom.xml", "./jdb/jdb-migration/pom.xml", "./jdb/jdb-jdbc/pom.xml", "./jdb/jdb-spring/pom.xml", "./jdb/jdb-hibernate/pom.xml", "./jdb/jdb-mybatis/pom.xml"
-$modulesPath = "./pom.xml", "./installer/pom.xml", "./jutils/pom.xml", "./ioc/pom.xml", "./jfile/pom.xml", "./jpatterns/pom.xml", "./jfx/pom.xml", "./jswing/pom.xml", "./jneuralnetwork/pom.xml", "./jdb/pom.xml", "./jdb/jdb-core/pom.xml", "./jdb/jdb-migration/pom.xml", "./jdb/jdb-jdbc/pom.xml", "./jdb/jdb-spring/pom.xml", "./jdb/jdb-hibernate/pom.xml", "./jdb/jdb-mybatis/pom.xml"
+$childModulesPath = "./installer/pom.xml", "./jmq/pom.xml", "./jmq/jmq-rabbit/pom.xml", "./jmq/jmq-kafka/pom.xml", "./jutils/pom.xml", "./ioc/pom.xml", "./jfile/pom.xml", "./jpatterns/pom.xml", "./jfx/pom.xml", "./jswing/pom.xml", "./jneuralnetwork/pom.xml", "./jdb/pom.xml", "./jdb/jdb-core/pom.xml", "./jdb/jdb-migration/pom.xml", "./jdb/jdb-jdbc/pom.xml", "./jdb/jdb-spring/pom.xml", "./jdb/jdb-hibernate/pom.xml", "./jdb/jdb-mybatis/pom.xml"
+$modulesPath = "./pom.xml", "./installer/pom.xml", "./jmq/pom.xml", "./jmq/jmq-rabbit/pom.xml", "./jmq/jmq-kafka/pom.xml", "./jutils/pom.xml", "./ioc/pom.xml", "./jfile/pom.xml", "./jpatterns/pom.xml", "./jfx/pom.xml", "./jswing/pom.xml", "./jneuralnetwork/pom.xml", "./jdb/pom.xml", "./jdb/jdb-core/pom.xml", "./jdb/jdb-migration/pom.xml", "./jdb/jdb-jdbc/pom.xml", "./jdb/jdb-spring/pom.xml", "./jdb/jdb-hibernate/pom.xml", "./jdb/jdb-mybatis/pom.xml"
 
 if($branch -eq $null -Or $branch -eq ''){
 	Write-Error ""
@@ -59,6 +59,8 @@ try{
 	./deploy/update_dependency_version_maven -dependencyGroupId "ru.strict" -dependencyArtifactId "jdb-hibernate" -modulesPath $modulesPath
 	./deploy/update_dependency_version_maven -dependencyGroupId "ru.strict" -dependencyArtifactId "jdb-mybatis" -modulesPath $modulesPath
 	./deploy/update_dependency_version_maven -dependencyGroupId "ru.strict" -dependencyArtifactId "installer" -modulesPath $modulesPath
+	./deploy/update_dependency_version_maven -dependencyGroupId "ru.strict" -dependencyArtifactId "jmq-rabbit" -modulesPath $modulesPath
+	./deploy/update_dependency_version_maven -dependencyGroupId "ru.strict" -dependencyArtifactId "jmq-kafka" -modulesPath $modulesPath
 } catch {
 	Write-Error ""
 	Write-Error "[ERROR]: UPDATE VERSION ERROR"
