@@ -1,6 +1,9 @@
 package ru.strict.utils;
 
+import java.io.File;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 
 /**
  * Системные операции
@@ -8,17 +11,22 @@ import java.io.PrintStream;
 public class UtilSystem {
 
     /**
-     * Применить системную кодировку для вывода сообщений в консоли
+     * Получить путь до директории класса
+     * @param appClass
+     * @return
+     * @throws URISyntaxException
      */
-    public static void applySystemEncodingForConsoleOutput(){
-        String consoleEncoding = System.getProperty("consoleEncoding");
-        if (consoleEncoding != null) {
+    public static String getPathByClass(Class appClass) throws URISyntaxException {
+        String result = null;
+
+        if(appClass != null) {
             try {
-                System.setOut(new PrintStream(System.out, true, consoleEncoding));
-            } catch (java.io.UnsupportedEncodingException ex) {
-                System.err.println("Unsupported encoding set for console: "+consoleEncoding);
+                return new File(appClass.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+            } catch (URISyntaxException ex) {
+                throw ex;
             }
         }
-    }
 
+        return result;
+    }
 }

@@ -1,8 +1,5 @@
 package ru.strict.utils;
 
-/**
-* Класс описывает статический метод для определения имени текущего класса
-*/
 public class UtilClassOperations {
 
     /**
@@ -18,16 +15,14 @@ public class UtilClassOperations {
     }
 
     /**
-     * Получить текущий класс
-     * @return
+     * Получить класс по имени
+     * @return Если класс не наден, тогда вернется null
      */
-    public static Class getCurrentClass(String currentClassname){
+    public static Class getClassByName(String className){
         Class result = null;
         try {
-            result = Class.forName(currentClassname);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+            result = Class.forName(className);
+        } catch (ClassNotFoundException e) {}
 
         return result;
     }
