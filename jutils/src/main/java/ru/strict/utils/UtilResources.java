@@ -1,9 +1,12 @@
 package ru.strict.utils;
 
+import ru.strict.validates.ValidateBaseValue;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 
 /**
  * Управление файлами ресурсов
@@ -16,7 +19,16 @@ public class UtilResources {
      * @return
      */
     public static File getResourceAsFile(String resourcePath){
-        return getResourceAsFile(resourcePath, null);
+        return getResourceAsFile(resourcePath, null, null);
+    }
+
+    /**
+     * Создание физического файла относительно проекта из файла-ресурса
+     * @param resourcePath
+     * @return
+     */
+    public static File getResourceAsFile(String resourcePath, String targetPath){
+        return getResourceAsFile(resourcePath, targetPath, null);
     }
 
     /**
@@ -27,7 +39,19 @@ public class UtilResources {
      *                         Если передать null, тогда будет использован системный ClassLoader.
      * @return
      */
-    public static File getResourceAsFile(String resourcePath, Class classThisJarFile) {
+    public static File getResourceAsFile(String resourcePath, Class classThisJarFile){
+        return getResourceAsFile(resourcePath, null, classThisJarFile);
+    }
+
+    /**
+     * Создание физического файла относительно проекта из файла-ресурса
+     * @param resourcePath
+     * @param classThisJarFile Класс текущего jar(war)-файла.
+     *                         Используется для получения ресурса в нужном jar(war)-файле.
+     *                         Если передать null, тогда будет использован системный ClassLoader.
+     * @return
+     */
+    public static File getResourceAsFile(String resourcePath, String targetPath, Class classThisJarFile) {
         try {
             ClassLoader classLoader = null;
             if(classThisJarFile == null) {
@@ -41,7 +65,9 @@ public class UtilResources {
                 return null;
             }
 
-            File file = new File(resourcePath);
+            targetPath = ValidateBaseValue.isEmptyOrNull(targetPath) ? resourcePath : targetPath;
+
+            File file = new File(targetPath);
 
             UtilFile.createFileIfNotExists(file);
 
