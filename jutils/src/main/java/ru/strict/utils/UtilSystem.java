@@ -21,7 +21,12 @@ public class UtilSystem {
 
         if(appClass != null) {
             try {
-                return new File(appClass.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+                File file = new File(appClass.getProtectionDomain().getCodeSource().getLocation().toURI());
+                if(file.isDirectory()) {
+                    result = file.getPath();
+                } else {
+                    result = file.getParentFile().getPath();
+                }
             } catch (URISyntaxException ex) {
                 throw ex;
             }
