@@ -11,7 +11,7 @@
       </parent>
       -->
   <artifactId>jstrict</artifactId>
-  <version>0.1.25</version>
+  <version>0.1.26</version>
   <packaging>pom</packaging>
   <name>jstrict</name>
   <url>http://maven.apache.org</url>
@@ -49,82 +49,82 @@
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jutils</artifactId>
-        <version>0.1.25</version>
+        <version>0.1.26</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jfile</artifactId>
-        <version>0.1.25</version>
+        <version>0.1.26</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jpatterns</artifactId>
-        <version>0.1.25</version>
+        <version>0.1.26</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jswing</artifactId>
-        <version>0.1.25</version>
+        <version>0.1.26</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jneuralnetwork</artifactId>
-        <version>0.1.25</version>
+        <version>0.1.26</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jdb-core</artifactId>
-        <version>0.1.25</version>
+        <version>0.1.26</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jdb-jdbc</artifactId>
-        <version>0.1.25</version>
+        <version>0.1.26</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jdb-spring</artifactId>
-        <version>0.1.25</version>
+        <version>0.1.26</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jdb-hibernate</artifactId>
-        <version>0.1.25</version>
+        <version>0.1.26</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jdb-mybatis</artifactId>
-        <version>0.1.25</version>
+        <version>0.1.26</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jdb-migration</artifactId>
-        <version>0.1.25</version>
+        <version>0.1.26</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>ioc</artifactId>
-        <version>0.1.25</version>
+        <version>0.1.26</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>installer</artifactId>
-        <version>0.1.25</version>
+        <version>0.1.26</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jfx</artifactId>
-        <version>0.1.25</version>
+        <version>0.1.26</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jmq-rabbit</artifactId>
-        <version>0.1.25</version>
+        <version>0.1.26</version>
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jmq-kafka</artifactId>
-        <version>0.1.25</version>
+        <version>0.1.26</version>
       </dependency>
       <dependency>
         <groupId>junit</groupId>
