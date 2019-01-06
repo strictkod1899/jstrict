@@ -14,13 +14,17 @@ public class AppConfig extends PropertiesResourceFileReader {
         super(appConfigFileName, environment);
     }
 
+    public AppConfig(String appConfigFileName, String environment, String targetFilePath) {
+        super(appConfigFileName, environment, targetFilePath);
+    }
+
     @Override
     protected Class getThisClass() {
         return this.getClass();
     }
 
     public String getEnvironmentFileName(){
-        return getSuffixFileName();
+        return getFileNameWithSuffix();
     }
 
     public String getEnvironment() {

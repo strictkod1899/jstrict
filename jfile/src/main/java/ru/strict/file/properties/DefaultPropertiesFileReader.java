@@ -4,12 +4,12 @@ import java.io.File;
 
 public class DefaultPropertiesFileReader extends PropertiesFileReader {
 
-    public DefaultPropertiesFileReader(String propertiesFileName) {
-        super(propertiesFileName);
+    public DefaultPropertiesFileReader(String propertiesFilePath) {
+        super(propertiesFilePath);
     }
 
-    public DefaultPropertiesFileReader(String propertiesFileName, String suffix) {
-        super(propertiesFileName, suffix);
+    public DefaultPropertiesFileReader(String propertiesFilePath, String suffix) {
+        super(propertiesFilePath, suffix);
     }
 
     @Override
