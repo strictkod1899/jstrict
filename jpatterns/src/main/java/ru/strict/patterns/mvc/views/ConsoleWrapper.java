@@ -1,5 +1,6 @@
 package ru.strict.patterns.mvc.views;
 
+import ru.strict.utils.UtilData;
 import ru.strict.validates.ValidateBaseValue;
 
 import java.io.BufferedReader;
@@ -10,6 +11,8 @@ import java.util.ArrayList;
 
 public abstract class ConsoleWrapper<M> extends ViewBase<M> implements IInteractiveView {
 
+    private String defaultCancelValue;
+
     private String currentMessage;
     private BufferedReader cmdInput;
 
@@ -17,6 +20,7 @@ public abstract class ConsoleWrapper<M> extends ViewBase<M> implements IInteract
         super(model);
         this.cmdInput = new BufferedReader(new InputStreamReader(System.in));
         currentMessage = "";
+        defaultCancelValue = "--n";
     }
 
     @Override
@@ -78,21 +82,32 @@ public abstract class ConsoleWrapper<M> extends ViewBase<M> implements IInteract
 
     @Override
     public <RESULT> RESULT inputCommand(String message, Class<RESULT> inputType, Collection<RESULT> correctValues){
+        return inputCommand(message, inputType, correctValues, defaultCancelValue);
+    }
+
+    @Override
+    public <RESULT> RESULT inputCommand(String message, Class<RESULT> inputType, Collection<RESULT> correctValues, String defaultCancelValue){
         boolean isCorrectValue = false;
         RESULT command = null;
 
         do{
-            Object newCommand = null;
-            if(inputType == Integer.class) {
-                newCommand = inputInteger(message);
-            }else{
-                newCommand = inputString(message);
+            Object inputtedCommand = inputString(message);
+
+            if (String.valueOf(inputtedCommand).equals(defaultCancelValue)){
+                command = null;
+                break;
             }
 
-            if(newCommand != null && correctValues.contains(newCommand)){
-                command = (RESULT) newCommand;
+            if(inputType == Integer.class) {
+                if(ValidateBaseValue.isInteger(String.valueOf(inputtedCommand))) {
+                    inputtedCommand = Integer.valueOf(String.valueOf(inputtedCommand));
+                }
+            }
+
+            if(inputtedCommand != null && correctValues.contains(inputtedCommand)){
+                command = (RESULT) inputtedCommand;
                 isCorrectValue = true;
-            }else{
+            } else{
                 showError("Ошибка: Данная команда не найдена");
             }
         }while(!isCorrectValue);
@@ -118,5 +133,13 @@ public abstract class ConsoleWrapper<M> extends ViewBase<M> implements IInteract
 
     protected void setCurrentMessage(String currentMessage) {
         this.currentMessage = currentMessage;
+    }
+
+    public String getDefaultCancelValue() {
+        return defaultCancelValue;
+    }
+
+    public void setDefaultCancelValue(String defaultCancelValue) {
+        this.defaultCancelValue = defaultCancelValue;
     }
 }
