@@ -3,8 +3,8 @@ package ru.strict.patterns.composite;
 /**
  * Pattern 'Composite'. Базовая реализация компзитных элементв.
  * Методы для добавлени дочерних элементов выбрасывают исключения.
- * @param <COMPOSIT> Элемент композиции. Используется для указания родительского класса композии и дочерних классов
  * @param <SOURCE> Источник хранения дочерних элементов, например, массив, Collection, List и др.
+ * @param <COMPOSIT> Элемент композиции. Используется для указания родительского класса композии и дочерних классов
  */
 public abstract class CompositeBase<SOURCE, COMPOSIT extends IComposite>
 		implements ICompositeExtension<SOURCE, COMPOSIT> {
