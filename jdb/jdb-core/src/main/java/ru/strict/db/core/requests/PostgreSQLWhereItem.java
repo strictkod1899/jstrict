@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * Условие Where для добавления к sql-запросу при использовании базы данных PostgreSql
  */
-public class PostgreSQLDbWhere extends DbWhere {
+public class PostgreSQLWhereItem extends DbWhereItem {
 
     /**
      * Игнорирование регистра при сравнении
@@ -14,12 +14,12 @@ public class PostgreSQLDbWhere extends DbWhere {
     private boolean ignoreCase;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public PostgreSQLDbWhere(String tableName, String columnName, Object columnValue, String operator, boolean ignoreCase) {
+    public PostgreSQLWhereItem(String tableName, String columnName, Object columnValue, String operator, boolean ignoreCase) {
         super(tableName, columnName, columnValue, operator);
         this.ignoreCase = ignoreCase;
     }
 
-    public PostgreSQLDbWhere(String tableName, String columnName, Object columnValue, String operator
+    public PostgreSQLWhereItem(String tableName, String columnName, Object columnValue, String operator
             , TemplateSymbol templateSymbol, boolean ignoreCase) {
         super(tableName, columnName, columnValue, operator, templateSymbol);
         this.ignoreCase = ignoreCase;
@@ -55,8 +55,8 @@ public class PostgreSQLDbWhere extends DbWhere {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public boolean equals(Object obj){
-        if(obj!=null && obj instanceof PostgreSQLDbWhere) {
-            PostgreSQLDbWhere object = (PostgreSQLDbWhere) obj;
+        if(obj!=null && obj instanceof PostgreSQLWhereItem) {
+            PostgreSQLWhereItem object = (PostgreSQLWhereItem) obj;
             return super.equals(object) && Objects.equals(ignoreCase, object.isIgnoreCase());
         }else {
             return false;

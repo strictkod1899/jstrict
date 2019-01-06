@@ -10,6 +10,7 @@ import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
+import ru.strict.db.core.requests.DbWhereItem;
 
 import java.util.List;
 import java.util.Map;
@@ -38,8 +39,8 @@ public class RepositoryUserFillToken<ID>
             // Добавление токенов
             repositoryToken =
                     new RepositoryJWTToken<>(getConnectionSource(), GenerateIdType.NONE);
-            DbRequests requests = new DbRequests(repositoryToken.getTableName(), true);
-            requests.addWhere(new DbWhere(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));
+            DbRequests requests = new DbRequests(repositoryToken.getTableName());
+            requests.addWhere(new DbWhereItem(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));
 
             List<DtoJWTToken<ID>> tokens = repositoryToken.readAll(requests);
             dto.setTokens(tokens);

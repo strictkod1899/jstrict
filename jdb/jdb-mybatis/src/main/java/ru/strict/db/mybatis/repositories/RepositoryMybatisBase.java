@@ -219,6 +219,25 @@ public abstract class RepositoryMybatisBase
     }
 
     @Override
+    public void executeSql(String sql) {
+        SqlSession session = null;
+        try {
+            session = createConnection();
+            session.getConnection().prepareStatement(sql).executeUpdate();
+            session.commit();
+        }catch(Exception ex){
+            if(session != null){
+                session.rollback();
+            }
+            throw new RuntimeException(ex);
+        }finally {
+            if(session != null) {
+                session.close();
+            }
+        }
+    }
+
+    @Override
     protected DTO fill(DTO dto) {
         throw new UnsupportedOperationException("Implementation to this method not required");
     }

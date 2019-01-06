@@ -5,6 +5,7 @@ import org.hibernate.query.NativeQuery;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoBase;
 import ru.strict.db.core.requests.DbWhere;
+import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.hibernate.entities.EntityBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.RepositoryBase;
@@ -186,10 +187,22 @@ public abstract class RepositoryHibernateBase
     }
 
     @Override
-    public boolean isRowExists(ID id) {
-        DbRequests requests = new DbRequests(getTableName(), true);
-        requests.addWhere(new DbWhere(getTableName(), getColumnIdName(), id, "="));
-        return readCount(requests) > 0;
+    public void executeSql(String sql) {
+        Session session = null;
+        try{
+            session = createConnection();
+            NativeQuery query = session.createNativeQuery(sql);
+            query.executeUpdate();
+        }catch(Exception ex){
+            if(session != null) {
+                session.getTransaction().rollback();
+            }
+            throw ex;
+        }finally{
+            if(session != null) {
+                session.close();
+            }
+        }
     }
 
     protected abstract Class<E> getEntityClass();

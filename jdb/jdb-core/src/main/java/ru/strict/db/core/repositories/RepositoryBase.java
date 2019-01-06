@@ -5,7 +5,9 @@ import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.core.requests.DbWhere;
+import ru.strict.db.core.requests.DbWhereItem;
+import ru.strict.db.core.requests.WhereType;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -116,7 +118,7 @@ public abstract class RepositoryBase
      *      RepositoryJdbcBase<ID, SOURCE, EntityUserOnRole, DtoUserOnRole> repositoryUserOnRole =
      *                 new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
      *      DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
-     *      requests.addWhere(new DbWhere(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
+     *      requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
      *      List<DtoUserOnRole> userOnRoles = repositoryUserOnRole.readAll(requests);
      *
      *      IRepository<ID, DtoRoleuser> repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
@@ -133,7 +135,7 @@ public abstract class RepositoryBase
      *     RepositoryJdbcBase<ID, SOURCE, EntityCity, DtoCity> repositoryCity =
      *             new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
      *     DbRequests requests = new DbRequests(repositoryCity.getTableName(), true);
-     *     requests.addWhere(new DbWhere(repositoryCity.getTableName(), "country_id", dto.getId(), "="));
+     *     requests.addWhere(new DbWhereItem(repositoryCity.getTableName(), "country_id", dto.getId(), "="));
      *
      *     List<DtoCity> cities = repositoryCity.readAll(requests);
      *     dto.setCities(cities);
@@ -182,8 +184,8 @@ public abstract class RepositoryBase
     public boolean isRowExists(ID id) {
         boolean result = false;
 
-        DbRequests requests = new DbRequests(getTableName(), false);
-        requests.addWhere(new DbWhere(getTableName(), getColumnIdName(), id, "="));
+        DbRequests requests = new DbRequests(getTableName());
+        requests.addWhere(new DbWhereItem(getTableName(), getColumnIdName(), id, "="));
 
         int count = readCount(requests);
         if(count > 0){
@@ -201,8 +203,9 @@ public abstract class RepositoryBase
      */
     protected String createSqlSelect(){
         StringBuilder sql = new StringBuilder("SELECT " + getTableName() + ".id, ");
-        for(String columnName : getColumnsName())
+        for(String columnName : getColumnsName()){
             sql.append(getTableName() + "."  + columnName + ", ");
+        }
         sql.replace(sql.length()-2, sql.length(), "");
         sql.append(" FROM " + getTableName());
 

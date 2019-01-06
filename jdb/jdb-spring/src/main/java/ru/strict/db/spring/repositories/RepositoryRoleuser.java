@@ -11,6 +11,7 @@ import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
+import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.spring.mappers.sql.MapperSqlRoleuser;
 
 import java.util.*;
@@ -42,8 +43,8 @@ public class RepositoryRoleuser<ID>
         try {
             // Добавление пользователей
             repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
-            DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
-            requests.addWhere(new DbWhere(repositoryUserOnRole.getTableName(), "roleuser_id", dto.getId(), "="));
+            DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName());
+            requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTableName(), "roleuser_id", dto.getId(), "="));
             List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
 
             repositoryUser = new RepositoryUser<>(getConnectionSource(),

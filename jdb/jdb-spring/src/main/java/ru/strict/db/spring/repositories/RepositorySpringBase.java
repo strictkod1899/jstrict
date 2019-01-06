@@ -134,6 +134,12 @@ public abstract class RepositorySpringBase
 
         return result;
     }
+
+    @Override
+    public void executeSql(String sql) {
+        springJdbc.update(sql, new MapSqlParameterSource());
+    }
+
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="sql generate">

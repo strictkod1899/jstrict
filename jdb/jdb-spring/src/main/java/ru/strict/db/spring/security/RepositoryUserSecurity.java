@@ -12,6 +12,7 @@ import ru.strict.db.core.mappers.dto.MapperDtoRoleuser;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
+import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.spring.repositories.*;
 
 import java.util.*;
@@ -46,8 +47,8 @@ public class RepositoryUserSecurity<ID>
         // Добавление ролей пользователей
         RepositorySpringBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>> repositoryUserOnRole =
                 new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
-        DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
-        requests.addWhere(new DbWhere(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
+        DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName());
+        requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
         List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
 
         IRepository<ID, DtoRoleuser<ID>> repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
@@ -60,8 +61,8 @@ public class RepositoryUserSecurity<ID>
         // Добавления профиля
         RepositorySpringBase<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>> repositoryProfile =
                 new RepositoryProfileInfo<>(getConnectionSource(), GenerateIdType.NONE);
-        requests = new DbRequests(repositoryProfile.getTableName(), true);
-        requests.addWhere(new DbWhere(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
+        requests = new DbRequests(repositoryProfile.getTableName());
+        requests.addWhere(new DbWhereItem(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
         dto.setProfile(repositoryProfile.readAll(requests).stream().findFirst().orElse(null));
         return dto;
     }

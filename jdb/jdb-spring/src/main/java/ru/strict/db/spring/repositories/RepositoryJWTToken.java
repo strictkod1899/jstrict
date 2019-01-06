@@ -12,6 +12,7 @@ import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.repositories.interfaces.IRepositoryJWTToken;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
+import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.spring.mappers.sql.MapperSqlJWTToken;
 
 import java.util.LinkedHashMap;
@@ -54,8 +55,8 @@ public class RepositoryJWTToken<ID>
 
     @Override
     public DtoJWTToken<ID> readByAccessToken(String caption){
-        DbRequests requests = new DbRequests(getTableName(), true);
-        requests.addWhere(new DbWhere(getTableName(), "accessToken", caption, "="));
+        DbRequests requests = new DbRequests(getTableName());
+        requests.addWhere(new DbWhereItem(getTableName(), "accessToken", caption, "="));
 
         DtoJWTToken<ID> result = readAll(requests).stream().findFirst().orElse(null);
         return result;
@@ -63,8 +64,8 @@ public class RepositoryJWTToken<ID>
 
     @Override
     public DtoJWTToken<ID> readByRefreshToken(String caption){
-        DbRequests requests = new DbRequests(getTableName(), true);
-        requests.addWhere(new DbWhere(getTableName(), "refreshToken", caption, "="));
+        DbRequests requests = new DbRequests(getTableName());
+        requests.addWhere(new DbWhereItem(getTableName(), "refreshToken", caption, "="));
 
         DtoJWTToken<ID> result = readAll(requests).stream().findFirst().orElse(null);
         return result;

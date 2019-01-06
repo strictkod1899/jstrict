@@ -4,15 +4,14 @@ import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoRoleuser;
-import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.dto.DtoUserBase;
 import ru.strict.db.core.dto.DtoUserOnRole;
 import ru.strict.db.core.entities.EntityRoleuser;
-import ru.strict.db.core.entities.EntityUserOnRole;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.core.requests.DbWhere;
+import ru.strict.db.core.requests.DbWhereItem;
+import ru.strict.db.core.requests.WhereType;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlRoleuser;
 
 import java.sql.Connection;
@@ -45,8 +44,8 @@ public class RepositoryRoleuser<ID>
         try {
             // Добавление пользователей
             repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
-            DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
-            requests.addWhere(new DbWhere(repositoryUserOnRole.getTableName(), "roleuser_id", dto.getId(), "="));
+            DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName());
+            requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTableName(), "roleuser_id", dto.getId(), "="));
             List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
 
             repositoryUser = new RepositoryUser<>(getConnectionSource(),

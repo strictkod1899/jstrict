@@ -438,6 +438,43 @@ public abstract class RepositoryJdbcBase
         return result;
     }
 
+    @Override
+    public void executeSql(String sql) {
+        PreparedStatement statement = null;
+
+        Connection connection = null;
+        try{
+            connection = createConnection();
+            statement = connection.prepareStatement(sql);
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            if(connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException e) {
+                    throw new RuntimeException(ex);
+                }
+            }
+            throw new RuntimeException(ex);
+        } finally {
+            if(statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+            if(connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        }
+    }
+
     //<editor-fold defaultState="collapsed" desc="sql generate">
     /**
      * Sql-запрос на создание записи в таблице (без учета ID)

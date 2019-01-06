@@ -7,6 +7,7 @@ import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.interfaces.IRepositoryUser;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
+import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlUser;
 import ru.strict.utils.UtilClassOperations;
@@ -34,8 +35,8 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
 
     @Override
     public DTO readByEmail(String email) {
-        DbRequests requests = new DbRequests(getTableName(), true);
-        requests.addWhere(new DbWhere(getTableName(), "email", email, "="));
+        DbRequests requests = new DbRequests(getTableName());
+        requests.addWhere(new DbWhereItem(getTableName(), "email", email, "="));
 
         DTO result = readAll(requests).stream().findFirst().orElse(null);
         return result;

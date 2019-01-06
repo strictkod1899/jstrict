@@ -4,15 +4,13 @@ import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.*;
 import ru.strict.db.core.dto.DtoUserOnRole;
-import ru.strict.db.core.entities.EntityJWTToken;
-import ru.strict.db.core.entities.EntityProfileInfo;
 import ru.strict.db.core.entities.EntityUser;
-import ru.strict.db.core.entities.EntityUserOnRole;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.repositories.interfaces.IRepositoryUser;
 import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.core.requests.DbWhere;
+import ru.strict.db.core.requests.DbWhereItem;
+import ru.strict.db.core.requests.WhereType;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlUser;
 
 import java.sql.Connection;
@@ -55,8 +53,8 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
         try {
             // Добавление ролей пользователей
             repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
-            DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
-            requests.addWhere(new DbWhere(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
+            DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName());
+            requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
             List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
 
             repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
@@ -68,8 +66,8 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
 
             // Добавления профиля
             repositoryProfile = new RepositoryProfileInfo<>(getConnectionSource(), GenerateIdType.NONE);
-            requests = new DbRequests(repositoryProfile.getTableName(), true);
-            requests.addWhere(new DbWhere(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
+            requests = new DbRequests(repositoryProfile.getTableName());
+            requests.addWhere(new DbWhereItem(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
             dto.setProfile(repositoryProfile.readAll(requests).stream().findFirst().orElse(null));
         }finally {
             if(repositoryUserOnRole != null){
@@ -87,8 +85,8 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
 
     @Override
     public DTO readByEmail(String email) {
-        DbRequests requests = new DbRequests(getTableName(), true);
-        requests.addWhere(new DbWhere(getTableName(), "email", email, "="));
+        DbRequests requests = new DbRequests(getTableName());
+        requests.addWhere(new DbWhereItem(getTableName(), "email", email, "="));
 
         DTO result = readAll(requests).stream().findFirst().orElse(null);
         return result;

@@ -5,14 +5,14 @@ import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoJWTToken;
 import ru.strict.db.core.dto.DtoRoleuser;
-import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.dto.DtoUserToken;
 import ru.strict.db.core.entities.EntityJWTToken;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.repositories.interfaces.IRepositoryJWTToken;
 import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.core.requests.DbWhere;
+import ru.strict.db.core.requests.DbWhereItem;
+import ru.strict.db.core.requests.WhereType;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlJWTToken;
 
 import java.sql.Connection;
@@ -56,8 +56,8 @@ public class RepositoryJWTToken<ID>
 
     @Override
     public DtoJWTToken<ID> readByAccessToken(String caption){
-        DbRequests requests = new DbRequests(getTableName(), true);
-        requests.addWhere(new DbWhere(getTableName(), "accessToken", caption, "="));
+        DbRequests requests = new DbRequests(getTableName());
+        requests.addWhere(new DbWhereItem(getTableName(), "accessToken", caption, "="));
 
         DtoJWTToken<ID> result = readAll(requests).stream().findFirst().orElse(null);
         return result;
@@ -65,8 +65,8 @@ public class RepositoryJWTToken<ID>
 
     @Override
     public DtoJWTToken<ID> readByRefreshToken(String caption){
-        DbRequests requests = new DbRequests(getTableName(), true);
-        requests.addWhere(new DbWhere(getTableName(), "refreshToken", caption, "="));
+        DbRequests requests = new DbRequests(getTableName());
+        requests.addWhere(new DbWhereItem(getTableName(), "refreshToken", caption, "="));
 
         DtoJWTToken<ID> result = readAll(requests).stream().findFirst().orElse(null);
         return result;

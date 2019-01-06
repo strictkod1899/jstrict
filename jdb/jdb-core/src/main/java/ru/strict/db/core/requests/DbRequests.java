@@ -7,34 +7,32 @@ import java.util.*;
  */
 public class DbRequests implements IDbRequest {
 
-    /**
-     * Общие ограничения.
-     * Используются как унирвесальные ограничения и добавляются в конец запроса, за исключением limit/offset.
-     * Предпочтительно использовать специализированные ограничения
-     */
-    private List<IDbRequest> commonRequests;
+    private List<DbJoin> joinRequests;
 
-    private List<DbWhere> whereRequests;
+    private DbWhere whereRequests;
 
     private DbLimit limitRequest;
 
     private DbOffset offsetRequest;
 
+    private DbSort sortRequest;
+
     /**
-     * Наименование таблицы из основной конструкции select, чтобы предотвратить повторного его доабвления в блок SELECT
+     * Наименование таблицы из конструкции select [SELECT * FROM <tablename>]
      */
     private String selectTableName;
-    /**
-     * Добавлять AND между условиями
-     */
-    private boolean isAnd;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public DbRequests(String selectTableName, boolean isAnd) {
+    public DbRequests(String selectTableName) {
         this.selectTableName = selectTableName;
-        this.isAnd = isAnd;
-        whereRequests = new ArrayList<>();
-        commonRequests = new ArrayList<>();
+        joinRequests = new ArrayList<>();
+        whereRequests = new DbWhere(WhereType.AND);
+    }
+
+    public DbRequests(String selectTableName, WhereType whereType) {
+        this.selectTableName = selectTableName;
+        joinRequests = new ArrayList<>();
+        whereRequests = new DbWhere(whereType);
     }
     //</editor-fold>
 
@@ -42,24 +40,33 @@ public class DbRequests implements IDbRequest {
     public String getSelectTableName() {
         return selectTableName;
     }
-
-    public boolean isAnd() {
-        return isAnd;
-    }
     //</editor-fold>
 
     @Override
     public String getSql(){
         String result = "";
 
+        result = fillJoin(result);
         result = fillWhere(result);
-        result = fillCommonRequests(result);
+        result = fillOrderBy(result);
         result = fillLimitOffset(result);
 
         return result;
     }
 
-    public void addWhere(DbWhere request){
+    public void addJoin(DbJoin request){
+        if(request != null){
+            joinRequests.add(request);
+        }else{
+            throw new NullPointerException("join-request is NULL");
+        }
+    }
+
+    public List<DbJoin> getJoinRequests() {
+        return joinRequests;
+    }
+
+    public void addWhere(DbWhereBase request){
         if(request != null){
             whereRequests.add(request);
         }else{
@@ -67,79 +74,44 @@ public class DbRequests implements IDbRequest {
         }
     }
 
-    public void addRequest(IDbRequest request){
-        if(request != null){
-            commonRequests.add(request);
-        }else{
-            throw new NullPointerException("common-request is NULL");
-        }
-    }
-
-    public List<DbWhere> getWhereRequests() {
+    public DbWhere getWhere() {
         return whereRequests;
     }
 
-    public List<IDbRequest> getCommonRequests() {
-        return commonRequests;
-    }
-
-    public DbLimit getLimitRequest() {
+    public DbLimit getLimit() {
         return limitRequest;
     }
 
-    public void setLimitRequest(DbLimit limitRequest) {
+    public void setLimit(DbLimit limitRequest) {
         this.limitRequest = limitRequest;
     }
 
-    public DbOffset getOffsetRequest() {
+    public DbOffset getOffset() {
         return offsetRequest;
     }
 
-    public void setOffsetRequest(DbOffset offsetRequest) {
+    public void setOffset(DbOffset offsetRequest) {
         this.offsetRequest = offsetRequest;
     }
 
-    private String fillWhere(String result){
-        if(whereRequests.isEmpty()) {
-            return result;
-        }
+    public DbSort getSort() {
+        return sortRequest;
+    }
 
-        Collection<String> tableNames = new ArrayList<>();
+    public void setSort(DbSort sortRequest) {
+        this.sortRequest = sortRequest;
+    }
 
-        // Добавляем наименования используемых таблиц в SELECT
-        for(DbWhere request : whereRequests){
-            if(!tableNames.contains(request.getTableName()) && !request.getTableName().equals(selectTableName)) {
-                tableNames.add(request.getTableName());
-            }
-        }
-
-        for(String tableName : tableNames) {
-            result += ", " + tableName;
-        }
-
-        result += " WHERE ";
-
-        String symbol;
-        if(isAnd) {
-            symbol = "AND";
-        }else {
-            symbol = "OR";
-        }
-
-        result += whereRequests.get(0).getSql() + " ";
-
-        for(int i = 1; i< whereRequests.size(); i++) {
-            result += symbol + " " + whereRequests.get(i).getSql() + " ";
+    private String fillJoin(String result){
+        for(DbJoin join : joinRequests){
+            result += " " + join.getSql();
         }
 
         return result;
     }
 
-    private String fillCommonRequests(String result){
-        for(IDbRequest request : commonRequests) {
-            result += " " + request.getSql();
-        }
-
+    private String fillWhere(String result){
+        result += " WHERE " + whereRequests.getSql();
         return result;
     }
 
@@ -149,6 +121,14 @@ public class DbRequests implements IDbRequest {
         }
         if(offsetRequest != null){
             result += " " + offsetRequest.getSql();
+        }
+
+        return result;
+    }
+
+    private String fillOrderBy(String result){
+        if(sortRequest != null){
+            result += " " + sortRequest.getSql();
         }
 
         return result;
@@ -165,8 +145,7 @@ public class DbRequests implements IDbRequest {
         if(obj!=null && obj instanceof DbRequests) {
             DbRequests object = (DbRequests) obj;
             return Objects.equals(selectTableName, object.getSelectTableName())
-                    && Objects.equals(isAnd, object.isAnd())
-                    && Objects.equals(whereRequests, object.getWhereRequests());
+                    && Objects.equals(whereRequests, object.getWhere());
         }else {
             return false;
         }
@@ -174,7 +153,7 @@ public class DbRequests implements IDbRequest {
 
     @Override
     public int hashCode(){
-        return Objects.hash(selectTableName, isAnd, whereRequests);
+        return Objects.hash(selectTableName, whereRequests);
     }
     //</editor-fold>
 }

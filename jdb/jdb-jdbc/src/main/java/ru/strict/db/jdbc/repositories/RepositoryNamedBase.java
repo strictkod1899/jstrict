@@ -8,7 +8,8 @@ import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.mappers.sql.MapperSqlBase;
 import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.core.requests.DbWhere;
+import ru.strict.db.core.requests.DbWhereItem;
+import ru.strict.db.core.requests.WhereType;
 
 import java.sql.Connection;
 import java.util.List;
@@ -35,8 +36,8 @@ public abstract class RepositoryNamedBase
 
     @Override
     public DTO readByName(String caption){
-        DbRequests requests = new DbRequests(getTableName(), true);
-        requests.addWhere(new DbWhere(getTableName(), getColumnWithName(), caption, "="));
+        DbRequests requests = new DbRequests(getTableName());
+        requests.addWhere(new DbWhereItem(getTableName(), getColumnWithName(), caption, "="));
 
         DTO result = readAll(requests).stream().findFirst().orElse(null);
         return result;
@@ -44,8 +45,8 @@ public abstract class RepositoryNamedBase
 
     @Override
     public List<DTO> readAllByName(String caption){
-        DbRequests requests = new DbRequests(getTableName(), true);
-        requests.addWhere(new DbWhere(getTableName(), getColumnWithName(), caption, "="));
+        DbRequests requests = new DbRequests(getTableName());
+        requests.addWhere(new DbWhereItem(getTableName(), getColumnWithName(), caption, "="));
 
         List<DTO> result = readAll(requests);
         return result;

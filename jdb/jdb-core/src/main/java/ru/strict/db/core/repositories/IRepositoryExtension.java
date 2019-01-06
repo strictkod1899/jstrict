@@ -51,4 +51,11 @@ public interface IRepositoryExtension<ID, DTO extends DtoBase<ID>> extends IRepo
      * @return
      */
     boolean isRowExists(ID id);
+
+    /**
+     * Выполнить sql-запрос к базе данных
+     * @param sql
+     * @return
+     */
+    void executeSql(String sql);
 }

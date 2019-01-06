@@ -4,12 +4,12 @@ import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.*;
-import ru.strict.db.core.entities.EntityJWTToken;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.core.requests.DbWhere;
+import ru.strict.db.core.requests.DbWhereItem;
+import ru.strict.db.core.requests.WhereType;
 
 import java.sql.Connection;
 import java.util.*;
@@ -37,8 +37,8 @@ public class RepositoryUserFillToken<ID> extends RepositoryUser<ID, DtoUserToken
             // Добавление токенов
             repositoryToken =
                     new RepositoryJWTToken<>(getConnectionSource(), GenerateIdType.NONE);
-            DbRequests requests = new DbRequests(repositoryToken.getTableName(), true);
-            requests.addWhere(new DbWhere(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));
+            DbRequests requests = new DbRequests(repositoryToken.getTableName());
+            requests.addWhere(new DbWhereItem(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));
 
             List<DtoJWTToken<ID>> tokens = repositoryToken.readAll(requests);
             dto.setTokens(tokens);
