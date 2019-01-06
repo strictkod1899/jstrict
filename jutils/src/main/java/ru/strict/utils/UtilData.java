@@ -24,6 +24,23 @@ public class UtilData {
         return number;
     }
 
+    /**
+     * Получить процентное соотношение значения от общей суммы
+     * @param totalSum
+     * @param partValue
+     * @return
+     */
+    public static int convertValueToPercent(double totalSum, double partValue){
+        int result = 0;
+        double doubleResult = partValue / (totalSum / 100);
+        if((doubleResult - ((int) doubleResult)) > 0.5){
+            result = (int) Math.ceil(doubleResult);
+        }else{
+            result = (int) doubleResult;
+        }
+        return result;
+    }
+
     public static String convertStringToUTF8(String value){
         return convertStringToEncode(value, null, "UTF-8");
     }
