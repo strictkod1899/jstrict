@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 
 public class ResultMessages {
 
+    /**
+     * Сообщение в порядке добавления. Содержит и ошибки и др.
+     */
     private List<Object> sequenceMessages;
     private List<Error> errors;
     private List<String> messages;
