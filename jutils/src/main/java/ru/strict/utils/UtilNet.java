@@ -88,6 +88,15 @@ public class UtilNet {
      * @return Возвращается строкове представление ответа на запрос
      * @throws IOException
      */
+    public static String sendPostRequestUTF8(String url) throws IOException {
+        return sendPostRequest(url, null, "UTF-8");
+    }
+
+    /**
+     * Отправить post-запрос на указанный адрес используя кодировку UTF-8
+     * @return Возвращается строкове представление ответа на запрос
+     * @throws IOException
+     */
     public static String sendPostRequestUTF8(String url, Map<String, String> parameters) throws IOException {
         return sendPostRequest(url, parameters, "UTF-8");
     }
