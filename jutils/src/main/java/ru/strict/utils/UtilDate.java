@@ -17,26 +17,20 @@ public class UtilDate {
      * Получить дату из строки формата dd.MM.yyyy
      */
     public static Date getDateFromString1(String dateString){
-        Date result = null;
-        if(dateString != null) {
-            DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-            try {
-                result = formatter.parse(dateString);
-            } catch (ParseException ex) {
-                throw new RuntimeException(ex);
-            }
-        }
-
-        return result;
+        return getDateFromStrictProcess(dateString, "dd.MM.yyyy");
     }
 
     /**
      * Получить дату из строки формата dd/MM/yyyy
      */
     public static Date getDateFromString2(String dateString){
+        return getDateFromStrictProcess(dateString, "dd/MM/yyyy");
+    }
+
+    private static Date getDateFromStrictProcess(String dateString, String pattern){
         Date result = null;
         if(dateString != null) {
-            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            DateFormat formatter = new SimpleDateFormat(pattern);
             try {
                 result = formatter.parse(dateString);
             } catch (ParseException ex) {
