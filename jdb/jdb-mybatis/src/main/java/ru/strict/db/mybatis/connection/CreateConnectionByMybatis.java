@@ -4,9 +4,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import ru.strict.db.core.connections.CreateConnectionBase;
 
-
 /**
- * Конструктор соединения с базой данных, на основе информации переданной в объекте класса HibernateConnectionInfo
+ * Конструктор соединения с базой данных, на основе информации переданной в объекте класса MybatisConnectionInfo
  * <p><b>Пример использования:</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
  *     ...

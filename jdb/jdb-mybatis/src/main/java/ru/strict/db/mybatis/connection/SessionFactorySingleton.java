@@ -14,13 +14,19 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Используется при создании SessionFactory в классе CreateConnectionByMybatis
+ */
 public class SessionFactorySingleton {
 
     private static SqlSessionFactory instance;
     private static DataSource dataSource;
     private static String configFilePath;
 
+    private static MybatisConnectionInfo connectionInfo;
+
     public static void initialize(MybatisConnectionInfo connectionInfo){
+        instance = null;
         if(!ValidateBaseValue.isEmptyOrNull(connectionInfo.getConfigFilePath())){
             configFilePath = connectionInfo.getConfigFilePath();
         }else {
@@ -31,6 +37,7 @@ public class SessionFactorySingleton {
             dataSource.setPassword(connectionInfo.getPassword());
 
             SessionFactorySingleton.dataSource = dataSource;
+            SessionFactorySingleton.connectionInfo = connectionInfo;
         }
     }
 
@@ -44,7 +51,9 @@ public class SessionFactorySingleton {
                 TransactionFactory transactionFactory = new JdbcTransactionFactory();
                 Environment environment = new Environment("development", transactionFactory, dataSource);
                 Configuration configuration = new Configuration(environment);
-                //configuration.addMapper(BlogMapper.class);
+                for(Class mapperClass : connectionInfo.getMappers()) {
+                    configuration.addMapper(mapperClass);
+                }
 
                 instance = new SqlSessionFactoryBuilder().build(configuration);
             }else if(!ValidateBaseValue.isEmptyOrNull(configFilePath)){
@@ -52,8 +61,8 @@ public class SessionFactorySingleton {
                 try {
                     configStream = Resources.getResourceAsStream(configFilePath);
                     instance = new SqlSessionFactoryBuilder().build(configStream);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
                 }
             }
         }

@@ -1,9 +1,13 @@
 package ru.strict.db.mybatis.connection;
 
+import ru.strict.db.mybatis.mappers.sql.MapperSqlBase;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
- * Необходимая информация для создания соединения с базой данных, при использовании Hibernate
+ * Необходимая информация для создания соединения с базой данных, при использовании MyBatis
  * <p><b>Пример использования:</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
  *     ...
@@ -33,6 +37,8 @@ public class MybatisConnectionInfo {
      */
     private String password;
 
+    private List<Class<? extends MapperSqlBase>> mappers;
+
     public MybatisConnectionInfo(String configFilePath) {
         this.configFilePath = configFilePath;
     }
@@ -42,6 +48,7 @@ public class MybatisConnectionInfo {
         this.url = url;
         this.username = username;
         this.password = password;
+        mappers = new ArrayList<>();
     }
 
     public String getConfigFilePath() {
@@ -62,6 +69,18 @@ public class MybatisConnectionInfo {
 
     public String getPassword() {
         return password;
+    }
+
+    public void addMapper(Class<? extends MapperSqlBase> mapperClass){
+        if(mappers == null){
+            throw new UnsupportedOperationException("Fail add mapper class. Adding mapper class is available without use xml-config");
+        }
+
+        mappers.add(mapperClass);
+    }
+
+    public List<Class<? extends MapperSqlBase>> getMappers() {
+        return mappers;
     }
 
     //<editor-fold defaultState="collapsed" desc="Base override">

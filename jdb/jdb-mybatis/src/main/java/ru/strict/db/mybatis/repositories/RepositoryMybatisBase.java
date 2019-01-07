@@ -32,30 +32,6 @@ public abstract class RepositoryMybatisBase
     }
 
     @Override
-    public int readCount(DbRequests requests) {
-        int result = -1;
-        SqlSession session = null;
-        try {
-            session = createConnection();
-            MAPPER mapperMybatis = session.getMapper(getMybatisMapper());
-            String requestsString = requests != null ? requests.getSql() : "";
-            result = mapperMybatis.readCount(requestsString);
-            session.commit();
-        }catch(Exception ex){
-            if(session != null){
-                session.rollback();
-            }
-            throw ex;
-        }finally {
-            if(session != null) {
-                session.close();
-            }
-        }
-
-        return result;
-    }
-
-    @Override
     public DTO create(DTO dto) {
         SqlSession session = null;
         try {
@@ -203,6 +179,30 @@ public abstract class RepositoryMybatisBase
             String requestsString = requests != null ? requests.getSql() : "";
             List<E> entities = mapperMybatis.readAllFill(requestsString);
             result = entities.stream().map(e -> getDtoMapper().map(e)).collect(Collectors.toList());
+            session.commit();
+        }catch(Exception ex){
+            if(session != null){
+                session.rollback();
+            }
+            throw ex;
+        }finally {
+            if(session != null) {
+                session.close();
+            }
+        }
+
+        return result;
+    }
+
+    @Override
+    public int readCount(DbRequests requests) {
+        int result = -1;
+        SqlSession session = null;
+        try {
+            session = createConnection();
+            MAPPER mapperMybatis = session.getMapper(getMybatisMapper());
+            String requestsString = requests != null ? requests.getSql() : "";
+            result = mapperMybatis.readCount(requestsString);
             session.commit();
         }catch(Exception ex){
             if(session != null){
