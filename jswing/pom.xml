@@ -4,11 +4,11 @@
   <parent>
     <groupId>ru.strict</groupId>
     <artifactId>jstrict</artifactId>
-    <version>0.1.26</version>
+    <version>0.1.27</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>jswing</artifactId>
-  <version>0.1.26</version>
+  <version>0.1.27</version>
   <packaging>jar</packaging>
   <name>jswing</name>
   <url>http://maven.apache.org</url>
