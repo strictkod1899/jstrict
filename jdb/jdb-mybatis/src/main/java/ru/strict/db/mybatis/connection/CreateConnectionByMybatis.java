@@ -10,13 +10,10 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import ru.strict.db.core.connections.CreateConnectionBase;
-import ru.strict.db.mybatis.typehandlers.UuidTypeHandler;
 import ru.strict.validates.ValidateBaseValue;
 
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.UUID;
 
 /**
  * Конструктор соединения с базой данных, на основе информации переданной в объекте класса MybatisConnectionInfo
@@ -62,8 +59,6 @@ public class CreateConnectionByMybatis extends CreateConnectionBase<MybatisConne
             for(Class mapperClass : getConnectionSource().getMappers()) {
                 configuration.addMapper(mapperClass);
             }
-
-            configuration.getTypeHandlerRegistry().register(UUID.class, UuidTypeHandler.class);
 
             sessionFactory = new SqlSessionFactoryBuilder().build(configuration);
         }else if(!ValidateBaseValue.isEmptyOrNull(configFilePath)){
