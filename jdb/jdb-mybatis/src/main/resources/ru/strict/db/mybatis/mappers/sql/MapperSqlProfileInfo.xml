@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.strict.db.mybatis.mappers.sql.MapperSqlProfileInfo">
+
+    <resultMap id="profile" type="ru.strict.db.core.entities.EntityProfileInfo">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="surname" column="surname"/>
+        <result property="middlename" column="middlename"/>
+        <result property="userId" column="userx_id"/>
+        <result property="dateBirth" column="datebirth"/>
+        <result property="phone" column="phone"/>
+        <result property="cityId" column="city_id"/>
+    </resultMap>
+
+    <resultMap id="profileFill" type="ru.strict.db.core.entities.EntityProfileInfo" extends="profile">
+        <association property="user"
+                     column="userx_id"
+                     javaType="ru.strict.db.core.entities.EntityUser"
+                     select="ru.strict.db.mybatis.mappers.sql.MapperSqlUser.read"
+                     fetchType="lazy"/>
+        <association property="city"
+                     column="city_id"
+                     javaType="ru.strict.db.core.entities.EntityCity"
+                     select="ru.strict.db.mybatis.mappers.sql.MapperSqlCity.read"
+                     fetchType="lazy"/>
+    </resultMap>
+
+    <insert id="create" parameterType="ru.strict.db.core.entities.EntityProfile">
+        INSERT INTO profile (id, name, surname, middlename, userx_id, datebirth, phone, city_id)
+        VALUES (#{id}, #{name}, #{surname}, #{middlename}, #{userId}, #{dateBirth}, #{phone}, #{cityId})
+    </insert>
+
+    <select id="read" parameterType="java.lang.Object" resultMap="profile">
+        SELECT * FROM profile WHERE id = #{id}
+    </select>
+
+    <select id="readAll" parameterType="String" resultMap="profile">
+        SELECT * FROM profile ${value}
+    </select>
+
+    <update id="update" parameterType="ru.strict.db.core.entities.EntityProfile">
+        UPDATE profile SET name = #{name}, surname = #{surname}, middlename = #{middlename}, userx_id = #{userId},
+        datebirth = #{dateBirth}, phone = #{phone}, city_id = #{cityId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Object">
+        DELETE FROM profile WHERE id = #{id}
+    </delete>
+
+    <select id="readFill" parameterType="java.lang.Object" resultMap="profileFill" >
+        SELECT * FROM profile WHERE id = #{id}
+    </select>
+
+    <select id="readAllFill" parameterType="String" resultMap="profileFill">
+        SELECT * FROM profile ${value}
+    </select>
+
+    <select id="readCount" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM profile ${value}
+    </select>
+</mapper>

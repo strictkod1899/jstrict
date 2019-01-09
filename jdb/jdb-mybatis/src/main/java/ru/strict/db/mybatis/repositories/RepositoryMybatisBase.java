@@ -11,8 +11,12 @@ import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlBase;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlExtension;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public abstract class RepositoryMybatisBase
@@ -34,22 +38,56 @@ public abstract class RepositoryMybatisBase
     @Override
     public DTO create(DTO dto) {
         SqlSession session = null;
-        try {
-            session = createConnection();
-            MAPPER mapperMybatis = session.getMapper(getMybatisMapper());
-            E entity = getDtoMapper().map(dto);
-            mapperMybatis.create(entity);
-            session.commit();
-        }catch(Exception ex){
-            if(session != null){
-                session.rollback();
-            }
-            throw ex;
-        }finally {
-            if(session != null) {
-                session.close();
-            }
+
+        GenerateIdType usingGenerateIdType = getGenerateIdType();
+        if(dto.getId() != null){
+            usingGenerateIdType = GenerateIdType.NONE;
         }
+
+        switch(usingGenerateIdType){
+            case NUMBER:
+                try {
+                    session = createConnection();
+                    MAPPER mapperMybatis = session.getMapper(getMybatisMapper());
+                    E entity = getDtoMapper().map(dto);
+                    mapperMybatis.createGenerateId(entity);
+                    session.commit();
+                    dto.setId(entity.getId());
+                }catch(Exception ex){
+                    if(session != null){
+                        session.rollback();
+                    }
+                    throw ex;
+                }finally {
+                    if(session != null) {
+                        session.close();
+                    }
+                }
+                break;
+            case UUID:
+                dto.setId((ID)UUID.randomUUID());
+            case NONE:
+                try {
+                    session = createConnection();
+                    MAPPER mapperMybatis = session.getMapper(getMybatisMapper());
+                    E entity = getDtoMapper().map(dto);
+                    mapperMybatis.create(entity);
+                    session.commit();
+                }catch(Exception ex){
+                    if(session != null){
+                        session.rollback();
+                    }
+                    throw ex;
+                }finally {
+                    if(session != null) {
+                        session.close();
+                    }
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("Type for generate id is not determine. Entity was not created into");
+        };
+
         return dto;
     }
 
