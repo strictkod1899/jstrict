@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import ru.strict.db.core.common.ConnectionDbInfo;
 import ru.strict.db.core.repositories.IRepositoryExtension;
+import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.connection.MybatisConnectionInfo;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlCountry;
 import ru.strict.utils.UtilResources;
@@ -26,8 +27,8 @@ public class TestRunner {
 
     private static File dbIntegerFile;
     private static File dbUuidFile;
-    public static MybatisConnectionInfo connectionInfoForDbInteger;
-    public static MybatisConnectionInfo connectionInfoForDbUuid;
+    public static CreateConnectionByMybatis createConnectionForDbInteger;
+    public static CreateConnectionByMybatis createConnectionForDbUuid;
     public static List<IRepositoryExtension> repositories;
 
     @BeforeClass
@@ -41,19 +42,24 @@ public class TestRunner {
             throw new NullPointerException("not found uuid-db file");
         }
 
-        connectionInfoForDbInteger = new MybatisConnectionInfo(
+        MybatisConnectionInfo connectionInfoForDbInteger = new MybatisConnectionInfo(
                 ConnectionDbInfo.SQLITE.getDriver(),
                 ConnectionDbInfo.SQLITE.getUrl() + TestRunner.dbIntegerFile.getAbsolutePath(),
                 "",
                 "");
-        connectionInfoForDbUuid = new MybatisConnectionInfo(
+        MybatisConnectionInfo connectionInfoForDbUuid = new MybatisConnectionInfo(
                 ConnectionDbInfo.SQLITE.getDriver(),
                 ConnectionDbInfo.SQLITE.getUrl() + TestRunner.dbUuidFile.getAbsolutePath(),
                 "",
                 "");
 
+
         connectionInfoForDbInteger.addMapper(MapperSqlCountry.class);
         connectionInfoForDbUuid.addMapper(MapperSqlCountry.class);
+
+        createConnectionForDbInteger = new CreateConnectionByMybatis(connectionInfoForDbInteger);
+        createConnectionForDbUuid = new CreateConnectionByMybatis(connectionInfoForDbUuid);
+
         repositories = new ArrayList<>();
     }
 

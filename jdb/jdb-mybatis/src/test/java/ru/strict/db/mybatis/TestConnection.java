@@ -12,8 +12,7 @@ public class TestConnection {
 
     @Test
     public void test(){
-        CreateConnectionByMybatis createConnection = new CreateConnectionByMybatis(TestRunner.connectionInfoForDbInteger);
-        SqlSession connection = createConnection.createConnection();
+        SqlSession connection = TestRunner.createConnectionForDbInteger.createConnection();
         Assert.assertNotNull(connection);
     }
 }
