@@ -1,9 +1,6 @@
 package ru.strict.db.mybatis;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.runners.MethodSorters;
@@ -20,8 +17,8 @@ import java.util.UUID;
 public class TestRepositoryCountry {
 
     private static final Integer STATIC_DTO_ID = 101;
-    private static final String STATIC_DTO_CAPTION = "a1";
-    private static final String STATIC_DTO_UPDATED_CAPTION = "a1-1";
+    private static final String STATIC_DTO_CAPTION = "country1";
+    private static final String STATIC_DTO_UPDATED_CAPTION = "country1-1";
     private static final DtoCountry STATIC_DTO = new DtoCountry<>(STATIC_DTO_ID, STATIC_DTO_CAPTION);
 
     private static IRepositoryNamed<Integer, DtoCountry<Integer>> repositoryNotGenerateId;
@@ -39,14 +36,14 @@ public class TestRepositoryCountry {
 
     @Test
     public void test001CreateGenerateNumberId(){
-        DtoCountry dto = new DtoCountry<>("a2");
+        DtoCountry dto = new DtoCountry<>("country2");
         DtoCountry createdDto = repositoryGenerateNumberId.create(dto);
         Assert.assertNotNull(createdDto.getId());
     }
 
     @Test
     public void test002CreateGenerateUuidId(){
-        DtoCountry dto = new DtoCountry<>(UUID.randomUUID(), "a3");
+        DtoCountry dto = new DtoCountry<>(UUID.randomUUID(), "country3");
         DtoCountry createdDto = repositoryGenerateUuidId.create(dto);
         Assert.assertEquals(dto, createdDto);
     }
@@ -107,7 +104,7 @@ public class TestRepositoryCountry {
 
     @Test
     public void test012CreateOrReadNotExists(){
-        DtoCountry<Integer> newDto = new DtoCountry<>(102, "a4");
+        DtoCountry<Integer> newDto = new DtoCountry<>(102, "country4");
         DtoCountry dto = repositoryGenerateNumberId.createOrRead(newDto);
         Assert.assertEquals(newDto, dto);
     }
@@ -128,7 +125,7 @@ public class TestRepositoryCountry {
 
     @Test
     public void test015CreateOrUpdateNotExists(){
-        DtoCountry<Integer> newDto = new DtoCountry<>(103, "a5");
+        DtoCountry<Integer> newDto = new DtoCountry<>(103, "country5");
         DtoCountry dto = repositoryGenerateNumberId.createOrUpdate(newDto);
         Assert.assertEquals(newDto, dto);
     }

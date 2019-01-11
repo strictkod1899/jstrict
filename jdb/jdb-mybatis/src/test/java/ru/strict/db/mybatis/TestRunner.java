@@ -8,6 +8,7 @@ import ru.strict.db.core.common.ConnectionDbInfo;
 import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.connection.MybatisConnectionInfo;
+import ru.strict.db.mybatis.mappers.sql.MapperSqlCity;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlCountry;
 import ru.strict.utils.UtilResources;
 
@@ -18,7 +19,8 @@ import java.util.List;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         TestConnection.class,
-        TestRepositoryCountry.class
+        TestRepositoryCountry.class,
+        TestRepositoryCity.class
 })
 public class TestRunner {
 
@@ -55,7 +57,9 @@ public class TestRunner {
 
 
         connectionInfoForDbInteger.addMapper(MapperSqlCountry.class);
+        connectionInfoForDbInteger.addMapper(MapperSqlCity.class);
         connectionInfoForDbUuid.addMapper(MapperSqlCountry.class);
+        connectionInfoForDbUuid.addMapper(MapperSqlCity.class);
 
         createConnectionForDbInteger = new CreateConnectionByMybatis(connectionInfoForDbInteger);
         createConnectionForDbUuid = new CreateConnectionByMybatis(connectionInfoForDbUuid);
@@ -65,8 +69,13 @@ public class TestRunner {
 
     @AfterClass
     public static void post(){
+        postProcess();
+    }
+
+    public static void postProcess(){
         for(IRepositoryExtension repository : repositories){
             repository.executeSql("DELETE FROM " + repository.getTableName());
         }
+        repositories.clear();
     }
 }

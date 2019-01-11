@@ -21,6 +21,13 @@
         INSERT INTO city (id, caption, country_id) VALUES (#{id}, #{caption}, #{countryId})
     </insert>
 
+    <insert id="createGenerateId" parameterType="ru.strict.db.core.entities.EntityCity"
+            useGeneratedKeys="true"
+            keyColumn="id"
+            keyProperty="id">
+        INSERT INTO city (caption, country_id) VALUES (#{caption}, #{countryId})
+    </insert>
+
     <select id="read" parameterType="java.lang.Object" resultMap="city">
         SELECT * FROM city WHERE id = #{id}
     </select>
