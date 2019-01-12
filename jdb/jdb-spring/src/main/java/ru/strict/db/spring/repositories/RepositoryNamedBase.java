@@ -38,7 +38,7 @@ public abstract class RepositoryNamedBase
         if(ValidateBaseValue.isEmptyOrNull(caption)){
             throw new NullPointerException("caption for read by name is NULL");
         }
-        DbRequests requests = new DbRequests(getTableName());
+        DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(getTableName(), getColumnWithName(), caption, "="));
 
         DTO result = readAll(requests).stream().findFirst().orElse(null);
@@ -50,7 +50,7 @@ public abstract class RepositoryNamedBase
         if(ValidateBaseValue.isEmptyOrNull(caption)){
             throw new NullPointerException("caption for read all by name is NULL");
         }
-        DbRequests requests = new DbRequests(getTableName());
+        DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(getTableName(), getColumnWithName(), caption, "="));
 
         List<DTO> result = readAll(requests);

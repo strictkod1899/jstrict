@@ -6,6 +6,8 @@ import ru.strict.validates.ValidateBaseValue;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.ArrayList;
 
@@ -16,11 +18,30 @@ public abstract class ConsoleWrapper<M> extends ViewBase<M> implements IInteract
     private String currentMessage;
     private BufferedReader cmdInput;
 
+    private void initialize(){
+        currentMessage = "";
+        defaultCancelValue = "--n";
+    }
+
     public ConsoleWrapper(M model) {
         super(model);
         this.cmdInput = new BufferedReader(new InputStreamReader(System.in));
-        currentMessage = "";
-        defaultCancelValue = "--n";
+        initialize();
+    }
+
+    public ConsoleWrapper(M model, String cmdEncoding) {
+        super(model);
+        try {
+            this.cmdInput = new BufferedReader(
+                    new InputStreamReader(
+                            System.in,
+                            cmdEncoding == null ? Charset.defaultCharset().name() : cmdEncoding
+                    )
+            );
+        } catch (UnsupportedEncodingException ex) {
+            throw new RuntimeException(ex);
+        }
+        initialize();
     }
 
     @Override

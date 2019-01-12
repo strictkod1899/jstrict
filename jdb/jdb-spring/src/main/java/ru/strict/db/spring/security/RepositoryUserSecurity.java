@@ -47,7 +47,7 @@ public class RepositoryUserSecurity<ID>
         // Добавление ролей пользователей
         RepositorySpringBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>> repositoryUserOnRole =
                 new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
-        DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName());
+        DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
         List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
 
@@ -61,7 +61,7 @@ public class RepositoryUserSecurity<ID>
         // Добавления профиля
         RepositorySpringBase<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>> repositoryProfile =
                 new RepositoryProfileInfo<>(getConnectionSource(), GenerateIdType.NONE);
-        requests = new DbRequests(repositoryProfile.getTableName());
+        requests = new DbRequests();
         requests.addWhere(new DbWhereItem(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
         dto.setProfile(repositoryProfile.readAll(requests).stream().findFirst().orElse(null));
         return dto;

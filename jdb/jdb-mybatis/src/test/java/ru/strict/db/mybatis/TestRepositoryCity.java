@@ -14,7 +14,6 @@ import ru.strict.db.mybatis.repositories.RepositoryCountry;
 import java.util.List;
 import java.util.UUID;
 
-@RunWith(JUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRepositoryCity {
 

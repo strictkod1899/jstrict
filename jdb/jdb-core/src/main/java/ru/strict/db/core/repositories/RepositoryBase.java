@@ -117,7 +117,7 @@ public abstract class RepositoryBase
      * <code><pre style="background-color: white; font-family: consolas">
      *      RepositoryJdbcBase<ID, SOURCE, EntityUserOnRole, DtoUserOnRole> repositoryUserOnRole =
      *                 new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
-     *      DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName(), true);
+     *      DbRequests requests = new DbRequests(true);
      *      requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
      *      List<DtoUserOnRole> userOnRoles = repositoryUserOnRole.readAll(requests);
      *
@@ -134,7 +134,7 @@ public abstract class RepositoryBase
      * <code><pre style="background-color: white; font-family: consolas">
      *     RepositoryJdbcBase<ID, SOURCE, EntityCity, DtoCity> repositoryCity =
      *             new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
-     *     DbRequests requests = new DbRequests(repositoryCity.getTableName(), true);
+     *     DbRequests requests = new DbRequests(true);
      *     requests.addWhere(new DbWhereItem(repositoryCity.getTableName(), "country_id", dto.getId(), "="));
      *
      *     List<DtoCity> cities = repositoryCity.readAll(requests);
@@ -184,7 +184,7 @@ public abstract class RepositoryBase
     public boolean isRowExists(ID id) {
         boolean result = false;
 
-        DbRequests requests = new DbRequests(getTableName());
+        DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(getTableName(), getColumnIdName(), id, "="));
 
         int count = readCount(requests);

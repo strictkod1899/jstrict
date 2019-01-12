@@ -17,28 +17,15 @@ public class DbRequests implements IDbRequest {
 
     private DbSort sortRequest;
 
-    /**
-     * Наименование таблицы из конструкции select [SELECT * FROM <tablename>]
-     */
-    private String selectTableName;
-
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public DbRequests(String selectTableName) {
-        this.selectTableName = selectTableName;
+    public DbRequests() {
         joinRequests = new ArrayList<>();
         whereRequests = new DbWhere(WhereType.AND);
     }
 
-    public DbRequests(String selectTableName, WhereType whereType) {
-        this.selectTableName = selectTableName;
+    public DbRequests(WhereType whereType) {
         joinRequests = new ArrayList<>();
         whereRequests = new DbWhere(whereType);
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public String getSelectTableName() {
-        return selectTableName;
     }
     //</editor-fold>
 
@@ -144,8 +131,7 @@ public class DbRequests implements IDbRequest {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DbRequests) {
             DbRequests object = (DbRequests) obj;
-            return Objects.equals(selectTableName, object.getSelectTableName())
-                    && Objects.equals(whereRequests, object.getWhere());
+            return Objects.equals(whereRequests, object.getWhere());
         }else {
             return false;
         }
@@ -153,7 +139,7 @@ public class DbRequests implements IDbRequest {
 
     @Override
     public int hashCode(){
-        return Objects.hash(selectTableName, whereRequests);
+        return Objects.hash(whereRequests);
     }
     //</editor-fold>
 }

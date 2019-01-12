@@ -53,7 +53,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
         try {
             // Добавление ролей пользователей
             repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
-            DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName());
+            DbRequests requests = new DbRequests();
             requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
             List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
 
@@ -66,7 +66,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
 
             // Добавления профиля
             repositoryProfile = new RepositoryProfileInfo<>(getConnectionSource(), GenerateIdType.NONE);
-            requests = new DbRequests(repositoryProfile.getTableName());
+            requests = new DbRequests();
             requests.addWhere(new DbWhereItem(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
             dto.setProfile(repositoryProfile.readAll(requests).stream().findFirst().orElse(null));
         }finally {
@@ -85,7 +85,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
 
     @Override
     public DTO readByEmail(String email) {
-        DbRequests requests = new DbRequests(getTableName());
+        DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(getTableName(), "email", email, "="));
 
         DTO result = readAll(requests).stream().findFirst().orElse(null);

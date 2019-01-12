@@ -37,7 +37,7 @@ public class RepositoryUserFillToken<ID> extends RepositoryUser<ID, DtoUserToken
             // Добавление токенов
             repositoryToken =
                     new RepositoryJWTToken<>(getConnectionSource(), GenerateIdType.NONE);
-            DbRequests requests = new DbRequests(repositoryToken.getTableName());
+            DbRequests requests = new DbRequests();
             requests.addWhere(new DbWhereItem(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));
 
             List<DtoJWTToken<ID>> tokens = repositoryToken.readAll(requests);

@@ -1,8 +1,6 @@
 package ru.strict.utils;
 
-import java.io.File;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URISyntaxException;
 
 /**
@@ -33,5 +31,26 @@ public class UtilSystem {
         }
 
         return result;
+    }
+
+    public static Process executeCommand(String command){
+        try {
+            Process proc = Runtime.getRuntime().exec(command);
+            return proc;
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public static Process executeCommand(Process proc, String command){
+        try {
+            OutputStream out = proc.getOutputStream();
+            out.write(command.getBytes());
+            out.flush();
+            out.close();
+            return proc;
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }

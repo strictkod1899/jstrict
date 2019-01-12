@@ -55,7 +55,7 @@ public class RepositoryJWTToken<ID>
 
     @Override
     public DtoJWTToken<ID> readByAccessToken(String caption){
-        DbRequests requests = new DbRequests(getTableName());
+        DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(getTableName(), "accessToken", caption, "="));
 
         DtoJWTToken<ID> result = readAll(requests).stream().findFirst().orElse(null);
@@ -64,7 +64,7 @@ public class RepositoryJWTToken<ID>
 
     @Override
     public DtoJWTToken<ID> readByRefreshToken(String caption){
-        DbRequests requests = new DbRequests(getTableName());
+        DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(getTableName(), "refreshToken", caption, "="));
 
         DtoJWTToken<ID> result = readAll(requests).stream().findFirst().orElse(null);

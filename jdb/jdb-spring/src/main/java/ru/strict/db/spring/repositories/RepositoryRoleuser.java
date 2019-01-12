@@ -43,7 +43,7 @@ public class RepositoryRoleuser<ID>
         try {
             // Добавление пользователей
             repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
-            DbRequests requests = new DbRequests(repositoryUserOnRole.getTableName());
+            DbRequests requests = new DbRequests();
             requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTableName(), "roleuser_id", dto.getId(), "="));
             List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
 

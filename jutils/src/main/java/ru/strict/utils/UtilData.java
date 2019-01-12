@@ -55,10 +55,14 @@ public class UtilData {
     public static String convertStringToEncode(String value, String defaultEncoding, String encodingOutput){
         String result = null;
         try {
-            if(!ValidateBaseValue.isEmptyOrNull(defaultEncoding)) {
-                result = new String(value.getBytes(defaultEncoding), encodingOutput);
-            }else{
-                result = new String(value.getBytes(), encodingOutput);
+            if(ValidateBaseValue.isEmptyOrNull(encodingOutput)){
+                result = value;
+            } else {
+                if (!ValidateBaseValue.isEmptyOrNull(defaultEncoding)) {
+                    result = new String(value.getBytes(defaultEncoding), encodingOutput);
+                } else {
+                    result = new String(value.getBytes(), encodingOutput);
+                }
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

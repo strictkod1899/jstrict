@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 
-@RunWith(JUnit4.class)
 public class TestConnection {
 
     @Test
