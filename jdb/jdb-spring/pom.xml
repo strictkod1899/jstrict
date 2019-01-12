@@ -4,11 +4,11 @@
   <parent>
     <groupId>ru.strict</groupId>
     <artifactId>jdb</artifactId>
-    <version>0.1.27</version>
+    <version>0.1.28</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>jdb-spring</artifactId>
-  <version>0.1.27</version>
+  <version>0.1.28</version>
   <packaging>jar</packaging>
   <name>jdb-spring</name>
   <url>http://maven.apache.org</url>
