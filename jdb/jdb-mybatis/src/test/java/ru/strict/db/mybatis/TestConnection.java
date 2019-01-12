@@ -3,9 +3,7 @@ package ru.strict.db.mybatis;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
+import ru.strict.db.mybatis.runners.TestRunner;
 
 public class TestConnection {
 

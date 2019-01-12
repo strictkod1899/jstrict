@@ -1,4 +1,4 @@
-package ru.strict.db.mybatis;
+package ru.strict.db.mybatis.runners;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -6,6 +6,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import ru.strict.db.core.common.ConnectionDbInfo;
 import ru.strict.db.core.repositories.IRepositoryExtension;
+import ru.strict.db.mybatis.TestConnection;
+import ru.strict.db.mybatis.TestRepositoryCity;
+import ru.strict.db.mybatis.TestRepositoryCountry;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.connection.MybatisConnectionInfo;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlCity;

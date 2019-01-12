@@ -1,8 +1,6 @@
 package ru.strict.db.mybatis;
 
 import org.junit.*;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.junit.runners.MethodSorters;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoCity;
@@ -10,6 +8,7 @@ import ru.strict.db.core.dto.DtoCountry;
 import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.mybatis.repositories.RepositoryCity;
 import ru.strict.db.mybatis.repositories.RepositoryCountry;
+import ru.strict.db.mybatis.runners.TestRunner;
 
 import java.util.List;
 import java.util.UUID;
@@ -48,6 +47,11 @@ public class TestRepositoryCity {
 
         repositoryCountryNumberId.create(new DtoCountry<>(COUNTRY_NUMBER_ID, COUNTRY_CAPTION));
         repositoryCountryUuidId.create(new DtoCountry<>(COUNTRY_UUID_ID, COUNTRY_CAPTION));
+    }
+
+    @AfterClass
+    public static void post(){
+        TestRunner.postProcess();
     }
 
     @Test

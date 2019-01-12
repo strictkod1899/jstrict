@@ -92,7 +92,7 @@
             <configuration>
               <printSummary>true</printSummary>
               <includes>
-                <include>ru/strict/db/mybatis/**</include>
+                <include>ru/strict/db/mybatis/runners/**</include>
               </includes>
             </configuration>
           </execution>

@@ -1,13 +1,12 @@
 package ru.strict.db.mybatis;
 
 import org.junit.*;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.junit.runners.MethodSorters;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoCountry;
 import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.mybatis.repositories.RepositoryCountry;
+import ru.strict.db.mybatis.runners.TestRunner;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,6 +30,11 @@ public class TestRepositoryCountry {
         repositoryGenerateUuidId = new RepositoryCountry<>(TestRunner.createConnectionForDbUuid, GenerateIdType.UUID);
         TestRunner.repositories.add(repositoryGenerateNumberId);
         TestRunner.repositories.add(repositoryGenerateUuidId);
+    }
+
+    @AfterClass
+    public static void post(){
+        TestRunner.postProcess();
     }
 
     @Test
