@@ -6,15 +6,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import ru.strict.db.core.common.ConnectionDbInfo;
 import ru.strict.db.core.repositories.IRepositoryExtension;
-import ru.strict.db.mybatis.TestConnection;
-import ru.strict.db.mybatis.TestRepositoryCity;
-import ru.strict.db.mybatis.TestRepositoryCountry;
-import ru.strict.db.mybatis.TestRepositoryRoleuser;
+import ru.strict.db.mybatis.*;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.connection.MybatisConnectionInfo;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlCity;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlCountry;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlRoleuser;
+import ru.strict.db.mybatis.mappers.sql.MapperSqlUser;
 import ru.strict.utils.UtilResources;
 
 import java.io.File;
@@ -26,7 +24,8 @@ import java.util.List;
         TestConnection.class,
         TestRepositoryCountry.class,
         TestRepositoryCity.class,
-        TestRepositoryRoleuser.class
+        TestRepositoryRoleuser.class,
+        TestRepositoryUser.class
 })
 public class TestRunner {
 
@@ -65,9 +64,11 @@ public class TestRunner {
         connectionInfoForDbInteger.addMapper(MapperSqlCountry.class);
         connectionInfoForDbInteger.addMapper(MapperSqlCity.class);
         connectionInfoForDbInteger.addMapper(MapperSqlRoleuser.class);
+        connectionInfoForDbInteger.addMapper(MapperSqlUser.class);
         connectionInfoForDbUuid.addMapper(MapperSqlCountry.class);
         connectionInfoForDbUuid.addMapper(MapperSqlCity.class);
         connectionInfoForDbUuid.addMapper(MapperSqlRoleuser.class);
+        connectionInfoForDbUuid.addMapper(MapperSqlUser.class);
 
         createConnectionForDbInteger = new CreateConnectionByMybatis(connectionInfoForDbInteger);
         createConnectionForDbUuid = new CreateConnectionByMybatis(connectionInfoForDbUuid);

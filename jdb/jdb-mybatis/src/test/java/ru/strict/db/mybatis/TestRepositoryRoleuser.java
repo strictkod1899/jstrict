@@ -49,7 +49,7 @@ public class TestRepositoryRoleuser {
 
     @Test
     public void test002CreateGenerateUuidId(){
-        DtoRoleuser dto = new DtoRoleuser<>(UUID.randomUUID(), "role3", null);
+        DtoRoleuser dto = new DtoRoleuser<>("role3", null);
         DtoRoleuser createdDto = repositoryGenerateUuidId.create(dto);
         Assert.assertNotNull(createdDto.getId());
     }
