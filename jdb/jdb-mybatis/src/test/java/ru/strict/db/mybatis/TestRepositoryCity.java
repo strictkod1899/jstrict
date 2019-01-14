@@ -63,9 +63,9 @@ public class TestRepositoryCity {
 
     @Test
     public void test002CreateGenerateUuidId(){
-        DtoCity dto = new DtoCity<>(UUID.randomUUID(), "city3", COUNTRY_UUID_ID);
+        DtoCity dto = new DtoCity<>("city3", COUNTRY_UUID_ID);
         DtoCity createdDto = repositoryGenerateUuidId.create(dto);
-        Assert.assertEquals(dto, createdDto);
+        Assert.assertNotNull(createdDto.getId());
     }
 
     @Test

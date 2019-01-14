@@ -21,6 +21,13 @@
         INSERT INTO roleuser (id, code, description) VALUES (#{id}, #{code}, #{description})
     </insert>
 
+    <insert id="createGenerateId" parameterType="ru.strict.db.core.entities.EntityRoleuser"
+            useGeneratedKeys="true"
+            keyColumn="id"
+            keyProperty="id">
+        INSERT INTO roleuser (code, description) VALUES (#{code}, #{description})
+    </insert>
+
     <select id="read" parameterType="java.lang.Object" resultMap="roleuser">
         SELECT * FROM roleuser WHERE id = #{id}
     </select>
