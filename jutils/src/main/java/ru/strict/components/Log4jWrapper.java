@@ -4,13 +4,23 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.RollingFileAppender;
+import ru.strict.utils.UtilSystem;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 
 /**
- * Логирование. Класс инициализирует конфигурацию по-умолчанию для консольного вывода и записи в файл 'logs/report.log'
+ * Логирование с использованием Log4j.
+ * Класс инициализирует конфигурацию по-умолчанию для консольного вывода и записи в файл 'logs/report.log'
  */
-public class Log4jWrapper implements ILogger{
+public class Log4jWrapper implements ILogger {
+
+    private static final String DEFAULT_PATTERN = "%d{dd.MM.yyyy HH:mm:ss,SSS} [%p] %c{1}/%M:%L - %m%n";
+    private static final String DEFAULT_FOLDER_NAME = "logs";
+    private static final String DEFAULT_LOG_FILE_NAME = "report.log";
+    private static final String DEFAULT_MAX_LOG_FILE_SIZE = "1024KB";
+    private static final int DEFAULT_MAX_BACKUP_INDEX = 10;
 
     private Logger wrappedObject;
     private LoggerConfiguration configuration;
@@ -31,6 +41,11 @@ public class Log4jWrapper implements ILogger{
         initialize();
     }
     //</editor-fold>
+
+    /**
+     * Переопределить этот метод для настройки конфигурации в наследующих классах
+     */
+    protected void prepareConfiguration(LoggerConfiguration configuration){}
 
     //<editor-fold defaultState="collapsed" desc="Log methods">
     /**
@@ -188,12 +203,19 @@ public class Log4jWrapper implements ILogger{
      */
     private void defaultConfiguration(){
         if(configuration != null) {
-            configuration.setPattern("%d{dd.MM.yyyy HH:mm:ss,SSS} [%p] %c{1}/%M:%L - %m%n");
-            configuration.setLogDirectoryPath("logs");
-            configuration.setLogFileName("report.log");
-            configuration.setMaxFileSize("1024KB");
-            configuration.setMaxBackupIndex(10);
+            configuration.setPattern(DEFAULT_PATTERN);
+            try {
+                configuration.setLogDirectoryPath(UtilSystem.getPathByClass(this.getClass()) + File.separator + DEFAULT_FOLDER_NAME);
+            } catch (URISyntaxException ex) {
+                throw new RuntimeException(ex);
+            }
+            configuration.setLogFileName(DEFAULT_LOG_FILE_NAME);
+            configuration.setMaxFileSize(DEFAULT_MAX_LOG_FILE_SIZE);
+            configuration.setMaxBackupIndex(DEFAULT_MAX_BACKUP_INDEX);
+            configuration.setLogToConsole(true);
+            configuration.setLogToFile(true);
 
+            prepareConfiguration(configuration);
             configuration();
         }
     }
@@ -206,43 +228,25 @@ public class Log4jWrapper implements ILogger{
             PatternLayout layout = new PatternLayout();
             layout.setConversionPattern(configuration.getPattern());
 
-
-            ConsoleAppender consoleAppender = new ConsoleAppender();
-            consoleAppender.setLayout(layout);
-            consoleAppender.activateOptions();
-
-
-            RollingFileAppender fileAppender = new RollingFileAppender();
-            fileAppender.setFile(configuration.getLogDirectoryPath() + "\\" + configuration.getLogFileName());
-            fileAppender.setMaxFileSize(configuration.getMaxFileSize());
-            fileAppender.setMaxBackupIndex(configuration.getMaxBackupIndex());
-            fileAppender.setLayout(layout);
-            fileAppender.activateOptions();
-
             wrappedObject.removeAllAppenders();
-            wrappedObject.addAppender(consoleAppender);
-            wrappedObject.addAppender(fileAppender);
+
+            if(configuration.isLogToConsole()){
+                ConsoleAppender consoleAppender = new ConsoleAppender();
+                consoleAppender.setLayout(layout);
+                consoleAppender.activateOptions();
+                wrappedObject.addAppender(consoleAppender);
+            }
+
+            if(configuration.isLogToFile()) {
+                RollingFileAppender fileAppender = new RollingFileAppender();
+                fileAppender.setFile(configuration.getLogDirectoryPath() + "\\" + configuration.getLogFileName());
+                fileAppender.setMaxFileSize(configuration.getMaxFileSize());
+                fileAppender.setMaxBackupIndex(configuration.getMaxBackupIndex());
+                fileAppender.setLayout(layout);
+                fileAppender.activateOptions();
+                wrappedObject.addAppender(fileAppender);
+            }
         }
-    }
-
-    public void setPattern(String pattern) {
-        configuration.setPattern(pattern);
-    }
-
-    public void setLogDirectoryPath(String logDirectoryPath) {
-        configuration.setLogDirectoryPath(logDirectoryPath);
-    }
-
-    public void setMaxFileSize(String maxFileSize) {
-        configuration.setMaxFileSize(maxFileSize);
-    }
-
-    public void setMaxBackupIndex(int maxBackupIndex) {
-        configuration.setMaxBackupIndex(maxBackupIndex);
-    }
-
-    public void setLogFileName(String logFileName) {
-        configuration.setLogFileName(logFileName);
     }
     //</editor-fold>
 
