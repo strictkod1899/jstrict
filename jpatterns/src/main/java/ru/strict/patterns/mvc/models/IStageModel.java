@@ -10,4 +10,7 @@ public interface IStageModel<T> {
     List<Error> getErrors();
     void addError(Error error);
     void cleanErrors();
+    List<String> getWarnings();
+    void addWarning(String warning);
+    void cleanWarnings();
 }

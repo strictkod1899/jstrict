@@ -9,9 +9,11 @@ public class ModelBase<STAGE> implements IStageModel<STAGE>, IResetModel{
 
     private STAGE currentStage;
     private List<Error> errors;
+    private List<String> warnings;
 
     public ModelBase() {
         errors = new ArrayList<>();
+        warnings = new ArrayList<>();
     }
 
     @Override
@@ -44,5 +46,22 @@ public class ModelBase<STAGE> implements IStageModel<STAGE>, IResetModel{
     @Override
     public void cleanErrors() {
         errors.clear();
+    }
+
+    @Override
+    public List<String> getWarnings() {
+        return warnings;
+    }
+
+    @Override
+    public void addWarning(String warning) {
+        if(warning != null){
+            warnings.add(warning);
+        }
+    }
+
+    @Override
+    public void cleanWarnings() {
+        warnings.clear();
     }
 }
