@@ -126,6 +126,8 @@ public class UtilReflection {
             if (superClass == Object.class || !result) {
                 result = isInterface(checkClass, startClass);
             }
+        } else {
+            result = isInterface(checkClass, startClass);
         }
 
         return result;

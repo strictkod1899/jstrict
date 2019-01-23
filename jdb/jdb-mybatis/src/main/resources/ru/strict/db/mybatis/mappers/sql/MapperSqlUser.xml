@@ -37,6 +37,14 @@
         VALUES (#{id}, #{username}, #{email}, #{passwordEncode}, #{isBlocked}, #{isDeleted}, #{isConfirmEmail})
     </insert>
 
+    <insert id="createGenerateId" parameterType="ru.strict.db.core.entities.EntityUser"
+            useGeneratedKeys="true"
+            keyColumn="id"
+            keyProperty="id">
+        INSERT INTO userx (username, email, passwordencode, isBlocked, isDeleted, isConfirmEmail)
+        VALUES (#{username}, #{email}, #{passwordEncode}, #{isBlocked}, #{isDeleted}, #{isConfirmEmail})
+    </insert>
+
     <select id="read" parameterType="java.lang.Object" resultMap="user">
         SELECT * FROM userx WHERE id = #{id}
     </select>

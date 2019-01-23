@@ -3,13 +3,15 @@ package ru.strict.components;
 /**
  * Конфигурация логирования. Используется в классе Log4jWrapper
  */
-class LoggerConfiguration {
+public class LoggerConfiguration {
 
     private String pattern;
     private String logDirectoryPath;
     private String logFileName;
     private String maxFileSize;
     private int maxBackupIndex;
+    private boolean isLogToConsole;
+    private boolean isLogToFile;
 
     public String getPattern() {
         return pattern;
@@ -49,5 +51,21 @@ class LoggerConfiguration {
 
     public void setLogFileName(String logFileName) {
         this.logFileName = logFileName;
+    }
+
+    public boolean isLogToConsole() {
+        return isLogToConsole;
+    }
+
+    public void setLogToConsole(boolean logToConsole) {
+        isLogToConsole = logToConsole;
+    }
+
+    public boolean isLogToFile() {
+        return isLogToFile;
+    }
+
+    public void setLogToFile(boolean logToFile) {
+        isLogToFile = logToFile;
     }
 }
