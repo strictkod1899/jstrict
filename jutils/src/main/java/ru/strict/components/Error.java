@@ -1,5 +1,8 @@
 package ru.strict.components;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 /**
  * Ошибка
  */
@@ -40,8 +43,45 @@ public class Error implements IError {
         this.errorMessage = errorMessage;
     }
 
+    public static Collection<Error> filterByCode(Collection<Error> errors, String code){
+        if(errors == null || code == null){
+            return null;
+        }
+
+        return errors.stream()
+                .filter(error -> error.getCode().equals(code))
+                .collect(Collectors.toList());
+    }
+
+    public static Collection<Error> filterByCode(Collection<Error> errors, ErrorCode code){
+        if(code == null){
+            return null;
+        }
+
+        return filterByCode(errors, code.getErrorCode());
+    }
+
+    public static Collection<String> filterByCodeToString(Collection<Error> errors, String code){
+        if(errors == null || code == null){
+            return null;
+        }
+
+        return errors.stream()
+                .filter(error -> error.getCode().equals(code))
+                .map(error -> error.getErrorMessage())
+                .collect(Collectors.toList());
+    }
+
+    public static Collection<String> filterByCodeToString(Collection<Error> errors, ErrorCode code){
+        if(code == null){
+            return null;
+        }
+
+        return filterByCodeToString(errors, code.getErrorCode());
+    }
+
     @Override
     public String toString() {
-        return errorMessage;
+        return String.format("[%s] %s", code, errorMessage);
     }
 }
