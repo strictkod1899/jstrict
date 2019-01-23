@@ -17,6 +17,11 @@ public class Error implements IError {
         this.errorMessage = errorMessage;
     }
 
+    public Error(ErrorCode code, String errorMessage) {
+        this.code = code.getErrorCode();
+        this.errorMessage = errorMessage;
+    }
+
     @Override
     public String getCode() {
         return code;
