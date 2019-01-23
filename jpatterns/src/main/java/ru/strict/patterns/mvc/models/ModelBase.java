@@ -47,7 +47,7 @@ public class ModelBase<STAGE> implements IStageModel<STAGE>, IResetModel{
     @Override
     public void addErrors(Collection<Error> errors) {
         if(errors != null){
-            errors.addAll(errors);
+            this.errors.addAll(errors);
         }
     }
 
@@ -71,7 +71,7 @@ public class ModelBase<STAGE> implements IStageModel<STAGE>, IResetModel{
     @Override
     public void addWarnings(Collection<String> warnings) {
         if(warnings != null){
-            warnings.addAll(warnings);
+            this.warnings.addAll(warnings);
         }
     }
 
