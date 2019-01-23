@@ -3,6 +3,7 @@ package ru.strict.patterns.mvc.models;
 import ru.strict.components.Error;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ModelBase<STAGE> implements IStageModel<STAGE>, IResetModel{
@@ -44,6 +45,13 @@ public class ModelBase<STAGE> implements IStageModel<STAGE>, IResetModel{
     }
 
     @Override
+    public void addErrors(Collection<Error> errors) {
+        if(errors != null){
+            errors.addAll(errors);
+        }
+    }
+
+    @Override
     public void cleanErrors() {
         errors.clear();
     }
@@ -57,6 +65,13 @@ public class ModelBase<STAGE> implements IStageModel<STAGE>, IResetModel{
     public void addWarning(String warning) {
         if(warning != null){
             warnings.add(warning);
+        }
+    }
+
+    @Override
+    public void addWarnings(Collection<String> warnings) {
+        if(warnings != null){
+            warnings.addAll(warnings);
         }
     }
 
