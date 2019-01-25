@@ -125,12 +125,15 @@ public class UtilProperties {
             prop.load(inputStream);
             // Получаем свойство
             String result = null;
-            if(encodingFile != null && encodingOutput != null) {
-                result = new String(prop.getProperty(caption).getBytes(encodingFile), encodingOutput);
-            }else if(encodingFile == null && encodingOutput != null){
-                result = new String(prop.getProperty(caption).getBytes(), encodingOutput);
-            }else{
-                result = prop.getProperty(caption);
+            String propValue = prop.getProperty(caption);
+            if(propValue != null) {
+                if (encodingFile != null && encodingOutput != null) {
+                    result = new String(propValue.getBytes(encodingFile), encodingOutput);
+                } else if (encodingFile == null && encodingOutput != null) {
+                    result = new String(propValue.getBytes(), encodingOutput);
+                } else {
+                    result = propValue;
+                }
             }
             return result;
         } catch (IOException ex) {
