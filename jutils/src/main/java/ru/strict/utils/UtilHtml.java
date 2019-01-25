@@ -1,12 +1,14 @@
 package ru.strict.utils;
 
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import ru.strict.validates.ValidateBaseValue;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class UtilHtml {
 
@@ -64,6 +66,17 @@ public class UtilHtml {
         }
 
         return getTag(page, selector);
+    }
+
+    /**
+     * Конвертировать html в pdf
+     */
+    public static void convertToPdf(String sourceHtmlFilePath, String targetPdfFilePath) throws IOException, DocumentException {
+        com.itextpdf.text.Document document = new com.itextpdf.text.Document();
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(targetPdfFilePath));
+        document.open();
+        XMLWorkerHelper.getInstance().parseXHtml(writer, document, new FileInputStream(sourceHtmlFilePath));
+        document.close();
     }
 
     private static Elements getTag(Document page, String selector){
