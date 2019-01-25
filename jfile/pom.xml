@@ -33,6 +33,26 @@
       <version>2.0.1</version>
     </dependency>
     <dependency>
+      <groupId>com.itextpdf</groupId>
+      <artifactId>itextpdf</artifactId>
+      <version>5.5.13</version>
+    </dependency>
+    <dependency>
+      <groupId>org</groupId>
+      <artifactId>jaudiotagger</artifactId>
+      <version>2.0.3</version>
+    </dependency>
+    <dependency>
+      <groupId>javazoom</groupId>
+      <artifactId>jlayer</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.kursx</groupId>
+      <artifactId>parser-fb2</artifactId>
+      <version>0.1.0</version>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
     </dependency>
