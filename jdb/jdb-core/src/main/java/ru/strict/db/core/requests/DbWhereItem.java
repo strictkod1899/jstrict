@@ -96,7 +96,8 @@ public class DbWhereItem extends DbWhereBase {
                     || templateSymbol.getPointTemplateSymbol()== PointTemplateSymbol.BOTH
                     ?templateSymbol.getTemplateSymbol():"") : "") + "'";
         } else {
-            result = getTableName() + "." + columnName + " " + operator + " " + columnValue;
+            result = getTableName() + "." + columnName + " " + operator + " "
+                    + (columnValue == null ? "" : columnValue);
         }
         return result;
     }
