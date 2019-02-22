@@ -1,7 +1,10 @@
 package ru.strict.utils;
 
+import ru.strict.components.OSType;
+
 import java.io.*;
 import java.net.URISyntaxException;
+import java.util.Locale;
 
 /**
  * Системные операции
@@ -52,5 +55,22 @@ public class UtilSystem {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    public static OSType getOperatingSystemType() {
+        OSType result = null;
+        if (result == null) {
+            String OS = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
+            if ((OS.indexOf("mac") >= 0) || (OS.indexOf("darwin") >= 0)) {
+                result = OSType.MAC_OS;
+            } else if (OS.indexOf("win") >= 0) {
+                result = OSType.WINDOWS;
+            } else if (OS.indexOf("nux") >= 0) {
+                result = OSType.LINUX;
+            } else {
+                result = OSType.OTHER;
+            }
+        }
+        return result;
     }
 }
