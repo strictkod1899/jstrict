@@ -11,14 +11,35 @@ import org.apache.http.message.BasicNameValuePair;
 import ru.strict.validates.ValidateBaseValue;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class UtilNet {
+
+    /**
+     * Проверить соединение с сайтом
+     */
+    public static boolean checkConnect(String url) {
+        return checkConnect(url, 3000);
+    }
+
+    /**
+     * Проверить соединение с сайтом
+     */
+    public static boolean checkConnect(String url, int timeout) {
+        try{
+            URL myUrl = new URL(url);
+            URLConnection connection = myUrl.openConnection();
+            connection.setConnectTimeout(timeout);
+            connection.connect();
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
+    }
 
     /**
      * Получить html страницу по url в кодировке UTF-8
