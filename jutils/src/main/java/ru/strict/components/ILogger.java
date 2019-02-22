@@ -8,7 +8,7 @@ package ru.strict.components;
      * @param format Сообщение для String.format
      * @param args Аргументы для String.format
      */
-     void trace(String format, String...args);
+     void trace(String format, Object...args);
 
     /**
      * Информационное сообщение логирования для Debug-режима
@@ -21,7 +21,7 @@ package ru.strict.components;
      * @param format Сообщение для String.format
      * @param args Аргументы для String.format
      */
-     void debug(String format, String...args);
+     void debug(String format, Object...args);
 
     /**
      * Информационное сообщение логирования
@@ -34,7 +34,7 @@ package ru.strict.components;
      * @param format Сообщение для String.format
      * @param args Аргументы для String.format
      */
-     void info(String format, String...args);
+     void info(String format, Object...args);
 
     /**
      * Предупреждающее сообщения логирования
@@ -47,7 +47,7 @@ package ru.strict.components;
      * @param format Сообщение для String.format
      * @param args Аргументы для String.format
      */
-     void warn(String format, String...args);
+     void warn(String format, Object...args);
 
 
      /**
@@ -103,7 +103,7 @@ package ru.strict.components;
      * @param format Сообщение для String.format
      * @param args Аргументы для String.format
      */
-     void error(String format, String...args);
+     void error(String format, Object...args);
 
     /**
      * Логирование исключения
@@ -137,5 +137,5 @@ package ru.strict.components;
      * @param format Сообщение для String.format
      * @param args Аргументы для String.format
      */
-     void fatal(String format, String...args);
+     void fatal(String format, Object...args);
 }

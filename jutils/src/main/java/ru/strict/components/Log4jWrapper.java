@@ -63,7 +63,7 @@ public class Log4jWrapper implements ILogger {
      * @param args Аргументы для String.format
      */
     @Override
-    public void trace(String format, String...args){
+    public void trace(String format, Object...args){
         wrappedObject.trace(String.format(format, args));
     }
 
@@ -82,7 +82,7 @@ public class Log4jWrapper implements ILogger {
      * @param args Аргументы для String.format
      */
     @Override
-    public void debug(String format, String...args){
+    public void debug(String format, Object...args){
         wrappedObject.debug(String.format(format, args));
     }
 
@@ -101,7 +101,7 @@ public class Log4jWrapper implements ILogger {
      * @param args Аргументы для String.format
      */
     @Override
-    public void info(String format, String...args){
+    public void info(String format, Object...args){
         wrappedObject.info(String.format(format, args));
     }
 
@@ -128,7 +128,7 @@ public class Log4jWrapper implements ILogger {
     }
 
     @Override
-    public void warn(String format, String...args){
+    public void warn(String format, Object...args){
         wrappedObject.warn(String.format(format, args));
     }
 
@@ -155,7 +155,7 @@ public class Log4jWrapper implements ILogger {
      * @param args Аргументы для String.format
      */
     @Override
-    public void error(String format, String...args){
+    public void error(String format, Object...args){
         wrappedObject.error(String.format(format, args));
     }
 
@@ -186,7 +186,7 @@ public class Log4jWrapper implements ILogger {
      * @param args Аргументы для String.format
      */
     @Override
-    public void fatal(String format, String...args){
+    public void fatal(String format, Object...args){
         wrappedObject.fatal(String.format(format, args));
     }
     //</editor-fold>
