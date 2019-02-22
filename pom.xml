@@ -25,6 +25,7 @@
     <module>jneuralnetwork</module>
     <module>ioc</module>
     <module>installer</module>
+    <module>joffice</module>
     <module>jmq</module>
   </modules>
   <!-- Переместить в корневой pom.xml проекта-->
@@ -109,6 +110,11 @@
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>installer</artifactId>
+        <version>0.1.29</version>
+      </dependency>
+      <dependency>
+        <groupId>ru.strict</groupId>
+        <artifactId>joffice</artifactId>
         <version>0.1.29</version>
       </dependency>
       <dependency>
