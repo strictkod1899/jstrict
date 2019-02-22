@@ -5,7 +5,7 @@ import ru.strict.validates.ValidateBaseValue;
 
 import java.io.File;
 
-public abstract class PropertiesResourceFileReader extends PropertiesFileReader {
+public abstract class PropertiesResourceFile extends PropertiesFile {
 
     private String resourcesFilePath;
     private String targetFilePath;
@@ -24,17 +24,17 @@ public abstract class PropertiesResourceFileReader extends PropertiesFileReader 
         this.targetFilePath = targetFilePath;
     }
 
-    public PropertiesResourceFileReader(String resourcesFilePath) {
+    public PropertiesResourceFile(String resourcesFilePath) {
         super(resourcesFilePath);
         initialize(resourcesFilePath, null);
     }
 
-    public PropertiesResourceFileReader(String resourcesFilePath, String suffix) {
+    public PropertiesResourceFile(String resourcesFilePath, String suffix) {
         super(resourcesFilePath, suffix);
         initialize(resourcesFilePath, null);
     }
 
-    public PropertiesResourceFileReader(String resourcesFilePath, String suffix, String targetFilePath) {
+    public PropertiesResourceFile(String resourcesFilePath, String suffix, String targetFilePath) {
         super(
                 ValidateBaseValue.isEmptyOrNull(targetFilePath) ? resourcesFilePath : targetFilePath,
                 suffix

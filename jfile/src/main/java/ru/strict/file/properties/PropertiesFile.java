@@ -3,9 +3,11 @@ package ru.strict.file.properties;
 import ru.strict.utils.UtilProperties;
 import ru.strict.validates.ValidateBaseValue;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Objects;
 
-public abstract class PropertiesFileReader implements AutoCloseable{
+public abstract class PropertiesFile implements AutoCloseable{
 
     private String pathToDirectory;
     private String propertiesFileName;
@@ -39,11 +41,11 @@ public abstract class PropertiesFileReader implements AutoCloseable{
         initializePathToDirectory();
     }
 
-    public PropertiesFileReader(String propertiesFileName) {
+    public PropertiesFile(String propertiesFileName) {
         initialize(propertiesFileName, null);
     }
 
-    public PropertiesFileReader(String propertiesFileName, String suffix) {
+    public PropertiesFile(String propertiesFileName, String suffix) {
         initialize(propertiesFileName, suffix);
     }
 
@@ -75,9 +77,14 @@ public abstract class PropertiesFileReader implements AutoCloseable{
     }
 
     public String readValue(String key, String encodingFile, String encodingOutput){
-        String result = UtilProperties.getValue(getPathToFileWithSuffix(), key, encodingFile, encodingOutput);
+        String result = null;
+        if(Files.exists(Paths.get(getPathToFileWithSuffix()))) {
+            result = UtilProperties.getValue(getPathToFileWithSuffix(), key, encodingFile, encodingOutput);
+        }
         if(ValidateBaseValue.isEmptyOrNull(result)){
-            result = UtilProperties.getValue(getPathToFile(), key, encodingFile, encodingOutput);
+            if(Files.exists(Paths.get(getPathToFile()))) {
+                result = UtilProperties.getValue(getPathToFile(), key, encodingFile, encodingOutput);
+            }
         }
         return result;
     }
@@ -129,8 +136,8 @@ public abstract class PropertiesFileReader implements AutoCloseable{
 
     @Override
     public boolean equals(Object obj){
-        if(obj!=null && obj instanceof PropertiesFileReader){
-            PropertiesFileReader object = (PropertiesFileReader) obj;
+        if(obj!=null && obj instanceof PropertiesFile){
+            PropertiesFile object = (PropertiesFile) obj;
             return Objects.equals(pathToDirectory, object.pathToDirectory)
                     && Objects.equals(propertiesFileName, object.propertiesFileName)
                     && Objects.equals(suffix, object.suffix);

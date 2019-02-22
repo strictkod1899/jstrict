@@ -1,6 +1,6 @@
 package ru.strict.file.properties;
 
-public class AppConfig extends PropertiesResourceFileReader {
+public class AppConfig extends PropertiesResourceFile {
 
     public AppConfig() {
         super("app", "development");

@@ -2,13 +2,13 @@ package ru.strict.file.properties;
 
 import java.io.File;
 
-public class DefaultPropertiesFileReader extends PropertiesFileReader {
+public class DefaultPropertiesFile extends PropertiesFile {
 
-    public DefaultPropertiesFileReader(String propertiesFilePath) {
+    public DefaultPropertiesFile(String propertiesFilePath) {
         super(propertiesFilePath);
     }
 
-    public DefaultPropertiesFileReader(String propertiesFilePath, String suffix) {
+    public DefaultPropertiesFile(String propertiesFilePath, String suffix) {
         super(propertiesFilePath, suffix);
     }
 
