@@ -38,6 +38,13 @@ public class ModelBase<STAGE> implements IStageModel<STAGE>, IResetModel{
     }
 
     @Override
+    public List<Error> popErrors() {
+        List<Error> result = new ArrayList<>(errors);
+        cleanErrors();
+        return result;
+    }
+
+    @Override
     public void addError(Error error) {
         if(error != null){
             errors.add(error);
@@ -59,6 +66,13 @@ public class ModelBase<STAGE> implements IStageModel<STAGE>, IResetModel{
     @Override
     public List<String> getWarnings() {
         return warnings;
+    }
+
+    @Override
+    public List<String> popWarnings() {
+        List<String> result = new ArrayList<>(warnings);
+        cleanWarnings();
+        return result;
     }
 
     @Override
