@@ -18,6 +18,8 @@ import java.util.UUID;
  *     WHERE userx.id = 1
  *     WHERE userx.name LIKE 'Aleks%'
  * </pre></code>
+ * Если, необходмо использовать IS NULL, тогда columnValue передается null и operator указывается 'IS NULL'.
+ * При передаче columnValue равным null, это значение будет игнорироваться
  */
 public class DbWhereItem extends DbWhereBase {
     /**
