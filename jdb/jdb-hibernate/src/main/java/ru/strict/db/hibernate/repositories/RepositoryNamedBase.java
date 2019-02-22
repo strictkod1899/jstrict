@@ -7,6 +7,7 @@ import ru.strict.db.hibernate.entities.EntityBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
+import ru.strict.validates.ValidateBaseValue;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -37,6 +38,9 @@ public abstract class RepositoryNamedBase
 
     @Override
     public DTO readByName(String caption){
+        if(ValidateBaseValue.isEmptyOrNull(caption)){
+            throw new NullPointerException("caption for read by name is NULL");
+        }
         DTO result = null;
         Session session = null;
         EntityManagerFactory entityManagerFactory = null;
@@ -81,6 +85,9 @@ public abstract class RepositoryNamedBase
 
     @Override
     public List<DTO> readAllByName(String caption){
+        if(ValidateBaseValue.isEmptyOrNull(caption)){
+            throw new NullPointerException("caption for read by name is NULL");
+        }
         List<DTO> result = new ArrayList<>();
         Session session = null;
         EntityManagerFactory entityManagerFactory = null;

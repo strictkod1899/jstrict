@@ -10,6 +10,7 @@ import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.core.requests.WhereType;
+import ru.strict.validates.ValidateBaseValue;
 
 import java.sql.Connection;
 import java.util.List;
@@ -36,6 +37,9 @@ public abstract class RepositoryNamedBase
 
     @Override
     public DTO readByName(String caption){
+        if(ValidateBaseValue.isEmptyOrNull(caption)){
+            throw new NullPointerException("caption for read by name is NULL");
+        }
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(getTableName(), getColumnWithName(), caption, "="));
 
@@ -45,6 +49,9 @@ public abstract class RepositoryNamedBase
 
     @Override
     public List<DTO> readAllByName(String caption){
+        if(ValidateBaseValue.isEmptyOrNull(caption)){
+            throw new NullPointerException("caption for read by name is NULL");
+        }
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(getTableName(), getColumnWithName(), caption, "="));
 
