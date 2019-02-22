@@ -13,7 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-public class XmlManager implements AutoCloseable{
+public class XmlFile implements AutoCloseable{
 
     private File xmlFile;
     private SAXBuilder parser;
@@ -23,12 +23,12 @@ public class XmlManager implements AutoCloseable{
 
     private Element rootElement;
 
-    public XmlManager(File xmlFile, String rootElementName) throws IOException {
+    public XmlFile(File xmlFile, String rootElementName) throws IOException {
         this.xmlFile = xmlFile;
         createConnection(rootElementName);
     }
 
-    public XmlManager(String xmlFilePath, String rootElementName) throws IOException {
+    public XmlFile(String xmlFilePath, String rootElementName) throws IOException {
         this(new File(xmlFilePath), rootElementName);
     }
 
