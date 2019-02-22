@@ -1,6 +1,6 @@
 package ru.strict.neuralnetwork.functions;
 
-public class LeanerFunction extends ActivateFunction {
+public class LinearFunction implements IActivateFunction {
 
     @Override
     public float calc(float value) {

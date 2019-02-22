@@ -1,11 +1,11 @@
-package ru.strict.neuralnetwork.data;
+package ru.strict.neuralnetwork.networks;
 
 import java.util.Objects;
 
 /**
  * Синапс - связь между двумя нейронами
  */
-public class Synapse {
+class Synapse {
     /**
      * Нейрон от которого поступают входные значения
      */
@@ -20,7 +20,7 @@ public class Synapse {
     private float weight;
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    public Synapse(Neuron sourceNeuron, Neuron targetNeuron, float weight) {
+    Synapse(Neuron sourceNeuron, Neuron targetNeuron, float weight) {
         this.sourceNeuron = sourceNeuron;
         this.targetNeuron = targetNeuron;
         this.weight = weight;

@@ -1,8 +1,6 @@
 package ru.strict.neuralnetwork.networks;
 
-import ru.strict.neuralnetwork.data.*;
-import ru.strict.neuralnetwork.functions.ActivateFunction;
-import ru.strict.neuralnetwork.structures.NeuralNetworkStructure;
+import ru.strict.neuralnetwork.functions.IActivateFunction;
 
 import java.util.List;
 
@@ -14,36 +12,38 @@ import java.util.List;
  */
 public abstract class NeuralNetwork<DATA extends NeuralNetworkData, STRUCT extends NeuralNetworkStructure>
         implements INeuralNetwork {
-
     /**
      * Данные для обучения и тестирования нейронной сети
      */
     private DATA data;
-
     /**
      * Структура нейронной сети
      */
     private STRUCT structure;
-
     /**
      * Функция активации
      */
-    private ActivateFunction activateFunction;
+    private IActivateFunction activateFunction;
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    private void ensureCreateInstance(DATA data, STRUCT structure, ActivateFunction activateFunction){
-        if(data==null)
+    private void ensureCreateInstance(DATA data, STRUCT structure, IActivateFunction activateFunction){
+        if(data==null) {
             throw new NullPointerException("Neural Network do not supported null value. [NeuralNetworkData is null]");
-        if(structure==null)
+        }
+        if(structure==null) {
             throw new NullPointerException("Neural Network do not supported null value. [NeuralNetworkStructure is null]");
-        if(activateFunction==null)
-            throw new NullPointerException("Neural Network do not supported null value. [ActivateFunction is null]");
+        }
+        if(activateFunction==null) {
+            throw new NullPointerException("Neural Network do not supported null value. [IActivateFunction is null]");
+        }
     }
 
-    public NeuralNetwork(DATA data, STRUCT structure, ActivateFunction activateFunction) {
+    NeuralNetwork(DATA data, STRUCT structure, IActivateFunction activateFunction) {
         try{
             ensureCreateInstance(data, structure, activateFunction);
-        }catch(Exception ex){throw ex;}
+        }catch(Exception ex) {
+            throw ex;
+        }
 
         this.data = data;
         this.structure = structure;
@@ -52,23 +52,24 @@ public abstract class NeuralNetwork<DATA extends NeuralNetworkData, STRUCT exten
     //</editor-fold>
 
     @Override
-    public void learn(int epochs, float learnRate, float moment) {
+    public void learn(int epochs, float speed, float moment) {
         if(!structure.isSynapsesExists()){
             generateSynapses();
         }
 
-        if(epochs<=0)
+        if(epochs<=0) {
             throw new IllegalArgumentException("Learning exception: epoch count should not be is negative. [Epochs <= 0]");
+        }
 
         for(int epoch=0; epoch<epochs; epoch++) {
             List<NeuralNetworkDataSet> trainingSets = getData().getRandomTrainingSets();
             for (NeuralNetworkDataSet trainingSet : trainingSets) {
-                implementLearn(trainingSet, learnRate, moment);
+                implementLearn(trainingSet, speed, moment);
             }
         }
     }
 
-    protected abstract void implementLearn(NeuralNetworkDataSet trainingSet, float learnRate, float moment);
+    protected abstract void implementLearn(NeuralNetworkDataSet trainingSet, float speed, float moment);
 
     /**
      * Сгенерировать синапсы - связи между нейронами
@@ -81,6 +82,7 @@ public abstract class NeuralNetwork<DATA extends NeuralNetworkData, STRUCT exten
     public Neuron getBias(){
         return structure.getBias();
     }
+
     public void setSynapseWeight(Synapse synapse, float newWeight){
         structure.setSynapseWeight(synapse, newWeight);
     }
@@ -133,7 +135,7 @@ public abstract class NeuralNetwork<DATA extends NeuralNetworkData, STRUCT exten
         return structure;
     }
 
-    public ActivateFunction getActivateFunction() {
+    public IActivateFunction getActivateFunction() {
         return activateFunction;
     }
     //</editor-fold>

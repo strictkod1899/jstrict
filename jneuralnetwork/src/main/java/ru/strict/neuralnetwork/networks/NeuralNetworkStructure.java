@@ -1,15 +1,11 @@
-package ru.strict.neuralnetwork.structures;
-
-import ru.strict.neuralnetwork.data.Neuron;
-import ru.strict.neuralnetwork.data.NeuronType;
-import ru.strict.neuralnetwork.data.Synapse;
+package ru.strict.neuralnetwork.networks;
 
 import java.util.*;
 
 /**
  * Базовая структура нейронной сети
  */
-public abstract class NeuralNetworkStructure implements Cloneable{
+abstract class NeuralNetworkStructure implements Cloneable{
 
     private int countInputs;
     private int countOutputs;
@@ -24,7 +20,7 @@ public abstract class NeuralNetworkStructure implements Cloneable{
     private final Random random = new Random();
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    public NeuralNetworkStructure(int countInputs, int countOutputs, boolean isUseBias) {
+    NeuralNetworkStructure(int countInputs, int countOutputs) {
         if(countInputs < 1)
             throw new IllegalArgumentException("Neural Network structure do not should have input neurons count is negative. [Input neurons count < 1]");
         if(countOutputs < 1)
@@ -36,15 +32,12 @@ public abstract class NeuralNetworkStructure implements Cloneable{
         outputNeurons = new Neuron[countOutputs];
         synapses = new ArrayList<>();
 
-        for(int i = 0; i< countInputs; i++)
+        for(int i = 0; i< countInputs; i++) {
             inputNeurons[i] = new Neuron(0, NeuronType.INPUT);
-        for(int i = 0; i< countOutputs; i++)
+        }
+        for(int i = 0; i< countOutputs; i++) {
             outputNeurons[i] = new Neuron(0, NeuronType.OUTPUT);
-
-        if(isUseBias)
-            bias = new Neuron(1, NeuronType.BIAS);
-        else
-            bias = new Neuron(0, NeuronType.BIAS);
+        }
     }
     //</editor-fold>
 
@@ -127,10 +120,11 @@ public abstract class NeuralNetworkStructure implements Cloneable{
     }
 
     public void setUseBias(boolean isUseBias) {
-        if(isUseBias)
+        if(isUseBias) {
             bias = new Neuron(1, NeuronType.BIAS);
-        else
+        } else {
             bias = new Neuron(0, NeuronType.BIAS);
+        }
     }
 
     //</editor-fold>

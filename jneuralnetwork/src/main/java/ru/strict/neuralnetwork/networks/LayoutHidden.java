@@ -1,14 +1,14 @@
-package ru.strict.neuralnetwork.data;
+package ru.strict.neuralnetwork.networks;
 
 /**
  * Скрытый слой нейронной сети
  */
-public class LayoutHidden {
+class LayoutHidden {
     private Neuron[] neurons;
     private Neuron bias;
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    public LayoutHidden(int countHiddenNeurons) {
+    LayoutHidden(int countHiddenNeurons) {
         neurons = new Neuron[countHiddenNeurons];
         for(int i=0; i<countHiddenNeurons; i++) {
             neurons[i] = new Neuron(0, NeuronType.HIDDEN);
@@ -16,7 +16,7 @@ public class LayoutHidden {
         this.bias = new Neuron(0, NeuronType.BIAS);
     }
 
-    public LayoutHidden(int countHiddenNeurons, boolean isUseBeas) {
+    LayoutHidden(int countHiddenNeurons, boolean isUseBeas) {
         neurons = new Neuron[countHiddenNeurons];
         for(int i=0; i<countHiddenNeurons; i++) {
             neurons[i] = new Neuron(0, NeuronType.HIDDEN);
@@ -47,7 +47,7 @@ public class LayoutHidden {
      * <pre>
      * Установить нейрон смещения
      * <b>ВАЖНО:</b> Не использовать метод вручную. Требуемая область видимости: protected.
-     * Создавать объект LayoutHidden через метод addLayoutHidden класса NeuralNetworkHiddenStructure
+     * Создавать объект LayoutHidden через метод addLayout класса HiddenStructure
      * </pre>
      * @param isUseBeas
      */

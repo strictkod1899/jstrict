@@ -1,6 +1,6 @@
 package ru.strict.neuralnetwork.functions;
 
-public class HyperbolicTan extends ActivateFunction {
+public class HyperbolicTan implements IActivateFunction {
 
     @Override
     public float calc(float value) {

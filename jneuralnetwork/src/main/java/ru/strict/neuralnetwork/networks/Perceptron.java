@@ -1,8 +1,7 @@
 package ru.strict.neuralnetwork.networks;
 
-import ru.strict.neuralnetwork.data.*;
-import ru.strict.neuralnetwork.functions.ActivateFunction;
-import ru.strict.neuralnetwork.structures.NeuralNetworkHiddenStructure;
+import ru.strict.neuralnetwork.functions.IActivateFunction;
+import ru.strict.patterns.IBuilder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,27 +17,27 @@ import java.util.List;
  *      Neuron[] outputSet = new Neuron[]{new Neuron(0)};
  *      data.addTrainingSet(inputSet, outputSet);
  *      ...
- *      NeuralNetworkHiddenStructure structure = new NeuralNetworkHiddenStructure(3, 1);
- *      structure.addLayoutHidden(2);
+ *      HiddenStructure structure = new HiddenStructure(3, 1);
+ *      structure.addLayout(2);
  *      NeuralNetworkHidden network = new Perceptron(data, structure);
  *      ...
  * </pre></code>
  */
-public class Perceptron extends NeuralNetworkHidden<NeuralNetworkData, NeuralNetworkHiddenStructure> {
+public class Perceptron extends NeuralNetworkHidden<NeuralNetworkData, HiddenStructure> {
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    public Perceptron(NeuralNetworkData data, NeuralNetworkHiddenStructure structure, ActivateFunction activateFunction) {
+    Perceptron(NeuralNetworkData data, HiddenStructure structure, IActivateFunction activateFunction) {
         super(data, structure, activateFunction);
     }
     //</editor-fold>
 
     @Override
-    protected void implementLearn(NeuralNetworkDataSet trainingSet, float learnRate, float moment) {
+    protected void implementLearn(NeuralNetworkDataSet trainingSet, float speed, float moment) {
           Neuron[] inputs = trainingSet.getInputNeurons();
           Neuron[] outputsExpected = trainingSet.getOutputNeurons();
           Neuron[] outputsActually = feedforward(inputs);
 
-          backPropagation(outputsExpected, outputsActually, learnRate, moment);
+          backPropagation(outputsExpected, outputsActually, speed, moment);
     }
 
     //<editor-fold defaultState="collapse" desc="learn">
@@ -87,23 +86,25 @@ public class Perceptron extends NeuralNetworkHidden<NeuralNetworkData, NeuralNet
      * @param inputs Входные нейроны
      */
     private void feedforwardInputs(Neuron[] inputs){
-        for(int i=0; i<inputs.length; i++)
+        for(int i=0; i<inputs.length; i++) {
             setInputValue(i, inputs[i].getValue());
+        }
 
         inputs = getInputNeurons();
         LayoutHidden layoutHidden = getLayoutHidden(0);
         int countHiddens = layoutHidden.size();
         for(int i=0; i<countHiddens; i++){
-            float hiddenValue = 0;
+            float inputValue = 0;
             for(Neuron input : inputs) {
                 Synapse synapse = findSynapse(input, layoutHidden.getNeuron(i));
-                hiddenValue += (synapse.getSourceNeuron().getValue() * synapse.getWeight());
+                inputValue += (synapse.getSourceNeuron().getValue() * synapse.getWeight());
             }
             // Расчет нейрона смещения
             Synapse biasSynapse = findSynapse(getBias(), layoutHidden.getNeuron(i));
-            if(biasSynapse != null)
-                hiddenValue += getBias().getValue() * biasSynapse.getWeight();
-            setHiddenValue(0, i, getActivateFunction().calc(hiddenValue));
+            if(biasSynapse != null) {
+                inputValue += getBias().getValue() * biasSynapse.getWeight();
+            }
+            setHiddenValue(0, i, getActivateFunction().calc(inputValue));
         }
     }
 
@@ -126,8 +127,9 @@ public class Perceptron extends NeuralNetworkHidden<NeuralNetworkData, NeuralNet
                     // Расчет нейрона смещения
                     Neuron bias = getLayoutHidden(i-1).getBias();
                     Synapse biasSynapse = findSynapse(bias, hidden);
-                    if(biasSynapse != null)
+                    if(biasSynapse != null) {
                         hiddenValue += bias.getValue() * biasSynapse.getWeight();
+                    }
 
                     setHiddenValue(i, j, getActivateFunction().calc(hiddenValue));
                 }
@@ -179,5 +181,56 @@ public class Perceptron extends NeuralNetworkHidden<NeuralNetworkData, NeuralNet
     @Override
     public Neuron[] calc(Neuron[] inputNeurons) {
         return feedforward(inputNeurons);
+    }
+
+    public static Builder builder(int countInputs, int countHiddens, int countOutputs, IActivateFunction activateFunction){
+        return new Builder(countInputs, countHiddens, countOutputs, activateFunction);
+    }
+
+    public static class Builder implements INeuralNetworkBuilder<Perceptron>{
+        private NeuralNetworkData data;
+        private HiddenStructure structure;
+        private IActivateFunction activateFunction;
+
+        private Builder(int countInputs, int countHiddens, int countOutputs, IActivateFunction activateFunction){
+            this.data = new NeuralNetworkData(countInputs, countOutputs);
+            this.structure = new HiddenStructure(countInputs, countHiddens, countOutputs);
+            this.activateFunction = activateFunction;
+        }
+
+        /**
+         * Добавить скрытый слой
+         * @param countHiddenNeurons Количество нейронов в скрытом слое
+         */
+        @Override
+        public Builder addLayout(int countHiddenNeurons){
+            structure.addLayoutHidden(countHiddenNeurons);
+            return this;
+        }
+
+        @Override
+        public Builder addTrainingSet(Neuron[] inputSet, Neuron[] outputSet){
+            data.addTrainingSet(new NeuralNetworkDataSet(inputSet, outputSet));
+            return this;
+        }
+
+        @Override
+        public Builder addTestSet(Neuron[] inputSet, Neuron[] outputSet){
+            data.addTestSet(new NeuralNetworkDataSet(inputSet, outputSet));
+            return this;
+        }
+
+        @Override
+        public Builder setUseBias(boolean isUseBias){
+            structure.setUseBias(isUseBias);
+            return this;
+        }
+
+        @Override
+        public Perceptron build(){
+            boolean isUseBias = structure.getBias().getValue()==1 ? true : false;
+            structure.getLayoutsHidden().stream().forEach(l -> l.setBias(isUseBias));
+            return new Perceptron(data, structure, activateFunction);
+        }
     }
 }

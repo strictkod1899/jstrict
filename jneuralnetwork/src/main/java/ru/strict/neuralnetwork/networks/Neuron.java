@@ -1,4 +1,4 @@
-package ru.strict.neuralnetwork.data;
+package ru.strict.neuralnetwork.networks;
 
 import java.util.Objects;
 import java.util.UUID;

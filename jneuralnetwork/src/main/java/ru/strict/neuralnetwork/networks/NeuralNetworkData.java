@@ -1,4 +1,4 @@
-package ru.strict.neuralnetwork.data;
+package ru.strict.neuralnetwork.networks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ import java.util.Random;
  *      data.addTrainingSet(dataSet);
  * </pre></code>
  */
-public class NeuralNetworkData implements Cloneable{
+class NeuralNetworkData implements Cloneable{
 
     private int countInputs;
     private int countOutputs;
@@ -43,7 +43,7 @@ public class NeuralNetworkData implements Cloneable{
     private List<NeuralNetworkDataSet> testSets;
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    public NeuralNetworkData(int countInputs, int countOutputs) {
+    NeuralNetworkData(int countInputs, int countOutputs) {
         this.countInputs = countInputs;
         this.countOutputs = countOutputs;
         trainingSets = new ArrayList();
@@ -71,31 +71,19 @@ public class NeuralNetworkData implements Cloneable{
 
     //<editor-fold defaultstate="collapsed" desc="Get/Set">
     public void addTrainingSet(NeuralNetworkDataSet set){
-        if(set.getCountInput()!= countInputs || set.getCountOutput()!= countOutputs)
-            return;
+        if(set.getCountInput()!= countInputs || set.getCountOutput()!= countOutputs) {
+            throw new IllegalArgumentException("number input neurons or number output neurons to trainings differenced from required data structure");
+        }
 
         trainingSets.add(set);
     }
 
     public void addTestSet(NeuralNetworkDataSet set){
-        if(set.getCountInput()!= countInputs || set.getCountOutput()!= countOutputs)
-            return;
+        if(set.getCountInput()!= countInputs || set.getCountOutput()!= countOutputs) {
+            throw new IllegalArgumentException("number input neurons or number output neurons to test differenced from required data structure");
+        }
 
         testSets.add(set);
-    }
-
-    public void addTrainingSet(Neuron[] inputSet, Neuron[] outputSet){
-        if(inputSet.length!= countInputs || outputSet.length!= countOutputs)
-            return;
-
-        trainingSets.add(new NeuralNetworkDataSet(inputSet, outputSet));
-    }
-
-    public void addTestSet(Neuron[] inputSet, Neuron[] outputSet){
-        if(inputSet.length!= countInputs || outputSet.length!= countOutputs)
-            return;
-
-        testSets.add(new NeuralNetworkDataSet(inputSet, outputSet));
     }
 
     public int getCountInputs() {

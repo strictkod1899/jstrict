@@ -1,8 +1,4 @@
-package ru.strict.neuralnetwork.structures;
-
-import ru.strict.neuralnetwork.data.LayoutHidden;
-import ru.strict.neuralnetwork.data.Neuron;
-import ru.strict.neuralnetwork.data.Synapse;
+package ru.strict.neuralnetwork.networks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +8,8 @@ import java.util.Objects;
  * Структура нейронной сети с поддержкой скрытых слоев
  * <p><b>Пример использования (1):</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
- *      NeuralNetworkHiddenStructure structure = new NeuralNetworkHiddenStructure(3, 1, true);
- *      structure.addLayoutHidden(2);
+ *      HiddenStructure structure = new HiddenStructure(3, 1, true);
+ *      structure.addLayout(2);
  *      NeuralNetworkHidden network = new Perceptron(data, structure);
  *      network.learn(3000, 0.2f, 0.3f);
  *      ...
@@ -22,13 +18,13 @@ import java.util.Objects;
  * где второй параметр определяет количество элементов в скрытом слое.
  * <p><b>Пример использования (2):</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
- *       NeuralNetworkHiddenStructure structure = new NeuralNetworkHiddenStructure(3, 2, 1, false);
+ *       HiddenStructure structure = new HiddenStructure(3, 2, 1, false);
  *       NeuralNetworkHidden network = new Perceptron(data, structure);
  *       network.learn(3000, 0.2f, 0.3f);
  *       ...
  *  </pre></code>
  */
-public class NeuralNetworkHiddenStructure extends NeuralNetworkStructure {
+class HiddenStructure extends NeuralNetworkStructure {
 
     /**
      * Скрытые слои нейронной сети
@@ -36,20 +32,19 @@ public class NeuralNetworkHiddenStructure extends NeuralNetworkStructure {
     private List<LayoutHidden> layoutsHidden;
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    public NeuralNetworkHiddenStructure(int countInput, int countOutput, boolean isUseBias) {
-        super(countInput, countOutput, isUseBias);
+    private HiddenStructure(int countInputs, int countOutputs) {
+        super(countInputs, countOutputs);
         this.layoutsHidden = new ArrayList<>();
     }
 
-    public NeuralNetworkHiddenStructure(int countInputs, int countHiddens, int countOutputs, boolean isUseBias) {
-        super(countInputs, countOutputs, isUseBias);
+    HiddenStructure(int countInputs, int countHiddens, int countOutputs) {
+        super(countInputs, countOutputs);
         if(countHiddens < 1) {
             throw new IllegalArgumentException("Neural Network structure do not should have hidden neurons count is negative. [Hidden neurons count < 1]");
         }
 
         this.layoutsHidden = new ArrayList<>();
         layoutsHidden.add(new LayoutHidden(countHiddens));
-        layoutsHidden.get(0).setBias(isUseBias);
     }
     //</editor-fold>
 
@@ -121,7 +116,7 @@ public class NeuralNetworkHiddenStructure extends NeuralNetworkStructure {
             throw new IllegalArgumentException("Neural Network structure do not should have hidden neurons count is negative. [Hidden neurons count < 1]");
         }
         LayoutHidden layoutHidden = new LayoutHidden(countHiddenNeurons);
-        layoutHidden.setBias(getBias().getValue()==1? true: false);
+        layoutHidden.setBias(getBias().getValue()==1 ? true: false);
         layoutsHidden.add(layoutHidden);
     }
 
@@ -143,17 +138,17 @@ public class NeuralNetworkHiddenStructure extends NeuralNetworkStructure {
 
     //<editor-fold defaultstate="collapsed" desc="Base override">
     @Override
-    public NeuralNetworkHiddenStructure clone(){
-        NeuralNetworkHiddenStructure clone =
-                new NeuralNetworkHiddenStructure(getCountInputs(),getCountOutputs(), getBias().getValue()==0?false:true);
+    public HiddenStructure clone(){
+        HiddenStructure clone = new HiddenStructure(getCountInputs(), getCountOutputs());
+        clone.setUseBias(getBias().getValue()==1 ? true : false);
         clone.setLayoutsHidden(layoutsHidden);
         return clone;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if(obj!=null && obj instanceof NeuralNetworkHiddenStructure) {
-            NeuralNetworkHiddenStructure object = (NeuralNetworkHiddenStructure) obj;
+        if(obj!=null && obj instanceof HiddenStructure) {
+            HiddenStructure object = (HiddenStructure) obj;
             return super.equals(obj) && Objects.equals(layoutsHidden, object.getLayoutsHidden());
         }else{
             return false;

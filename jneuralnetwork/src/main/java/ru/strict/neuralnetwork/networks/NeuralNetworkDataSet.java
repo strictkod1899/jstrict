@@ -1,8 +1,7 @@
-package ru.strict.neuralnetwork.data;
+package ru.strict.neuralnetwork.networks;
 
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * Единичный набор данных для использования в нейронной сети.
@@ -13,7 +12,7 @@ import java.util.UUID;
  *      dataSet.setOutputNeurons(new Neuron[]{new Neuron(1)});
  * </pre></code>
  */
-public class NeuralNetworkDataSet {
+class NeuralNetworkDataSet {
 
     private int countInput;
     private int countOutput;
@@ -28,12 +27,7 @@ public class NeuralNetworkDataSet {
     private Neuron[] outputNeurons;
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    public NeuralNetworkDataSet(int countInput, int countOutput) {
-        this.countInput = countInput;
-        this.countOutput = countOutput;
-    }
-
-    public NeuralNetworkDataSet(Neuron[] inputNeurons, Neuron[] outputNeurons) {
+    NeuralNetworkDataSet(Neuron[] inputNeurons, Neuron[] outputNeurons) {
         this.inputNeurons = inputNeurons;
         this.outputNeurons = outputNeurons;
         this.countInput = inputNeurons.length;
@@ -43,15 +37,17 @@ public class NeuralNetworkDataSet {
 
     //<editor-fold defaultstate="collapsed" desc="Get/Set">
     public void setInputNeurons(Neuron...inputNeurons){
-        if(inputNeurons.length!=countInput)
-            return;
+        if(inputNeurons.length!=countInput) {
+            throw new IllegalArgumentException("number input neurons to data set differenced from required data structure");
+        }
 
         this.inputNeurons = inputNeurons;
     }
 
     public void setOutputNeurons(Neuron...outputNeurons){
-        if(outputNeurons.length!=countOutput)
-            return;
+        if(outputNeurons.length!=countOutput) {
+            throw new IllegalArgumentException("number output neurons to data set differenced from required data structure");
+        }
 
         this.outputNeurons = outputNeurons;
     }

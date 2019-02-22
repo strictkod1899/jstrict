@@ -1,11 +1,11 @@
-package ru.strict.neuralnetwork.data;
+package ru.strict.neuralnetwork.networks;
 
 public class TestResult {
     private Neuron[] expectedNeurons;
     private Neuron[] actualNeurons;
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    public TestResult(Neuron[] expectedNeurons, Neuron[] actualNeurons) {
+    TestResult(Neuron[] expectedNeurons, Neuron[] actualNeurons) {
         this.expectedNeurons = expectedNeurons;
         this.actualNeurons = actualNeurons;
     }
