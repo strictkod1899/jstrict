@@ -22,6 +22,10 @@
       <artifactId>jfile</artifactId>
     </dependency>
     <dependency>
+      <groupId>ru.strict</groupId>
+      <artifactId>jpatterns</artifactId>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
     </dependency>
