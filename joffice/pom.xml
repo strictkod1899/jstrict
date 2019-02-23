@@ -4,11 +4,11 @@
   <parent>
     <groupId>ru.strict</groupId>
     <artifactId>jstrict</artifactId>
-    <version>0.1.30</version>
+    <version>0.1.31</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>joffice</artifactId>
-  <version>0.1.30</version>
+  <version>0.1.31</version>
   <packaging>jar</packaging>
   <name>joffice</name>
   <url>http://maven.apache.org</url>
@@ -23,7 +23,6 @@
       <artifactId>poi-ooxml</artifactId>
       <version>4.0.1</version>
     </dependency>
-
     <dependency>
       <groupId>ru.strict</groupId>
       <artifactId>jutils</artifactId>
