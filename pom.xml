@@ -32,16 +32,17 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jdk.version>1.8</jdk.version>
-    <plugin.compiler.version>2.5.1</plugin.compiler.version>
-    <plugin.jar.version>2.4</plugin.jar.version>
+    <plugin.compiler.version>3.8.0</plugin.compiler.version>
+    <plugin.jar.version>3.1.1</plugin.jar.version>
+    <plugin.dependency.version>3.1.1</plugin.dependency.version>
+    <plugin.surefire.version>2.22.1</plugin.surefire.version>
+    <plugin.assembly.version>3.1.1</plugin.assembly.version>
     <plugin.site.version>3.7.1</plugin.site.version>
-    <plugin.dependency.version>2.5.1</plugin.dependency.version>
-    <plugin.surefire.version>2.12.4</plugin.surefire.version>
-    <plugin.assembly.version>2.6</plugin.assembly.version>
+    <!-- Нельзя указывать версию больше этой -->
+    <plugin.info.report.version>2.9</plugin.info.report.version>
     <plugin.cobertura.version>2.7</plugin.cobertura.version>
     <plugin.findbugs.version>3.0.5</plugin.findbugs.version>
     <plugin.google.findbugs.version>3.0.1</plugin.google.findbugs.version>
-    <plugin.info.report.version>3.0.0</plugin.info.report.version>
     <plugin.xml.version>1.0.2</plugin.xml.version>
   </properties>
   <!-- Переместить в корневой pom.xml проекта -->
@@ -194,4 +195,13 @@
       <version>${plugin.findbugs.version}</version>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>${plugin.site.version}</version>
+      </plugin>
+    </plugins>
+  </build>
 </project>
