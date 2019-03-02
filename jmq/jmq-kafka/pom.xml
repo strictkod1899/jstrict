@@ -4,15 +4,14 @@
   <parent>
     <groupId>ru.strict</groupId>
     <artifactId>jmq</artifactId>
-    <version>0.1.31</version>
+    <version>0.1.32</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>jmq-kafka</artifactId>
-  <version>0.1.31</version>
+  <version>0.1.32</version>
   <packaging>jar</packaging>
   <name>jmq-kafka</name>
   <url>http:\\maven.apache.org</url>
-
   <build>
     <plugins>
       <plugin>
