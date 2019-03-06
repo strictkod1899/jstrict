@@ -96,13 +96,15 @@ public class UtilFile {
         File folder = new File(folderPath);
         File[] folderFiles = folder.listFiles();
 
-        for (File folderItem : folderFiles) {
-            if (folderItem.isFile()) {
-                String filePath = folderItem.getAbsolutePath();
-                String fileName = filePath.substring(filePath.lastIndexOf(File.separator)+File.separator.length());
-                if(fileName.contains(fileNamePart)) {
-                    result = folderItem;
-                    break;
+        if(folderFiles != null) {
+            for (File folderItem : folderFiles) {
+                if (folderItem.isFile()) {
+                    String filePath = folderItem.getAbsolutePath();
+                    String fileName = filePath.substring(filePath.lastIndexOf(File.separator) + File.separator.length());
+                    if (fileName.contains(fileNamePart)) {
+                        result = folderItem;
+                        break;
+                    }
                 }
             }
         }
@@ -121,12 +123,14 @@ public class UtilFile {
         File folder = new File(folderPath);
         File[] folderFiles = folder.listFiles();
 
-        for (File folderItem : folderFiles) {
-            if (folderItem.isFile()) {
-                String filePath = folderItem.getAbsolutePath();
-                String fileName = filePath.substring(filePath.lastIndexOf(File.separator)+File.separator.length());
-                if(fileName.contains(fileNamePart)) {
-                    result.add(folderItem);
+        if(folderFiles != null) {
+            for (File folderItem : folderFiles) {
+                if (folderItem.isFile()) {
+                    String filePath = folderItem.getAbsolutePath();
+                    String fileName = filePath.substring(filePath.lastIndexOf(File.separator) + File.separator.length());
+                    if (fileName.contains(fileNamePart)) {
+                        result.add(folderItem);
+                    }
                 }
             }
         }
