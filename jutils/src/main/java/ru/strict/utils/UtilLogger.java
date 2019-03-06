@@ -2,8 +2,6 @@ package ru.strict.utils;
 
 import ru.strict.components.Log4jWrapper;
 
-import static org.apache.log4j.Logger.getLogger;
-
 /**
  * Управление логированием
  */
