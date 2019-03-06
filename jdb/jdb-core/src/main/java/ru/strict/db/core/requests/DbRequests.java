@@ -98,7 +98,7 @@ public class DbRequests implements IDbRequest {
     }
 
     private String fillWhere(String result){
-        result += " WHERE " + whereRequests.getSql();
+        result += " " + whereRequests.getSql();
         return result;
     }
 
