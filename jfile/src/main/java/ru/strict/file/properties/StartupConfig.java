@@ -8,15 +8,22 @@ import java.util.Objects;
  */
 public class StartupConfig extends PropertiesResourceFile {
 
+    public static final String FILE_NAME = "startup";
+
     private String environment;
 
     public StartupConfig() {
-        super("startup", null);
+        super(FILE_NAME, null);
         environment = readValue("environment");
     }
 
     public StartupConfig(String startupConfigFileName) {
         super(startupConfigFileName, null);
+        environment = readValue("environment");
+    }
+
+    public StartupConfig(String startupConfigFileName, String targetFilePath) {
+        super(startupConfigFileName, null, targetFilePath);
         environment = readValue("environment");
     }
 
@@ -41,7 +48,7 @@ public class StartupConfig extends PropertiesResourceFile {
 
     @Override
     public int hashCode(){
-        return Objects.hash(getPathToDirectory(), getPropertiesFileName(), getSuffix());
+        return Objects.hash(getPathToDirectory(), getFileName(), getSuffix());
     }
 
     @Override

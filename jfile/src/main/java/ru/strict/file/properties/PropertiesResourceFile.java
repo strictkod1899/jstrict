@@ -8,30 +8,24 @@ import java.io.File;
 public abstract class PropertiesResourceFile extends PropertiesFile {
 
     private String resourcesFilePath;
-    private String targetFilePath;
 
-    private void initialize(String resourcesFilePath, String targetFilePath){
+    private void initialize(String resourcesFilePath){
         if (resourcesFilePath.endsWith(".properties")){
             resourcesFilePath = resourcesFilePath.substring(0, resourcesFilePath.lastIndexOf(".properties"));
         }
 
-        targetFilePath = ValidateBaseValue.isEmptyOrNull(targetFilePath) ? resourcesFilePath : targetFilePath;
-        if (targetFilePath.endsWith(".properties")){
-            targetFilePath = targetFilePath.substring(0, targetFilePath.lastIndexOf(".properties"));
-        }
-
         this.resourcesFilePath = resourcesFilePath;
-        this.targetFilePath = targetFilePath;
+        load();
     }
 
     public PropertiesResourceFile(String resourcesFilePath) {
         super(resourcesFilePath);
-        initialize(resourcesFilePath, null);
+        initialize(resourcesFilePath);
     }
 
     public PropertiesResourceFile(String resourcesFilePath, String suffix) {
         super(resourcesFilePath, suffix);
-        initialize(resourcesFilePath, null);
+        initialize(resourcesFilePath);
     }
 
     public PropertiesResourceFile(String resourcesFilePath, String suffix, String targetFilePath) {
@@ -39,28 +33,28 @@ public abstract class PropertiesResourceFile extends PropertiesFile {
                 ValidateBaseValue.isEmptyOrNull(targetFilePath) ? resourcesFilePath : targetFilePath,
                 suffix
         );
-        initialize(resourcesFilePath, targetFilePath);
+        initialize(resourcesFilePath);
+    }
+
+    @Override
+    protected void reload() {
+        super.reload();
+        load();
     }
 
     /**
      * Стандартная реализация: this.getClass();
      * Необходимо для получения ресурса из jar-файла, с этим классом
-     * @return
      */
     protected abstract Class getThisClass();
 
-    @Override
-    protected String initializePathToDirectory(){
-        if(!(new File(getTargetFilePathWithSuffix()).exists())) {
-            UtilResources.getResourceAsFile(getResourcesFilePathWithSuffix(), getTargetFilePathWithSuffix(), getThisClass());
+    private void load(){
+        if(!(new File(getFilePathWithSuffix()).exists())) {
+            UtilResources.getResourceAsFile(getResourcesFilePathWithSuffix(), getFilePathWithSuffix(), getThisClass());
         }
-        File appFile = new File(getTargetFilePath());
-        if(!appFile.exists()) {
-            appFile = UtilResources.getResourceAsFile(getResourcesFilePath(), getTargetFilePath(), getThisClass());
+        if(!(new File(getFilePath()).exists())) {
+            UtilResources.getResourceAsFile(getResourcesFilePath(), getFilePath(), getThisClass());
         }
-
-        String pathToDirectory = appFile.getAbsolutePath().substring(0, appFile.getAbsolutePath().lastIndexOf(File.separator));
-        return pathToDirectory;
     }
 
     private String getResourcesFilePath(){
@@ -74,21 +68,6 @@ public abstract class PropertiesResourceFile extends PropertiesFile {
             result = String.format("%s_%s.properties", resourcesFilePath, getSuffix());
         }else{
             result = getResourcesFilePath();
-        }
-        return result;
-    }
-
-    private String getTargetFilePath(){
-        return String.format("%s.properties", targetFilePath);
-    }
-
-    private String getTargetFilePathWithSuffix(){
-        String result = null;
-
-        if(!ValidateBaseValue.isEmptyOrNull(getSuffix())){
-            result = String.format("%s_%s.properties", targetFilePath, getSuffix());
-        }else{
-            result = getTargetFilePath();
         }
         return result;
     }
