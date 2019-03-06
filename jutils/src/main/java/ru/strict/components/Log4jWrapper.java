@@ -13,6 +13,29 @@ import java.util.Arrays;
 /**
  * Логирование с использованием Log4j.
  * Класс инициализирует конфигурацию по-умолчанию для консольного вывода и записи в файл 'logs/report.log'
+ *
+ * import ru.strict.components.Log4jWrapper;
+ * import ru.strict.components.LoggerConfiguration;
+ *
+ * import java.io.File;
+ *
+ * public class AppLogger extends Log4jWrapper {
+ *
+ * public AppLogger(Class clazz) {
+ *     super(clazz);
+ * }
+ *
+ * public AppLogger(String className) {
+ *     super(className);
+ * }
+ *
+ * @Override
+ * protected void prepareConfiguration(LoggerConfiguration configuration) {
+ *     super.prepareConfiguration(configuration);
+ *     configuration.setLogToConsole(false);
+ *     configuration.setLogDirectoryPath("mypath");
+ * }
+ * }
  */
 public class Log4jWrapper implements ILogger {
 
