@@ -60,24 +60,26 @@ public class UtilResources {
                 classLoader = classThisJarFile.getClassLoader();
             }
 
-            InputStream in = classLoader.getResourceAsStream(resourcePath);
-            if (in == null) {
-                return null;
-            }
+            File file = null;
 
-            targetPath = ValidateBaseValue.isEmptyOrNull(targetPath) ? resourcePath : targetPath;
+            try(InputStream in = classLoader.getResourceAsStream(resourcePath)){
+	            if (in == null) {
+	                return null;
+	            }
 
-            File file = new File(targetPath);
+	            targetPath = ValidateBaseValue.isEmptyOrNull(targetPath) ? resourcePath : targetPath;
+	            file = new File(targetPath);
 
-            UtilFile.createFileIfNotExists(file);
+	            UtilFile.createFileIfNotExists(file);
 
-            try (FileOutputStream out = new FileOutputStream(file)) {
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = in.read(buffer)) != -1) {
-                    out.write(buffer, 0, bytesRead);
-                }
-            }
+	            try (FileOutputStream out = new FileOutputStream(file)) {
+	                byte[] buffer = new byte[1024];
+	                int bytesRead;
+	                while ((bytesRead = in.read(buffer)) != -1) {
+	                    out.write(buffer, 0, bytesRead);
+	                }
+	            }
+	        }
             return file;
         } catch (IOException ex) {
             throw new RuntimeException(ex);
@@ -109,19 +111,23 @@ public class UtilResources {
             }else{
                 classLoader = classThisJarFile.getClassLoader();
             }
-            InputStream in = classLoader.getResourceAsStream(resourcePath);
-            if (in == null) {
-                return null;
-            }
 
-            File tempFile = File.createTempFile(String.valueOf(in.hashCode()), ".tmp");
-            tempFile.deleteOnExit();
+            File tempFile = null;
 
-            try (FileOutputStream out = new FileOutputStream(tempFile)) {
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = in.read(buffer)) != -1) {
-                    out.write(buffer, 0, bytesRead);
+            try(InputStream in = classLoader.getResourceAsStream(resourcePath)) {
+                if (in == null) {
+                    return null;
+                }
+
+                tempFile = File.createTempFile(String.valueOf(in.hashCode()), ".tmp");
+                tempFile.deleteOnExit();
+
+                try (FileOutputStream out = new FileOutputStream(tempFile)) {
+                    byte[] buffer = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = in.read(buffer)) != -1) {
+                        out.write(buffer, 0, bytesRead);
+                    }
                 }
             }
             return tempFile;
