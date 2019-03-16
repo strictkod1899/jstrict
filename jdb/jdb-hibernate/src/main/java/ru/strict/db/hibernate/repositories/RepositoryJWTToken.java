@@ -12,10 +12,12 @@ import ru.strict.utils.UtilClassOperations;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 public class RepositoryJWTToken<ID extends Serializable>
@@ -50,10 +52,9 @@ public class RepositoryJWTToken<ID extends Serializable>
             Root<EntityJWTToken<ID>> criteriaRoot = criteriaEntity.from(getEntityClass());
             criteriaEntity.select(criteriaRoot);
             criteriaEntity.where(criteriaBuilder.equal(criteriaRoot.get("accessToken"), caption));
-            EntityJWTToken<ID> entity = entityManager.createQuery(criteriaEntity)
-                    .getResultStream()
-                    .findFirst()
-                    .orElse(null);
+            TypedQuery<EntityJWTToken<ID>> typed =  entityManager.createQuery(criteriaEntity);
+            List<EntityJWTToken<ID>> entities = typed.getResultList();
+            EntityJWTToken<ID> entity = entities.isEmpty() ? null : entities.get(0);
             result = getDtoMapper().map(entity);
 
             session.getTransaction().commit();
@@ -94,10 +95,9 @@ public class RepositoryJWTToken<ID extends Serializable>
             Root<EntityJWTToken<ID>> criteriaRoot = criteriaEntity.from(getEntityClass());
             criteriaEntity.select(criteriaRoot);
             criteriaEntity.where(criteriaBuilder.equal(criteriaRoot.get("refreshToken"), caption));
-            EntityJWTToken<ID> entity = entityManager.createQuery(criteriaEntity)
-                    .getResultStream()
-                    .findFirst()
-                    .orElse(null);
+            TypedQuery<EntityJWTToken<ID>> typed =  entityManager.createQuery(criteriaEntity);
+            List<EntityJWTToken<ID>> entities = typed.getResultList();
+            EntityJWTToken<ID> entity = entities.isEmpty() ? null : entities.get(0);
             result = getDtoMapper().map(entity);
 
             session.getTransaction().commit();

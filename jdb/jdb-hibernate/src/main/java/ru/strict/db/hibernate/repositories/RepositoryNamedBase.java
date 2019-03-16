@@ -11,12 +11,14 @@ import ru.strict.validates.ValidateBaseValue;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Базовый класс репозитория с использованием Jdbc для таблиц со столбцом наименования (caption)
@@ -55,10 +57,9 @@ public abstract class RepositoryNamedBase
             Root<E> criteriaRoot = criteriaEntity.from(getEntityClass());
             criteriaEntity.select(criteriaRoot);
             criteriaEntity.where(criteriaBuilder.equal(criteriaRoot.get(getColumnWithName()), caption));
-            E entity = entityManager.createQuery(criteriaEntity)
-                    .getResultStream()
-                    .findFirst()
-                    .orElse(null);
+            TypedQuery<E> typed =  entityManager.createQuery(criteriaEntity);
+            List<E> entities = typed.getResultList();
+            E entity = entities.isEmpty() ? null : entities.get(0);
             result = getDtoMapper().map(entity);
 
             session.getTransaction().commit();

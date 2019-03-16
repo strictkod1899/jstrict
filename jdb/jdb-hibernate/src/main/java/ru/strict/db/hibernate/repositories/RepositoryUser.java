@@ -11,10 +11,12 @@ import ru.strict.utils.UtilClassOperations;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 public class RepositoryUser<ID extends Serializable, DTO extends DtoUserBase<ID>>
@@ -60,10 +62,9 @@ public class RepositoryUser<ID extends Serializable, DTO extends DtoUserBase<ID>
             Root<EntityUser<ID>> criteriaRoot = criteriaEntity.from(getEntityClass());
             criteriaEntity.select(criteriaRoot);
             criteriaEntity.where(criteriaBuilder.equal(criteriaRoot.get("email"), email));
-            EntityUser<ID> entity = entityManager.createQuery(criteriaEntity)
-                    .getResultStream()
-                    .findFirst()
-                    .orElse(null);
+            TypedQuery<EntityUser<ID>> typed =  entityManager.createQuery(criteriaEntity);
+            List<EntityUser<ID>> entities = typed.getResultList();
+            EntityUser<ID> entity = entities.isEmpty() ? null : entities.get(0);
             result = getDtoMapper().map(entity);
 
             session.getTransaction().commit();

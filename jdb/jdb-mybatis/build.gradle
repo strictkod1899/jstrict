@@ -1,0 +1,12 @@
+dependencies{
+    compile group: PROJECT_GROUP, name: 'jutils', version: PROJECT_VERSION
+    compile group: PROJECT_GROUP, name: 'jpatterns', version: PROJECT_VERSION
+    compile group: PROJECT_GROUP, name: 'jdb-core', version: PROJECT_VERSION
+    compile group: 'org.mybatis', name: 'mybatis', version: '3.4.6'
+    compile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'
+}
+
+jar{
+    baseName = 'jdb-mybatis'
+    manifest.attributes('Class-Path': configurations.runtime.files.collect { "libs/$it.name"}.join(' '))
+}

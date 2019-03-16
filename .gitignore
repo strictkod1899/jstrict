@@ -1,6 +1,11 @@
 .idea/
+.gradle/
+gradle/
 target/
 out/
+build/
 logs/
+gradlew
+gradlew.bat
 *.log
 *.iml
