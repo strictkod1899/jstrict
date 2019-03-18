@@ -83,7 +83,7 @@ public class UtilNet {
         HttpURLConnection connection = (HttpURLConnection) urlObject.openConnection();
 
         // optional default is GET
-        connection.setRequestMethod("POST");
+        connection.setRequestMethod("GET");
 
         int responseCode = connection.getResponseCode();
 
