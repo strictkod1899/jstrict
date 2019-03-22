@@ -24,7 +24,7 @@ public class RepositoryJWTToken<ID>
 
     private static final String[] COLUMNS_NAME = new String[] {"access_token", "refresh_token",
             "expire_time_access", "expire_time_refresh", "issued_at", "issuer", "subject", "not_before",
-            "audience", "secret", "algorithm", "type", "userx_id", "roleuser_id"};
+            "audience", "secret", "algorithm", "type", "userx_id"};
 
     public RepositoryJWTToken(CreateConnectionByDataSource connectionSource, GenerateIdType generateIdType) {
         super("token", COLUMNS_NAME, connectionSource,
@@ -49,7 +49,6 @@ public class RepositoryJWTToken<ID>
         valuesByColumn.put(10, entity.getAlgorithm());
         valuesByColumn.put(11, entity.getType());
         valuesByColumn.put(12, entity.getUserId());
-        valuesByColumn.put(13, entity.getRoleUserId());
         return valuesByColumn;
     }
 
@@ -75,23 +74,14 @@ public class RepositoryJWTToken<ID>
     protected DtoJWTToken<ID> fill(DtoJWTToken<ID> dto){
         // Добавление пользователя
         IRepository<ID, DtoUserToken<ID>> repositoryUser = null;
-        IRepository<ID, DtoRoleuser<ID>> repositoryRoleuser = null;
         try {
             repositoryUser = new RepositoryUser(getConnectionSource(),
                     new MapperDtoFactory().instance(MapperDtoType.USER_TOKEN),
                     GenerateIdType.NONE);
             dto.setUser(repositoryUser.read(dto.getUserId()));
-
-            // Добавление роли пользователя
-            repositoryRoleuser = new RepositoryRoleuser(getConnectionSource(), GenerateIdType.NONE);
-            dto.setRoleUser(repositoryRoleuser.read(dto.getRoleUserId()));
         }finally {
             if(repositoryUser != null){
                 repositoryUser.close();
-            }
-
-            if(repositoryRoleuser != null){
-                repositoryRoleuser.close();
             }
         }
         return dto;
