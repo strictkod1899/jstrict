@@ -7,10 +7,6 @@ public class FieldError extends Error implements IFieldError{
 
     private String field;
 
-    public FieldError(String errorMessage) {
-        super(errorMessage);
-    }
-
     public FieldError(String field, String errorMessage) {
         super(errorMessage);
         this.field = field;
