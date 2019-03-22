@@ -17,7 +17,6 @@
         <result property="algorithm" column="algorithm"/>
         <result property="type" column="type"/>
         <result property="userId" column="userx_id"/>
-        <result property="roleUserId" column="roleuser_id"/>
     </resultMap>
 
     <resultMap id="tokenFill" type="ru.strict.db.core.entities.EntityJWTToken" extends="token">
@@ -26,18 +25,13 @@
                      javaType="ru.strict.db.core.entities.EntityUser"
                      select="ru.strict.db.mybatis.mappers.sql.MapperSqlUser.read"
                      fetchType="lazy"/>
-        <association property="roleUser"
-                     column="roleuser_id"
-                     javaType="ru.strict.db.core.entities.EntityRoleuser"
-                     select="ru.strict.db.mybatis.mappers.sql.MapperSqlRoleuser.read"
-                     fetchType="lazy"/>
     </resultMap>
 
     <insert id="create" parameterType="ru.strict.db.core.entities.EntityJWTToken">
-        INSERT INTO token (id, accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt, issuer,
-                subject, notBefore, audience, secret, algorithm, type, userx_id, roleuser_id)
+        INSERT INTO token (id, access_token, refresh_token, expire_time_access, expire_time_refresh, issued_at, issuer,
+                subject, not_before, audience, secret, algorithm, type, userx_id)
         VALUES (#{id}, #{accessToken}, #{refreshToken}, #{expireTimeAccess}, #{expireTimeRefresh}, #{issuedAt}, #{issuer},
-                #{subject}, #{notBefore}, #{audience}, #{secret}, #{algorithm}, #{type}, #{userId}, #{roleUserId})
+                #{subject}, #{notBefore}, #{audience}, #{secret}, #{algorithm}, #{type}, #{userId})
     </insert>
 
     <select id="read" parameterType="java.lang.Object" resultMap="token">
@@ -49,10 +43,10 @@
     </select>
 
     <update id="update" parameterType="ru.strict.db.core.entities.EntityJWTToken">
-        UPDATE token SET accessToken = #{accessToken}, refreshToken = #{refreshToken}, expireTimeAccess = #{expireTimeAccess}
-         , expireTimeRefresh = #{expireTimeRefresh}, issuedAt = #{issuedAt}, issuer = #{issuer}, subject = #{subject},
-         notBefore = #{notBefore}, audience = #{audience}, secret = #{secret}, algorithm = #{algorithm}, type = #{type},
-         userx_id = #{userId}, roleuser_id = #{roleUserId}
+        UPDATE token SET access_token = #{accessToken}, refresh_token = #{refreshToken}, expire_time_access = #{expireTimeAccess},
+         expire_time_refresh = #{expireTimeRefresh}, issued_at = #{issuedAt}, issuer = #{issuer}, subject = #{subject},
+         not_before = #{notBefore}, audience = #{audience}, secret = #{secret}, algorithm = #{algorithm}, type = #{type},
+         userx_id = #{userId}
          WHERE id = #{id}
     </update>
 

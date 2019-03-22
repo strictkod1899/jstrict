@@ -27,7 +27,7 @@ public class RepositoryJWTToken<ID>
 
     private static final String[] COLUMNS_NAME = new String[] {"access_token", "refresh_token", "expire_time_access",
             "expire_time_refresh", "issued_at", "issuer", "subject", "not_before", "audience", "secret",
-            "algorithm", "type", "userx_id", "roleuser_id"};
+            "algorithm", "type", "userx_id"};
 
     public RepositoryJWTToken(CreateConnectionByMybatis connectionSource, GenerateIdType generateIdType) {
         super("token",

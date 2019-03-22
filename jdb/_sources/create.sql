@@ -112,10 +112,8 @@ CREATE TABLE token(
   algorithm TEXT,
   type TEXT,
   userx_id INTEGER NOT NULL,
-  roleuser_id INTEGER NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (userx_id) REFERENCES userx(id) ON UPDATE CASCADE ON DELETE CASCADE,
-  FOREIGN KEY (roleuser_id) REFERENCES roleuser(id) ON UPDATE CASCADE ON DELETE CASCADE
+  FOREIGN KEY (userx_id) REFERENCES userx(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -----------------------------
@@ -232,10 +230,8 @@ CREATE TABLE token(
   algorithm TEXT,
   type TEXT,
   userx_id UUID NOT NULL,
-  roleuser_id UUID NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (userx_id) REFERENCES userx(id) ON UPDATE CASCADE ON DELETE CASCADE,
-  FOREIGN KEY (roleuser_id) REFERENCES roleuser(id) ON UPDATE CASCADE ON DELETE CASCADE
+  FOREIGN KEY (userx_id) REFERENCES userx(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 --------------------------
@@ -352,8 +348,6 @@ CREATE TABLE token(
   algorithm TEXT,
   type TEXT,
   userx_id TEXT NOT NULL,
-  roleuser_id TEXT NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (userx_id) REFERENCES userx(id) ON UPDATE CASCADE ON DELETE CASCADE,
-  FOREIGN KEY (roleuser_id) REFERENCES roleuser(id) ON UPDATE CASCADE ON DELETE CASCADE
+  FOREIGN KEY (userx_id) REFERENCES userx(id) ON UPDATE CASCADE ON DELETE CASCADE
 );

@@ -44,27 +44,15 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
      * Пользователь, связанного с данным токеном
      */
     private DtoUserToken<ID> user;
-    /**
-     * Идентификатор роли пользователя, связанного с данным токеном
-     */
-    private ID roleUserId;
-    /**
-     * Роль пользователя, связанного с данным токеном
-     */
-    private DtoRoleuser<ID> roleUser;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void initialize(ID userId, ID roleUserId){
+    private void initialize(ID userId){
         if(userId == null){
             throw new NullPointerException("userId is NULL");
-        } else if(roleUserId == null){
-            throw new NullPointerException("roleUserId is NULL");
         }
 
         this.userId = userId;
-        this.roleUserId = roleUserId;
         user = null;
-        roleUser = null;
     }
 
     public DtoJWTToken() {
@@ -77,12 +65,10 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
         type = null;
         userId = null;
         user = null;
-        roleUserId = null;
-        roleUser = null;
     }
 
     public DtoJWTToken(String accessToken, String refreshToken, Date expireTimeAccess,
-                       Date expireTimeRefresh, Date issuedAt, ID userId, ID roleUserId) {
+                       Date expireTimeRefresh, Date issuedAt, ID userId) {
         super(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
         issuer = null;
         subject = null;
@@ -90,11 +76,11 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
         secret = null;
         algorithm = null;
         type = null;
-        initialize(userId, roleUserId);
+        initialize(userId);
     }
 
     public DtoJWTToken(ID id, String accessToken, String refreshToken, Date expireTimeAccess,
-                       Date expireTimeRefresh, Date issuedAt, ID userId, ID roleUserId) {
+                       Date expireTimeRefresh, Date issuedAt, ID userId) {
         super(id, accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
         issuer = null;
         subject = null;
@@ -102,7 +88,7 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
         secret = null;
         algorithm = null;
         type = null;
-        initialize(userId, roleUserId);
+        initialize(userId);
     }
     //</editor-fold>
 
@@ -193,26 +179,6 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
         }
         this.user = user;
     }
-
-    public ID getRoleUserId() {
-        return roleUserId;
-    }
-
-    public void setRoleUserId(ID roleUserId) {
-        if(roleUserId == null) {
-            throw new NullPointerException("roleUserId is NULL");
-        }
-
-        this.roleUserId = roleUserId;
-    }
-
-    public DtoRoleuser<ID> getRoleUser() {
-        return roleUser;
-    }
-
-    public void setRoleUser(DtoRoleuser<ID> roleUser) {
-        this.roleUser = roleUser;
-    }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
@@ -234,9 +200,7 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
                     && Objects.equals(algorithm, object.getAlgorithm())
                     && Objects.equals(type, object.getType())
                     && Objects.equals(userId, object.getUserId())
-                    && Objects.equals(user, object.getUser())
-                    && Objects.equals(roleUserId, object.getRoleUserId())
-                    && Objects.equals(roleUser, object.getRoleUser());
+                    && Objects.equals(user, object.getUser());
         }else {
             return false;
         }
@@ -246,7 +210,7 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
     public int hashCode(){
         return Objects.hash(getId(), getAccessToken(), getRefreshToken(), getExpireTimeAccess(),
                 getExpireTimeRefresh(), getIssuedAt(), issuer, subject, notBefore, audience, secret,
-                algorithm, type, userId, user, roleUserId, roleUser);
+                algorithm, type, userId, user);
     }
     //</editor-fold>
 }
