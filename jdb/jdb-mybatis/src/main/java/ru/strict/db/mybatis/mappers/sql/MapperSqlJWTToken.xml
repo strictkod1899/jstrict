@@ -4,14 +4,14 @@
 
     <resultMap id="token" type="ru.strict.db.core.entities.EntityJWTToken">
         <id property="id" column="id"/>
-        <result property="accessToken" column="accessToken"/>
-        <result property="refreshToken" column="refreshToken"/>
-        <result property="expireTimeAccess" column="expireTimeAccess"/>
-        <result property="expireTimeRefresh" column="expireTimeRefresh"/>
-        <result property="issuedAt" column="issuedAt"/>
+        <result property="accessToken" column="access_token"/>
+        <result property="refreshToken" column="refresh_token"/>
+        <result property="expireTimeAccess" column="expire_time_access"/>
+        <result property="expireTimeRefresh" column="expire_time_refresh"/>
+        <result property="issuedAt" column="issued_at"/>
         <result property="issuer" column="issuer"/>
         <result property="subject" column="subject"/>
-        <result property="notBefore" column="notBefore"/>
+        <result property="notBefore" column="not_before"/>
         <result property="audience" column="audience"/>
         <result property="secret" column="secret"/>
         <result property="algorithm" column="algorithm"/>

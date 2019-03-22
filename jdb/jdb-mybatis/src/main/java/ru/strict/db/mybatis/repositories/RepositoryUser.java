@@ -20,7 +20,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
         implements IRepositoryUser<ID, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "email",
-            "isBlocked", "isDeleted", "isConfirmEmail"};
+            "is_blocked", "is_deleted", "is_confirm_email"};
 
     public RepositoryUser(CreateConnectionByMybatis connectionSource,
                               MapperDtoBase<ID, EntityUser<ID>, DTO> dtoMapper,

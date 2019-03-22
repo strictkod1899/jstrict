@@ -21,7 +21,7 @@ public class RepositoryUserSecurity<ID>
         extends RepositoryNamedBase<ID, EntityUserSecurity<ID>, DtoUserSecurity<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "email",
-            "isBlocked", "isDeleted", "isConfirmEmail"};
+            "is_blocked", "is_deleted", "is_confirm_email"};
 
     public RepositoryUserSecurity(CreateConnectionByDataSource connectionSource, GenerateIdType generateIdType) {
         super("userx", COLUMNS_NAME, connectionSource,

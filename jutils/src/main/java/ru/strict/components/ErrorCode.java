@@ -19,7 +19,7 @@ public enum ErrorCode {
         return errorCode;
     }
 
-    public static ErrorCode getByErrorCode(String errorCode){
+    public static ErrorCode getByCode(String errorCode){
         if(errorCode == null){
             return null;
         }

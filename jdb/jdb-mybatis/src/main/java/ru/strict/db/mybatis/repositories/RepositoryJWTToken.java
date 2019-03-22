@@ -25,8 +25,8 @@ public class RepositoryJWTToken<ID>
         extends RepositoryNamedBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>, MapperSqlJWTToken<ID>>
         implements IRepositoryJWTToken<ID> {
 
-    private static final String[] COLUMNS_NAME = new String[] {"accessToken", "refreshToken", "expireTimeAccess",
-            "expireTimeRefresh", "issuedAt", "issuer", "subject", "notBefore", "audience", "secret",
+    private static final String[] COLUMNS_NAME = new String[] {"access_token", "refresh_token", "expire_time_access",
+            "expire_time_refresh", "issued_at", "issuer", "subject", "not_before", "audience", "secret",
             "algorithm", "type", "userx_id", "roleuser_id"};
 
     public RepositoryJWTToken(CreateConnectionByMybatis connectionSource, GenerateIdType generateIdType) {
@@ -41,7 +41,7 @@ public class RepositoryJWTToken<ID>
     @Override
     public DtoJWTToken<ID> readByAccessToken(String caption){
         DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(getTableName(), "accessToken", caption, "="));
+        requests.addWhere(new DbWhereItem(getTableName(), "access_token", caption, "="));
 
         DtoJWTToken<ID> result = readAll(requests).stream().findFirst().orElse(null);
         return result;
@@ -50,7 +50,7 @@ public class RepositoryJWTToken<ID>
     @Override
     public DtoJWTToken<ID> readByRefreshToken(String caption){
         DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(getTableName(), "refreshToken", caption, "="));
+        requests.addWhere(new DbWhereItem(getTableName(), "refresh_token", caption, "="));
 
         DtoJWTToken<ID> result = readAll(requests).stream().findFirst().orElse(null);
         return result;

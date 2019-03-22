@@ -7,9 +7,9 @@
         <result property="username" column="username"/>
         <result property="email" column="email"/>
         <result property="passwordEncode" column="passwordencode"/>
-        <result property="isBlocked" column="isBlocked"/>
-        <result property="isDeleted" column="isDeleted"/>
-        <result property="isConfirmEmail" column="isConfirmEmail"/>
+        <result property="isBlocked" column="is_blocked"/>
+        <result property="isDeleted" column="is_deleted"/>
+        <result property="isConfirmEmail" column="is_confirm_email"/>
     </resultMap>
 
     <resultMap id="userFill" type="ru.strict.db.core.entities.EntityUser" extends="user">
@@ -35,6 +35,14 @@
     <insert id="create" parameterType="ru.strict.db.core.entities.EntityUser">
         INSERT INTO userx (id, username, email, passwordencode, isBlocked, isDeleted, isConfirmEmail)
         VALUES (#{id}, #{username}, #{email}, #{passwordEncode}, #{isBlocked}, #{isDeleted}, #{isConfirmEmail})
+    </insert>
+
+    <insert id="createGenerateId" parameterType="ru.strict.db.core.entities.EntityUser"
+            useGeneratedKeys="true"
+            keyColumn="id"
+            keyProperty="id">
+        INSERT INTO userx (username, email, passwordencode, isBlocked, isDeleted, isConfirmEmail)
+        VALUES (#{username}, #{email}, #{passwordEncode}, #{isBlocked}, #{isDeleted}, #{isConfirmEmail})
     </insert>
 
     <select id="read" parameterType="java.lang.Object" resultMap="user">

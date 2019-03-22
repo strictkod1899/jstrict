@@ -15,27 +15,27 @@ public class EntityToken<ID> extends EntityBase<ID> {
     /**
      * Токен авторизации
      */
-    @Column(name = "accessToken", nullable = false)
+    @Column(name = "access_token", nullable = false)
     private String accessToken;
     /**
      * Токен обновления
      */
-    @Column(name = "refreshToken", nullable = false)
+    @Column(name = "refresh_token", nullable = false)
     private String refreshToken;
     /**
      * Время окончания действия access-токена
      */
-    @Column(name = "expireTimeAccess", nullable = false)
+    @Column(name = "expire_time_access", nullable = false)
     private Date expireTimeAccess;
     /**
      * Время окончания действия refresh-токена
      */
-    @Column(name = "expireTimeRefresh", nullable = false)
+    @Column(name = "expire_time_refresh", nullable = false)
     private Date expireTimeRefresh;
     /**
      * Время создания токена. Общее для access- и refresh-токена
      */
-    @Column(name = "issuedAt", nullable = false)
+    @Column(name = "issued_at", nullable = false)
     private Date issuedAt;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

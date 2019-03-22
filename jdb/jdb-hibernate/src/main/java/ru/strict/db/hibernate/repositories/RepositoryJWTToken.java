@@ -24,8 +24,8 @@ public class RepositoryJWTToken<ID extends Serializable>
         extends RepositoryHibernateBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>>
         implements IRepositoryJWTToken<ID> {
 
-    private static final String[] COLUMNS_NAME = new String[] {"accessToken", "refreshToken",
-            "expireTimeAccess", "expireTimeRefresh", "issuedAt", "issuer", "subject", "notBefore",
+    private static final String[] COLUMNS_NAME = new String[] {"access_token", "refresh_token",
+            "expire_time_access", "expire_time_refresh", "issued_at", "issuer", "subject", "not_before",
             "audience", "secret", "algorithm", "type", "userx_id", "roleuser_id"};
 
     public RepositoryJWTToken(CreateConnectionHibernate connectionSource, GenerateIdType generateIdType) {
@@ -51,7 +51,7 @@ public class RepositoryJWTToken<ID extends Serializable>
             CriteriaQuery<EntityJWTToken<ID>> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
             Root<EntityJWTToken<ID>> criteriaRoot = criteriaEntity.from(getEntityClass());
             criteriaEntity.select(criteriaRoot);
-            criteriaEntity.where(criteriaBuilder.equal(criteriaRoot.get("accessToken"), caption));
+            criteriaEntity.where(criteriaBuilder.equal(criteriaRoot.get("access_token"), caption));
             TypedQuery<EntityJWTToken<ID>> typed =  entityManager.createQuery(criteriaEntity);
             List<EntityJWTToken<ID>> entities = typed.getResultList();
             EntityJWTToken<ID> entity = entities.isEmpty() ? null : entities.get(0);
@@ -94,7 +94,7 @@ public class RepositoryJWTToken<ID extends Serializable>
             CriteriaQuery<EntityJWTToken<ID>> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
             Root<EntityJWTToken<ID>> criteriaRoot = criteriaEntity.from(getEntityClass());
             criteriaEntity.select(criteriaRoot);
-            criteriaEntity.where(criteriaBuilder.equal(criteriaRoot.get("refreshToken"), caption));
+            criteriaEntity.where(criteriaBuilder.equal(criteriaRoot.get("refresh_token"), caption));
             TypedQuery<EntityJWTToken<ID>> typed =  entityManager.createQuery(criteriaEntity);
             List<EntityJWTToken<ID>> entities = typed.getResultList();
             EntityJWTToken<ID> entity = entities.isEmpty() ? null : entities.get(0);
