@@ -1,5 +1,8 @@
 package ru.strict.db.core.mappers;
 
+import ru.strict.patterns.IMapper;
+import ru.strict.patterns.MapTarget;
+
 /**
  * Базовая реализация маппера
  */

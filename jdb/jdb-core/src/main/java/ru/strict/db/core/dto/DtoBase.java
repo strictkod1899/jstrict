@@ -1,6 +1,6 @@
 package ru.strict.db.core.dto;
 
-import ru.strict.db.core.mappers.MapTarget;
+import ru.strict.patterns.MapTarget;
 import ru.strict.utils.UtilData;
 
 import java.util.Objects;

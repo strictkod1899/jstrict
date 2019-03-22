@@ -1,4 +1,4 @@
-package ru.strict.db.core.mappers;
+package ru.strict.patterns;
 
 /**
  * Описание базового маппера

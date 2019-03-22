@@ -3,7 +3,7 @@ package ru.strict.db.core.mappers.dto;
 import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.dto.*;
 import ru.strict.db.core.entities.*;
-import ru.strict.db.core.mappers.IMapper;
+import ru.strict.patterns.IMapper;
 import ru.strict.patterns.IFactory;
 
 /**

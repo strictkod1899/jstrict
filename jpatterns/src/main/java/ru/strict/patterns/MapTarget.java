@@ -1,4 +1,4 @@
-package ru.strict.db.core.mappers;
+package ru.strict.patterns;
 
 /**
  * Интерфейс помечает класс, для использования его в качестве целевого типа преобразования в IMapper
