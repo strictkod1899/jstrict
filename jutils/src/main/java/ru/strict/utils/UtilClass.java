@@ -38,4 +38,15 @@ public class UtilClass {
     public static <T> Class<T> castClass(Class<?> aClass) {
         return (Class<T>)aClass;
     }
+
+    /**
+     * Проверить равенство двух классов
+     * @param checkClass (Неизвестный класс) Проверяемый класс
+     * @param startClass (Требуемый класс) Класс, относительно которого проверяем принадлежность к экземпляру
+     * @return
+     */
+    public static boolean isEquals(Class checkClass, Class startClass){
+        return checkClass == startClass;
+    }
+
 }

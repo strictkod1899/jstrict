@@ -2,7 +2,8 @@ package ru.strict.db.core.mappers.dto;
 
 import ru.strict.db.core.dto.*;
 import ru.strict.db.core.entities.*;
-import ru.strict.utils.UtilReflection;
+import ru.strict.utils.UtilClass;
+import ru.strict.utils.UtilClass;
 
 /**
  * Фабрика создания маппер-классов
@@ -13,33 +14,33 @@ public class MapperDtoFactory<ID>{
             MapperDtoBase<ID, E, DTO> instance(Class<E> entityClass, Class<DTO> dtoClass) {
         MapperDtoBase mapper = null;
 
-        if(entityClass == EntityCountry.class && dtoClass == DtoCountry.class){
+        if(UtilClass.isEquals(entityClass, EntityCountry.class) && UtilClass.isEquals(dtoClass,DtoCountry.class)){
             mapper = createMapperCountry();
-        } else if(entityClass == EntityCity.class && dtoClass == DtoCity.class){
+        } else if(UtilClass.isEquals(entityClass, EntityCity.class) && UtilClass.isEquals(dtoClass, DtoCity.class)){
             mapper = createMapperCity();
-        } else if(entityClass == EntityRoleuser.class && dtoClass == DtoRoleuser.class){
+        } else if(UtilClass.isEquals(entityClass, EntityRoleuser.class) && UtilClass.isEquals(dtoClass, DtoRoleuser.class)){
             mapper = createMapperRoleuser();
-        } else if(entityClass == EntityUser.class && dtoClass == DtoUserBase.class){
+        } else if(UtilClass.isEquals(entityClass, EntityUser.class) && UtilClass.isEquals(dtoClass, DtoUserBase.class)){
             mapper = createMapperUserBase();
-        } else if(entityClass == EntityUser.class && dtoClass == DtoUser.class){
+        } else if(UtilClass.isEquals(entityClass, EntityUser.class) && UtilClass.isEquals(dtoClass, DtoUser.class)){
             mapper = createMapperUser();
-        } else if(entityClass == EntityUser.class && dtoClass == DtoUserToken.class){
+        } else if(UtilClass.isEquals(entityClass, EntityUser.class) && UtilClass.isEquals(dtoClass, DtoUserToken.class)){
             mapper = createMapperUserToken();
-        } else if(entityClass == EntityUserOnRole.class && dtoClass == DtoUserOnRole.class){
+        } else if(UtilClass.isEquals(entityClass, EntityUserOnRole.class) && UtilClass.isEquals(dtoClass, DtoUserOnRole.class)){
             mapper = createMapperUserOnRole();
-        } else if(entityClass == EntityProfile.class && dtoClass == DtoProfile.class){
+        } else if(UtilClass.isEquals(entityClass, EntityProfile.class) && UtilClass.isEquals(dtoClass, DtoProfile.class)){
             mapper = createMapperProfile();
-        } else if(entityClass == EntityProfileInfo.class && dtoClass == DtoProfileInfo.class){
+        } else if(UtilClass.isEquals(entityClass, EntityProfileInfo.class) && UtilClass.isEquals(dtoClass, DtoProfileInfo.class)){
             mapper = createMapperProfileInfo();
-        } else if(entityClass == EntityJWTToken.class && dtoClass == DtoRoleuser.class){
+        } else if(UtilClass.isEquals(entityClass, EntityJWTToken.class) && UtilClass.isEquals(dtoClass, DtoRoleuser.class)){
             mapper = createMapperJWTToken();
-        }else if(entityClass == EntityFileStorage.class && dtoClass == DtoFileStorageBase.class){
+        }else if(UtilClass.isEquals(entityClass, EntityFileStorage.class) && UtilClass.isEquals(dtoClass, DtoFileStorageBase.class)){
             mapper = createMapperFileStorageBase();
-        } else if(entityClass == EntityFileStorage.class && dtoClass == DtoFileStoragePath.class){
+        } else if(UtilClass.isEquals(entityClass, EntityFileStorage.class) && UtilClass.isEquals(dtoClass, DtoFileStoragePath.class)){
             mapper = createMapperFileStoragePath();
-        } else if(entityClass == EntityFileStorage.class && dtoClass == DtoFileStorageContent.class){
+        } else if(UtilClass.isEquals(entityClass, EntityFileStorage.class) && UtilClass.isEquals(dtoClass, DtoFileStorageContent.class)){
             mapper = createMapperFileStorageContent();
-        } else if(entityClass == EntityFileStorage.class && dtoClass == DtoFileStorage.class){
+        } else if(UtilClass.isEquals(entityClass, EntityFileStorage.class) && UtilClass.isEquals(dtoClass, DtoFileStorage.class)){
             mapper = createMapperFileStorage();
         }
 
