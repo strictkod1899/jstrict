@@ -25,9 +25,9 @@ public class TestRepositoryCountry {
 
     @BeforeClass
     public static void prepare(){
-        repositoryNotGenerateId = new RepositoryCountry<>(TestRunner.createConnectionForDbInteger, GenerateIdType.NONE);
-        repositoryGenerateNumberId = new RepositoryCountry<>(TestRunner.createConnectionForDbInteger, GenerateIdType.NUMBER);
-        repositoryGenerateUuidId = new RepositoryCountry<>(TestRunner.createConnectionForDbUuid, GenerateIdType.UUID);
+        repositoryNotGenerateId = new RepositoryCountry<>(TestRunner.createDbIntegerConnection, GenerateIdType.NONE);
+        repositoryGenerateNumberId = new RepositoryCountry<>(TestRunner.createDbIntegerConnection, GenerateIdType.NUMBER);
+        repositoryGenerateUuidId = new RepositoryCountry<>(TestRunner.createDbUuidConnection, GenerateIdType.UUID);
         TestRunner.repositories.add(repositoryGenerateNumberId);
         TestRunner.repositories.add(repositoryGenerateUuidId);
     }

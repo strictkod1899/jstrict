@@ -31,16 +31,16 @@ public class TestRepositoryCity {
 
     @BeforeClass
     public static void prepare(){
-        repositoryNotGenerateId = new RepositoryCity<>(TestRunner.createConnectionForDbInteger, GenerateIdType.NONE);
-        repositoryGenerateNumberId = new RepositoryCity<>(TestRunner.createConnectionForDbInteger, GenerateIdType.NUMBER);
-        repositoryGenerateUuidId = new RepositoryCity<>(TestRunner.createConnectionForDbUuid, GenerateIdType.UUID);
+        repositoryNotGenerateId = new RepositoryCity<>(TestRunner.createDbIntegerConnection, GenerateIdType.NONE);
+        repositoryGenerateNumberId = new RepositoryCity<>(TestRunner.createDbIntegerConnection, GenerateIdType.NUMBER);
+        repositoryGenerateUuidId = new RepositoryCity<>(TestRunner.createDbUuidConnection, GenerateIdType.UUID);
         TestRunner.repositories.add(repositoryGenerateNumberId);
         TestRunner.repositories.add(repositoryGenerateUuidId);
 
         IRepositoryNamed<Integer, DtoCountry<Integer>> repositoryCountryNumberId
-                = new RepositoryCountry<>(TestRunner.createConnectionForDbInteger, GenerateIdType.NONE);
+                = new RepositoryCountry<>(TestRunner.createDbIntegerConnection, GenerateIdType.NONE);
         IRepositoryNamed<UUID, DtoCountry<UUID>> repositoryCountryUuidId
-                = new RepositoryCountry<>(TestRunner.createConnectionForDbUuid, GenerateIdType.NONE);
+                = new RepositoryCountry<>(TestRunner.createDbUuidConnection, GenerateIdType.NONE);
 
         TestRunner.repositories.add(repositoryCountryNumberId);
         TestRunner.repositories.add(repositoryCountryUuidId);

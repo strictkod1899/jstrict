@@ -9,7 +9,7 @@ public class TestConnection {
 
     @Test
     public void test(){
-        SqlSession connection = TestRunner.createConnectionForDbInteger.createConnection();
+        SqlSession connection = TestRunner.createDbIntegerConnection.createConnection();
         Assert.assertNotNull(connection);
     }
 }

@@ -4,9 +4,7 @@ import org.junit.*;
 import org.junit.runners.MethodSorters;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoRoleuser;
-import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.repositories.IRepositoryNamed;
-import ru.strict.db.mybatis.repositories.RepositoryCountry;
 import ru.strict.db.mybatis.repositories.RepositoryRoleuser;
 import ru.strict.db.mybatis.runners.TestRunner;
 
@@ -28,9 +26,9 @@ public class TestRepositoryRoleuser {
 
     @BeforeClass
     public static void prepare(){
-        repositoryNotGenerateId = new RepositoryRoleuser<>(TestRunner.createConnectionForDbInteger, GenerateIdType.NONE);
-        repositoryGenerateNumberId = new RepositoryRoleuser<>(TestRunner.createConnectionForDbInteger, GenerateIdType.NUMBER);
-        repositoryGenerateUuidId = new RepositoryRoleuser<>(TestRunner.createConnectionForDbUuid, GenerateIdType.UUID);
+        repositoryNotGenerateId = new RepositoryRoleuser<>(TestRunner.createDbIntegerConnection, GenerateIdType.NONE);
+        repositoryGenerateNumberId = new RepositoryRoleuser<>(TestRunner.createDbIntegerConnection, GenerateIdType.NUMBER);
+        repositoryGenerateUuidId = new RepositoryRoleuser<>(TestRunner.createDbUuidConnection, GenerateIdType.UUID);
         TestRunner.repositories.add(repositoryGenerateNumberId);
         TestRunner.repositories.add(repositoryGenerateUuidId);
     }

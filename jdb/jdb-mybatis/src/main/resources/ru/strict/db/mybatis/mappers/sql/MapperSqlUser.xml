@@ -33,7 +33,7 @@
     </resultMap>
 
     <insert id="create" parameterType="ru.strict.db.core.entities.EntityUser">
-        INSERT INTO userx (id, username, email, passwordencode, isBlocked, isDeleted, isConfirmEmail)
+        INSERT INTO userx (id, username, email, passwordencode, is_blocked, is_deleted, is_confirm_email)
         VALUES (#{id}, #{username}, #{email}, #{passwordEncode}, #{isBlocked}, #{isDeleted}, #{isConfirmEmail})
     </insert>
 
@@ -41,7 +41,7 @@
             useGeneratedKeys="true"
             keyColumn="id"
             keyProperty="id">
-        INSERT INTO userx (username, email, passwordencode, isBlocked, isDeleted, isConfirmEmail)
+        INSERT INTO userx (username, email, passwordencode, is_blocked, is_deleted, is_confirm_email)
         VALUES (#{username}, #{email}, #{passwordEncode}, #{isBlocked}, #{isDeleted}, #{isConfirmEmail})
     </insert>
 
@@ -55,7 +55,7 @@
 
     <update id="update" parameterType="ru.strict.db.core.entities.EntityUser">
         UPDATE userx SET username = #{username}, email = #{email}, passwordencode = #{passwordEncode},
-        isBlocked = #{isBlocked},isDeleted = #{isDeleted}, isConfirmEmail = #{isConfirmEmail}
+        is_blocked = #{isBlocked}, is_deleted = #{isDeleted}, is_confirm_email = #{isConfirmEmail}
         WHERE id = #{id}
     </update>
 
