@@ -13,36 +13,34 @@ public class MapperDtoFactory<ID>{
             MapperDtoBase<ID, E, DTO> instance(Class<E> entityClass, Class<DTO> dtoClass) {
         MapperDtoBase mapper = null;
 
-        if(UtilReflection.isInstanceOf(entityClass, EntityCountry.class)
-                && UtilReflection.isInstanceOf(dtoClass, DtoCountry.class)){
+        if(entityClass == EntityCountry.class && dtoClass == DtoCountry.class){
             mapper = createMapperCountry();
-        } else if(UtilReflection.isInstanceOf(entityClass, EntityCity.class)
-                && UtilReflection.isInstanceOf(dtoClass, DtoCity.class)){
+        } else if(entityClass == EntityCity.class && dtoClass == DtoCity.class){
             mapper = createMapperCity();
-        } else if(UtilReflection.isInstanceOf(entityClass, EntityRoleuser.class)
-                && UtilReflection.isInstanceOf(dtoClass, DtoRoleuser.class)){
+        } else if(entityClass == EntityRoleuser.class && dtoClass == DtoRoleuser.class){
             mapper = createMapperRoleuser();
-        } else if(UtilReflection.isInstanceOf(entityClass, EntityUser.class)
-                && UtilReflection.isInstanceOf(dtoClass, DtoUserBase.class)){
+        } else if(entityClass == EntityUser.class && dtoClass == DtoUserBase.class){
             mapper = createMapperUserBase();
-        } else if(UtilReflection.isInstanceOf(entityClass, EntityUser.class)
-                && UtilReflection.isInstanceOf(dtoClass, DtoUser.class)){
+        } else if(entityClass == EntityUser.class && dtoClass == DtoUser.class){
             mapper = createMapperUser();
-        } else if(UtilReflection.isInstanceOf(entityClass, EntityUser.class)
-                && UtilReflection.isInstanceOf(dtoClass, DtoUserToken.class)){
+        } else if(entityClass == EntityUser.class && dtoClass == DtoUserToken.class){
             mapper = createMapperUserToken();
-        } else if(UtilReflection.isInstanceOf(entityClass, EntityUserOnRole.class)
-                && UtilReflection.isInstanceOf(dtoClass, DtoUserOnRole.class)){
+        } else if(entityClass == EntityUserOnRole.class && dtoClass == DtoUserOnRole.class){
             mapper = createMapperUserOnRole();
-        } else if(UtilReflection.isInstanceOf(entityClass, EntityProfile.class)
-                && UtilReflection.isInstanceOf(dtoClass, DtoProfile.class)){
+        } else if(entityClass == EntityProfile.class && dtoClass == DtoProfile.class){
             mapper = createMapperProfile();
-        } else if(UtilReflection.isInstanceOf(entityClass, EntityProfileInfo.class)
-                && UtilReflection.isInstanceOf(dtoClass, DtoProfileInfo.class)){
+        } else if(entityClass == EntityProfileInfo.class && dtoClass == DtoProfileInfo.class){
             mapper = createMapperProfileInfo();
-        } else if(UtilReflection.isInstanceOf(entityClass, EntityJWTToken.class)
-                && UtilReflection.isInstanceOf(dtoClass, DtoRoleuser.class)){
+        } else if(entityClass == EntityJWTToken.class && dtoClass == DtoRoleuser.class){
             mapper = createMapperJWTToken();
+        }else if(entityClass == EntityFileStorage.class && dtoClass == DtoFileStorageBase.class){
+            mapper = createMapperFileStorageBase();
+        } else if(entityClass == EntityFileStorage.class && dtoClass == DtoFileStoragePath.class){
+            mapper = createMapperFileStoragePath();
+        } else if(entityClass == EntityFileStorage.class && dtoClass == DtoFileStorageContent.class){
+            mapper = createMapperFileStorageContent();
+        } else if(entityClass == EntityFileStorage.class && dtoClass == DtoFileStorage.class){
+            mapper = createMapperFileStorage();
         }
 
         return mapper;
@@ -98,5 +96,21 @@ public class MapperDtoFactory<ID>{
         MapperDtoBase<ID, EntityUser<ID>, DtoUserToken<ID>> mapperUser = createMapperUserToken();
         MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRolesser = new MapperDtoRoleuser();
         return new MapperDtoJWTToken(mapperUser, mapperRolesser);
+    }
+
+    private MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStorageBase<ID>> createMapperFileStorageBase(){
+        return new MapperDtoFileStorageBase<>();
+    }
+
+    private MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStoragePath<ID>> createMapperFileStoragePath(){
+        return new MapperDtoFileStoragePath<>(createMapperFileStorageBase());
+    }
+
+    private MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStorageContent<ID>> createMapperFileStorageContent(){
+        return new MapperDtoFileStorageContent<>(createMapperFileStorageBase());
+    }
+
+    private MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStorage<ID>> createMapperFileStorage(){
+        return new MapperDtoFileStorage<>(createMapperFileStoragePath());
     }
 }
