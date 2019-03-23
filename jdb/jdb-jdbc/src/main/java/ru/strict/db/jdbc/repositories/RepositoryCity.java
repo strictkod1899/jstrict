@@ -11,6 +11,7 @@ import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlCity;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlCountry;
+import ru.strict.utils.UtilClass;
 
 import java.sql.Connection;
 import java.util.LinkedHashMap;
@@ -23,7 +24,7 @@ public class RepositoryCity<ID>
 
     public RepositoryCity(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
         super("city", COLUMNS_NAME, connectionSource,
-                new MapperDtoFactory<ID, EntityCity<ID>, DtoCity<ID>>().instance(MapperDtoType.CITY),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityCity.class), UtilClass.castClass(DtoCity.class)),
                 new MapperSqlCity<ID>(COLUMNS_NAME),
                 generateIdType);
     }

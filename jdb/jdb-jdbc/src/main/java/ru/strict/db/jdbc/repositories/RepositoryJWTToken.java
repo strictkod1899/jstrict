@@ -5,8 +5,10 @@ import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoJWTToken;
 import ru.strict.db.core.dto.DtoRoleuser;
+import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.dto.DtoUserToken;
 import ru.strict.db.core.entities.EntityJWTToken;
+import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.repositories.interfaces.IRepositoryJWTToken;
@@ -14,6 +16,7 @@ import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.core.requests.WhereType;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlJWTToken;
+import ru.strict.utils.UtilClass;
 
 import java.sql.Connection;
 import java.util.LinkedHashMap;
@@ -29,7 +32,7 @@ public class RepositoryJWTToken<ID>
 
     public RepositoryJWTToken(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
         super("token", COLUMNS_NAME, connectionSource,
-                new MapperDtoFactory<ID, EntityJWTToken<ID>, DtoJWTToken<ID>>().instance(MapperDtoType.JWT_TOKEN),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityJWTToken.class), UtilClass.castClass(DtoJWTToken.class)),
                 new MapperSqlJWTToken<ID>(COLUMNS_NAME),
                 generateIdType);
     }
@@ -77,7 +80,7 @@ public class RepositoryJWTToken<ID>
         IRepository<ID, DtoUserToken<ID>> repositoryUser = null;
         try {
             repositoryUser = new RepositoryUser(getConnectionSource(),
-                    new MapperDtoFactory().instance(MapperDtoType.USER_TOKEN),
+                    new MapperDtoFactory().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUser.class)),
                     GenerateIdType.NONE);
             dto.setUser(repositoryUser.read(dto.getUserId()));
         }finally {

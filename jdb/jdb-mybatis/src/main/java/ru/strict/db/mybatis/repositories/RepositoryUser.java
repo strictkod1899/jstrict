@@ -6,14 +6,10 @@ import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.interfaces.IRepositoryUser;
 import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlUser;
-import ru.strict.utils.UtilClassOperations;
-
-import java.sql.Connection;
-import java.util.*;
+import ru.strict.utils.UtilClass;
 
 public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
         extends RepositoryNamedBase<ID, EntityUser<ID>, DTO, MapperSqlUser<ID>>
@@ -28,7 +24,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
         super("userx",
                 COLUMNS_NAME,
                 connectionSource,
-                UtilClassOperations.<MapperSqlUser<ID>>castClass(MapperSqlUser.class),
+                UtilClass.castClass(MapperSqlUser.class),
                 dtoMapper,
                 generateIdType);
     }

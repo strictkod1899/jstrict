@@ -7,9 +7,11 @@ import ru.strict.db.core.dto.DtoCity;
 import ru.strict.db.core.dto.DtoProfileInfo;
 import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.entities.EntityProfileInfo;
+import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlProfileInfo;
+import ru.strict.utils.UtilClass;
 
 import java.sql.Connection;
 import java.util.LinkedHashMap;
@@ -28,7 +30,7 @@ public class RepositoryProfileInfo<ID>
 
     public RepositoryProfileInfo(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
         super("profile", COLUMNS_NAME, connectionSource,
-                new MapperDtoFactory<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>>().instance(MapperDtoType.PROFILE_INFO),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityProfileInfo.class), UtilClass.castClass(DtoProfileInfo.class)),
                 new MapperSqlProfileInfo<ID>(COLUMNS_NAME),
                 generateIdType);
     }
@@ -52,7 +54,7 @@ public class RepositoryProfileInfo<ID>
         IRepository<ID, DtoCity<ID>> repositoryCity = null;
         try {
             repositoryUser = new RepositoryUser<>(getConnectionSource(),
-                    new MapperDtoFactory().instance(MapperDtoType.USER),
+                    new MapperDtoFactory().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUser.class)),
                     GenerateIdType.NONE);
             dto.setUser(repositoryUser.read(dto.getUserId()));
 

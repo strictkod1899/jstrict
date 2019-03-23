@@ -1,16 +1,12 @@
 package ru.strict.db.mybatis.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.dto.DtoCity;
 import ru.strict.db.core.entities.EntityCity;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
-import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlCity;
-import ru.strict.utils.UtilClassOperations;
-
-import java.util.List;
+import ru.strict.utils.UtilClass;
 
 public class RepositoryCity<ID> extends RepositoryNamedBase<ID, EntityCity<ID>, DtoCity<ID>, MapperSqlCity<ID>> {
 
@@ -20,8 +16,8 @@ public class RepositoryCity<ID> extends RepositoryNamedBase<ID, EntityCity<ID>, 
         super("city",
                 COLUMNS_NAME,
                 connectionSource,
-                UtilClassOperations.<MapperSqlCity<ID>>castClass(MapperSqlCity.class),
-                new MapperDtoFactory<ID, EntityCity<ID>, DtoCity<ID>>().instance(MapperDtoType.CITY),
+                UtilClass.castClass(MapperSqlCity.class),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityCity.class), UtilClass.castClass(DtoCity.class)),
                 generateIdType);
     }
 

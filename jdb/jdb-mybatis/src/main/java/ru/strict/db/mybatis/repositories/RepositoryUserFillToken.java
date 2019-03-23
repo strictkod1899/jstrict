@@ -6,12 +6,13 @@ import ru.strict.db.core.dto.DtoUserToken;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
+import ru.strict.utils.UtilClass;
 
 public class RepositoryUserFillToken<ID> extends RepositoryUser<ID, DtoUserToken<ID>> {
 
     public RepositoryUserFillToken(CreateConnectionByMybatis connectionSource, GenerateIdType generateIdType) {
         super(connectionSource,
-                new MapperDtoFactory<ID, EntityUser<ID>, DtoUserToken<ID>>().instance(MapperDtoType.USER_TOKEN),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUserToken.class)),
                 generateIdType);
     }
 

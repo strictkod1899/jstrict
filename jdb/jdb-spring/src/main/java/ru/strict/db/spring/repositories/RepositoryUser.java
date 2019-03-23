@@ -27,7 +27,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
     public RepositoryUser(CreateConnectionByDataSource connectionSource,
                           MapperDtoBase<ID, EntityUser<ID>, DTO> dtoMapper,
                           GenerateIdType generateIdType) {
-        super("userx", COLUMNS_NAME, connectionSource, dtoMapper, new MapperSqlUser<ID>(COLUMNS_NAME), generateIdType);
+        super("userx", COLUMNS_NAME, connectionSource, dtoMapper, new MapperSqlUser(COLUMNS_NAME), generateIdType);
     }
 
     @Override

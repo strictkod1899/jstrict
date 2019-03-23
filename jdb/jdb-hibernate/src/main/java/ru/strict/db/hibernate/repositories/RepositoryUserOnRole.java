@@ -6,7 +6,7 @@ import ru.strict.db.core.dto.DtoUserOnRole;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityUserOnRole;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
-import ru.strict.utils.UtilClassOperations;
+import ru.strict.utils.UtilClass;
 
 import java.io.Serializable;
 
@@ -19,7 +19,7 @@ public class RepositoryUserOnRole<ID extends Serializable>
         super("user_on_role",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>>().instance(MapperDtoType.USER_ON_ROLE),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUserOnRole.class), UtilClass.castClass(DtoUserOnRole.class)),
                 generateIdType);
     }
 
@@ -30,7 +30,7 @@ public class RepositoryUserOnRole<ID extends Serializable>
 
     @Override
     protected Class<EntityUserOnRole<ID>> getEntityClass() {
-        return UtilClassOperations.<EntityUserOnRole<ID>>castClass(EntityUserOnRole.class);
+        return UtilClass.castClass(EntityUserOnRole.class);
     }
 
     @Override

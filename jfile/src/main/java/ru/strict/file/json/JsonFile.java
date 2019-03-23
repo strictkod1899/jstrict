@@ -1,7 +1,7 @@
 package ru.strict.file.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import ru.strict.utils.UtilClassOperations;
+import ru.strict.utils.UtilClass;
 import ru.strict.utils.UtilJson;
 import ru.strict.validates.ValidateBaseValue;
 
@@ -64,7 +64,7 @@ public class JsonFile<TARGET> implements IJsonFile<TARGET> {
         if(!Files.exists(Paths.get(filePath))){
             return null;
         }
-        source = UtilJson.loadFromJson(filePath, UtilClassOperations.castClass(List.class));
+        source = UtilJson.loadFromJson(filePath, UtilClass.castClass(List.class));
         return source;
     }
 

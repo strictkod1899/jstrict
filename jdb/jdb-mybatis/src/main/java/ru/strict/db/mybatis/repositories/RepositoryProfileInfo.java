@@ -1,13 +1,12 @@
 package ru.strict.db.mybatis.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.dto.DtoProfileInfo;
 import ru.strict.db.core.entities.EntityProfileInfo;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlProfileInfo;
-import ru.strict.utils.UtilClassOperations;
+import ru.strict.utils.UtilClass;
 
 public class RepositoryProfileInfo<ID>
         extends RepositoryMybatisBase<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>, MapperSqlProfileInfo<ID>> {
@@ -19,8 +18,8 @@ public class RepositoryProfileInfo<ID>
         super("profile",
                 COLUMNS_NAME,
                 connectionSource,
-                UtilClassOperations.<MapperSqlProfileInfo<ID>>castClass(MapperSqlProfileInfo.class),
-                new MapperDtoFactory<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>>().instance(MapperDtoType.PROFILE_INFO),
+                UtilClass.castClass(MapperSqlProfileInfo.class),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityProfileInfo.class), UtilClass.castClass(DtoProfileInfo.class)),
                 generateIdType);
     }
 

@@ -1,13 +1,12 @@
 package ru.strict.db.mybatis.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.entities.EntityRoleuser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlRoleuser;
-import ru.strict.utils.UtilClassOperations;
+import ru.strict.utils.UtilClass;
 
 public class RepositoryRoleuser<ID> extends RepositoryNamedBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>, MapperSqlRoleuser<ID>> {
 
@@ -17,8 +16,8 @@ public class RepositoryRoleuser<ID> extends RepositoryNamedBase<ID, EntityRoleus
         super("roleuser",
                 COLUMNS_NAME,
                 connectionSource,
-                UtilClassOperations.<MapperSqlRoleuser<ID>>castClass(MapperSqlRoleuser.class),
-                new MapperDtoFactory<ID, EntityRoleuser<ID>, DtoRoleuser<ID>>().instance(MapperDtoType.ROLE_USER),
+                UtilClass.castClass(MapperSqlRoleuser.class),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityRoleuser.class), UtilClass.castClass(DtoRoleuser.class)),
                 generateIdType);
     }
 

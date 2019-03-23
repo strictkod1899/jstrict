@@ -24,8 +24,8 @@ import java.util.List;
         TestConnection.class,
         TestRepositoryCountry.class,
         TestRepositoryCity.class,
-        TestRepositoryRoleuser.class,
-        TestRepositoryUser.class
+        TestRepositoryRoleuser.class//,
+        //TestRepositoryUser.class
 })
 public class TestRunner {
 

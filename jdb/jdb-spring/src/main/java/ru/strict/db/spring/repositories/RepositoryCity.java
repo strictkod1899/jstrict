@@ -9,6 +9,7 @@ import ru.strict.db.core.entities.EntityCity;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.spring.mappers.sql.MapperSqlCity;
+import ru.strict.utils.UtilClass;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -20,8 +21,8 @@ public class RepositoryCity<ID>
 
     public RepositoryCity(CreateConnectionByDataSource connectionSource, GenerateIdType generateIdType) {
         super("city", COLUMNS_NAME, connectionSource,
-                new MapperDtoFactory<ID, EntityCity<ID>, DtoCity<ID>>().instance(MapperDtoType.CITY),
-                new MapperSqlCity<ID>(COLUMNS_NAME),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityCity.class), UtilClass.castClass(DtoCity.class)),
+                new MapperSqlCity(COLUMNS_NAME),
                 generateIdType);
     }
 

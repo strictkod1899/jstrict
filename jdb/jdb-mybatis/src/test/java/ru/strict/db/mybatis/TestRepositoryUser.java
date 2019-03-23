@@ -5,6 +5,7 @@ import org.junit.runners.MethodSorters;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.dto.DtoUser;
+import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.mybatis.repositories.RepositoryUser;
@@ -30,13 +31,13 @@ public class TestRepositoryUser {
     @BeforeClass
     public static void prepare(){
         repositoryNotGenerateId = new RepositoryUser<>(TestRunner.createConnectionForDbInteger,
-                new MapperDtoFactory().instance(MapperDtoType.USER),
+                new MapperDtoFactory().instance(EntityUser.class, DtoUser.class),
                 GenerateIdType.NONE);
         repositoryGenerateNumberId = new RepositoryUser<>(TestRunner.createConnectionForDbInteger,
-                new MapperDtoFactory().instance(MapperDtoType.USER),
+                new MapperDtoFactory().instance(EntityUser.class, DtoUser.class),
                 GenerateIdType.NUMBER);
         repositoryGenerateUuidId = new RepositoryUser<>(TestRunner.createConnectionForDbUuid,
-                new MapperDtoFactory().instance(MapperDtoType.USER),
+                new MapperDtoFactory().instance(EntityUser.class, DtoUser.class),
                 GenerateIdType.UUID);
         TestRunner.repositories.add(repositoryGenerateNumberId);
         TestRunner.repositories.add(repositoryGenerateUuidId);

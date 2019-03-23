@@ -11,6 +11,7 @@ import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.core.requests.DbWhereItem;
+import ru.strict.utils.UtilClass;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,7 @@ public class RepositoryUserFillToken<ID>
 
     public RepositoryUserFillToken(CreateConnectionByDataSource connectionSource, GenerateIdType generateIdType) {
         super(connectionSource,
-                new MapperDtoFactory<ID, EntityUser<ID>, DtoUserToken<ID>>().instance(MapperDtoType.USER_TOKEN),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUserToken.class)),
                 generateIdType);
     }
 
@@ -37,8 +38,7 @@ public class RepositoryUserFillToken<ID>
 
         try {
             // Добавление токенов
-            repositoryToken =
-                    new RepositoryJWTToken<>(getConnectionSource(), GenerateIdType.NONE);
+            repositoryToken = new RepositoryJWTToken<>(getConnectionSource(), GenerateIdType.NONE);
             DbRequests requests = new DbRequests();
             requests.addWhere(new DbWhereItem(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));
 

@@ -12,6 +12,7 @@ import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.core.requests.WhereType;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlCountry;
+import ru.strict.utils.UtilClass;
 
 import java.sql.Connection;
 import java.util.LinkedHashMap;
@@ -25,7 +26,7 @@ public class RepositoryCountry<ID>
 
     public RepositoryCountry(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
         super("country", COLUMNS_NAME, connectionSource,
-                new MapperDtoFactory<ID, EntityCountry<ID>, DtoCountry<ID>>().instance(MapperDtoType.COUNTRY),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityCountry.class), UtilClass.castClass(DtoCountry.class)),
                 new MapperSqlCountry<ID>(COLUMNS_NAME),
                 generateIdType);
     }

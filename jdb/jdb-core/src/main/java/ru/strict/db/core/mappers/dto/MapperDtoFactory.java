@@ -1,52 +1,50 @@
 package ru.strict.db.core.mappers.dto;
 
-import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.dto.*;
 import ru.strict.db.core.entities.*;
-import ru.strict.patterns.IMapper;
-import ru.strict.patterns.IFactory;
+import ru.strict.utils.UtilReflection;
 
 /**
  * Фабрика создания маппер-классов
  */
-public class MapperDtoFactory<ID, E extends EntityBase<ID>, DTO extends DtoBase<ID>>
-        implements IFactory<IMapper, MapperDtoType> {
+public class MapperDtoFactory<ID>{
 
-    @Override
-    public MapperDtoBase<ID, E, DTO> instance(MapperDtoType parameter) {
+    public <E extends EntityBase<ID>, DTO extends DtoBase<ID>>
+            MapperDtoBase<ID, E, DTO> instance(Class<E> entityClass, Class<DTO> dtoClass) {
         MapperDtoBase mapper = null;
-        switch(parameter){
-            case COUNTRY:
-                mapper = createMapperCountry();
-                break;
-            case CITY:
-                mapper = createMapperCity();
-                break;
-            case ROLE_USER:
-                mapper = createMapperRoleuser();
-                break;
-            case USER_BASE:
-                mapper = createMapperUserBase();
-                break;
-            case USER:
-                mapper = createMapperUser();
-                break;
-            case USER_ON_ROLE:
-                mapper = createMapperUserOnRole();
-                break;
-            case PROFILE:
-                mapper = createMapperProfile();
-                break;
-            case PROFILE_INFO:
-                mapper = createMapperProfileInfo();
-                break;
-            case JWT_TOKEN:
-                mapper = createMapperJWTToken();
-                break;
-            case USER_TOKEN:
-                mapper = createMapperUserToken();
-                break;
+
+        if(UtilReflection.isInstanceOf(entityClass, EntityCountry.class)
+                && UtilReflection.isInstanceOf(dtoClass, DtoCountry.class)){
+            mapper = createMapperCountry();
+        } else if(UtilReflection.isInstanceOf(entityClass, EntityCity.class)
+                && UtilReflection.isInstanceOf(dtoClass, DtoCity.class)){
+            mapper = createMapperCity();
+        } else if(UtilReflection.isInstanceOf(entityClass, EntityRoleuser.class)
+                && UtilReflection.isInstanceOf(dtoClass, DtoRoleuser.class)){
+            mapper = createMapperRoleuser();
+        } else if(UtilReflection.isInstanceOf(entityClass, EntityUser.class)
+                && UtilReflection.isInstanceOf(dtoClass, DtoUserBase.class)){
+            mapper = createMapperUserBase();
+        } else if(UtilReflection.isInstanceOf(entityClass, EntityUser.class)
+                && UtilReflection.isInstanceOf(dtoClass, DtoUser.class)){
+            mapper = createMapperUser();
+        } else if(UtilReflection.isInstanceOf(entityClass, EntityUser.class)
+                && UtilReflection.isInstanceOf(dtoClass, DtoUserToken.class)){
+            mapper = createMapperUserToken();
+        } else if(UtilReflection.isInstanceOf(entityClass, EntityUserOnRole.class)
+                && UtilReflection.isInstanceOf(dtoClass, DtoUserOnRole.class)){
+            mapper = createMapperUserOnRole();
+        } else if(UtilReflection.isInstanceOf(entityClass, EntityProfile.class)
+                && UtilReflection.isInstanceOf(dtoClass, DtoProfile.class)){
+            mapper = createMapperProfile();
+        } else if(UtilReflection.isInstanceOf(entityClass, EntityProfileInfo.class)
+                && UtilReflection.isInstanceOf(dtoClass, DtoProfileInfo.class)){
+            mapper = createMapperProfileInfo();
+        } else if(UtilReflection.isInstanceOf(entityClass, EntityJWTToken.class)
+                && UtilReflection.isInstanceOf(dtoClass, DtoRoleuser.class)){
+            mapper = createMapperJWTToken();
         }
+
         return mapper;
     }
 

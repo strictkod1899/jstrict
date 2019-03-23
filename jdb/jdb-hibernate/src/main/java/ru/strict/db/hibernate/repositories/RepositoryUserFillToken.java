@@ -6,6 +6,7 @@ import ru.strict.db.core.dto.DtoUserToken;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityUser;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
+import ru.strict.utils.UtilClass;
 
 import java.io.Serializable;
 
@@ -14,7 +15,7 @@ public class RepositoryUserFillToken<ID extends Serializable> extends Repository
     public RepositoryUserFillToken(CreateConnectionHibernate connectionSource,
                           GenerateIdType generateIdType) {
         super(connectionSource,
-                new MapperDtoFactory<ID, EntityUser<ID>, DtoUserToken<ID>>().instance(MapperDtoType.USER_TOKEN),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUserToken.class)),
                 generateIdType);
     }
 

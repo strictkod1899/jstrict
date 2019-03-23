@@ -1,6 +1,6 @@
 package ru.strict.utils;
 
-public class UtilClassOperations {
+public class UtilClass {
 
     /**
      * Определить имя текщего класса
@@ -29,7 +29,7 @@ public class UtilClassOperations {
 
     /**
      * Пример использования:
-     * Class<List<Object>> clazz = UtilClassOperations.<List<Object>>castClass(List.class);
+     * Class<List<Object>> clazz = UtilClass.<List<Object>>castClass(List.class);
      * @param aClass
      * @param <T>
      * @return

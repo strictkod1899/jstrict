@@ -6,7 +6,7 @@ import ru.strict.db.core.dto.DtoProfileInfo;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityProfileInfo;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
-import ru.strict.utils.UtilClassOperations;
+import ru.strict.utils.UtilClass;
 
 import java.io.Serializable;
 
@@ -24,7 +24,7 @@ public class RepositoryProfileInfo<ID extends Serializable>
         super("profile",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>>().instance(MapperDtoType.PROFILE_INFO),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityProfileInfo.class), UtilClass.castClass(DtoProfileInfo.class)),
                 generateIdType);
     }
 
@@ -35,7 +35,7 @@ public class RepositoryProfileInfo<ID extends Serializable>
 
     @Override
     protected Class<EntityProfileInfo<ID>> getEntityClass() {
-        return UtilClassOperations.<EntityProfileInfo<ID>>castClass(EntityProfileInfo.class);
+        return UtilClass.castClass(EntityProfileInfo.class);
     }
 
     @Override

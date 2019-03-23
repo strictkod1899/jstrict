@@ -1,12 +1,11 @@
 package ru.strict.db.hibernate.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityRoleuser;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
-import ru.strict.utils.UtilClassOperations;
+import ru.strict.utils.UtilClass;
 
 import java.io.Serializable;
 
@@ -19,7 +18,7 @@ public class RepositoryRoleuser<ID extends Serializable>
         super("roleuser",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory<ID, EntityRoleuser<ID>, DtoRoleuser<ID>>().instance(MapperDtoType.ROLE_USER),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityRoleuser.class), UtilClass.castClass(DtoRoleuser.class)),
                 generateIdType);
     }
 
@@ -35,7 +34,7 @@ public class RepositoryRoleuser<ID extends Serializable>
 
     @Override
     protected Class<EntityRoleuser<ID>> getEntityClass() {
-        return UtilClassOperations.<EntityRoleuser<ID>>castClass(EntityRoleuser.class);
+        return UtilClass.castClass(EntityRoleuser.class);
     }
 
     @Override

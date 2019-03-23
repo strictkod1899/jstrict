@@ -90,8 +90,8 @@ public class UtilReflection {
 
     /**
      * Проверить, является ли класс экземпляром другого класса
-     * @param checkClass Проверяемый класс
-     * @param startClass Класс, относительно которого проверяем принадлежность к экземпляру
+     * @param checkClass (Неизвестный класс) Проверяемый класс
+     * @param startClass (Требуемый класс) Класс, относительно которого проверяем принадлежность к экземпляру
      * @return
      */
     public static boolean isInstanceOf(Class checkClass, Class startClass){

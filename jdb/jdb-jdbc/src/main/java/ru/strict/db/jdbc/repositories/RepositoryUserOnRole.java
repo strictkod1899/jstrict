@@ -6,10 +6,12 @@ import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.dto.DtoUserOnRole;
+import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.entities.EntityUserOnRole;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlUserOnRole;
+import ru.strict.utils.UtilClass;
 
 import java.sql.Connection;
 import java.util.LinkedHashMap;
@@ -22,7 +24,7 @@ public class RepositoryUserOnRole<ID>
 
     public RepositoryUserOnRole(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
         super("user_on_role", COLUMNS_NAME, connectionSource,
-                new MapperDtoFactory<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>>().instance(MapperDtoType.USER_ON_ROLE),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUserOnRole.class), UtilClass.castClass(DtoUserOnRole.class)),
                 new MapperSqlUserOnRole<ID>(COLUMNS_NAME),
                 generateIdType);
     }
@@ -42,7 +44,7 @@ public class RepositoryUserOnRole<ID>
         try {
             // Добавление пользователя
             repositoryUser = new RepositoryUser(getConnectionSource(),
-                    new MapperDtoFactory().instance(MapperDtoType.USER),
+                    new MapperDtoFactory().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUser.class)),
                     GenerateIdType.NONE);
             dto.setUser(repositoryUser.read(dto.getUserId()));
 

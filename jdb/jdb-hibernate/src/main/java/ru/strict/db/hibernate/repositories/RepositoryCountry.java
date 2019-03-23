@@ -6,7 +6,7 @@ import ru.strict.db.core.dto.DtoCountry;
 import ru.strict.db.hibernate.entities.EntityCountry;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
-import ru.strict.utils.UtilClassOperations;
+import ru.strict.utils.UtilClass;
 
 import java.io.Serializable;
 
@@ -18,7 +18,7 @@ public class RepositoryCountry<ID extends Serializable> extends RepositoryNamedB
         super("country",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory<ID, EntityCountry<ID>, DtoCountry<ID>>().instance(MapperDtoType.COUNTRY),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityCountry.class), UtilClass.castClass(DtoCountry.class)),
                 generateIdType);
     }
 
@@ -34,7 +34,7 @@ public class RepositoryCountry<ID extends Serializable> extends RepositoryNamedB
 
     @Override
     protected Class<EntityCountry<ID>> getEntityClass() {
-        return UtilClassOperations.<EntityCountry<ID>>castClass(EntityCountry.class);
+        return UtilClass.castClass(EntityCountry.class);
     }
 
     @Override

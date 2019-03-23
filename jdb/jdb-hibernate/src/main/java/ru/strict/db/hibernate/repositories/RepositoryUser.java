@@ -7,7 +7,7 @@ import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.interfaces.IRepositoryUser;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityUser;
-import ru.strict.utils.UtilClassOperations;
+import ru.strict.utils.UtilClass;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -17,7 +17,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
 
 public class RepositoryUser<ID extends Serializable, DTO extends DtoUserBase<ID>>
         extends RepositoryNamedBase<ID, EntityUser<ID>, DTO>
@@ -91,7 +90,7 @@ public class RepositoryUser<ID extends Serializable, DTO extends DtoUserBase<ID>
 
     @Override
     protected Class<EntityUser<ID>> getEntityClass() {
-        return UtilClassOperations.<EntityUser<ID>>castClass(EntityUser.class);
+        return UtilClass.<EntityUser<ID>>castClass(EntityUser.class);
     }
 
     @Override

@@ -4,15 +4,18 @@ import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoRoleuser;
+import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.dto.DtoUserBase;
 import ru.strict.db.core.dto.DtoUserOnRole;
 import ru.strict.db.core.entities.EntityRoleuser;
+import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.core.requests.WhereType;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlRoleuser;
+import ru.strict.utils.UtilClass;
 
 import java.sql.Connection;
 import java.util.*;
@@ -24,7 +27,7 @@ public class RepositoryRoleuser<ID>
 
     public RepositoryRoleuser(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
         super("roleuser", COLUMNS_NAME, connectionSource,
-                new MapperDtoFactory<ID, EntityRoleuser<ID>, DtoRoleuser<ID>>().instance(MapperDtoType.ROLE_USER),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityRoleuser.class), UtilClass.castClass(DtoRoleuser.class)),
                 new MapperSqlRoleuser<ID>(COLUMNS_NAME),
                 generateIdType);
     }
@@ -49,7 +52,7 @@ public class RepositoryRoleuser<ID>
             List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
 
             repositoryUser = new RepositoryUser<>(getConnectionSource(),
-                    new MapperDtoFactory().instance(MapperDtoType.USER),
+                    new MapperDtoFactory().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUser.class)),
                     GenerateIdType.NONE);
             Collection<DtoUserBase<ID>> users = new ArrayList<>();
             for (DtoUserOnRole<ID> userOnRole : userOnRoles) {

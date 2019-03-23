@@ -8,7 +8,7 @@ import ru.strict.db.core.repositories.interfaces.IRepositoryJWTToken;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityJWTToken;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
-import ru.strict.utils.UtilClassOperations;
+import ru.strict.utils.UtilClass;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,7 +18,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
 
 public class RepositoryJWTToken<ID extends Serializable>
         extends RepositoryHibernateBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>>
@@ -32,7 +31,7 @@ public class RepositoryJWTToken<ID extends Serializable>
         super("token",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory<ID, EntityJWTToken<ID>, DtoJWTToken<ID>>().instance(MapperDtoType.JWT_TOKEN),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityJWTToken.class), UtilClass.castClass(DtoJWTToken.class)),
                 generateIdType);
     }
 
@@ -129,7 +128,7 @@ public class RepositoryJWTToken<ID extends Serializable>
 
     @Override
     protected Class<EntityJWTToken<ID>> getEntityClass() {
-        return UtilClassOperations.<EntityJWTToken<ID>>castClass(EntityJWTToken.class);
+        return UtilClass.castClass(EntityJWTToken.class);
     }
 
     @Override
