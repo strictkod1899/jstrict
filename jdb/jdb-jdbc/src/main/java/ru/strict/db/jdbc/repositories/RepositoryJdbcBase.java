@@ -658,10 +658,10 @@ public abstract class RepositoryJdbcBase
                     statement.setDouble(index, Double.valueOf(value.toString()));
                 else if (value instanceof BigDecimal)
                     statement.setBigDecimal(index, (BigDecimal)value);
-                else if (value instanceof Array)
-                    statement.setArray(index, (Array)value);
                 else if (value instanceof byte[])
                     statement.setBytes(index, (byte[])value);
+                else if (value instanceof Array)
+                    statement.setArray(index, (Array)value);
                 else if (value instanceof NClob)
                     statement.setNClob(index, (NClob)value);
                 else if (value instanceof Date || value instanceof java.sql.Date)

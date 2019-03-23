@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.strict.db.mybatis.mappers.sql.MapperSqlFileStorage">
+
+    <resultMap id="fileStorage" type="ru.strict.db.core.entities.EntityFileStorage">
+        <id property="id" column="id"/>
+        <result property="filename" column="filename"/>
+        <result property="filePath" column="filepath"/>
+        <result property="content" column="content"/>
+        <result property="createDate" column="create_date"/>
+        <result property="type" column="type"/>
+    </resultMap>
+
+    <resultMap id="userFill" type="ru.strict.db.core.entities.EntityFileStorage" extends="fileStorage"></resultMap>
+
+    <insert id="create" parameterType="ru.strict.db.core.entities.EntityFileStorage">
+        INSERT INTO file_storage (id, filename, filepath, content, create_date, type)
+        VALUES (#{id}, #{filename}, #{filePath}, #{content}, #{createDate}, #{type})
+    </insert>
+
+    <insert id="createGenerateId" parameterType="ru.strict.db.core.entities.EntityFileStorage"
+            useGeneratedKeys="true"
+            keyColumn="id"
+            keyProperty="id">
+        INSERT INTO file_storage (id, filename, filepath, content, create_date, type)
+        VALUES (#{id}, #{filename}, #{filePath}, #{content}, #{createDate}, #{type})
+    </insert>
+
+    <select id="read" parameterType="java.lang.Object" resultMap="fileStorage">
+        SELECT * FROM file_storage WHERE id = #{id}
+    </select>
+
+    <select id="readAll" parameterType="String" resultMap="fileStorage">
+        SELECT * FROM file_storage ${value}
+    </select>
+
+    <update id="update" parameterType="ru.strict.db.core.entities.EntityFileStorage">
+        UPDATE file_storage SET filename = #{filename}, filepath = #{filePath}, content = #{content},
+        create_date = #{createDate}, type = #{type}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Object">
+        DELETE FROM file_storage WHERE id = #{id}
+    </delete>
+
+    <select id="readFill" parameterType="java.lang.Object" resultMap="userFill" >
+        SELECT * FROM file_storage WHERE id = #{id}
+    </select>
+
+    <select id="readAllFill" parameterType="String" resultMap="userFill">
+        SELECT * FROM file_storage ${value}
+    </select>
+
+    <select id="readCount" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM file_storage ${value}
+    </select>
+</mapper>
