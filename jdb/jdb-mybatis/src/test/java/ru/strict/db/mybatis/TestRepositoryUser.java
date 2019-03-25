@@ -29,13 +29,13 @@ public class TestRepositoryUser {
 
     @BeforeClass
     public static void prepare(){
-        repositoryNotGenerateId = new RepositoryUser<>(TestRunner.createDbIntegerConnection,
+        repositoryNotGenerateId = new RepositoryUser<>(TestRunner.CREATE_DB_INTEGER_CONNECTION,
                 new MapperDtoFactory().instance(EntityUser.class, DtoUser.class),
                 GenerateIdType.NONE);
-        repositoryGenerateNumberId = new RepositoryUser<>(TestRunner.createDbIntegerConnection,
+        repositoryGenerateNumberId = new RepositoryUser<>(TestRunner.CREATE_DB_INTEGER_CONNECTION,
                 new MapperDtoFactory().instance(EntityUser.class, DtoUser.class),
                 GenerateIdType.NUMBER);
-        repositoryGenerateUuidId = new RepositoryUser<>(TestRunner.createDbUuidConnection,
+        repositoryGenerateUuidId = new RepositoryUser<>(TestRunner.CREATE_DB_UUID_CONNECTION,
                 new MapperDtoFactory().instance(EntityUser.class, DtoUser.class),
                 GenerateIdType.UUID);
         TestRunner.repositories.add(repositoryGenerateNumberId);

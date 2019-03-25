@@ -26,9 +26,9 @@ public class TestRepositoryRoleuser {
 
     @BeforeClass
     public static void prepare(){
-        repositoryNotGenerateId = new RepositoryRoleuser<>(TestRunner.createDbIntegerConnection, GenerateIdType.NONE);
-        repositoryGenerateNumberId = new RepositoryRoleuser<>(TestRunner.createDbIntegerConnection, GenerateIdType.NUMBER);
-        repositoryGenerateUuidId = new RepositoryRoleuser<>(TestRunner.createDbUuidConnection, GenerateIdType.UUID);
+        repositoryNotGenerateId = new RepositoryRoleuser<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
+        repositoryGenerateNumberId = new RepositoryRoleuser<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NUMBER);
+        repositoryGenerateUuidId = new RepositoryRoleuser<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.UUID);
         TestRunner.repositories.add(repositoryGenerateNumberId);
         TestRunner.repositories.add(repositoryGenerateUuidId);
     }

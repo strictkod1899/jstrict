@@ -29,31 +29,31 @@ public class TestRunner {
     private static final String DB_INTEGER_FILE_PATH = "testdb_integer.sqlite";
     private static final String DB_UUID_FILE_PATH = "testdb_uuid.sqlite";
 
-    private static File dbIntegerFile;
-    private static File dbUuidFile;
-    public static CreateConnectionByMybatis createDbIntegerConnection;
-    public static CreateConnectionByMybatis createDbUuidConnection;
+    private static File DB_INTEGER_FILE;
+    private static File DB_UUID_FILE;
+    public static CreateConnectionByMybatis CREATE_DB_INTEGER_CONNECTION;
+    public static CreateConnectionByMybatis CREATE_DB_UUID_CONNECTION;
     public static List<IRepositoryExtension> repositories;
 
     @BeforeClass
     public static void prepare(){
-        dbIntegerFile = UtilResources.getResource(DB_INTEGER_FILE_PATH);
-        dbUuidFile = UtilResources.getResource(DB_UUID_FILE_PATH);
-        if(dbIntegerFile == null){
+        DB_INTEGER_FILE = UtilResources.getResource(DB_INTEGER_FILE_PATH);
+        DB_UUID_FILE = UtilResources.getResource(DB_UUID_FILE_PATH);
+        if(DB_INTEGER_FILE == null){
             throw new NullPointerException("not found integer-db file");
         }
-        if(dbUuidFile == null){
+        if(DB_UUID_FILE == null){
             throw new NullPointerException("not found uuid-db file");
         }
 
         MybatisConnectionInfo connectionInfoForDbInteger = new MybatisConnectionInfo(
                 ConnectionDbInfo.SQLITE.getDriver(),
-                ConnectionDbInfo.SQLITE.getUrl() + TestRunner.dbIntegerFile.getAbsolutePath(),
+                ConnectionDbInfo.SQLITE.getUrl() + TestRunner.DB_INTEGER_FILE.getAbsolutePath(),
                 "",
                 "");
         MybatisConnectionInfo connectionInfoForDbUuid = new MybatisConnectionInfo(
                 ConnectionDbInfo.SQLITE.getDriver(),
-                ConnectionDbInfo.SQLITE.getUrl() + TestRunner.dbUuidFile.getAbsolutePath(),
+                ConnectionDbInfo.SQLITE.getUrl() + TestRunner.DB_UUID_FILE.getAbsolutePath(),
                 "",
                 "");
 
@@ -75,8 +75,8 @@ public class TestRunner {
         connectionInfoForDbUuid.addMapper(MapperSqlProfileInfo.class);
         connectionInfoForDbUuid.addMapper(MapperSqlUserOnRole.class);
 
-        createDbIntegerConnection = new CreateConnectionByMybatis(connectionInfoForDbInteger);
-        createDbUuidConnection = new CreateConnectionByMybatis(connectionInfoForDbUuid);
+        CREATE_DB_INTEGER_CONNECTION = new CreateConnectionByMybatis(connectionInfoForDbInteger);
+        CREATE_DB_UUID_CONNECTION = new CreateConnectionByMybatis(connectionInfoForDbUuid);
 
         repositories = new ArrayList<>();
     }
