@@ -7,6 +7,7 @@ import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepositoryNamed;
+import ru.strict.db.mybatis.data.TestData;
 import ru.strict.db.mybatis.repositories.RepositoryUser;
 import ru.strict.db.mybatis.runners.TestRunner;
 
@@ -16,30 +17,23 @@ import java.util.UUID;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRepositoryUser {
 
-    private static final Integer STATIC_DTO_ID = 101;
-    private static final String STATIC_DTO_USERNAME = "user1";
-    private static final String STATIC_DTO_EMAIL = "user1@mail.ru";
-    private static final String STATIC_DTO_PASSWORD = "password1";
-    private static final String STATIC_DTO_UPDATED_USERNAME = "user1-1";
-    private static final DtoUser STATIC_DTO = new DtoUser<>(STATIC_DTO_ID, STATIC_DTO_USERNAME, STATIC_DTO_EMAIL, STATIC_DTO_PASSWORD);
-
-    private static IRepositoryNamed<Integer, DtoUser<Integer>> repositoryNotGenerateId;
-    private static IRepositoryNamed<Integer, DtoUser<Integer>> repositoryGenerateNumberId;
-    private static IRepositoryNamed<UUID, DtoUser<UUID>> repositoryGenerateUuidId;
+    private static IRepositoryNamed<Integer, DtoUser<Integer>> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryNamed<Integer, DtoUser<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
+    private static IRepositoryNamed<UUID, DtoUser<UUID>> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
     public static void prepare(){
-        repositoryNotGenerateId = new RepositoryUser<>(TestRunner.CREATE_DB_INTEGER_CONNECTION,
+        REPOSITORY_NOT_GENERATE_ID = new RepositoryUser<>(TestRunner.CREATE_DB_INTEGER_CONNECTION,
                 new MapperDtoFactory().instance(EntityUser.class, DtoUser.class),
                 GenerateIdType.NONE);
-        repositoryGenerateNumberId = new RepositoryUser<>(TestRunner.CREATE_DB_INTEGER_CONNECTION,
+        REPOSITORY_GENERATE_NUMBER_ID = new RepositoryUser<>(TestRunner.CREATE_DB_INTEGER_CONNECTION,
                 new MapperDtoFactory().instance(EntityUser.class, DtoUser.class),
                 GenerateIdType.NUMBER);
-        repositoryGenerateUuidId = new RepositoryUser<>(TestRunner.CREATE_DB_UUID_CONNECTION,
+        REPOSITORY_GENERATE_UUID_ID = new RepositoryUser<>(TestRunner.CREATE_DB_UUID_CONNECTION,
                 new MapperDtoFactory().instance(EntityUser.class, DtoUser.class),
                 GenerateIdType.UUID);
-        TestRunner.repositories.add(repositoryGenerateNumberId);
-        TestRunner.repositories.add(repositoryGenerateUuidId);
+        TestRunner.repositories.add(REPOSITORY_GENERATE_NUMBER_ID);
+        TestRunner.repositories.add(REPOSITORY_GENERATE_UUID_ID);
     }
 
     @AfterClass
@@ -47,99 +41,142 @@ public class TestRepositoryUser {
         TestRunner.postProcess();
     }
 
+    /**
+     * Создание с генерацией integer идентификатора
+     */
     @Test
     public void test001CreateGenerateNumberId(){
-        DtoUser dto = new DtoUser<>("role2", "email2", "password2");
-        DtoUser createdDto = repositoryGenerateNumberId.create(dto);
+        DtoUser dto = new DtoUser<>("user", "user@mail.ru", "password");
+        DtoUser createdDto = REPOSITORY_GENERATE_NUMBER_ID.create(dto);
         Assert.assertNotNull(createdDto.getId());
     }
 
+    /**
+     * Создание с генерацией uuid идентификатора
+     */
     @Test
     public void test002CreateGenerateUuidId(){
-        DtoUser dto = new DtoUser<>( "role3", "email3", "password3");
-        DtoUser createdDto = repositoryGenerateUuidId.create(dto);
+        DtoUser dto = new DtoUser<>("user", "user@mail.ru", "password");
+        DtoUser createdDto = REPOSITORY_GENERATE_UUID_ID.create(dto);
         Assert.assertNotNull(createdDto.getId());
     }
 
+    /**
+     * Создание без генерации integer идентификатора
+     */
     @Test
     public void test003CreateNotGenerateId(){
-        DtoUser createdDto = repositoryNotGenerateId.create(STATIC_DTO);
-        Assert.assertEquals(STATIC_DTO, createdDto);
+        DtoUser createdDto = REPOSITORY_NOT_GENERATE_ID.create(TestData.USER1);
+        Assert.assertEquals(TestData.USER1, createdDto);
     }
 
+    /**
+     * Чтение одной записи по integer идентификатору
+     */
     @Test
     public void test004ReadByInteger(){
-        DtoUser dto = repositoryGenerateNumberId.read(STATIC_DTO_ID);
-        Assert.assertEquals(STATIC_DTO, dto);
+        DtoUser dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.USER1.getId());
+        Assert.assertEquals(TestData.USER1, dto);
     }
 
+    /**
+     * Чтение всех записей из integer базы данныъх
+     */
     @Test
-    public void test005ReadAllByInteger(){
-        List<DtoUser<Integer>> list = repositoryGenerateNumberId.readAll(null);
+    public void test006ReadAllInteger(){
+        List<DtoUser<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
         Assert.assertTrue(list.size() == 2);
     }
 
+    /**
+     * Чтение всех записей из uuid базы данныъх
+     */
     @Test
-    public void test006ReadAllByUuid(){
-        List<DtoUser<UUID>> list = repositoryGenerateUuidId.readAll(null);
+    public void test007ReadAllUuid(){
+        List<DtoUser<UUID>> list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
         Assert.assertTrue(list.size() == 1);
     }
 
+    /**
+     * Получить количество записей в базе данных
+     */
     @Test
-    public void test007ReadCount(){
-        Integer count = repositoryGenerateNumberId.readCount(null);
+    public void test008ReadCount(){
+        Integer count = REPOSITORY_GENERATE_NUMBER_ID.readCount(null);
         Assert.assertTrue(count == 2);
     }
 
+    /**
+     * Чтение записи по названию
+     */
     @Test
-    public void test008ReadByName(){
-        DtoUser dto = repositoryGenerateNumberId.readByName(STATIC_DTO_USERNAME);
-        Assert.assertEquals(STATIC_DTO, dto);
+    public void test009ReadByName(){
+        DtoUser dto = REPOSITORY_GENERATE_NUMBER_ID.readByName(TestData.USER1.getUsername());
+        Assert.assertEquals(TestData.USER1, dto);
     }
 
+    /**
+     * Чтение нескольких записей по названию
+     */
     @Test
-    public void test009ReadAllByName(){
-        List<DtoUser<Integer>> list = repositoryGenerateNumberId.readAllByName(STATIC_DTO_USERNAME);
-        Assert.assertTrue(list.size() == 1 && list.get(0).equals(STATIC_DTO));
+    public void test010ReadAllByName(){
+        List<DtoUser<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAllByName(TestData.USER1.getUsername());
+        Assert.assertTrue(list.size() == 1 && list.get(0).equals(TestData.USER1));
     }
 
+    /**
+     * Проверить существование записи по id
+     */
     @Test
-    public void test010IsRowExists(){
-        boolean isRowExists = repositoryGenerateNumberId.isRowExists(STATIC_DTO_ID);
+    public void test011IsRowExists(){
+        boolean isRowExists = REPOSITORY_GENERATE_NUMBER_ID.isRowExists(TestData.USER1.getId());
         Assert.assertTrue(isRowExists);
     }
 
+    /**
+     * Тестирование метода создания или чтения существует записи
+     */
     @Test
-    public void test011CreateOrReadExists(){
-        DtoUser dto = repositoryGenerateNumberId.createOrRead(STATIC_DTO);
-        Assert.assertEquals(STATIC_DTO, dto);
+    public void test012CreateOrReadExists(){
+        DtoUser dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(TestData.USER1);
+        Assert.assertEquals(TestData.USER1, dto);
     }
 
+    /**
+     * Тестирование метода создания или чтения несуществует записи
+     */
     @Test
-    public void test012CreateOrReadNotExists(){
-        DtoUser<Integer> newDto = new DtoUser<>(102, "role4", "email4", "password4");
-        DtoUser dto = repositoryGenerateNumberId.createOrRead(newDto);
+    public void test013CreateOrReadNotExists(){
+        DtoUser<Integer> newDto = new DtoUser<>(101, "user10", "user10@mail.ru", "password10");
+        DtoUser dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(newDto);
         Assert.assertEquals(newDto, dto);
     }
 
+    /**
+     * Обновление записи
+     */
     @Test
-    public void test013Update(){
-        STATIC_DTO.setUsername(STATIC_DTO_UPDATED_USERNAME);
-        DtoUser dto = repositoryGenerateNumberId.update(STATIC_DTO);
-        Assert.assertEquals(STATIC_DTO, dto);
+    public void test014Update(){
+        DtoUser dto = REPOSITORY_GENERATE_NUMBER_ID.update(TestData.USER1_UPDATED);
+        Assert.assertEquals(TestData.USER1_UPDATED, dto);
     }
 
+    /**
+     * Тестирование метода создания или обновления существует записи
+     */
     @Test
-    public void test014CreateOrUpdateExists(){
-        STATIC_DTO.setUsername(STATIC_DTO_USERNAME);
-        DtoUser dto = repositoryGenerateNumberId.createOrUpdate(STATIC_DTO);
-        Assert.assertEquals(STATIC_DTO, dto);
+    public void test015CreateOrUpdateExists(){
+        DtoUser dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.USER1_UPDATED);
+        Assert.assertEquals(TestData.USER1_UPDATED, dto);
     }
 
+    /**
+     * Тестирование метода создания или обновления несуществует записи
+     */
     @Test
-    public void test015CreateOrUpdateNotExists(){
-        DtoUser<Integer> newDto = new DtoUser<>(103, "role5", "email5", "password5");
-        DtoUser dto = repositoryGenerateNumberId.createOrUpdate(newDto);
+    public void test016CreateOrUpdateNotExists(){
+        DtoUser<Integer> newDto = new DtoUser<>(102, "user11", "user11@mail.ru", "password11");
+        DtoUser dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(newDto);
         Assert.assertEquals(newDto, dto);
     }
 
@@ -147,16 +184,19 @@ public class TestRepositoryUser {
      * Проверка того, что предыдущие методы createOrRead и createOrUpdate успешно выполнены
      */
     @Test
-    public void test016ExecuteCreateAndUpdateIsSuccess(){
-        List<DtoUser<Integer>> list = repositoryGenerateNumberId.readAll(null);
+    public void test017ExecuteCreateAndUpdateIsSuccess(){
+        List<DtoUser<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
         Assert.assertTrue(list.size() == 4);
     }
 
+    /**
+     * Удаление записи
+     */
     @Test
-    public void test017Delete(){
-        repositoryGenerateNumberId.delete(STATIC_DTO_ID);
-        List<DtoUser<Integer>> list = repositoryGenerateNumberId.readAll(null);
-        DtoUser<Integer> dto = repositoryGenerateNumberId.read(STATIC_DTO_ID);
+    public void test018Delete(){
+        REPOSITORY_GENERATE_NUMBER_ID.delete(TestData.USER1.getId());
+        List<DtoUser<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        DtoUser<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.USER1.getId());
         Assert.assertTrue(list.size() == 3);
         Assert.assertNull(dto);
     }

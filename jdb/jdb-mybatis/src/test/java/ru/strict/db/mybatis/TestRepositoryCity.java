@@ -150,7 +150,7 @@ public class TestRepositoryCity {
      */
     @Test
     public void test013CreateOrReadNotExists(){
-        DtoCity<Integer> newDto = new DtoCity<>(102, "country10", TestData.CITY1.getCountryId());
+        DtoCity<Integer> newDto = new DtoCity<>(101, "city10", TestData.CITY1.getCountryId());
         DtoCity dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(newDto);
         Assert.assertEquals(newDto, dto);
     }
@@ -178,7 +178,7 @@ public class TestRepositoryCity {
      */
     @Test
     public void test016CreateOrUpdateNotExists(){
-        DtoCity<Integer> newDto = new DtoCity<>(103, "city11", TestData.CITY1.getCountryId());
+        DtoCity<Integer> newDto = new DtoCity<>(102, "city11", TestData.CITY1.getCountryId());
         DtoCity dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(newDto);
         Assert.assertEquals(newDto, dto);
     }

@@ -5,6 +5,7 @@ import org.junit.runners.MethodSorters;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.repositories.IRepositoryNamed;
+import ru.strict.db.mybatis.data.TestData;
 import ru.strict.db.mybatis.repositories.RepositoryRoleuser;
 import ru.strict.db.mybatis.runners.TestRunner;
 
@@ -14,23 +15,17 @@ import java.util.UUID;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRepositoryRoleuser {
 
-    private static final Integer STATIC_DTO_ID = 101;
-    private static final String STATIC_DTO_CODE = "role1";
-    private static final String STATIC_DTO_DESCRIPTION = "description1";
-    private static final String STATIC_DTO_UPDATED_CODE = "role1-1";
-    private static final DtoRoleuser STATIC_DTO = new DtoRoleuser<>(STATIC_DTO_ID, STATIC_DTO_CODE, STATIC_DTO_DESCRIPTION);
-
-    private static IRepositoryNamed<Integer, DtoRoleuser<Integer>> repositoryNotGenerateId;
-    private static IRepositoryNamed<Integer, DtoRoleuser<Integer>> repositoryGenerateNumberId;
-    private static IRepositoryNamed<UUID, DtoRoleuser<UUID>> repositoryGenerateUuidId;
+    private static IRepositoryNamed<Integer, DtoRoleuser<Integer>> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryNamed<Integer, DtoRoleuser<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
+    private static IRepositoryNamed<UUID, DtoRoleuser<UUID>> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
     public static void prepare(){
-        repositoryNotGenerateId = new RepositoryRoleuser<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
-        repositoryGenerateNumberId = new RepositoryRoleuser<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NUMBER);
-        repositoryGenerateUuidId = new RepositoryRoleuser<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.UUID);
-        TestRunner.repositories.add(repositoryGenerateNumberId);
-        TestRunner.repositories.add(repositoryGenerateUuidId);
+        REPOSITORY_NOT_GENERATE_ID = new RepositoryRoleuser<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
+        REPOSITORY_GENERATE_NUMBER_ID = new RepositoryRoleuser<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NUMBER);
+        REPOSITORY_GENERATE_UUID_ID = new RepositoryRoleuser<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.UUID);
+        TestRunner.repositories.add(REPOSITORY_GENERATE_NUMBER_ID);
+        TestRunner.repositories.add(REPOSITORY_GENERATE_UUID_ID);
     }
 
     @AfterClass
@@ -38,99 +33,142 @@ public class TestRepositoryRoleuser {
         TestRunner.postProcess();
     }
 
+    /**
+     * Создание с генерацией integer идентификатора
+     */
     @Test
     public void test001CreateGenerateNumberId(){
-        DtoRoleuser dto = new DtoRoleuser<>("role2", null);
-        DtoRoleuser createdDto = repositoryGenerateNumberId.create(dto);
+        DtoRoleuser dto = new DtoRoleuser<>("role", "description");
+        DtoRoleuser createdDto = REPOSITORY_GENERATE_NUMBER_ID.create(dto);
         Assert.assertNotNull(createdDto.getId());
     }
 
+    /**
+     * Создание с генерацией uuid идентификатора
+     */
     @Test
     public void test002CreateGenerateUuidId(){
-        DtoRoleuser dto = new DtoRoleuser<>("role3", null);
-        DtoRoleuser createdDto = repositoryGenerateUuidId.create(dto);
+        DtoRoleuser dto = new DtoRoleuser<>("role", "description");
+        DtoRoleuser createdDto = REPOSITORY_GENERATE_UUID_ID.create(dto);
         Assert.assertNotNull(createdDto.getId());
     }
 
+    /**
+     * Создание без генерации integer идентификатора
+     */
     @Test
     public void test003CreateNotGenerateId(){
-        DtoRoleuser createdDto = repositoryNotGenerateId.create(STATIC_DTO);
-        Assert.assertEquals(STATIC_DTO, createdDto);
+        DtoRoleuser createdDto = REPOSITORY_NOT_GENERATE_ID.create(TestData.ROLEUSER1);
+        Assert.assertEquals(TestData.ROLEUSER1, createdDto);
     }
 
+    /**
+     * Чтение одной записи по integer идентификатору
+     */
     @Test
     public void test004ReadByInteger(){
-        DtoRoleuser dto = repositoryGenerateNumberId.read(STATIC_DTO_ID);
-        Assert.assertEquals(STATIC_DTO, dto);
+        DtoRoleuser dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.ROLEUSER1.getId());
+        Assert.assertEquals(TestData.ROLEUSER1, dto);
     }
 
+    /**
+     * Чтение всех записей из integer базы данныъх
+     */
     @Test
-    public void test005ReadAllByInteger(){
-        List<DtoRoleuser<Integer>> list = repositoryGenerateNumberId.readAll(null);
+    public void test006ReadAllInteger(){
+        List<DtoRoleuser<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
         Assert.assertTrue(list.size() == 2);
     }
 
+    /**
+     * Чтение всех записей из uuid базы данныъх
+     */
     @Test
-    public void test006ReadAllByUuid(){
-        List<DtoRoleuser<UUID>> list = repositoryGenerateUuidId.readAll(null);
+    public void test007ReadAllUuid(){
+        List<DtoRoleuser<UUID>> list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
         Assert.assertTrue(list.size() == 1);
     }
 
+    /**
+     * Получить количество записей в базе данных
+     */
     @Test
-    public void test007ReadCount(){
-        Integer count = repositoryGenerateNumberId.readCount(null);
+    public void test008ReadCount(){
+        Integer count = REPOSITORY_GENERATE_NUMBER_ID.readCount(null);
         Assert.assertTrue(count == 2);
     }
 
+    /**
+     * Чтение записи по названию
+     */
     @Test
-    public void test008ReadByName(){
-        DtoRoleuser dto = repositoryGenerateNumberId.readByName(STATIC_DTO_CODE);
-        Assert.assertEquals(STATIC_DTO, dto);
+    public void test009ReadByName(){
+        DtoRoleuser dto = REPOSITORY_GENERATE_NUMBER_ID.readByName(TestData.ROLEUSER1.getCode());
+        Assert.assertEquals(TestData.ROLEUSER1, dto);
     }
 
+    /**
+     * Чтение нескольких записей по названию
+     */
     @Test
-    public void test009ReadAllByName(){
-        List<DtoRoleuser<Integer>> list = repositoryGenerateNumberId.readAllByName(STATIC_DTO_CODE);
-        Assert.assertTrue(list.size() == 1 && list.get(0).equals(STATIC_DTO));
+    public void test010ReadAllByName(){
+        List<DtoRoleuser<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAllByName(TestData.ROLEUSER1.getCode());
+        Assert.assertTrue(list.size() == 1 && list.get(0).equals(TestData.ROLEUSER1));
     }
 
+    /**
+     * Проверить существование записи по id
+     */
     @Test
-    public void test010IsRowExists(){
-        boolean isRowExists = repositoryGenerateNumberId.isRowExists(STATIC_DTO_ID);
+    public void test011IsRowExists(){
+        boolean isRowExists = REPOSITORY_GENERATE_NUMBER_ID.isRowExists(TestData.ROLEUSER1.getId());
         Assert.assertTrue(isRowExists);
     }
 
+    /**
+     * Тестирование метода создания или чтения существует записи
+     */
     @Test
-    public void test011CreateOrReadExists(){
-        DtoRoleuser dto = repositoryGenerateNumberId.createOrRead(STATIC_DTO);
-        Assert.assertEquals(STATIC_DTO, dto);
+    public void test012CreateOrReadExists(){
+        DtoRoleuser dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(TestData.ROLEUSER1);
+        Assert.assertEquals(TestData.ROLEUSER1, dto);
     }
 
+    /**
+     * Тестирование метода создания или чтения несуществует записи
+     */
     @Test
-    public void test012CreateOrReadNotExists(){
-        DtoRoleuser<Integer> newDto = new DtoRoleuser<>(102, "role4", null);
-        DtoRoleuser dto = repositoryGenerateNumberId.createOrRead(newDto);
+    public void test013CreateOrReadNotExists(){
+        DtoRoleuser<Integer> newDto = new DtoRoleuser<>(101, "code10", "description10");
+        DtoRoleuser dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(newDto);
         Assert.assertEquals(newDto, dto);
     }
 
+    /**
+     * Обновление записи
+     */
     @Test
-    public void test013Update(){
-        STATIC_DTO.setCode(STATIC_DTO_UPDATED_CODE);
-        DtoRoleuser dto = repositoryGenerateNumberId.update(STATIC_DTO);
-        Assert.assertEquals(STATIC_DTO, dto);
+    public void test014Update(){
+        DtoRoleuser dto = REPOSITORY_GENERATE_NUMBER_ID.update(TestData.ROLEUSER1_UPDATED);
+        Assert.assertEquals(TestData.ROLEUSER1_UPDATED, dto);
     }
 
+    /**
+     * Тестирование метода создания или обновления существует записи
+     */
     @Test
-    public void test014CreateOrUpdateExists(){
-        STATIC_DTO.setCode(STATIC_DTO_CODE);
-        DtoRoleuser dto = repositoryGenerateNumberId.createOrUpdate(STATIC_DTO);
-        Assert.assertEquals(STATIC_DTO, dto);
+    public void test015CreateOrUpdateExists(){
+        DtoRoleuser dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.ROLEUSER1_UPDATED);
+        Assert.assertEquals(TestData.ROLEUSER1_UPDATED, dto);
     }
 
+    /**
+     * Тестирование метода создания или обновления несуществует записи
+     */
     @Test
-    public void test015CreateOrUpdateNotExists(){
-        DtoRoleuser<Integer> newDto = new DtoRoleuser<>(103, "role5", null);
-        DtoRoleuser dto = repositoryGenerateNumberId.createOrUpdate(newDto);
+    public void test016CreateOrUpdateNotExists(){
+        DtoRoleuser<Integer> newDto = new DtoRoleuser<>(102, "code11", "description11");
+        DtoRoleuser dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(newDto);
         Assert.assertEquals(newDto, dto);
     }
 
@@ -138,16 +176,19 @@ public class TestRepositoryRoleuser {
      * Проверка того, что предыдущие методы createOrRead и createOrUpdate успешно выполнены
      */
     @Test
-    public void test016ExecuteCreateAndUpdateIsSuccess(){
-        List<DtoRoleuser<Integer>> list = repositoryGenerateNumberId.readAll(null);
+    public void test017ExecuteCreateAndUpdateIsSuccess(){
+        List<DtoRoleuser<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
         Assert.assertTrue(list.size() == 4);
     }
 
+    /**
+     * Удаление записи
+     */
     @Test
-    public void test017Delete(){
-        repositoryGenerateNumberId.delete(STATIC_DTO_ID);
-        List<DtoRoleuser<Integer>> list = repositoryGenerateNumberId.readAll(null);
-        DtoRoleuser<Integer> dto = repositoryGenerateNumberId.read(STATIC_DTO_ID);
+    public void test018Delete(){
+        REPOSITORY_GENERATE_NUMBER_ID.delete(TestData.ROLEUSER1.getId());
+        List<DtoRoleuser<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        DtoRoleuser<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.ROLEUSER1.getId());
         Assert.assertTrue(list.size() == 3);
         Assert.assertNull(dto);
     }
