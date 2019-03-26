@@ -4,6 +4,7 @@ import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.*;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
+import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.interfaces.IRepositoryUser;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereItem;
@@ -17,6 +18,18 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
 
     private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "email",
             "is_blocked", "is_deleted", "is_confirm_email"};
+
+    /**
+     * Для этого конструктуора используется DtoUser
+     */
+    public RepositoryUser(CreateConnectionByMybatis connectionSource, GenerateIdType generateIdType) {
+        super("userx",
+                COLUMNS_NAME,
+                connectionSource,
+                UtilClass.castClass(MapperSqlUser.class),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUser.class)),
+                generateIdType);
+    }
 
     public RepositoryUser(CreateConnectionByMybatis connectionSource,
                               MapperDtoBase<ID, EntityUser<ID>, DTO> dtoMapper,

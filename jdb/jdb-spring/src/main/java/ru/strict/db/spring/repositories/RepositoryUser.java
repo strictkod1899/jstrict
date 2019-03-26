@@ -6,6 +6,7 @@ import ru.strict.db.core.dto.*;
 import ru.strict.db.core.dto.DtoUserBase;
 import ru.strict.db.core.dto.DtoUserOnRole;
 import ru.strict.db.core.entities.EntityUser;
+import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.repositories.interfaces.IRepositoryUser;
 import ru.strict.db.core.requests.DbRequests;
@@ -13,6 +14,7 @@ import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.spring.mappers.sql.MapperSqlUser;
+import ru.strict.utils.UtilClass;
 
 
 import java.util.*;
@@ -23,6 +25,15 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
 
     private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "email",
             "is_blocked", "is_deleted", "is_confirm_email"};
+
+    /**
+     * Для этого конструктуора используется DtoUser
+     */
+    public RepositoryUser(CreateConnectionByDataSource connectionSource, GenerateIdType generateIdType) {
+        super("userx", COLUMNS_NAME, connectionSource,
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUser.class)),
+                new MapperSqlUser(COLUMNS_NAME), generateIdType);
+    }
 
     public RepositoryUser(CreateConnectionByDataSource connectionSource,
                           MapperDtoBase<ID, EntityUser<ID>, DTO> dtoMapper,
