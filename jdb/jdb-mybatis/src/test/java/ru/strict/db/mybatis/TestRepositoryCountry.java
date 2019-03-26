@@ -21,6 +21,13 @@ public class TestRepositoryCountry {
 
     @BeforeClass
     public static void prepare(){
+        prepareRepositories();
+    }
+
+    /**
+     * Подготовить тестовые репозитории
+     */
+    private static void prepareRepositories(){
         REPOSITORY_NOT_GENERATE_ID = new RepositoryCountry<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
         REPOSITORY_GENERATE_NUMBER_ID = new RepositoryCountry<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NUMBER);
         REPOSITORY_GENERATE_UUID_ID = new RepositoryCountry<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.UUID);

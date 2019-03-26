@@ -23,6 +23,13 @@ public class TestRepositoryUser {
 
     @BeforeClass
     public static void prepare(){
+        prepareRepositories();
+    }
+
+    /**
+     * Подготовить тестовые репозитории
+     */
+    private static void prepareRepositories(){
         REPOSITORY_NOT_GENERATE_ID = new RepositoryUser<>(TestRunner.CREATE_DB_INTEGER_CONNECTION,
                 new MapperDtoFactory().instance(EntityUser.class, DtoUser.class),
                 GenerateIdType.NONE);

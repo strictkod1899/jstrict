@@ -23,12 +23,25 @@ public class TestRepositoryCity {
 
     @BeforeClass
     public static void prepare(){
+        prepareRepositories();
+        prepareData();
+    }
+
+    /**
+     * Подготовить тестовые репозитории
+     */
+    private static void prepareRepositories(){
         REPOSITORY_NOT_GENERATE_ID = new RepositoryCity<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
         REPOSITORY_GENERATE_NUMBER_ID = new RepositoryCity<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NUMBER);
         REPOSITORY_GENERATE_UUID_ID = new RepositoryCity<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.UUID);
         TestRunner.repositories.add(REPOSITORY_GENERATE_NUMBER_ID);
         TestRunner.repositories.add(REPOSITORY_GENERATE_UUID_ID);
+    }
 
+    /**
+     * Подготовить тестовые данные
+     */
+    private static void prepareData(){
         IRepositoryNamed<Integer, DtoCountry<Integer>> repositoryCountryNumberId = new RepositoryCountry<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
         IRepositoryNamed<UUID, DtoCountry<UUID>> repositoryCountryUuidId = new RepositoryCountry<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
 
