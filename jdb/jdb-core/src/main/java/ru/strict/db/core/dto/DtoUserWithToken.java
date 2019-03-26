@@ -7,7 +7,7 @@ import java.util.TreeSet;
 /**
  * Информация о токенах пользователя и его основные данные
  */
-public class DtoUserToken<ID> extends DtoUser<ID> {
+public class DtoUserWithToken<ID> extends DtoUser<ID> {
 
     /**
      * Токены пользователя
@@ -19,17 +19,17 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
         tokens = new TreeSet<>();
     }
 
-    public DtoUserToken() {
+    public DtoUserWithToken() {
         super();
         tokens = new TreeSet<>();
     }
 
-    public DtoUserToken(String username, String email, String passwordEncode) {
+    public DtoUserWithToken(String username, String email, String passwordEncode) {
         super(username, email, passwordEncode);
         initialize();
     }
 
-    public DtoUserToken(ID id, String username, String email, String passwordEncode) {
+    public DtoUserWithToken(ID id, String username, String email, String passwordEncode) {
         super(id, username, email, passwordEncode);
         initialize();
     }
@@ -90,8 +90,8 @@ public class DtoUserToken<ID> extends DtoUser<ID> {
 
     @Override
     public boolean equals(Object obj){
-        if(obj!=null && obj instanceof DtoUserToken) {
-            DtoUserToken object = (DtoUserToken) obj;
+        if(obj!=null && obj instanceof DtoUserWithToken) {
+            DtoUserWithToken object = (DtoUserWithToken) obj;
             return super.equals(obj) && Objects.equals(tokens, object.getTokens());
         }else {
             return false;

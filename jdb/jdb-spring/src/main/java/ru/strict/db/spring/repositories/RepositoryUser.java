@@ -47,6 +47,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
         IRepository<ID, DtoUserOnRole<ID>> repositoryUserOnRole = null;
         IRepository<ID, DtoRoleuser<ID>> repositoryRoleuser = null;
         IRepository<ID, DtoProfileInfo<ID>> repositoryProfile = null;
+        IRepository<ID, DtoJWTToken<ID>> repositoryToken = null;
         try {
             // Добавление ролей пользователей
             repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
@@ -66,6 +67,16 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
             requests = new DbRequests();
             requests.addWhere(new DbWhereItem(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
             dto.setProfile(repositoryProfile.readAll(requests).stream().findFirst().orElse(null));
+
+            // Добавление токенов
+            if(dto instanceof DtoUserWithToken){
+                repositoryToken = new RepositoryJWTToken<>(getConnectionSource(), GenerateIdType.NONE);
+                requests = new DbRequests();
+                requests.addWhere(new DbWhereItem(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));
+
+                List<DtoJWTToken<ID>> tokens = repositoryToken.readAll(requests);
+                ((DtoUserWithToken)dto).setTokens(tokens);
+            }
         }finally {
             if(repositoryUserOnRole != null){
                 repositoryUserOnRole.close();
@@ -75,6 +86,9 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
             }
             if(repositoryProfile != null){
                 repositoryProfile.close();
+            }
+            if(repositoryToken != null){
+                repositoryToken.close();
             }
         }
         return dto;

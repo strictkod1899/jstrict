@@ -2,7 +2,7 @@ package ru.strict.db.core.mappers.dto;
 
 import ru.strict.db.core.dto.DtoJWTToken;
 import ru.strict.db.core.dto.DtoRoleuser;
-import ru.strict.db.core.dto.DtoUserToken;
+import ru.strict.db.core.dto.DtoUserWithToken;
 import ru.strict.db.core.entities.EntityJWTToken;
 import ru.strict.db.core.entities.EntityRoleuser;
 import ru.strict.db.core.entities.EntityUser;
@@ -14,18 +14,14 @@ import java.util.Optional;
  */
 public class MapperDtoJWTToken<ID> extends MapperDtoBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>> {
 
-    private MapperDtoBase<ID, EntityUser<ID>, DtoUserToken<ID>> mapperUser;
-    private MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser;
+    private MapperDtoBase<ID, EntityUser<ID>, DtoUserWithToken<ID>> mapperUser;
 
     public MapperDtoJWTToken(){
         mapperUser = null;
-        mapperRoleuser = null;
     }
 
-    public MapperDtoJWTToken(MapperDtoBase<ID, EntityUser<ID>, DtoUserToken<ID>> mapperUser,
-                                 MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser){
+    public MapperDtoJWTToken(MapperDtoBase<ID, EntityUser<ID>, DtoUserWithToken<ID>> mapperUser){
         this.mapperUser = mapperUser;
-        this.mapperRoleuser = mapperRoleuser;
     }
 
     @Override

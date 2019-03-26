@@ -1,19 +1,16 @@
 package ru.strict.db.spring.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.DtoJWTToken;
-import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.dto.DtoUser;
-import ru.strict.db.core.dto.DtoUserToken;
+import ru.strict.db.core.dto.DtoUserWithToken;
 import ru.strict.db.core.entities.EntityJWTToken;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.repositories.interfaces.IRepositoryJWTToken;
 import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.spring.mappers.sql.MapperSqlJWTToken;
 import ru.strict.utils.UtilClass;
@@ -76,7 +73,7 @@ public class RepositoryJWTToken<ID>
     @Override
     protected DtoJWTToken<ID> fill(DtoJWTToken<ID> dto){
         // Добавление пользователя
-        IRepository<ID, DtoUserToken<ID>> repositoryUser = null;
+        IRepository<ID, DtoUserWithToken<ID>> repositoryUser = null;
         try {
             repositoryUser = new RepositoryUser(getConnectionSource(),
                     new MapperDtoFactory().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUser.class)),

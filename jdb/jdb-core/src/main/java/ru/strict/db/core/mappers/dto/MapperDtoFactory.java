@@ -3,7 +3,6 @@ package ru.strict.db.core.mappers.dto;
 import ru.strict.db.core.dto.*;
 import ru.strict.db.core.entities.*;
 import ru.strict.utils.UtilClass;
-import ru.strict.utils.UtilClass;
 
 /**
  * Фабрика создания маппер-классов
@@ -24,8 +23,8 @@ public class MapperDtoFactory<ID>{
             mapper = createMapperUserBase();
         } else if(UtilClass.isEquals(entityClass, EntityUser.class) && UtilClass.isEquals(dtoClass, DtoUser.class)){
             mapper = createMapperUser();
-        } else if(UtilClass.isEquals(entityClass, EntityUser.class) && UtilClass.isEquals(dtoClass, DtoUserToken.class)){
-            mapper = createMapperUserToken();
+        } else if(UtilClass.isEquals(entityClass, EntityUser.class) && UtilClass.isEquals(dtoClass, DtoUserWithToken.class)){
+            mapper = createMapperUserWithToken();
         } else if(UtilClass.isEquals(entityClass, EntityUserOnRole.class) && UtilClass.isEquals(dtoClass, DtoUserOnRole.class)){
             mapper = createMapperUserOnRole();
         } else if(UtilClass.isEquals(entityClass, EntityProfile.class) && UtilClass.isEquals(dtoClass, DtoProfile.class)){
@@ -82,9 +81,9 @@ public class MapperDtoFactory<ID>{
         return new MapperDtoUser(createMapperUserBase());
     }
 
-    private MapperDtoBase<ID, EntityUser<ID>, DtoUserToken<ID>> createMapperUserToken(){
+    private MapperDtoBase<ID, EntityUser<ID>, DtoUserWithToken<ID>> createMapperUserWithToken(){
         MapperDtoBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>> mapperToken = new MapperDtoJWTToken<>();
-        return new MapperDtoUserToken(createMapperUser(), mapperToken);
+        return new MapperDtoUserWithToken(createMapperUser(), mapperToken);
     }
 
     private MapperDtoBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>> createMapperUserOnRole(){
@@ -94,9 +93,8 @@ public class MapperDtoFactory<ID>{
     }
 
     private MapperDtoBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>> createMapperJWTToken(){
-        MapperDtoBase<ID, EntityUser<ID>, DtoUserToken<ID>> mapperUser = createMapperUserToken();
-        MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRolesser = new MapperDtoRoleuser();
-        return new MapperDtoJWTToken(mapperUser, mapperRolesser);
+        MapperDtoBase<ID, EntityUser<ID>, DtoUserWithToken<ID>> mapperUser = createMapperUserWithToken();
+        return new MapperDtoJWTToken(mapperUser);
     }
 
     private MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStorageBase<ID>> createMapperFileStorageBase(){

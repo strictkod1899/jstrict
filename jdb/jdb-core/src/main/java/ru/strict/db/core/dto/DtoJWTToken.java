@@ -43,7 +43,7 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
     /**
      * Пользователь, связанного с данным токеном
      */
-    private DtoUserToken<ID> user;
+    private DtoUserWithToken<ID> user;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(ID userId){
@@ -161,19 +161,19 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
         this.userId = userId;
     }
 
-    public DtoUserToken<ID> getUser() {
+    public DtoUserWithToken<ID> getUser() {
         return user;
     }
 
-    public void setUser(DtoUserToken<ID> user) {
+    public void setUser(DtoUserWithToken<ID> user) {
         setUser(user, true);
     }
 
-    protected void setUserSafe(DtoUserToken<ID> user) {
+    protected void setUserSafe(DtoUserWithToken<ID> user) {
         setUser(user, false);
     }
 
-    private void setUser(DtoUserToken<ID> user, boolean isCircleMode) {
+    private void setUser(DtoUserWithToken<ID> user, boolean isCircleMode) {
         if(isCircleMode && user != null){
             user.addTokenSafe(this);
         }
