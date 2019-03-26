@@ -25,7 +25,7 @@ public class MapperSqlFileStorage<ID> extends MapperSqlBase<ID, EntityFileStorag
             entity.setContent(resultSet.getBytes(COLUMNS_NAME[3]));
             entity.setFilePath(resultSet.getString(COLUMNS_NAME[4]));
             entity.setCreateDate(resultSet.getDate(COLUMNS_NAME[5]));
-            entity.setType(resultSet.getString(COLUMNS_NAME[6]));
+            entity.setType(resultSet.getInt(COLUMNS_NAME[6]));
         }catch(SQLException ex){
             throw new RuntimeException(ex);
         }

@@ -16,12 +16,12 @@ public class DtoFileStoragePath<ID> extends DtoFileStorageBase<ID> {
         super();
     }
 
-    public DtoFileStoragePath(String filename, String extension, String displayName, Date createDate, String type, String filePath) {
+    public DtoFileStoragePath(String filename, String extension, String displayName, Date createDate, int type, String filePath) {
         super(filename, extension, displayName, createDate, type);
         this.filePath = filePath;
     }
 
-    public DtoFileStoragePath(ID id, String filename, String extension, String displayName, Date createDate, String type, String filePath) {
+    public DtoFileStoragePath(ID id, String filename, String extension, String displayName, Date createDate, int type, String filePath) {
         super(id, filename, extension, displayName, createDate, type);
         this.filePath = filePath;
     }

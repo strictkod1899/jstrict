@@ -24,13 +24,13 @@ public class DtoFileStorageBase<ID> extends DtoBase<ID> {
     /**
      * Тип файла
      */
-    private String type;
+    private int type;
 
     public DtoFileStorageBase() {
         super();
     }
 
-    public DtoFileStorageBase(String filename, String extension, String displayName, Date createDate, String type) {
+    public DtoFileStorageBase(String filename, String extension, String displayName, Date createDate, int type) {
         this.filename = filename;
         this.extension = extension;
         this.displayName = displayName;
@@ -38,7 +38,7 @@ public class DtoFileStorageBase<ID> extends DtoBase<ID> {
         this.type = type;
     }
 
-    public DtoFileStorageBase(ID id, String filename, String extension, String displayName, Date createDate, String type) {
+    public DtoFileStorageBase(ID id, String filename, String extension, String displayName, Date createDate, int type) {
         super(id);
         this.filename = filename;
         this.extension = extension;
@@ -63,11 +63,11 @@ public class DtoFileStorageBase<ID> extends DtoBase<ID> {
         this.createDate = createDate;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 

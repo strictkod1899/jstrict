@@ -32,13 +32,13 @@ public class EntityFileStorage<ID> extends EntityBase<ID> {
     /**
      * Тип файла
      */
-    private String type;
+    private int type;
 
     public EntityFileStorage() {
         super();
     }
 
-    public EntityFileStorage(String filename, String extension, String displayName, String filePath, byte[] content, Date createDate, String type) {
+    public EntityFileStorage(String filename, String extension, String displayName, String filePath, byte[] content, Date createDate, int type) {
         this.filename = filename;
         this.extension = extension;
         this.displayName = displayName;
@@ -48,7 +48,7 @@ public class EntityFileStorage<ID> extends EntityBase<ID> {
         this.type = type;
     }
 
-    public EntityFileStorage(ID id, String filename, String extension, String displayName, String filePath, byte[] content, Date createDate, String type) {
+    public EntityFileStorage(ID id, String filename, String extension, String displayName, String filePath, byte[] content, Date createDate, int type) {
         super(id);
         this.filename = filename;
         this.extension = extension;
@@ -91,11 +91,11 @@ public class EntityFileStorage<ID> extends EntityBase<ID> {
         this.createDate = createDate;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 
