@@ -29,7 +29,19 @@ public class TestData {
     public static final DtoUser<Integer> USER2_UPDATED = new DtoUser<>(112, "user2_updated", "user2_updated@mail.ru", "password2_updated");
     public static final DtoUser<UUID> USER2_UUID = new DtoUser<>(UUID.randomUUID(), "user2", "user2@mail.ru", "password2");
 
+    public static final DtoUser<Integer> USER3 = new DtoUser<>(113, "user3", "user3@mail.ru", "password3");
+    public static final DtoUser<UUID> USER3_UUID = new DtoUser<>(UUID.randomUUID(), "user3", "user3@mail.ru", "password3");
+
     public static final DtoUserOnRole<Integer> USER_ON_ROLE1 = new DtoUserOnRole<>(111, USER1.getId(), ROLEUSER1.getId());
     public static final DtoUserOnRole<Integer> USER_ON_ROLE1_UPDATED = new DtoUserOnRole<>(111, USER2.getId(), ROLEUSER2.getId());
     public static final DtoUserOnRole<UUID> USER_ON_ROLE1_UUID = new DtoUserOnRole<>(UUID.randomUUID(), USER1_UUID.getId(), ROLEUSER1_UUID.getId());
+
+    public static final DtoUserOnRole<Integer> USER_ON_ROLE2 = new DtoUserOnRole<>(USER2.getId(), ROLEUSER1.getId());
+    public static final DtoUserOnRole<UUID> USER_ON_ROLE2_UUID = new DtoUserOnRole<>(USER2_UUID.getId(), ROLEUSER1_UUID.getId());
+
+    public static final DtoUserOnRole<Integer> USER_ON_ROLE3 = new DtoUserOnRole<>(113, USER1.getId(), ROLEUSER2.getId());
+    public static final DtoUserOnRole<UUID> USER_ON_ROLE3_UUID = new DtoUserOnRole<>(UUID.randomUUID(), USER1_UUID.getId(), ROLEUSER2_UUID.getId());
+
+    public static final DtoUserOnRole<Integer> USER_ON_ROLE4 = new DtoUserOnRole<>(114, USER3.getId(), ROLEUSER1.getId());
+    public static final DtoUserOnRole<UUID> USER_ON_ROLE4_UUID = new DtoUserOnRole<>(UUID.randomUUID(), USER3_UUID.getId(), ROLEUSER1_UUID.getId());
 }

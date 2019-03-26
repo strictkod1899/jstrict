@@ -182,8 +182,8 @@ public class TestRepositoryCity {
      */
     @Test
     public void test015CreateOrUpdateExists(){
-        DtoCity dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.CITY1_UPDATED);
-        Assert.assertEquals(TestData.CITY1_UPDATED, dto);
+        DtoCity dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.CITY1);
+        Assert.assertEquals(TestData.CITY1, dto);
     }
 
     /**

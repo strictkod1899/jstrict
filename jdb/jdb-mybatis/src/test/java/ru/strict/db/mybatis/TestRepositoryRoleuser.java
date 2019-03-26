@@ -165,8 +165,8 @@ public class TestRepositoryRoleuser {
      */
     @Test
     public void test015CreateOrUpdateExists(){
-        DtoRoleuser dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.ROLEUSER1_UPDATED);
-        Assert.assertEquals(TestData.ROLEUSER1_UPDATED, dto);
+        DtoRoleuser dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.ROLEUSER1);
+        Assert.assertEquals(TestData.ROLEUSER1, dto);
     }
 
     /**

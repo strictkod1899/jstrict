@@ -165,8 +165,8 @@ public class TestRepositoryCountry {
      */
     @Test
     public void test015CreateOrUpdateExists(){
-        DtoCountry dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.COUNTRY1_UPDATED);
-        Assert.assertEquals(TestData.COUNTRY1_UPDATED, dto);
+        DtoCountry dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.COUNTRY1);
+        Assert.assertEquals(TestData.COUNTRY1, dto);
     }
 
     /**

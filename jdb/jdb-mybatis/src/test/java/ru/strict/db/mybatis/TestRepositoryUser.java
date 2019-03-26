@@ -173,8 +173,8 @@ public class TestRepositoryUser {
      */
     @Test
     public void test015CreateOrUpdateExists(){
-        DtoUser dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.USER1_UPDATED);
-        Assert.assertEquals(TestData.USER1_UPDATED, dto);
+        DtoUser dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.USER1);
+        Assert.assertEquals(TestData.USER1, dto);
     }
 
     /**
