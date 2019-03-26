@@ -182,6 +182,10 @@ public abstract class RepositoryBase
 
     @Override
     public boolean isRowExists(ID id) {
+        if(id == null){
+            return false;
+        }
+
         boolean result = false;
 
         DbRequests requests = new DbRequests();
