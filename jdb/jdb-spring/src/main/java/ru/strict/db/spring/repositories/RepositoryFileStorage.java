@@ -18,7 +18,7 @@ import java.util.*;
 public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
         extends RepositoryNamedBase<ID, EntityFileStorage<ID>, DTO> {
 
-    private static final String[] COLUMNS_NAME = new String[] {"filename", "content", "filepath",
+    private static final String[] COLUMNS_NAME = new String[] {"filename", "extension", "displayname", "content", "filepath",
             "create_date", "type"};
 
     public RepositoryFileStorage(CreateConnectionByDataSource connectionSource,
@@ -31,10 +31,12 @@ public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
     protected Map<Integer, Object> getValueByColumn(EntityFileStorage<ID> entity) {
         Map<Integer, Object> valuesByColumn = new LinkedHashMap();
         valuesByColumn.put(0, entity.getFilename());
-        valuesByColumn.put(1, entity.getContent());
-        valuesByColumn.put(2, entity.getFilePath());
-        valuesByColumn.put(3, entity.getCreateDate());
-        valuesByColumn.put(4, entity.getType());
+        valuesByColumn.put(1, entity.getExtension());
+        valuesByColumn.put(2, entity.getDisplayName());
+        valuesByColumn.put(3, entity.getContent());
+        valuesByColumn.put(4, entity.getFilePath());
+        valuesByColumn.put(5, entity.getCreateDate());
+        valuesByColumn.put(6, entity.getType());
         return valuesByColumn;
     }
 

@@ -51,7 +51,9 @@ CREATE TABLE user_on_role(
 
 CREATE TABLE file_storage(
   id INTEGER NOT NULL,
-  filename VARCHAR(500) NOT NULL,
+  filename VARCHAR(250) NOT NULL,
+  extension VARCHAR(25) NOT NULL,
+  displayname VARCHAR(250),
   content BYTEA,
   filepath TEXT,
   create_date TIMESTAMP NOT NULL,
@@ -179,7 +181,9 @@ CREATE TABLE user_on_role(
 
 CREATE TABLE file_storage(
   id UUID NOT NULL,
-  filename VARCHAR(500) NOT NULL,
+  filename VARCHAR(250) NOT NULL,
+  extension VARCHAR(25) NOT NULL,
+  displayname VARCHAR(250),
   content BYTEA,
   filepath TEXT,
   create_date TIMESTAMP NOT NULL,

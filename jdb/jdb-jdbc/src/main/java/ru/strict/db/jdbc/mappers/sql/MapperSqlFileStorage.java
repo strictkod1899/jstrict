@@ -20,10 +20,12 @@ public class MapperSqlFileStorage<ID> extends MapperSqlBase<ID, EntityFileStorag
         try {
             entity.setId((ID)resultSet.getObject("id"));
             entity.setFilename(resultSet.getString(COLUMNS_NAME[0]));
-            entity.setContent(resultSet.getBytes(COLUMNS_NAME[1]));
-            entity.setFilePath(resultSet.getString(COLUMNS_NAME[2]));
-            entity.setCreateDate(resultSet.getDate(COLUMNS_NAME[3]));
-            entity.setType(resultSet.getString(COLUMNS_NAME[4]));
+            entity.setExtension(resultSet.getString(COLUMNS_NAME[1]));
+            entity.setDisplayName(resultSet.getString(COLUMNS_NAME[2]));
+            entity.setContent(resultSet.getBytes(COLUMNS_NAME[3]));
+            entity.setFilePath(resultSet.getString(COLUMNS_NAME[4]));
+            entity.setCreateDate(resultSet.getDate(COLUMNS_NAME[5]));
+            entity.setType(resultSet.getString(COLUMNS_NAME[6]));
         }catch(SQLException ex){
             throw new RuntimeException(ex);
         }

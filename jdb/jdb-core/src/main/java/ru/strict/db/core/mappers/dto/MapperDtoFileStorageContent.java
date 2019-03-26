@@ -24,6 +24,8 @@ public class MapperDtoFileStorageContent<ID> extends MapperDtoBase<ID, EntityFil
         EntityFileStorage<ID> entity = new EntityFileStorage();
         entity.setId(baseEntity.getId());
         entity.setFilename(baseEntity.getFilename());
+        entity.setExtension(baseEntity.getExtension());
+        entity.setDisplayName(baseEntity.getDisplayName());
         entity.setCreateDate(baseEntity.getCreateDate());
         entity.setType(baseEntity.getType());
         entity.setContent(dto.getContent());
@@ -37,6 +39,8 @@ public class MapperDtoFileStorageContent<ID> extends MapperDtoBase<ID, EntityFil
         DtoFileStorageContent<ID> dto = new DtoFileStorageContent();
         dto.setId(baseDto.getId());
         dto.setFilename(baseDto.getFilename());
+        entity.setExtension(baseDto.getExtension());
+        entity.setDisplayName(baseDto.getDisplayName());
         dto.setCreateDate(baseDto.getCreateDate());
         dto.setType(baseDto.getType());
         dto.setContent(entity.getContent());

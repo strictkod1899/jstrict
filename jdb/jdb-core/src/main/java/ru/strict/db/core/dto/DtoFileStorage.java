@@ -17,13 +17,13 @@ public class DtoFileStorage<ID> extends DtoFileStoragePath<ID> {
         super();
     }
 
-    public DtoFileStorage(String filename, String filePath, byte[] content, Date createDate, String type) {
-        super(filename, filePath, createDate, type);
+    public DtoFileStorage(String filename, String extension, String displayName, Date createDate, String type, String filePath, byte[] content) {
+        super(filename, extension, displayName, createDate, type, filePath);
         this.content = content;
     }
 
-    public DtoFileStorage(ID id, String filename, String filePath, byte[] content, Date createDate, String type) {
-        super(id, filename, filePath, createDate, type);
+    public DtoFileStorage(ID id, String filename, String extension, String displayName, Date createDate, String type, String filePath, byte[] content) {
+        super(id, filename, extension, displayName, createDate, type, filePath);
         this.content = content;
     }
 
@@ -37,19 +37,10 @@ public class DtoFileStorage<ID> extends DtoFileStoragePath<ID> {
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public String toString(){
-        return String.format("file storage [%s]: %s", String.valueOf(getId()), String.valueOf(getFilename()));
-    }
-
-    @Override
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DtoFileStorage) {
             DtoFileStorage object = (DtoFileStorage) obj;
-            return super.equals(obj) && Objects.equals(getFilename(), object.getFilename())
-                    && Objects.equals(getFilePath(), object.getFilePath())
-                    && Objects.equals(content, object.content)
-                    && Objects.equals(getCreateDate(), object.getCreateDate())
-                    && Objects.equals(getType(), object.getType());
+            return super.equals(obj) && Objects.equals(content, object.content);
         }else {
             return false;
         }
@@ -57,7 +48,7 @@ public class DtoFileStorage<ID> extends DtoFileStoragePath<ID> {
 
     @Override
     public int hashCode(){
-        return Objects.hash(getId(), getFilename(), getFilePath(), content, getCreateDate(), getType());
+        return Objects.hash(getId(), getFilename(), getExtension(), getDisplayName(), getFilePath(), content, getCreateDate(), getType());
     }
     //</editor-fold>
 }

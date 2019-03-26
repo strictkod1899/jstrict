@@ -11,7 +11,7 @@ import ru.strict.utils.UtilClass;
 public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
         extends RepositoryNamedBase<ID, EntityFileStorage<ID>, DTO, MapperSqlFileStorage<ID>> {
 
-    private static final String[] COLUMNS_NAME = new String[] {"filename", "content", "filepath",
+    private static final String[] COLUMNS_NAME = new String[] {"filename", "extension", "displayname", "content", "filepath",
             "create_date", "type"};
 
     public RepositoryFileStorage(CreateConnectionByMybatis connectionSource,
