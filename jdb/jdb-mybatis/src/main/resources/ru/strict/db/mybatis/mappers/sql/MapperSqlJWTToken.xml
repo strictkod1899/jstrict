@@ -34,6 +34,16 @@
                 #{subject}, #{notBefore}, #{audience}, #{secret}, #{algorithm}, #{type}, #{userId})
     </insert>
 
+    <insert id="createGenerateId" parameterType="ru.strict.db.core.entities.EntityJWTToken"
+            useGeneratedKeys="true"
+            keyColumn="id"
+            keyProperty="id">
+        INSERT INTO token (access_token, refresh_token, expire_time_access, expire_time_refresh, issued_at, issuer,
+                subject, not_before, audience, secret, algorithm, type, userx_id)
+        VALUES (#{accessToken}, #{refreshToken}, #{expireTimeAccess}, #{expireTimeRefresh}, #{issuedAt}, #{issuer},
+                #{subject}, #{notBefore}, #{audience}, #{secret}, #{algorithm}, #{type}, #{userId})
+    </insert>
+
     <select id="read" parameterType="java.lang.Object" resultMap="token">
         SELECT * FROM token WHERE id = #{id}
     </select>

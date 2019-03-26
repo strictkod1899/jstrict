@@ -23,6 +23,14 @@
         VALUES (#{id}, #{name}, #{surname}, #{middlename}, #{userId})
     </insert>
 
+    <insert id="createGenerateId" parameterType="ru.strict.db.core.entities.EntityProfile"
+            useGeneratedKeys="true"
+            keyColumn="id"
+            keyProperty="id">
+        INSERT INTO profile (name, surname, middlename, userx_id)
+        VALUES (#{name}, #{surname}, #{middlename}, #{userId})
+    </insert>
+
     <select id="read" parameterType="java.lang.Object" resultMap="profile">
         SELECT * FROM profile WHERE id = #{id}
     </select>

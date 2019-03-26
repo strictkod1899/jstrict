@@ -25,6 +25,13 @@
         INSERT INTO user_on_role (id, userx_id, roleuser_id) VALUES (#{id}, #{userId}, #{roleId})
     </insert>
 
+    <insert id="createGenerateId" parameterType="ru.strict.db.core.entities.EntityUserOnRole"
+            useGeneratedKeys="true"
+            keyColumn="id"
+            keyProperty="id">
+        INSERT INTO user_on_role (userx_id, roleuser_id) VALUES (#{userId}, #{roleId})
+    </insert>
+
     <select id="read" parameterType="java.lang.Object" resultMap="userOnRole">
         SELECT * FROM user_on_role WHERE id = #{id}
     </select>
