@@ -74,6 +74,22 @@ public class DbWhereItem extends DbWhereBase {
         return columnValue;
     }
 
+    public String getFormattedColumnValue() {
+        return (templateSymbol != null
+                    ? (templateSymbol.getPointTemplateSymbol()== PointTemplateSymbol.BEGIN
+                            || templateSymbol.getPointTemplateSymbol()== PointTemplateSymbol.BOTH
+                            ? templateSymbol.getTemplateSymbol():"")
+                    : "")
+                +
+                columnValue
+                +
+                (templateSymbol != null
+                    ? (templateSymbol.getPointTemplateSymbol()== PointTemplateSymbol.END
+                            || templateSymbol.getPointTemplateSymbol()== PointTemplateSymbol.BOTH
+                            ? templateSymbol.getTemplateSymbol():"")
+                    : "");
+    }
+
     public String getOperator() {
         return operator;
     }
@@ -90,13 +106,7 @@ public class DbWhereItem extends DbWhereBase {
         if(columnValue instanceof String || columnValue instanceof UUID ){
             result = getTableName() + "." + columnName + " "
                     + operator + " " + "'"
-                    + (templateSymbol != null ? (templateSymbol.getPointTemplateSymbol()== PointTemplateSymbol.BEGIN
-                    || templateSymbol.getPointTemplateSymbol()== PointTemplateSymbol.BOTH
-                    ?templateSymbol.getTemplateSymbol():"") : "")
-                    + columnValue
-                    + (templateSymbol != null ? (templateSymbol.getPointTemplateSymbol()== PointTemplateSymbol.END
-                    || templateSymbol.getPointTemplateSymbol()== PointTemplateSymbol.BOTH
-                    ?templateSymbol.getTemplateSymbol():"") : "") + "'";
+                    + getFormattedColumnValue() + "'";
         } else {
             result = getTableName() + "." + columnName + " " + operator + " "
                     + (columnValue == null ? "" : columnValue);

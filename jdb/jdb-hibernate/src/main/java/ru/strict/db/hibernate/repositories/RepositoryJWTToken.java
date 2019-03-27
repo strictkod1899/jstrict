@@ -5,10 +5,13 @@ import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.dto.DtoJWTToken;
 import ru.strict.db.core.repositories.interfaces.IRepositoryJWTToken;
+import ru.strict.db.core.requests.DbRequests;
+import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityJWTToken;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
 import ru.strict.utils.UtilClass;
+import ru.strict.validates.ValidateBaseValue;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -33,92 +36,6 @@ public class RepositoryJWTToken<ID extends Serializable>
                 connectionSource,
                 new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityJWTToken.class), UtilClass.castClass(DtoJWTToken.class)),
                 generateIdType);
-    }
-
-    @Override
-    public DtoJWTToken<ID> readByAccessToken(String caption) {
-        DtoJWTToken<ID> result = null;
-        Session session = null;
-        EntityManagerFactory entityManagerFactory = null;
-        EntityManager entityManager = null;
-        try{
-            session = createConnection();
-            session.beginTransaction();
-            entityManagerFactory = session.getEntityManagerFactory();
-            entityManager = entityManagerFactory.createEntityManager();
-            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<EntityJWTToken<ID>> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
-            Root<EntityJWTToken<ID>> criteriaRoot = criteriaEntity.from(getEntityClass());
-            criteriaEntity.select(criteriaRoot);
-            criteriaEntity.where(criteriaBuilder.equal(criteriaRoot.get("access_token"), caption));
-            TypedQuery<EntityJWTToken<ID>> typed =  entityManager.createQuery(criteriaEntity);
-            List<EntityJWTToken<ID>> entities = typed.getResultList();
-            EntityJWTToken<ID> entity = entities.isEmpty() ? null : entities.get(0);
-            result = getDtoMapper().map(entity);
-
-            session.getTransaction().commit();
-        }catch(Exception ex){
-            if(session != null) {
-                session.getTransaction().rollback();
-            }
-            throw ex;
-        }finally{
-            if(entityManager != null) {
-                entityManager.close();
-            }
-
-            if(entityManagerFactory != null){
-                entityManagerFactory.close();
-            }
-
-            if(session != null) {
-                session.close();
-            }
-        }
-        return result;
-    }
-
-    @Override
-    public DtoJWTToken<ID> readByRefreshToken(String caption) {
-        DtoJWTToken<ID> result = null;
-        Session session = null;
-        EntityManagerFactory entityManagerFactory = null;
-        EntityManager entityManager = null;
-        try{
-            session = createConnection();
-            session.beginTransaction();
-            entityManagerFactory = session.getEntityManagerFactory();
-            entityManager = entityManagerFactory.createEntityManager();
-            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<EntityJWTToken<ID>> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
-            Root<EntityJWTToken<ID>> criteriaRoot = criteriaEntity.from(getEntityClass());
-            criteriaEntity.select(criteriaRoot);
-            criteriaEntity.where(criteriaBuilder.equal(criteriaRoot.get("refresh_token"), caption));
-            TypedQuery<EntityJWTToken<ID>> typed =  entityManager.createQuery(criteriaEntity);
-            List<EntityJWTToken<ID>> entities = typed.getResultList();
-            EntityJWTToken<ID> entity = entities.isEmpty() ? null : entities.get(0);
-            result = getDtoMapper().map(entity);
-
-            session.getTransaction().commit();
-        }catch(Exception ex){
-            if(session != null) {
-                session.getTransaction().rollback();
-            }
-            throw ex;
-        }finally{
-            if(entityManager != null) {
-                entityManager.close();
-            }
-
-            if(entityManagerFactory != null){
-                entityManagerFactory.close();
-            }
-
-            if(session != null) {
-                session.close();
-            }
-        }
-        return result;
     }
 
     @Override

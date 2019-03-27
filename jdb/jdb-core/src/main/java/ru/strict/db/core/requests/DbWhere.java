@@ -3,7 +3,7 @@ package ru.strict.db.core.requests;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DbWhere extends DbWhereBase<List, DbWhereBase> {
+public class DbWhere extends DbWhereBase<List<DbWhereBase>, DbWhereBase> {
     
     private List<DbWhereBase> childs;
     private WhereType whereType;
@@ -58,7 +58,11 @@ public class DbWhere extends DbWhereBase<List, DbWhereBase> {
     public void clear() {
         childs.clear();
     }
-    
+
+    public WhereType getType() {
+        return whereType;
+    }
+
     @Override
     public String getSql() {
         if(childs.isEmpty()) {

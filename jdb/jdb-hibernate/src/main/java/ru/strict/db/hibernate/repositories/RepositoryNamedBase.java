@@ -3,6 +3,8 @@ package ru.strict.db.hibernate.repositories;
 import org.hibernate.Session;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoBase;
+import ru.strict.db.core.requests.DbRequests;
+import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.hibernate.entities.EntityBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.IRepositoryNamed;
@@ -43,44 +45,10 @@ public abstract class RepositoryNamedBase
         if(ValidateBaseValue.isEmptyOrNull(caption)){
             throw new NullPointerException("caption for read by name is NULL");
         }
-        DTO result = null;
-        Session session = null;
-        EntityManagerFactory entityManagerFactory = null;
-        EntityManager entityManager = null;
-        try{
-            session = createConnection();
-            session.beginTransaction();
-            entityManagerFactory = session.getEntityManagerFactory();
-            entityManager = entityManagerFactory.createEntityManager();
-            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<E> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
-            Root<E> criteriaRoot = criteriaEntity.from(getEntityClass());
-            criteriaEntity.select(criteriaRoot);
-            criteriaEntity.where(criteriaBuilder.equal(criteriaRoot.get(getColumnWithName()), caption));
-            TypedQuery<E> typed =  entityManager.createQuery(criteriaEntity);
-            List<E> entities = typed.getResultList();
-            E entity = entities.isEmpty() ? null : entities.get(0);
-            result = getDtoMapper().map(entity);
+        DbRequests requests = new DbRequests();
+        requests.addWhere(new DbWhereItem(getTableName(), getColumnWithName(), caption, "="));
 
-            session.getTransaction().commit();
-        }catch(Exception ex){
-            if(session != null) {
-                session.getTransaction().rollback();
-            }
-            throw ex;
-        }finally{
-            if(entityManager != null) {
-                entityManager.close();
-            }
-
-            if(entityManagerFactory != null){
-                entityManagerFactory.close();
-            }
-
-            if(session != null) {
-                session.close();
-            }
-        }
+        DTO result = readAll(requests).stream().findFirst().orElse(null);
         return result;
     }
 
@@ -89,42 +57,10 @@ public abstract class RepositoryNamedBase
         if(ValidateBaseValue.isEmptyOrNull(caption)){
             throw new NullPointerException("caption for read by name is NULL");
         }
-        List<DTO> result = new ArrayList<>();
-        Session session = null;
-        EntityManagerFactory entityManagerFactory = null;
-        EntityManager entityManager = null;
-        try{
-            session = createConnection();
-            session.beginTransaction();
-            entityManagerFactory = session.getEntityManagerFactory();
-            entityManager = entityManagerFactory.createEntityManager();
-            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<E> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
-            Root<E> criteriaRoot = criteriaEntity.from(getEntityClass());
-            criteriaEntity.select(criteriaRoot);
-            criteriaEntity.where(criteriaBuilder.equal(criteriaRoot.get(getColumnWithName()), caption));
-            List<E> entities = entityManager.createQuery(criteriaEntity).getResultList();
-            entities.stream().forEach(entity -> result.add(getDtoMapper().map(entity)));
+        DbRequests requests = new DbRequests();
+        requests.addWhere(new DbWhereItem(getTableName(), getColumnWithName(), caption, "="));
 
-            session.getTransaction().commit();
-        }catch(Exception ex){
-            if(session != null) {
-                session.getTransaction().rollback();
-            }
-            throw ex;
-        }finally{
-            if(entityManager != null) {
-                entityManager.close();
-            }
-
-            if(entityManagerFactory != null){
-                entityManagerFactory.close();
-            }
-
-            if(session != null) {
-                session.close();
-            }
-        }
+        List<DTO> result = readAll(requests);
         return result;
     }
 
