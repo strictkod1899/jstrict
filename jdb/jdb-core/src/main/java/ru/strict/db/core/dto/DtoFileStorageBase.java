@@ -25,26 +25,32 @@ public class DtoFileStorageBase<ID> extends DtoBase<ID> {
      * Тип файла
      */
     private int type;
+    /**
+     * Статус
+     */
+    private int status;
 
     public DtoFileStorageBase() {
         super();
     }
 
-    public DtoFileStorageBase(String filename, String extension, String displayName, Date createDate, int type) {
+    public DtoFileStorageBase(String filename, String extension, String displayName, Date createDate, int type, int status) {
         this.filename = filename;
         this.extension = extension;
         this.displayName = displayName;
         this.createDate = createDate;
         this.type = type;
+        this.status = status;
     }
 
-    public DtoFileStorageBase(ID id, String filename, String extension, String displayName, Date createDate, int type) {
+    public DtoFileStorageBase(ID id, String filename, String extension, String displayName, Date createDate, int type, int status) {
         super(id);
         this.filename = filename;
         this.extension = extension;
         this.displayName = displayName;
         this.createDate = createDate;
         this.type = type;
+        this.status = status;
     }
 
     public String getFilename() {
@@ -87,6 +93,14 @@ public class DtoFileStorageBase<ID> extends DtoBase<ID> {
         this.displayName = displayName;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
@@ -101,7 +115,8 @@ public class DtoFileStorageBase<ID> extends DtoBase<ID> {
                     && Objects.equals(extension, object.extension)
                     && Objects.equals(displayName, object.displayName)
                     && Objects.equals(createDate, object.createDate)
-                    && Objects.equals(type, object.type);
+                    && Objects.equals(type, object.type)
+                    && Objects.equals(status, object.status);
         }else {
             return false;
         }
@@ -109,7 +124,7 @@ public class DtoFileStorageBase<ID> extends DtoBase<ID> {
 
     @Override
     public int hashCode(){
-        return Objects.hash(getId(), filename, extension, displayName, createDate, type);
+        return Objects.hash(getId(), filename, extension, displayName, createDate, type, status);
     }
     //</editor-fold>
 }

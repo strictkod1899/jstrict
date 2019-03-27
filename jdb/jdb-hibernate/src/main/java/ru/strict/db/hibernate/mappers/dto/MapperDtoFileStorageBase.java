@@ -20,6 +20,7 @@ public class MapperDtoFileStorageBase<ID> extends MapperDtoBase<ID, EntityFileSt
         entity.setDisplayName(dto.getDisplayName());
         entity.setCreateDate(dto.getCreateDate());
         entity.setType(dto.getType());
+        entity.setStatus(dto.getStatus());
         return entity;
     }
 
@@ -32,6 +33,7 @@ public class MapperDtoFileStorageBase<ID> extends MapperDtoBase<ID, EntityFileSt
         dto.setDisplayName(entity.getDisplayName());
         dto.setCreateDate(entity.getCreateDate());
         dto.setType(entity.getType());
+        dto.setStatus(entity.getStatus());
         return dto;
     }
 }

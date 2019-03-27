@@ -33,12 +33,16 @@ public class EntityFileStorage<ID> extends EntityBase<ID> {
      * Тип файла
      */
     private int type;
+    /**
+     * Статус
+     */
+    private int status;
 
     public EntityFileStorage() {
         super();
     }
 
-    public EntityFileStorage(String filename, String extension, String displayName, String filePath, byte[] content, Date createDate, int type) {
+    public EntityFileStorage(String filename, String extension, String displayName, String filePath, byte[] content, Date createDate, int type, int status) {
         this.filename = filename;
         this.extension = extension;
         this.displayName = displayName;
@@ -46,9 +50,10 @@ public class EntityFileStorage<ID> extends EntityBase<ID> {
         this.content = content;
         this.createDate = createDate;
         this.type = type;
+        this.status = status;
     }
 
-    public EntityFileStorage(ID id, String filename, String extension, String displayName, String filePath, byte[] content, Date createDate, int type) {
+    public EntityFileStorage(ID id, String filename, String extension, String displayName, String filePath, byte[] content, Date createDate, int type, int status) {
         super(id);
         this.filename = filename;
         this.extension = extension;
@@ -57,6 +62,7 @@ public class EntityFileStorage<ID> extends EntityBase<ID> {
         this.content = content;
         this.createDate = createDate;
         this.type = type;
+        this.status = status;
     }
 
     public String getFilename() {
@@ -115,6 +121,14 @@ public class EntityFileStorage<ID> extends EntityBase<ID> {
         this.displayName = displayName;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
@@ -131,7 +145,8 @@ public class EntityFileStorage<ID> extends EntityBase<ID> {
                     && Objects.equals(filePath, object.filePath)
                     && Objects.equals(content, object.content)
                     && Objects.equals(createDate, object.createDate)
-                    && Objects.equals(type, object.type);
+                    && Objects.equals(type, object.type)
+                    && Objects.equals(status, object.status);
         }else {
             return false;
         }
@@ -139,7 +154,7 @@ public class EntityFileStorage<ID> extends EntityBase<ID> {
 
     @Override
     public int hashCode(){
-        return Objects.hash(getId(), filename, extension, displayName, filePath, content, createDate, type);
+        return Objects.hash(getId(), filename, extension, displayName, filePath, content, createDate, type, status);
     }
     //</editor-fold>
 }

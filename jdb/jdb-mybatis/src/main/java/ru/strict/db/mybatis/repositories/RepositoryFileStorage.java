@@ -12,7 +12,7 @@ public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
         extends RepositoryNamedBase<ID, EntityFileStorage<ID>, DTO, MapperSqlFileStorage<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"filename", "extension", "displayname", "content", "filepath",
-            "create_date", "type"};
+            "create_date", "type", "status"};
 
     public RepositoryFileStorage(CreateConnectionByMybatis connectionSource,
                                  MapperDtoBase<ID, EntityFileStorage<ID>, DTO> dtoMapper,

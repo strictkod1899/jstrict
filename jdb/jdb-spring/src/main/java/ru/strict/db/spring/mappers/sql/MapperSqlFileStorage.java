@@ -25,6 +25,7 @@ public class MapperSqlFileStorage<ID> implements RowMapper<EntityFileStorage<ID>
         entity.setFilePath(resultSet.getString(COLUMNS_NAME[4]));
         entity.setCreateDate(resultSet.getDate(COLUMNS_NAME[5]));
         entity.setType(resultSet.getInt(COLUMNS_NAME[6]));
+        entity.setStatus(resultSet.getInt(COLUMNS_NAME[7]));
         return entity;
     }
 }

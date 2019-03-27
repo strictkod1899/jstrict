@@ -16,13 +16,13 @@ public class DtoFileStoragePath<ID> extends DtoFileStorageBase<ID> {
         super();
     }
 
-    public DtoFileStoragePath(String filename, String extension, String displayName, Date createDate, int type, String filePath) {
-        super(filename, extension, displayName, createDate, type);
+    public DtoFileStoragePath(String filename, String extension, String displayName, Date createDate, int type, int status, String filePath) {
+        super(filename, extension, displayName, createDate, type, status);
         this.filePath = filePath;
     }
 
-    public DtoFileStoragePath(ID id, String filename, String extension, String displayName, Date createDate, int type, String filePath) {
-        super(id, filename, extension, displayName, createDate, type);
+    public DtoFileStoragePath(ID id, String filename, String extension, String displayName, Date createDate, int type, int status, String filePath) {
+        super(id, filename, extension, displayName, createDate, type, status);
         this.filePath = filePath;
     }
 
@@ -47,7 +47,7 @@ public class DtoFileStoragePath<ID> extends DtoFileStorageBase<ID> {
 
     @Override
     public int hashCode(){
-        return Objects.hash(getId(), getFilename(), getExtension(), getDisplayName(), filePath, getCreateDate(), getType());
+        return Objects.hash(getId(), getFilename(), getExtension(), getDisplayName(), filePath, getCreateDate(), getType(), getStatus());
     }
     //</editor-fold>
 }

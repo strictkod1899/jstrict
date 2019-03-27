@@ -58,6 +58,7 @@ CREATE TABLE file_storage(
   filepath TEXT,
   create_date TIMESTAMP NOT NULL,
   type INTEGER NOT NULL,
+  status INTEGER,
   PRIMARY KEY (id)
 );
 
@@ -188,6 +189,7 @@ CREATE TABLE file_storage(
   filepath TEXT,
   create_date TIMESTAMP NOT NULL,
   type INTEGER NOT NULL,
+  status INTEGER,
   PRIMARY KEY (id)
 );
 

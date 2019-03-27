@@ -14,7 +14,7 @@ public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
         extends RepositoryNamedBase<ID, EntityFileStorage<ID>, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"filename", "extension", "displayname", "content", "filepath",
-            "create_date", "type"};
+            "create_date", "type", "status"};
 
     public RepositoryFileStorage(ICreateConnection<Connection> connectionSource,
                                  MapperDtoBase<ID, EntityFileStorage<ID>, DTO> dtoMapper,
@@ -36,6 +36,7 @@ public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
         valuesByColumn.put(4, entity.getFilePath());
         valuesByColumn.put(5, entity.getCreateDate());
         valuesByColumn.put(6, entity.getType());
+        valuesByColumn.put(7, entity.getStatus());
         return valuesByColumn;
     }
 

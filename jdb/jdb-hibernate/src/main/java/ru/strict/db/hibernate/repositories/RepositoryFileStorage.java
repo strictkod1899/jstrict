@@ -13,7 +13,7 @@ public class RepositoryFileStorage<ID extends Serializable, DTO extends DtoFileS
         extends RepositoryNamedBase<ID, EntityFileStorage<ID>, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"filename", "extension", "displayname", "content", "filepath",
-            "create_date", "type"};
+            "create_date", "type", "status"};
 
     public RepositoryFileStorage(CreateConnectionHibernate connectionSource,
                                  MapperDtoBase<ID, EntityFileStorage<ID>, DTO> dtoMapper,

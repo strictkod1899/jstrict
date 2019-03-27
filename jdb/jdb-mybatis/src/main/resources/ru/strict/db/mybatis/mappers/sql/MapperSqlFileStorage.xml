@@ -11,21 +11,22 @@
         <result property="content" column="content"/>
         <result property="createDate" column="create_date"/>
         <result property="type" column="type"/>
+        <result property="status" column="status"/>
     </resultMap>
 
     <resultMap id="userFill" type="ru.strict.db.core.entities.EntityFileStorage" extends="fileStorage"></resultMap>
 
     <insert id="create" parameterType="ru.strict.db.core.entities.EntityFileStorage">
-        INSERT INTO file_storage (id, filename, extension, displayname, filepath, content, create_date, type)
-        VALUES (#{id}, #{filename}, #{extension}, #{displayName}, #{filePath}, #{content}, #{createDate}, #{type})
+        INSERT INTO file_storage (id, filename, extension, displayname, filepath, content, create_date, type, status)
+        VALUES (#{id}, #{filename}, #{extension}, #{displayName}, #{filePath}, #{content}, #{createDate}, #{type}, #{status})
     </insert>
 
     <insert id="createGenerateId" parameterType="ru.strict.db.core.entities.EntityFileStorage"
             useGeneratedKeys="true"
             keyColumn="id"
             keyProperty="id">
-        INSERT INTO file_storage (id, filename, extension, displayname, filepath, content, create_date, type)
-        VALUES (#{id}, #{filename}, #{extension}, #{displayName}, #{filePath}, #{content}, #{createDate}, #{type})
+        INSERT INTO file_storage (id, filename, extension, displayname, filepath, content, create_date, type, status)
+        VALUES (#{id}, #{filename}, #{extension}, #{displayName}, #{filePath}, #{content}, #{createDate}, #{type}, #{status})
     </insert>
 
     <select id="read" parameterType="java.lang.Object" resultMap="fileStorage">
@@ -38,7 +39,7 @@
 
     <update id="update" parameterType="ru.strict.db.core.entities.EntityFileStorage">
         UPDATE file_storage SET filename = #{filename}, extension = #{extension}, displayname = #{displayName},
-        filepath = #{filePath}, content = #{content}, create_date = #{createDate}, type = #{type}
+        filepath = #{filePath}, content = #{content}, create_date = #{createDate}, type = #{type}, status = #{status}
         WHERE id = #{id}
     </update>
 

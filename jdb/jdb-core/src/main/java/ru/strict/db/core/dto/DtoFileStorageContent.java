@@ -17,13 +17,13 @@ public class DtoFileStorageContent<ID> extends DtoFileStorageBase<ID> {
         super();
     }
 
-    public DtoFileStorageContent(String filename, String extension, String displayName, Date createDate, int type, byte[] content) {
-        super(filename, extension, displayName, createDate, type);
+    public DtoFileStorageContent(String filename, String extension, String displayName, Date createDate, int type, int status, byte[] content) {
+        super(filename, extension, displayName, createDate, type, status);
         this.content = content;
     }
 
-    public DtoFileStorageContent(ID id, String filename, String extension, String displayName, Date createDate, int type, byte[] content) {
-        super(id, filename, extension, displayName, createDate, type);
+    public DtoFileStorageContent(ID id, String filename, String extension, String displayName, Date createDate, int type, int status, byte[] content) {
+        super(id, filename, extension, displayName, createDate, type, status);
         this.content = content;
     }
 
@@ -48,7 +48,7 @@ public class DtoFileStorageContent<ID> extends DtoFileStorageBase<ID> {
 
     @Override
     public int hashCode(){
-        return Objects.hash(getId(), getFilename(), getExtension(), getDisplayName(), content, getCreateDate(), getType());
+        return Objects.hash(getId(), getFilename(), getExtension(), getDisplayName(), content, getCreateDate(), getType(), getStatus());
     }
     //</editor-fold>
 }
