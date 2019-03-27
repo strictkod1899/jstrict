@@ -43,14 +43,12 @@ public class DtoProfileInfo<ID> extends DtoProfile<ID> {
         city = null;
     }
 
-    public DtoProfileInfo(String name, String surname, String middlename, ID userId, Date dateBirth, String phone,
-                             ID cityId) {
+    public DtoProfileInfo(String name, String surname, String middlename, ID userId, Date dateBirth, String phone, ID cityId) {
         super(name, surname, middlename, userId);
         initialize(dateBirth, phone, cityId);
     }
 
-    public DtoProfileInfo(ID id, String name, String surname, String middlename, ID userId, Date dateBirth, String phone,
-                             ID cityId) {
+    public DtoProfileInfo(ID id, String name, String surname, String middlename, ID userId, Date dateBirth, String phone, ID cityId) {
         super(id, name, surname, middlename, userId);
         initialize(dateBirth, phone, cityId);
     }

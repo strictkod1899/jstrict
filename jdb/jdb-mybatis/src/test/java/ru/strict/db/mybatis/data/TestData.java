@@ -2,6 +2,7 @@ package ru.strict.db.mybatis.data;
 
 import ru.strict.db.core.dto.*;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class TestData {
@@ -12,6 +13,9 @@ public class TestData {
     public static final DtoCity<Integer> CITY1 = new DtoCity<>(111, "city1", COUNTRY1.getId());
     public static final DtoCity<Integer> CITY1_UPDATED = new DtoCity<>(111, "city1_updated", COUNTRY1.getId());
     public static final DtoCity<UUID> CITY1_UUID = new DtoCity<>(UUID.randomUUID(), "city1", COUNTRY1_UUID.getId());
+
+    public static final DtoCity<Integer> CITY2 = new DtoCity<>(112, "city2", COUNTRY1.getId());
+    public static final DtoCity<UUID> CITY2_UUID = new DtoCity<>(UUID.randomUUID(), "city2", COUNTRY1_UUID.getId());
 
     public static final DtoRoleuser<Integer> ROLEUSER1 = new DtoRoleuser<>(111, "role1", "description1");
     public static final DtoRoleuser<Integer> ROLEUSER1_UPDATED = new DtoRoleuser<>(111, "role1_updated", "description1_updated");
@@ -52,6 +56,8 @@ public class TestData {
     public static final DtoProfile<Integer> PROFILE1_UPDATED = new DtoProfile<>(111, "name1_updated", "surname1_updated", "middlename2_updated", USER1.getId());
     public static final DtoProfile<UUID> PROFILE1_UUID = new DtoProfile<>(UUID.randomUUID(), "name1", "surname1", "middlename2", USER1_UUID.getId());
 
-
+    public static final DtoProfileInfo<Integer> PROFILE_INFO1 = new DtoProfileInfo<>(111, "name1", "surname1", "middlename2", USER1.getId(), new Date(), "phone1", CITY1.getId());
+    public static final DtoProfileInfo<Integer> PROFILE_INFO1_UPDATED = new DtoProfileInfo<>(111, "name1_updated", "surname1_updated", "middlename2_updated", USER1.getId(), new Date(), "phone1_updated", CITY2.getId());
+    public static final DtoProfileInfo<UUID> PROFILE_INFO1_UUID = new DtoProfileInfo<>(UUID.randomUUID(), "name1", "surname1", "middlename2", USER1_UUID.getId(), new Date(), "phone1", CITY1_UUID.getId());
 
 }
