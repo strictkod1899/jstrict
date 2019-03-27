@@ -9,6 +9,7 @@ import ru.strict.db.core.entities.EntityProfile;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
+import ru.strict.db.core.repositories.interfaces.IRepositoryProfile;
 import ru.strict.db.spring.mappers.sql.MapperSqlProfile;
 import ru.strict.utils.UtilClass;
 
@@ -20,7 +21,8 @@ import java.util.Map;
  * @param <ID> Тип идентификатора
  */
 public class RepositoryProfile<ID>
-        extends RepositorySpringBase<ID, EntityProfile<ID>, DtoProfile<ID>> {
+        extends RepositorySpringBase<ID, EntityProfile<ID>, DtoProfile<ID>>
+        implements IRepositoryProfile<ID, DtoProfile<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id"};
 

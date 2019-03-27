@@ -3,6 +3,7 @@ package ru.strict.db.hibernate.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoFileStorageBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
+import ru.strict.db.core.repositories.interfaces.IRepositoryFileStorage;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityFileStorage;
 import ru.strict.utils.UtilClass;
@@ -10,7 +11,8 @@ import ru.strict.utils.UtilClass;
 import java.io.Serializable;
 
 public class RepositoryFileStorage<ID extends Serializable, DTO extends DtoFileStorageBase<ID>>
-        extends RepositoryNamedBase<ID, EntityFileStorage<ID>, DTO> {
+        extends RepositoryNamedBase<ID, EntityFileStorage<ID>, DTO>
+        implements IRepositoryFileStorage<ID, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"filename", "extension", "displayname", "content", "filepath",
             "create_date", "type", "status"};

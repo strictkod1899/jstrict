@@ -4,12 +4,14 @@ import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoUserOnRole;
 import ru.strict.db.core.entities.EntityUserOnRole;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
+import ru.strict.db.core.repositories.interfaces.IRepositoryUserOnRole;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlUserOnRole;
 import ru.strict.utils.UtilClass;
 
 public class RepositoryUserOnRole<ID>
-        extends RepositoryMybatisBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>, MapperSqlUserOnRole<ID>> {
+        extends RepositoryMybatisBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>, MapperSqlUserOnRole<ID>>
+        implements IRepositoryUserOnRole<ID> {
 
     private static final String[] COLUMNS_NAME = new String[] {"userx_id", "roleuser_id"};
 

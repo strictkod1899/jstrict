@@ -10,6 +10,7 @@ import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.entities.EntityUserOnRole;
 import ru.strict.db.core.mappers.dto.*;
 import ru.strict.db.core.repositories.IRepository;
+import ru.strict.db.core.repositories.interfaces.IRepositoryUserOnRole;
 import ru.strict.db.spring.mappers.sql.MapperSqlUserOnRole;
 import ru.strict.utils.UtilClass;
 
@@ -17,7 +18,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class RepositoryUserOnRole<ID>
-        extends RepositorySpringBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>> {
+        extends RepositorySpringBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>>
+        implements IRepositoryUserOnRole<ID> {
 
     private static final String[] COLUMNS_NAME = new String[] {"userx_id", "roleuser_id"};
 

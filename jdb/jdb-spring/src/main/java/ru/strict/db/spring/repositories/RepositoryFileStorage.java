@@ -9,6 +9,7 @@ import ru.strict.db.core.dto.DtoUserOnRole;
 import ru.strict.db.core.entities.EntityFileStorage;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.IRepository;
+import ru.strict.db.core.repositories.interfaces.IRepositoryFileStorage;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.spring.mappers.sql.MapperSqlFileStorage;
@@ -16,7 +17,8 @@ import ru.strict.db.spring.mappers.sql.MapperSqlFileStorage;
 import java.util.*;
 
 public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
-        extends RepositoryNamedBase<ID, EntityFileStorage<ID>, DTO> {
+        extends RepositoryNamedBase<ID, EntityFileStorage<ID>, DTO>
+        implements IRepositoryFileStorage<ID, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"filename", "extension", "displayname", "content", "filepath",
             "create_date", "type", "status"};

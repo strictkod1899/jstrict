@@ -3,6 +3,7 @@ package ru.strict.db.hibernate.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.dto.DtoProfile;
+import ru.strict.db.core.repositories.interfaces.IRepositoryProfile;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityProfile;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
@@ -13,7 +14,9 @@ import java.io.Serializable;
 /**
  * Репозиторий таблицы "profile". Определяет столбцы: "name", "surname", "middlename", "user_id"
  */
-public class RepositoryProfile<ID extends Serializable> extends RepositoryHibernateBase<ID, EntityProfile<ID>, DtoProfile<ID>> {
+public class RepositoryProfile<ID extends Serializable>
+        extends RepositoryHibernateBase<ID, EntityProfile<ID>, DtoProfile<ID>>
+        implements IRepositoryProfile<ID, DtoProfile<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id"};
 

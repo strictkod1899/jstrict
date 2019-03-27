@@ -10,6 +10,7 @@ import ru.strict.db.core.entities.EntityProfileInfo;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
+import ru.strict.db.core.repositories.interfaces.IRepositoryProfile;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlProfileInfo;
 import ru.strict.utils.UtilClass;
 
@@ -23,7 +24,8 @@ import java.util.Map;
  * @param <ID> Тип идентификатора
  */
 public class RepositoryProfileInfo<ID>
-        extends RepositoryJdbcBase<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>> {
+        extends RepositoryJdbcBase<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>>
+        implements IRepositoryProfile<ID, DtoProfileInfo<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id", "datebirth",
             "phone", "city_id"};

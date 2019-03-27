@@ -9,6 +9,7 @@ import ru.strict.db.core.entities.EntityCity;
 import ru.strict.db.core.entities.EntityCountry;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
+import ru.strict.db.core.repositories.interfaces.IRepositoryCity;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlCity;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlCountry;
 import ru.strict.utils.UtilClass;
@@ -18,7 +19,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class RepositoryCity<ID>
-        extends RepositoryNamedBase<ID, EntityCity<ID>, DtoCity<ID>> {
+        extends RepositoryNamedBase<ID, EntityCity<ID>, DtoCity<ID>>
+        implements IRepositoryCity<ID> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption", "country_id"};
 

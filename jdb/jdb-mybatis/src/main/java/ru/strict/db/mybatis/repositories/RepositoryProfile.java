@@ -4,11 +4,14 @@ import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoProfile;
 import ru.strict.db.core.entities.EntityProfile;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
+import ru.strict.db.core.repositories.interfaces.IRepositoryProfile;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlProfile;
 import ru.strict.utils.UtilClass;
 
-public class RepositoryProfile<ID> extends RepositoryMybatisBase<ID, EntityProfile<ID>, DtoProfile<ID>, MapperSqlProfile<ID>> {
+public class RepositoryProfile<ID>
+        extends RepositoryMybatisBase<ID, EntityProfile<ID>, DtoProfile<ID>, MapperSqlProfile<ID>>
+        implements IRepositoryProfile<ID, DtoProfile<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id"};
 
