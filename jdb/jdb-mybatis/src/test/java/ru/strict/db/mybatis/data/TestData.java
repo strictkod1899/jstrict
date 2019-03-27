@@ -32,6 +32,9 @@ public class TestData {
     public static final DtoUser<Integer> USER3 = new DtoUser<>(113, "user3", "user3@mail.ru", "password3");
     public static final DtoUser<UUID> USER3_UUID = new DtoUser<>(UUID.randomUUID(), "user3", "user3@mail.ru", "password3");
 
+    public static final DtoUser<Integer> USER4 = new DtoUser<>(114, "user4", "user4@mail.ru", "password4");
+    public static final DtoUser<UUID> USER4_UUID = new DtoUser<>(UUID.randomUUID(), "user4", "user4@mail.ru", "password4");
+
     public static final DtoUserOnRole<Integer> USER_ON_ROLE1 = new DtoUserOnRole<>(111, USER1.getId(), ROLEUSER1.getId());
     public static final DtoUserOnRole<Integer> USER_ON_ROLE1_UPDATED = new DtoUserOnRole<>(111, USER2.getId(), ROLEUSER2.getId());
     public static final DtoUserOnRole<UUID> USER_ON_ROLE1_UUID = new DtoUserOnRole<>(UUID.randomUUID(), USER1_UUID.getId(), ROLEUSER1_UUID.getId());
@@ -44,4 +47,11 @@ public class TestData {
 
     public static final DtoUserOnRole<Integer> USER_ON_ROLE4 = new DtoUserOnRole<>(114, USER3.getId(), ROLEUSER1.getId());
     public static final DtoUserOnRole<UUID> USER_ON_ROLE4_UUID = new DtoUserOnRole<>(UUID.randomUUID(), USER3_UUID.getId(), ROLEUSER1_UUID.getId());
+
+    public static final DtoProfile<Integer> PROFILE1 = new DtoProfile<>(111, "name1", "surname1", "middlename2", USER1.getId());
+    public static final DtoProfile<Integer> PROFILE1_UPDATED = new DtoProfile<>(111, "name1_updated", "surname1_updated", "middlename2_updated", USER1.getId());
+    public static final DtoProfile<UUID> PROFILE1_UUID = new DtoProfile<>(UUID.randomUUID(), "name1", "surname1", "middlename2", USER1_UUID.getId());
+
+
+
 }

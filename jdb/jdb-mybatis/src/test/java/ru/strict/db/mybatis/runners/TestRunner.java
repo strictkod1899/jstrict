@@ -23,7 +23,8 @@ import java.util.List;
         TestRepositoryCity.class,
         TestRepositoryRoleuser.class,
         TestRepositoryUser.class,
-        TestRepositoryUserOnRole.class
+        TestRepositoryUserOnRole.class,
+        TestRepositoryProfile.class
 })
 public class TestRunner {
 
@@ -65,6 +66,7 @@ public class TestRunner {
         connectionInfoForDbInteger.addMapper(MapperSqlUser.class);
         connectionInfoForDbInteger.addMapper(MapperSqlFileStorage.class);
         connectionInfoForDbInteger.addMapper(MapperSqlJWTToken.class);
+        connectionInfoForDbInteger.addMapper(MapperSqlProfile.class);
         connectionInfoForDbInteger.addMapper(MapperSqlProfileInfo.class);
         connectionInfoForDbInteger.addMapper(MapperSqlUserOnRole.class);
         connectionInfoForDbUuid.addMapper(MapperSqlCountry.class);
@@ -73,6 +75,7 @@ public class TestRunner {
         connectionInfoForDbUuid.addMapper(MapperSqlUser.class);
         connectionInfoForDbUuid.addMapper(MapperSqlFileStorage.class);
         connectionInfoForDbUuid.addMapper(MapperSqlJWTToken.class);
+        connectionInfoForDbUuid.addMapper(MapperSqlProfile.class);
         connectionInfoForDbUuid.addMapper(MapperSqlProfileInfo.class);
         connectionInfoForDbUuid.addMapper(MapperSqlUserOnRole.class);
 
