@@ -1,5 +1,7 @@
 package ru.strict.db.core.requests;
 
+import ru.strict.validates.ValidateBaseValue;
+
 import java.util.*;
 
 /**
@@ -38,7 +40,7 @@ public class DbRequests implements IDbRequest {
         result = fillOrderBy(result);
         result = fillLimitOffset(result);
 
-        return result;
+        return result.trim();
     }
 
     public void addJoin(DbJoin request){
@@ -98,7 +100,10 @@ public class DbRequests implements IDbRequest {
     }
 
     private String fillWhere(String result){
-        result += " " + whereRequests.getSql();
+        String sql = whereRequests.getSql();
+        if(!ValidateBaseValue.isEmptySpaceOrNull(sql)) {
+            result += " WHERE " + sql;
+        }
         return result;
     }
 

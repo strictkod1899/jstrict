@@ -122,7 +122,7 @@ public abstract class RepositoryMybatisBase
         try {
             session = createConnection();
             MAPPER mapperMybatis = session.getMapper(getMybatisMapper());
-            String requestsString = requests != null ? requests.getSql() : "";
+            String requestsString = requests != null ? " " + requests.getSql() : "";
             List<E> entities = mapperMybatis.readAll(requestsString);
             result = entities.stream().map(e -> getDtoMapper().map(e)).collect(Collectors.toList());
             session.commit();
@@ -214,7 +214,7 @@ public abstract class RepositoryMybatisBase
         try {
             session = createConnection();
             MAPPER mapperMybatis = session.getMapper(getMybatisMapper());
-            String requestsString = requests != null ? requests.getSql() : "";
+            String requestsString = requests != null ? " " + requests.getSql() : "";
             List<E> entities = mapperMybatis.readAllFill(requestsString);
             result = entities.stream().map(e -> getDtoMapper().map(e)).collect(Collectors.toList());
             session.commit();
@@ -239,7 +239,7 @@ public abstract class RepositoryMybatisBase
         try {
             session = createConnection();
             MAPPER mapperMybatis = session.getMapper(getMybatisMapper());
-            String requestsString = requests != null ? requests.getSql() : "";
+            String requestsString = requests != null ? " " + requests.getSql() : "";
             result = mapperMybatis.readCount(requestsString);
             session.commit();
         }catch(Exception ex){

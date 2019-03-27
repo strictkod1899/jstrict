@@ -100,7 +100,7 @@ public abstract class RepositorySpringBase
 
     @Override
     public final List<DTO> readAll(DbRequests requests) {
-        String sql = createSqlSelect() + (requests==null?"":requests.getSql());
+        String sql = createSqlSelect() + (requests==null ? "" : " " + requests.getSql());
         List<DTO> result = new ArrayList<>();
         List<E> entities = springJdbc.query(sql, springMapper);
         for(E entity : entities) {
@@ -129,7 +129,7 @@ public abstract class RepositorySpringBase
 
     @Override
     public int readCount(DbRequests requests) {
-        String sql = createSqlCount() + (requests==null ? "" : requests.getSql());
+        String sql = createSqlCount() + (requests==null ? "" : " " + requests.getSql());
         Integer result = springJdbc.queryForObject(sql, new MapSqlParameterSource(), new MapperSqlCountRows());
 
         return result;

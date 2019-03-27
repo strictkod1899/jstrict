@@ -172,7 +172,7 @@ public abstract class RepositoryHibernateBase
     @Override
     public int readCount(DbRequests requests) {
         int result = -1;
-        String sql = createSqlCount() + (requests==null ? "" : requests.getSql());
+        String sql = createSqlCount() + (requests==null ? "" : " " + requests.getSql());
         Session session = null;
         try{
             session = createConnection();

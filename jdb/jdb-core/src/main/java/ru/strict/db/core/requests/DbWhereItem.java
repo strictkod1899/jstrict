@@ -111,7 +111,7 @@ public class DbWhereItem extends DbWhereBase {
             result = getTableName() + "." + columnName + " " + operator + " "
                     + (columnValue == null ? "" : columnValue);
         }
-        return result;
+        return result.trim();
     }
 
     //<editor-fold defaultState="collapsed" desc="Base override">

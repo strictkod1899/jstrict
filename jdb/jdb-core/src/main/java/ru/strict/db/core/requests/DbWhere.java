@@ -69,13 +69,13 @@ public class DbWhere extends DbWhereBase<List<DbWhereBase>, DbWhereBase> {
             return "";
         }
 
-        String result = "WHERE (" + childs.get(0).getSql() + ") ";
+        String result = "(" + childs.get(0).getSql() + ") ";
 
         for(int i = 1; i< childs.size(); i++) {
             result += whereType.getCaption() + " (" + childs.get(i).getSql() + ") ";
         }
 
-        return result;
+        return result.trim();
     }
 
     @Override

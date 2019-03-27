@@ -256,7 +256,7 @@ public abstract class RepositoryJdbcBase
         Connection connection = null;
         try{
             connection = createConnection();
-            String sql = createSqlSelect() + (requests==null ? "" : requests.getSql());
+            String sql = createSqlSelect() + (requests==null ? "" : " " + requests.getSql());
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
             while(resultSet.next()) {
@@ -394,7 +394,7 @@ public abstract class RepositoryJdbcBase
         Connection connection = null;
         try{
             connection = createConnection();
-            String sql = createSqlCount() + (requests==null ? "" : requests.getSql());
+            String sql = createSqlCount() + (requests==null ? "" : " " + requests.getSql());
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
             resultSet.next();
