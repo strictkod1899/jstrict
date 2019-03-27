@@ -30,24 +30,6 @@ public class RepositoryJWTToken<ID>
     }
 
     @Override
-    public DtoJWTToken<ID> readByAccessToken(String caption){
-        DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(getTableName(), "access_token", caption, "="));
-
-        DtoJWTToken<ID> result = readAll(requests).stream().findFirst().orElse(null);
-        return result;
-    }
-
-    @Override
-    public DtoJWTToken<ID> readByRefreshToken(String caption){
-        DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(getTableName(), "refresh_token", caption, "="));
-
-        DtoJWTToken<ID> result = readAll(requests).stream().findFirst().orElse(null);
-        return result;
-    }
-
-    @Override
     protected Class getThisClass() {
         return this.getClass();
     }
