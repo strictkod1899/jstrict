@@ -13,7 +13,7 @@ import ru.strict.utils.UtilClass;
 import java.io.Serializable;
 
 public class RepositoryUser<ID extends Serializable, DTO extends DtoUserBase<ID>>
-        extends RepositoryNamedBase<ID, EntityUser<ID>, DTO>
+        extends RepositoryHibernateBase<ID, EntityUser<ID>, DTO>
         implements IRepositoryUser<ID, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "email",
@@ -46,7 +46,7 @@ public class RepositoryUser<ID extends Serializable, DTO extends DtoUserBase<ID>
     }
 
     @Override
-    protected String getColumnWithName() {
+    public String getColumnWithName() {
         return COLUMNS_NAME[0];
     }
 

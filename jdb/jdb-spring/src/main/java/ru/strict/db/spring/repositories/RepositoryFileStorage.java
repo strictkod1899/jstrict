@@ -17,7 +17,7 @@ import ru.strict.db.spring.mappers.sql.MapperSqlFileStorage;
 import java.util.*;
 
 public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
-        extends RepositoryNamedBase<ID, EntityFileStorage<ID>, DTO>
+        extends RepositorySpringBase<ID, EntityFileStorage<ID>, DTO>
         implements IRepositoryFileStorage<ID, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"filename", "extension", "displayname", "content", "filepath",
@@ -26,7 +26,10 @@ public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
     public RepositoryFileStorage(CreateConnectionByDataSource connectionSource,
                                  MapperDtoBase<ID, EntityFileStorage<ID>, DTO> dtoMapper,
                                  GenerateIdType generateIdType) {
-        super("file_storage", COLUMNS_NAME, connectionSource, dtoMapper, new MapperSqlFileStorage(COLUMNS_NAME), generateIdType);
+        super("file_storage", COLUMNS_NAME, connectionSource,
+                dtoMapper,
+                new MapperSqlFileStorage<ID>(COLUMNS_NAME),
+                generateIdType);
     }
 
     @Override
@@ -49,7 +52,7 @@ public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
     }
 
     @Override
-    protected String getColumnWithName() {
+    public String getColumnWithName() {
         return COLUMNS_NAME[0];
     }
 

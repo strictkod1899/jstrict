@@ -21,7 +21,7 @@ public class RepositoryServiceOnRole<ID, SERVICE>
         super("service_on_role",
                 COLUMNS_NAME,
                 connectionSource,
-                UtilClass.castClass(MapperSqlServiceOnRole.class),
+                UtilClass.<MapperSqlServiceOnRole<ID, SERVICE>>castClass(MapperSqlServiceOnRole.class),
                 dtoMapper,
                 generateIdType);
     }

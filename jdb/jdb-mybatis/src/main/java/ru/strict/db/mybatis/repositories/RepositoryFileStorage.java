@@ -10,7 +10,7 @@ import ru.strict.db.mybatis.mappers.sql.MapperSqlFileStorage;
 import ru.strict.utils.UtilClass;
 
 public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
-        extends RepositoryNamedBase<ID, EntityFileStorage<ID>, DTO, MapperSqlFileStorage<ID>>
+        extends RepositoryMybatisBase<ID, EntityFileStorage<ID>, DTO, MapperSqlFileStorage<ID>>
         implements IRepositoryFileStorage<ID, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"filename", "extension", "displayname", "content", "filepath",
@@ -22,13 +22,13 @@ public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
         super("file_storage",
                 COLUMNS_NAME,
                 connectionSource,
-                UtilClass.castClass(MapperSqlFileStorage.class),
+                UtilClass.<MapperSqlFileStorage<ID>>castClass(MapperSqlFileStorage.class),
                 dtoMapper,
                 generateIdType);
     }
 
     @Override
-    protected String getColumnWithName() {
+    public String getColumnWithName() {
         return COLUMNS_NAME[0];
     }
 

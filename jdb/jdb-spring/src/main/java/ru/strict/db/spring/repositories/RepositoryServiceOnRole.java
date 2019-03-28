@@ -24,7 +24,7 @@ public class RepositoryServiceOnRole<ID, SERVICE>
                                    GenerateIdType generateIdType) {
         super("service_on_role", COLUMNS_NAME, connectionSource,
                 dtoMapper,
-                new MapperSqlServiceOnRole(COLUMNS_NAME),
+                new MapperSqlServiceOnRole<ID, SERVICE>(COLUMNS_NAME),
                 generateIdType);
     }
 

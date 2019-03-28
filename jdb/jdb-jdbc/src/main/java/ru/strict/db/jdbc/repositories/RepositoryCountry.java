@@ -1,16 +1,15 @@
 package ru.strict.db.jdbc.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoCity;
 import ru.strict.db.core.dto.DtoCountry;
 import ru.strict.db.core.entities.EntityCountry;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
+import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereItem;
-import ru.strict.db.core.requests.WhereType;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlCountry;
 import ru.strict.utils.UtilClass;
 
@@ -20,7 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 public class RepositoryCountry<ID>
-        extends RepositoryNamedBase<ID, EntityCountry<ID>, DtoCountry<ID>> {
+        extends RepositoryJdbcBase<ID, EntityCountry<ID>, DtoCountry<ID>>
+        implements IRepositoryNamed<ID, DtoCountry<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption"};
 
@@ -58,7 +58,7 @@ public class RepositoryCountry<ID>
     }
 
     @Override
-    protected String getColumnWithName() {
+    public String getColumnWithName() {
         return COLUMNS_NAME[0];
     }
 

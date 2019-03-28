@@ -1,7 +1,7 @@
 package ru.strict.db.jdbc.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.common.MapperDtoType;
+
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoCity;
 import ru.strict.db.core.dto.DtoCountry;
@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class RepositoryCity<ID>
-        extends RepositoryNamedBase<ID, EntityCity<ID>, DtoCity<ID>>
+        extends RepositoryJdbcBase<ID, EntityCity<ID>, DtoCity<ID>>
         implements IRepositoryCity<ID> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption", "country_id"};
@@ -54,7 +54,7 @@ public class RepositoryCity<ID>
     }
 
     @Override
-    protected String getColumnWithName() {
+    public String getColumnWithName() {
         return COLUMNS_NAME[0];
     }
 

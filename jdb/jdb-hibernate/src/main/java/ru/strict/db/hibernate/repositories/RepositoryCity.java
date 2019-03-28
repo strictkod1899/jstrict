@@ -11,7 +11,7 @@ import ru.strict.utils.UtilClass;
 import java.io.Serializable;
 
 public class RepositoryCity<ID extends Serializable>
-        extends RepositoryNamedBase<ID, EntityCity<ID>, DtoCity<ID>>
+        extends RepositoryHibernateBase<ID, EntityCity<ID>, DtoCity<ID>>
         implements IRepositoryCity<ID> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption", "country_id"};
@@ -30,7 +30,7 @@ public class RepositoryCity<ID extends Serializable>
     }
 
     @Override
-    protected String getColumnWithName() {
+    public String getColumnWithName() {
         return COLUMNS_NAME[0];
     }
 

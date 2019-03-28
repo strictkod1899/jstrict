@@ -12,7 +12,7 @@ import java.sql.Connection;
 import java.util.*;
 
 public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
-        extends RepositoryNamedBase<ID, EntityFileStorage<ID>, DTO>
+        extends RepositoryJdbcBase<ID, EntityFileStorage<ID>, DTO>
         implements IRepositoryFileStorage<ID, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"filename", "extension", "displayname", "content", "filepath",
@@ -24,7 +24,7 @@ public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
         super("file_storage", COLUMNS_NAME,
                 connectionSource,
                 dtoMapper,
-                new MapperSqlFileStorage<>(COLUMNS_NAME),
+                new MapperSqlFileStorage<ID>(COLUMNS_NAME),
                 generateIdType);
     }
 
@@ -48,7 +48,7 @@ public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
     }
 
     @Override
-    protected String getColumnWithName() {
+    public String getColumnWithName() {
         return COLUMNS_NAME[0];
     }
 

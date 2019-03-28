@@ -1,7 +1,7 @@
 package ru.strict.db.jdbc.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.common.MapperDtoType;
+
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.dto.DtoUser;
@@ -11,6 +11,7 @@ import ru.strict.db.core.entities.EntityRoleuser;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
+import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.core.requests.WhereType;
@@ -21,7 +22,8 @@ import java.sql.Connection;
 import java.util.*;
 
 public class RepositoryRoleuser<ID>
-        extends RepositoryNamedBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> {
+        extends RepositoryJdbcBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>>
+        implements IRepositoryNamed<ID, DtoRoleuser<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"code", "description"};
 
@@ -72,7 +74,7 @@ public class RepositoryRoleuser<ID>
     }
 
     @Override
-    protected String getColumnWithName() {
+    public String getColumnWithName() {
         return COLUMNS_NAME[0];
     }
 

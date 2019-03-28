@@ -1,8 +1,8 @@
 package ru.strict.db.hibernate.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.dto.DtoCountry;
+import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.hibernate.entities.EntityCountry;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
@@ -10,7 +10,9 @@ import ru.strict.utils.UtilClass;
 
 import java.io.Serializable;
 
-public class RepositoryCountry<ID extends Serializable> extends RepositoryNamedBase<ID, EntityCountry<ID>, DtoCountry<ID>> {
+public class RepositoryCountry<ID extends Serializable>
+        extends RepositoryHibernateBase<ID, EntityCountry<ID>, DtoCountry<ID>>
+        implements IRepositoryNamed<ID, DtoCountry<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption"};
 
@@ -28,7 +30,7 @@ public class RepositoryCountry<ID extends Serializable> extends RepositoryNamedB
     }
 
     @Override
-    protected String getColumnWithName() {
+    public String getColumnWithName() {
         return COLUMNS_NAME[0];
     }
 

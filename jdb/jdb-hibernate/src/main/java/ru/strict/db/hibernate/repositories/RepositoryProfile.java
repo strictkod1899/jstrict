@@ -1,7 +1,6 @@
 package ru.strict.db.hibernate.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.common.MapperDtoType;
 import ru.strict.db.core.dto.DtoProfile;
 import ru.strict.db.core.repositories.interfaces.IRepositoryProfile;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
@@ -24,8 +23,7 @@ public class RepositoryProfile<ID extends Serializable>
         super("profile",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory<ID>()
-                        .instance(UtilClass.castClass(EntityProfile.class), UtilClass.castClass(DtoProfile.class)),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityProfile.class), UtilClass.castClass(DtoProfile.class)),
                 generateIdType);
     }
 

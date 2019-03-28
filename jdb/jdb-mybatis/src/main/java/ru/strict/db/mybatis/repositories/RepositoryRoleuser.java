@@ -4,11 +4,14 @@ import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.entities.EntityRoleuser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
+import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlRoleuser;
 import ru.strict.utils.UtilClass;
 
-public class RepositoryRoleuser<ID> extends RepositoryNamedBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>, MapperSqlRoleuser<ID>> {
+public class RepositoryRoleuser<ID>
+        extends RepositoryMybatisBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>, MapperSqlRoleuser<ID>>
+        implements IRepositoryNamed<ID, DtoRoleuser<ID>>  {
 
     private static final String[] COLUMNS_NAME = new String[] {"code", "description"};
 
@@ -16,13 +19,13 @@ public class RepositoryRoleuser<ID> extends RepositoryNamedBase<ID, EntityRoleus
         super("roleuser",
                 COLUMNS_NAME,
                 connectionSource,
-                UtilClass.castClass(MapperSqlRoleuser.class),
+                UtilClass.<MapperSqlRoleuser<ID>>castClass(MapperSqlRoleuser.class),
                 new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityRoleuser.class), UtilClass.castClass(DtoRoleuser.class)),
                 generateIdType);
     }
 
     @Override
-    protected String getColumnWithName() {
+    public String getColumnWithName() {
         return COLUMNS_NAME[0];
     }
 

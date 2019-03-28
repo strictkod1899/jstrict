@@ -2,7 +2,7 @@ package ru.strict.db.hibernate.repositories;
 
 import org.hibernate.Session;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.common.MapperDtoType;
+
 import ru.strict.db.core.dto.DtoJWTToken;
 import ru.strict.db.core.repositories.interfaces.IRepositoryJWTToken;
 import ru.strict.db.core.requests.DbRequests;

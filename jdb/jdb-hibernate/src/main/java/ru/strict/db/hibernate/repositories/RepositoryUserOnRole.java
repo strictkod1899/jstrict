@@ -1,7 +1,7 @@
 package ru.strict.db.hibernate.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.common.MapperDtoType;
+
 import ru.strict.db.core.dto.DtoUserOnRole;
 import ru.strict.db.core.repositories.interfaces.IRepositoryUserOnRole;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;

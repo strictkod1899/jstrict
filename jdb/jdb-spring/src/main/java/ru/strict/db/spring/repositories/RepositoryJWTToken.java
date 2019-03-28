@@ -29,7 +29,7 @@ public class RepositoryJWTToken<ID>
     public RepositoryJWTToken(CreateConnectionByDataSource connectionSource, GenerateIdType generateIdType) {
         super("token", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityJWTToken.class), UtilClass.castClass(DtoJWTToken.class)),
-                new MapperSqlJWTToken(COLUMNS_NAME),
+                new MapperSqlJWTToken<ID>(COLUMNS_NAME),
                 generateIdType);
     }
 

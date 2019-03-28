@@ -10,7 +10,7 @@ import ru.strict.db.mybatis.mappers.sql.MapperSqlCity;
 import ru.strict.utils.UtilClass;
 
 public class RepositoryCity<ID>
-        extends RepositoryNamedBase<ID, EntityCity<ID>, DtoCity<ID>, MapperSqlCity<ID>>
+        extends RepositoryMybatisBase<ID, EntityCity<ID>, DtoCity<ID>, MapperSqlCity<ID>>
         implements IRepositoryCity<ID> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption", "country_id"};
@@ -19,7 +19,7 @@ public class RepositoryCity<ID>
         super("city",
                 COLUMNS_NAME,
                 connectionSource,
-                UtilClass.castClass(MapperSqlCity.class),
+                UtilClass.<MapperSqlCity<ID>>castClass(MapperSqlCity.class),
                 new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityCity.class), UtilClass.castClass(DtoCity.class)),
                 generateIdType);
     }
@@ -30,7 +30,7 @@ public class RepositoryCity<ID>
     }
 
     @Override
-    protected String getColumnWithName() {
+    public String getColumnWithName() {
         return COLUMNS_NAME[0];
     }
 }

@@ -1,7 +1,7 @@
 package ru.strict.db.spring.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.common.MapperDtoType;
+
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.DtoCity;
 import ru.strict.db.core.dto.DtoCountry;
@@ -16,7 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class RepositoryCity<ID>
-        extends RepositoryNamedBase<ID, EntityCity<ID>, DtoCity<ID>>
+        extends RepositorySpringBase<ID, EntityCity<ID>, DtoCity<ID>>
         implements IRepositoryCity<ID> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption", "country_id"};
@@ -24,7 +24,7 @@ public class RepositoryCity<ID>
     public RepositoryCity(CreateConnectionByDataSource connectionSource, GenerateIdType generateIdType) {
         super("city", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityCity.class), UtilClass.castClass(DtoCity.class)),
-                new MapperSqlCity(COLUMNS_NAME),
+                new MapperSqlCity<ID>(COLUMNS_NAME),
                 generateIdType);
     }
 
@@ -51,7 +51,7 @@ public class RepositoryCity<ID>
     }
 
     @Override
-    protected String getColumnWithName() {
+    public String getColumnWithName() {
         return COLUMNS_NAME[0];
     }
 

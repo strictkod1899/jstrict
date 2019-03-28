@@ -10,15 +10,16 @@ import ru.strict.db.core.entities.EntityUserOnRole;
 import ru.strict.db.core.mappers.dto.MapperDtoProfile;
 import ru.strict.db.core.mappers.dto.MapperDtoRoleuser;
 import ru.strict.db.core.repositories.IRepository;
+import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.spring.repositories.*;
 
 import java.util.*;
 
 public class RepositoryUserSecurity<ID>
-        extends RepositoryNamedBase<ID, EntityUserSecurity<ID>, DtoUserSecurity<ID>> {
+        extends RepositorySpringBase<ID, EntityUserSecurity<ID>, DtoUserSecurity<ID>>
+        implements IRepositoryNamed<ID, DtoUserSecurity<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "email",
             "is_blocked", "is_deleted", "is_confirm_email"};
@@ -68,7 +69,7 @@ public class RepositoryUserSecurity<ID>
     }
 
     @Override
-    protected String getColumnWithName() {
+    public String getColumnWithName() {
         return COLUMNS_NAME[0];
     }
 

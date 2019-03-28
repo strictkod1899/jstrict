@@ -20,7 +20,7 @@ public class RepositoryProfileInfo<ID>
         super("profile",
                 COLUMNS_NAME,
                 connectionSource,
-                UtilClass.castClass(MapperSqlProfileInfo.class),
+                UtilClass.<MapperSqlProfileInfo<ID>>castClass(MapperSqlProfileInfo.class),
                 new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityProfileInfo.class), UtilClass.castClass(DtoProfileInfo.class)),
                 generateIdType);
     }

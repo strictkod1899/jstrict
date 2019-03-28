@@ -2,6 +2,7 @@ package ru.strict.db.hibernate.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoRoleuser;
+import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityRoleuser;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
@@ -10,7 +11,8 @@ import ru.strict.utils.UtilClass;
 import java.io.Serializable;
 
 public class RepositoryRoleuser<ID extends Serializable>
-        extends RepositoryNamedBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> {
+        extends RepositoryHibernateBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>>
+        implements IRepositoryNamed<ID, DtoRoleuser<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"code", "description"};
 
@@ -28,7 +30,7 @@ public class RepositoryRoleuser<ID extends Serializable>
     }
 
     @Override
-    protected String getColumnWithName() {
+    public String getColumnWithName() {
         return COLUMNS_NAME[0];
     }
 

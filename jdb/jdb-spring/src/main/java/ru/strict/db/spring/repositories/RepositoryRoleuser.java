@@ -1,7 +1,7 @@
 package ru.strict.db.spring.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.common.MapperDtoType;
+
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.dto.DtoUser;
@@ -11,6 +11,7 @@ import ru.strict.db.core.entities.EntityRoleuser;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
+import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhere;
 import ru.strict.db.core.requests.DbWhereItem;
@@ -20,14 +21,15 @@ import ru.strict.utils.UtilClass;
 import java.util.*;
 
 public class RepositoryRoleuser<ID>
-        extends RepositoryNamedBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> {
+        extends RepositorySpringBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>>
+        implements IRepositoryNamed<ID, DtoRoleuser<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"code", "description"};
 
     public RepositoryRoleuser(CreateConnectionByDataSource connectionSource, GenerateIdType generateIdType) {
         super("roleuser", COLUMNS_NAME, connectionSource,
                 new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityRoleuser.class), UtilClass.castClass(DtoRoleuser.class)),
-                new MapperSqlRoleuser(COLUMNS_NAME),
+                new MapperSqlRoleuser<ID>(COLUMNS_NAME),
                 generateIdType);
     }
 
@@ -71,7 +73,7 @@ public class RepositoryRoleuser<ID>
     }
 
     @Override
-    protected String getColumnWithName() {
+    public String getColumnWithName() {
         return COLUMNS_NAME[0];
     }
 

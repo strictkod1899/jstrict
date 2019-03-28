@@ -11,7 +11,7 @@ import ru.strict.utils.UtilClass;
 import java.io.Serializable;
 
 public class RepositoryFileStorage<ID extends Serializable, DTO extends DtoFileStorageBase<ID>>
-        extends RepositoryNamedBase<ID, EntityFileStorage<ID>, DTO>
+        extends RepositoryHibernateBase<ID, EntityFileStorage<ID>, DTO>
         implements IRepositoryFileStorage<ID, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"filename", "extension", "displayname", "content", "filepath",
@@ -33,7 +33,7 @@ public class RepositoryFileStorage<ID extends Serializable, DTO extends DtoFileS
     }
 
     @Override
-    protected String getColumnWithName() {
+    public String getColumnWithName() {
         return COLUMNS_NAME[0];
     }
 

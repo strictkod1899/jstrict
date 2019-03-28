@@ -19,7 +19,7 @@ public class RepositoryUserOnRole<ID>
         super("user_on_role",
                 COLUMNS_NAME,
                 connectionSource,
-                UtilClass.castClass(MapperSqlUserOnRole.class),
+                UtilClass.<MapperSqlUserOnRole<ID>>castClass(MapperSqlUserOnRole.class),
                 new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUserOnRole.class), UtilClass.castClass(DtoUserOnRole.class)),
                 generateIdType);
     }

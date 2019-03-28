@@ -13,7 +13,7 @@ import ru.strict.db.mybatis.mappers.sql.MapperSqlUser;
 import ru.strict.utils.UtilClass;
 
 public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
-        extends RepositoryNamedBase<ID, EntityUser<ID>, DTO, MapperSqlUser<ID>>
+        extends RepositoryMybatisBase<ID, EntityUser<ID>, DTO, MapperSqlUser<ID>>
         implements IRepositoryUser<ID, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "email",
@@ -26,7 +26,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
         super("userx",
                 COLUMNS_NAME,
                 connectionSource,
-                UtilClass.castClass(MapperSqlUser.class),
+                UtilClass.<MapperSqlUser<ID>>castClass(MapperSqlUser.class),
                 new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUser.class)),
                 generateIdType);
     }
@@ -43,7 +43,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
     }
 
     @Override
-    protected String getColumnWithName() {
+    public String getColumnWithName() {
         return COLUMNS_NAME[0];
     }
 
