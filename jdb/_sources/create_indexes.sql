@@ -18,6 +18,11 @@ CREATE INDEX i_user_on_role_userx_id ON user_on_role (userx_id);
 CREATE INDEX i_user_on_role_roleuserx_id ON user_on_role (roleuser_id);
 CREATE UNIQUE INDEX i_user_on_role_group ON user_on_role (userx_id, roleuser_id);
 
+CREATE UNIQUE INDEX i_service_on_role_id ON service_on_role (id);
+CREATE INDEX i_service_on_role_userx_id ON service_on_role (service_id);
+CREATE INDEX i_service_on_role_roleuserx_id ON service_on_role (roleuser_id);
+CREATE UNIQUE INDEX i_service_on_role_group ON service_on_role (service_id, roleuser_id);
+
 CREATE UNIQUE INDEX i_file_storage_id ON file_storage (id);
 CREATE INDEX i_file_storage_filename ON file_storage (filename);
 CREATE INDEX i_file_storage_extension ON file_storage (extension);
