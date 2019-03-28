@@ -51,15 +51,36 @@ CREATE TABLE user_on_role(
 
 CREATE TABLE file_storage(
   id INTEGER NOT NULL,
-  filename VARCHAR(250) NOT NULL,
+  filename VARCHAR(255) NOT NULL,
   extension VARCHAR(25) NOT NULL,
-  displayname VARCHAR(250),
+  displayname VARCHAR(255),
   content BYTEA,
-  filepath TEXT,
+  filepath V,
   create_date TIMESTAMP NOT NULL,
   type INTEGER NOT NULL,
   status INTEGER,
   PRIMARY KEY (id)
+);
+
+CREATE TABLE token(
+  id INTEGER NOT NULL,
+  access_token VARCHAR(255) NOT NULL,
+  refresh_token VARCHAR(255) NOT NULL,
+  expire_time_access DATE NOT NULL,
+  expire_time_refresh DATE NOT NULL,
+  issued_at DATE NOT NULL,
+  issuer TEXT,
+  subject TEXT,
+  not_before DATE,
+  audience TEXT,
+  secret TEXT,
+  algorithm TEXT,
+  type TEXT,
+  userx_id INTEGER NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (userx_id) REFERENCES userx(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  UNIQUE (access_token),
+  UNIQUE (refresh_token)
 );
 
 // Два варианта профиля
@@ -71,7 +92,6 @@ CREATE TABLE profile(
   middlename VARCHAR(255),
   userx_id INTEGER NOT NULL,
   PRIMARY KEY (id),
-  UNIQUE (userx_id),
   FOREIGN KEY (userx_id) REFERENCES userx(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
@@ -86,47 +106,8 @@ CREATE TABLE profile(
   phone VARCHAR(51),
   city_id INTEGER,
   PRIMARY KEY (id),
-  UNIQUE (userx_id),
   FOREIGN KEY (userx_id) REFERENCES userx(id) ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (city_id) REFERENCES city(id) ON UPDATE CASCADE ON DELETE CASCADE
-);
-
-// Два варианта токена
-// 1 - JwtToken
-CREATE TABLE token(
-  id INTEGER NOT NULL,
-  access_token TEXT NOT NULL,
-  refresh_token TEXT NOT NULL,
-  expire_time_access DATE NOT NULL,
-  expire_time_refresh DATE NOT NULL,
-  issued_at DATE NOT NULL,
-  issuer TEXT,
-  subject TEXT,
-  not_before DATE,
-  audience TEXT,
-  secret TEXT,
-  algorithm TEXT,
-  type TEXT
-);
-
-// 2 - JwtUserToken
-CREATE TABLE token(
-  id INTEGER NOT NULL,
-  access_token TEXT NOT NULL,
-  refresh_token TEXT NOT NULL,
-  expire_time_access DATE NOT NULL,
-  expire_time_refresh DATE NOT NULL,
-  issued_at DATE NOT NULL,
-  issuer TEXT,
-  subject TEXT,
-  not_before DATE,
-  audience TEXT,
-  secret TEXT,
-  algorithm TEXT,
-  type TEXT,
-  userx_id INTEGER NOT NULL,
-  PRIMARY KEY (id),
-  FOREIGN KEY (userx_id) REFERENCES userx(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -----------------------------
@@ -182,15 +163,36 @@ CREATE TABLE user_on_role(
 
 CREATE TABLE file_storage(
   id UUID NOT NULL,
-  filename VARCHAR(250) NOT NULL,
+  filename VARCHAR(255) NOT NULL,
   extension VARCHAR(25) NOT NULL,
-  displayname VARCHAR(250),
+  displayname VARCHAR(255),
   content BYTEA,
   filepath TEXT,
   create_date TIMESTAMP NOT NULL,
   type INTEGER NOT NULL,
   status INTEGER,
   PRIMARY KEY (id)
+);
+
+CREATE TABLE token(
+  id UUID NOT NULL,
+  access_token VARCHAR(255) NOT NULL,
+  refresh_token VARCHAR(255) NOT NULL,
+  expire_time_access DATE NOT NULL,
+  expire_time_refresh DATE NOT NULL,
+  issued_at DATE NOT NULL,
+  issuer TEXT,
+  subject TEXT,
+  not_before DATE,
+  audience TEXT,
+  secret TEXT,
+  algorithm TEXT,
+  type TEXT,
+  userx_id UUID NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (userx_id) REFERENCES userx(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  UNIQUE (access_token),
+  UNIQUE (refresh_token)
 );
 
 // Два варианта профиля
@@ -202,7 +204,6 @@ CREATE TABLE profile(
   middlename VARCHAR(255),
   userx_id UUID NOT NULL,
   PRIMARY KEY (id),
-  UNIQUE (userx_id),
   FOREIGN KEY (userx_id) REFERENCES userx(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
@@ -217,45 +218,6 @@ CREATE TABLE profile(
   phone VARCHAR(51),
   city_id UUID,
   PRIMARY KEY (id),
-  UNIQUE (userx_id),
   FOREIGN KEY (userx_id) REFERENCES userx(id) ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (city_id) REFERENCES city(id) ON UPDATE CASCADE ON DELETE CASCADE
-);
-
-// Два варианта токена
-// 1 - JwtToken
-CREATE TABLE token(
-  id UUID NOT NULL,
-  access_token TEXT NOT NULL,
-  refresh_token TEXT NOT NULL,
-  expire_time_access DATE NOT NULL,
-  expire_time_refresh DATE NOT NULL,
-  issued_at DATE NOT NULL,
-  issuer TEXT,
-  subject TEXT,
-  not_before DATE,
-  audience TEXT,
-  secret TEXT,
-  algorithm TEXT,
-  type TEXT
-);
-
-// 2 - JwtUserToken
-CREATE TABLE token(
-  id UUID NOT NULL,
-  access_token TEXT NOT NULL,
-  refresh_token TEXT NOT NULL,
-  expire_time_access DATE NOT NULL,
-  expire_time_refresh DATE NOT NULL,
-  issued_at DATE NOT NULL,
-  issuer TEXT,
-  subject TEXT,
-  not_before DATE,
-  audience TEXT,
-  secret TEXT,
-  algorithm TEXT,
-  type TEXT,
-  userx_id UUID NOT NULL,
-  PRIMARY KEY (id),
-  FOREIGN KEY (userx_id) REFERENCES userx(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
