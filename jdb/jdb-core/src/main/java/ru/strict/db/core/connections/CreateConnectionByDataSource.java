@@ -12,6 +12,16 @@ import java.sql.SQLException;
  *     ICreateConnection connectionCreater = new CreateConnectionByDataSource(dataSource);
  *     Connection connection = connectionCreater.createConnection();
  * </pre></code>
+ *
+ * <p><b>Создание DataSource используя commons-dbcp:</b></p>
+ * <code><pre style="background-color: white; font-family: consolas">
+ *     BasicDataSource dataSource = new BasicDataSource();
+ *     dataSource.setDriverClassName("org.sqlite.JDBC");
+ *     dataSource.setUrl("jdbc:sqlite:C:/path/to/db.sqlite");
+ *     dataSource.setUsername("");
+ *     dataSource.setPassword("");
+ * </pre></code>
+ *
  */
 public class CreateConnectionByDataSource extends CreateConnectionBase<DataSource, Connection> {
 

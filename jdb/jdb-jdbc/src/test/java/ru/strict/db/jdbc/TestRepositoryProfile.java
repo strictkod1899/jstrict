@@ -1,28 +1,26 @@
-package ru.strict.db.mybatis;
+package ru.strict.db.jdbc;
 
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.dto.DtoRoleuser;
+import ru.strict.db.core.dto.DtoProfile;
 import ru.strict.db.core.dto.DtoUser;
-import ru.strict.db.core.dto.DtoUserOnRole;
 import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.jdbc.data.TestData;
-import ru.strict.db.mybatis.repositories.RepositoryRoleuser;
-import ru.strict.db.mybatis.repositories.RepositoryUser;
-import ru.strict.db.mybatis.repositories.RepositoryUserOnRole;
+import ru.strict.db.jdbc.repositories.RepositoryProfile;
+import ru.strict.db.jdbc.repositories.RepositoryUser;
 import ru.strict.db.jdbc.runners.TestRunner;
 
 import java.util.List;
 import java.util.UUID;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestRepositoryUserOnRole {
+public class TestRepositoryProfile {
 
-    private static IRepositoryExtension<Integer, DtoUserOnRole<Integer>> REPOSITORY_NOT_GENERATE_ID;
-    private static IRepositoryExtension<Integer, DtoUserOnRole<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
-    private static IRepositoryExtension<UUID, DtoUserOnRole<UUID>> REPOSITORY_GENERATE_UUID_ID;
+    private static IRepositoryExtension<Integer, DtoProfile<Integer>> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryExtension<Integer, DtoProfile<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
+    private static IRepositoryExtension<UUID, DtoProfile<UUID>> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
     public static void prepare(){
@@ -34,9 +32,9 @@ public class TestRepositoryUserOnRole {
      * Подготовить тестовые репозитории
      */
     private static void prepareRepositories(){
-        REPOSITORY_NOT_GENERATE_ID = new RepositoryUserOnRole<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
-        REPOSITORY_GENERATE_NUMBER_ID = new RepositoryUserOnRole<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NUMBER);
-        REPOSITORY_GENERATE_UUID_ID = new RepositoryUserOnRole<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.UUID);
+        REPOSITORY_NOT_GENERATE_ID = new RepositoryProfile<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
+        REPOSITORY_GENERATE_NUMBER_ID = new RepositoryProfile<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NUMBER);
+        REPOSITORY_GENERATE_UUID_ID = new RepositoryProfile<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.UUID);
         TestRunner.repositories.add(REPOSITORY_GENERATE_NUMBER_ID);
         TestRunner.repositories.add(REPOSITORY_GENERATE_UUID_ID);
     }
@@ -47,22 +45,18 @@ public class TestRepositoryUserOnRole {
     private static void prepareData(){
         IRepositoryNamed<Integer, DtoUser<Integer>> repositoryUserNumberId = new RepositoryUser<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
         IRepositoryNamed<UUID, DtoUser<UUID>> repositoryUserUuidId = new RepositoryUser<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
-        IRepositoryNamed<Integer, DtoRoleuser<Integer>> repositoryRoleuserNumberId = new RepositoryRoleuser<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
-        IRepositoryNamed<UUID, DtoRoleuser<UUID>> repositoryRoleuserUuidId = new RepositoryRoleuser<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
 
         TestRunner.repositories.add(repositoryUserNumberId);
         TestRunner.repositories.add(repositoryUserUuidId);
-        TestRunner.repositories.add(repositoryRoleuserNumberId);
-        TestRunner.repositories.add(repositoryRoleuserUuidId);
 
         repositoryUserNumberId.create(TestData.USER1);
         repositoryUserUuidId.create(TestData.USER1_UUID);
         repositoryUserNumberId.create(TestData.USER2);
         repositoryUserUuidId.create(TestData.USER2_UUID);
-        repositoryRoleuserNumberId.create(TestData.ROLEUSER1);
-        repositoryRoleuserUuidId.create(TestData.ROLEUSER1_UUID);
-        repositoryRoleuserNumberId.create(TestData.ROLEUSER2);
-        repositoryRoleuserUuidId.create(TestData.ROLEUSER2_UUID);
+        repositoryUserNumberId.create(TestData.USER3);
+        repositoryUserUuidId.create(TestData.USER3_UUID);
+        repositoryUserNumberId.create(TestData.USER4);
+        repositoryUserUuidId.create(TestData.USER4_UUID);
     }
 
     @AfterClass
@@ -75,8 +69,8 @@ public class TestRepositoryUserOnRole {
      */
     @Test
     public void test001CreateGenerateNumberId(){
-        DtoUserOnRole dto = new DtoUserOnRole<>(TestData.USER_ON_ROLE2.getUserId(), TestData.USER_ON_ROLE2.getRoleId());
-        DtoUserOnRole createdDto = REPOSITORY_GENERATE_NUMBER_ID.create(dto);
+        DtoProfile dto = new DtoProfile<>("name", "surname", "middlename", TestData.USER2.getId());
+        DtoProfile createdDto = REPOSITORY_GENERATE_NUMBER_ID.create(dto);
         Assert.assertNotNull(createdDto.getId());
     }
 
@@ -85,18 +79,18 @@ public class TestRepositoryUserOnRole {
      */
     @Test
     public void test002CreateGenerateUuidId(){
-        DtoUserOnRole dto = new DtoUserOnRole<>(TestData.USER_ON_ROLE2_UUID.getUserId(), TestData.USER_ON_ROLE2_UUID.getRoleId());
-        DtoUserOnRole createdDto = REPOSITORY_GENERATE_UUID_ID.create(dto);
+        DtoProfile dto = new DtoProfile<>("name", "surname", "middlename", TestData.USER2_UUID.getId());
+        DtoProfile createdDto = REPOSITORY_GENERATE_UUID_ID.create(dto);
         Assert.assertNotNull(createdDto.getId());
     }
 
     /**
-     * Создание без генерации идентификатора
+     * Создание без генерации integer идентификатора
      */
     @Test
     public void test003CreateNotGenerateId(){
-        DtoUserOnRole createdDto = REPOSITORY_NOT_GENERATE_ID.create(TestData.USER_ON_ROLE1);
-        Assert.assertEquals(TestData.USER_ON_ROLE1, createdDto);
+        DtoProfile createdDto = REPOSITORY_NOT_GENERATE_ID.create(TestData.PROFILE1);
+        Assert.assertEquals(TestData.PROFILE1, createdDto);
     }
 
     /**
@@ -104,8 +98,8 @@ public class TestRepositoryUserOnRole {
      */
     @Test
     public void test004ReadByInteger(){
-        DtoUserOnRole dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.USER_ON_ROLE1.getId());
-        Assert.assertEquals(TestData.USER_ON_ROLE1, dto);
+        DtoProfile dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.PROFILE1.getId());
+        Assert.assertEquals(TestData.PROFILE1, dto);
     }
 
     /**
@@ -113,7 +107,7 @@ public class TestRepositoryUserOnRole {
      */
     @Test
     public void test006ReadAllInteger(){
-        List<DtoUserOnRole<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        List<DtoProfile<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
         Assert.assertTrue(list.size() == 2);
     }
 
@@ -122,7 +116,7 @@ public class TestRepositoryUserOnRole {
      */
     @Test
     public void test007ReadAllUuid(){
-        List<DtoUserOnRole<UUID>> list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
+        List<DtoProfile<UUID>> list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
         Assert.assertTrue(list.size() == 1);
     }
 
@@ -140,7 +134,7 @@ public class TestRepositoryUserOnRole {
      */
     @Test
     public void test011IsRowExists(){
-        boolean isRowExists = REPOSITORY_GENERATE_NUMBER_ID.isRowExists(TestData.USER_ON_ROLE1.getId());
+        boolean isRowExists = REPOSITORY_GENERATE_NUMBER_ID.isRowExists(TestData.PROFILE1.getId());
         Assert.assertTrue(isRowExists);
     }
 
@@ -149,8 +143,8 @@ public class TestRepositoryUserOnRole {
      */
     @Test
     public void test012CreateOrReadExists(){
-        DtoUserOnRole dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(TestData.USER_ON_ROLE1);
-        Assert.assertEquals(TestData.USER_ON_ROLE1, dto);
+        DtoProfile dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(TestData.PROFILE1);
+        Assert.assertEquals(TestData.PROFILE1, dto);
     }
 
     /**
@@ -158,8 +152,9 @@ public class TestRepositoryUserOnRole {
      */
     @Test
     public void test013CreateOrReadNotExists(){
-        DtoUserOnRole dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(TestData.USER_ON_ROLE3);
-        Assert.assertEquals(TestData.USER_ON_ROLE3, dto);
+        DtoProfile<Integer> newDto = new DtoProfile<>(101, "name10", "surname10", "middlename10", TestData.USER3.getId());
+        DtoProfile dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(newDto);
+        Assert.assertEquals(newDto, dto);
     }
 
     /**
@@ -167,8 +162,8 @@ public class TestRepositoryUserOnRole {
      */
     @Test
     public void test014Update(){
-        DtoUserOnRole dto = REPOSITORY_GENERATE_NUMBER_ID.update(TestData.USER_ON_ROLE1_UPDATED);
-        Assert.assertEquals(TestData.USER_ON_ROLE1_UPDATED, dto);
+        DtoProfile dto = REPOSITORY_GENERATE_NUMBER_ID.update(TestData.PROFILE1_UPDATED);
+        Assert.assertEquals(TestData.PROFILE1_UPDATED, dto);
     }
 
     /**
@@ -176,8 +171,8 @@ public class TestRepositoryUserOnRole {
      */
     @Test
     public void test015CreateOrUpdateExists(){
-        DtoUserOnRole dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.USER_ON_ROLE1);
-        Assert.assertEquals(TestData.USER_ON_ROLE1, dto);
+        DtoProfile dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.PROFILE1);
+        Assert.assertEquals(TestData.PROFILE1, dto);
     }
 
     /**
@@ -185,8 +180,9 @@ public class TestRepositoryUserOnRole {
      */
     @Test
     public void test016CreateOrUpdateNotExists(){
-        DtoUserOnRole dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.USER_ON_ROLE4);
-        Assert.assertEquals(TestData.USER_ON_ROLE4, dto);
+        DtoProfile<Integer> newDto = new DtoProfile<>(102, "name11", "surname11", "middlename11", TestData.USER4.getId());
+        DtoProfile dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(newDto);
+        Assert.assertEquals(newDto, dto);
     }
 
     /**
@@ -194,7 +190,7 @@ public class TestRepositoryUserOnRole {
      */
     @Test
     public void test017ExecuteCreateAndUpdateIsSuccess(){
-        List<DtoUserOnRole<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        List<DtoProfile<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
         Assert.assertTrue(list.size() == 4);
     }
 
@@ -203,9 +199,9 @@ public class TestRepositoryUserOnRole {
      */
     @Test
     public void test018Delete(){
-        REPOSITORY_GENERATE_NUMBER_ID.delete(TestData.CITY1.getId());
-        List<DtoUserOnRole<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
-        DtoUserOnRole<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.USER_ON_ROLE1.getId());
+        REPOSITORY_GENERATE_NUMBER_ID.delete(TestData.PROFILE1.getId());
+        List<DtoProfile<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        DtoProfile<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.PROFILE1.getId());
         Assert.assertTrue(list.size() == 3);
         Assert.assertNull(dto);
     }

@@ -5,9 +5,9 @@ import org.junit.runners.MethodSorters;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoFileStorage;
 import ru.strict.db.core.repositories.IRepositoryNamed;
-import ru.strict.db.mybatis.data.TestData;
+import ru.strict.db.jdbc.data.TestData;
 import ru.strict.db.mybatis.repositories.RepositoryFileStorage;
-import ru.strict.db.mybatis.runners.TestRunner;
+import ru.strict.db.jdbc.runners.TestRunner;
 
 import java.util.Date;
 import java.util.List;

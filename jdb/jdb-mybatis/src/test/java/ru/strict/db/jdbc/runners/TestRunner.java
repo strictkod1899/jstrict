@@ -1,4 +1,4 @@
-package ru.strict.db.mybatis.runners;
+package ru.strict.db.jdbc.runners;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

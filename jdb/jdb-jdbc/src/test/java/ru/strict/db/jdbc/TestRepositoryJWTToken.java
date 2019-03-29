@@ -1,26 +1,27 @@
-package ru.strict.db.mybatis;
+package ru.strict.db.jdbc;
 
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.dto.DtoProfile;
+import ru.strict.db.core.dto.DtoJWTToken;
 import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.jdbc.data.TestData;
-import ru.strict.db.mybatis.repositories.RepositoryProfile;
-import ru.strict.db.mybatis.repositories.RepositoryUser;
+import ru.strict.db.jdbc.repositories.RepositoryJWTToken;
+import ru.strict.db.jdbc.repositories.RepositoryUser;
 import ru.strict.db.jdbc.runners.TestRunner;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestRepositoryProfile {
+public class TestRepositoryJWTToken {
 
-    private static IRepositoryExtension<Integer, DtoProfile<Integer>> REPOSITORY_NOT_GENERATE_ID;
-    private static IRepositoryExtension<Integer, DtoProfile<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
-    private static IRepositoryExtension<UUID, DtoProfile<UUID>> REPOSITORY_GENERATE_UUID_ID;
+    private static IRepositoryExtension<Integer, DtoJWTToken<Integer>> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryExtension<Integer, DtoJWTToken<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
+    private static IRepositoryExtension<UUID, DtoJWTToken<UUID>> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
     public static void prepare(){
@@ -32,9 +33,9 @@ public class TestRepositoryProfile {
      * Подготовить тестовые репозитории
      */
     private static void prepareRepositories(){
-        REPOSITORY_NOT_GENERATE_ID = new RepositoryProfile<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
-        REPOSITORY_GENERATE_NUMBER_ID = new RepositoryProfile<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NUMBER);
-        REPOSITORY_GENERATE_UUID_ID = new RepositoryProfile<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.UUID);
+        REPOSITORY_NOT_GENERATE_ID = new RepositoryJWTToken<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
+        REPOSITORY_GENERATE_NUMBER_ID = new RepositoryJWTToken<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NUMBER);
+        REPOSITORY_GENERATE_UUID_ID = new RepositoryJWTToken<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.UUID);
         TestRunner.repositories.add(REPOSITORY_GENERATE_NUMBER_ID);
         TestRunner.repositories.add(REPOSITORY_GENERATE_UUID_ID);
     }
@@ -43,20 +44,16 @@ public class TestRepositoryProfile {
      * Подготовить тестовые данные
      */
     private static void prepareData(){
-        IRepositoryNamed<Integer, DtoUser<Integer>> repositoryUserNumberId = new RepositoryUser<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
-        IRepositoryNamed<UUID, DtoUser<UUID>> repositoryUserUuidId = new RepositoryUser<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
+        IRepositoryNamed<Integer, DtoUser<Integer>> repositoryCountryNumberId = new RepositoryUser<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
+        IRepositoryNamed<UUID, DtoUser<UUID>> repositoryCountryUuidId = new RepositoryUser<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
 
-        TestRunner.repositories.add(repositoryUserNumberId);
-        TestRunner.repositories.add(repositoryUserUuidId);
+        TestRunner.repositories.add(repositoryCountryNumberId);
+        TestRunner.repositories.add(repositoryCountryUuidId);
 
-        repositoryUserNumberId.create(TestData.USER1);
-        repositoryUserUuidId.create(TestData.USER1_UUID);
-        repositoryUserNumberId.create(TestData.USER2);
-        repositoryUserUuidId.create(TestData.USER2_UUID);
-        repositoryUserNumberId.create(TestData.USER3);
-        repositoryUserUuidId.create(TestData.USER3_UUID);
-        repositoryUserNumberId.create(TestData.USER4);
-        repositoryUserUuidId.create(TestData.USER4_UUID);
+        repositoryCountryNumberId.create(TestData.USER1);
+        repositoryCountryUuidId.create(TestData.USER1_UUID);
+        repositoryCountryNumberId.create(TestData.USER2);
+        repositoryCountryUuidId.create(TestData.USER2_UUID);
     }
 
     @AfterClass
@@ -69,8 +66,8 @@ public class TestRepositoryProfile {
      */
     @Test
     public void test001CreateGenerateNumberId(){
-        DtoProfile dto = new DtoProfile<>("name", "surname", "middlename", TestData.USER2.getId());
-        DtoProfile createdDto = REPOSITORY_GENERATE_NUMBER_ID.create(dto);
+        DtoJWTToken dto = new DtoJWTToken<>("accessToken", "refreshToken", new Date(), new Date(), new Date(), TestData.USER2.getId());
+        DtoJWTToken createdDto = REPOSITORY_GENERATE_NUMBER_ID.create(dto);
         Assert.assertNotNull(createdDto.getId());
     }
 
@@ -79,8 +76,8 @@ public class TestRepositoryProfile {
      */
     @Test
     public void test002CreateGenerateUuidId(){
-        DtoProfile dto = new DtoProfile<>("name", "surname", "middlename", TestData.USER2_UUID.getId());
-        DtoProfile createdDto = REPOSITORY_GENERATE_UUID_ID.create(dto);
+        DtoJWTToken dto = new DtoJWTToken<>("accessToken", "refreshToken", new Date(), new Date(), new Date(), TestData.USER2.getId());
+        DtoJWTToken createdDto = REPOSITORY_GENERATE_UUID_ID.create(dto);
         Assert.assertNotNull(createdDto.getId());
     }
 
@@ -89,8 +86,8 @@ public class TestRepositoryProfile {
      */
     @Test
     public void test003CreateNotGenerateId(){
-        DtoProfile createdDto = REPOSITORY_NOT_GENERATE_ID.create(TestData.PROFILE1);
-        Assert.assertEquals(TestData.PROFILE1, createdDto);
+        DtoJWTToken createdDto = REPOSITORY_NOT_GENERATE_ID.create(TestData.JWT_TOKEN1);
+        Assert.assertEquals(TestData.JWT_TOKEN1, createdDto);
     }
 
     /**
@@ -98,8 +95,8 @@ public class TestRepositoryProfile {
      */
     @Test
     public void test004ReadByInteger(){
-        DtoProfile dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.PROFILE1.getId());
-        Assert.assertEquals(TestData.PROFILE1, dto);
+        DtoJWTToken dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.JWT_TOKEN1.getId());
+        Assert.assertEquals(TestData.JWT_TOKEN1, dto);
     }
 
     /**
@@ -107,7 +104,7 @@ public class TestRepositoryProfile {
      */
     @Test
     public void test006ReadAllInteger(){
-        List<DtoProfile<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        List<DtoJWTToken<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
         Assert.assertTrue(list.size() == 2);
     }
 
@@ -116,7 +113,7 @@ public class TestRepositoryProfile {
      */
     @Test
     public void test007ReadAllUuid(){
-        List<DtoProfile<UUID>> list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
+        List<DtoJWTToken<UUID>> list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
         Assert.assertTrue(list.size() == 1);
     }
 
@@ -134,7 +131,7 @@ public class TestRepositoryProfile {
      */
     @Test
     public void test011IsRowExists(){
-        boolean isRowExists = REPOSITORY_GENERATE_NUMBER_ID.isRowExists(TestData.PROFILE1.getId());
+        boolean isRowExists = REPOSITORY_GENERATE_NUMBER_ID.isRowExists(TestData.JWT_TOKEN1.getId());
         Assert.assertTrue(isRowExists);
     }
 
@@ -143,8 +140,8 @@ public class TestRepositoryProfile {
      */
     @Test
     public void test012CreateOrReadExists(){
-        DtoProfile dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(TestData.PROFILE1);
-        Assert.assertEquals(TestData.PROFILE1, dto);
+        DtoJWTToken dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(TestData.JWT_TOKEN1);
+        Assert.assertEquals(TestData.JWT_TOKEN1, dto);
     }
 
     /**
@@ -152,8 +149,8 @@ public class TestRepositoryProfile {
      */
     @Test
     public void test013CreateOrReadNotExists(){
-        DtoProfile<Integer> newDto = new DtoProfile<>(101, "name10", "surname10", "middlename10", TestData.USER3.getId());
-        DtoProfile dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(newDto);
+        DtoJWTToken<Integer> newDto = new DtoJWTToken<>(101, "accessToken10", "refreshToken10", new Date(), new Date(), new Date(), TestData.USER2.getId());
+        DtoJWTToken dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(newDto);
         Assert.assertEquals(newDto, dto);
     }
 
@@ -162,8 +159,8 @@ public class TestRepositoryProfile {
      */
     @Test
     public void test014Update(){
-        DtoProfile dto = REPOSITORY_GENERATE_NUMBER_ID.update(TestData.PROFILE1_UPDATED);
-        Assert.assertEquals(TestData.PROFILE1_UPDATED, dto);
+        DtoJWTToken dto = REPOSITORY_GENERATE_NUMBER_ID.update(TestData.JWT_TOKEN1_UPDATED);
+        Assert.assertEquals(TestData.JWT_TOKEN1_UPDATED, dto);
     }
 
     /**
@@ -171,8 +168,8 @@ public class TestRepositoryProfile {
      */
     @Test
     public void test015CreateOrUpdateExists(){
-        DtoProfile dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.PROFILE1);
-        Assert.assertEquals(TestData.PROFILE1, dto);
+        DtoJWTToken dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.JWT_TOKEN1);
+        Assert.assertEquals(TestData.JWT_TOKEN1, dto);
     }
 
     /**
@@ -180,8 +177,8 @@ public class TestRepositoryProfile {
      */
     @Test
     public void test016CreateOrUpdateNotExists(){
-        DtoProfile<Integer> newDto = new DtoProfile<>(102, "name11", "surname11", "middlename11", TestData.USER4.getId());
-        DtoProfile dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(newDto);
+        DtoJWTToken<Integer> newDto = new DtoJWTToken<>(102, "accessToken11", "refreshToken11", new Date(), new Date(), new Date(), TestData.USER2.getId());
+        DtoJWTToken dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(newDto);
         Assert.assertEquals(newDto, dto);
     }
 
@@ -190,7 +187,7 @@ public class TestRepositoryProfile {
      */
     @Test
     public void test017ExecuteCreateAndUpdateIsSuccess(){
-        List<DtoProfile<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        List<DtoJWTToken<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
         Assert.assertTrue(list.size() == 4);
     }
 
@@ -199,9 +196,9 @@ public class TestRepositoryProfile {
      */
     @Test
     public void test018Delete(){
-        REPOSITORY_GENERATE_NUMBER_ID.delete(TestData.PROFILE1.getId());
-        List<DtoProfile<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
-        DtoProfile<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.PROFILE1.getId());
+        REPOSITORY_GENERATE_NUMBER_ID.delete(TestData.JWT_TOKEN1.getId());
+        List<DtoJWTToken<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        DtoJWTToken<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.JWT_TOKEN1.getId());
         Assert.assertTrue(list.size() == 3);
         Assert.assertNull(dto);
     }

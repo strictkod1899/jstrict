@@ -7,9 +7,9 @@ import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepositoryNamed;
-import ru.strict.db.mybatis.data.TestData;
+import ru.strict.db.jdbc.data.TestData;
 import ru.strict.db.mybatis.repositories.RepositoryUser;
-import ru.strict.db.mybatis.runners.TestRunner;
+import ru.strict.db.jdbc.runners.TestRunner;
 
 import java.util.List;
 import java.util.UUID;

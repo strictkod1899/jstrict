@@ -1,4 +1,4 @@
-package ru.strict.db.mybatis;
+package ru.strict.db.jdbc;
 
 import org.junit.*;
 import org.junit.runners.MethodSorters;
@@ -7,8 +7,8 @@ import ru.strict.db.core.dto.DtoCity;
 import ru.strict.db.core.dto.DtoCountry;
 import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.jdbc.data.TestData;
-import ru.strict.db.mybatis.repositories.RepositoryCity;
-import ru.strict.db.mybatis.repositories.RepositoryCountry;
+import ru.strict.db.jdbc.repositories.RepositoryCity;
+import ru.strict.db.jdbc.repositories.RepositoryCountry;
 import ru.strict.db.jdbc.runners.TestRunner;
 
 import java.util.List;

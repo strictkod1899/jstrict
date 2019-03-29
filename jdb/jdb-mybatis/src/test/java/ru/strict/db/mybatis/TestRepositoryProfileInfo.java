@@ -8,11 +8,11 @@ import ru.strict.db.core.dto.DtoProfileInfo;
 import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.core.repositories.IRepositoryNamed;
-import ru.strict.db.mybatis.data.TestData;
+import ru.strict.db.jdbc.data.TestData;
 import ru.strict.db.mybatis.repositories.RepositoryCity;
 import ru.strict.db.mybatis.repositories.RepositoryProfileInfo;
 import ru.strict.db.mybatis.repositories.RepositoryUser;
-import ru.strict.db.mybatis.runners.TestRunner;
+import ru.strict.db.jdbc.runners.TestRunner;
 
 import java.util.Date;
 import java.util.List;

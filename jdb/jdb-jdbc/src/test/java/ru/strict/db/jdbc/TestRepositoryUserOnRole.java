@@ -1,4 +1,4 @@
-package ru.strict.db.mybatis;
+package ru.strict.db.jdbc;
 
 import org.junit.*;
 import org.junit.runners.MethodSorters;
@@ -9,9 +9,9 @@ import ru.strict.db.core.dto.DtoUserOnRole;
 import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.jdbc.data.TestData;
-import ru.strict.db.mybatis.repositories.RepositoryRoleuser;
-import ru.strict.db.mybatis.repositories.RepositoryUser;
-import ru.strict.db.mybatis.repositories.RepositoryUserOnRole;
+import ru.strict.db.jdbc.repositories.RepositoryRoleuser;
+import ru.strict.db.jdbc.repositories.RepositoryUser;
+import ru.strict.db.jdbc.repositories.RepositoryUserOnRole;
 import ru.strict.db.jdbc.runners.TestRunner;
 
 import java.util.List;
