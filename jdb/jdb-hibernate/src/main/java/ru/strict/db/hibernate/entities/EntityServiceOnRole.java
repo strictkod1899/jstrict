@@ -2,6 +2,7 @@ package ru.strict.db.hibernate.entities;
 
 import ru.strict.db.core.models.IEnumProvider;
 
+import javax.persistence.*;
 import java.util.Objects;
 
 /**
@@ -12,6 +13,7 @@ public class EntityServiceOnRole<ID, SERVICE> extends EntityBase<ID> {
     /**
      * Идентификатор сервиса
      */
+    @Column(name = "service_id", nullable = false)
     private ID serviceId;
     /**
      * Объект, который определяет сервис по Id
@@ -20,10 +22,13 @@ public class EntityServiceOnRole<ID, SERVICE> extends EntityBase<ID> {
     /**
      * Идентификатор роли
      */
+    @Column(name = "roleuser_id", nullable = false)
     private ID roleId;
     /**
      * Роль пользователя
      */
+    @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, orphanRemoval = false)
+    @JoinColumn(name = "roleuser_id", insertable = false, updatable = false)
     private EntityRoleuser<ID> role;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

@@ -64,7 +64,7 @@ CREATE TABLE file_storage(
   extension VARCHAR(25) NOT NULL,
   displayname VARCHAR(255),
   content BYTEA,
-  filepath V,
+  filepath TEXT,
   create_date TIMESTAMP NOT NULL,
   type INTEGER NOT NULL,
   status INTEGER,

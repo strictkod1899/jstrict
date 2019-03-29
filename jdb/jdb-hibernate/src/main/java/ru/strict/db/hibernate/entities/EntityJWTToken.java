@@ -1,50 +1,62 @@
 package ru.strict.db.hibernate.entities;
 
-
-
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
 /**
  * JWT-токен
  */
+@Entity
+@Table(name = "token")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class EntityJWTToken<ID> extends EntityToken<ID> {
 
     /**
      * Издатель токена
      */
+    @Column(name = "issuer", nullable = true)
     private String issuer;
     /**
      * Назначение токена
      */
+    @Column(name = "subject", nullable = true)
     private String subject;
     /**
      * Дата, до которой токен не действителен
      */
+    @Column(name = "not_before", nullable = true)
     private Date notBefore;
     /**
      * Получатели токена
      */
+    @Column(name = "audience", nullable = true)
     private String audience;
     /**
      * Секретный ключ для раскодирования токена
      */
+    @Column(name = "secret", nullable = true)
     private String secret;
     /**
      * Алгоритм кодирования токена
      */
+    @Column(name = "algorithm", nullable = true)
     private String algorithm;
     /**
      * Тип токена
      */
+    @Column(name = "type", nullable = true)
     private String type;
     /**
      * Идентификатор пользователя, связанного с данным токеном
      */
+    @Column(name = "userx_id", nullable = false)
     private ID userId;
     /**
      * Пользователь, связанного с данным токеном
      */
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @JoinColumn(name = "userx_id", insertable = false, updatable = false)
     private EntityUser<ID> user;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

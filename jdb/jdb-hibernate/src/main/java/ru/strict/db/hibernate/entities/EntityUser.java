@@ -1,6 +1,6 @@
 package ru.strict.db.hibernate.entities;
 
-
+import javax.persistence.*;
 import ru.strict.validates.ValidateBaseValue;
 
 import java.util.Collection;
@@ -10,43 +10,58 @@ import java.util.TreeSet;
 /**
  * Пользователь системы
  */
+@Entity
+@Table(name = "userx")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class EntityUser<ID> extends EntityBase<ID> {
 
     /**
      * Логин пользователя
      */
+    @Column(name = "username", nullable = false)
     private String username;
     /**
      * Зашифрованный пароль пользователя
      */
+    @Column(name = "passwordencode", nullable = false)
     private String passwordEncode;
     /**
      * Адрес электронной почты
      */
+    @Column(name = "email", nullable = false)
     private String email;
     /**
      * Пользователь заблокирован
      */
+    @Column(name = "is_blocked", nullable = false)
     private boolean isBlocked;
     /**
      * Пользователь удален
      */
+    @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted;
     /**
      * Адрес электронной почты подтвержден
      */
+    @Column(name = "is_confirm_email", nullable = false)
     private boolean isConfirmEmail;
     /**
      * Роли пользователя
      */
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @JoinTable(name = "user_on_role",
+            joinColumns = @JoinColumn(name = "userx_id", insertable = false, updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "roleuser_id", insertable = false, updatable = false))
     private Collection<EntityRoleuser<ID>> roles;
     /**
      * Профиль пользователя
      */
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private EntityProfileBase<ID> profile;
     /**
      * Токены пользователя
      */
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Collection<EntityJWTToken<ID>> tokens;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

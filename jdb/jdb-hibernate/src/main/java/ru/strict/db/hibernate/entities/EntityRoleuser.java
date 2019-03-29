@@ -1,7 +1,6 @@
 package ru.strict.db.hibernate.entities;
 
-
-
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.TreeSet;
@@ -9,21 +8,30 @@ import java.util.TreeSet;
 /**
  * Роль пользователя в системе (например, администратор, пользователь, неавторизированный пользователь и др.)
  */
+@Entity
+@Table(name = "roleuser")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class EntityRoleuser<ID> extends EntityBase<ID> {
 
     /**
      * Набор символов характеризующих роль
      */
+    @Column(name = "code", nullable = false)
     private String code;
 
     /**
      * Описание роли
      */
+    @Column(name = "description", nullable = true)
     private String description;
 
     /**
      * Пользователи свзяанные с ролью
      */
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @JoinTable(name = "user_on_role",
+            joinColumns = @JoinColumn(name = "roleuser_id", insertable = false, updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "userx_id", insertable = false, updatable = false))
     private Collection<EntityUser<ID>> users;
 
     //<editor-fold defaultState="collapsed" desc="constructors">

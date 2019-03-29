@@ -1,7 +1,6 @@
 package ru.strict.db.hibernate.entities;
 
-
-
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.TreeSet;
@@ -9,11 +8,15 @@ import java.util.TreeSet;
 /**
  * Страна
  */
+@Entity
+@Table(name = "country")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class EntityCountry<ID> extends EntityNamed<ID> {
 
     /**
      * Города свзяанные со страной
      */
+    @OneToMany(mappedBy = "countryId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Collection<EntityCity<ID>> cities;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
