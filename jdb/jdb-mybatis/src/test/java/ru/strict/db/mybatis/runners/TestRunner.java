@@ -26,7 +26,8 @@ import java.util.List;
         TestRepositoryUserOnRole.class,
         TestRepositoryProfile.class,
         TestRepositoryProfileInfo.class,
-        TestRepositoryFileStorage.class
+        TestRepositoryFileStorage.class,
+        TestRepositoryJWTToken.class
 })
 public class TestRunner {
 

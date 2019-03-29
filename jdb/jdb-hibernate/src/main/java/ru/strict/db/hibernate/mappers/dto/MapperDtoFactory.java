@@ -35,7 +35,7 @@ public class MapperDtoFactory<ID>{
             mapper = createMapperProfile();
         } else if(UtilClass.isEquals(entityClass, EntityProfileInfo.class) && UtilClass.isEquals(dtoClass, DtoProfileInfo.class)){
             mapper = createMapperProfileInfo();
-        } else if(UtilClass.isEquals(entityClass, EntityJWTToken.class) && UtilClass.isEquals(dtoClass, DtoRoleuser.class)){
+        } else if(UtilClass.isEquals(entityClass, EntityJWTToken.class) && UtilClass.isEquals(dtoClass, DtoJWTToken.class)){
             mapper = createMapperJWTToken();
         }else if(UtilClass.isEquals(entityClass, EntityFileStorage.class) && UtilClass.isEquals(dtoClass, DtoFileStorageBase.class)){
             mapper = createMapperFileStorageBase();

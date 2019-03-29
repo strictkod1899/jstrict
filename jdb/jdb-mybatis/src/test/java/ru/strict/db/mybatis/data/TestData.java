@@ -63,4 +63,9 @@ public class TestData {
     public static final DtoFileStorage<Integer> FILE_STORAGE1 = new DtoFileStorage<>(111, "filename1", "extension1", "displayname1", new Date(), 1, 1, "filepath1", new byte[]{ 1, 2, 3, 4, 5, 6, 7, 8 });
     public static final DtoFileStorage<Integer> FILE_STORAGE1_UPDATED = new DtoFileStorage<>(111, "filename1_updated", "extension1_updated", "displayname1_updated", new Date(), 2, 2, "filepath1_updated", new byte[]{ 1,2, 3, 4, 5, 6});
     public static final DtoFileStorage<UUID> FILE_STORAGE1_UUID = new DtoFileStorage<>(UUID.randomUUID(), "filename1", "extension1", "displayname1", new Date(), 1, 1, "filepath1", new byte[]{ 1, 2, 3, 4, 5, 6, 7, 8 });
+
+    public static final DtoJWTToken<Integer> JWT_TOKEN1 = new DtoJWTToken<>(111, "accessToken1", "refreshToken1", new Date(), new Date(), new Date(), USER1.getId());
+    public static final DtoJWTToken<Integer> JWT_TOKEN1_UPDATED = new DtoJWTToken<>(111, "accessToken1_updated", "refreshToken1_updated", new Date(), new Date(), new Date(), USER2.getId());
+    public static final DtoJWTToken<UUID> JWT_TOKEN1_UUID = new DtoJWTToken<>(UUID.randomUUID(), "accessToken1", "refreshToken1", new Date(), new Date(), new Date(), USER1_UUID.getId());
+
 }
