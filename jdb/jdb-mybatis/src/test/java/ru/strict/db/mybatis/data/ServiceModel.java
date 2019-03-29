@@ -1,4 +1,4 @@
-package ru.strict.db.jdbc.data;
+package ru.strict.db.mybatis.data;
 
 import java.util.Arrays;
 

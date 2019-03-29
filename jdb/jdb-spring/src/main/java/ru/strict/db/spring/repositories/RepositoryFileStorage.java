@@ -2,17 +2,13 @@ package ru.strict.db.spring.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
-import ru.strict.db.core.dto.DtoProfileInfo;
-import ru.strict.db.core.dto.DtoRoleuser;
-import ru.strict.db.core.dto.DtoFileStorageBase;
-import ru.strict.db.core.dto.DtoUserOnRole;
+import ru.strict.db.core.dto.*;
 import ru.strict.db.core.entities.EntityFileStorage;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
-import ru.strict.db.core.repositories.IRepository;
+import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.interfaces.IRepositoryFileStorage;
-import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.spring.mappers.sql.MapperSqlFileStorage;
+import ru.strict.utils.UtilClass;
 
 import java.util.*;
 
@@ -22,6 +18,14 @@ public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
 
     private static final String[] COLUMNS_NAME = new String[] {"filename", "extension", "displayname", "content", "filepath",
             "create_date", "type", "status"};
+
+    public RepositoryFileStorage(CreateConnectionByDataSource connectionSource,
+                                 GenerateIdType generateIdType) {
+        super("file_storage", COLUMNS_NAME, connectionSource,
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityFileStorage.class), UtilClass.castClass(DtoFileStorage.class)),
+                new MapperSqlFileStorage<ID>(COLUMNS_NAME),
+                generateIdType);
+    }
 
     public RepositoryFileStorage(CreateConnectionByDataSource connectionSource,
                                  MapperDtoBase<ID, EntityFileStorage<ID>, DTO> dtoMapper,

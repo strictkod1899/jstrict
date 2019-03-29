@@ -1,23 +1,24 @@
-package ru.strict.db.mybatis;
+package ru.strict.db.spring;
 
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.dto.DtoRoleuser;
+import ru.strict.db.core.dto.DtoFileStorage;
 import ru.strict.db.core.repositories.IRepositoryNamed;
-import ru.strict.db.mybatis.data.TestData;
-import ru.strict.db.mybatis.repositories.RepositoryRoleuser;
-import ru.strict.db.mybatis.runners.TestRunner;
+import ru.strict.db.spring.data.TestData;
+import ru.strict.db.spring.repositories.RepositoryFileStorage;
+import ru.strict.db.spring.runners.TestRunner;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestRepositoryRoleuser {
+public class TestRepositoryFileStorage {
 
-    private static IRepositoryNamed<Integer, DtoRoleuser<Integer>> REPOSITORY_NOT_GENERATE_ID;
-    private static IRepositoryNamed<Integer, DtoRoleuser<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
-    private static IRepositoryNamed<UUID, DtoRoleuser<UUID>> REPOSITORY_GENERATE_UUID_ID;
+    private static IRepositoryNamed<Integer, DtoFileStorage<Integer>> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryNamed<Integer, DtoFileStorage<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
+    private static IRepositoryNamed<UUID, DtoFileStorage<UUID>> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
     public static void prepare(){
@@ -28,9 +29,9 @@ public class TestRepositoryRoleuser {
      * Подготовить тестовые репозитории
      */
     private static void prepareRepositories(){
-        REPOSITORY_NOT_GENERATE_ID = new RepositoryRoleuser<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
-        REPOSITORY_GENERATE_NUMBER_ID = new RepositoryRoleuser<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NUMBER);
-        REPOSITORY_GENERATE_UUID_ID = new RepositoryRoleuser<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.UUID);
+        REPOSITORY_NOT_GENERATE_ID = new RepositoryFileStorage<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
+        REPOSITORY_GENERATE_NUMBER_ID = new RepositoryFileStorage<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NUMBER);
+        REPOSITORY_GENERATE_UUID_ID = new RepositoryFileStorage<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.UUID);
         TestRunner.repositories.add(REPOSITORY_GENERATE_NUMBER_ID);
         TestRunner.repositories.add(REPOSITORY_GENERATE_UUID_ID);
     }
@@ -45,8 +46,8 @@ public class TestRepositoryRoleuser {
      */
     @Test
     public void test001CreateGenerateNumberId(){
-        DtoRoleuser dto = new DtoRoleuser<>("role", "description");
-        DtoRoleuser createdDto = REPOSITORY_GENERATE_NUMBER_ID.create(dto);
+        DtoFileStorage dto = new DtoFileStorage<>("filename", "extension", "displayname", new Date(), 1, 1, "filepath", new byte[]{ 1, 2 });
+        DtoFileStorage createdDto = REPOSITORY_GENERATE_NUMBER_ID.create(dto);
         Assert.assertNotNull(createdDto.getId());
     }
 
@@ -55,8 +56,8 @@ public class TestRepositoryRoleuser {
      */
     @Test
     public void test002CreateGenerateUuidId(){
-        DtoRoleuser dto = new DtoRoleuser<>("role", "description");
-        DtoRoleuser createdDto = REPOSITORY_GENERATE_UUID_ID.create(dto);
+        DtoFileStorage dto = new DtoFileStorage<>("filename", "extension", "displayname", new Date(), 1, 1, "filepath", new byte[]{ 1, 2 });
+        DtoFileStorage createdDto = REPOSITORY_GENERATE_UUID_ID.create(dto);
         Assert.assertNotNull(createdDto.getId());
     }
 
@@ -65,8 +66,8 @@ public class TestRepositoryRoleuser {
      */
     @Test
     public void test003CreateNotGenerateId(){
-        DtoRoleuser createdDto = REPOSITORY_NOT_GENERATE_ID.create(TestData.ROLEUSER1);
-        Assert.assertEquals(TestData.ROLEUSER1, createdDto);
+        DtoFileStorage createdDto = REPOSITORY_NOT_GENERATE_ID.create(TestData.FILE_STORAGE1);
+        Assert.assertEquals(TestData.FILE_STORAGE1, createdDto);
     }
 
     /**
@@ -74,8 +75,8 @@ public class TestRepositoryRoleuser {
      */
     @Test
     public void test004ReadByInteger(){
-        DtoRoleuser dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.ROLEUSER1.getId());
-        Assert.assertEquals(TestData.ROLEUSER1, dto);
+        DtoFileStorage dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.FILE_STORAGE1.getId());
+        Assert.assertEquals(TestData.FILE_STORAGE1, dto);
     }
 
     /**
@@ -83,7 +84,7 @@ public class TestRepositoryRoleuser {
      */
     @Test
     public void test006ReadAllInteger(){
-        List<DtoRoleuser<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        List<DtoFileStorage<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
         Assert.assertTrue(list.size() == 2);
     }
 
@@ -92,7 +93,7 @@ public class TestRepositoryRoleuser {
      */
     @Test
     public void test007ReadAllUuid(){
-        List<DtoRoleuser<UUID>> list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
+        List<DtoFileStorage<UUID>> list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
         Assert.assertTrue(list.size() == 1);
     }
 
@@ -110,8 +111,8 @@ public class TestRepositoryRoleuser {
      */
     @Test
     public void test009ReadByName(){
-        DtoRoleuser dto = REPOSITORY_GENERATE_NUMBER_ID.readByName(TestData.ROLEUSER1.getCode());
-        Assert.assertEquals(TestData.ROLEUSER1, dto);
+        DtoFileStorage dto = REPOSITORY_GENERATE_NUMBER_ID.readByName(TestData.FILE_STORAGE1.getFilename());
+        Assert.assertEquals(TestData.FILE_STORAGE1, dto);
     }
 
     /**
@@ -119,8 +120,8 @@ public class TestRepositoryRoleuser {
      */
     @Test
     public void test010ReadAllByName(){
-        List<DtoRoleuser<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAllByName(TestData.ROLEUSER1.getCode());
-        Assert.assertTrue(list.size() == 1 && list.get(0).equals(TestData.ROLEUSER1));
+        List<DtoFileStorage<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAllByName(TestData.FILE_STORAGE1.getFilename());
+        Assert.assertTrue(list.size() == 1 && list.get(0).equals(TestData.FILE_STORAGE1));
     }
 
     /**
@@ -128,7 +129,7 @@ public class TestRepositoryRoleuser {
      */
     @Test
     public void test011IsRowExists(){
-        boolean isRowExists = REPOSITORY_GENERATE_NUMBER_ID.isRowExists(TestData.ROLEUSER1.getId());
+        boolean isRowExists = REPOSITORY_GENERATE_NUMBER_ID.isRowExists(TestData.FILE_STORAGE1.getId());
         Assert.assertTrue(isRowExists);
     }
 
@@ -137,8 +138,8 @@ public class TestRepositoryRoleuser {
      */
     @Test
     public void test012CreateOrReadExists(){
-        DtoRoleuser dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(TestData.ROLEUSER1);
-        Assert.assertEquals(TestData.ROLEUSER1, dto);
+        DtoFileStorage dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(TestData.FILE_STORAGE1);
+        Assert.assertEquals(TestData.FILE_STORAGE1, dto);
     }
 
     /**
@@ -146,8 +147,8 @@ public class TestRepositoryRoleuser {
      */
     @Test
     public void test013CreateOrReadNotExists(){
-        DtoRoleuser<Integer> newDto = new DtoRoleuser<>(101, "code10", "description10");
-        DtoRoleuser dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(newDto);
+        DtoFileStorage<Integer> newDto = new DtoFileStorage<>(101, "filename10", "extension10", "displayname10", new Date(), 1, 1, "filepath10", new byte[]{ 1, 2, 3, 4 });
+        DtoFileStorage dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(newDto);
         Assert.assertEquals(newDto, dto);
     }
 
@@ -156,8 +157,8 @@ public class TestRepositoryRoleuser {
      */
     @Test
     public void test014Update(){
-        DtoRoleuser dto = REPOSITORY_GENERATE_NUMBER_ID.update(TestData.ROLEUSER1_UPDATED);
-        Assert.assertEquals(TestData.ROLEUSER1_UPDATED, dto);
+        DtoFileStorage dto = REPOSITORY_GENERATE_NUMBER_ID.update(TestData.FILE_STORAGE1_UPDATED);
+        Assert.assertEquals(TestData.FILE_STORAGE1_UPDATED, dto);
     }
 
     /**
@@ -165,8 +166,8 @@ public class TestRepositoryRoleuser {
      */
     @Test
     public void test015CreateOrUpdateExists(){
-        DtoRoleuser dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.ROLEUSER1);
-        Assert.assertEquals(TestData.ROLEUSER1, dto);
+        DtoFileStorage dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.FILE_STORAGE1);
+        Assert.assertEquals(TestData.FILE_STORAGE1, dto);
     }
 
     /**
@@ -174,8 +175,8 @@ public class TestRepositoryRoleuser {
      */
     @Test
     public void test016CreateOrUpdateNotExists(){
-        DtoRoleuser<Integer> newDto = new DtoRoleuser<>(102, "code11", "description11");
-        DtoRoleuser dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(newDto);
+        DtoFileStorage<Integer> newDto = new DtoFileStorage<>(102, "filename11", "extension11", "displayname11", new Date(), 1, 1, "filepath11", new byte[]{ 1, 2, 3, 4 });
+        DtoFileStorage dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(newDto);
         Assert.assertEquals(newDto, dto);
     }
 
@@ -184,7 +185,7 @@ public class TestRepositoryRoleuser {
      */
     @Test
     public void test017ExecuteCreateAndUpdateIsSuccess(){
-        List<DtoRoleuser<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        List<DtoFileStorage<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
         Assert.assertTrue(list.size() == 4);
     }
 
@@ -193,9 +194,9 @@ public class TestRepositoryRoleuser {
      */
     @Test
     public void test018Delete(){
-        REPOSITORY_GENERATE_NUMBER_ID.delete(TestData.ROLEUSER1.getId());
-        List<DtoRoleuser<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
-        DtoRoleuser<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.ROLEUSER1.getId());
+        REPOSITORY_GENERATE_NUMBER_ID.delete(TestData.FILE_STORAGE1.getId());
+        List<DtoFileStorage<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        DtoFileStorage<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.FILE_STORAGE1.getId());
         Assert.assertTrue(list.size() == 3);
         Assert.assertNull(dto);
     }

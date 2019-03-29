@@ -18,7 +18,7 @@ public class MapperSqlServiceOnRole<ID, SERVICE> implements RowMapper<EntityServ
     public EntityServiceOnRole<ID, SERVICE> mapRow(ResultSet resultSet, int i) throws SQLException {
         EntityServiceOnRole<ID, SERVICE> entity = new EntityServiceOnRole();
         entity.setId((ID)resultSet.getObject("id"));
-        entity.setServiceId((ID)resultSet.getObject(COLUMNS_NAME[0]));
+        entity.setServiceId(resultSet.getInt(COLUMNS_NAME[0]));
         entity.setRoleId((ID)resultSet.getObject(COLUMNS_NAME[1]));
         return entity;
     }

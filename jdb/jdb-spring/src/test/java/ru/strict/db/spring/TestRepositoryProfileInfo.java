@@ -1,4 +1,4 @@
-package ru.strict.db.mybatis;
+package ru.strict.db.spring;
 
 import org.junit.*;
 import org.junit.runners.MethodSorters;
@@ -8,11 +8,11 @@ import ru.strict.db.core.dto.DtoProfileInfo;
 import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.core.repositories.IRepositoryNamed;
-import ru.strict.db.mybatis.data.TestData;
-import ru.strict.db.mybatis.repositories.RepositoryCity;
-import ru.strict.db.mybatis.repositories.RepositoryProfileInfo;
-import ru.strict.db.mybatis.repositories.RepositoryUser;
-import ru.strict.db.mybatis.runners.TestRunner;
+import ru.strict.db.spring.data.TestData;
+import ru.strict.db.spring.repositories.RepositoryCity;
+import ru.strict.db.spring.repositories.RepositoryProfileInfo;
+import ru.strict.db.spring.repositories.RepositoryUser;
+import ru.strict.db.spring.runners.TestRunner;
 
 import java.util.Date;
 import java.util.List;

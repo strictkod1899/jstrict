@@ -2,11 +2,14 @@ package ru.strict.db.jdbc.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.ICreateConnection;
+import ru.strict.db.core.dto.DtoFileStorage;
 import ru.strict.db.core.dto.DtoFileStorageBase;
 import ru.strict.db.core.entities.EntityFileStorage;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
+import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.interfaces.IRepositoryFileStorage;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlFileStorage;
+import ru.strict.utils.UtilClass;
 
 import java.sql.Connection;
 import java.util.*;
@@ -17,6 +20,15 @@ public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
 
     private static final String[] COLUMNS_NAME = new String[] {"filename", "extension", "displayname", "content", "filepath",
             "create_date", "type", "status"};
+
+    public RepositoryFileStorage(ICreateConnection<Connection> connectionSource,
+                                 GenerateIdType generateIdType) {
+        super("file_storage", COLUMNS_NAME,
+                connectionSource,
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityFileStorage.class), UtilClass.castClass(DtoFileStorage.class)),
+                new MapperSqlFileStorage<ID>(COLUMNS_NAME),
+                generateIdType);
+    }
 
     public RepositoryFileStorage(ICreateConnection<Connection> connectionSource,
                                  MapperDtoBase<ID, EntityFileStorage<ID>, DTO> dtoMapper,

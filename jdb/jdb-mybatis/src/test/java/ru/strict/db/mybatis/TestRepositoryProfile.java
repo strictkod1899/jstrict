@@ -7,10 +7,10 @@ import ru.strict.db.core.dto.DtoProfile;
 import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.core.repositories.IRepositoryNamed;
-import ru.strict.db.jdbc.data.TestData;
+import ru.strict.db.mybatis.data.TestData;
 import ru.strict.db.mybatis.repositories.RepositoryProfile;
 import ru.strict.db.mybatis.repositories.RepositoryUser;
-import ru.strict.db.jdbc.runners.TestRunner;
+import ru.strict.db.mybatis.runners.TestRunner;
 
 import java.util.List;
 import java.util.UUID;

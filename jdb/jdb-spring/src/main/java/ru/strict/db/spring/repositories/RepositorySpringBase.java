@@ -1,6 +1,7 @@
 package ru.strict.db.spring.repositories;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -94,7 +95,10 @@ public abstract class RepositorySpringBase
     public final DTO read(ID id) {
         SqlParameterSource parameters = new MapSqlParameterSource("id", id);
         String sql = String.format("%s WHERE id = :id", createSqlSelect());
-        E entity = springJdbc.queryForObject(sql, parameters, springMapper);
+        E entity = null;
+        try {
+            entity = springJdbc.queryForObject(sql, parameters, springMapper);
+        }catch(EmptyResultDataAccessException ex){}
         return getDtoMapper().map(entity);
     }
 
@@ -102,10 +106,12 @@ public abstract class RepositorySpringBase
     public final List<DTO> readAll(DbRequests requests) {
         String sql = createSqlSelect() + (requests==null ? "" : " " + requests.getSql());
         List<DTO> result = new ArrayList<>();
-        List<E> entities = springJdbc.query(sql, springMapper);
-        for(E entity : entities) {
-            result.add(getDtoMapper().map(entity));
-        }
+        try {
+            List<E> entities = springJdbc.query(sql, springMapper);
+            for (E entity : entities) {
+                result.add(getDtoMapper().map(entity));
+            }
+        }catch(EmptyResultDataAccessException ex){}
         return result;
     }
 
@@ -130,7 +136,10 @@ public abstract class RepositorySpringBase
     @Override
     public int readCount(DbRequests requests) {
         String sql = createSqlCount() + (requests==null ? "" : " " + requests.getSql());
-        Integer result = springJdbc.queryForObject(sql, new MapSqlParameterSource(), new MapperSqlCountRows());
+        Integer result = -1;
+        try{
+            result = springJdbc.queryForObject(sql, new MapSqlParameterSource(), new MapperSqlCountRows());
+        }catch(EmptyResultDataAccessException ex){}
 
         return result;
     }
@@ -233,10 +242,11 @@ public abstract class RepositorySpringBase
         public Object doInPreparedStatement(PreparedStatement preparedStatement) throws SQLException, DataAccessException {
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            if(resultSet.getInt(1)>0)
+            if(resultSet.getInt(1)>0) {
                 return true;
-            else
+            } else {
                 return false;
+            }
         }
     }
     //</editor-fold>
@@ -266,8 +276,9 @@ public abstract class RepositorySpringBase
         Map valuesByColumn = getValueByColumn(entity);
         Set<Integer> keys = valuesByColumn.keySet();
         MapSqlParameterSource parameters = new MapSqlParameterSource();
-        for(Integer key : keys)
+        for(Integer key : keys) {
             parameters.addValue(getColumnsName()[key], valuesByColumn.get(key));
+        }
 
         return parameters;
     }

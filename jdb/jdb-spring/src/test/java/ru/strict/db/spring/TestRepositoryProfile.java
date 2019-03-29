@@ -1,29 +1,26 @@
-package ru.strict.db.mybatis;
+package ru.strict.db.spring;
 
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.dto.DtoCity;
-import ru.strict.db.core.dto.DtoProfileInfo;
+import ru.strict.db.core.dto.DtoProfile;
 import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.core.repositories.IRepositoryNamed;
-import ru.strict.db.mybatis.data.TestData;
-import ru.strict.db.mybatis.repositories.RepositoryCity;
-import ru.strict.db.mybatis.repositories.RepositoryProfileInfo;
-import ru.strict.db.mybatis.repositories.RepositoryUser;
-import ru.strict.db.mybatis.runners.TestRunner;
+import ru.strict.db.spring.data.TestData;
+import ru.strict.db.spring.repositories.RepositoryProfile;
+import ru.strict.db.spring.repositories.RepositoryUser;
+import ru.strict.db.spring.runners.TestRunner;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestRepositoryProfileInfo {
+public class TestRepositoryProfile {
 
-    private static IRepositoryExtension<Integer, DtoProfileInfo<Integer>> REPOSITORY_NOT_GENERATE_ID;
-    private static IRepositoryExtension<Integer, DtoProfileInfo<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
-    private static IRepositoryExtension<UUID, DtoProfileInfo<UUID>> REPOSITORY_GENERATE_UUID_ID;
+    private static IRepositoryExtension<Integer, DtoProfile<Integer>> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryExtension<Integer, DtoProfile<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
+    private static IRepositoryExtension<UUID, DtoProfile<UUID>> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
     public static void prepare(){
@@ -35,9 +32,9 @@ public class TestRepositoryProfileInfo {
      * Подготовить тестовые репозитории
      */
     private static void prepareRepositories(){
-        REPOSITORY_NOT_GENERATE_ID = new RepositoryProfileInfo<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
-        REPOSITORY_GENERATE_NUMBER_ID = new RepositoryProfileInfo<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NUMBER);
-        REPOSITORY_GENERATE_UUID_ID = new RepositoryProfileInfo<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.UUID);
+        REPOSITORY_NOT_GENERATE_ID = new RepositoryProfile<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
+        REPOSITORY_GENERATE_NUMBER_ID = new RepositoryProfile<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NUMBER);
+        REPOSITORY_GENERATE_UUID_ID = new RepositoryProfile<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.UUID);
         TestRunner.repositories.add(REPOSITORY_GENERATE_NUMBER_ID);
         TestRunner.repositories.add(REPOSITORY_GENERATE_UUID_ID);
     }
@@ -48,13 +45,9 @@ public class TestRepositoryProfileInfo {
     private static void prepareData(){
         IRepositoryNamed<Integer, DtoUser<Integer>> repositoryUserNumberId = new RepositoryUser<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
         IRepositoryNamed<UUID, DtoUser<UUID>> repositoryUserUuidId = new RepositoryUser<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
-        IRepositoryNamed<Integer, DtoCity<Integer>> repositoryCityNumberId = new RepositoryCity<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
-        IRepositoryNamed<UUID, DtoCity<UUID>> repositoryCityUuidId = new RepositoryCity<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
 
         TestRunner.repositories.add(repositoryUserNumberId);
         TestRunner.repositories.add(repositoryUserUuidId);
-        TestRunner.repositories.add(repositoryCityNumberId);
-        TestRunner.repositories.add(repositoryCityUuidId);
 
         repositoryUserNumberId.create(TestData.USER1);
         repositoryUserUuidId.create(TestData.USER1_UUID);
@@ -64,11 +57,6 @@ public class TestRepositoryProfileInfo {
         repositoryUserUuidId.create(TestData.USER3_UUID);
         repositoryUserNumberId.create(TestData.USER4);
         repositoryUserUuidId.create(TestData.USER4_UUID);
-
-        repositoryCityNumberId.create(TestData.CITY1);
-        repositoryCityUuidId.create(TestData.CITY1_UUID);
-        repositoryCityNumberId.create(TestData.CITY2);
-        repositoryCityUuidId.create(TestData.CITY2_UUID);
     }
 
     @AfterClass
@@ -81,8 +69,8 @@ public class TestRepositoryProfileInfo {
      */
     @Test
     public void test001CreateGenerateNumberId(){
-        DtoProfileInfo dto = new DtoProfileInfo<>("name", "surname", "middlename", TestData.USER2.getId(), new Date(), "phone", TestData.CITY1.getId());
-        DtoProfileInfo createdDto = REPOSITORY_GENERATE_NUMBER_ID.create(dto);
+        DtoProfile dto = new DtoProfile<>("name", "surname", "middlename", TestData.USER2.getId());
+        DtoProfile createdDto = REPOSITORY_GENERATE_NUMBER_ID.create(dto);
         Assert.assertNotNull(createdDto.getId());
     }
 
@@ -91,8 +79,8 @@ public class TestRepositoryProfileInfo {
      */
     @Test
     public void test002CreateGenerateUuidId(){
-        DtoProfileInfo dto = new DtoProfileInfo<>("name", "surname", "middlename", TestData.USER2_UUID.getId(), new Date(), "phone", TestData.CITY1_UUID.getId());
-        DtoProfileInfo createdDto = REPOSITORY_GENERATE_UUID_ID.create(dto);
+        DtoProfile dto = new DtoProfile<>("name", "surname", "middlename", TestData.USER2_UUID.getId());
+        DtoProfile createdDto = REPOSITORY_GENERATE_UUID_ID.create(dto);
         Assert.assertNotNull(createdDto.getId());
     }
 
@@ -101,8 +89,8 @@ public class TestRepositoryProfileInfo {
      */
     @Test
     public void test003CreateNotGenerateId(){
-        DtoProfileInfo createdDto = REPOSITORY_NOT_GENERATE_ID.create(TestData.PROFILE_INFO1);
-        Assert.assertEquals(TestData.PROFILE_INFO1, createdDto);
+        DtoProfile createdDto = REPOSITORY_NOT_GENERATE_ID.create(TestData.PROFILE1);
+        Assert.assertEquals(TestData.PROFILE1, createdDto);
     }
 
     /**
@@ -110,8 +98,8 @@ public class TestRepositoryProfileInfo {
      */
     @Test
     public void test004ReadByInteger(){
-        DtoProfileInfo dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.PROFILE_INFO1.getId());
-        Assert.assertEquals(TestData.PROFILE_INFO1, dto);
+        DtoProfile dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.PROFILE1.getId());
+        Assert.assertEquals(TestData.PROFILE1, dto);
     }
 
     /**
@@ -119,7 +107,7 @@ public class TestRepositoryProfileInfo {
      */
     @Test
     public void test006ReadAllInteger(){
-        List<DtoProfileInfo<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        List<DtoProfile<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
         Assert.assertTrue(list.size() == 2);
     }
 
@@ -128,7 +116,7 @@ public class TestRepositoryProfileInfo {
      */
     @Test
     public void test007ReadAllUuid(){
-        List<DtoProfileInfo<UUID>> list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
+        List<DtoProfile<UUID>> list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
         Assert.assertTrue(list.size() == 1);
     }
 
@@ -146,7 +134,7 @@ public class TestRepositoryProfileInfo {
      */
     @Test
     public void test011IsRowExists(){
-        boolean isRowExists = REPOSITORY_GENERATE_NUMBER_ID.isRowExists(TestData.PROFILE_INFO1.getId());
+        boolean isRowExists = REPOSITORY_GENERATE_NUMBER_ID.isRowExists(TestData.PROFILE1.getId());
         Assert.assertTrue(isRowExists);
     }
 
@@ -155,8 +143,8 @@ public class TestRepositoryProfileInfo {
      */
     @Test
     public void test012CreateOrReadExists(){
-        DtoProfileInfo dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(TestData.PROFILE_INFO1);
-        Assert.assertEquals(TestData.PROFILE_INFO1, dto);
+        DtoProfile dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(TestData.PROFILE1);
+        Assert.assertEquals(TestData.PROFILE1, dto);
     }
 
     /**
@@ -164,8 +152,8 @@ public class TestRepositoryProfileInfo {
      */
     @Test
     public void test013CreateOrReadNotExists(){
-        DtoProfileInfo<Integer> newDto = new DtoProfileInfo<>(101, "name10", "surname10", "middlename10", TestData.USER3.getId(), new Date(), "phone10", TestData.CITY1.getId());
-        DtoProfileInfo dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(newDto);
+        DtoProfile<Integer> newDto = new DtoProfile<>(101, "name10", "surname10", "middlename10", TestData.USER3.getId());
+        DtoProfile dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(newDto);
         Assert.assertEquals(newDto, dto);
     }
 
@@ -174,8 +162,8 @@ public class TestRepositoryProfileInfo {
      */
     @Test
     public void test014Update(){
-        DtoProfileInfo dto = REPOSITORY_GENERATE_NUMBER_ID.update(TestData.PROFILE_INFO1_UPDATED);
-        Assert.assertEquals(TestData.PROFILE_INFO1_UPDATED, dto);
+        DtoProfile dto = REPOSITORY_GENERATE_NUMBER_ID.update(TestData.PROFILE1_UPDATED);
+        Assert.assertEquals(TestData.PROFILE1_UPDATED, dto);
     }
 
     /**
@@ -183,8 +171,8 @@ public class TestRepositoryProfileInfo {
      */
     @Test
     public void test015CreateOrUpdateExists(){
-        DtoProfileInfo dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.PROFILE_INFO1);
-        Assert.assertEquals(TestData.PROFILE_INFO1, dto);
+        DtoProfile dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.PROFILE1);
+        Assert.assertEquals(TestData.PROFILE1, dto);
     }
 
     /**
@@ -192,8 +180,8 @@ public class TestRepositoryProfileInfo {
      */
     @Test
     public void test016CreateOrUpdateNotExists(){
-        DtoProfileInfo<Integer> newDto = new DtoProfileInfo<>(102, "name11", "surname11", "middlename11", TestData.USER4.getId(), new Date(), "phone11", TestData.CITY1.getId());
-        DtoProfileInfo dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(newDto);
+        DtoProfile<Integer> newDto = new DtoProfile<>(102, "name11", "surname11", "middlename11", TestData.USER4.getId());
+        DtoProfile dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(newDto);
         Assert.assertEquals(newDto, dto);
     }
 
@@ -202,7 +190,7 @@ public class TestRepositoryProfileInfo {
      */
     @Test
     public void test017ExecuteCreateAndUpdateIsSuccess(){
-        List<DtoProfileInfo<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        List<DtoProfile<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
         Assert.assertTrue(list.size() == 4);
     }
 
@@ -211,9 +199,9 @@ public class TestRepositoryProfileInfo {
      */
     @Test
     public void test018Delete(){
-        REPOSITORY_GENERATE_NUMBER_ID.delete(TestData.PROFILE_INFO1.getId());
-        List<DtoProfileInfo<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
-        DtoProfileInfo<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.PROFILE_INFO1.getId());
+        REPOSITORY_GENERATE_NUMBER_ID.delete(TestData.PROFILE1.getId());
+        List<DtoProfile<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        DtoProfile<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.PROFILE1.getId());
         Assert.assertTrue(list.size() == 3);
         Assert.assertNull(dto);
     }

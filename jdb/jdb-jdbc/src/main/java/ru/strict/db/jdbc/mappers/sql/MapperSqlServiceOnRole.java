@@ -19,7 +19,7 @@ public class MapperSqlServiceOnRole<ID, SERVICE> extends MapperSqlBase<ID, Entit
         EntityServiceOnRole<ID, SERVICE> entity = new EntityServiceOnRole();
         try {
             entity.setId((ID)resultSet.getObject("id"));
-            entity.setServiceId((ID)resultSet.getObject(COLUMNS_NAME[0]));
+            entity.setServiceId(resultSet.getInt(COLUMNS_NAME[0]));
             entity.setRoleId((ID)resultSet.getObject(COLUMNS_NAME[1]));
         }catch(SQLException ex){
             throw new RuntimeException(ex);

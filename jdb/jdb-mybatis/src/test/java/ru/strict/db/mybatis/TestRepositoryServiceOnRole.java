@@ -10,12 +10,12 @@ import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.mappers.dto.MapperDtoServiceOnRole;
 import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.core.repositories.IRepositoryNamed;
-import ru.strict.db.jdbc.data.ServiceModel;
-import ru.strict.db.jdbc.data.ServiceProvider;
-import ru.strict.db.jdbc.data.TestData;
+import ru.strict.db.mybatis.data.ServiceModel;
+import ru.strict.db.mybatis.data.ServiceProvider;
+import ru.strict.db.mybatis.data.TestData;
 import ru.strict.db.mybatis.repositories.RepositoryRoleuser;
 import ru.strict.db.mybatis.repositories.RepositoryServiceOnRole;
-import ru.strict.db.jdbc.runners.TestRunner;
+import ru.strict.db.mybatis.runners.TestRunner;
 
 import java.util.List;
 import java.util.UUID;
