@@ -170,6 +170,15 @@ CREATE TABLE user_on_role(
   FOREIGN KEY (roleuser_id) REFERENCES roleuser(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+CREATE TABLE service_on_role(
+  id UUID NOT NULL,
+  service_id INTEGER NOT NULL,
+  roleuser_id UUID NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE (service_id, roleuser_id),
+  FOREIGN KEY (roleuser_id) REFERENCES roleuser(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 CREATE TABLE file_storage(
   id UUID NOT NULL,
   filename VARCHAR(255) NOT NULL,

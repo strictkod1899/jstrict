@@ -27,7 +27,8 @@ import java.util.List;
         TestRepositoryProfile.class,
         TestRepositoryProfileInfo.class,
         TestRepositoryFileStorage.class,
-        TestRepositoryJWTToken.class
+        TestRepositoryJWTToken.class,
+        TestRepositoryServiceOnRole.class
 })
 public class TestRunner {
 
@@ -72,6 +73,7 @@ public class TestRunner {
         connectionInfoForDbInteger.addMapper(MapperSqlProfile.class);
         connectionInfoForDbInteger.addMapper(MapperSqlProfileInfo.class);
         connectionInfoForDbInteger.addMapper(MapperSqlUserOnRole.class);
+        connectionInfoForDbInteger.addMapper(MapperSqlServiceOnRole.class);
         connectionInfoForDbUuid.addMapper(MapperSqlCountry.class);
         connectionInfoForDbUuid.addMapper(MapperSqlCity.class);
         connectionInfoForDbUuid.addMapper(MapperSqlRoleuser.class);
@@ -81,6 +83,7 @@ public class TestRunner {
         connectionInfoForDbUuid.addMapper(MapperSqlProfile.class);
         connectionInfoForDbUuid.addMapper(MapperSqlProfileInfo.class);
         connectionInfoForDbUuid.addMapper(MapperSqlUserOnRole.class);
+        connectionInfoForDbUuid.addMapper(MapperSqlServiceOnRole.class);
 
         CREATE_DB_INTEGER_CONNECTION = new CreateConnectionByMybatis(connectionInfoForDbInteger);
         CREATE_DB_UUID_CONNECTION = new CreateConnectionByMybatis(connectionInfoForDbUuid);

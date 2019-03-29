@@ -1,6 +1,6 @@
 package ru.strict.db.core.entities;
 
-import ru.strict.db.core.models.IEnumProvider;
+import ru.strict.db.core.models.IModelProvider;
 
 import java.util.Objects;
 
@@ -12,11 +12,11 @@ public class EntityServiceOnRole<ID, SERVICE> extends EntityBase<ID> {
     /**
      * Идентификатор сервиса
      */
-    private ID serviceId;
+    private Integer serviceId;
     /**
      * Объект, который определяет сервис по Id
      */
-    private IEnumProvider<ID, SERVICE> serviceProvider;
+    private IModelProvider<SERVICE> serviceProvider;
     /**
      * Идентификатор роли
      */
@@ -27,7 +27,7 @@ public class EntityServiceOnRole<ID, SERVICE> extends EntityBase<ID> {
     private EntityRoleuser<ID> role;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void initialize(ID serviceId, ID roleId){
+    private void initialize(Integer serviceId, ID roleId){
         if(serviceId == null) {
             throw new NullPointerException("serviceId is NULL");
         } else if(roleId == null) {
@@ -47,23 +47,23 @@ public class EntityServiceOnRole<ID, SERVICE> extends EntityBase<ID> {
         role = null;
     }
 
-    public EntityServiceOnRole(ID serviceId, ID roleId) {
+    public EntityServiceOnRole(Integer serviceId, ID roleId) {
         super();
         initialize(serviceId, roleId);
     }
 
-    public EntityServiceOnRole(ID id, ID serviceId, ID roleId) {
+    public EntityServiceOnRole(ID id, Integer serviceId, ID roleId) {
         super(id);
         initialize(serviceId, roleId);
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public ID getServiceId() {
+    public Integer getServiceId() {
         return serviceId;
     }
 
-    public void setServiceId(ID serviceId) {
+    public void setServiceId(Integer serviceId) {
         if(serviceId == null) {
             throw new NullPointerException("userId is NULL");
         }
@@ -71,11 +71,11 @@ public class EntityServiceOnRole<ID, SERVICE> extends EntityBase<ID> {
         this.serviceId = serviceId;
     }
 
-    public IEnumProvider<ID, SERVICE> getServiceProvider() {
+    public IModelProvider<SERVICE> getServiceProvider() {
         return serviceProvider;
     }
 
-    public void setServiceProvider(IEnumProvider<ID, SERVICE> serviceProvider) {
+    public void setServiceProvider(IModelProvider<SERVICE> serviceProvider) {
         this.serviceProvider = serviceProvider;
     }
 

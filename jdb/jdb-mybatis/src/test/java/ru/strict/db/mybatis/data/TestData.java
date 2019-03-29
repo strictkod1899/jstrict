@@ -68,4 +68,17 @@ public class TestData {
     public static final DtoJWTToken<Integer> JWT_TOKEN1_UPDATED = new DtoJWTToken<>(111, "accessToken1_updated", "refreshToken1_updated", new Date(), new Date(), new Date(), USER2.getId());
     public static final DtoJWTToken<UUID> JWT_TOKEN1_UUID = new DtoJWTToken<>(UUID.randomUUID(), "accessToken1", "refreshToken1", new Date(), new Date(), new Date(), USER1_UUID.getId());
 
+    public static final DtoServiceOnRole<Integer, ServiceModel> SERVICE_ON_ROLE1 = new DtoServiceOnRole<>(111, ServiceModel.SERVICE1.getId(), ROLEUSER1.getId());
+    public static final DtoServiceOnRole<Integer, ServiceModel> SERVICE_ON_ROLE1_UPDATED = new DtoServiceOnRole<>(111, ServiceModel.SERVICE2.getId(), ROLEUSER2.getId());
+    public static final DtoServiceOnRole<UUID, ServiceModel> SERVICE_ON_ROLE1_UUID = new DtoServiceOnRole<>(UUID.randomUUID(), ServiceModel.SERVICE1.getId(), ROLEUSER1_UUID.getId());
+
+    public static final DtoServiceOnRole<Integer, ServiceModel> SERVICE_ON_ROLE2 = new DtoServiceOnRole<>(ServiceModel.SERVICE2.getId(), ROLEUSER1.getId());
+    public static final DtoServiceOnRole<UUID, ServiceModel> SERVICE_ON_ROLE2_UUID = new DtoServiceOnRole<>(ServiceModel.SERVICE2.getId(), ROLEUSER1_UUID.getId());
+
+    public static final DtoServiceOnRole<Integer, ServiceModel> SERVICE_ON_ROLE3 = new DtoServiceOnRole<>(113, ServiceModel.SERVICE1.getId(), ROLEUSER2.getId());
+    public static final DtoServiceOnRole<UUID, ServiceModel> SERVICE_ON_ROLE3_UUID = new DtoServiceOnRole<>(UUID.randomUUID(), ServiceModel.SERVICE1.getId(), ROLEUSER2_UUID.getId());
+
+    public static final DtoServiceOnRole<Integer, ServiceModel> SERVICE_ON_ROLE4 = new DtoServiceOnRole<>(114, ServiceModel.SERVICE3.getId(), ROLEUSER1.getId());
+    public static final DtoServiceOnRole<UUID, ServiceModel> SERVICE_ON_ROLE4_UUID = new DtoServiceOnRole<>(UUID.randomUUID(), ServiceModel.SERVICE3.getId(), ROLEUSER1_UUID.getId());
+
 }

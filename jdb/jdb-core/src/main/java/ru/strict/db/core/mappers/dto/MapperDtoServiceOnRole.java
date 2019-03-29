@@ -4,7 +4,7 @@ import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.dto.DtoServiceOnRole;
 import ru.strict.db.core.entities.EntityRoleuser;
 import ru.strict.db.core.entities.EntityServiceOnRole;
-import ru.strict.db.core.models.IEnumProvider;
+import ru.strict.db.core.models.IModelProvider;
 
 import java.util.Optional;
 
@@ -13,7 +13,7 @@ import java.util.Optional;
  */
 public class MapperDtoServiceOnRole<ID, SERVICE> extends MapperDtoBase<ID, EntityServiceOnRole<ID, SERVICE>, DtoServiceOnRole<ID, SERVICE>> {
 
-    private IEnumProvider<ID, SERVICE> serviceProvider;
+    private IModelProvider<SERVICE> serviceProvider;
     private MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser;
 
     public MapperDtoServiceOnRole(){
@@ -21,7 +21,7 @@ public class MapperDtoServiceOnRole<ID, SERVICE> extends MapperDtoBase<ID, Entit
         this.mapperRoleuser = null;
     }
 
-    public MapperDtoServiceOnRole(IEnumProvider<ID, SERVICE> serviceProvider,
+    public MapperDtoServiceOnRole(IModelProvider<SERVICE> serviceProvider,
                                   MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser){
         this.serviceProvider = serviceProvider;
         this.mapperRoleuser = mapperRoleuser;
@@ -32,6 +32,7 @@ public class MapperDtoServiceOnRole<ID, SERVICE> extends MapperDtoBase<ID, Entit
         EntityServiceOnRole<ID, SERVICE> entity = new EntityServiceOnRole();
         entity.setId(dto.getId());
         entity.setRoleId(dto.getRoleId());
+        entity.setServiceId(dto.getServiceId());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) -> entity.setRole(mapper.map(dto.getRole())));
         entity.setServiceProvider(serviceProvider);
         return entity;
@@ -42,6 +43,7 @@ public class MapperDtoServiceOnRole<ID, SERVICE> extends MapperDtoBase<ID, Entit
         DtoServiceOnRole<ID, SERVICE> dto = new DtoServiceOnRole();
         dto.setId(entity.getId());
         dto.setRoleId(entity.getRoleId());
+        dto.setServiceId(entity.getServiceId());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) -> dto.setRole(mapper.map(entity.getRole())));
         entity.setServiceProvider(serviceProvider);
         return dto;

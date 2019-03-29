@@ -8,7 +8,7 @@ import ru.strict.db.core.requests.DbWhereItem;
 import java.util.List;
 
 public interface IRepositoryServiceOnRole<ID, SERVICE> extends IRepositoryExtension<ID, DtoServiceOnRole<ID, SERVICE>> {
-    default List<DtoServiceOnRole<ID, SERVICE>> readByServiceId(ID serviceId){
+    default List<DtoServiceOnRole<ID, SERVICE>> readByServiceId(Integer serviceId){
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(getTableName(), "service_id", serviceId, "="));
 
