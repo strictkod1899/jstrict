@@ -40,8 +40,8 @@ public class MapperDtoFileStoragePath<ID> extends MapperDtoBase<ID, EntityFileSt
         DtoFileStoragePath<ID> dto = new DtoFileStoragePath();
         dto.setId(baseDto.getId());
         dto.setFilename(baseDto.getFilename());
-        entity.setExtension(baseDto.getExtension());
-        entity.setDisplayName(baseDto.getDisplayName());
+        dto.setExtension(baseDto.getExtension());
+        dto.setDisplayName(baseDto.getDisplayName());
         dto.setCreateDate(baseDto.getCreateDate());
         dto.setType(baseDto.getType());
         dto.setStatus(baseDto.getStatus());

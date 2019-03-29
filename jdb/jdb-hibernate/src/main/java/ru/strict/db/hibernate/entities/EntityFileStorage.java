@@ -1,6 +1,7 @@
 package ru.strict.db.hibernate.entities;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
@@ -155,7 +156,7 @@ public class EntityFileStorage<ID> extends EntityBase<ID> {
                     && Objects.equals(extension, object.extension)
                     && Objects.equals(displayName, object.displayName)
                     && Objects.equals(filePath, object.filePath)
-                    && Objects.equals(content, object.content)
+                    && Arrays.equals(content, object.content)
                     && Objects.equals(createDate, object.createDate)
                     && Objects.equals(type, object.type)
                     && Objects.equals(status, object.status);

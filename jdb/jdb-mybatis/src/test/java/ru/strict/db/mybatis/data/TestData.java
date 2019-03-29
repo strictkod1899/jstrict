@@ -60,4 +60,7 @@ public class TestData {
     public static final DtoProfileInfo<Integer> PROFILE_INFO1_UPDATED = new DtoProfileInfo<>(111, "name1_updated", "surname1_updated", "middlename2_updated", USER1.getId(), new Date(), "phone1_updated", CITY2.getId());
     public static final DtoProfileInfo<UUID> PROFILE_INFO1_UUID = new DtoProfileInfo<>(UUID.randomUUID(), "name1", "surname1", "middlename2", USER1_UUID.getId(), new Date(), "phone1", CITY1_UUID.getId());
 
+    public static final DtoFileStorage<Integer> FILE_STORAGE1 = new DtoFileStorage<>(111, "filename1", "extension1", "displayname1", new Date(), 1, 1, "filepath1", new byte[]{ 1, 2, 3, 4, 5, 6, 7, 8 });
+    public static final DtoFileStorage<Integer> FILE_STORAGE1_UPDATED = new DtoFileStorage<>(111, "filename1_updated", "extension1_updated", "displayname1_updated", new Date(), 2, 2, "filepath1_updated", new byte[]{ 1,2, 3, 4, 5, 6});
+    public static final DtoFileStorage<UUID> FILE_STORAGE1_UUID = new DtoFileStorage<>(UUID.randomUUID(), "filename1", "extension1", "displayname1", new Date(), 1, 1, "filepath1", new byte[]{ 1, 2, 3, 4, 5, 6, 7, 8 });
 }

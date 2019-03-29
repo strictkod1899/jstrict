@@ -1,5 +1,6 @@
 package ru.strict.db.core.dto;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
@@ -40,7 +41,7 @@ public class DtoFileStorageContent<ID> extends DtoFileStorageBase<ID> {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DtoFileStorageContent) {
             DtoFileStorageContent object = (DtoFileStorageContent) obj;
-            return super.equals(obj) && Objects.equals(content, object.content);
+            return super.equals(obj) && Arrays.equals(content, object.content);
         }else {
             return false;
         }
