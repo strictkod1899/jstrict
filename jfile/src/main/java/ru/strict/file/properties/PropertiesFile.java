@@ -7,49 +7,61 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-public class PropertiesFile implements AutoCloseable{
+public abstract class PropertiesFile implements AutoCloseable{
 
     private String pathToDirectory;
-    private String fileName;
+    private String propertiesFileName;
     private String suffix;
 
-    private void initialize(String filePath, String suffix){
-        if(ValidateBaseValue.isEmptyOrNull(filePath)){
+    private void initialize(String propertiesFileName, String suffix){
+        if(ValidateBaseValue.isEmptyOrNull(propertiesFileName)){
             throw new NullPointerException("properties file name is NULL");
         }
 
-        String fileName = filePath;
-
-        if (fileName.endsWith(".properties")){
-            fileName = fileName.substring(0, fileName.lastIndexOf(".properties"));
+        if (propertiesFileName.endsWith(".properties")){
+            propertiesFileName = propertiesFileName.substring(0, propertiesFileName.lastIndexOf(".properties"));
         }
 
-        if(fileName.contains(File.separator)){
-            fileName = fileName.substring(fileName.lastIndexOf(File.separator)+1);
+        if(propertiesFileName.contains(File.separator)){
+            propertiesFileName = propertiesFileName.substring(propertiesFileName.lastIndexOf(File.separator)+1);
         }
-        if(fileName.contains("/")){
-            fileName = fileName.substring(fileName.lastIndexOf("/")+1);
+        if(propertiesFileName.contains("/")){
+            propertiesFileName = propertiesFileName.substring(propertiesFileName.lastIndexOf("/")+1);
         }
-        if(fileName.contains("\\")){
-            fileName = fileName.substring(fileName.lastIndexOf("\\")+1);
+        if(propertiesFileName.contains("\\")){
+            propertiesFileName = propertiesFileName.substring(propertiesFileName.lastIndexOf("\\")+1);
         }
 
-        this.fileName = fileName;
+        this.propertiesFileName = propertiesFileName;
         this.suffix = suffix;
-        String absoluteFilePath = new File(filePath).getAbsolutePath();
-        this.pathToDirectory = absoluteFilePath.substring(0, absoluteFilePath.lastIndexOf(File.separator));
-    }
-
-    public PropertiesFile(String filePath) {
-        this(filePath, null);
-    }
-
-    public PropertiesFile(String filePath, String suffix) {
-        initialize(filePath, suffix);
     }
 
     protected void reload(){
-        initialize(pathToDirectory + File.separator + fileName, suffix);
+        initialize(propertiesFileName, suffix);
+        initializePathToDirectory();
+    }
+
+    public PropertiesFile(String propertiesFileName) {
+        initialize(propertiesFileName, null);
+    }
+
+    public PropertiesFile(String propertiesFileName, String suffix) {
+        initialize(propertiesFileName, suffix);
+    }
+
+    protected String getFileName(){
+        return String.format("%s.properties", propertiesFileName);
+    }
+
+    protected String getFileNameWithSuffix(){
+        String result = null;
+
+        if(!ValidateBaseValue.isEmptyOrNull(suffix)){
+            result = String.format("%s_%s.properties", propertiesFileName, suffix);
+        }else{
+            result = getFileName();
+        }
+        return result;
     }
 
     public String readValue(String key){
@@ -66,64 +78,59 @@ public class PropertiesFile implements AutoCloseable{
 
     public String readValue(String key, String encodingFile, String encodingOutput){
         String result = null;
-        if(Files.exists(Paths.get(getFilePathWithSuffix()))) {
-            result = UtilProperties.getValue(getFilePathWithSuffix(), key, encodingFile, encodingOutput);
+        if(Files.exists(Paths.get(getPathToFileWithSuffix()))) {
+            result = UtilProperties.getValue(getPathToFileWithSuffix(), key, encodingFile, encodingOutput);
         }
         if(ValidateBaseValue.isEmptyOrNull(result)){
-            if(Files.exists(Paths.get(getFilePath()))) {
-                result = UtilProperties.getValue(getFilePath(), key, encodingFile, encodingOutput);
+            if(Files.exists(Paths.get(getPathToFile()))) {
+                result = UtilProperties.getValue(getPathToFile(), key, encodingFile, encodingOutput);
             }
         }
         return result;
     }
 
     public String getPathToDirectory() {
+        if(ValidateBaseValue.isEmptyOrNull(pathToDirectory)){
+            pathToDirectory = initializePathToDirectory();
+        }
+
         return pathToDirectory;
     }
 
-    public String getFileName(){
-        return String.format("%s.properties", fileName);
+    protected String getPropertiesFileName() {
+        return propertiesFileName;
     }
 
-    public String getFileNameWithSuffix(){
-        String result = null;
-
-        if(!ValidateBaseValue.isEmptyOrNull(suffix)){
-            result = String.format("%s_%s.properties", fileName, suffix);
-        }else{
-            result = getFileName();
-        }
-        return result;
-    }
-
-    public String getSuffix() {
+    protected String getSuffix() {
         return suffix;
     }
 
-    public String getFilePath(){
+    protected abstract String initializePathToDirectory();
+
+    public String getPathToFile(){
         return String.format("%s%s%s", getPathToDirectory(), File.separator, getFileName());
     }
 
-    public String getFilePathWithSuffix(){
+    public String getPathToFileWithSuffix(){
         return String.format("%s%s%s", getPathToDirectory(), File.separator, getFileNameWithSuffix());
-    }
-
-    protected void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    protected void setSuffix(String suffix) {
-        this.suffix = suffix;
     }
 
     protected void setPathToDirectory(String pathToDirectory) {
         this.pathToDirectory = pathToDirectory;
     }
 
+    protected void setPropertiesFileName(String propertiesFileName) {
+        this.propertiesFileName = propertiesFileName;
+    }
+
+    protected void setSuffix(String suffix) {
+        this.suffix = suffix;
+    }
+
     @Override
     public void close() {
         pathToDirectory = null;
-        fileName = null;
+        propertiesFileName = null;
         suffix = null;
     }
 
@@ -132,7 +139,7 @@ public class PropertiesFile implements AutoCloseable{
         if(obj!=null && obj instanceof PropertiesFile){
             PropertiesFile object = (PropertiesFile) obj;
             return Objects.equals(pathToDirectory, object.pathToDirectory)
-                    && Objects.equals(fileName, object.fileName)
+                    && Objects.equals(propertiesFileName, object.propertiesFileName)
                     && Objects.equals(suffix, object.suffix);
         }else{
             return false;
@@ -141,6 +148,6 @@ public class PropertiesFile implements AutoCloseable{
 
     @Override
     public int hashCode(){
-        return Objects.hash(pathToDirectory, fileName, suffix);
+        return Objects.hash(pathToDirectory, propertiesFileName, suffix);
     }
 }
