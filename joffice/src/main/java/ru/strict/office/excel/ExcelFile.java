@@ -332,6 +332,30 @@ public class ExcelFile extends OfficeFile<Workbook, ExcelFormat> implements IExc
             case BAD:
                 result = styleFactory.createBadStyle();
                 break;
+            case RED:
+                result = styleFactory.createRedStyle();
+                break;
+            case BLUE:
+                result = styleFactory.createBlueStyle();
+                break;
+            case DARK_BLUE:
+                result = styleFactory.createDarkBlueStyle();
+                break;
+            case LIGHT_BLUE:
+                result = styleFactory.createLightBlueStyle();
+                break;
+            case COOL:
+                result = styleFactory.createCoolStyle();
+                break;
+            case GREEN:
+                result = styleFactory.createGreenStyle();
+                break;
+            case ORANGE:
+                result = styleFactory.createOrangeStyle();
+                break;
+            case YELLOW:
+                result = styleFactory.createYellowStyle();
+                break;
         }
         return result;
     }

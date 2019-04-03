@@ -15,8 +15,11 @@ public abstract class OfficeFile<SOURCE, FORMAT extends IOfficeFormat>
         if(ValidateBaseValue.isEmptyOrNull(filePath)){
             throw new NullPointerException("filePath is NULL");
         }
-        this.filePath = filePath;
         format = getFormatByCaption(UtilFile.getFileExtension(filePath));
+        if(!filePath.endsWith(format.getCaption())){
+            filePath = String.format("%s.%s", filePath, format.getCaption());
+        }
+        this.filePath = filePath;
         source = initializeSource();
     }
 

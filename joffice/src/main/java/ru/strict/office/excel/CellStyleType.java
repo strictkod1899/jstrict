@@ -4,5 +4,13 @@ public enum CellStyleType {
     DEFAULT,
     GOOD,
     NEUTRAL,
-    BAD
+    BAD,
+    LIGHT_BLUE,
+    BLUE,
+    DARK_BLUE,
+    COOL,
+    ORANGE,
+    YELLOW,
+    GREEN,
+    RED
 }
