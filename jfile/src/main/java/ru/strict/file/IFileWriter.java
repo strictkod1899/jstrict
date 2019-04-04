@@ -1,6 +1,5 @@
 package ru.strict.file;
 
-public interface IFileWriter<SOURCE> {
+public interface IFileWriter {
     void write();
-    void write(SOURCE source);
 }

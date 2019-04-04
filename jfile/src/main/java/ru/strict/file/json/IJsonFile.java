@@ -6,7 +6,8 @@ import ru.strict.file.IFileWriter;
 import java.util.List;
 import java.util.Map;
 
-public interface IJsonFile<TARGET> extends IFileReader<List<Map<String, Object>>>, IFileWriter<TARGET> {
+public interface IJsonFile<TARGET> extends IFileReader<List<Map<String, Object>>>, IFileWriter {
     void loadFromFileOrInitialize();
     TARGET readToTargetClass();
+    void write(TARGET object);
 }

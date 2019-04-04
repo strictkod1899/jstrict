@@ -2,12 +2,14 @@ package ru.strict.file.properties;
 
 public class AppConfig extends PropertiesResourceFile {
 
+    public static final String FILE_NAME = "app";
+
     public AppConfig() {
-        super("app", "development");
+        super(FILE_NAME, "development");
     }
 
     public AppConfig(String environment) {
-        super("app", environment);
+        super(FILE_NAME, environment);
     }
 
     public AppConfig(String appConfigFileName, String environment) {

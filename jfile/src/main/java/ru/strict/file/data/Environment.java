@@ -2,14 +2,14 @@ package ru.strict.file.data;
 
 import java.util.Arrays;
 
-public enum AppEnvironment {
+public enum Environment {
     TEST("test"),
     DEVELOPMENT("development"),
     PRODUCTION("production");
 
     private String value;
 
-    AppEnvironment(String value) {
+    Environment(String value) {
         this.value = value;
     }
 
@@ -17,8 +17,12 @@ public enum AppEnvironment {
         return value;
     }
 
-    public static AppEnvironment getByString(String environment){
-        return Arrays.stream(AppEnvironment.values())
+    public static Environment getByString(String environment){
+        if(environment == null){
+            return null;
+        }
+
+        return Arrays.stream(Environment.values())
                 .filter(env -> env.getValue().equals(environment))
                 .findFirst()
                 .orElse(null);
