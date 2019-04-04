@@ -1,12 +1,8 @@
 package ru.strict.db.hibernate.entities;
 
-
-
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * Именованный entity (содержит строку заголовка)

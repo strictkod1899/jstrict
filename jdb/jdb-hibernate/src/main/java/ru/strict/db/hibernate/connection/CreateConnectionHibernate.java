@@ -59,10 +59,6 @@ public class CreateConnectionHibernate extends CreateConnectionBase<HibernateCon
             configuration.addPackage(packagePath);
         }
 
-        for(String packagePath : connectionInfo.getPackages()){
-            configuration.addPackage(packagePath);
-        }
-
         for(Class entityClass : connectionInfo.getEntityClasses()){
             configuration.addAnnotatedClass(entityClass);
         }

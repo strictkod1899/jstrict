@@ -1,12 +1,9 @@
 package ru.strict.db.hibernate.entities;
 
 import ru.strict.utils.UtilData;
-
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * Базовый entity-класс

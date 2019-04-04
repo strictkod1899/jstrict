@@ -3,9 +3,6 @@ package ru.strict.db.hibernate.mappers.dto;
 import ru.strict.db.core.dto.*;
 import ru.strict.db.hibernate.entities.*;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
-import ru.strict.db.core.mappers.dto.MapperDtoCity;
-import ru.strict.db.core.mappers.dto.MapperDtoCountry;
-import ru.strict.db.core.mappers.dto.MapperDtoUserOnRole;
 import ru.strict.utils.UtilClass;
 
 /**

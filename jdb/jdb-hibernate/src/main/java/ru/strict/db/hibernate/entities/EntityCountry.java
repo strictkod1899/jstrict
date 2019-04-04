@@ -9,8 +9,6 @@ import java.util.TreeSet;
  * Страна
  */
 @Entity
-@Table(name = "country")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class EntityCountry<ID> extends EntityNamed<ID> {
 
     /**

@@ -10,8 +10,8 @@ import java.util.Objects;
  * Необходимая информация для создания соединения с базой данных, при использовании Hibernate
  * <p><b>Пример использования:</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
- *     ...
  *     HibernateConnectionInfo connectionInfo = new HibernateConnectionInfo("org.hibernate.dialect.MySQLDialect", "com.mysql.jdbc.Driver", "jdbc:mysql://mydb", "mysqluser", "mysqlpassword");
+ *     connectionInfo.addEntityClass(MyEntity.class);
  *     Session connection = connectionCreater.createConnection();
  * </pre></code>
  */
@@ -176,7 +176,7 @@ public class HibernateConnectionInfo {
     }
 
     public void addEntityClass(Class entityClass){
-        if(entityClasses != null && entityClass !=null){
+        if(entityClasses != null && entityClass != null){
             entityClasses.add(entityClass);
         }
     }

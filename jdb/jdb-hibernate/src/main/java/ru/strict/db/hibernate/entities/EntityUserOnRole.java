@@ -1,7 +1,5 @@
 package ru.strict.db.hibernate.entities;
 
-
-
 import javax.persistence.*;
 import java.util.Objects;
 

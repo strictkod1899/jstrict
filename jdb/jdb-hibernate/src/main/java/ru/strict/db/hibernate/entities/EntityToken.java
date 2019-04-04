@@ -1,7 +1,5 @@
 package ru.strict.db.hibernate.entities;
 
-
-
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import java.util.Date;

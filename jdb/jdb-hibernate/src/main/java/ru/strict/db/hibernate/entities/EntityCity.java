@@ -7,8 +7,6 @@ import javax.persistence.*;
  * Город
  */
 @Entity
-@Table(name = "city")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class EntityCity<ID> extends EntityNamed<ID> {
 
     /**
