@@ -1,6 +1,7 @@
 package ru.strict.db.jdbc.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoJWTToken;
 import ru.strict.db.core.dto.DtoUser;
@@ -10,14 +11,10 @@ import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.repositories.interfaces.IRepositoryJWTToken;
-import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlJWTToken;
 import ru.strict.utils.UtilClass;
 
 import java.sql.Connection;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class RepositoryJWTToken<ID>
         extends RepositoryJdbcBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>>
@@ -35,22 +32,22 @@ public class RepositoryJWTToken<ID>
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(EntityJWTToken<ID> entity) {
-        Map<Integer, Object> valuesByColumn = new LinkedHashMap();
-        valuesByColumn.put(0, entity.getAccessToken());
-        valuesByColumn.put(1, entity.getRefreshToken());
-        valuesByColumn.put(2, entity.getExpireTimeAccess());
-        valuesByColumn.put(3, entity.getExpireTimeRefresh());
-        valuesByColumn.put(4, entity.getIssuedAt());
-        valuesByColumn.put(5, entity.getIssuer());
-        valuesByColumn.put(6, entity.getSubject());
-        valuesByColumn.put(7, entity.getNotBefore());
-        valuesByColumn.put(8, entity.getAudience());
-        valuesByColumn.put(9, entity.getSecret());
-        valuesByColumn.put(10, entity.getAlgorithm());
-        valuesByColumn.put(11, entity.getType());
-        valuesByColumn.put(12, entity.getUserId());
-        return valuesByColumn;
+    protected SqlParameters getParameters(EntityJWTToken<ID> entity){
+        SqlParameters parameters = new SqlParameters();
+        parameters.add(0, COLUMNS_NAME[0], entity.getAccessToken());
+        parameters.add(1, COLUMNS_NAME[1], entity.getRefreshToken());
+        parameters.add(2, COLUMNS_NAME[2], entity.getExpireTimeAccess());
+        parameters.add(3, COLUMNS_NAME[3], entity.getExpireTimeRefresh());
+        parameters.add(4, COLUMNS_NAME[4], entity.getIssuedAt());
+        parameters.add(5, COLUMNS_NAME[5], entity.getIssuer());
+        parameters.add(6, COLUMNS_NAME[6], entity.getSubject());
+        parameters.add(7, COLUMNS_NAME[7], entity.getNotBefore());
+        parameters.add(8, COLUMNS_NAME[8], entity.getAudience());
+        parameters.add(9, COLUMNS_NAME[9], entity.getSecret());
+        parameters.add(10, COLUMNS_NAME[10], entity.getAlgorithm());
+        parameters.add(11, COLUMNS_NAME[11], entity.getType());
+        parameters.add(12, COLUMNS_NAME[12], entity.getUserId());
+        return parameters;
     }
 
     @Override

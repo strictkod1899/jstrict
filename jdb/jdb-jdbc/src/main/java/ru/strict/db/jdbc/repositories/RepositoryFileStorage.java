@@ -1,6 +1,7 @@
 package ru.strict.db.jdbc.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoFileStorage;
 import ru.strict.db.core.dto.DtoFileStorageBase;
@@ -41,17 +42,17 @@ public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(EntityFileStorage<ID> entity){
-        Map<Integer, Object> valuesByColumn = new LinkedHashMap();
-        valuesByColumn.put(0, entity.getFilename());
-        valuesByColumn.put(1, entity.getExtension());
-        valuesByColumn.put(2, entity.getDisplayName());
-        valuesByColumn.put(3, entity.getContent());
-        valuesByColumn.put(4, entity.getFilePath());
-        valuesByColumn.put(5, entity.getCreateDate());
-        valuesByColumn.put(6, entity.getType());
-        valuesByColumn.put(7, entity.getStatus());
-        return valuesByColumn;
+    protected SqlParameters getParameters(EntityFileStorage<ID> entity){
+        SqlParameters parameters = new SqlParameters();
+        parameters.add(0, COLUMNS_NAME[0], entity.getFilename());
+        parameters.add(1, COLUMNS_NAME[1], entity.getExtension());
+        parameters.add(2, COLUMNS_NAME[2], entity.getDisplayName());
+        parameters.add(3, COLUMNS_NAME[3], entity.getContent());
+        parameters.add(4, COLUMNS_NAME[4], entity.getFilePath());
+        parameters.add(5, COLUMNS_NAME[5], entity.getCreateDate());
+        parameters.add(6, COLUMNS_NAME[6], entity.getType());
+        parameters.add(7, COLUMNS_NAME[7], entity.getStatus());
+        return parameters;
     }
 
     @Override

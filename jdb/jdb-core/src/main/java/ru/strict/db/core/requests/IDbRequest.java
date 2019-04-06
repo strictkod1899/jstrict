@@ -1,11 +1,11 @@
 package ru.strict.db.core.requests;
 
 /**
- * Базовое определения условия sql-запроса
+ * Базовое определения sql-запроса
  */
 public interface IDbRequest {
     /**
-     * Сформировать sql-конструкцию условия
+     * Сформировать sql-конструкцию
      * @return
      */
     String getSql();

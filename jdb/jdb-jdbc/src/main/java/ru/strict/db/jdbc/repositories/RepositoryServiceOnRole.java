@@ -1,6 +1,7 @@
 package ru.strict.db.jdbc.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.dto.DtoServiceOnRole;
@@ -30,11 +31,11 @@ public class RepositoryServiceOnRole<ID, SERVICE>
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(EntityServiceOnRole<ID, SERVICE> entity) {
-        Map<Integer, Object> valuesByColumn = new LinkedHashMap();
-        valuesByColumn.put(0, entity.getServiceId());
-        valuesByColumn.put(1, entity.getRoleId());
-        return valuesByColumn;
+    protected SqlParameters getParameters(EntityServiceOnRole<ID, SERVICE> entity){
+        SqlParameters parameters = new SqlParameters();
+        parameters.add(0, COLUMNS_NAME[0], entity.getServiceId());
+        parameters.add(1, COLUMNS_NAME[1], entity.getRoleId());
+        return parameters;
     }
 
     @Override

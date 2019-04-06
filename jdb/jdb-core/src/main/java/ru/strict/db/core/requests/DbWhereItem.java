@@ -1,5 +1,6 @@
 package ru.strict.db.core.requests;
 
+import ru.strict.db.core.common.SqlParameters;
 import ru.strict.patterns.composite.CompositeLeaf;
 
 import java.util.Objects;
@@ -101,7 +102,7 @@ public class DbWhereItem extends DbWhereBase {
 
     @Override
     public String getSql(){
-        String result;
+        String result = null;
 
         if(columnValue instanceof String || columnValue instanceof UUID ){
             result = getTableName() + "." + columnName + " "
@@ -112,6 +113,18 @@ public class DbWhereItem extends DbWhereBase {
                     + (columnValue == null ? "" : columnValue);
         }
         return result.trim();
+    }
+
+    @Override
+    public String getParametrizedSql() {
+        return String.format("%s.%s %s ?", getTableName(), columnName, operator);
+    }
+
+    @Override
+    public SqlParameters getParameters() {
+        SqlParameters sqlParameters = new SqlParameters();
+        sqlParameters.add(0, "where", columnValue);
+        return sqlParameters;
     }
 
     //<editor-fold defaultState="collapsed" desc="Base override">

@@ -2,6 +2,7 @@ package ru.strict.db.jdbc.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
 
+import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.dto.DtoUser;
@@ -32,11 +33,11 @@ public class RepositoryUserOnRole<ID>
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(EntityUserOnRole<ID> entity) {
-        Map<Integer, Object> valuesByColumn = new LinkedHashMap();
-        valuesByColumn.put(0, entity.getUserId());
-        valuesByColumn.put(1, entity.getRoleId());
-        return valuesByColumn;
+    protected SqlParameters getParameters(EntityUserOnRole<ID> entity){
+        SqlParameters parameters = new SqlParameters();
+        parameters.add(0, COLUMNS_NAME[0], entity.getUserId());
+        parameters.add(1, COLUMNS_NAME[1], entity.getRoleId());
+        return parameters;
     }
 
     @Override

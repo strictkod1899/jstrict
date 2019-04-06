@@ -8,8 +8,8 @@ import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.mappers.sql.MapperSqlBase;
 import ru.strict.db.core.repositories.RepositoryBase;
 import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.jdbc.common.JdbcSqlParameter;
-import ru.strict.db.jdbc.common.JdbcSqlParameters;
+import ru.strict.db.core.common.SqlParameter;
+import ru.strict.db.core.common.SqlParameters;
 
 import java.math.BigDecimal;
 import java.net.URL;
@@ -47,7 +47,7 @@ public abstract class RepositoryJdbcBase
     @Override
     public final DTO create(DTO dto) {
         PreparedStatement statement = null;
-        JdbcSqlParameters parameters;
+        SqlParameters parameters;
         String sql = null;
         E entity = getDtoMapper().map(dto);
         Connection connection = null;
@@ -59,7 +59,7 @@ public abstract class RepositoryJdbcBase
 
         switch(usingGenerateIdType){
             case NUMBER:
-                parameters = getParameters(entity, 0);
+                parameters = getParameters(entity);
                 sql = createSqlInsertShort(parameters.size());
 
                 try{
@@ -107,9 +107,9 @@ public abstract class RepositoryJdbcBase
                 }
                 break;
             case UUID:
-                parameters = getParameters(entity, 1);
+                parameters = shiftParameters(getParameters(entity), 1);
                 Object id = UUID.randomUUID();
-                parameters.add(0, "id", id);
+                parameters.add(0, getColumnIdName(), id);
                 sql = createSqlInsertFull(parameters.size()-1);
 
                 try{
@@ -151,8 +151,8 @@ public abstract class RepositoryJdbcBase
                 dto.setId((ID)id);
                 break;
             case NONE:
-                parameters = getParameters(entity, 1);
-                parameters.add(0, "id", dto.getId());
+                parameters = shiftParameters(getParameters(entity), 1);
+                parameters.add(0, getColumnIdName(), dto.getId());
                 sql = createSqlInsertFull(parameters.size()-1);
                 try{
                     connection = createConnection();
@@ -205,7 +205,7 @@ public abstract class RepositoryJdbcBase
         Connection connection = null;
         try{
             connection = createConnection();
-            statement = connection.prepareStatement(String.format("%s WHERE id = ?", createSqlSelect()));
+            statement = connection.prepareStatement(String.format("%s WHERE " + getColumnIdName() + " = ?", createSqlSelect()));
 
             if(id instanceof Integer)
                 statement.setInt(1, (Integer) id);
@@ -331,8 +331,8 @@ public abstract class RepositoryJdbcBase
     @Override
     public DTO update(DTO dto) {
         E entity = getDtoMapper().map(dto);
-        JdbcSqlParameters parameters = getParameters(entity, 0);
-        parameters.addLast("id", dto.getId());
+        SqlParameters parameters = getParameters(entity);
+        parameters.addLast(getColumnIdName(), dto.getId());
         String sql = createSqlUpdate();
 
         PreparedStatement statement = null;
@@ -379,8 +379,8 @@ public abstract class RepositoryJdbcBase
     @Override
     public void delete(ID id) {
         String sql = createSqlDelete();
-        JdbcSqlParameters parameters = new JdbcSqlParameters();
-        parameters.addLast("id", id);
+        SqlParameters parameters = new SqlParameters();
+        parameters.addLast(getColumnIdName(), id);
         PreparedStatement statement = null;
 
         Connection connection = null;
@@ -572,7 +572,7 @@ public abstract class RepositoryJdbcBase
             sql.append(columnName + " = ?, ");
         }
         sql.replace(sql.length()-2, sql.length(), "");
-        sql.append(" WHERE id = ?");
+        sql.append(" WHERE " + getColumnIdName() + " = ?");
         return sql.toString();
     }
 
@@ -583,7 +583,7 @@ public abstract class RepositoryJdbcBase
     private String createSqlDelete(){
         StringBuilder sql = new StringBuilder("DELETE FROM ");
         sql.append(getTableName());
-        sql.append(" WHERE id = ?");
+        sql.append(" WHERE " + getColumnIdName() + " = ?");
 
         return sql.toString();
     }
@@ -594,156 +594,92 @@ public abstract class RepositoryJdbcBase
      * ID не учитывается. </br>
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
-     *      Map<Integer, Object> valuesByColumn = new LinkedHashMap();
-     *      valuesByColumn.put(0, entity.getName());
-     *      valuesByColumn.put(1, entity.getSurname());
-     *      valuesByColumn.put(2, entity.getMiddlename());
-     *      return valuesByColumn;
+     *      SqlParameters parameters = new SqlParameters();
+     *      parameters.add(0, COLUMNS_NAME[0], entity.getCaption());
+     *      parameters.add(1, COLUMNS_NAME[1], entity.getCountryId());
+     *      return parameters;
      * </pre></code>
      * @param entity Entity-объект из которого берутся значения для параметров
      * @return
      */
-    protected abstract Map getValueByColumn(E entity);
-
-    @Override
-    public boolean isRowExists(ID id){
-        String sql = "SELECT COUNT(*) FROM " + getTableName() + " WHERE id = ?;";
-        JdbcSqlParameters parameters = new JdbcSqlParameters();
-        parameters.addLast("id", id);
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        boolean isExists = false;
-        Connection connection = null;
-        try{
-            connection = createConnection();
-            statement = connection.prepareStatement(sql);
-            statement = setParametersToPrepareStatement(statement, parameters);
-
-            resultSet = statement.executeQuery();
-
-            if(!resultSet.isClosed()) {
-                resultSet.next();
-                if (resultSet.getInt(1) > 0) {
-                    isExists = true;
-                }
-            }
-        } catch (SQLException ex) {
-            if(connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException e) {
-                    throw new RuntimeException(ex);
-                }
-            }
-            throw new RuntimeException(ex);
-        }finally {
-            if(resultSet != null){
-                try {
-                    if(!resultSet.isClosed()) {
-                        resultSet.close();
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
-            if(statement != null) {
-                try {
-                    if(!statement.isClosed()) {
-                        statement.close();
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
-            if(connection != null) {
-                try {
-                    if(!connection.isClosed()) {
-                        connection.close();
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        }
-        return isExists;
-    }
+    protected abstract SqlParameters getParameters(E entity);
 
     //<editor-fold defaultState="collapsed" desc="Determine statement parameters">
-    /**
-     * Получить параметры sql-запроса на создание/обновление записи. ID не учитывается
-     * @param entity           Entity-объект из которого берутся значения для параметров
-     * @param startIndex    Начальный индекс полученных параметров.
-     *                      Может потребоваться, если в качестве первого элемента требуется установить id, а все остальные сдвинуть на 1, тогда параметру передается значение = 1
-     * @return
-     */
-    protected JdbcSqlParameters getParameters(E entity, int startIndex){
-        Map valuesByColumn = getValueByColumn(entity);
-        Set<Integer> keys = valuesByColumn.keySet();
-        JdbcSqlParameters parameters = new JdbcSqlParameters();
-        for(Integer key : keys) {
-            parameters.add(key + startIndex, getColumnsName()[key], valuesByColumn.get(key));
-        }
-
-        return parameters;
-    }
-
     /**
      * Установить параметры в переданный объект PreparedStatement в зависимости от нужного типа
      * @param statement     Объект PreparedStatement, которому устанвливаются параметры
      * @param parameters    Устанавливаемые параметры
      * @return
      */
-    private PreparedStatement setParametersToPrepareStatement(PreparedStatement statement, JdbcSqlParameters parameters){
-        for(JdbcSqlParameter parameter : parameters){
+    private PreparedStatement setParametersToPrepareStatement(PreparedStatement statement, SqlParameters<?> parameters){
+        for(SqlParameter parameter : parameters.getParameters()){
             try {
                 int index = parameter.getIndex() + 1;
                 Object value = parameter.getValue();
-                if (value instanceof Boolean)
-                    statement.setBoolean(index, Boolean.valueOf(value.toString()));
-                else if (value instanceof Byte)
-                    statement.setByte(index, Byte.valueOf(value.toString()));
-                else if (value instanceof Short)
-                    statement.setShort(index, Short.valueOf(value.toString()));
-                else if (value instanceof Integer)
-                    statement.setInt(index, Integer.valueOf(value.toString()));
-                else if (value instanceof Long)
-                    statement.setLong(index, Long.valueOf(value.toString()));
-                else if (value instanceof Float)
-                    statement.setFloat(index, Float.valueOf(value.toString()));
-                else if (value instanceof Double)
-                    statement.setDouble(index, Double.valueOf(value.toString()));
-                else if (value instanceof BigDecimal)
-                    statement.setBigDecimal(index, (BigDecimal)value);
-                else if (value instanceof byte[])
-                    statement.setBytes(index, (byte[])value);
-                else if (value instanceof Array)
-                    statement.setArray(index, (Array)value);
-                else if (value instanceof NClob)
-                    statement.setNClob(index, (NClob)value);
-                else if (value instanceof Date || value instanceof java.sql.Date)
-                    statement.setDate(index, new java.sql.Date(((Date)value).getTime()));
-                else if (value instanceof Time)
-                    statement.setTime(index, (Time)value);
-                else if (value instanceof Timestamp)
-                    statement.setTimestamp(index, (Timestamp)value);
-                else if (value instanceof URL)
-                    statement.setURL(index, (URL)value);
-                else if (value instanceof Clob)
-                    statement.setClob(index, (Clob)value);
-                else if (value instanceof Blob)
-                    statement.setBlob(index, (Blob)value);
-                else if (value instanceof String)
-                    statement.setString(index, value.toString());
-                else
-                    statement.setObject(index, value);
+                if(value == null){
+                    statement.setNull(index, JDBCType.NULL.getVendorTypeNumber());
+                } else if(parameter.getSqlType() != null){
+                    statement.setObject(index, value, parameter.getSqlType());
+                } else {
+                    if (value instanceof Boolean)
+                        statement.setBoolean(index, Boolean.valueOf(value.toString()));
+                    else if (value instanceof Byte)
+                        statement.setByte(index, Byte.valueOf(value.toString()));
+                    else if (value instanceof Short)
+                        statement.setShort(index, Short.valueOf(value.toString()));
+                    else if (value instanceof Integer)
+                        statement.setInt(index, Integer.valueOf(value.toString()));
+                    else if (value instanceof Long)
+                        statement.setLong(index, Long.valueOf(value.toString()));
+                    else if (value instanceof Float)
+                        statement.setFloat(index, Float.valueOf(value.toString()));
+                    else if (value instanceof Double)
+                        statement.setDouble(index, Double.valueOf(value.toString()));
+                    else if (value instanceof BigDecimal)
+                        statement.setBigDecimal(index, (BigDecimal)value);
+                    else if (value instanceof byte[])
+                        statement.setBytes(index, (byte[])value);
+                    else if (value instanceof Array)
+                        statement.setArray(index, (Array)value);
+                    else if (value instanceof NClob)
+                        statement.setNClob(index, (NClob)value);
+                    else if (value instanceof Date || value instanceof java.sql.Date)
+                        statement.setDate(index, new java.sql.Date(((Date)value).getTime()));
+                    else if (value instanceof Time)
+                        statement.setTime(index, (Time)value);
+                    else if (value instanceof Timestamp)
+                        statement.setTimestamp(index, (Timestamp)value);
+                    else if (value instanceof URL)
+                        statement.setURL(index, (URL)value);
+                    else if (value instanceof Clob)
+                        statement.setClob(index, (Clob)value);
+                    else if (value instanceof Blob)
+                        statement.setBlob(index, (Blob)value);
+                    else if (value instanceof String)
+                        statement.setString(index, value.toString());
+                    else {
+                        statement.setObject(index, value);
+                    }
+                }
             }catch(SQLException ex){
                 throw new RuntimeException(ex);
             }
         }
 
         return statement;
+    }
+
+    /**
+     * Сдвинуть параметры вправа
+     * @param parameters Параметры
+     * @param startPosition Стартовая позиция
+     */
+    private SqlParameters shiftParameters(SqlParameters<?> parameters, int startPosition){
+        for(SqlParameter parameter : parameters.getParameters()){
+            parameter.setIndex(parameter.getIndex() + startPosition);
+        }
+
+        return parameters;
     }
     //</editor-fold>
 

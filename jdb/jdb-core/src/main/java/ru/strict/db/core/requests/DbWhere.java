@@ -1,5 +1,7 @@
 package ru.strict.db.core.requests;
 
+import ru.strict.db.core.common.SqlParameters;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,13 +71,38 @@ public class DbWhere extends DbWhereBase<List<DbWhereBase>, DbWhereBase> {
             return "";
         }
 
-        String result = "(" + childs.get(0).getSql() + ") ";
+        String result = String.format("(%s) ", childs.get(0).getSql());
 
         for(int i = 1; i< childs.size(); i++) {
-            result += whereType.getCaption() + " (" + childs.get(i).getSql() + ") ";
+            result += String.format("%s (%s) ", whereType.getCaption(), childs.get(i).getSql());
         }
 
         return result.trim();
+    }
+
+    @Override
+    public String getParametrizedSql() {
+        if(childs.isEmpty()) {
+            return "";
+        }
+
+        String result = String.format("(%s) ", childs.get(0).getParametrizedSql());
+
+        for(int i = 1; i< childs.size(); i++) {
+            result += String.format("%s (%s) ", whereType.getCaption(), childs.get(i).getParametrizedSql());
+        }
+
+        return result.trim();
+    }
+
+    @Override
+    public SqlParameters getParameters() {
+        SqlParameters sqlParameters = new SqlParameters();
+        for(DbWhereBase where : childs){
+            sqlParameters.addAll(where.getParameters());
+        }
+
+        return sqlParameters;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package ru.strict.db.jdbc.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.dto.DtoCity;
 import ru.strict.db.core.dto.DtoCountry;
@@ -32,10 +33,10 @@ public class RepositoryCountry<ID>
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(EntityCountry<ID> entity){
-        Map<Integer, Object> valuesByColumn = new LinkedHashMap();
-        valuesByColumn.put(0, entity.getCaption());
-        return valuesByColumn;
+    protected SqlParameters getParameters(EntityCountry<ID> entity){
+        SqlParameters parameters = new SqlParameters();
+        parameters.add(0, COLUMNS_NAME[0], entity.getCaption());
+        return parameters;
     }
 
     @Override
