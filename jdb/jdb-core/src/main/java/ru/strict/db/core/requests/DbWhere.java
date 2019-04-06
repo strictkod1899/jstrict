@@ -1,5 +1,6 @@
 package ru.strict.db.core.requests;
 
+import ru.strict.db.core.common.SqlParameter;
 import ru.strict.db.core.common.SqlParameters;
 
 import java.util.ArrayList;
@@ -97,12 +98,18 @@ public class DbWhere extends DbWhereBase<List<DbWhereBase>, DbWhereBase> {
 
     @Override
     public SqlParameters getParameters() {
-        SqlParameters sqlParameters = new SqlParameters();
+        SqlParameters result = new SqlParameters();
         for(DbWhereBase where : childs){
-            sqlParameters.addAll(where.getParameters());
+            SqlParameters<?> parameters = where.getParameters();
+            int i = result.size();
+            for(SqlParameter parameter : parameters.getParameters()){
+                parameter.setIndex(i);
+                i++;
+            }
+            result.addAll(parameters);
         }
 
-        return sqlParameters;
+        return result;
     }
 
     @Override

@@ -4,12 +4,30 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import ru.strict.db.core.common.SqlParameter;
+import ru.strict.db.core.common.SqlParameters;
 
 import java.util.UUID;
 
 @RunWith(JUnit4.class)
 public class TestDbParametrizedRequests {
 
+    @Test
+    public void testParametersSequential(){
+        DbWhere where2 = new DbWhere(WhereType.OR);
+        where2.add(new DbWhereEquals("table1", "column2", "value2"));
+        where2.add(new DbWhereEquals("table1", "column3", "value3"));
+
+        DbRequests requests = new DbRequests();
+        requests.addWhere(new DbWhereEquals("table1", "column1", 123));
+        requests.addWhere(where2);
+
+        SqlParameters parameters = requests.getParameters();
+
+        Assert.assertEquals(parameters.getByIndex(0), new SqlParameter(0, "where", 123));
+        Assert.assertEquals(parameters.getByIndex(1), new SqlParameter(1, "where", "value2"));
+        Assert.assertEquals(parameters.getByIndex(2), new SqlParameter(2, "where", "value3"));
+    }
     @Test
     public void testEmpty(){
         DbRequests requests = new DbRequests();

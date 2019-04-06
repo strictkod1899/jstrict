@@ -3,6 +3,7 @@ package ru.strict.db.core.common;
 import java.sql.SQLType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Список параметров для подставновки в sql-запрос типа PreparedStatement
@@ -75,8 +76,30 @@ public class SqlParameters<VALUE> {
 
     private void checkParameter(int index, String columnName){
         if(parameters.stream()
-                .anyMatch(p -> p.getIndex() == index || p.getColumnName().equals(columnName))){
+                .anyMatch(p -> p.getIndex() == index)){
             throw new IllegalArgumentException(String.format("The index [%s] or name [%s] to column already exists", index, columnName));
         }
     }
+
+    //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
+    public String toString(){
+        return String.format("sql-parameters. size = %s", size());
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj!=null && obj instanceof SqlParameters) {
+            SqlParameters object = (SqlParameters) obj;
+            return Objects.equals(parameters, object.parameters);
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(parameters);
+    }
+    //</editor-fold>
 }

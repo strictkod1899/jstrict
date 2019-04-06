@@ -275,8 +275,11 @@ public abstract class RepositoryJdbcBase
         Connection connection = null;
         try{
             connection = createConnection();
-            String sql = createSqlSelect() + (requests==null ? "" : " " + requests.getSql());
+            String sql = createSqlSelect() + (requests==null ? "" : " " + requests.getParametrizedSql());
             statement = connection.prepareStatement(sql);
+            if(requests != null) {
+                setParametersToPrepareStatement(statement, requests.getParameters());
+            }
             resultSet = statement.executeQuery();
 
             if(!resultSet.isClosed()) {
@@ -430,8 +433,11 @@ public abstract class RepositoryJdbcBase
         Connection connection = null;
         try{
             connection = createConnection();
-            String sql = createSqlCount() + (requests==null ? "" : " " + requests.getSql());
+            String sql = createSqlCount() + (requests==null ? "" : " " + requests.getParametrizedSql());
             statement = connection.prepareStatement(sql);
+            if(requests != null) {
+                setParametersToPrepareStatement(statement, requests.getParameters());
+            }
             resultSet = statement.executeQuery();
 
             if(!resultSet.isClosed()) {
@@ -589,13 +595,7 @@ public abstract class RepositoryJdbcBase
      * @return
      */
     private String createSqlDelete(){
-        StringBuilder sql = new StringBuilder("DELETE FROM ");
-        sql.append(getTableName());
-        sql.append(" WHERE ");
-        sql.append(getColumnIdName());
-        sql.append(" = ?");
-
-        return sql.toString();
+        return String.format("DELETE FROM %s WHERE %s = ?", getTableName(), getColumnIdName());
     }
     //</editor-fold>
 

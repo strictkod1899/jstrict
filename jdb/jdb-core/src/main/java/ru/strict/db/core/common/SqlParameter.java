@@ -1,6 +1,7 @@
 package ru.strict.db.core.common;
 
 import java.sql.SQLType;
+import java.util.Objects;
 
 /**
  * Параметр для подставновки в sql-запрос типа PreparedStatement
@@ -52,4 +53,29 @@ public class SqlParameter<VALUE> {
     public void setSqlType(SQLType sqlType) {
         this.sqlType = sqlType;
     }
+
+    //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
+    public String toString(){
+        return String.format("sql-parameter [%s - %s] - %s", index, columnName, String.valueOf(value));
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj!=null && obj instanceof SqlParameter) {
+            SqlParameter object = (SqlParameter) obj;
+            return Objects.equals(index, object.index)
+                    && Objects.equals(columnName, object.columnName)
+                    && Objects.equals(value, object.value)
+                    && Objects.equals(sqlType, object.sqlType);
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(index, columnName, value, sqlType);
+    }
+    //</editor-fold>
 }
