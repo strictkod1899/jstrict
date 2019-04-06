@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.common.SqlParameter;
+import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.DtoBase;
 import ru.strict.db.core.entities.EntityBase;
@@ -57,7 +59,7 @@ public abstract class RepositorySpringBase
     @Override
     public final DTO create(DTO dto) {
         E entity = getDtoMapper().map(dto);
-        MapSqlParameterSource parameters = getParameters(entity);
+        MapSqlParameterSource parameters = getSpringParameters(entity);
         String sql = null;
 
         GenerateIdType usingGenerateIdType = getGenerateIdType();
@@ -75,13 +77,13 @@ public abstract class RepositorySpringBase
             case UUID:
                 sql = createSqlInsertFull(parameters.getParameterNames());
                 Object id = UUID.randomUUID();
-                parameters.addValue("id", id);
+                parameters.addValue(getColumnIdName(), id);
                 springJdbc.update(sql, parameters);
                 dto.setId((ID)id);
                 break;
             case NONE:
                 sql = createSqlInsertFull(parameters.getParameterNames());
-                parameters.addValue("id", dto.getId());
+                parameters.addValue(getColumnIdName(), dto.getId());
                 springJdbc.update(sql, parameters);
                 break;
             default:
@@ -93,8 +95,8 @@ public abstract class RepositorySpringBase
 
     @Override
     public final DTO read(ID id) {
-        SqlParameterSource parameters = new MapSqlParameterSource("id", id);
-        String sql = String.format("%s WHERE id = :id", createSqlSelect());
+        SqlParameterSource parameters = new MapSqlParameterSource(getColumnIdName(), id);
+        String sql = String.format("%s WHERE %s = :%s", createSqlSelect(), getColumnIdName(), getColumnIdName());
         E entity = null;
         try {
             entity = springJdbc.queryForObject(sql, parameters, springMapper);
@@ -118,9 +120,9 @@ public abstract class RepositorySpringBase
     @Override
     public DTO update(DTO dto) {
         E entity = getDtoMapper().map(dto);
-        MapSqlParameterSource parameters = getParameters(entity);
+        MapSqlParameterSource parameters = getSpringParameters(entity);
         String sql = createSqlUpdate(parameters.getParameterNames());
-        parameters.addValue("id", dto.getId());
+        parameters.addValue(getColumnIdName(), dto.getId());
         springJdbc.update(sql, parameters);
         return dto;
     }
@@ -129,7 +131,7 @@ public abstract class RepositorySpringBase
     public void delete(ID id) {
         String sql = createSqlDelete();
         MapSqlParameterSource parameters = new MapSqlParameterSource();
-        parameters.addValue("id", id);
+        parameters.addValue(getColumnIdName(), id);
         springJdbc.update(sql, parameters);
     }
 
@@ -159,13 +161,14 @@ public abstract class RepositorySpringBase
     private String createSqlInsertShort(String[] parametersName){
         StringBuilder sql = new StringBuilder(String.format("INSERT INTO %s (", getTableName()));
         for(String columnName : getColumnsName()) {
-            sql.append(columnName + ", ");
+            sql.append(columnName);
+            sql.append(", ");
         }
         sql.replace(sql.length()-2, sql.length(), "");
         sql.append(") VALUES (");
 
         for(String parameterName : parametersName) {
-            sql.append(":" + parameterName + ", ");
+            sql.append(String.format(":%s, ", parameterName));
         }
         sql.replace(sql.length()-2, sql.length(), "");
         sql.append(");");
@@ -177,15 +180,16 @@ public abstract class RepositorySpringBase
      * @return
      */
     private String createSqlInsertFull(String[] parametersName){
-        StringBuilder sql = new StringBuilder(String.format("INSERT INTO %s (id, ", getTableName()));
+        StringBuilder sql = new StringBuilder(String.format("INSERT INTO %s (%s, ", getTableName(), getColumnIdName()));
         for(String columnName : getColumnsName()) {
-            sql.append(columnName + ", ");
+            sql.append(columnName);
+            sql.append(", ");
         }
         sql.replace(sql.length()-2, sql.length(), "");
-        sql.append(") VALUES (:id, ");
+        sql.append(String.format(") VALUES (:%s, ", getColumnIdName()));
 
         for(String parameterName : parametersName) {
-            sql.append(":" + parameterName + ", ");
+            sql.append(String.format(":%s, ", parameterName));
         }
         sql.replace(sql.length()-2, sql.length(), "");
         sql.append(")");
@@ -199,12 +203,10 @@ public abstract class RepositorySpringBase
     private String createSqlUpdate(String[] parametersName){
         StringBuilder sql = new StringBuilder(String.format("UPDATE %s SET ", getTableName()));
         for(int i=0; i<getColumnsName().length; i++){
-            String columnName = getColumnsName()[i];
-            String parameterName = parametersName[i];
-            sql.append(columnName + " = :" + parameterName + ", ");
+            sql.append(String.format("%s = :%s, ", getColumnsName()[i], parametersName[i]));
         }
         sql.replace(sql.length()-2, sql.length(), "");
-        sql.append(" WHERE id = :id");
+        sql.append(String.format(" WHERE %s = :%s", getColumnIdName(), getColumnIdName()));
         return sql.toString();
     }
 
@@ -215,39 +217,9 @@ public abstract class RepositorySpringBase
     private String createSqlDelete(){
         StringBuilder sql = new StringBuilder("DELETE FROM ");
         sql.append(getTableName());
-        sql.append(" WHERE id = :id");
+        sql.append(String.format(" WHERE %s = :%s", getColumnIdName(), getColumnIdName()));
 
         return sql.toString();
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultState="collapsed" desc="isRowExists">
-    @Override
-    public boolean isRowExists(ID id){
-        MapSqlParameterSource parameters = new MapSqlParameterSource();
-        parameters.addValue("id", id);
-        boolean isExists = springJdbc
-                .<Boolean>execute("SELECT COUNT(*) FROM " + getTableName() + " WHERE id = :id;",
-                        parameters,
-                        new CallbackIsExists());
-        return isExists;
-    }
-
-    /**
-     * Проверка существования записи в базе данных
-     */
-    private class CallbackIsExists implements PreparedStatementCallback {
-
-        @Override
-        public Object doInPreparedStatement(PreparedStatement preparedStatement) throws SQLException, DataAccessException {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            if(resultSet.getInt(1)>0) {
-                return true;
-            } else {
-                return false;
-            }
-        }
     }
     //</editor-fold>
 
@@ -256,31 +228,29 @@ public abstract class RepositorySpringBase
      * ID не учитывается. </br>
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
-     *      Map<Integer, Object> valuesByColumn = new LinkedHashMap();
-     *      valuesByColumn.put(0, entity.getName());
-     *      valuesByColumn.put(1, entity.getSurname());
-     *      valuesByColumn.put(2, entity.getMiddlename());
-     *      return valuesByColumn;
+     *      SqlParameters parameters = new SqlParameters();
+     *      parameters.add(0, COLUMNS_NAME[0], entity.getCaption());
+     *      parameters.add(1, COLUMNS_NAME[1], entity.getCountryId());
+     *      return parameters;
      * </pre></code>
      * @param entity Entity-объект из которого берутся значения для параметров
      * @return
      */
-    protected abstract Map getValueByColumn(E entity);
+    protected abstract SqlParameters getParameters(E entity);
 
     /**
      * Получить параметры sql-запроса на создание/обновление записи. ID не учитывается
      * @param entity Entity-объект из которого берутся значения для параметров
      * @return
      */
-    protected MapSqlParameterSource getParameters(E entity){
-        Map valuesByColumn = getValueByColumn(entity);
-        Set<Integer> keys = valuesByColumn.keySet();
-        MapSqlParameterSource parameters = new MapSqlParameterSource();
-        for(Integer key : keys) {
-            parameters.addValue(getColumnsName()[key], valuesByColumn.get(key));
+    protected MapSqlParameterSource getSpringParameters(E entity){
+        SqlParameters<?> parameters = getParameters(entity);
+        MapSqlParameterSource result = new MapSqlParameterSource();
+        for(SqlParameter parameter : parameters.getParameters()) {
+            result.addValue(parameter.getColumnName(), parameter.getValue());
         }
 
-        return parameters;
+        return result;
     }
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">

@@ -2,6 +2,7 @@ package ru.strict.db.spring.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
 
+import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.DtoProfile;
 import ru.strict.db.core.dto.DtoUser;
@@ -34,13 +35,13 @@ public class RepositoryProfile<ID>
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(EntityProfile<ID> entity){
-        Map<Integer, Object> valuesByColumn = new LinkedHashMap();
-        valuesByColumn.put(0, entity.getName());
-        valuesByColumn.put(1, entity.getSurname());
-        valuesByColumn.put(2, entity.getMiddlename());
-        valuesByColumn.put(3, entity.getUserId());
-        return valuesByColumn;
+    protected SqlParameters getParameters(EntityProfile<ID> entity){
+        SqlParameters parameters = new SqlParameters();
+        parameters.add(0, COLUMNS_NAME[0], entity.getName());
+        parameters.add(1, COLUMNS_NAME[1], entity.getSurname());
+        parameters.add(2, COLUMNS_NAME[2], entity.getMiddlename());
+        parameters.add(3, COLUMNS_NAME[3], entity.getUserId());
+        return parameters;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package ru.strict.db.spring.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.dto.*;
 import ru.strict.db.core.dto.DtoUserBase;
@@ -43,15 +44,15 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
     }
 
     @Override
-    protected Map<Integer, Object> getValueByColumn(EntityUser<ID> entity) {
-        Map<Integer, Object> valuesByColumn = new LinkedHashMap();
-        valuesByColumn.put(0, entity.getUsername());
-        valuesByColumn.put(1, entity.getPasswordEncode());
-        valuesByColumn.put(2, entity.getEmail());
-        valuesByColumn.put(3, entity.isBlocked());
-        valuesByColumn.put(4, entity.isDeleted());
-        valuesByColumn.put(5, entity.isConfirmEmail());
-        return valuesByColumn;
+    protected SqlParameters getParameters(EntityUser<ID> entity){
+        SqlParameters parameters = new SqlParameters();
+        parameters.add(0, COLUMNS_NAME[0], entity.getUsername());
+        parameters.add(1, COLUMNS_NAME[1], entity.getPasswordEncode());
+        parameters.add(2, COLUMNS_NAME[2], entity.getEmail());
+        parameters.add(3, COLUMNS_NAME[3], entity.isBlocked());
+        parameters.add(4, COLUMNS_NAME[4], entity.isDeleted());
+        parameters.add(5, COLUMNS_NAME[5], entity.isConfirmEmail());
+        return parameters;
     }
 
     @Override
