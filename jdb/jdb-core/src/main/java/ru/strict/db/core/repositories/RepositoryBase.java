@@ -206,12 +206,16 @@ public abstract class RepositoryBase
      * @return
      */
     protected String createSqlSelect(){
-        StringBuilder sql = new StringBuilder("SELECT " + getTableName() + ".id, ");
+        StringBuilder sql = new StringBuilder(String.format("SELECT %s.%s, ", getTableName(), getColumnIdName()));
         for(String columnName : getColumnsName()){
-            sql.append(getTableName() + "."  + columnName + ", ");
+            sql.append(getTableName());
+            sql.append(".");
+            sql.append(columnName);
+            sql.append(", ");
         }
         sql.replace(sql.length()-2, sql.length(), "");
-        sql.append(" FROM " + getTableName());
+        sql.append(" FROM ");
+        sql.append(getTableName());
 
         return sql.toString();
     }
@@ -221,7 +225,7 @@ public abstract class RepositoryBase
      * @return
      */
     protected String createSqlCount(){
-        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM " + getTableName());
+        StringBuilder sql = new StringBuilder(String.format("SELECT COUNT(1) FROM %s", getTableName()));
         return sql.toString();
     }
     //</editor-fold>

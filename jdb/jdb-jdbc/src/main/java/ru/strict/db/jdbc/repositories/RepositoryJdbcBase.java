@@ -531,13 +531,16 @@ public abstract class RepositoryJdbcBase
      */
     private String createSqlInsertShort(int parametersCount){
         StringBuilder sql = new StringBuilder(String.format("INSERT INTO %s (", getTableName()));
-        for(String columnName : getColumnsName())
-            sql.append(columnName + ", ");
+        for(String columnName : getColumnsName()) {
+            sql.append(columnName);
+            sql.append(", ");
+        }
         sql.replace(sql.length()-2, sql.length(), "");
         sql.append(") VALUES (");
 
-        for(int i=0; i<parametersCount; i++)
+        for(int i=0; i<parametersCount; i++) {
             sql.append("?, ");
+        }
         sql.replace(sql.length()-2, sql.length(), "");
         sql.append(");");
         return sql.toString();
@@ -549,13 +552,16 @@ public abstract class RepositoryJdbcBase
      */
     private String createSqlInsertFull(int parametersCount){
         StringBuilder sql = new StringBuilder(String.format("INSERT INTO %s (id, ", getTableName()));
-        for(String columnName : getColumnsName())
-            sql.append(columnName + ", ");
+        for(String columnName : getColumnsName()) {
+            sql.append(columnName);
+            sql.append(", ");
+        }
         sql.replace(sql.length()-2, sql.length(), "");
         sql.append(") VALUES (?, ");
 
-        for(int i=0; i<parametersCount; i++)
+        for(int i=0; i<parametersCount; i++) {
             sql.append("?, ");
+        }
         sql.replace(sql.length()-2, sql.length(), "");
         sql.append(")");
         return sql.toString();
@@ -568,11 +574,13 @@ public abstract class RepositoryJdbcBase
     private String createSqlUpdate(){
         StringBuilder sql = new StringBuilder(String.format("UPDATE %s SET ", getTableName()));
         for(int i=0; i<getColumnsName().length; i++){
-            String columnName = getColumnsName()[i];
-            sql.append(columnName + " = ?, ");
+            sql.append(getColumnsName()[i]);
+            sql.append(" = ?, ");
         }
         sql.replace(sql.length()-2, sql.length(), "");
-        sql.append(" WHERE " + getColumnIdName() + " = ?");
+        sql.append(" WHERE ");
+        sql.append(getColumnIdName());
+        sql.append(" = ?");
         return sql.toString();
     }
 
@@ -583,7 +591,9 @@ public abstract class RepositoryJdbcBase
     private String createSqlDelete(){
         StringBuilder sql = new StringBuilder("DELETE FROM ");
         sql.append(getTableName());
-        sql.append(" WHERE " + getColumnIdName() + " = ?");
+        sql.append(" WHERE ");
+        sql.append(getColumnIdName());
+        sql.append(" = ?");
 
         return sql.toString();
     }
