@@ -16,10 +16,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-@RunWith(Suite.class)
+/*@RunWith(Suite.class)
 @Suite.SuiteClasses({
         TestConnection.class,
-        /*TestRepositoryCountry.class,
+        TestRepositoryCountry.class,
         TestRepositoryCity.class,
         TestRepositoryRoleuser.class,
         TestRepositoryUser.class,
@@ -28,8 +28,8 @@ import java.util.List;
         TestRepositoryProfileInfo.class,
         TestRepositoryFileStorage.class,
         TestRepositoryJWTToken.class,
-        TestRepositoryServiceOnRole.class*/
-})
+        TestRepositoryServiceOnRole.class
+})*/
 public class TestRunner {
 
     private static final String DB_INTEGER_FILE_PATH = "testdb_integer.sqlite";

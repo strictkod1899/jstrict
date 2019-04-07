@@ -24,9 +24,9 @@ public class TestDbParametrizedRequests {
 
         SqlParameters parameters = requests.getParameters();
 
-        Assert.assertEquals(parameters.getByIndex(0), new SqlParameter(0, "where", 123));
-        Assert.assertEquals(parameters.getByIndex(1), new SqlParameter(1, "where", "value2"));
-        Assert.assertEquals(parameters.getByIndex(2), new SqlParameter(2, "where", "value3"));
+        Assert.assertEquals(parameters.getByIndex(0), new SqlParameter(0, "where0", 123));
+        Assert.assertEquals(parameters.getByIndex(1), new SqlParameter(1, "where1", "value2"));
+        Assert.assertEquals(parameters.getByIndex(2), new SqlParameter(2, "where2", "value3"));
     }
     @Test
     public void testEmpty(){

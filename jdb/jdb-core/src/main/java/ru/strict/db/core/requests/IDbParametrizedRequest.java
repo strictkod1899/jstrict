@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface IDbParametrizedRequest {
     /**
-     * Сформировать sql-конструкцию со вставками параметров
+     * Сформировать sql-конструкцию со вставками параметров (параметр обозначется знаком вопроса '?')
      * @return
      */
     String getParametrizedSql();

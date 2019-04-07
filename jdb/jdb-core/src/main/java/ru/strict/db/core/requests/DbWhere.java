@@ -104,6 +104,7 @@ public class DbWhere extends DbWhereBase<List<DbWhereBase>, DbWhereBase> {
             int i = result.size();
             for(SqlParameter parameter : parameters.getParameters()){
                 parameter.setIndex(i);
+                parameter.setName("where" + i);
                 i++;
             }
             result.addAll(parameters);

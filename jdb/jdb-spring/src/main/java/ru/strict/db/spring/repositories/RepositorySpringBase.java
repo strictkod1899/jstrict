@@ -1,8 +1,6 @@
 package ru.strict.db.spring.repositories;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -19,11 +17,9 @@ import ru.strict.db.core.repositories.RepositoryBase;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.spring.mappers.sql.MapperSqlCountRows;
+import ru.strict.utils.UtilData;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -106,10 +102,19 @@ public abstract class RepositorySpringBase
 
     @Override
     public final List<DTO> readAll(DbRequests requests) {
-        String sql = createSqlSelect() + (requests==null ? "" : " " + requests.getSql());
+        String sqlRequests = getSpringParametrizedSql(requests);
+        String sql = createSqlSelect() + " " +  UtilData.nullToEmpty(sqlRequests);
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        if(requests != null){
+            SqlParameters<?> requestParameters = requests.getParameters();
+            for(SqlParameter parameter : requestParameters.getParameters()){
+                parameters.addValue(parameter.getName(), parameter.getValue());
+            }
+        }
+
         List<DTO> result = new ArrayList<>();
         try {
-            List<E> entities = springJdbc.query(sql, springMapper);
+            List<E> entities = springJdbc.query(sql, parameters, springMapper);
             for (E entity : entities) {
                 result.add(getDtoMapper().map(entity));
             }
@@ -137,10 +142,20 @@ public abstract class RepositorySpringBase
 
     @Override
     public int readCount(DbRequests requests) {
-        String sql = createSqlCount() + (requests==null ? "" : " " + requests.getSql());
+        String sqlRequests = getSpringParametrizedSql(requests);
+        String sql = createSqlCount() + " " +  UtilData.nullToEmpty(sqlRequests);
+
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        if(requests != null){
+            SqlParameters<?> requestParameters = requests.getParameters();
+            for(SqlParameter parameter : requestParameters.getParameters()){
+                parameters.addValue(parameter.getName(), parameter.getValue());
+            }
+        }
+
         Integer result = -1;
         try{
-            result = springJdbc.queryForObject(sql, new MapSqlParameterSource(), new MapperSqlCountRows());
+            result = springJdbc.queryForObject(sql, parameters, new MapperSqlCountRows());
         }catch(EmptyResultDataAccessException ex){}
 
         return result;
@@ -247,7 +262,23 @@ public abstract class RepositorySpringBase
         SqlParameters<?> parameters = getParameters(entity);
         MapSqlParameterSource result = new MapSqlParameterSource();
         for(SqlParameter parameter : parameters.getParameters()) {
-            result.addValue(parameter.getColumnName(), parameter.getValue());
+            result.addValue(parameter.getName(), parameter.getValue());
+        }
+
+        return result;
+    }
+
+    private String getSpringParametrizedSql(DbRequests requests){
+        String result = null;
+
+        if(requests != null){
+            SqlParameters parameters = requests.getParameters();
+            result = requests.getParametrizedSql();
+            int parameterIndex = 0;
+            while (result.contains("?")){
+                result = result.replaceFirst("\\?", String.format(":%s", parameters.getByIndex(parameterIndex).getName()));
+                parameterIndex++;
+            }
         }
 
         return result;

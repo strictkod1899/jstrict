@@ -10,22 +10,22 @@ import java.util.Objects;
 public class SqlParameter<VALUE> {
 
     private int index;
-    private String columnName;
+    private String name;
     private VALUE value;
     /**
      * java.sql.JDBCType
      */
     private SQLType sqlType;
 
-    public SqlParameter(int index, String columnName, VALUE value) {
+    public SqlParameter(int index, String name, VALUE value) {
         this.index = index;
-        this.columnName = columnName;
+        this.name = name;
         this.value = value;
     }
 
-    public SqlParameter(int index, String columnName, VALUE value, SQLType sqlType) {
+    public SqlParameter(int index, String name, VALUE value, SQLType sqlType) {
         this.index = index;
-        this.columnName = columnName;
+        this.name = name;
         this.value = value;
         this.sqlType = sqlType;
     }
@@ -38,8 +38,12 @@ public class SqlParameter<VALUE> {
         this.index = index;
     }
 
-    public String getColumnName() {
-        return columnName;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public VALUE getValue() {
@@ -57,7 +61,7 @@ public class SqlParameter<VALUE> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("sql-parameter [%s - %s] - %s", index, columnName, String.valueOf(value));
+        return String.format("sql-parameter [%s - %s] - %s", index, name, String.valueOf(value));
     }
 
     @Override
@@ -65,7 +69,7 @@ public class SqlParameter<VALUE> {
         if(obj!=null && obj instanceof SqlParameter) {
             SqlParameter object = (SqlParameter) obj;
             return Objects.equals(index, object.index)
-                    && Objects.equals(columnName, object.columnName)
+                    && Objects.equals(name, object.name)
                     && Objects.equals(value, object.value)
                     && Objects.equals(sqlType, object.sqlType);
         }else {
@@ -75,7 +79,7 @@ public class SqlParameter<VALUE> {
 
     @Override
     public int hashCode(){
-        return Objects.hash(index, columnName, value, sqlType);
+        return Objects.hash(index, name, value, sqlType);
     }
     //</editor-fold>
 }
