@@ -8,12 +8,8 @@ import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.RepositoryBase;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
-import ru.strict.db.mybatis.mappers.sql.MapperSqlBase;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlExtension;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -117,13 +113,15 @@ public abstract class RepositoryMybatisBase
 
     @Override
     public List<DTO> readAll(DbRequests requests) {
+        if(requests != null){
+            throw new UnsupportedOperationException("This repository not supported a query by DbRequests");
+        }
         List<DTO> result = null;
         SqlSession session = null;
         try {
             session = createConnection();
             MAPPER mapperMybatis = session.getMapper(getMybatisMapper());
-            String requestsString = requests != null ? " " + requests.getSql() : "";
-            List<E> entities = mapperMybatis.readAll(requestsString);
+            List<E> entities = mapperMybatis.readAll("");
             result = entities.stream().map(e -> getDtoMapper().map(e)).collect(Collectors.toList());
             session.commit();
         }catch(Exception ex){
@@ -209,6 +207,9 @@ public abstract class RepositoryMybatisBase
 
     @Override
     public List<DTO> readAllFill(DbRequests requests) {
+        if(requests != null){
+            throw new UnsupportedOperationException("This repository not supported a query by DbRequests");
+        }
         List<DTO> result = null;
         SqlSession session = null;
         try {
@@ -234,13 +235,15 @@ public abstract class RepositoryMybatisBase
 
     @Override
     public int readCount(DbRequests requests) {
+        if(requests != null){
+            throw new UnsupportedOperationException("This repository not supported a query by DbRequests");
+        }
         int result = -1;
         SqlSession session = null;
         try {
             session = createConnection();
             MAPPER mapperMybatis = session.getMapper(getMybatisMapper());
-            String requestsString = requests != null ? " " + requests.getSql() : "";
-            result = mapperMybatis.readCount(requestsString);
+            result = mapperMybatis.readCount("");
             session.commit();
         }catch(Exception ex){
             if(session != null){
