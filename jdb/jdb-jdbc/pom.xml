@@ -82,7 +82,7 @@
             <configuration>
               <printSummary>true</printSummary>
               <includes>
-                <include>ru/strict/db/jdbc/**</include>
+                <include>ru/strict/db/jdbc/runners/**</include>
               </includes>
             </configuration>
           </execution>

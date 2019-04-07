@@ -102,7 +102,7 @@
             <configuration>
               <printSummary>true</printSummary>
               <includes>
-                <include>ru/strict/db/spring/**</include>
+                <include>ru/strict/db/spring/runners/**</include>
               </includes>
             </configuration>
           </execution>
