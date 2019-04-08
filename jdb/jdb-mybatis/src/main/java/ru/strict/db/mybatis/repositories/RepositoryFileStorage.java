@@ -12,7 +12,7 @@ import ru.strict.db.mybatis.mappers.sql.MapperSqlFileStorage;
 import ru.strict.utils.UtilClass;
 
 public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
-        extends RepositoryMybatisBase<ID, EntityFileStorage<ID>, DTO, MapperSqlFileStorage<ID>>
+        extends RepositoryNamedBase<ID, EntityFileStorage<ID>, DTO, MapperSqlFileStorage<ID>>
         implements IRepositoryFileStorage<ID, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"filename", "extension", "displayname", "content", "filepath",

@@ -14,7 +14,7 @@
         <result property="status" column="status"/>
     </resultMap>
 
-    <resultMap id="userFill" type="ru.strict.db.core.entities.EntityFileStorage" extends="fileStorage"></resultMap>
+    <resultMap id="fileStorageFill" type="ru.strict.db.core.entities.EntityFileStorage" extends="fileStorage"></resultMap>
 
     <insert id="create" parameterType="ru.strict.db.core.entities.EntityFileStorage">
         INSERT INTO file_storage (id, filename, extension, displayname, filepath, content, create_date, type, status)
@@ -33,8 +33,8 @@
         SELECT * FROM file_storage WHERE id = #{id}
     </select>
 
-    <select id="readAll" parameterType="String" resultMap="fileStorage">
-        SELECT * FROM file_storage ${value}
+    <select id="readAll" resultMap="fileStorage">
+        SELECT * FROM file_storage
     </select>
 
     <update id="update" parameterType="ru.strict.db.core.entities.EntityFileStorage">
@@ -47,15 +47,27 @@
         DELETE FROM file_storage WHERE id = #{id}
     </delete>
 
-    <select id="readFill" parameterType="java.lang.Object" resultMap="userFill" >
+    <select id="readFill" parameterType="java.lang.Object" resultMap="fileStorageFill" >
         SELECT * FROM file_storage WHERE id = #{id}
     </select>
 
-    <select id="readAllFill" parameterType="String" resultMap="userFill">
-        SELECT * FROM file_storage ${value}
+    <select id="readAllFill" resultMap="fileStorageFill">
+        SELECT * FROM file_storage
     </select>
 
-    <select id="readCount" parameterType="String" resultType="int">
-        SELECT COUNT(*) FROM file_storage ${value}
+    <select id="readCount" resultType="int">
+        SELECT COUNT(1) FROM file_storage
+    </select>
+
+    <select id="readCountById" parameterType="java.lang.Object" resultType="int">
+        SELECT COUNT(1) FROM file_storage WHERE id = #{id}
+    </select>
+
+    <select id="readByName" parameterType="java.lang.String" resultMap="fileStorage">
+        SELECT * FROM file_storage WHERE filename = #{caption}
+    </select>
+
+    <select id="readAllByName" parameterType="java.lang.String" resultMap="fileStorage">
+        SELECT * FROM file_storage WHERE filename = #{caption}
     </select>
 </mapper>

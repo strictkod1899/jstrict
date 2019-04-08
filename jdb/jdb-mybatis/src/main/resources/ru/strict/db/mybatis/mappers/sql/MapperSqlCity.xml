@@ -32,8 +32,8 @@
         SELECT * FROM city WHERE id = #{id}
     </select>
 
-    <select id="readAll" parameterType="String" resultMap="city">
-        SELECT * FROM city ${value}
+    <select id="readAll" resultMap="city">
+        SELECT * FROM city
     </select>
 
     <update id="update" parameterType="ru.strict.db.core.entities.EntityCity">
@@ -48,12 +48,24 @@
         SELECT * FROM city WHERE id = #{id}
     </select>
 
-    <select id="readAllFill" parameterType="String" resultMap="cityFill">
-        SELECT * FROM city ${value}
+    <select id="readAllFill" resultMap="cityFill">
+        SELECT * FROM city
     </select>
 
-    <select id="readCount" parameterType="String" resultType="int">
-        SELECT COUNT(*) FROM city ${value}
+    <select id="readCount" resultType="int">
+        SELECT COUNT(1) FROM city
+    </select>
+
+    <select id="readCountById" parameterType="java.lang.Object" resultType="int">
+        SELECT COUNT(1) FROM city WHERE id = #{id}
+    </select>
+
+    <select id="readByName" parameterType="java.lang.String" resultMap="city">
+        SELECT * FROM city WHERE caption = #{caption}
+    </select>
+
+    <select id="readAllByName" parameterType="java.lang.String" resultMap="city">
+        SELECT * FROM city WHERE caption = #{caption}
     </select>
 
     <select id="readByCountryId" parameterType="java.lang.Object" resultMap="city">

@@ -43,8 +43,8 @@
         SELECT * FROM profile WHERE id = #{id}
     </select>
 
-    <select id="readAll" parameterType="String" resultMap="profile">
-        SELECT * FROM profile ${value}
+    <select id="readAll" resultMap="profile">
+        SELECT * FROM profile
     </select>
 
     <update id="update" parameterType="ru.strict.db.core.entities.EntityProfile">
@@ -61,11 +61,15 @@
         SELECT * FROM profile WHERE id = #{id}
     </select>
 
-    <select id="readAllFill" parameterType="String" resultMap="profileFill">
-        SELECT * FROM profile ${value}
+    <select id="readAllFill" resultMap="profileFill">
+        SELECT * FROM profile
     </select>
 
-    <select id="readCount" parameterType="String" resultType="int">
-        SELECT COUNT(*) FROM profile ${value}
+    <select id="readCount" resultType="int">
+        SELECT COUNT(1) FROM profile
+    </select>
+
+    <select id="readCountById" parameterType="java.lang.Object" resultType="int">
+        SELECT COUNT(1) FROM profile WHERE id = #{id}
     </select>
 </mapper>

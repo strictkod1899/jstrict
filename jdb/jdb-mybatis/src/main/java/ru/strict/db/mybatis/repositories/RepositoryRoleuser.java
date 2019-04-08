@@ -10,7 +10,7 @@ import ru.strict.db.mybatis.mappers.sql.MapperSqlRoleuser;
 import ru.strict.utils.UtilClass;
 
 public class RepositoryRoleuser<ID>
-        extends RepositoryMybatisBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>, MapperSqlRoleuser<ID>>
+        extends RepositoryNamedBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>, MapperSqlRoleuser<ID>>
         implements IRepositoryNamed<ID, DtoRoleuser<ID>>  {
 
     private static final String[] COLUMNS_NAME = new String[] {"code", "description"};

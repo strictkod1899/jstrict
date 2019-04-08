@@ -4,6 +4,6 @@ import ru.strict.db.core.entities.EntityUser;
 
 import java.util.List;
 
-public interface MapperSqlUser<ID> extends MapperSqlExtension<ID, EntityUser<ID>> {
+public interface MapperSqlUser<ID> extends MapperSqlNamed<ID, EntityUser<ID>> {
     List<EntityUser<ID>> readByRoleId(ID roleId);
 }

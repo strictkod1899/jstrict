@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface MapperSqlBase<ID, ENTITY extends EntityBase<ID>> {
     void create(ENTITY entity);
     ENTITY read(@Param("id")ID id);
-    List<ENTITY> readAll(String requests);
+    List<ENTITY> readAll();
     void update(ENTITY entity);
     void delete(@Param("id")ID id);
 }

@@ -44,7 +44,7 @@ public abstract class RepositoryMybatisBase
             case NUMBER:
                 try {
                     session = createConnection();
-                    MAPPER mapperMybatis = session.getMapper(getMybatisMapper());
+                    MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
                     E entity = getDtoMapper().map(dto);
                     mapperMybatis.createGenerateId(entity);
                     session.commit();
@@ -65,7 +65,7 @@ public abstract class RepositoryMybatisBase
             case NONE:
                 try {
                     session = createConnection();
-                    MAPPER mapperMybatis = session.getMapper(getMybatisMapper());
+                    MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
                     E entity = getDtoMapper().map(dto);
                     mapperMybatis.create(entity);
                     session.commit();
@@ -93,7 +93,7 @@ public abstract class RepositoryMybatisBase
         SqlSession session = null;
         try {
             session = createConnection();
-            MAPPER mapperMybatis = session.getMapper(getMybatisMapper());
+            MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
             E entity = mapperMybatis.read(id);
             result = getDtoMapper().map(entity);
             session.commit();
@@ -120,8 +120,8 @@ public abstract class RepositoryMybatisBase
         SqlSession session = null;
         try {
             session = createConnection();
-            MAPPER mapperMybatis = session.getMapper(getMybatisMapper());
-            List<E> entities = mapperMybatis.readAll("");
+            MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
+            List<E> entities = mapperMybatis.readAll();
             result = entities.stream().map(e -> getDtoMapper().map(e)).collect(Collectors.toList());
             session.commit();
         }catch(Exception ex){
@@ -143,7 +143,7 @@ public abstract class RepositoryMybatisBase
         SqlSession session = null;
         try {
             session = createConnection();
-            MAPPER mapperMybatis = session.getMapper(getMybatisMapper());
+            MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
             E entity = getDtoMapper().map(dto);
             mapperMybatis.update(entity);
             session.commit();
@@ -166,7 +166,7 @@ public abstract class RepositoryMybatisBase
         SqlSession session = null;
         try {
             session = createConnection();
-            MAPPER mapperMybatis = session.getMapper(getMybatisMapper());
+            MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
             mapperMybatis.delete(id);
             session.commit();
         }catch(Exception ex){
@@ -187,7 +187,7 @@ public abstract class RepositoryMybatisBase
         SqlSession session = null;
         try {
             session = createConnection();
-            MAPPER mapperMybatis = session.getMapper(getMybatisMapper());
+            MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
             E entity = mapperMybatis.readFill(id);
             result = getDtoMapper().map(entity);
             session.commit();
@@ -214,9 +214,8 @@ public abstract class RepositoryMybatisBase
         SqlSession session = null;
         try {
             session = createConnection();
-            MAPPER mapperMybatis = session.getMapper(getMybatisMapper());
-            String requestsString = requests != null ? " " + requests.getSql() : "";
-            List<E> entities = mapperMybatis.readAllFill(requestsString);
+            MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
+            List<E> entities = mapperMybatis.readAllFill();
             result = entities.stream().map(e -> getDtoMapper().map(e)).collect(Collectors.toList());
             session.commit();
         }catch(Exception ex){
@@ -242,8 +241,35 @@ public abstract class RepositoryMybatisBase
         SqlSession session = null;
         try {
             session = createConnection();
-            MAPPER mapperMybatis = session.getMapper(getMybatisMapper());
-            result = mapperMybatis.readCount("");
+            MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
+            result = mapperMybatis.readCount();
+            session.commit();
+        }catch(Exception ex){
+            if(session != null){
+                session.rollback();
+            }
+            throw ex;
+        }finally {
+            if(session != null) {
+                session.close();
+            }
+        }
+
+        return result;
+    }
+
+    @Override
+    public boolean isRowExists(ID id) {
+        if(id == null){
+            return false;
+        }
+
+        boolean result = false;
+        SqlSession session = null;
+        try {
+            session = createConnection();
+            MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
+            result = mapperMybatis.readCountById(id) > 0 ? true : false;
             session.commit();
         }catch(Exception ex){
             if(session != null){
@@ -283,7 +309,7 @@ public abstract class RepositoryMybatisBase
         throw new UnsupportedOperationException("Implementation to this method not required");
     }
 
-    public Class<MAPPER> getMybatisMapper() {
+    public Class<MAPPER> getMybatisMapperClass() {
         return mybatisMapper;
     }
 

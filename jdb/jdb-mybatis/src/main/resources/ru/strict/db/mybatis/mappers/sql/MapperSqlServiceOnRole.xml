@@ -31,8 +31,8 @@
         SELECT * FROM service_on_role WHERE id = #{id}
     </select>
 
-    <select id="readAll" parameterType="String" resultMap="serviceOnRole">
-        SELECT * FROM service_on_role ${value}
+    <select id="readAll" resultMap="serviceOnRole">
+        SELECT * FROM service_on_role
     </select>
 
     <update id="update" parameterType="ru.strict.db.core.entities.EntityServiceOnRole">
@@ -47,11 +47,15 @@
         SELECT * FROM service_on_role WHERE id = #{id}
     </select>
 
-    <select id="readAllFill" parameterType="String" resultMap="serviceOnRoleFill">
-        SELECT * FROM service_on_role ${value}
+    <select id="readAllFill" resultMap="serviceOnRoleFill">
+        SELECT * FROM service_on_role
     </select>
 
-    <select id="readCount" parameterType="String" resultType="int">
-        SELECT COUNT(*) FROM service_on_role ${value}
+    <select id="readCount" resultType="int">
+        SELECT COUNT(1) FROM service_on_role
+    </select>
+
+    <select id="readCountById" parameterType="java.lang.Object" resultType="int">
+        SELECT COUNT(1) FROM service_on_role WHERE id = #{id}
     </select>
 </mapper>

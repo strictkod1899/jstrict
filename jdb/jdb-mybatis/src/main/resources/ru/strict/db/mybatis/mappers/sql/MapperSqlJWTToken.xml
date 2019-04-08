@@ -48,8 +48,8 @@
         SELECT * FROM token WHERE id = #{id}
     </select>
 
-    <select id="readAll" parameterType="String" resultMap="token">
-        SELECT * FROM token ${value}
+    <select id="readAll" resultMap="token">
+        SELECT * FROM token
     </select>
 
     <update id="update" parameterType="ru.strict.db.core.entities.EntityJWTToken">
@@ -68,12 +68,16 @@
         SELECT * FROM token WHERE id = #{id}
     </select>
 
-    <select id="readAllFill" parameterType="String" resultMap="tokenFill">
-        SELECT * FROM token ${value}
+    <select id="readAllFill" resultMap="tokenFill">
+        SELECT * FROM token
     </select>
 
-    <select id="readCount" parameterType="String" resultType="int">
-        SELECT COUNT(*) FROM token ${value}
+    <select id="readCount" resultType="int">
+        SELECT COUNT(1) FROM token
+    </select>
+
+    <select id="readCountById" parameterType="java.lang.Object" resultType="int">
+        SELECT COUNT(1) FROM token WHERE id = #{id}
     </select>
 
     <select id="readByUserId" parameterType="java.lang.Object" resultMap="token">

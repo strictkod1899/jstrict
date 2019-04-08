@@ -13,7 +13,7 @@ import ru.strict.db.mybatis.mappers.sql.MapperSqlUser;
 import ru.strict.utils.UtilClass;
 
 public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
-        extends RepositoryMybatisBase<ID, EntityUser<ID>, DTO, MapperSqlUser<ID>>
+        extends RepositoryNamedBase<ID, EntityUser<ID>, DTO, MapperSqlUser<ID>>
         implements IRepositoryUser<ID, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "email",

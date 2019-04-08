@@ -32,8 +32,8 @@
         SELECT * FROM country WHERE id = #{id}
     </select>
 
-    <select id="readAll" parameterType="String" resultMap="country">
-        SELECT * FROM country ${value}
+    <select id="readAll" resultMap="country">
+        SELECT * FROM country
     </select>
 
     <update id="update" parameterType="ru.strict.db.core.entities.EntityCountry">
@@ -48,11 +48,23 @@
         SELECT * FROM country WHERE id = #{id}
     </select>
 
-    <select id="readAllFill" parameterType="String" resultMap="countryFill">
-        SELECT * FROM country ${value}
+    <select id="readAllFill" resultMap="countryFill">
+        SELECT * FROM country
     </select>
 
-    <select id="readCount" parameterType="String" resultType="int">
-        SELECT COUNT(*) FROM country ${value}
+    <select id="readCount" resultType="int">
+        SELECT COUNT(1) FROM country
+    </select>
+
+    <select id="readCountById" parameterType="java.lang.Object" resultType="int">
+        SELECT COUNT(1) FROM country WHERE id = #{id}
+    </select>
+
+    <select id="readByName" parameterType="java.lang.String" resultMap="country">
+        SELECT * FROM country WHERE caption = #{caption}
+    </select>
+
+    <select id="readAllByName" parameterType="java.lang.String" resultMap="country">
+        SELECT * FROM country WHERE caption = #{caption}
     </select>
 </mapper>

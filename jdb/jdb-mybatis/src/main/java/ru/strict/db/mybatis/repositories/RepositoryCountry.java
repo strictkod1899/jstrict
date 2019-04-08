@@ -10,7 +10,7 @@ import ru.strict.db.mybatis.mappers.sql.MapperSqlCountry;
 import ru.strict.utils.UtilClass;
 
 public class RepositoryCountry<ID>
-        extends RepositoryMybatisBase<ID, EntityCountry<ID>, DtoCountry<ID>, MapperSqlCountry<ID>>
+        extends RepositoryNamedBase<ID, EntityCountry<ID>, DtoCountry<ID>, MapperSqlCountry<ID>>
         implements IRepositoryNamed<ID, DtoCountry<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption"};

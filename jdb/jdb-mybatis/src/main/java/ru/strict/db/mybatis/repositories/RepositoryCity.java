@@ -9,8 +9,10 @@ import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlCity;
 import ru.strict.utils.UtilClass;
 
+import java.util.List;
+
 public class RepositoryCity<ID>
-        extends RepositoryMybatisBase<ID, EntityCity<ID>, DtoCity<ID>, MapperSqlCity<ID>>
+        extends RepositoryNamedBase<ID, EntityCity<ID>, DtoCity<ID>, MapperSqlCity<ID>>
         implements IRepositoryCity<ID> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption", "country_id"};

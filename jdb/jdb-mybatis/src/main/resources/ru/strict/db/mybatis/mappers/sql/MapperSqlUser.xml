@@ -49,8 +49,8 @@
         SELECT * FROM userx WHERE id = #{id}
     </select>
 
-    <select id="readAll" parameterType="String" resultMap="user">
-        SELECT * FROM userx ${value}
+    <select id="readAll" resultMap="user">
+        SELECT * FROM userx
     </select>
 
     <update id="update" parameterType="ru.strict.db.core.entities.EntityUser">
@@ -67,15 +67,27 @@
         SELECT * FROM userx WHERE id = #{id}
     </select>
 
-    <select id="readAllFill" parameterType="String" resultMap="userFill">
-        SELECT * FROM userx ${value}
+    <select id="readAllFill" resultMap="userFill">
+        SELECT * FROM userx
     </select>
 
-    <select id="readCount" parameterType="String" resultType="int">
-        SELECT COUNT(*) FROM userx ${value}
+    <select id="readCount" resultType="int">
+        SELECT COUNT(1) FROM userx
+    </select>
+
+    <select id="readCountById" parameterType="java.lang.Object" resultType="int">
+        SELECT COUNT(1) FROM userx WHERE id = #{id}
     </select>
 
     <select id="readByRoleId" parameterType="java.lang.Object" resultMap="user">
         SELECT * FROM userx WHERE id IN (SELECT userx_id FROM user_on_role WHERE roleuser_id = #{roleId})
+    </select>
+
+    <select id="readByName" parameterType="java.lang.String" resultMap="user">
+        SELECT * FROM userx WHERE username = #{caption}
+    </select>
+
+    <select id="readAllByName" parameterType="java.lang.String" resultMap="user">
+        SELECT * FROM userx WHERE username = #{caption}
     </select>
 </mapper>

@@ -36,8 +36,8 @@
         SELECT * FROM user_on_role WHERE id = #{id}
     </select>
 
-    <select id="readAll" parameterType="String" resultMap="userOnRole">
-        SELECT * FROM user_on_role ${value}
+    <select id="readAll" resultMap="userOnRole">
+        SELECT * FROM user_on_role
     </select>
 
     <update id="update" parameterType="ru.strict.db.core.entities.EntityUserOnRole">
@@ -52,11 +52,15 @@
         SELECT * FROM user_on_role WHERE id = #{id}
     </select>
 
-    <select id="readAllFill" parameterType="String" resultMap="userOnRoleFill">
-        SELECT * FROM user_on_role ${value}
+    <select id="readAllFill" resultMap="userOnRoleFill">
+        SELECT * FROM user_on_role
     </select>
 
-    <select id="readCount" parameterType="String" resultType="int">
-        SELECT COUNT(*) FROM user_on_role ${value}
+    <select id="readCount" resultType="int">
+        SELECT COUNT(1) FROM user_on_role
+    </select>
+
+    <select id="readCountById" parameterType="java.lang.Object" resultType="int">
+        SELECT COUNT(1) FROM user_on_role WHERE id = #{id}
     </select>
 </mapper>

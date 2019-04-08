@@ -4,6 +4,6 @@ import ru.strict.db.core.entities.EntityCity;
 
 import java.util.List;
 
-public interface MapperSqlCity<ID> extends MapperSqlExtension<ID, EntityCity<ID>> {
+public interface MapperSqlCity<ID> extends MapperSqlNamed<ID, EntityCity<ID>> {
     List<EntityCity<ID>> readByCountryId(ID countryId);
 }
