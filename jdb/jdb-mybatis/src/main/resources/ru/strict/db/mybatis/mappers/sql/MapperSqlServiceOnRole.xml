@@ -58,4 +58,12 @@
     <select id="readCountById" parameterType="java.lang.Object" resultType="int">
         SELECT COUNT(1) FROM service_on_role WHERE id = #{id}
     </select>
+
+    <select id="readByServiceId" parameterType="java.lang.Integer" resultMap="serviceOnRole">
+        SELECT * FROM service_on_role WHERE service_id = #{serviceId}
+    </select>
+
+    <select id="readByRoleId" parameterType="java.lang.Object" resultMap="serviceOnRole">
+        SELECT * FROM service_on_role WHERE roleuser_id = #{roleId}
+    </select>
 </mapper>

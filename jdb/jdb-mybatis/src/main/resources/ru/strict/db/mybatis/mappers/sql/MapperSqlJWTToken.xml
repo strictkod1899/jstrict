@@ -83,4 +83,12 @@
     <select id="readByUserId" parameterType="java.lang.Object" resultMap="token">
         SELECT * FROM token WHERE userx_id = #{userId}
     </select>
+
+    <select id="readByAccessToken" parameterType="java.lang.String" resultMap="token">
+        SELECT * FROM token WHERE access_token = #{accessToken}
+    </select>
+
+    <select id="readByRefreshToken" parameterType="java.lang.String" resultMap="token">
+        SELECT * FROM token WHERE refresh_token = #{refreshToken}
+    </select>
 </mapper>

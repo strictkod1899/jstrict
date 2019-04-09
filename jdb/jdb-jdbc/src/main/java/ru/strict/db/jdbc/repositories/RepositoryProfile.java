@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Репозиторий таблицы "profile". Определяет столбцы: "name", "surname", "middlename", "user_id"
+ * Репозиторий таблицы "profile". Определяет столбцы: "name", "surname", "middlename", "userx_id"
  * @param <ID> Тип идентификатора
  */
 public class RepositoryProfile<ID>

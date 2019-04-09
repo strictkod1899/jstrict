@@ -6,6 +6,8 @@ import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.validates.ValidateBaseValue;
 
+import java.util.List;
+
 public interface IRepositoryJWTToken<ID> extends IRepositoryExtension<ID, DtoJWTToken<ID>> {
     default DtoJWTToken<ID> readByAccessToken(String accessToken){
         if(ValidateBaseValue.isEmptyOrNull(accessToken)){
@@ -26,6 +28,17 @@ public interface IRepositoryJWTToken<ID> extends IRepositoryExtension<ID, DtoJWT
         requests.addWhere(new DbWhereItem(getTableName(), "refresh_token", refreshToken, "="));
 
         DtoJWTToken<ID> result = readAll(requests).stream().findFirst().orElse(null);
+        return result;
+    }
+
+    default List<DtoJWTToken<ID>> readByUserId(ID userId){
+        if(userId == null){
+            throw new NullPointerException("userId for read is NULL");
+        }
+        DbRequests requests = new DbRequests();
+        requests.addWhere(new DbWhereItem(getTableName(), "userx_id", userId, "="));
+
+        List<DtoJWTToken<ID>> result = readAll(requests);
         return result;
     }
 }

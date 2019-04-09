@@ -48,7 +48,7 @@
         DELETE FROM user_on_role WHERE id = #{id}
     </delete>
 
-    <select id="readFill" parameterType="java.lang.Object" resultMap="userOnRoleFill" >
+    <select id="readFill" parameterType="java.lang.Object" resultMap="userOnRoleFill">
         SELECT * FROM user_on_role WHERE id = #{id}
     </select>
 
@@ -62,5 +62,13 @@
 
     <select id="readCountById" parameterType="java.lang.Object" resultType="int">
         SELECT COUNT(1) FROM user_on_role WHERE id = #{id}
+    </select>
+
+    <select id="readByUserId" parameterType="java.lang.Object" resultMap="userOnRole">
+        SELECT * FROM user_on_role WHERE userx_id = #{userId}
+    </select>
+
+    <select id="readByRoleId" parameterType="java.lang.Object" resultMap="userOnRole">
+        SELECT * FROM user_on_role WHERE roleuser_id = #{roleId}
     </select>
 </mapper>

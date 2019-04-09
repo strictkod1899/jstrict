@@ -70,4 +70,28 @@
     <select id="readAllByName" parameterType="java.lang.String" resultMap="fileStorage">
         SELECT * FROM file_storage WHERE filename = #{caption}
     </select>
+
+    <select id="readByDisplayName" parameterType="java.lang.String" resultMap="fileStorage">
+        SELECT * FROM file_storage WHERE displayname = #{displayName}
+    </select>
+
+    <select id="readByFileNameAndExtension" parameterType="map" resultMap="fileStorage">
+        SELECT * FROM file_storage WHERE filename = #{fileName} AND extension = #{extension}
+    </select>
+
+    <select id="readByDisplayNameAndExtension" parameterType="map" resultMap="fileStorage">
+        SELECT * FROM file_storage WHERE displayname = #{displayName} AND extension = #{extension}
+    </select>
+
+    <select id="readByFilePath" parameterType="java.lang.String" resultMap="fileStorage">
+        SELECT * FROM file_storage WHERE filepath = #{filePath}
+    </select>
+
+    <select id="readByType" parameterType="java.lang.Integer" resultMap="fileStorage">
+        SELECT * FROM file_storage WHERE type = #{type}
+    </select>
+
+    <select id="readByStatus" parameterType="java.lang.Integer" resultMap="fileStorage">
+        SELECT * FROM file_storage WHERE status = #{status}
+    </select>
 </mapper>

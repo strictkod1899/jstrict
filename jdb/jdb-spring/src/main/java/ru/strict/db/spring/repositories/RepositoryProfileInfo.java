@@ -20,7 +20,7 @@ import java.util.Map;
 
 /**
  * Репозиторий таблицы "profileinfo".
- * Определяет столбцы: "name", "surname", "middlename", "user_id", "datebirth", "phone", "city_id"
+ * Определяет столбцы: "name", "surname", "middlename", "userx_id", "datebirth", "phone", "city_id"
  * @param <ID> Тип идентификатора
  */
 public class RepositoryProfileInfo<ID>

@@ -67,4 +67,29 @@
     <select id="readByUserId" parameterType="java.lang.Object" resultMap="profile">
         SELECT * FROM profile WHERE userx_id = #{userId}
     </select>
+
+    <select id="readByFio" parameterType="map" resultMap="profile">
+        SELECT * FROM profile
+        WHERE
+        <if test="name != null" >
+            name = #{name}
+        </if>
+        <if test="name == null" >
+            name IS NULL
+        </if>
+        AND
+        <if test="surname != null" >
+            surname = #{surname}
+        </if>
+        <if test="surname == null" >
+            surname IS NULL
+        </if>
+        AND
+        <if test="middlename != null" >
+            middlename = #{middlename}
+        </if>
+        <if test="middlename == null" >
+            middlename IS NULL
+        </if>
+    </select>
 </mapper>

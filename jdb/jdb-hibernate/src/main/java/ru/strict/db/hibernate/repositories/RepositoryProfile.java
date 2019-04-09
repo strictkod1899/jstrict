@@ -11,7 +11,7 @@ import ru.strict.utils.UtilClass;
 import java.io.Serializable;
 
 /**
- * Репозиторий таблицы "profile". Определяет столбцы: "name", "surname", "middlename", "user_id"
+ * Репозиторий таблицы "profile". Определяет столбцы: "name", "surname", "middlename", "userx_id"
  */
 public class RepositoryProfile<ID extends Serializable>
         extends RepositoryHibernateBase<ID, EntityProfile<ID>, DtoProfile<ID>>

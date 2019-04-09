@@ -1,5 +1,6 @@
 package ru.strict.db.mybatis.repositories;
 
+import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoServiceOnRole;
 import ru.strict.db.core.entities.EntityServiceOnRole;
@@ -8,6 +9,9 @@ import ru.strict.db.core.repositories.interfaces.IRepositoryServiceOnRole;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlServiceOnRole;
 import ru.strict.utils.UtilClass;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class RepositoryServiceOnRole<ID, SERVICE>
         extends RepositoryMybatisBase<ID, EntityServiceOnRole<ID, SERVICE>, DtoServiceOnRole<ID, SERVICE>, MapperSqlServiceOnRole<ID, SERVICE>>
@@ -24,6 +28,60 @@ public class RepositoryServiceOnRole<ID, SERVICE>
                 UtilClass.<MapperSqlServiceOnRole<ID, SERVICE>>castClass(MapperSqlServiceOnRole.class),
                 dtoMapper,
                 generateIdType);
+    }
+
+    @Override
+    public List<DtoServiceOnRole<ID, SERVICE>> readByServiceId(Integer serviceId) {
+        if(serviceId == null){
+            throw new NullPointerException("serviceId for read is NULL");
+        }
+        List<DtoServiceOnRole<ID, SERVICE>> result = null;
+        SqlSession session = null;
+        try {
+            session = createConnection();
+            MapperSqlServiceOnRole<ID, SERVICE> mapperMybatis = session.getMapper(getMybatisMapperClass());
+            List<EntityServiceOnRole<ID, SERVICE>> entities = mapperMybatis.readByServiceId(serviceId);
+            result = entities.stream().map(e -> getDtoMapper().map(e)).collect(Collectors.toList());
+            session.commit();
+        }catch(Exception ex){
+            if(session != null){
+                session.rollback();
+            }
+            throw ex;
+        }finally {
+            if(session != null) {
+                session.close();
+            }
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<DtoServiceOnRole<ID, SERVICE>> readByRoleId(ID roleId) {
+        if(roleId == null){
+            throw new NullPointerException("roleId for read is NULL");
+        }
+        List<DtoServiceOnRole<ID, SERVICE>> result = null;
+        SqlSession session = null;
+        try {
+            session = createConnection();
+            MapperSqlServiceOnRole<ID, SERVICE> mapperMybatis = session.getMapper(getMybatisMapperClass());
+            List<EntityServiceOnRole<ID, SERVICE>> entities = mapperMybatis.readByRoleId(roleId);
+            result = entities.stream().map(e -> getDtoMapper().map(e)).collect(Collectors.toList());
+            session.commit();
+        }catch(Exception ex){
+            if(session != null){
+                session.rollback();
+            }
+            throw ex;
+        }finally {
+            if(session != null) {
+                session.close();
+            }
+        }
+
+        return result;
     }
 
     @Override
