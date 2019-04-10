@@ -7,6 +7,7 @@ import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepositoryNamed;
+import ru.strict.db.core.repositories.interfaces.IRepositoryUser;
 import ru.strict.db.jdbc.data.TestData;
 import ru.strict.db.jdbc.repositories.RepositoryUser;
 import ru.strict.db.jdbc.runners.TestRunner;
@@ -17,9 +18,9 @@ import java.util.UUID;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRepositoryUser {
 
-    private static IRepositoryNamed<Integer, DtoUser<Integer>> REPOSITORY_NOT_GENERATE_ID;
-    private static IRepositoryNamed<Integer, DtoUser<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
-    private static IRepositoryNamed<UUID, DtoUser<UUID>> REPOSITORY_GENERATE_UUID_ID;
+    private static IRepositoryUser<Integer, DtoUser<Integer>> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryUser<Integer, DtoUser<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
+    private static IRepositoryUser<UUID, DtoUser<UUID>> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
     public static void prepare(){
@@ -128,7 +129,8 @@ public class TestRepositoryUser {
     @Test
     public void test010ReadAllByName(){
         List<DtoUser<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAllByName(TestData.USER1.getUsername());
-        Assert.assertTrue(list.size() == 1 && list.get(0).equals(TestData.USER1));
+        Assert.assertTrue(list.size() == 1);
+        Assert.assertTrue(list.get(0).equals(TestData.USER1));
     }
 
     /**
@@ -206,5 +208,30 @@ public class TestRepositoryUser {
         DtoUser<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.USER1.getId());
         Assert.assertTrue(list.size() == 3);
         Assert.assertNull(dto);
+    }
+
+    @Test
+    public void test019ReadByEmail(){
+        REPOSITORY_GENERATE_NUMBER_ID.create(TestData.USER2);
+        DtoUser dto = REPOSITORY_GENERATE_NUMBER_ID.readByEmail(TestData.USER2.getEmail());
+        Assert.assertEquals(dto, TestData.USER2);
+    }
+
+    @Test
+    public void test020IsDeleted(){
+        boolean result = REPOSITORY_GENERATE_NUMBER_ID.isDeleted(TestData.USER2.getId());
+        Assert.assertFalse(result);
+    }
+
+    @Test
+    public void test021IsBlocked(){
+        boolean result = REPOSITORY_GENERATE_NUMBER_ID.isBlocked(TestData.USER2.getId());
+        Assert.assertFalse(result);
+    }
+
+    @Test
+    public void test022IsConfirmEmail(){
+        boolean result = REPOSITORY_GENERATE_NUMBER_ID.isConfirmEmail(TestData.USER2.getId());
+        Assert.assertFalse(result);
     }
 }

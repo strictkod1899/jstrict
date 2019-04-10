@@ -120,7 +120,8 @@ public class TestRepositoryRoleuser {
     @Test
     public void test010ReadAllByName(){
         List<DtoRoleuser<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAllByName(TestData.ROLEUSER1.getCode());
-        Assert.assertTrue(list.size() == 1 && list.get(0).equals(TestData.ROLEUSER1));
+        Assert.assertTrue(list.size() == 1);
+        Assert.assertTrue(list.get(0).equals(TestData.ROLEUSER1));
     }
 
     /**

@@ -7,6 +7,7 @@ import ru.strict.db.core.dto.DtoJWTToken;
 import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.core.repositories.IRepositoryNamed;
+import ru.strict.db.core.repositories.interfaces.IRepositoryJWTToken;
 import ru.strict.db.jdbc.data.TestData;
 import ru.strict.db.jdbc.repositories.RepositoryJWTToken;
 import ru.strict.db.jdbc.repositories.RepositoryUser;
@@ -19,9 +20,9 @@ import java.util.UUID;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRepositoryJWTToken {
 
-    private static IRepositoryExtension<Integer, DtoJWTToken<Integer>> REPOSITORY_NOT_GENERATE_ID;
-    private static IRepositoryExtension<Integer, DtoJWTToken<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
-    private static IRepositoryExtension<UUID, DtoJWTToken<UUID>> REPOSITORY_GENERATE_UUID_ID;
+    private static IRepositoryJWTToken<Integer> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryJWTToken<Integer> REPOSITORY_GENERATE_NUMBER_ID;
+    private static IRepositoryJWTToken<UUID> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
     public static void prepare(){
@@ -201,5 +202,25 @@ public class TestRepositoryJWTToken {
         DtoJWTToken<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.JWT_TOKEN1.getId());
         Assert.assertTrue(list.size() == 3);
         Assert.assertNull(dto);
+    }
+
+    @Test
+    public void test019ReadByAccessToken(){
+        REPOSITORY_GENERATE_NUMBER_ID.create(TestData.JWT_TOKEN2);
+        DtoJWTToken<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.readByAccessToken(TestData.JWT_TOKEN2.getAccessToken());
+        Assert.assertTrue(dto.equals(TestData.JWT_TOKEN2));
+    }
+
+    @Test
+    public void test020ReadByRefreshToken(){
+        DtoJWTToken<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.readByRefreshToken(TestData.JWT_TOKEN2.getRefreshToken());
+        Assert.assertTrue(dto.equals(TestData.JWT_TOKEN2));
+    }
+
+    @Test
+    public void test021ReadByUserId(){
+        List<DtoJWTToken<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByUserId(TestData.JWT_TOKEN2.getUserId());
+        Assert.assertTrue(list.size() == 1);
+        Assert.assertTrue(list.get(0).equals(TestData.JWT_TOKEN2));
     }
 }

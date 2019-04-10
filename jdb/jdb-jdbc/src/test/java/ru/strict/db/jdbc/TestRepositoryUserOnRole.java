@@ -8,6 +8,7 @@ import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.dto.DtoUserOnRole;
 import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.core.repositories.IRepositoryNamed;
+import ru.strict.db.core.repositories.interfaces.IRepositoryUserOnRole;
 import ru.strict.db.jdbc.data.TestData;
 import ru.strict.db.jdbc.repositories.RepositoryRoleuser;
 import ru.strict.db.jdbc.repositories.RepositoryUser;
@@ -20,9 +21,9 @@ import java.util.UUID;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRepositoryUserOnRole {
 
-    private static IRepositoryExtension<Integer, DtoUserOnRole<Integer>> REPOSITORY_NOT_GENERATE_ID;
-    private static IRepositoryExtension<Integer, DtoUserOnRole<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
-    private static IRepositoryExtension<UUID, DtoUserOnRole<UUID>> REPOSITORY_GENERATE_UUID_ID;
+    private static IRepositoryUserOnRole<Integer> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryUserOnRole<Integer> REPOSITORY_GENERATE_NUMBER_ID;
+    private static IRepositoryUserOnRole<UUID> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
     public static void prepare(){
@@ -203,10 +204,23 @@ public class TestRepositoryUserOnRole {
      */
     @Test
     public void test018Delete(){
-        REPOSITORY_GENERATE_NUMBER_ID.delete(TestData.CITY1.getId());
+        REPOSITORY_GENERATE_NUMBER_ID.delete(TestData.USER_ON_ROLE1.getId());
         List<DtoUserOnRole<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
         DtoUserOnRole<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.USER_ON_ROLE1.getId());
         Assert.assertTrue(list.size() == 3);
         Assert.assertNull(dto);
+    }
+
+    @Test
+    public void test019ReadByUserId(){
+        List<DtoUserOnRole<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByUserId(TestData.USER_ON_ROLE4.getUserId());
+        Assert.assertTrue(list.size() == 1);
+        Assert.assertTrue(list.get(0).equals(TestData.USER_ON_ROLE4));
+    }
+
+    @Test
+    public void test020ReadByRoleId(){
+        List<DtoUserOnRole<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByRoleId(TestData.USER_ON_ROLE4.getRoleId());
+        Assert.assertTrue(list.size() == 2);
     }
 }

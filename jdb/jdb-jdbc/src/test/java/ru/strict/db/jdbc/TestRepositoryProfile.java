@@ -7,6 +7,7 @@ import ru.strict.db.core.dto.DtoProfile;
 import ru.strict.db.core.dto.DtoUser;
 import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.core.repositories.IRepositoryNamed;
+import ru.strict.db.core.repositories.interfaces.IRepositoryProfile;
 import ru.strict.db.jdbc.data.TestData;
 import ru.strict.db.jdbc.repositories.RepositoryProfile;
 import ru.strict.db.jdbc.repositories.RepositoryUser;
@@ -18,9 +19,9 @@ import java.util.UUID;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRepositoryProfile {
 
-    private static IRepositoryExtension<Integer, DtoProfile<Integer>> REPOSITORY_NOT_GENERATE_ID;
-    private static IRepositoryExtension<Integer, DtoProfile<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
-    private static IRepositoryExtension<UUID, DtoProfile<UUID>> REPOSITORY_GENERATE_UUID_ID;
+    private static IRepositoryProfile<Integer, DtoProfile<Integer>> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryProfile<Integer, DtoProfile<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
+    private static IRepositoryProfile<UUID, DtoProfile<UUID>> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
     public static void prepare(){
@@ -204,5 +205,24 @@ public class TestRepositoryProfile {
         DtoProfile<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.PROFILE1.getId());
         Assert.assertTrue(list.size() == 3);
         Assert.assertNull(dto);
+    }
+
+    @Test
+    public void test019ReadByFio(){
+        REPOSITORY_GENERATE_NUMBER_ID.create(TestData.PROFILE2);
+        List<DtoProfile<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByFio(
+                TestData.PROFILE2.getName(),
+                TestData.PROFILE2.getSurname(),
+                TestData.PROFILE2.getMiddlename()
+        );
+        Assert.assertTrue(list.size() == 1);
+        Assert.assertTrue(list.get(0).equals(TestData.PROFILE2));
+    }
+
+    @Test
+    public void test020ReadByUserId(){
+        List<DtoProfile<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByUserId(TestData.PROFILE2.getUserId());
+        Assert.assertTrue(list.size() == 1);
+        Assert.assertTrue(list.get(0).equals(TestData.PROFILE2));
     }
 }
