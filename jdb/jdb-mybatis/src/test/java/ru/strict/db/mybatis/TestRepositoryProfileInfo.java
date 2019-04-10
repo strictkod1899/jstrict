@@ -6,8 +6,8 @@ import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoCity;
 import ru.strict.db.core.dto.DtoProfileInfo;
 import ru.strict.db.core.dto.DtoUser;
-import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.core.repositories.IRepositoryNamed;
+import ru.strict.db.core.repositories.interfaces.IRepositoryProfile;
 import ru.strict.db.mybatis.data.TestData;
 import ru.strict.db.mybatis.repositories.RepositoryCity;
 import ru.strict.db.mybatis.repositories.RepositoryProfileInfo;
@@ -21,9 +21,9 @@ import java.util.UUID;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRepositoryProfileInfo {
 
-    private static IRepositoryExtension<Integer, DtoProfileInfo<Integer>> REPOSITORY_NOT_GENERATE_ID;
-    private static IRepositoryExtension<Integer, DtoProfileInfo<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
-    private static IRepositoryExtension<UUID, DtoProfileInfo<UUID>> REPOSITORY_GENERATE_UUID_ID;
+    private static IRepositoryProfile<Integer, DtoProfileInfo<Integer>> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryProfile<Integer, DtoProfileInfo<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
+    private static IRepositoryProfile<UUID, DtoProfileInfo<UUID>> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
     public static void prepare(){
@@ -216,5 +216,24 @@ public class TestRepositoryProfileInfo {
         DtoProfileInfo<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.PROFILE_INFO1.getId());
         Assert.assertTrue(list.size() == 3);
         Assert.assertNull(dto);
+    }
+
+    @Test
+    public void test019ReadByFio(){
+        REPOSITORY_GENERATE_NUMBER_ID.create(TestData.PROFILE_INFO2);
+        List<DtoProfileInfo<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByFio(
+                TestData.PROFILE_INFO2.getName(),
+                TestData.PROFILE_INFO2.getSurname(),
+                TestData.PROFILE_INFO2.getMiddlename()
+        );
+        Assert.assertTrue(list.size() == 1);
+        Assert.assertTrue(list.get(0).equals(TestData.PROFILE_INFO2));
+    }
+
+    @Test
+    public void test020ReadByUserId(){
+        List<DtoProfileInfo<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByUserId(TestData.PROFILE_INFO2.getUserId());
+        Assert.assertTrue(list.size() == 1);
+        Assert.assertTrue(list.get(0).equals(TestData.PROFILE_INFO2));
     }
 }

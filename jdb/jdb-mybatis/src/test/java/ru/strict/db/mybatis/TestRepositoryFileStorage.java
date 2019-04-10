@@ -4,7 +4,7 @@ import org.junit.*;
 import org.junit.runners.MethodSorters;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoFileStorage;
-import ru.strict.db.core.repositories.IRepositoryNamed;
+import ru.strict.db.core.repositories.interfaces.IRepositoryFileStorage;
 import ru.strict.db.mybatis.data.TestData;
 import ru.strict.db.mybatis.repositories.RepositoryFileStorage;
 import ru.strict.db.mybatis.runners.TestRunner;
@@ -16,9 +16,9 @@ import java.util.UUID;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRepositoryFileStorage {
 
-    private static IRepositoryNamed<Integer, DtoFileStorage<Integer>> REPOSITORY_NOT_GENERATE_ID;
-    private static IRepositoryNamed<Integer, DtoFileStorage<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
-    private static IRepositoryNamed<UUID, DtoFileStorage<UUID>> REPOSITORY_GENERATE_UUID_ID;
+    private static IRepositoryFileStorage<Integer, DtoFileStorage<Integer>> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryFileStorage<Integer, DtoFileStorage<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
+    private static IRepositoryFileStorage<UUID, DtoFileStorage<UUID>> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
     public static void prepare(){
@@ -121,7 +121,8 @@ public class TestRepositoryFileStorage {
     @Test
     public void test010ReadAllByName(){
         List<DtoFileStorage<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAllByName(TestData.FILE_STORAGE1.getFilename());
-        Assert.assertTrue(list.size() == 1 && list.get(0).equals(TestData.FILE_STORAGE1));
+        Assert.assertTrue(list.size() == 1);
+        Assert.assertTrue(list.get(0).equals(TestData.FILE_STORAGE1));
     }
 
     /**
@@ -199,5 +200,53 @@ public class TestRepositoryFileStorage {
         DtoFileStorage<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.FILE_STORAGE1.getId());
         Assert.assertTrue(list.size() == 3);
         Assert.assertNull(dto);
+    }
+
+    @Test
+    public void test019ReadByDisplayName(){
+        REPOSITORY_GENERATE_NUMBER_ID.create(TestData.FILE_STORAGE2);
+        List<DtoFileStorage<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByDisplayName(TestData.FILE_STORAGE2.getDisplayName());
+        Assert.assertTrue(list.size() == 1);
+        Assert.assertTrue(list.get(0).equals(TestData.FILE_STORAGE2));
+    }
+
+    @Test
+    public void test020ReadByFileNameAndExtension(){
+        List<DtoFileStorage<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByFileNameAndExtension(
+                TestData.FILE_STORAGE2.getFilename(),
+                TestData.FILE_STORAGE2.getExtension()
+        );
+        Assert.assertTrue(list.size() == 1);
+        Assert.assertTrue(list.get(0).equals(TestData.FILE_STORAGE2));
+    }
+
+    @Test
+    public void test021ReadByDisplayNameAndExtension(){
+        List<DtoFileStorage<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByDisplayNameAndExtension(
+                TestData.FILE_STORAGE2.getDisplayName(),
+                TestData.FILE_STORAGE2.getExtension()
+        );
+        Assert.assertTrue(list.size() == 1);
+        Assert.assertTrue(list.get(0).equals(TestData.FILE_STORAGE2));
+    }
+
+    @Test
+    public void test022ReadByFilePath(){
+        DtoFileStorage<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.readByFilePath(TestData.FILE_STORAGE2.getFilePath());
+        Assert.assertTrue(dto.equals(TestData.FILE_STORAGE2));
+    }
+
+    @Test
+    public void test023ReadByType(){
+        List<DtoFileStorage<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByType(TestData.FILE_STORAGE2.getType());
+        Assert.assertTrue(list.size() == 1);
+        Assert.assertTrue(list.get(0).equals(TestData.FILE_STORAGE2));
+    }
+
+    @Test
+    public void test024ReadByStatus(){
+        List<DtoFileStorage<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByStatus(TestData.FILE_STORAGE2.getStatus());
+        Assert.assertTrue(list.size() == 1);
+        Assert.assertTrue(list.get(0).equals(TestData.FILE_STORAGE2));
     }
 }

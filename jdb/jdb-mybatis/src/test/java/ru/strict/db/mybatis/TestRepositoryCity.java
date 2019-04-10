@@ -6,6 +6,7 @@ import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.dto.DtoCity;
 import ru.strict.db.core.dto.DtoCountry;
 import ru.strict.db.core.repositories.IRepositoryNamed;
+import ru.strict.db.core.repositories.interfaces.IRepositoryCity;
 import ru.strict.db.mybatis.data.TestData;
 import ru.strict.db.mybatis.repositories.RepositoryCity;
 import ru.strict.db.mybatis.repositories.RepositoryCountry;
@@ -17,9 +18,9 @@ import java.util.UUID;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRepositoryCity {
 
-    private static IRepositoryNamed<Integer, DtoCity<Integer>> REPOSITORY_NOT_GENERATE_ID;
-    private static IRepositoryNamed<Integer, DtoCity<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
-    private static IRepositoryNamed<UUID, DtoCity<UUID>> REPOSITORY_GENERATE_UUID_ID;
+    private static IRepositoryCity<Integer> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryCity<Integer> REPOSITORY_GENERATE_NUMBER_ID;
+    private static IRepositoryCity<UUID> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
     public static void prepare(){
@@ -137,7 +138,8 @@ public class TestRepositoryCity {
     @Test
     public void test010ReadAllByName(){
         List<DtoCity<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAllByName(TestData.CITY1.getCaption());
-        Assert.assertTrue(list.size() == 1 && list.get(0).equals(TestData.CITY1));
+        Assert.assertTrue(list.size() == 1);
+        Assert.assertTrue(list.get(0).equals(TestData.CITY1));
     }
 
     /**
@@ -215,5 +217,11 @@ public class TestRepositoryCity {
         DtoCity<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.CITY1.getId());
         Assert.assertTrue(list.size() == 3);
         Assert.assertNull(dto);
+    }
+
+    @Test
+    public void test019ReadByCountryId(){
+        List<DtoCity<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByCountryId(TestData.COUNTRY1.getId());
+        Assert.assertTrue(list.size() == 3);
     }
 }

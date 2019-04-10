@@ -8,8 +8,8 @@ import ru.strict.db.core.dto.DtoServiceOnRole;
 import ru.strict.db.core.entities.EntityRoleuser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.mappers.dto.MapperDtoServiceOnRole;
-import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.core.repositories.IRepositoryNamed;
+import ru.strict.db.core.repositories.interfaces.IRepositoryServiceOnRole;
 import ru.strict.db.mybatis.data.ServiceModel;
 import ru.strict.db.mybatis.data.ServiceProvider;
 import ru.strict.db.mybatis.data.TestData;
@@ -23,9 +23,9 @@ import java.util.UUID;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRepositoryServiceOnRole {
 
-    private static IRepositoryExtension<Integer, DtoServiceOnRole<Integer, ServiceModel>> REPOSITORY_NOT_GENERATE_ID;
-    private static IRepositoryExtension<Integer, DtoServiceOnRole<Integer, ServiceModel>> REPOSITORY_GENERATE_NUMBER_ID;
-    private static IRepositoryExtension<UUID, DtoServiceOnRole<UUID, ServiceModel>> REPOSITORY_GENERATE_UUID_ID;
+    private static IRepositoryServiceOnRole<Integer, ServiceModel> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryServiceOnRole<Integer, ServiceModel> REPOSITORY_GENERATE_NUMBER_ID;
+    private static IRepositoryServiceOnRole<UUID, ServiceModel> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
     public static void prepare(){
@@ -207,10 +207,23 @@ public class TestRepositoryServiceOnRole {
      */
     @Test
     public void test018Delete(){
-        REPOSITORY_GENERATE_NUMBER_ID.delete(TestData.CITY1.getId());
+        REPOSITORY_GENERATE_NUMBER_ID.delete(TestData.SERVICE_ON_ROLE1.getId());
         List<DtoServiceOnRole<Integer, ServiceModel>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
         DtoServiceOnRole<Integer, ServiceModel> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.SERVICE_ON_ROLE1.getId());
         Assert.assertTrue(list.size() == 3);
         Assert.assertNull(dto);
+    }
+
+    @Test
+    public void test019ReadByServiceId(){
+        List<DtoServiceOnRole<Integer, ServiceModel>> list = REPOSITORY_GENERATE_NUMBER_ID.readByServiceId(TestData.SERVICE_ON_ROLE4.getServiceId());
+        Assert.assertTrue(list.size() == 1);
+        Assert.assertTrue(list.get(0).equals(TestData.SERVICE_ON_ROLE4));
+    }
+
+    @Test
+    public void test020ReadByRoleId(){
+        List<DtoServiceOnRole<Integer, ServiceModel>> list = REPOSITORY_GENERATE_NUMBER_ID.readByRoleId(TestData.SERVICE_ON_ROLE4.getRoleId());
+        Assert.assertTrue(list.size() == 2);
     }
 }

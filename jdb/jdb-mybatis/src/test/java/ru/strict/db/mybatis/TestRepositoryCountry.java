@@ -120,7 +120,8 @@ public class TestRepositoryCountry {
     @Test
     public void test010ReadAllByName(){
         List<DtoCountry<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAllByName(TestData.COUNTRY1.getCaption());
-        Assert.assertTrue(list.size() == 1 && list.get(0).equals(TestData.COUNTRY1));
+        Assert.assertTrue(list.size() == 1);
+        Assert.assertTrue(list.get(0).equals(TestData.COUNTRY1));
     }
 
     /**
