@@ -56,17 +56,25 @@ public class TestData {
     public static final DtoProfile<Integer> PROFILE1_UPDATED = new DtoProfile<>(111, "name1_updated", "surname1_updated", "middlename2_updated", USER1.getId());
     public static final DtoProfile<UUID> PROFILE1_UUID = new DtoProfile<>(UUID.randomUUID(), "name1", "surname1", "middlename2", USER1_UUID.getId());
 
+    public static final DtoProfile<Integer> PROFILE2 = new DtoProfile<>(112, "name2", "surname2", "middlename2", USER1.getId());
+
     public static final DtoProfileInfo<Integer> PROFILE_INFO1 = new DtoProfileInfo<>(111, "name1", "surname1", "middlename2", USER1.getId(), new Date(), "phone1", CITY1.getId());
     public static final DtoProfileInfo<Integer> PROFILE_INFO1_UPDATED = new DtoProfileInfo<>(111, "name1_updated", "surname1_updated", "middlename2_updated", USER1.getId(), new Date(), "phone1_updated", CITY2.getId());
     public static final DtoProfileInfo<UUID> PROFILE_INFO1_UUID = new DtoProfileInfo<>(UUID.randomUUID(), "name1", "surname1", "middlename2", USER1_UUID.getId(), new Date(), "phone1", CITY1_UUID.getId());
 
+    public static final DtoProfileInfo<Integer> PROFILE_INFO2 = new DtoProfileInfo<>(112, "name2", "surname2", "middlename2", USER1.getId(), new Date(), "phone1", CITY1.getId());
+
     public static final DtoFileStorage<Integer> FILE_STORAGE1 = new DtoFileStorage<>(111, "filename1", "extension1", "displayname1", new Date(), 1, 1, "filepath1", new byte[]{ 1, 2, 3, 4, 5, 6, 7, 8 });
-    public static final DtoFileStorage<Integer> FILE_STORAGE1_UPDATED = new DtoFileStorage<>(111, "filename1_updated", "extension1_updated", "displayname1_updated", new Date(), 2, 2, "filepath1_updated", new byte[]{ 1,2, 3, 4, 5, 6});
+    public static final DtoFileStorage<Integer> FILE_STORAGE1_UPDATED = new DtoFileStorage<>(111, "filename1_updated", "extension1_updated", "displayname1_updated", new Date(), 3, 3, "filepath1_updated", new byte[]{ 1,2, 3, 4, 5, 6});
     public static final DtoFileStorage<UUID> FILE_STORAGE1_UUID = new DtoFileStorage<>(UUID.randomUUID(), "filename1", "extension1", "displayname1", new Date(), 1, 1, "filepath1", new byte[]{ 1, 2, 3, 4, 5, 6, 7, 8 });
+
+    public static final DtoFileStorage<Integer> FILE_STORAGE2 = new DtoFileStorage<>(112, "filename2", "extension2", "displayname2", new Date(), 2, 2, "filepath2", new byte[]{ 1, 2, 3, 4, 5, 6, 7, 8 });
 
     public static final DtoJWTToken<Integer> JWT_TOKEN1 = new DtoJWTToken<>(111, "accessToken1", "refreshToken1", new Date(), new Date(), new Date(), USER1.getId());
     public static final DtoJWTToken<Integer> JWT_TOKEN1_UPDATED = new DtoJWTToken<>(111, "accessToken1_updated", "refreshToken1_updated", new Date(), new Date(), new Date(), USER2.getId());
     public static final DtoJWTToken<UUID> JWT_TOKEN1_UUID = new DtoJWTToken<>(UUID.randomUUID(), "accessToken1", "refreshToken1", new Date(), new Date(), new Date(), USER1_UUID.getId());
+
+    public static final DtoJWTToken<Integer> JWT_TOKEN2 = new DtoJWTToken<>(112, "accessToken2", "refreshToken2", new Date(), new Date(), new Date(), USER1.getId());
 
     public static final DtoServiceOnRole<Integer, ServiceModel> SERVICE_ON_ROLE1 = new DtoServiceOnRole<>(111, ServiceModel.SERVICE1.getId(), ROLEUSER1.getId());
     public static final DtoServiceOnRole<Integer, ServiceModel> SERVICE_ON_ROLE1_UPDATED = new DtoServiceOnRole<>(111, ServiceModel.SERVICE2.getId(), ROLEUSER2.getId());
