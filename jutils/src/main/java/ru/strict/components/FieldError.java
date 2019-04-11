@@ -41,4 +41,10 @@ public class FieldError extends Error implements IFieldError{
     public int hashCode() {
         return Objects.hash(super.hashCode(), field);
     }
+
+    @Override
+    public FieldError clone() {
+        Error baseClone = super.clone();
+        return new FieldError(field, baseClone.getCode(), baseClone.getErrorMessage());
+    }
 }

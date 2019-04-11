@@ -2,7 +2,7 @@ package ru.strict.components;
 
 import java.util.Objects;
 
-public class TokenInfo {
+public class TokenInfo implements Cloneable {
 
     private String token;
     private String secret;
@@ -51,5 +51,10 @@ public class TokenInfo {
     @Override
     public int hashCode() {
         return Objects.hash(token, secret, algorithm);
+    }
+
+    @Override
+    public TokenInfo clone() {
+        return new TokenInfo(token, secret, algorithm);
     }
 }

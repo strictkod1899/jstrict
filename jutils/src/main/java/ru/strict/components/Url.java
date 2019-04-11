@@ -4,7 +4,7 @@ import ru.strict.validates.ValidateBaseValue;
 
 import java.util.Objects;
 
-public class Url {
+public class Url implements Cloneable {
 
     private String protocol;
     private String host;
@@ -80,5 +80,10 @@ public class Url {
     @Override
     public int hashCode() {
         return Objects.hash(protocol, host, address, url);
+    }
+
+    @Override
+    public Url clone() {
+        return new Url(protocol, host, address);
     }
 }

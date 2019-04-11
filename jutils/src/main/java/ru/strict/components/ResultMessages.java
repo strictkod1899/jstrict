@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class ResultMessages {
+public class ResultMessages implements Cloneable {
 
     /**
      * Сообщение в порядке добавления. Содержит и ошибки и др.
@@ -86,5 +86,16 @@ public class ResultMessages {
     @Override
     public int hashCode() {
         return Objects.hash(sequenceMessages, errors, messages);
+    }
+
+    @Override
+    public ResultMessages clone() {
+        ResultMessages clone = new ResultMessages();
+        for(Error error : errors){
+            clone.addError(error.clone());
+        }
+        clone.messages = messages;
+        clone.sequenceMessages = new ArrayList<>(sequenceMessages);
+        return clone;
     }
 }

@@ -9,7 +9,6 @@ import ru.strict.utils.UtilSystem;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Arrays;
-import java.util.Objects;
 
 /**
  * Логирование с использованием Log4j.
@@ -281,17 +280,13 @@ public class Log4jWrapper implements ILogger {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Log4jWrapper object = (Log4jWrapper) o;
-        return Objects.equals(wrappedObject, object.wrappedObject) &&
-                Objects.equals(configuration, object.configuration);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(wrappedObject, configuration);
+    public boolean equals(Object obj){
+        if(obj != null && obj instanceof Log4jWrapper) {
+            Log4jWrapper object = (Log4jWrapper) obj;
+            return wrappedObject.equals(object.getWrappedObject());
+        }else {
+            return false;
+        }
     }
     //</editor-fold>
 }

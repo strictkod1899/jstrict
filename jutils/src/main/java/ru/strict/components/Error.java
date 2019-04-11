@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 /**
  * Ошибка
  */
-public class Error implements IError {
+public class Error implements IError, Cloneable {
 
     private String code;
     private String errorMessage;
@@ -98,5 +98,10 @@ public class Error implements IError {
     @Override
     public int hashCode() {
         return Objects.hash(code, errorMessage);
+    }
+
+    @Override
+    public Error clone() {
+        return new Error(code, errorMessage);
     }
 }

@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Функция нормализации значений
  */
-public class Normalize {
+public class Normalize implements Cloneable{
 
     private float min;
     private float max;
@@ -41,5 +41,10 @@ public class Normalize {
     @Override
     public int hashCode() {
         return Objects.hash(min, max, targetMin, targetMax);
+    }
+
+    @Override
+    public Normalize clone() {
+        return new Normalize(min, max, targetMin, targetMax);
     }
 }

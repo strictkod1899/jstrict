@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Errors {
+public class Errors implements Cloneable {
     private List<Error> actionErrors;
     private List<FieldError> fieldErrors;
 
@@ -41,5 +41,17 @@ public class Errors {
     @Override
     public int hashCode() {
         return Objects.hash(actionErrors, fieldErrors);
+    }
+
+    @Override
+    public Errors clone() {
+        Errors clone = new Errors();
+        for(Error error : actionErrors){
+            clone.addActionError(error.clone());
+        }
+        for(FieldError error : fieldErrors){
+            clone.addFieldError(error.clone());
+        }
+        return clone;
     }
 }
