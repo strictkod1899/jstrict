@@ -18,7 +18,7 @@ public class UtilHtml {
 
     public static Elements selectByFile(String filePath, String selector, String encoding) throws IOException, NullPointerException {
         if(ValidateBaseValue.isEmptyOrNull(filePath)){
-            throw new NullPointerException("filePath is NULL");
+            throw new IllegalArgumentException("filePath is NULL");
         }
 
         Document page = Jsoup.parse(new File(filePath), encoding);
@@ -31,7 +31,7 @@ public class UtilHtml {
 
     public static Elements selectByContent(String content, String selector) throws IOException, NullPointerException {
         if(ValidateBaseValue.isEmptyOrNull(content)){
-            throw new NullPointerException("content is NULL");
+            throw new IllegalArgumentException("content is NULL");
         }
 
         Document page = Jsoup.parseBodyFragment(content);
@@ -44,7 +44,7 @@ public class UtilHtml {
 
     public static Elements selectByGet(String url, String selector) throws IOException, NullPointerException {
         if(ValidateBaseValue.isEmptyOrNull(url)){
-            throw new NullPointerException("url is NULL");
+            throw new IllegalArgumentException("url is NULL");
         }
 
         Document page = Jsoup.connect(url).get();
@@ -57,7 +57,7 @@ public class UtilHtml {
 
     public static Elements selectByPost(String url, String selector) throws IOException, NullPointerException {
         if(ValidateBaseValue.isEmptyOrNull(url)){
-            throw new NullPointerException("url is NULL");
+            throw new IllegalArgumentException("url is NULL");
         }
 
         Document page = Jsoup.connect(url).post();
