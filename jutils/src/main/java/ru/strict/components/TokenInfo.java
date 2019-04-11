@@ -1,5 +1,7 @@
 package ru.strict.components;
 
+import java.util.Objects;
+
 public class TokenInfo {
 
     private String token;
@@ -34,5 +36,20 @@ public class TokenInfo {
 
     public void setAlgorithm(String algorithm) {
         this.algorithm = algorithm;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TokenInfo object = (TokenInfo) o;
+        return Objects.equals(token, object.token) &&
+                Objects.equals(secret, object.secret) &&
+                Objects.equals(algorithm, object.algorithm);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(token, secret, algorithm);
     }
 }

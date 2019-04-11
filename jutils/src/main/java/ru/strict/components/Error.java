@@ -1,6 +1,7 @@
 package ru.strict.components;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -83,5 +84,19 @@ public class Error implements IError {
     @Override
     public String toString() {
         return String.format("[%s] %s", code, errorMessage);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Error object = (Error) o;
+        return Objects.equals(code, object.code) &&
+                Objects.equals(errorMessage, object.errorMessage);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, errorMessage);
     }
 }

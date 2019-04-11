@@ -4,6 +4,7 @@ import ru.strict.validates.ValidateBaseValue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ResultMessages {
@@ -70,5 +71,20 @@ public class ResultMessages {
 
     public List<String> getSequenceStringMessages() {
         return sequenceMessages.stream().map(message -> message.toString()).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ResultMessages object = (ResultMessages) o;
+        return Objects.equals(sequenceMessages, object.sequenceMessages) &&
+                Objects.equals(errors, object.errors) &&
+                Objects.equals(messages, object.messages);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sequenceMessages, errors, messages);
     }
 }

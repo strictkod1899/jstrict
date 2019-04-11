@@ -1,5 +1,7 @@
 package ru.strict.components;
 
+import java.util.Objects;
+
 /**
  * Конфигурация логирования. Используется в классе Log4jWrapper
  */
@@ -67,5 +69,24 @@ public class LoggerConfiguration {
 
     public void setLogToFile(boolean logToFile) {
         isLogToFile = logToFile;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LoggerConfiguration object = (LoggerConfiguration) o;
+        return maxBackupIndex == object.maxBackupIndex &&
+                isLogToConsole == object.isLogToConsole &&
+                isLogToFile == object.isLogToFile &&
+                Objects.equals(pattern, object.pattern) &&
+                Objects.equals(logDirectoryPath, object.logDirectoryPath) &&
+                Objects.equals(logFileName, object.logFileName) &&
+                Objects.equals(maxFileSize, object.maxFileSize);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pattern, logDirectoryPath, logFileName, maxFileSize, maxBackupIndex, isLogToConsole, isLogToFile);
     }
 }

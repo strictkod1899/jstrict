@@ -2,6 +2,8 @@ package ru.strict.components;
 
 import ru.strict.validates.ValidateBaseValue;
 
+import java.util.Objects;
+
 public class Url {
 
     private String protocol;
@@ -57,5 +59,26 @@ public class Url {
 
     public String getUrl() {
         return url;
+    }
+
+    @Override
+    public String toString(){
+        return getUrl();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Url object = (Url) o;
+        return Objects.equals(protocol, object.protocol) &&
+                Objects.equals(host, object.host) &&
+                Objects.equals(address, object.address) &&
+                Objects.equals(url, object.url);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(protocol, host, address, url);
     }
 }
