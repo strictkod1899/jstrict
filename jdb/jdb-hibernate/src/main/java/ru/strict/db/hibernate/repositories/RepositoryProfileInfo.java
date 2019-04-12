@@ -14,9 +14,9 @@ import java.io.Serializable;
  * Репозиторий таблицы "profile" с расширенными данными.
  * Определяет столбцы: "name", "surname", "middlename", "userx_id", "datebirth", "phone", "city_id"
  */
-public class RepositoryProfileInfo<ID extends Serializable>
-        extends RepositoryHibernateBase<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>>
-        implements IRepositoryProfile<ID, DtoProfileInfo<ID>> {
+public class RepositoryProfileInfo
+        extends RepositoryHibernateBase<Long, EntityProfileInfo, DtoProfileInfo<Long>>
+        implements IRepositoryProfile<Long, DtoProfileInfo<Long>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id", "datebirth",
             "phone", "city_id"};
@@ -25,17 +25,17 @@ public class RepositoryProfileInfo<ID extends Serializable>
         super("profile",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityProfileInfo.class), UtilClass.castClass(DtoProfileInfo.class)),
+                new MapperDtoFactory().instance(UtilClass.castClass(EntityProfileInfo.class), UtilClass.castClass(DtoProfileInfo.class)),
                 generateIdType);
     }
 
     @Override
-    protected DtoProfileInfo<ID> fill(DtoProfileInfo<ID> dto) {
+    protected DtoProfileInfo<Long> fill(DtoProfileInfo<Long> dto) {
         return dto;
     }
 
     @Override
-    protected Class<EntityProfileInfo<ID>> getEntityClass() {
+    protected Class<EntityProfileInfo> getEntityClass() {
         return UtilClass.castClass(EntityProfileInfo.class);
     }
 

@@ -13,7 +13,7 @@ import java.util.TreeSet;
 @Entity
 @Table(name = "userx")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class EntityUser<ID> extends EntityBase<ID> {
+public class EntityUser extends EntityBase<Long> {
 
     /**
      * Логин пользователя
@@ -52,17 +52,17 @@ public class EntityUser<ID> extends EntityBase<ID> {
     @JoinTable(name = "user_on_role",
             joinColumns = @JoinColumn(name = "userx_id", insertable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "roleuser_id", insertable = false, updatable = false))
-    private Collection<EntityRoleuser<ID>> roles;
+    private Collection<EntityRoleuser> roles;
     /**
      * Профиль пользователя
      */
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private EntityProfileBase<ID> profile;
+    private EntityProfileBase profile;
     /**
      * Токены пользователя
      */
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private Collection<EntityJWTToken<ID>> tokens;
+    private Collection<EntityJWTToken> tokens;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String username, String passwordEncode, String email){
@@ -103,7 +103,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
         initialize(username, passwordEncode, email);
     }
 
-    public EntityUser(ID id, String username, String passwordEncode, String email) {
+    public EntityUser(Long id, String username, String passwordEncode, String email) {
         super(id);
         initialize(username, passwordEncode, email);
     }
@@ -158,31 +158,31 @@ public class EntityUser<ID> extends EntityBase<ID> {
         isConfirmEmail = confirmEmail;
     }
 
-    public Collection<EntityRoleuser<ID>> getRoles() {
+    public Collection<EntityRoleuser> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<EntityRoleuser<ID>> roles) {
+    public void setRoles(Collection<EntityRoleuser> roles) {
         if(roles == null) {
             throw new IllegalArgumentException("roles is NULL");
         }
 
-        for(EntityRoleuser<ID> role : roles){
+        for(EntityRoleuser role : roles){
             role.addUserSafe(this);
         }
 
         this.roles = roles;
     }
 
-    public void addRole(EntityRoleuser<ID> role){
+    public void addRole(EntityRoleuser role){
         addRole(role, true);
     }
 
-    protected void addRoleSafe(EntityRoleuser<ID> role){
+    protected void addRoleSafe(EntityRoleuser role){
         addRole(role, false);
     }
 
-    private void addRole(EntityRoleuser<ID> role, boolean isCircleMode){
+    private void addRole(EntityRoleuser role, boolean isCircleMode){
         if(role == null) {
             throw new IllegalArgumentException("role is NULL");
         }
@@ -195,39 +195,39 @@ public class EntityUser<ID> extends EntityBase<ID> {
         }
     }
 
-    public void addRoles(Collection<EntityRoleuser<ID>> roles){
+    public void addRoles(Collection<EntityRoleuser> roles){
         if(roles!=null) {
-            for(EntityRoleuser<ID> user : roles){
+            for(EntityRoleuser user : roles){
                 addRole(user);
             }
         }
     }
 
-    public Collection<EntityJWTToken<ID>> getTokens() {
+    public Collection<EntityJWTToken> getTokens() {
         return tokens;
     }
 
-    public void setTokens(Collection<EntityJWTToken<ID>> tokens) {
+    public void setTokens(Collection<EntityJWTToken> tokens) {
         if(tokens == null) {
             throw new IllegalArgumentException("tokens is NULL");
         }
 
-        for(EntityJWTToken<ID> token : tokens){
+        for(EntityJWTToken token : tokens){
             token.setUser(this);
         }
 
         this.tokens = tokens;
     }
 
-    public void addToken(EntityJWTToken<ID> token){
+    public void addToken(EntityJWTToken token){
         addToken(token, true);
     }
 
-    protected void addTokenSafe(EntityJWTToken<ID> token){
+    protected void addTokenSafe(EntityJWTToken token){
         addToken(token, false);
     }
 
-    private void addToken(EntityJWTToken<ID> token, boolean isCircleMode){
+    private void addToken(EntityJWTToken token, boolean isCircleMode){
         if(token == null) {
             throw new IllegalArgumentException("token is NULL");
         }
@@ -240,27 +240,27 @@ public class EntityUser<ID> extends EntityBase<ID> {
         }
     }
 
-    public void addTokens(Collection<EntityJWTToken<ID>> tokens){
+    public void addTokens(Collection<EntityJWTToken> tokens){
         if(tokens!=null) {
-            for(EntityJWTToken<ID> city : tokens){
+            for(EntityJWTToken city : tokens){
                 addToken(city);
             }
         }
     }
 
-    public EntityProfileBase<ID> getProfile() {
+    public EntityProfileBase getProfile() {
         return profile;
     }
 
-    public void setProfile(EntityProfileBase<ID> profile) {
+    public void setProfile(EntityProfileBase profile) {
         setProfile(profile, true);
     }
 
-    protected void setProfileSafe(EntityProfileBase<ID> profile) {
+    protected void setProfileSafe(EntityProfileBase profile) {
         setProfile(profile, false);
     }
 
-    private void setProfile(EntityProfileBase<ID> profile, boolean isCircleMode) {
+    private void setProfile(EntityProfileBase profile, boolean isCircleMode) {
         if(isCircleMode && profile != null){
             profile.setUserSafe(this);
         }
@@ -280,16 +280,16 @@ public class EntityUser<ID> extends EntityBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        EntityUser<ID> that = (EntityUser<ID>) o;
-        return isBlocked == that.isBlocked &&
-                isDeleted == that.isDeleted &&
-                isConfirmEmail == that.isConfirmEmail &&
-                Objects.equals(username, that.username) &&
-                Objects.equals(passwordEncode, that.passwordEncode) &&
-                Objects.equals(email, that.email) &&
-                Objects.equals(roles, that.roles) &&
-                Objects.equals(profile, that.profile) &&
-                Objects.equals(tokens, that.tokens);
+        EntityUser object = (EntityUser) o;
+        return isBlocked == object.isBlocked &&
+                isDeleted == object.isDeleted &&
+                isConfirmEmail == object.isConfirmEmail &&
+                Objects.equals(username, object.username) &&
+                Objects.equals(passwordEncode, object.passwordEncode) &&
+                Objects.equals(email, object.email) &&
+                Objects.equals(roles, object.roles) &&
+                Objects.equals(profile, object.profile) &&
+                Objects.equals(tokens, object.tokens);
     }
 
     @Override

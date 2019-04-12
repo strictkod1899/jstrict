@@ -9,33 +9,33 @@ import java.util.Objects;
 @Entity
 @Table(name = "user_on_role")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class EntityUserOnRole<ID> extends EntityBase<ID> {
+public class EntityUserOnRole extends EntityBase<Long> {
 
     /**
      * Идентификатор пользователя
      */
     @Column(name = "userx_id", nullable = false)
-    private ID userId;
+    private Long userId;
     /**
      * Пользователь
      */
     @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, orphanRemoval = false)
     @JoinColumn(name = "userx_id", insertable = false, updatable = false)
-    private EntityUser<ID> user;
+    private EntityUser user;
     /**
      * Идентификатор роли
      */
     @Column(name = "roleuser_id", nullable = false)
-    private ID roleId;
+    private Long roleId;
     /**
      * Роль пользователя
      */
     @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, orphanRemoval = false)
     @JoinColumn(name = "roleuser_id", insertable = false, updatable = false)
-    private EntityRoleuser<ID> role;
+    private EntityRoleuser role;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void initialize(ID userId, ID roleId){
+    private void initialize(Long userId, Long roleId){
         if(userId == null) {
             throw new IllegalArgumentException("userId is NULL");
         } else if(roleId == null) {
@@ -56,47 +56,47 @@ public class EntityUserOnRole<ID> extends EntityBase<ID> {
         role = null;
     }
 
-    public EntityUserOnRole(ID userId, ID roleId) {
+    public EntityUserOnRole(Long userId, Long roleId) {
         super();
         initialize(userId, roleId);
     }
 
-    public EntityUserOnRole(ID id, ID userId, ID roleId) {
+    public EntityUserOnRole(Long id, Long userId, Long roleId) {
         super(id);
         initialize(userId, roleId);
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public ID getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(ID userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public EntityUser<ID> getUser() {
+    public EntityUser getUser() {
         return user;
     }
 
-    public void setUser(EntityUser<ID> user) {
+    public void setUser(EntityUser user) {
         this.user = user;
     }
 
-    public ID getRoleId() {
+    public Long getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(ID roleId) {
+    public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
 
-    public EntityRoleuser<ID> getRole() {
+    public EntityRoleuser getRole() {
         return role;
     }
 
-    public void setRole(EntityRoleuser<ID> role) {
+    public void setRole(EntityRoleuser role) {
         this.role = role;
     }
     //</editor-fold>
@@ -112,11 +112,11 @@ public class EntityUserOnRole<ID> extends EntityBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        EntityUserOnRole<ID> that = (EntityUserOnRole<ID>) o;
-        return Objects.equals(userId, that.userId) &&
-                Objects.equals(user, that.user) &&
-                Objects.equals(roleId, that.roleId) &&
-                Objects.equals(role, that.role);
+        EntityUserOnRole object = (EntityUserOnRole) o;
+        return Objects.equals(userId, object.userId) &&
+                Objects.equals(user, object.user) &&
+                Objects.equals(roleId, object.roleId) &&
+                Objects.equals(role, object.role);
     }
 
     @Override

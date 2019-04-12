@@ -9,13 +9,13 @@ import java.util.TreeSet;
  * Страна
  */
 @Entity
-public class EntityCountry<ID> extends EntityNamed<ID> {
+public class EntityCountry extends EntityNamed<Long> {
 
     /**
      * Города свзяанные со страной
      */
     @OneToMany(mappedBy = "countryId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private Collection<EntityCity<ID>> cities;
+    private Collection<EntityCity> cities;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public EntityCountry() {
@@ -28,38 +28,38 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
         cities = new TreeSet<>();
     }
 
-    public EntityCountry(ID id, String caption) {
+    public EntityCountry(Long id, String caption) {
         super(id, caption);
         cities = new TreeSet<>();
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public Collection<EntityCity<ID>> getCities() {
+    public Collection<EntityCity> getCities() {
         return cities;
     }
 
-    public void setCities(Collection<EntityCity<ID>> cities) {
+    public void setCities(Collection<EntityCity> cities) {
         if(cities == null) {
             throw new IllegalArgumentException("cities is NULL");
         }
 
-        for(EntityCity<ID> city : cities){
+        for(EntityCity city : cities){
             city.setCountrySafe(this);
         }
 
         this.cities = cities;
     }
 
-    public void addCity(EntityCity<ID> city){
+    public void addCity(EntityCity city){
         addCity(city, true);
     }
 
-    protected void addCitySafe(EntityCity<ID> city){
+    protected void addCitySafe(EntityCity city){
         addCity(city, false);
     }
 
-    private void addCity(EntityCity<ID> city, boolean isCircleMode){
+    private void addCity(EntityCity city, boolean isCircleMode){
         if(city == null) {
             throw new IllegalArgumentException("city is NULL");
         }
@@ -72,9 +72,9 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
         }
     }
 
-    public void addCities(Collection<EntityCity<ID>> cities){
+    public void addCities(Collection<EntityCity> cities){
         if(cities!=null) {
-            for(EntityCity<ID> city : cities){
+            for(EntityCity city : cities){
                 addCity(city);
             }
         }
@@ -92,8 +92,8 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        EntityCountry<ID> that = (EntityCountry<ID>) o;
-        return Objects.equals(cities, that.cities);
+        EntityCountry object = (EntityCountry) o;
+        return Objects.equals(cities, object.cities);
     }
 
     @Override

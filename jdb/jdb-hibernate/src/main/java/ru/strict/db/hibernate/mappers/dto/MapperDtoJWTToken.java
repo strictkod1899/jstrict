@@ -13,21 +13,21 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityJWTToken и DtoJWTToken
  */
-public class MapperDtoJWTToken<ID> extends MapperDtoBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>> {
+public class MapperDtoJWTToken extends MapperDtoBase<Long, EntityJWTToken, DtoJWTToken<Long>> {
 
-    private MapperDtoBase<ID, EntityUser<ID>, DtoUserWithToken<ID>> mapperUser;
+    private MapperDtoBase<Long, EntityUser, DtoUserWithToken<Long>> mapperUser;
 
     public MapperDtoJWTToken(){
         mapperUser = null;
     }
 
-    public MapperDtoJWTToken(MapperDtoBase<ID, EntityUser<ID>, DtoUserWithToken<ID>> mapperUser){
+    public MapperDtoJWTToken(MapperDtoBase<Long, EntityUser, DtoUserWithToken<Long>> mapperUser){
         this.mapperUser = mapperUser;
     }
 
     @Override
-    protected EntityJWTToken<ID> implementMap(DtoJWTToken<ID> dto) {
-        EntityJWTToken<ID> entity = new EntityJWTToken();
+    protected EntityJWTToken implementMap(DtoJWTToken<Long> dto) {
+        EntityJWTToken entity = new EntityJWTToken();
         entity.setId(dto.getId());
         entity.setAccessToken(dto.getAccessToken());
         entity.setRefreshToken(dto.getRefreshToken());
@@ -47,8 +47,8 @@ public class MapperDtoJWTToken<ID> extends MapperDtoBase<ID, EntityJWTToken<ID>,
     }
 
     @Override
-    protected DtoJWTToken<ID> implementMap(EntityJWTToken<ID> entity) {
-        DtoJWTToken<ID> dto = new DtoJWTToken();
+    protected DtoJWTToken<Long> implementMap(EntityJWTToken entity) {
+        DtoJWTToken<Long> dto = new DtoJWTToken();
         dto.setId(entity.getId());
         dto.setAccessToken(entity.getAccessToken());
         dto.setRefreshToken(entity.getRefreshToken());

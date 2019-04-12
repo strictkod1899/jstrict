@@ -10,7 +10,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "profile")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class EntityProfileInfo<ID> extends EntityProfileBase<ID> {
+public class EntityProfileInfo extends EntityProfileBase {
 
     /**
      * Дата рождения
@@ -28,17 +28,17 @@ public class EntityProfileInfo<ID> extends EntityProfileBase<ID> {
      * Идентификатор города
      */
     @Column(name = "city_id", nullable = true)
-    private ID cityId;
+    private Long cityId;
 
     /**
      * Город связанный с пользователем
      */
     @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, orphanRemoval = false)
     @JoinColumn(name = "city_id", insertable = false, updatable = false)
-    private EntityCity<ID> city;
+    private EntityCity city;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void initialize(Date dateBirth, String phone, ID cityId){
+    private void initialize(Date dateBirth, String phone, Long cityId){
         this.dateBirth = dateBirth;
         this.phone = phone;
         this.cityId = cityId;
@@ -53,14 +53,14 @@ public class EntityProfileInfo<ID> extends EntityProfileBase<ID> {
         city = null;
     }
 
-    public EntityProfileInfo(String name, String surname, String middlename, ID userId, Date dateBirth, String phone,
-                             ID cityId) {
+    public EntityProfileInfo(String name, String surname, String middlename, Long userId, Date dateBirth, String phone,
+                             Long cityId) {
         super(name, surname, middlename, userId);
         initialize(dateBirth, phone, cityId);
     }
 
-    public EntityProfileInfo(ID id, String name, String surname, String middlename, ID userId, Date dateBirth, String phone,
-                             ID cityId) {
+    public EntityProfileInfo(Long id, String name, String surname, String middlename, Long userId, Date dateBirth, String phone,
+                             Long cityId) {
         super(id, name, surname, middlename, userId);
         initialize(dateBirth, phone, cityId);
     }
@@ -83,19 +83,19 @@ public class EntityProfileInfo<ID> extends EntityProfileBase<ID> {
         this.phone = phone;
     }
 
-    public ID getCityId() {
+    public Long getCityId() {
         return cityId;
     }
 
-    public void setCityId(ID cityId) {
+    public void setCityId(Long cityId) {
         this.cityId = cityId;
     }
 
-    public EntityCity<ID> getCity() {
+    public EntityCity getCity() {
         return city;
     }
 
-    public void setCity(EntityCity<ID> city) {
+    public void setCity(EntityCity city) {
         this.city = city;
     }
     //</editor-fold>
@@ -111,11 +111,11 @@ public class EntityProfileInfo<ID> extends EntityProfileBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        EntityProfileInfo<ID> that = (EntityProfileInfo<ID>) o;
-        return Objects.equals(dateBirth, that.dateBirth) &&
-                Objects.equals(phone, that.phone) &&
-                Objects.equals(cityId, that.cityId) &&
-                Objects.equals(city, that.city);
+        EntityProfileInfo object = (EntityProfileInfo) o;
+        return Objects.equals(dateBirth, object.dateBirth) &&
+                Objects.equals(phone, object.phone) &&
+                Objects.equals(cityId, object.cityId) &&
+                Objects.equals(city, object.city);
     }
 
     @Override

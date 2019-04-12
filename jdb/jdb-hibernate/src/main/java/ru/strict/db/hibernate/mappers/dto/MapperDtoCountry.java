@@ -11,21 +11,21 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityCountry и DtoCountry
  */
-public class MapperDtoCountry<ID> extends MapperDtoBase<ID, EntityCountry<ID>, DtoCountry<ID>> {
+public class MapperDtoCountry extends MapperDtoBase<Long, EntityCountry, DtoCountry<Long>> {
 
-    private MapperDtoBase<ID, EntityCity<ID>, DtoCity<ID>> mapperCity;
+    private MapperDtoBase<Long, EntityCity, DtoCity<Long>> mapperCity;
 
     public MapperDtoCountry(){
         mapperCity = null;
     }
 
-    public MapperDtoCountry(MapperDtoBase<ID, EntityCity<ID>, DtoCity<ID>> mapperCity){
+    public MapperDtoCountry(MapperDtoBase<Long, EntityCity, DtoCity<Long>> mapperCity){
         this.mapperCity = mapperCity;
     }
 
     @Override
-    protected EntityCountry<ID> implementMap(DtoCountry<ID> dto) {
-        EntityCountry<ID> entity = new EntityCountry();
+    protected EntityCountry implementMap(DtoCountry<Long> dto) {
+        EntityCountry entity = new EntityCountry();
         entity.setId(dto.getId());
         entity.setCaption(dto.getCaption());
         Optional.ofNullable(mapperCity).ifPresent((mapper) ->
@@ -34,8 +34,8 @@ public class MapperDtoCountry<ID> extends MapperDtoBase<ID, EntityCountry<ID>, D
     }
 
     @Override
-    protected DtoCountry<ID> implementMap(EntityCountry<ID> entity) {
-        DtoCountry<ID> dto = new DtoCountry();
+    protected DtoCountry<Long> implementMap(EntityCountry entity) {
+        DtoCountry<Long> dto = new DtoCountry();
         dto.setId(entity.getId());
         dto.setCaption(entity.getCaption());
         Optional.ofNullable(mapperCity).ifPresent((mapper) ->

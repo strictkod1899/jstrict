@@ -8,20 +8,20 @@ import ru.strict.db.hibernate.entities.EntityFileStorage;
 /**
  * Двухсторонний маппинг объектов типа EntityFileStorage и DtoFileStoragePath
  */
-public class MapperDtoFileStoragePath<ID> extends MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStoragePath<ID>> {
+public class MapperDtoFileStoragePath extends MapperDtoBase<Long, EntityFileStorage, DtoFileStoragePath<Long>> {
 
-    private MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStorageBase<ID>> mapperBase;
+    private MapperDtoBase<Long, EntityFileStorage, DtoFileStorageBase<Long>> mapperBase;
 
-    public MapperDtoFileStoragePath(MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStorageBase<ID>> mapperBase) {
+    public MapperDtoFileStoragePath(MapperDtoBase<Long, EntityFileStorage, DtoFileStorageBase<Long>> mapperBase) {
         super();
         this.mapperBase = mapperBase;
     }
 
     @Override
-    protected EntityFileStorage<ID> implementMap(DtoFileStoragePath<ID> dto) {
-        EntityFileStorage<ID> baseEntity = mapperBase.map(dto);
+    protected EntityFileStorage implementMap(DtoFileStoragePath<Long> dto) {
+        EntityFileStorage baseEntity = mapperBase.map(dto);
 
-        EntityFileStorage<ID> entity = new EntityFileStorage();
+        EntityFileStorage entity = new EntityFileStorage();
         entity.setId(baseEntity.getId());
         entity.setFilename(baseEntity.getFilename());
         entity.setExtension(baseEntity.getExtension());
@@ -34,10 +34,10 @@ public class MapperDtoFileStoragePath<ID> extends MapperDtoBase<ID, EntityFileSt
     }
 
     @Override
-    protected DtoFileStoragePath<ID> implementMap(EntityFileStorage<ID> entity) {
-        DtoFileStorageBase<ID> baseDto = mapperBase.map(entity);
+    protected DtoFileStoragePath<Long> implementMap(EntityFileStorage entity) {
+        DtoFileStorageBase<Long> baseDto = mapperBase.map(entity);
 
-        DtoFileStoragePath<ID> dto = new DtoFileStoragePath();
+        DtoFileStoragePath<Long> dto = new DtoFileStoragePath();
         dto.setId(baseDto.getId());
         dto.setFilename(baseDto.getFilename());
         entity.setExtension(baseDto.getExtension());

@@ -10,9 +10,9 @@ import ru.strict.utils.UtilClass;
 
 import java.io.Serializable;
 
-public class RepositoryRoleuser<ID extends Serializable>
-        extends RepositoryHibernateBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>>
-        implements IRepositoryNamed<ID, DtoRoleuser<ID>> {
+public class RepositoryRoleuser
+        extends RepositoryHibernateBase<Long, EntityRoleuser, DtoRoleuser<Long>>
+        implements IRepositoryNamed<Long, DtoRoleuser<Long>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"code", "description"};
 
@@ -20,12 +20,12 @@ public class RepositoryRoleuser<ID extends Serializable>
         super("roleuser",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityRoleuser.class), UtilClass.castClass(DtoRoleuser.class)),
+                new MapperDtoFactory().instance(UtilClass.castClass(EntityRoleuser.class), UtilClass.castClass(DtoRoleuser.class)),
                 generateIdType);
     }
 
     @Override
-    protected DtoRoleuser<ID> fill(DtoRoleuser<ID> dto){
+    protected DtoRoleuser<Long> fill(DtoRoleuser<Long> dto){
         return dto;
     }
 
@@ -35,7 +35,7 @@ public class RepositoryRoleuser<ID extends Serializable>
     }
 
     @Override
-    protected Class<EntityRoleuser<ID>> getEntityClass() {
+    protected Class<EntityRoleuser> getEntityClass() {
         return UtilClass.castClass(EntityRoleuser.class);
     }
 

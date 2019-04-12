@@ -8,5 +8,5 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "profile")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class EntityProfile<ID> extends EntityProfileBase<ID> {
+public class EntityProfile extends EntityProfileBase {
 }

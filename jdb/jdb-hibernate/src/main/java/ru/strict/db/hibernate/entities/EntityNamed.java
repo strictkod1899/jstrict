@@ -62,8 +62,8 @@ public abstract class EntityNamed<ID> extends EntityBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        EntityNamed<ID> that = (EntityNamed<ID>) o;
-        return Objects.equals(caption, that.caption);
+        EntityNamed<ID> object = (EntityNamed<ID>) o;
+        return Objects.equals(caption, object.caption);
     }
 
     @Override

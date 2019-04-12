@@ -11,7 +11,7 @@ import java.util.TreeSet;
 @Entity
 @Table(name = "roleuser")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class EntityRoleuser<ID> extends EntityBase<ID> {
+public class EntityRoleuser extends EntityBase<Long> {
 
     /**
      * Набор символов характеризующих роль
@@ -32,7 +32,7 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
     @JoinTable(name = "user_on_role",
             joinColumns = @JoinColumn(name = "roleuser_id", insertable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "userx_id", insertable = false, updatable = false))
-    private Collection<EntityUser<ID>> users;
+    private Collection<EntityUser> users;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String code, String description){
@@ -57,7 +57,7 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
         initialize(code, description);
     }
 
-    public EntityRoleuser(ID id, String code, String description) {
+    public EntityRoleuser(Long id, String code, String description) {
         super(id);
         initialize(code, description);
     }
@@ -80,31 +80,31 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
         this.description = description;
     }
 
-    public Collection<EntityUser<ID>> getUsers() {
+    public Collection<EntityUser> getUsers() {
         return users;
     }
 
-    public void setUsers(Collection<EntityUser<ID>> users) {
+    public void setUsers(Collection<EntityUser> users) {
         if(users == null) {
             throw new IllegalArgumentException("users is NULL");
         }
 
-        for(EntityUser<ID> user : users){
+        for(EntityUser user : users){
             user.addRoleSafe(this);
         }
 
         this.users = users;
     }
 
-    public void addUser(EntityUser<ID> user){
+    public void addUser(EntityUser user){
         addUser(user, true);
     }
 
-    protected void addUserSafe(EntityUser<ID> user){
+    protected void addUserSafe(EntityUser user){
         addUser(user, false);
     }
 
-    private void addUser(EntityUser<ID> user, boolean isCircleMode){
+    private void addUser(EntityUser user, boolean isCircleMode){
         if(user == null) {
             throw new IllegalArgumentException("user is NULL");
         }
@@ -117,9 +117,9 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
         }
     }
 
-    public void addUsers(Collection<EntityUser<ID>> users){
+    public void addUsers(Collection<EntityUser> users){
         if(users!=null) {
-            for(EntityUser<ID> user : users){
+            for(EntityUser user : users){
                 addUser(user);
             }
         }
@@ -137,10 +137,10 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        EntityRoleuser<ID> that = (EntityRoleuser<ID>) o;
-        return Objects.equals(code, that.code) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(users, that.users);
+        EntityRoleuser object = (EntityRoleuser) o;
+        return Objects.equals(code, object.code) &&
+                Objects.equals(description, object.description) &&
+                Objects.equals(users, object.users);
     }
 
     @Override

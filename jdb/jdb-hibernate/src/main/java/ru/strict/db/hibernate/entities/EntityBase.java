@@ -53,8 +53,8 @@ public abstract class EntityBase<ID> implements Serializable, Comparable<EntityB
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        EntityBase<ID> that = (EntityBase<ID>) o;
-        return Objects.equals(id, that.id);
+        EntityBase<ID> object = (EntityBase<ID>) o;
+        return Objects.equals(id, object.id);
     }
 
     @Override

@@ -9,7 +9,7 @@ import java.util.Objects;
  * Токен
  */
 @MappedSuperclass
-public class EntityToken<ID> extends EntityBase<ID> {
+public class EntityToken extends EntityBase<Long> {
     /**
      * Токен авторизации
      */
@@ -71,7 +71,7 @@ public class EntityToken<ID> extends EntityBase<ID> {
         initialize(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
     }
 
-    public EntityToken(ID id, String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt) {
+    public EntityToken(Long id, String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt) {
         super(id);
         initialize(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
     }
@@ -130,12 +130,12 @@ public class EntityToken<ID> extends EntityBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        EntityToken<ID> that = (EntityToken<ID>) o;
-        return Objects.equals(accessToken, that.accessToken) &&
-                Objects.equals(refreshToken, that.refreshToken) &&
-                Objects.equals(expireTimeAccess, that.expireTimeAccess) &&
-                Objects.equals(expireTimeRefresh, that.expireTimeRefresh) &&
-                Objects.equals(issuedAt, that.issuedAt);
+        EntityToken object = (EntityToken) o;
+        return Objects.equals(accessToken, object.accessToken) &&
+                Objects.equals(refreshToken, object.refreshToken) &&
+                Objects.equals(expireTimeAccess, object.expireTimeAccess) &&
+                Objects.equals(expireTimeRefresh, object.expireTimeRefresh) &&
+                Objects.equals(issuedAt, object.issuedAt);
     }
 
     @Override

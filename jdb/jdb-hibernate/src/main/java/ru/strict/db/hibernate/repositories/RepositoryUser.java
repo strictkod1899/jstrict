@@ -12,9 +12,9 @@ import ru.strict.utils.UtilClass;
 
 import java.io.Serializable;
 
-public class RepositoryUser<ID extends Serializable, DTO extends DtoUserBase<ID>>
-        extends RepositoryHibernateBase<ID, EntityUser<ID>, DTO>
-        implements IRepositoryUser<ID, DTO> {
+public class RepositoryUser<DTO extends DtoUserBase<Long>>
+        extends RepositoryHibernateBase<Long, EntityUser, DTO>
+        implements IRepositoryUser<Long, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "email",
             "is_blocked", "is_deleted", "is_confirm_email"};
@@ -26,12 +26,12 @@ public class RepositoryUser<ID extends Serializable, DTO extends DtoUserBase<ID>
         super("userx",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUser.class)),
+                new MapperDtoFactory().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUser.class)),
                 generateIdType);
     }
 
     public RepositoryUser(CreateConnectionHibernate connectionSource,
-                          MapperDtoBase<ID, EntityUser<ID>, DTO> dtoMapper,
+                          MapperDtoBase<Long, EntityUser, DTO> dtoMapper,
                           GenerateIdType generateIdType) {
         super("userx",
                 COLUMNS_NAME,
@@ -51,8 +51,8 @@ public class RepositoryUser<ID extends Serializable, DTO extends DtoUserBase<ID>
     }
 
     @Override
-    protected Class<EntityUser<ID>> getEntityClass() {
-        return UtilClass.<EntityUser<ID>>castClass(EntityUser.class);
+    protected Class<EntityUser> getEntityClass() {
+        return UtilClass.<EntityUser>castClass(EntityUser.class);
     }
 
     @Override

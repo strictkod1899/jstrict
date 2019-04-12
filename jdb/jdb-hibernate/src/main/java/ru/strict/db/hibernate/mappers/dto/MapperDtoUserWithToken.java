@@ -12,26 +12,26 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityUser и DtoUserToken
  */
-public class MapperDtoUserWithToken<ID> extends MapperDtoBase<ID, EntityUser<ID>, DtoUserWithToken<ID>> {
+public class MapperDtoUserWithToken extends MapperDtoBase<Long, EntityUser, DtoUserWithToken<Long>> {
 
-    private MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperBase;
-    private MapperDtoBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>> mapperToken;
+    private MapperDtoBase<Long, EntityUser, DtoUser<Long>> mapperBase;
+    private MapperDtoBase<Long, EntityJWTToken, DtoJWTToken<Long>> mapperToken;
 
     public MapperDtoUserWithToken() {
         super();
     }
 
-    public MapperDtoUserWithToken(MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperBase,
-                                  MapperDtoBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>> mapperToken) {
+    public MapperDtoUserWithToken(MapperDtoBase<Long, EntityUser, DtoUser<Long>> mapperBase,
+                                  MapperDtoBase<Long, EntityJWTToken, DtoJWTToken<Long>> mapperToken) {
         this.mapperBase = mapperBase;
         this.mapperToken = mapperToken;
     }
 
     @Override
-    protected EntityUser<ID> implementMap(DtoUserWithToken<ID> dto) {
-        EntityUser<ID> baseEntity = mapperBase.map(dto);
+    protected EntityUser implementMap(DtoUserWithToken<Long> dto) {
+        EntityUser baseEntity = mapperBase.map(dto);
 
-        EntityUser<ID> entity = new EntityUser();
+        EntityUser entity = new EntityUser();
         entity.setId(baseEntity.getId());
         entity.setUsername(baseEntity.getUsername());
         entity.setEmail(baseEntity.getEmail());
@@ -47,10 +47,10 @@ public class MapperDtoUserWithToken<ID> extends MapperDtoBase<ID, EntityUser<ID>
     }
 
     @Override
-    protected DtoUserWithToken<ID> implementMap(EntityUser<ID> entity) {
-        DtoUser<ID> baseDto = mapperBase.map(entity);
+    protected DtoUserWithToken<Long> implementMap(EntityUser entity) {
+        DtoUser<Long> baseDto = mapperBase.map(entity);
 
-        DtoUserWithToken<ID> dto = new DtoUserWithToken();
+        DtoUserWithToken<Long> dto = new DtoUserWithToken();
         dto.setId(baseDto.getId());
         dto.setUsername(baseDto.getUsername());
         dto.setEmail(baseDto.getEmail());
