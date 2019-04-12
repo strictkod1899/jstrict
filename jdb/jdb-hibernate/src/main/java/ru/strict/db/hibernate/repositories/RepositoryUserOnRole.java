@@ -11,9 +11,9 @@ import ru.strict.utils.UtilClass;
 
 import java.io.Serializable;
 
-public class RepositoryUserOnRole<ID extends Serializable>
-        extends RepositoryHibernateBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>>
-        implements IRepositoryUserOnRole<ID> {
+public class RepositoryUserOnRole
+        extends RepositoryHibernateBase<Long, EntityUserOnRole, DtoUserOnRole<Long>>
+        implements IRepositoryUserOnRole<Long> {
 
     private static final String[] COLUMNS_NAME = new String[] {"userx_id", "roleuser_id"};
 
@@ -21,17 +21,17 @@ public class RepositoryUserOnRole<ID extends Serializable>
         super("user_on_role",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUserOnRole.class), UtilClass.castClass(DtoUserOnRole.class)),
+                new MapperDtoFactory().instance(UtilClass.castClass(EntityUserOnRole.class), UtilClass.castClass(DtoUserOnRole.class)),
                 generateIdType);
     }
 
     @Override
-    protected DtoUserOnRole<ID> fill(DtoUserOnRole<ID> dto){
+    protected DtoUserOnRole<Long> fill(DtoUserOnRole<Long> dto){
         return dto;
     }
 
     @Override
-    protected Class<EntityUserOnRole<ID>> getEntityClass() {
+    protected Class<EntityUserOnRole> getEntityClass() {
         return UtilClass.castClass(EntityUserOnRole.class);
     }
 

@@ -13,25 +13,25 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityUserOnRole и DtoUserOnRole
  */
-public class MapperDtoUserOnRole<ID> extends MapperDtoBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>> {
+public class MapperDtoUserOnRole extends MapperDtoBase<Long, EntityUserOnRole, DtoUserOnRole<Long>> {
 
-    private MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser;
-    private MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser;
+    private MapperDtoBase<Long, EntityUser, DtoUser<Long>> mapperUser;
+    private MapperDtoBase<Long, EntityRoleuser, DtoRoleuser<Long>> mapperRoleuser;
 
     public MapperDtoUserOnRole(){
         this.mapperUser = null;
         this.mapperRoleuser = null;
     }
 
-    public MapperDtoUserOnRole(MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser
-            , MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser){
+    public MapperDtoUserOnRole(MapperDtoBase<Long, EntityUser, DtoUser<Long>> mapperUser
+            , MapperDtoBase<Long, EntityRoleuser, DtoRoleuser<Long>> mapperRoleuser){
         this.mapperUser = mapperUser;
         this.mapperRoleuser = mapperRoleuser;
     }
 
     @Override
-    protected EntityUserOnRole<ID> implementMap(DtoUserOnRole<ID> dto) {
-        EntityUserOnRole<ID> entity = new EntityUserOnRole();
+    protected EntityUserOnRole implementMap(DtoUserOnRole<Long> dto) {
+        EntityUserOnRole entity = new EntityUserOnRole();
         entity.setId(dto.getId());
         entity.setRoleId(dto.getRoleId());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) -> entity.setRole(mapper.map(dto.getRole())));
@@ -41,8 +41,8 @@ public class MapperDtoUserOnRole<ID> extends MapperDtoBase<ID, EntityUserOnRole<
     }
 
     @Override
-    protected DtoUserOnRole<ID> implementMap(EntityUserOnRole<ID> entity) {
-        DtoUserOnRole<ID> dto = new DtoUserOnRole();
+    protected DtoUserOnRole<Long> implementMap(EntityUserOnRole entity) {
+        DtoUserOnRole<Long> dto = new DtoUserOnRole();
         dto.setId(entity.getId());
         dto.setRoleId(entity.getRoleId());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) -> dto.setRole(mapper.map(entity.getRole())));

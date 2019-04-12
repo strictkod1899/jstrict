@@ -8,7 +8,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "file_storage")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class EntityFileStorage<ID> extends EntityBase<ID> {
+public class EntityFileStorage extends EntityBase<Long> {
 
     /**
      * Наименование файла
@@ -66,7 +66,7 @@ public class EntityFileStorage<ID> extends EntityBase<ID> {
         this.status = status;
     }
 
-    public EntityFileStorage(ID id, String filename, String extension, String displayName, String filePath, byte[] content, Date createDate, int type, int status) {
+    public EntityFileStorage(Long id, String filename, String extension, String displayName, String filePath, byte[] content, Date createDate, int type, int status) {
         super(id);
         this.filename = filename;
         this.extension = extension;

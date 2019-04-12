@@ -12,9 +12,9 @@ import ru.strict.utils.UtilClass;
 
 import java.io.Serializable;
 
-public class RepositoryFileStorage<ID extends Serializable, DTO extends DtoFileStorageBase<ID>>
-        extends RepositoryHibernateBase<ID, EntityFileStorage<ID>, DTO>
-        implements IRepositoryFileStorage<ID, DTO> {
+public class RepositoryFileStorage<DTO extends DtoFileStorageBase<Long>>
+        extends RepositoryHibernateBase<Long, EntityFileStorage, DTO>
+        implements IRepositoryFileStorage<Long, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"filename", "extension", "displayname", "content", "filepath",
             "create_date", "type", "status"};
@@ -24,12 +24,12 @@ public class RepositoryFileStorage<ID extends Serializable, DTO extends DtoFileS
         super("file_storage",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityFileStorage.class), UtilClass.castClass(DtoFileStorage.class)),
+                new MapperDtoFactory().instance(UtilClass.castClass(EntityFileStorage.class), UtilClass.castClass(DtoFileStorage.class)),
                 generateIdType);
     }
 
     public RepositoryFileStorage(CreateConnectionHibernate connectionSource,
-                                 MapperDtoBase<ID, EntityFileStorage<ID>, DTO> dtoMapper,
+                                 MapperDtoBase<Long, EntityFileStorage, DTO> dtoMapper,
                                  GenerateIdType generateIdType) {
         super("file_storage",
                 COLUMNS_NAME,
@@ -49,7 +49,7 @@ public class RepositoryFileStorage<ID extends Serializable, DTO extends DtoFileS
     }
 
     @Override
-    protected Class<EntityFileStorage<ID>> getEntityClass() {
+    protected Class<EntityFileStorage> getEntityClass() {
         return UtilClass.castClass(EntityFileStorage.class);
     }
 

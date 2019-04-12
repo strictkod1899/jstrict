@@ -7,13 +7,13 @@ import ru.strict.db.core.mappers.dto.MapperDtoBase;
 /**
  * Двухсторонний маппинг объектов типа EntityFileStorage и DtoFileStorageBase
  */
-public class MapperDtoFileStorageBase<ID> extends MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStorageBase<ID>> {
+public class MapperDtoFileStorageBase extends MapperDtoBase<Long, EntityFileStorage, DtoFileStorageBase<Long>> {
 
     public MapperDtoFileStorageBase(){}
 
     @Override
-    protected EntityFileStorage<ID> implementMap(DtoFileStorageBase<ID> dto) {
-        EntityFileStorage<ID> entity = new EntityFileStorage();
+    protected EntityFileStorage implementMap(DtoFileStorageBase<Long> dto) {
+        EntityFileStorage entity = new EntityFileStorage();
         entity.setId(dto.getId());
         entity.setFilename(dto.getFilename());
         entity.setExtension(dto.getExtension());
@@ -25,8 +25,8 @@ public class MapperDtoFileStorageBase<ID> extends MapperDtoBase<ID, EntityFileSt
     }
 
     @Override
-    protected DtoFileStorageBase<ID> implementMap(EntityFileStorage<ID> entity) {
-        DtoFileStorageBase<ID> dto = new DtoFileStorageBase();
+    protected DtoFileStorageBase<Long> implementMap(EntityFileStorage entity) {
+        DtoFileStorageBase<Long> dto = new DtoFileStorageBase();
         dto.setId(entity.getId());
         dto.setFilename(entity.getFilename());
         dto.setExtension(entity.getExtension());

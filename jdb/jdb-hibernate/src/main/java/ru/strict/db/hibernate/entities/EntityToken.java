@@ -9,7 +9,7 @@ import java.util.Objects;
  * Токен
  */
 @MappedSuperclass
-public class EntityToken<ID> extends EntityBase<ID> {
+public class EntityToken extends EntityBase<Long> {
     /**
      * Токен авторизации
      */
@@ -71,7 +71,7 @@ public class EntityToken<ID> extends EntityBase<ID> {
         initialize(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
     }
 
-    public EntityToken(ID id, String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt) {
+    public EntityToken(Long id, String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt) {
         super(id);
         initialize(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
     }

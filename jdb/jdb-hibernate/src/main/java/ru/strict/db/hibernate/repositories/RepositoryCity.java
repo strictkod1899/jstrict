@@ -10,9 +10,9 @@ import ru.strict.utils.UtilClass;
 
 import java.io.Serializable;
 
-public class RepositoryCity<ID extends Serializable>
-        extends RepositoryHibernateBase<ID, EntityCity<ID>, DtoCity<ID>>
-        implements IRepositoryCity<ID> {
+public class RepositoryCity
+        extends RepositoryHibernateBase<Long, EntityCity, DtoCity<Long>>
+        implements IRepositoryCity<Long> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption", "country_id"};
 
@@ -20,7 +20,7 @@ public class RepositoryCity<ID extends Serializable>
         super("city",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityCity.class), UtilClass.castClass(DtoCity.class)),
+                new MapperDtoFactory().instance(UtilClass.castClass(EntityCity.class), UtilClass.castClass(DtoCity.class)),
                 generateIdType);
     }
 
@@ -35,7 +35,7 @@ public class RepositoryCity<ID extends Serializable>
     }
 
     @Override
-    protected Class<EntityCity<ID>> getEntityClass() {
+    protected Class<EntityCity> getEntityClass() {
         return UtilClass.castClass(EntityCity.class);
     }
 

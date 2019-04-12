@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * Связка сервиса с ролью
  */
-public class EntityServiceOnRole<ID, SERVICE> extends EntityBase<ID> {
+public class EntityServiceOnRole<SERVICE> extends EntityBase<Long> {
 
     /**
      * Идентификатор сервиса
@@ -23,16 +23,16 @@ public class EntityServiceOnRole<ID, SERVICE> extends EntityBase<ID> {
      * Идентификатор роли
      */
     @Column(name = "roleuser_id", nullable = false)
-    private ID roleId;
+    private Long roleId;
     /**
      * Роль пользователя
      */
     @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, orphanRemoval = false)
     @JoinColumn(name = "roleuser_id", insertable = false, updatable = false)
-    private EntityRoleuser<ID> role;
+    private EntityRoleuser role;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void initialize(Integer serviceId, ID roleId){
+    private void initialize(Integer serviceId, Long roleId){
         if(serviceId == null) {
             throw new NullPointerException("serviceId is NULL");
         } else if(roleId == null) {
@@ -52,12 +52,12 @@ public class EntityServiceOnRole<ID, SERVICE> extends EntityBase<ID> {
         role = null;
     }
 
-    public EntityServiceOnRole(Integer serviceId, ID roleId) {
+    public EntityServiceOnRole(Integer serviceId, Long roleId) {
         super();
         initialize(serviceId, roleId);
     }
 
-    public EntityServiceOnRole(ID id, Integer serviceId, ID roleId) {
+    public EntityServiceOnRole(Long id, Integer serviceId, Long roleId) {
         super(id);
         initialize(serviceId, roleId);
     }
@@ -88,11 +88,11 @@ public class EntityServiceOnRole<ID, SERVICE> extends EntityBase<ID> {
         return serviceProvider == null ? null : serviceProvider.getById(serviceId);
     }
 
-    public ID getRoleId() {
+    public Long getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(ID roleId) {
+    public void setRoleId(Long roleId) {
         if(roleId == null) {
             throw new NullPointerException("roleId is NULL");
         }
@@ -100,11 +100,11 @@ public class EntityServiceOnRole<ID, SERVICE> extends EntityBase<ID> {
         this.roleId = roleId;
     }
 
-    public EntityRoleuser<ID> getRole() {
+    public EntityRoleuser getRole() {
         return role;
     }
 
-    public void setRole(EntityRoleuser<ID> role) {
+    public void setRole(EntityRoleuser role) {
         this.role = role;
     }
     //</editor-fold>

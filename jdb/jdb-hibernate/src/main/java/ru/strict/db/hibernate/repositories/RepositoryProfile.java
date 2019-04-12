@@ -13,9 +13,9 @@ import java.io.Serializable;
 /**
  * Репозиторий таблицы "profile". Определяет столбцы: "name", "surname", "middlename", "user_id"
  */
-public class RepositoryProfile<ID extends Serializable>
-        extends RepositoryHibernateBase<ID, EntityProfile<ID>, DtoProfile<ID>>
-        implements IRepositoryProfile<ID, DtoProfile<ID>> {
+public class RepositoryProfile
+        extends RepositoryHibernateBase<Long, EntityProfile, DtoProfile<Long>>
+        implements IRepositoryProfile<Long, DtoProfile<Long>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id"};
 
@@ -23,17 +23,17 @@ public class RepositoryProfile<ID extends Serializable>
         super("profile",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityProfile.class), UtilClass.castClass(DtoProfile.class)),
+                new MapperDtoFactory().instance(UtilClass.castClass(EntityProfile.class), UtilClass.castClass(DtoProfile.class)),
                 generateIdType);
     }
 
     @Override
-    protected DtoProfile<ID> fill(DtoProfile<ID> dto){
+    protected DtoProfile<Long> fill(DtoProfile<Long> dto){
         return dto;
     }
 
     @Override
-    protected Class<EntityProfile<ID>> getEntityClass() {
+    protected Class<EntityProfile> getEntityClass() {
         return UtilClass.castClass(EntityProfile.class);
     }
 

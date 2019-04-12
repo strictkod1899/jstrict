@@ -12,10 +12,10 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityServiceOnRole и DtoServiceOnRole
  */
-public class MapperDtoServiceOnRole<ID, SERVICE> extends MapperDtoBase<ID, EntityServiceOnRole<ID, SERVICE>, DtoServiceOnRole<ID, SERVICE>> {
+public class MapperDtoServiceOnRole<SERVICE> extends MapperDtoBase<Long, EntityServiceOnRole<SERVICE>, DtoServiceOnRole<Long, SERVICE>> {
 
     private IModelProvider<SERVICE> serviceProvider;
-    private MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser;
+    private MapperDtoBase<Long, EntityRoleuser, DtoRoleuser<Long>> mapperRoleuser;
 
     public MapperDtoServiceOnRole(){
         this.serviceProvider = null;
@@ -23,14 +23,14 @@ public class MapperDtoServiceOnRole<ID, SERVICE> extends MapperDtoBase<ID, Entit
     }
 
     public MapperDtoServiceOnRole(IModelProvider<SERVICE> serviceProvider,
-                                  MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser){
+                                  MapperDtoBase<Long, EntityRoleuser, DtoRoleuser<Long>> mapperRoleuser){
         this.serviceProvider = serviceProvider;
         this.mapperRoleuser = mapperRoleuser;
     }
 
     @Override
-    protected EntityServiceOnRole<ID, SERVICE> implementMap(DtoServiceOnRole<ID, SERVICE> dto) {
-        EntityServiceOnRole<ID, SERVICE> entity = new EntityServiceOnRole();
+    protected EntityServiceOnRole<SERVICE> implementMap(DtoServiceOnRole<Long, SERVICE> dto) {
+        EntityServiceOnRole<SERVICE> entity = new EntityServiceOnRole();
         entity.setId(dto.getId());
         entity.setRoleId(dto.getRoleId());
         entity.setServiceId(dto.getServiceId());
@@ -40,8 +40,8 @@ public class MapperDtoServiceOnRole<ID, SERVICE> extends MapperDtoBase<ID, Entit
     }
 
     @Override
-    protected DtoServiceOnRole<ID, SERVICE> implementMap(EntityServiceOnRole<ID, SERVICE> entity) {
-        DtoServiceOnRole<ID, SERVICE> dto = new DtoServiceOnRole();
+    protected DtoServiceOnRole<Long, SERVICE> implementMap(EntityServiceOnRole<SERVICE> entity) {
+        DtoServiceOnRole<Long, SERVICE> dto = new DtoServiceOnRole();
         dto.setId(entity.getId());
         dto.setRoleId(entity.getRoleId());
         dto.setServiceId(entity.getServiceId());

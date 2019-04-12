@@ -8,20 +8,20 @@ import ru.strict.db.core.mappers.dto.MapperDtoBase;
 /**
  * Двухсторонний маппинг объектов типа EntityUser и DtoUser
  */
-public class MapperDtoUser<ID> extends MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> {
+public class MapperDtoUser extends MapperDtoBase<Long, EntityUser, DtoUser<Long>> {
 
-    private MapperDtoBase<ID, EntityUser<ID>, DtoUserBase<ID>> mapperBase;
+    private MapperDtoBase<Long, EntityUser, DtoUserBase<Long>> mapperBase;
 
-    public MapperDtoUser(MapperDtoBase<ID, EntityUser<ID>, DtoUserBase<ID>> mapperBase) {
+    public MapperDtoUser(MapperDtoBase<Long, EntityUser, DtoUserBase<Long>> mapperBase) {
         super();
         this.mapperBase = mapperBase;
     }
 
     @Override
-    protected EntityUser<ID> implementMap(DtoUser<ID> dto) {
-        EntityUser<ID> baseEntity = mapperBase.map(dto);
+    protected EntityUser implementMap(DtoUser<Long> dto) {
+        EntityUser baseEntity = mapperBase.map(dto);
 
-        EntityUser<ID> entity = new EntityUser();
+        EntityUser entity = new EntityUser();
         entity.setId(baseEntity.getId());
         entity.setUsername(baseEntity.getUsername());
         entity.setEmail(baseEntity.getEmail());
@@ -35,10 +35,10 @@ public class MapperDtoUser<ID> extends MapperDtoBase<ID, EntityUser<ID>, DtoUser
     }
 
     @Override
-    protected DtoUser<ID> implementMap(EntityUser<ID> entity) {
-        DtoUserBase<ID> baseDto = mapperBase.map(entity);
+    protected DtoUser<Long> implementMap(EntityUser entity) {
+        DtoUserBase<Long> baseDto = mapperBase.map(entity);
 
-        DtoUser<ID> dto = new DtoUser();
+        DtoUser<Long> dto = new DtoUser();
         dto.setId(baseDto.getId());
         dto.setUsername(baseDto.getUsername());
         dto.setEmail(baseDto.getEmail());

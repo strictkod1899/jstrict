@@ -7,23 +7,23 @@ import javax.persistence.*;
  * Город
  */
 @Entity
-public class EntityCity<ID> extends EntityNamed<ID> {
+public class EntityCity extends EntityNamed<Long> {
 
     /**
      * Идентификатор страны
      */
     @Column(name = "country_id", nullable = false)
-    private ID countryId;
+    private Long countryId;
 
     /**
      * Страна связанная с данным городом
      */
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id", insertable = false, updatable = false, nullable = false)
-    private EntityCountry<ID> country;
+    private EntityCountry country;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void initialize(ID countryId){
+    private void initialize(Long countryId){
         if(countryId == null) {
             throw new NullPointerException("countryId is NULL");
         }
@@ -38,23 +38,23 @@ public class EntityCity<ID> extends EntityNamed<ID> {
         country = null;
     }
 
-    public EntityCity(String caption, ID countryId) {
+    public EntityCity(String caption, Long countryId) {
         super(caption);
         initialize(countryId);
     }
 
-    public EntityCity(ID id, String caption, ID countryId) {
+    public EntityCity(Long id, String caption, Long countryId) {
         super(id, caption);
         initialize(countryId);
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public ID getCountryId() {
+    public Long getCountryId() {
         return countryId;
     }
 
-    public void setCountryId(ID countryId) {
+    public void setCountryId(Long countryId) {
         if(countryId == null) {
             throw new NullPointerException("countryId is NULL");
         }
@@ -62,19 +62,19 @@ public class EntityCity<ID> extends EntityNamed<ID> {
         this.countryId = countryId;
     }
 
-    public EntityCountry<ID> getCountry() {
+    public EntityCountry getCountry() {
         return country;
     }
 
-    public void setCountry(EntityCountry<ID> country) {
+    public void setCountry(EntityCountry country) {
         setCountry(country, true);
     }
 
-    protected void setCountrySafe(EntityCountry<ID> country) {
+    protected void setCountrySafe(EntityCountry country) {
         setCountry(country, false);
     }
 
-    private void setCountry(EntityCountry<ID> country, boolean isCircleMode){
+    private void setCountry(EntityCountry country, boolean isCircleMode){
         if(isCircleMode && country != null){
             country.addCitySafe(this);
         }

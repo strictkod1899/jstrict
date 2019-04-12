@@ -9,7 +9,7 @@ import java.util.Objects;
 @Table(name = "profile")
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class EntityProfileBase<ID> extends EntityBase<ID> {
+public abstract class EntityProfileBase extends EntityBase<Long> {
 
     /**
      * Имя
@@ -33,17 +33,17 @@ public abstract class EntityProfileBase<ID> extends EntityBase<ID> {
      * Идентификатор пользователя
      */
     @Column(name = "userx_id", nullable = false)
-    private ID userId;
+    private Long userId;
 
     /**
      * Пользователь системы связанный с данным профилем
      */
     @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, orphanRemoval = false)
     @JoinColumn(name = "userx_id", insertable = false, updatable = false)
-    private EntityUser<ID> user;
+    private EntityUser user;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void initialize(String name, String surname, String middlename, ID userId){
+    private void initialize(String name, String surname, String middlename, Long userId){
         if(name == null) {
             throw new NullPointerException("name is NULL");
         } else if(surname == null) {
@@ -68,12 +68,12 @@ public abstract class EntityProfileBase<ID> extends EntityBase<ID> {
         user = null;
     }
 
-    public EntityProfileBase(String name, String surname, String middlename, ID userId) {
+    public EntityProfileBase(String name, String surname, String middlename, Long userId) {
         super();
         initialize(name, surname, middlename, userId);
     }
 
-    public EntityProfileBase(ID id, String name, String surname, String middlename, ID userId) {
+    public EntityProfileBase(Long id, String name, String surname, String middlename, Long userId) {
         super(id);
         initialize(name, surname, middlename, userId);
     }
@@ -112,11 +112,11 @@ public abstract class EntityProfileBase<ID> extends EntityBase<ID> {
         this.middlename = middlename;
     }
 
-    public ID getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(ID userId) {
+    public void setUserId(Long userId) {
         if(userId == null) {
             throw new NullPointerException("userId is NULL");
         }
@@ -124,19 +124,19 @@ public abstract class EntityProfileBase<ID> extends EntityBase<ID> {
         this.userId = userId;
     }
 
-    public EntityUser<ID> getUser() {
+    public EntityUser getUser() {
         return user;
     }
 
-    public void setUser(EntityUser<ID> user) {
+    public void setUser(EntityUser user) {
         setUser(user, true);
     }
 
-    protected void setUserSafe(EntityUser<ID> user) {
+    protected void setUserSafe(EntityUser user) {
         setUser(user, false);
     }
 
-    private void setUser(EntityUser<ID> user, boolean isCircleMode) {
+    private void setUser(EntityUser user, boolean isCircleMode) {
         if(isCircleMode && user != null){
             user.setProfileSafe(this);
         }

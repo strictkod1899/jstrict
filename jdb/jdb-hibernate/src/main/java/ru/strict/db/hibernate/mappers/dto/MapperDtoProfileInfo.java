@@ -14,29 +14,28 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityProfileInfo и DtoProfileInfo
  */
-public class MapperDtoProfileInfo<ID>
-        extends MapperDtoBase<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>> {
+public class MapperDtoProfileInfo extends MapperDtoBase<Long, EntityProfileInfo, DtoProfileInfo<Long>> {
 
-    private MapperDtoBase<ID, EntityProfileBase<ID>, DtoProfile<ID>> mapperBase;
-    private MapperDtoBase<ID, EntityCity<ID>, DtoCity<ID>> mapperCity;
+    private MapperDtoBase<Long, EntityProfileBase, DtoProfile<Long>> mapperBase;
+    private MapperDtoBase<Long, EntityCity, DtoCity<Long>> mapperCity;
 
-    public MapperDtoProfileInfo(MapperDtoBase<ID, EntityProfileBase<ID>, DtoProfile<ID>> mapperBase){
+    public MapperDtoProfileInfo(MapperDtoBase<Long, EntityProfileBase, DtoProfile<Long>> mapperBase){
         super();
         mapperCity = null;
         this.mapperBase = mapperBase;
     }
 
-    public MapperDtoProfileInfo(MapperDtoBase<ID, EntityProfileBase<ID>, DtoProfile<ID>> mapperBase,
-                                MapperDtoBase<ID, EntityCity<ID>, DtoCity<ID>> mapperCity){
+    public MapperDtoProfileInfo(MapperDtoBase<Long, EntityProfileBase, DtoProfile<Long>> mapperBase,
+                                MapperDtoBase<Long, EntityCity, DtoCity<Long>> mapperCity){
         this.mapperBase = mapperBase;
         this.mapperCity = mapperCity;
     }
 
     @Override
-    protected EntityProfileInfo<ID> implementMap(DtoProfileInfo<ID> dto) {
-        EntityProfileBase<ID> baseEntity = mapperBase.map(dto);
+    protected EntityProfileInfo implementMap(DtoProfileInfo<Long> dto) {
+        EntityProfileBase baseEntity = mapperBase.map(dto);
 
-        EntityProfileInfo<ID> entity = new EntityProfileInfo();
+        EntityProfileInfo entity = new EntityProfileInfo();
         entity.setId(baseEntity.getId());
         entity.setName(baseEntity.getName());
         entity.setSurname(baseEntity.getSurname());
@@ -51,10 +50,10 @@ public class MapperDtoProfileInfo<ID>
     }
 
     @Override
-    protected DtoProfileInfo<ID> implementMap(EntityProfileInfo<ID> entity) {
-        DtoProfile<ID> baseDto = mapperBase.map(entity);
+    protected DtoProfileInfo<Long> implementMap(EntityProfileInfo entity) {
+        DtoProfile<Long> baseDto = mapperBase.map(entity);
 
-        DtoProfileInfo<ID> dto = new DtoProfileInfo();
+        DtoProfileInfo<Long> dto = new DtoProfileInfo();
         dto.setId(baseDto.getId());
         dto.setName(baseDto.getName());
         dto.setSurname(baseDto.getSurname());

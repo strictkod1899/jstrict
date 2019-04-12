@@ -8,10 +8,10 @@ import ru.strict.utils.UtilClass;
 /**
  * Фабрика создания маппер-классов
  */
-public class MapperDtoFactory<ID>{
+public class MapperDtoFactory{
 
-    public <E extends EntityBase<ID>, DTO extends DtoBase<ID>>
-            MapperDtoBase<ID, E, DTO> instance(Class<E> entityClass, Class<DTO> dtoClass) {
+    public <E extends EntityBase<Long>, DTO extends DtoBase<Long>>
+            MapperDtoBase<Long, E, DTO> instance(Class<E> entityClass, Class<DTO> dtoClass) {
         MapperDtoBase mapper = null;
 
         if(UtilClass.isEquals(entityClass, EntityCountry.class) && UtilClass.isEquals(dtoClass,DtoCountry.class)){
@@ -47,70 +47,76 @@ public class MapperDtoFactory<ID>{
         return mapper;
     }
 
-    private MapperDtoBase<ID, EntityCountry<ID>, DtoCountry<ID>> createMapperCountry(){
-        MapperDtoBase<ID, EntityCity<ID>, DtoCity<ID>> mapperCity = new MapperDtoCity();
+    private MapperDtoBase<Long, EntityCountry, DtoCountry<Long>> createMapperCountry(){
+        MapperDtoBase<Long, EntityCity, DtoCity<Long>> mapperCity = new MapperDtoCity();
         return new MapperDtoCountry(mapperCity);
     }
 
-    private MapperDtoBase<ID, EntityCity<ID>, DtoCity<ID>> createMapperCity(){
-        MapperDtoBase<ID, EntityCountry<ID>, DtoCountry<ID>> mapperCountry = new MapperDtoCountry();
+    private MapperDtoBase<Long, EntityCity, DtoCity<Long>> createMapperCity(){
+        MapperDtoBase<Long, EntityCountry, DtoCountry<Long>> mapperCountry = new MapperDtoCountry();
         return new MapperDtoCity(mapperCountry);
     }
 
-    private MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> createMapperProfile(){
-        MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser = createMapperUser();
+    private MapperDtoBase<Long, EntityProfileBase, DtoProfile<Long>> createMapperProfileBase(){
+        MapperDtoBase<Long, EntityUser, DtoUserBase<Long>> mapperUser = createMapperUserBase();
+        return new MapperDtoProfileBase(mapperUser);
+    }
+
+    private MapperDtoBase<Long, EntityProfile, DtoProfile<Long>> createMapperProfile(){
+        MapperDtoBase<Long, EntityUser, DtoUserBase<Long>> mapperUser = createMapperUserBase();
         return new MapperDtoProfile(mapperUser);
     }
 
-    private MapperDtoBase<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>> createMapperProfileInfo(){
-        MapperDtoBase<ID, EntityCity<ID>, DtoCity<ID>> mapperCity = new MapperDtoCity();
-        return new MapperDtoProfileInfo(createMapperProfile(), mapperCity);
+    private MapperDtoBase<Long, EntityProfileInfo, DtoProfileInfo<Long>> createMapperProfileInfo(){
+        MapperDtoBase<Long, EntityCity, DtoCity<Long>> mapperCity = new MapperDtoCity();
+        MapperDtoBase<Long, EntityProfileBase, DtoProfile<Long>> mapperProfile = createMapperProfileBase();
+        return new MapperDtoProfileInfo(mapperProfile, mapperCity);
     }
 
-    private MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> createMapperRoleuser(){
-        MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser = createMapperUser();
+    private MapperDtoBase<Long, EntityRoleuser, DtoRoleuser<Long>> createMapperRoleuser(){
+        MapperDtoBase<Long, EntityUser, DtoUserBase<Long>> mapperUser = createMapperUserBase();
         return new MapperDtoRoleuser(mapperUser);
     }
 
-    private MapperDtoBase<ID, EntityUser<ID>, DtoUserBase<ID>> createMapperUserBase(){
-        MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRolesser = new MapperDtoRoleuser();
-        MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> mapperProfile = new MapperDtoProfile();
+    private MapperDtoBase<Long, EntityUser, DtoUserBase<Long>> createMapperUserBase(){
+        MapperDtoBase<Long, EntityRoleuser, DtoRoleuser<Long>> mapperRolesser = new MapperDtoRoleuser();
+        MapperDtoBase<Long, EntityProfileBase, DtoProfile<Long>> mapperProfile = createMapperProfileBase();
         return new MapperDtoUserBase(mapperRolesser, mapperProfile);
     }
 
-    private MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> createMapperUser(){
+    private MapperDtoBase<Long, EntityUser, DtoUser<Long>> createMapperUser(){
         return new MapperDtoUser(createMapperUserBase());
     }
 
-    private MapperDtoBase<ID, EntityUser<ID>, DtoUserWithToken<ID>> createMapperUserWithToken(){
-        MapperDtoBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>> mapperToken = new MapperDtoJWTToken<>();
+    private MapperDtoBase<Long, EntityUser, DtoUserWithToken<Long>> createMapperUserWithToken(){
+        MapperDtoBase<Long, EntityJWTToken, DtoJWTToken<Long>> mapperToken = new MapperDtoJWTToken();
         return new MapperDtoUserWithToken(createMapperUser(), mapperToken);
     }
 
-    private MapperDtoBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>> createMapperUserOnRole(){
-        MapperDtoBase<ID, EntityUser<ID>, DtoUser<ID>> mapperUser = createMapperUser();
-        MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRolesser = new MapperDtoRoleuser();
+    private MapperDtoBase<Long, EntityUserOnRole, DtoUserOnRole<Long>> createMapperUserOnRole(){
+        MapperDtoBase<Long, EntityUser, DtoUser<Long>> mapperUser = createMapperUser();
+        MapperDtoBase<Long, EntityRoleuser, DtoRoleuser<Long>> mapperRolesser = new MapperDtoRoleuser();
         return new MapperDtoUserOnRole(mapperUser, mapperRolesser);
     }
 
-    private MapperDtoBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>> createMapperJWTToken(){
-        MapperDtoBase<ID, EntityUser<ID>, DtoUserWithToken<ID>> mapperUser = createMapperUserWithToken();
+    private MapperDtoBase<Long, EntityJWTToken, DtoJWTToken<Long>> createMapperJWTToken(){
+        MapperDtoBase<Long, EntityUser, DtoUserWithToken<Long>> mapperUser = createMapperUserWithToken();
         return new MapperDtoJWTToken(mapperUser);
     }
 
-    private MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStorageBase<ID>> createMapperFileStorageBase(){
-        return new MapperDtoFileStorageBase<>();
+    private MapperDtoBase<Long, EntityFileStorage, DtoFileStorageBase<Long>> createMapperFileStorageBase(){
+        return new MapperDtoFileStorageBase();
     }
 
-    private MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStoragePath<ID>> createMapperFileStoragePath(){
-        return new MapperDtoFileStoragePath<>(createMapperFileStorageBase());
+    private MapperDtoBase<Long, EntityFileStorage, DtoFileStoragePath<Long>> createMapperFileStoragePath(){
+        return new MapperDtoFileStoragePath(createMapperFileStorageBase());
     }
 
-    private MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStorageContent<ID>> createMapperFileStorageContent(){
-        return new MapperDtoFileStorageContent<>(createMapperFileStorageBase());
+    private MapperDtoBase<Long, EntityFileStorage, DtoFileStorageContent<Long>> createMapperFileStorageContent(){
+        return new MapperDtoFileStorageContent(createMapperFileStorageBase());
     }
 
-    private MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStorage<ID>> createMapperFileStorage(){
-        return new MapperDtoFileStorage<>(createMapperFileStoragePath());
+    private MapperDtoBase<Long, EntityFileStorage, DtoFileStorage<Long>> createMapperFileStorage(){
+        return new MapperDtoFileStorage(createMapperFileStoragePath());
     }
 }

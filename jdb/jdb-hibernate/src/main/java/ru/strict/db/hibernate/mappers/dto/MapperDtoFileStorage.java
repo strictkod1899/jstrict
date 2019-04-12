@@ -8,20 +8,20 @@ import ru.strict.db.core.mappers.dto.MapperDtoBase;
 /**
  * Двухсторонний маппинг объектов типа EntityFileStorage и DtoFileStorage
  */
-public class MapperDtoFileStorage<ID> extends MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStorage<ID>> {
+public class MapperDtoFileStorage extends MapperDtoBase<Long, EntityFileStorage, DtoFileStorage<Long>> {
 
-    private MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStoragePath<ID>> mapperBase;
+    private MapperDtoBase<Long, EntityFileStorage, DtoFileStoragePath<Long>> mapperBase;
 
-    public MapperDtoFileStorage(MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStoragePath<ID>> mapperBase) {
+    public MapperDtoFileStorage(MapperDtoBase<Long, EntityFileStorage, DtoFileStoragePath<Long>> mapperBase) {
         super();
         this.mapperBase = mapperBase;
     }
 
     @Override
-    protected EntityFileStorage<ID> implementMap(DtoFileStorage<ID> dto) {
-        EntityFileStorage<ID> baseEntity = mapperBase.map(dto);
+    protected EntityFileStorage implementMap(DtoFileStorage<Long> dto) {
+        EntityFileStorage baseEntity = mapperBase.map(dto);
 
-        EntityFileStorage<ID> entity = new EntityFileStorage();
+        EntityFileStorage entity = new EntityFileStorage();
         entity.setId(baseEntity.getId());
         entity.setFilename(baseEntity.getFilename());
         entity.setExtension(baseEntity.getExtension());
@@ -35,10 +35,10 @@ public class MapperDtoFileStorage<ID> extends MapperDtoBase<ID, EntityFileStorag
     }
 
     @Override
-    protected DtoFileStorage<ID> implementMap(EntityFileStorage<ID> entity) {
-        DtoFileStoragePath<ID> baseDto = mapperBase.map(entity);
+    protected DtoFileStorage<Long> implementMap(EntityFileStorage entity) {
+        DtoFileStoragePath<Long> baseDto = mapperBase.map(entity);
 
-        DtoFileStorage<ID> dto = new DtoFileStorage();
+        DtoFileStorage<Long> dto = new DtoFileStorage();
         dto.setId(baseDto.getId());
         dto.setFilename(baseDto.getFilename());
         entity.setExtension(baseDto.getExtension());
