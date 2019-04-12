@@ -29,9 +29,9 @@ public class DtoServiceOnRole<ID, SERVICE> extends DtoBase<ID> {
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(Integer serviceId, ID roleId){
         if(serviceId == null) {
-            throw new NullPointerException("serviceId is NULL");
+            throw new IllegalArgumentException("serviceId is NULL");
         } else if(roleId == null) {
-            throw new NullPointerException("roleId is NULL");
+            throw new IllegalArgumentException("roleId is NULL");
         }
 
         this.serviceId = serviceId;
@@ -64,10 +64,6 @@ public class DtoServiceOnRole<ID, SERVICE> extends DtoBase<ID> {
     }
 
     public void setServiceId(Integer serviceId) {
-        if(serviceId == null) {
-            throw new NullPointerException("userId is NULL");
-        }
-
         this.serviceId = serviceId;
     }
 
@@ -88,10 +84,6 @@ public class DtoServiceOnRole<ID, SERVICE> extends DtoBase<ID> {
     }
 
     public void setRoleId(ID roleId) {
-        if(roleId == null) {
-            throw new NullPointerException("roleId is NULL");
-        }
-
         this.roleId = roleId;
     }
 
@@ -111,22 +103,20 @@ public class DtoServiceOnRole<ID, SERVICE> extends DtoBase<ID> {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof DtoServiceOnRole) {
-            DtoServiceOnRole object = (DtoServiceOnRole) obj;
-            return super.equals(obj) && Objects.equals(serviceId, object.serviceId)
-                    && Objects.equals(serviceProvider, object.serviceProvider)
-                    && Objects.equals(getService(), object.getService())
-                    && Objects.equals(roleId, object.roleId)
-                    && Objects.equals(role, object.role);
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        DtoServiceOnRole<ID, SERVICE> that = (DtoServiceOnRole<ID, SERVICE>) o;
+        return Objects.equals(serviceId, that.serviceId) &&
+                Objects.equals(serviceProvider, that.serviceProvider) &&
+                Objects.equals(roleId, that.roleId) &&
+                Objects.equals(role, that.role);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getId(), serviceId, serviceProvider, getService(), roleId, role);
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), serviceId, serviceProvider, roleId, role);
     }
     //</editor-fold>
 }

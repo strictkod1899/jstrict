@@ -28,7 +28,7 @@ public class KeyValue<KEY, VALUE> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        KeyValue<?, ?> object = (KeyValue<?, ?>) o;
+        KeyValue<KEY, VALUE> object = (KeyValue<KEY, VALUE>) o;
         return Objects.equals(key, object.key) &&
                 Objects.equals(value, object.value);
     }

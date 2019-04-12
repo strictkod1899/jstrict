@@ -20,7 +20,7 @@ public class DtoCity<ID> extends DtoNamed<ID> {
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(ID countryId){
         if(countryId == null) {
-            throw new NullPointerException("countryId is NULL");
+            throw new IllegalArgumentException("countryId is NULL");
         }
 
         this.countryId = countryId;
@@ -50,10 +50,6 @@ public class DtoCity<ID> extends DtoNamed<ID> {
     }
 
     public void setCountryId(ID countryId) {
-        if(countryId == null) {
-            throw new NullPointerException("countryId is NULL");
-        }
-
         this.countryId = countryId;
     }
 
@@ -85,19 +81,18 @@ public class DtoCity<ID> extends DtoNamed<ID> {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof DtoCity) {
-            DtoCity object = (DtoCity) obj;
-            return super.equals(obj) && Objects.equals(countryId, object.getCountryId())
-                    && Objects.equals(country, object.getCountry());
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        DtoCity<ID> dtoCity = (DtoCity<ID>) o;
+        return Objects.equals(countryId, dtoCity.countryId) &&
+                Objects.equals(country, dtoCity.country);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getId(), getCaption(), countryId, country);
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), countryId, country);
     }
     //</editor-fold>
 }

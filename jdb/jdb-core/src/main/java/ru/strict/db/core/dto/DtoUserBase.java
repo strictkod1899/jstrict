@@ -43,9 +43,9 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String username, String email){
         if(ValidateBaseValue.isEmptyOrNull(username)) {
-            throw new NullPointerException("username is NULL");
+            throw new IllegalArgumentException("username is NULL");
         } else if(ValidateBaseValue.isEmptyOrNull(email)) {
-            throw new NullPointerException("email is NULL");
+            throw new IllegalArgumentException("email is NULL");
         }
 
         this.username = username;
@@ -85,10 +85,6 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     }
 
     public void setUsername(String username) {
-        if(ValidateBaseValue.isEmptyOrNull(username)) {
-            throw new NullPointerException("username is NULL");
-        }
-
         this.username = username;
     }
 
@@ -97,10 +93,6 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     }
 
     public void setEmail(String email) {
-        if(ValidateBaseValue.isEmptyOrNull(email)) {
-            throw new NullPointerException("email is NULL");
-        }
-
         this.email = email;
     }
 
@@ -134,7 +126,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
 
     public void setRoles(Collection<DtoRoleuser<ID>> roles) {
         if(roles == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("roles is NULL");
         }
 
         for(DtoRoleuser<ID> role : roles){
@@ -154,7 +146,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
 
     private void addRole(DtoRoleuser<ID> role, boolean isCircleMode){
         if(role == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("role is NULL");
         }
 
         if(role != null){
@@ -200,24 +192,23 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof DtoUserBase) {
-            DtoUserBase object = (DtoUserBase) obj;
-            return super.equals(obj) && Objects.equals(username, object.getUsername())
-                    && Objects.equals(email, object.getEmail())
-                    && Objects.equals(isBlocked, object.isBlocked())
-                    && Objects.equals(isDeleted, object.isDeleted())
-                    && Objects.equals(isConfirmEmail, object.isConfirmEmail())
-                    && Objects.equals(roles, object.getRoles())
-                    && Objects.equals(profile, object.getProfile());
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        DtoUserBase<ID> that = (DtoUserBase<ID>) o;
+        return isBlocked == that.isBlocked &&
+                isDeleted == that.isDeleted &&
+                isConfirmEmail == that.isConfirmEmail &&
+                Objects.equals(username, that.username) &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(roles, that.roles) &&
+                Objects.equals(profile, that.profile);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getId(), username, email, isBlocked, isDeleted, isConfirmEmail, roles, profile);
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), username, email, isBlocked, isDeleted, isConfirmEmail, roles, profile);
     }
     //</editor-fold>
 }

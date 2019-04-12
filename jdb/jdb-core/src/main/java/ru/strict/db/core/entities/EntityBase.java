@@ -44,17 +44,15 @@ public abstract class EntityBase<ID> implements MapTarget, Comparable<EntityBase
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof EntityBase && obj!=null) {
-            EntityBase object = (EntityBase) obj;
-            return Objects.equals(id, object.getId());
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EntityBase<ID> object = (EntityBase<ID>) o;
+        return Objects.equals(id, object.id);
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return Objects.hash(id);
     }
 

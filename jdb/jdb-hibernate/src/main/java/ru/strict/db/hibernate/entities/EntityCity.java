@@ -25,7 +25,7 @@ public class EntityCity<ID> extends EntityNamed<ID> {
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(ID countryId){
         if(countryId == null) {
-            throw new NullPointerException("countryId is NULL");
+            throw new IllegalArgumentException("countryId is NULL");
         }
 
         this.countryId = countryId;
@@ -55,10 +55,6 @@ public class EntityCity<ID> extends EntityNamed<ID> {
     }
 
     public void setCountryId(ID countryId) {
-        if(countryId == null) {
-            throw new NullPointerException("countryId is NULL");
-        }
-
         this.countryId = countryId;
     }
 
@@ -90,19 +86,18 @@ public class EntityCity<ID> extends EntityNamed<ID> {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof EntityCity) {
-            EntityCity object = (EntityCity) obj;
-            return super.equals(obj) && Objects.equals(countryId, object.getCountryId())
-                    && Objects.equals(country, object.getCountry());
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        EntityCity<ID> that = (EntityCity<ID>) o;
+        return Objects.equals(countryId, that.countryId) &&
+                Objects.equals(country, that.country);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getId(), getCaption(), countryId);
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), countryId, country);
     }
     //</editor-fold>
 }

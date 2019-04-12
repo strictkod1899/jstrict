@@ -38,7 +38,7 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
 
     public void setCities(Collection<DtoCity<ID>> cities) {
         if(cities == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("cities is NULL");
         }
 
         for(DtoCity<ID> city : cities){
@@ -58,7 +58,7 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
 
     private void addCity(DtoCity<ID> city, boolean isCircleMode){
         if(city == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("city is NULL");
         }
 
         if(cities != null){
@@ -85,18 +85,17 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof DtoCountry) {
-            DtoCountry object = (DtoCountry) obj;
-            return super.equals(obj) && Objects.equals(cities, object.getCities());
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        DtoCountry<ID> that = (DtoCountry<ID>) o;
+        return Objects.equals(cities, that.cities);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getId(), getCaption(), cities);
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), cities);
     }
     //</editor-fold>
 }

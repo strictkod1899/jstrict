@@ -56,7 +56,7 @@ public class RepositoryProfileInfo<ID>
     @Override
     public List<DtoProfileInfo<ID>> readByUserId(ID userId) {
         if(userId == null){
-            throw new NullPointerException("userId for read is NULL");
+            throw new IllegalArgumentException("userId for read is NULL");
         }
         List<DtoProfileInfo<ID>> result = null;
         SqlSession session = null;

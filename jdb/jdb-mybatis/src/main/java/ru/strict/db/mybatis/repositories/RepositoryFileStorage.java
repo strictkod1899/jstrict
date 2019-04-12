@@ -46,7 +46,7 @@ public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
     @Override
     public List<DTO> readByDisplayName(String displayName) {
         if(ValidateBaseValue.isEmptyOrNull(displayName)){
-            throw new NullPointerException("displayName for read is NULL");
+            throw new IllegalArgumentException("displayName for read is NULL");
         }
         List<DTO> result = null;
         SqlSession session = null;
@@ -73,7 +73,7 @@ public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
     @Override
     public List<DTO> readByFileNameAndExtension(String fileName, String extension) {
         if(ValidateBaseValue.isEmptyOrNull(fileName)){
-            throw new NullPointerException("fileName for read is NULL");
+            throw new IllegalArgumentException("fileName for read is NULL");
         }
         if(ValidateBaseValue.isEmptyOrNull(extension)){
             throw new IllegalArgumentException("extension for read is NULL");
@@ -133,7 +133,7 @@ public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
     @Override
     public DTO readByFilePath(String filePath) {
         if(ValidateBaseValue.isEmptyOrNull(filePath)){
-            throw new NullPointerException("filePath for read is NULL");
+            throw new IllegalArgumentException("filePath for read is NULL");
         }
         DTO result = null;
         SqlSession session = null;

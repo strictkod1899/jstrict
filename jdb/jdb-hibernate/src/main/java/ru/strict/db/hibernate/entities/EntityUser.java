@@ -67,11 +67,11 @@ public class EntityUser<ID> extends EntityBase<ID> {
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String username, String passwordEncode, String email){
         if(ValidateBaseValue.isEmptyOrNull(username)) {
-            throw new NullPointerException("username is NULL");
+            throw new IllegalArgumentException("username is NULL");
         } else if(ValidateBaseValue.isEmptyOrNull(passwordEncode)) {
-            throw new NullPointerException("passwordEncode is NULL");
+            throw new IllegalArgumentException("passwordEncode is NULL");
         } else if(ValidateBaseValue.isEmptyOrNull(email)) {
-            throw new NullPointerException("email is NULL");
+            throw new IllegalArgumentException("email is NULL");
         }
 
         this.username = username;
@@ -115,10 +115,6 @@ public class EntityUser<ID> extends EntityBase<ID> {
     }
 
     public void setUsername(String username) {
-        if(ValidateBaseValue.isEmptyOrNull(username)) {
-            throw new NullPointerException("username is NULL");
-        }
-
         this.username = username;
     }
 
@@ -127,10 +123,6 @@ public class EntityUser<ID> extends EntityBase<ID> {
     }
 
     public void setPasswordEncode(String passwordEncode) {
-        if(ValidateBaseValue.isEmptyOrNull(passwordEncode)) {
-            throw new NullPointerException("passwordEncode is NULL");
-        }
-
         this.passwordEncode = passwordEncode;
     }
 
@@ -139,10 +131,6 @@ public class EntityUser<ID> extends EntityBase<ID> {
     }
 
     public void setEmail(String email) {
-        if(ValidateBaseValue.isEmptyOrNull(email)) {
-            throw new NullPointerException("email is NULL");
-        }
-
         this.email = email;
     }
 
@@ -176,7 +164,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
 
     public void setRoles(Collection<EntityRoleuser<ID>> roles) {
         if(roles == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("roles is NULL");
         }
 
         for(EntityRoleuser<ID> role : roles){
@@ -196,7 +184,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
 
     private void addRole(EntityRoleuser<ID> role, boolean isCircleMode){
         if(role == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("role is NULL");
         }
 
         if(role != null){
@@ -221,7 +209,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
 
     public void setTokens(Collection<EntityJWTToken<ID>> tokens) {
         if(tokens == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("tokens is NULL");
         }
 
         for(EntityJWTToken<ID> token : tokens){
@@ -241,7 +229,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
 
     private void addToken(EntityJWTToken<ID> token, boolean isCircleMode){
         if(token == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("token is NULL");
         }
 
         if(tokens != null){
@@ -288,27 +276,25 @@ public class EntityUser<ID> extends EntityBase<ID> {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof EntityUser) {
-            EntityUser object = (EntityUser) obj;
-            return super.equals(obj) && Objects.equals(username, object.getUsername())
-                    && Objects.equals(passwordEncode, object.getPasswordEncode())
-                    && Objects.equals(email, object.getEmail())
-                    && Objects.equals(isBlocked, object.isBlocked())
-                    && Objects.equals(isDeleted, object.isDeleted())
-                    && Objects.equals(isConfirmEmail, object.isConfirmEmail())
-                    && Objects.equals(roles, object.getRoles())
-                    && Objects.equals(profile, object.getProfile())
-                    && Objects.equals(tokens, object.getTokens());
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        EntityUser<ID> that = (EntityUser<ID>) o;
+        return isBlocked == that.isBlocked &&
+                isDeleted == that.isDeleted &&
+                isConfirmEmail == that.isConfirmEmail &&
+                Objects.equals(username, that.username) &&
+                Objects.equals(passwordEncode, that.passwordEncode) &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(roles, that.roles) &&
+                Objects.equals(profile, that.profile) &&
+                Objects.equals(tokens, that.tokens);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getId(), getUsername(), getEmail(), isBlocked(), isDeleted(), isConfirmEmail(),
-                getRoles(), getProfile(), getPasswordEncode(), tokens);
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), username, passwordEncode, email, isBlocked, isDeleted, isConfirmEmail, roles, profile, tokens);
     }
     //</editor-fold>
 }

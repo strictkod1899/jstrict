@@ -48,7 +48,7 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(ID userId){
         if(userId == null){
-            throw new NullPointerException("userId is NULL");
+            throw new IllegalArgumentException("userId is NULL");
         }
 
         this.userId = userId;
@@ -154,10 +154,6 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
     }
 
     public void setUserId(ID userId) {
-        if(userId == null) {
-            throw new NullPointerException("userId is NULL");
-        }
-
         this.userId = userId;
     }
 
@@ -189,28 +185,25 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof DtoJWTToken) {
-            DtoJWTToken object = (DtoJWTToken) obj;
-            return super.equals(obj) && Objects.equals(issuer, object.getIssuer())
-                    && Objects.equals(subject, object.getSubject())
-                    && Objects.equals(notBefore, object.getNotBefore())
-                    && Objects.equals(audience, object.getAudience())
-                    && Objects.equals(secret, object.getSecret())
-                    && Objects.equals(algorithm, object.getAlgorithm())
-                    && Objects.equals(type, object.getType())
-                    && Objects.equals(userId, object.getUserId())
-                    && Objects.equals(user, object.getUser());
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        DtoJWTToken<ID> that = (DtoJWTToken<ID>) o;
+        return Objects.equals(issuer, that.issuer) &&
+                Objects.equals(subject, that.subject) &&
+                Objects.equals(notBefore, that.notBefore) &&
+                Objects.equals(audience, that.audience) &&
+                Objects.equals(secret, that.secret) &&
+                Objects.equals(algorithm, that.algorithm) &&
+                Objects.equals(type, that.type) &&
+                Objects.equals(userId, that.userId) &&
+                Objects.equals(user, that.user);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getId(), getAccessToken(), getRefreshToken(), getExpireTimeAccess(),
-                getExpireTimeRefresh(), getIssuedAt(), issuer, subject, notBefore, audience, secret,
-                algorithm, type, userId, user);
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), issuer, subject, notBefore, audience, secret, algorithm, type, userId, user);
     }
     //</editor-fold>
 }

@@ -26,7 +26,7 @@ public abstract class EntityBase<ID> implements Serializable, Comparable<EntityB
 
     public EntityBase(ID id) {
         if(id == null) {
-            throw new NullPointerException("id is NULL");
+            throw new IllegalArgumentException("id is NULL");
         }
 
         this.id = id;
@@ -50,17 +50,15 @@ public abstract class EntityBase<ID> implements Serializable, Comparable<EntityB
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof EntityBase && obj!=null) {
-            EntityBase object = (EntityBase) obj;
-            return Objects.equals(id, object.getId());
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EntityBase<ID> that = (EntityBase<ID>) o;
+        return Objects.equals(id, that.id);
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return Objects.hash(id);
     }
 

@@ -36,18 +36,17 @@ public class DtoFileStoragePath<ID> extends DtoFileStorageBase<ID> {
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof DtoFileStoragePath) {
-            DtoFileStoragePath object = (DtoFileStoragePath) obj;
-            return super.equals(obj) && Objects.equals(filePath, object.filePath);
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        DtoFileStoragePath<ID> that = (DtoFileStoragePath<ID>) o;
+        return Objects.equals(filePath, that.filePath);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getId(), getFilename(), getExtension(), getDisplayName(), filePath, getCreateDate(), getType(), getStatus());
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), filePath);
     }
     //</editor-fold>
 }

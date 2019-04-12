@@ -11,7 +11,7 @@ import java.util.List;
 public interface IRepositoryJWTToken<ID> extends IRepositoryExtension<ID, DtoJWTToken<ID>> {
     default DtoJWTToken<ID> readByAccessToken(String accessToken){
         if(ValidateBaseValue.isEmptyOrNull(accessToken)){
-            throw new NullPointerException("accessToken for read is NULL");
+            throw new IllegalArgumentException("accessToken for read is NULL");
         }
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(getTableName(), "access_token", accessToken, "="));
@@ -22,7 +22,7 @@ public interface IRepositoryJWTToken<ID> extends IRepositoryExtension<ID, DtoJWT
 
     default DtoJWTToken<ID> readByRefreshToken(String refreshToken){
         if(ValidateBaseValue.isEmptyOrNull(refreshToken)){
-            throw new NullPointerException("refreshToken for read is NULL");
+            throw new IllegalArgumentException("refreshToken for read is NULL");
         }
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(getTableName(), "refresh_token", refreshToken, "="));
@@ -33,7 +33,7 @@ public interface IRepositoryJWTToken<ID> extends IRepositoryExtension<ID, DtoJWT
 
     default List<DtoJWTToken<ID>> readByUserId(ID userId){
         if(userId == null){
-            throw new NullPointerException("userId for read is NULL");
+            throw new IllegalArgumentException("userId for read is NULL");
         }
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(getTableName(), "userx_id", userId, "="));

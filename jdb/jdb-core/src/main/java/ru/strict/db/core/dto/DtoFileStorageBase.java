@@ -108,23 +108,22 @@ public class DtoFileStorageBase<ID> extends DtoBase<ID> {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof DtoFileStorageBase) {
-            DtoFileStorageBase object = (DtoFileStorageBase) obj;
-            return super.equals(obj) && Objects.equals(filename, object.filename)
-                    && Objects.equals(extension, object.extension)
-                    && Objects.equals(displayName, object.displayName)
-                    && Objects.equals(createDate, object.createDate)
-                    && Objects.equals(type, object.type)
-                    && Objects.equals(status, object.status);
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        DtoFileStorageBase<ID> that = (DtoFileStorageBase<ID>) o;
+        return type == that.type &&
+                status == that.status &&
+                Objects.equals(filename, that.filename) &&
+                Objects.equals(extension, that.extension) &&
+                Objects.equals(displayName, that.displayName) &&
+                Objects.equals(createDate, that.createDate);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getId(), filename, extension, displayName, createDate, type, status);
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), filename, extension, displayName, createDate, type, status);
     }
     //</editor-fold>
 }

@@ -42,7 +42,7 @@ public class DtoUserWithToken<ID> extends DtoUser<ID> {
 
     public void setTokens(Collection<DtoJWTToken<ID>> tokens) {
         if(tokens == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("tokens is NULL");
         }
 
         for(DtoJWTToken<ID> token : tokens){
@@ -62,7 +62,7 @@ public class DtoUserWithToken<ID> extends DtoUser<ID> {
 
     private void addToken(DtoJWTToken<ID> token, boolean isCircleMode){
         if(token == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("token is NULL");
         }
 
         if(tokens != null){
@@ -89,19 +89,17 @@ public class DtoUserWithToken<ID> extends DtoUser<ID> {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof DtoUserWithToken) {
-            DtoUserWithToken object = (DtoUserWithToken) obj;
-            return super.equals(obj) && Objects.equals(tokens, object.getTokens());
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        DtoUserWithToken<ID> that = (DtoUserWithToken<ID>) o;
+        return Objects.equals(tokens, that.tokens);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getId(), getUsername(), getEmail(), isBlocked(), isDeleted(), isConfirmEmail(),
-                getRoles(), getProfile(), getPasswordEncode(), tokens);
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), tokens);
     }
     //</editor-fold>
 }

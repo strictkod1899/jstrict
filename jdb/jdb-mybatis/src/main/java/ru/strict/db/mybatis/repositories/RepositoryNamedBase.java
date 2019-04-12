@@ -30,7 +30,7 @@ public abstract class RepositoryNamedBase
     @Override
     public DTO readByName(String caption) {
         if(ValidateBaseValue.isEmptyOrNull(caption)){
-            throw new NullPointerException("caption for read by name is NULL");
+            throw new IllegalArgumentException("caption for read by name is NULL");
         }
         DTO result = null;
         SqlSession session = null;
@@ -57,7 +57,7 @@ public abstract class RepositoryNamedBase
     @Override
     public List<DTO> readAllByName(String caption) {
         if(ValidateBaseValue.isEmptyOrNull(caption)){
-            throw new NullPointerException("caption for read by name is NULL");
+            throw new IllegalArgumentException("caption for read by name is NULL");
         }
         List<DTO> result = null;
         SqlSession session = null;

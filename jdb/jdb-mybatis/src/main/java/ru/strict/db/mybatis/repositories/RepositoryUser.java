@@ -47,7 +47,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
     @Override
     public DTO readByEmail(String email) {
         if(ValidateBaseValue.isEmptyOrNull(email)){
-            throw new NullPointerException("email for read is NULL");
+            throw new IllegalArgumentException("email for read is NULL");
         }
         DTO result = null;
         SqlSession session = null;
@@ -74,7 +74,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
     @Override
     public boolean isDeleted(ID id) {
         if(id == null){
-            throw new NullPointerException("id for read is NULL");
+            throw new IllegalArgumentException("id for read is NULL");
         }
         boolean result = false;
         SqlSession session = null;
@@ -100,7 +100,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
     @Override
     public boolean isBlocked(ID id) {
         if(id == null){
-            throw new NullPointerException("id for read is NULL");
+            throw new IllegalArgumentException("id for read is NULL");
         }
         boolean result = false;
         SqlSession session = null;
@@ -126,7 +126,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
     @Override
     public boolean isConfirmEmail(ID id) {
         if(id == null){
-            throw new NullPointerException("id for read is NULL");
+            throw new IllegalArgumentException("id for read is NULL");
         }
         boolean result = false;
         SqlSession session = null;

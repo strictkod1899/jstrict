@@ -31,7 +31,7 @@ public class RepositoryUserOnRole<ID>
     @Override
     public List<DtoUserOnRole<ID>> readByUserId(ID userId) {
         if(userId == null){
-            throw new NullPointerException("userId for read is NULL");
+            throw new IllegalArgumentException("userId for read is NULL");
         }
         List<DtoUserOnRole<ID>> result = null;
         SqlSession session = null;
@@ -58,7 +58,7 @@ public class RepositoryUserOnRole<ID>
     @Override
     public List<DtoUserOnRole<ID>> readByRoleId(ID roleId) {
         if(roleId == null){
-            throw new NullPointerException("roleId for read is NULL");
+            throw new IllegalArgumentException("roleId for read is NULL");
         }
         List<DtoUserOnRole<ID>> result = null;
         SqlSession session = null;

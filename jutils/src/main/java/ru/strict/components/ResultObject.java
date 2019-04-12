@@ -23,7 +23,7 @@ public class ResultObject<OBJECT> extends ResultMessages {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        ResultObject<?> object = (ResultObject<?>) o;
+        ResultObject<OBJECT> object = (ResultObject<OBJECT>) o;
         return Objects.equals(this.object, object.object);
     }
 

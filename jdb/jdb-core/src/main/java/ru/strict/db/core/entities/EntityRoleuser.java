@@ -28,7 +28,7 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String code, String description){
         if(code == null) {
-            throw new NullPointerException("code is NULL");
+            throw new IllegalArgumentException("code is NULL");
         }
 
         this.code = code;
@@ -60,10 +60,6 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
     }
 
     public void setCode(String code) {
-        if(code == null) {
-            throw new NullPointerException("code is NULL");
-        }
-
         this.code = code;
     }
 
@@ -81,7 +77,7 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
 
     public void setUsers(Collection<EntityUser<ID>> users) {
         if(users == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("user is NULL");
         }
 
         for(EntityUser<ID> user : users){
@@ -101,7 +97,7 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
 
     private void addUser(EntityUser<ID> user, boolean isCircleMode){
         if(user == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("user is NULL");
         }
 
         if(user != null){
@@ -128,20 +124,19 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof EntityRoleuser) {
-            EntityRoleuser object = (EntityRoleuser) obj;
-            return super.equals(obj) && Objects.equals(code, object.getCode())
-                    && Objects.equals(description, object.getDescription())
-                    && Objects.equals(users, object.getUsers());
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        EntityRoleuser<ID> that = (EntityRoleuser<ID>) o;
+        return Objects.equals(code, that.code) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(users, that.users);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getId(), code, description, users);
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), code, description, users);
     }
     //</editor-fold>
 }

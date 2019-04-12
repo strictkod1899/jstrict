@@ -113,7 +113,7 @@ public class DbRequests implements IDbRequest, IDbParametrizedRequest {
         if(request != null){
             joinRequests.add(request);
         }else{
-            throw new NullPointerException("join-request is NULL");
+            throw new IllegalArgumentException("join-request is NULL");
         }
     }
 
@@ -125,7 +125,7 @@ public class DbRequests implements IDbRequest, IDbParametrizedRequest {
         if(request != null){
             whereRequests.add(request);
         }else{
-            throw new NullPointerException("where-request is NULL");
+            throw new IllegalArgumentException("where-request is NULL");
         }
     }
 

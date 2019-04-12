@@ -17,7 +17,7 @@ public class DtoUser<ID> extends DtoUserBase<ID> {
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String passwordEncode){
         if(ValidateBaseValue.isEmptyOrNull(passwordEncode)) {
-            throw new NullPointerException("passwordEncode is NULL");
+            throw new IllegalArgumentException("passwordEncode is NULL");
         }
 
         this.passwordEncode = passwordEncode;
@@ -44,10 +44,6 @@ public class DtoUser<ID> extends DtoUserBase<ID> {
     }
 
     public void setPasswordEncode(String passwordEncode) {
-        if(passwordEncode == null) {
-            throw new NullPointerException("passwordEncode is NULL");
-        }
-
         this.passwordEncode = passwordEncode;
     }
     //</editor-fold>
@@ -59,19 +55,17 @@ public class DtoUser<ID> extends DtoUserBase<ID> {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof DtoUser) {
-            DtoUser object = (DtoUser) obj;
-            return super.equals(obj) && Objects.equals(passwordEncode, object.getPasswordEncode());
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        DtoUser<ID> dtoUser = (DtoUser<ID>) o;
+        return Objects.equals(passwordEncode, dtoUser.passwordEncode);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getId(), getUsername(), getEmail(), isBlocked(), isDeleted(), isConfirmEmail(),
-                getRoles(), getProfile(), passwordEncode);
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), passwordEncode);
     }
     //</editor-fold>
 }

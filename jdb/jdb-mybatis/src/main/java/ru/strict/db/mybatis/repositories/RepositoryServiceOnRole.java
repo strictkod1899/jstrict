@@ -33,7 +33,7 @@ public class RepositoryServiceOnRole<ID, SERVICE>
     @Override
     public List<DtoServiceOnRole<ID, SERVICE>> readByServiceId(Integer serviceId) {
         if(serviceId == null){
-            throw new NullPointerException("serviceId for read is NULL");
+            throw new IllegalArgumentException("serviceId for read is NULL");
         }
         List<DtoServiceOnRole<ID, SERVICE>> result = null;
         SqlSession session = null;
@@ -60,7 +60,7 @@ public class RepositoryServiceOnRole<ID, SERVICE>
     @Override
     public List<DtoServiceOnRole<ID, SERVICE>> readByRoleId(ID roleId) {
         if(roleId == null){
-            throw new NullPointerException("roleId for read is NULL");
+            throw new IllegalArgumentException("roleId for read is NULL");
         }
         List<DtoServiceOnRole<ID, SERVICE>> result = null;
         SqlSession session = null;

@@ -16,7 +16,7 @@ public abstract class EntityNamed<ID> extends EntityBase<ID> {
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String caption){
         if(caption == null) {
-            throw new NullPointerException("caption is NULL");
+            throw new IllegalArgumentException("caption is NULL");
         }
 
         this.caption = caption;
@@ -44,10 +44,6 @@ public abstract class EntityNamed<ID> extends EntityBase<ID> {
     }
 
     public void setCaption(String caption) {
-        if(caption == null) {
-            throw new NullPointerException("caption is NULL");
-        }
-
         this.caption = caption;
     }
     //</editor-fold>
@@ -59,18 +55,17 @@ public abstract class EntityNamed<ID> extends EntityBase<ID> {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof EntityNamed) {
-            EntityNamed object = (EntityNamed) obj;
-            return super.equals(obj) && Objects.equals(caption, object.getCaption());
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        EntityNamed<?> that = (EntityNamed<?>) o;
+        return Objects.equals(caption, that.caption);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getId(), caption);
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), caption);
     }
     //</editor-fold>
 }

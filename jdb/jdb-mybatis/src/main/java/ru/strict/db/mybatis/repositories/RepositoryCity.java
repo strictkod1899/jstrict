@@ -31,7 +31,7 @@ public class RepositoryCity<ID>
     @Override
     public List<DtoCity<ID>> readByCountryId(ID countryId) {
         if(countryId == null){
-            throw new NullPointerException("countryId for read is NULL");
+            throw new IllegalArgumentException("countryId for read is NULL");
         }
         List<DtoCity<ID>> result = null;
         SqlSession session = null;

@@ -106,22 +106,21 @@ public class EntityProfileInfo<ID> extends EntityProfileBase<ID> {
                 getSurname(), getName(), getMiddlename(), dateBirth, phone, cityId);
     }
 
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof EntityProfileInfo){
-            EntityProfileInfo object = (EntityProfileInfo) obj;
-            return super.equals(obj) && Objects.equals(dateBirth, object.getDateBirth())
-                    && Objects.equals(phone, object.getPhone())
-                    && Objects.equals(cityId, object.getCityId())
-                    && Objects.equals(city, object.getCity());
-        }else {
-            return false;
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        EntityProfileInfo<ID> that = (EntityProfileInfo<ID>) o;
+        return Objects.equals(dateBirth, that.dateBirth) &&
+                Objects.equals(phone, that.phone) &&
+                Objects.equals(cityId, that.cityId) &&
+                Objects.equals(city, that.city);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getId(), getName(), getSurname(), getMiddlename(), getUserId(), getUser(),
-                dateBirth, phone, cityId, city);
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), dateBirth, phone, cityId, city);
     }
     //</editor-fold>
 }

@@ -137,25 +137,26 @@ public class EntityFileStorage<ID> extends EntityBase<ID> {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof EntityFileStorage) {
-            EntityFileStorage object = (EntityFileStorage) obj;
-            return super.equals(obj) && Objects.equals(filename, object.filename)
-                    && Objects.equals(extension, object.extension)
-                    && Objects.equals(displayName, object.displayName)
-                    && Objects.equals(filePath, object.filePath)
-                    && Arrays.equals(content, object.content)
-                    && Objects.equals(createDate, object.createDate)
-                    && Objects.equals(type, object.type)
-                    && Objects.equals(status, object.status);
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        EntityFileStorage<?> that = (EntityFileStorage<?>) o;
+        return type == that.type &&
+                status == that.status &&
+                Objects.equals(filename, that.filename) &&
+                Objects.equals(extension, that.extension) &&
+                Objects.equals(displayName, that.displayName) &&
+                Objects.equals(filePath, that.filePath) &&
+                Arrays.equals(content, that.content) &&
+                Objects.equals(createDate, that.createDate);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getId(), filename, extension, displayName, filePath, content, createDate, type, status);
+    public int hashCode() {
+        int result = Objects.hash(super.hashCode(), filename, extension, displayName, filePath, createDate, type, status);
+        result = 31 * result + Arrays.hashCode(content);
+        return result;
     }
     //</editor-fold>
 }

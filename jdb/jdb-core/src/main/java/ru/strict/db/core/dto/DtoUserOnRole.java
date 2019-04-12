@@ -27,9 +27,9 @@ public class DtoUserOnRole<ID> extends DtoBase<ID> {
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(ID userId, ID roleId){
         if(userId == null) {
-            throw new NullPointerException("userId is NULL");
+            throw new IllegalArgumentException("userId is NULL");
         } else if(roleId == null) {
-            throw new NullPointerException("roleId is NULL");
+            throw new IllegalArgumentException("roleId is NULL");
         }
 
         this.userId = userId;
@@ -63,10 +63,6 @@ public class DtoUserOnRole<ID> extends DtoBase<ID> {
     }
 
     public void setUserId(ID userId) {
-        if(userId == null) {
-            throw new NullPointerException("userId is NULL");
-        }
-
         this.userId = userId;
     }
 
@@ -83,10 +79,6 @@ public class DtoUserOnRole<ID> extends DtoBase<ID> {
     }
 
     public void setRoleId(ID roleId) {
-        if(roleId == null) {
-            throw new NullPointerException("roleId is NULL");
-        }
-
         this.roleId = roleId;
     }
 
@@ -106,21 +98,20 @@ public class DtoUserOnRole<ID> extends DtoBase<ID> {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof DtoUserOnRole) {
-            DtoUserOnRole object = (DtoUserOnRole) obj;
-            return super.equals(obj) && Objects.equals(userId, object.getUserId())
-                    && Objects.equals(user, object.getUser())
-                    && Objects.equals(roleId, object.getRoleId())
-                    && Objects.equals(role, object.getRole());
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        DtoUserOnRole<ID> that = (DtoUserOnRole<ID>) o;
+        return Objects.equals(userId, that.userId) &&
+                Objects.equals(user, that.user) &&
+                Objects.equals(roleId, that.roleId) &&
+                Objects.equals(role, that.role);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getId(), userId, user, roleId, role);
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), userId, user, roleId, role);
     }
     //</editor-fold>
 }

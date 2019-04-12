@@ -31,9 +31,9 @@ public class DtoToken<ID> extends DtoBase<ID> {
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt){
         if(accessToken == null) {
-            throw new NullPointerException("accessToken is NULL");
+            throw new IllegalArgumentException("accessToken is NULL");
         } else if(refreshToken == null) {
-            throw new NullPointerException("refreshToken is NULL");
+            throw new IllegalArgumentException("refreshToken is NULL");
         }
 
         this.accessToken = accessToken;
@@ -69,10 +69,6 @@ public class DtoToken<ID> extends DtoBase<ID> {
     }
 
     public void setAccessToken(String accessToken) {
-        if(accessToken == null) {
-            throw new NullPointerException("accessToken is NULL");
-        }
-
         this.accessToken = accessToken;
     }
 
@@ -81,10 +77,6 @@ public class DtoToken<ID> extends DtoBase<ID> {
     }
 
     public void setRefreshToken(String refreshToken) {
-        if(refreshToken == null) {
-            throw new NullPointerException("refreshToken is NULL");
-        }
-
         this.refreshToken = refreshToken;
     }
 
@@ -93,10 +85,6 @@ public class DtoToken<ID> extends DtoBase<ID> {
     }
 
     public void setExpireTimeAccess(Date expireTimeAccess) {
-        if(expireTimeAccess == null) {
-            throw new NullPointerException("expireTimeAccess is NULL");
-        }
-
         this.expireTimeAccess = expireTimeAccess;
     }
 
@@ -105,10 +93,6 @@ public class DtoToken<ID> extends DtoBase<ID> {
     }
 
     public void setExpireTimeRefresh(Date expireTimeRefresh) {
-        if(expireTimeRefresh == null) {
-            throw new NullPointerException("expireTimeRefresh is NULL");
-        }
-
         this.expireTimeRefresh = expireTimeRefresh;
     }
 
@@ -117,10 +101,6 @@ public class DtoToken<ID> extends DtoBase<ID> {
     }
 
     public void setIssuedAt(Date issuedAt) {
-        if(issuedAt == null) {
-            throw new NullPointerException("issuedAt is NULL");
-        }
-
         this.issuedAt = issuedAt;
     }
     //</editor-fold>
@@ -132,22 +112,21 @@ public class DtoToken<ID> extends DtoBase<ID> {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof DtoToken) {
-            DtoToken object = (DtoToken) obj;
-            return super.equals(obj) && Objects.equals(accessToken, object.getAccessToken())
-                    && Objects.equals(refreshToken, object.getRefreshToken())
-                    && Objects.equals(expireTimeAccess, object.getExpireTimeAccess())
-                    && Objects.equals(expireTimeRefresh, object.getExpireTimeRefresh())
-                    && Objects.equals(issuedAt, object.getIssuedAt());
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        DtoToken<ID> dtoToken = (DtoToken<ID>) o;
+        return Objects.equals(accessToken, dtoToken.accessToken) &&
+                Objects.equals(refreshToken, dtoToken.refreshToken) &&
+                Objects.equals(expireTimeAccess, dtoToken.expireTimeAccess) &&
+                Objects.equals(expireTimeRefresh, dtoToken.expireTimeRefresh) &&
+                Objects.equals(issuedAt, dtoToken.issuedAt);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getId(), accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
     }
     //</editor-fold>
 }

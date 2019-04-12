@@ -53,15 +53,15 @@ public abstract class RepositoryBase
     public RepositoryBase(String tableName, String[] columnsName, SOURCE connectionSource,
                           MapperDtoBase<ID, E, DTO> dtoMapper, GenerateIdType generateIdType) {
         if(tableName == null){
-            throw new NullPointerException("tableName is NULL");
+            throw new IllegalArgumentException("tableName is NULL");
         } else if(columnsName == null){
-            throw new NullPointerException("columnsName is NULL");
+            throw new IllegalArgumentException("columnsName is NULL");
         } else if(connectionSource == null){
-            throw new NullPointerException("connectionSource is NULL");
+            throw new IllegalArgumentException("connectionSource is NULL");
         } else if(dtoMapper == null){
-            throw new NullPointerException("dtoMapper is NULL");
+            throw new IllegalArgumentException("dtoMapper is NULL");
         } else if(generateIdType == null){
-            throw new NullPointerException("generateIdType is NULL");
+            throw new IllegalArgumentException("generateIdType is NULL");
         }
 
         this.connectionSource = connectionSource;
@@ -85,7 +85,7 @@ public abstract class RepositoryBase
     @Override
     public DTO createOrUpdate(DTO dto) {
         if(dto == null){
-            throw new NullPointerException("dto is NULL");
+            throw new IllegalArgumentException("dto is NULL");
         }
         if(isRowExists(dto.getId()))
             return update(dto);
@@ -96,7 +96,7 @@ public abstract class RepositoryBase
     @Override
     public DTO createOrRead(DTO dto) {
         if(dto == null){
-            throw new NullPointerException("dto is NULL");
+            throw new IllegalArgumentException("dto is NULL");
         }
         if(isRowExists(dto.getId()))
             return read(dto.getId());
@@ -172,7 +172,7 @@ public abstract class RepositoryBase
     @Override
     public DTO createOrReadFill(DTO dto) {
         if(dto == null){
-            throw new NullPointerException("dto is NULL");
+            throw new IllegalArgumentException("dto is NULL");
         }
         if(isRowExists(dto.getId()))
             return readFill(dto.getId());

@@ -35,11 +35,11 @@ public class EntityProfile<ID> extends EntityBase<ID> {
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String name, String surname, String middlename, ID userId){
         if(name == null) {
-            throw new NullPointerException("name is NULL");
+            throw new IllegalArgumentException("name is NULL");
         } else if(surname == null) {
-            throw new NullPointerException("surname is NULL");
+            throw new IllegalArgumentException("surname is NULL");
         } else if(userId == null) {
-            throw new NullPointerException("userId is NULL");
+            throw new IllegalArgumentException("userId is NULL");
         }
 
         this.name = name;
@@ -75,10 +75,6 @@ public class EntityProfile<ID> extends EntityBase<ID> {
     }
 
     public void setName(String name) {
-        if(name == null) {
-            throw new NullPointerException("name is NULL");
-        }
-
         this.name = name;
     }
 
@@ -87,10 +83,6 @@ public class EntityProfile<ID> extends EntityBase<ID> {
     }
 
     public void setSurname(String surname) {
-        if(surname == null) {
-            throw new NullPointerException("surname is NULL");
-        }
-
         this.surname = surname;
     }
 
@@ -107,10 +99,6 @@ public class EntityProfile<ID> extends EntityBase<ID> {
     }
 
     public void setUserId(ID userId) {
-        if(userId == null) {
-            throw new NullPointerException("userId is NULL");
-        }
-
         this.userId = userId;
     }
 
@@ -142,22 +130,21 @@ public class EntityProfile<ID> extends EntityBase<ID> {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof EntityProfile) {
-            EntityProfile object = (EntityProfile) obj;
-            return super.equals(obj) && Objects.equals(name, object.getName())
-                    && Objects.equals(surname, object.getSurname())
-                    && Objects.equals(middlename, object.getMiddlename())
-                    && Objects.equals(userId, object.getUserId())
-                    && Objects.equals(user, object.getUser());
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        EntityProfile<ID> that = (EntityProfile<ID>) o;
+        return Objects.equals(name, that.name) &&
+                Objects.equals(surname, that.surname) &&
+                Objects.equals(middlename, that.middlename) &&
+                Objects.equals(userId, that.userId) &&
+                Objects.equals(user, that.user);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getId(), name, surname, middlename, userId, user);
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), name, surname, middlename, userId, user);
     }
     //</editor-fold>
 }

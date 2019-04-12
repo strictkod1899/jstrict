@@ -41,7 +41,7 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
 
     public void setCities(Collection<EntityCity<ID>> cities) {
         if(cities == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("cities is NULL");
         }
 
         for(EntityCity<ID> city : cities){
@@ -61,7 +61,7 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
 
     private void addCity(EntityCity<ID> city, boolean isCircleMode){
         if(city == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("city is NULL");
         }
 
         if(cities != null){
@@ -88,18 +88,17 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof EntityCountry) {
-            EntityCountry object = (EntityCountry) obj;
-            return super.equals(obj) && Objects.equals(cities, object.getCities());
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        EntityCountry<ID> that = (EntityCountry<ID>) o;
+        return Objects.equals(cities, that.cities);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getId(), getCaption(), cities);
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), cities);
     }
     //</editor-fold>
 }

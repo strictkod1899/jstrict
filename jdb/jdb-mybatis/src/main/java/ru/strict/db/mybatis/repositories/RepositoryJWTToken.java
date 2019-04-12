@@ -34,7 +34,7 @@ public class RepositoryJWTToken<ID>
     @Override
     public DtoJWTToken<ID> readByAccessToken(String accessToken) {
         if(ValidateBaseValue.isEmptyOrNull(accessToken)){
-            throw new NullPointerException("accessToken for read is NULL");
+            throw new IllegalArgumentException("accessToken for read is NULL");
         }
         DtoJWTToken<ID> result = null;
         SqlSession session = null;
@@ -61,7 +61,7 @@ public class RepositoryJWTToken<ID>
     @Override
     public DtoJWTToken<ID> readByRefreshToken(String refreshToken) {
         if(ValidateBaseValue.isEmptyOrNull(refreshToken)){
-            throw new NullPointerException("refreshToken for read is NULL");
+            throw new IllegalArgumentException("refreshToken for read is NULL");
         }
         DtoJWTToken<ID> result = null;
         SqlSession session = null;
@@ -88,7 +88,7 @@ public class RepositoryJWTToken<ID>
     @Override
     public List<DtoJWTToken<ID>> readByUserId(ID userId) {
         if(userId == null){
-            throw new NullPointerException("userId for read is NULL");
+            throw new IllegalArgumentException("userId for read is NULL");
         }
         List<DtoJWTToken<ID>> result = null;
         SqlSession session = null;

@@ -21,7 +21,7 @@ public interface IRepositoryNamed<ID, DTO extends DtoBase<ID>> extends IReposito
      */
     default DTO readByName(String caption){
         if(ValidateBaseValue.isEmptyOrNull(caption)){
-            throw new NullPointerException("caption for read by name is NULL");
+            throw new IllegalArgumentException("caption for read by name is NULL");
         }
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(getTableName(), getColumnWithName(), caption, "="));
@@ -37,7 +37,7 @@ public interface IRepositoryNamed<ID, DTO extends DtoBase<ID>> extends IReposito
      */
     default List<DTO> readAllByName(String caption){
         if(ValidateBaseValue.isEmptyOrNull(caption)){
-            throw new NullPointerException("caption for read by name is NULL");
+            throw new IllegalArgumentException("caption for read by name is NULL");
         }
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(getTableName(), getColumnWithName(), caption, "="));

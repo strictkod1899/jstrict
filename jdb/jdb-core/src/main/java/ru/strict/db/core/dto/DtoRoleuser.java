@@ -27,7 +27,7 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String code, String description){
         if(code == null) {
-            throw new NullPointerException("code is NULL");
+            throw new IllegalArgumentException("code is NULL");
         }
 
         this.code = code;
@@ -59,10 +59,6 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
     }
 
     public void setCode(String code) {
-        if(code == null) {
-            throw new NullPointerException("code is NULL");
-        }
-
         this.code = code;
     }
 
@@ -80,7 +76,7 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
 
     public void setUsers(Collection<DtoUserBase<ID>> users) {
         if(users == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("users is NULL");
         }
 
         for(DtoUserBase<ID> user : users){
@@ -100,7 +96,7 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
 
     private void addUser(DtoUserBase<ID> user, boolean isCircleMode){
         if(user == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("user is NULL");
         }
 
         if(user != null){
@@ -127,20 +123,19 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof DtoRoleuser) {
-            DtoRoleuser object = (DtoRoleuser) obj;
-            return super.equals(obj) && Objects.equals(code, object.getCode())
-                    && Objects.equals(description, object.getDescription())
-                    && Objects.equals(users, object.getUsers());
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        DtoRoleuser<ID> that = (DtoRoleuser<ID>) o;
+        return Objects.equals(code, that.code) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(users, that.users);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getId(), code, description, users);
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), code, description, users);
     }
     //</editor-fold>
 }
