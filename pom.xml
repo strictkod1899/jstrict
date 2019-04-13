@@ -100,11 +100,6 @@
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
-        <artifactId>jdb-migration</artifactId>
-        <version>0.1.35</version>
-      </dependency>
-      <dependency>
-        <groupId>ru.strict</groupId>
         <artifactId>ioc</artifactId>
         <version>0.1.35</version>
       </dependency>
