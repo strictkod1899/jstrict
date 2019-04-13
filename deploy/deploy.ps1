@@ -7,8 +7,8 @@ param(
 )
 
 # modules without root pom.xml
-$childModulesPath = "./joffice/pom.xml", "./installer/pom.xml", "./jmq/pom.xml", "./jmq/jmq-rabbit/pom.xml", "./jmq/jmq-kafka/pom.xml", "./jutils/pom.xml", "./ioc/pom.xml", "./jfile/pom.xml", "./jpatterns/pom.xml", "./jfx/pom.xml", "./jswing/pom.xml", "./jneuralnetwork/pom.xml", "./jdb/pom.xml", "./jdb/jdb-core/pom.xml", "./jdb/jdb-migration/pom.xml", "./jdb/jdb-jdbc/pom.xml", "./jdb/jdb-spring/pom.xml", "./jdb/jdb-hibernate/pom.xml", "./jdb/jdb-mybatis/pom.xml"
-$modulesPath = "./pom.xml", "./joffice/pom.xml", "./installer/pom.xml", "./jmq/pom.xml", "./jmq/jmq-rabbit/pom.xml", "./jmq/jmq-kafka/pom.xml", "./jutils/pom.xml", "./ioc/pom.xml", "./jfile/pom.xml", "./jpatterns/pom.xml", "./jfx/pom.xml", "./jswing/pom.xml", "./jneuralnetwork/pom.xml", "./jdb/pom.xml", "./jdb/jdb-core/pom.xml", "./jdb/jdb-migration/pom.xml", "./jdb/jdb-jdbc/pom.xml", "./jdb/jdb-spring/pom.xml", "./jdb/jdb-hibernate/pom.xml", "./jdb/jdb-mybatis/pom.xml"
+$childModulesPath = "./joffice/pom.xml", "./installer/pom.xml", "./jmq/pom.xml", "./jmq/jmq-rabbit/pom.xml", "./jmq/jmq-kafka/pom.xml", "./jutils/pom.xml", "./ioc/pom.xml", "./jfile/pom.xml", "./jpatterns/pom.xml", "./jfx/pom.xml", "./jswing/pom.xml", "./jneuralnetwork/pom.xml", "./jdb/pom.xml", "./jdb/jdb-core/pom.xml", "./jdb/jdb-jdbc/pom.xml", "./jdb/jdb-spring/pom.xml", "./jdb/jdb-hibernate/pom.xml", "./jdb/jdb-mybatis/pom.xml"
+$modulesPath = "./pom.xml", "./joffice/pom.xml", "./installer/pom.xml", "./jmq/pom.xml", "./jmq/jmq-rabbit/pom.xml", "./jmq/jmq-kafka/pom.xml", "./jutils/pom.xml", "./ioc/pom.xml", "./jfile/pom.xml", "./jpatterns/pom.xml", "./jfx/pom.xml", "./jswing/pom.xml", "./jneuralnetwork/pom.xml", "./jdb/pom.xml", "./jdb/jdb-core/pom.xml", "./jdb/jdb-jdbc/pom.xml", "./jdb/jdb-spring/pom.xml", "./jdb/jdb-hibernate/pom.xml", "./jdb/jdb-mybatis/pom.xml"
 
 if($branch -eq $null -Or $branch -eq ''){
 	Write-Error ""
@@ -53,7 +53,6 @@ try{
 	./deploy/update_dependency_version_maven -dependencyGroupId "ru.strict" -dependencyArtifactId "jswing" -modulesPath $modulesPath
 	./deploy/update_dependency_version_maven -dependencyGroupId "ru.strict" -dependencyArtifactId "jneuralnetwork" -modulesPath $modulesPath
 	./deploy/update_dependency_version_maven -dependencyGroupId "ru.strict" -dependencyArtifactId "jdb-core" -modulesPath $modulesPath
-	./deploy/update_dependency_version_maven -dependencyGroupId "ru.strict" -dependencyArtifactId "jdb-migration" -modulesPath $modulesPath
 	./deploy/update_dependency_version_maven -dependencyGroupId "ru.strict" -dependencyArtifactId "jdb-jdbc" -modulesPath $modulesPath
 	./deploy/update_dependency_version_maven -dependencyGroupId "ru.strict" -dependencyArtifactId "jdb-spring" -modulesPath $modulesPath
 	./deploy/update_dependency_version_maven -dependencyGroupId "ru.strict" -dependencyArtifactId "jdb-hibernate" -modulesPath $modulesPath
