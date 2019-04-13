@@ -1,7 +1,6 @@
 package ru.strict.db.hibernate.common;
 
-public enum HibernateDialects {
-
+public enum HibernateDialect {
     DB2("org.hibernate.dialect.DB2Dialect"),
     POSTGRESQL("org.hibernate.dialect.PostgreSQLDialect"),
     MYSQL("org.hibernate.dialect.MySQLDialect"),
@@ -11,7 +10,7 @@ public enum HibernateDialects {
 
     private String dialect;
 
-    HibernateDialects(String dialect) {
+    HibernateDialect(String dialect) {
         this.dialect = dialect;
     }
 

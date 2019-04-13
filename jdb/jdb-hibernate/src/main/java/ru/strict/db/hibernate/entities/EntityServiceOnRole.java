@@ -8,6 +8,9 @@ import java.util.Objects;
 /**
  * Связка сервиса с ролью
  */
+@Entity
+@Table(name = "service_on_role")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class EntityServiceOnRole<SERVICE> extends EntityBase<Long> {
 
     /**
@@ -18,6 +21,7 @@ public class EntityServiceOnRole<SERVICE> extends EntityBase<Long> {
     /**
      * Объект, который определяет сервис по Id
      */
+    @Transient
     private IModelProvider<SERVICE> serviceProvider;
     /**
      * Идентификатор роли

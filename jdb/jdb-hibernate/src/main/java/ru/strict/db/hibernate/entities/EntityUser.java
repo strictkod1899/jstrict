@@ -56,6 +56,7 @@ public class EntityUser extends EntityBase<Long> {
     /**
      * Профиль пользователя
      */
+    @Transient
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private EntityProfileBase profile;
     /**

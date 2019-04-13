@@ -6,9 +6,7 @@ import java.util.Objects;
 /**
  * Основная информация профиля пользователя (имя, фамилия, отчество)
  */
-@Table(name = "profile")
 @MappedSuperclass
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class EntityProfileBase extends EntityBase<Long> {
 
     /**

@@ -1,5 +1,8 @@
 package ru.strict.db.hibernate.entities;
 
+import org.hibernate.annotations.GeneratorType;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.id.IncrementGenerator;
 import ru.strict.utils.UtilData;
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,7 +19,8 @@ public abstract class EntityBase<ID> implements Serializable, Comparable<EntityB
      */
     @Id
     @Column(name = "id")
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     private ID id;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
