@@ -28,13 +28,13 @@ public abstract class NeuralNetwork<DATA extends NeuralNetworkData, STRUCT exten
     //<editor-fold defaultstate="collapsed" desc="constructors">
     private void ensureCreateInstance(DATA data, STRUCT structure, IActivateFunction activateFunction){
         if(data==null) {
-            throw new NullPointerException("Neural Network do not supported null value. [NeuralNetworkData is null]");
+            throw new IllegalArgumentException("Neural Network do not supported null value. [NeuralNetworkData is null]");
         }
         if(structure==null) {
-            throw new NullPointerException("Neural Network do not supported null value. [NeuralNetworkStructure is null]");
+            throw new IllegalArgumentException("Neural Network do not supported null value. [NeuralNetworkStructure is null]");
         }
         if(activateFunction==null) {
-            throw new NullPointerException("Neural Network do not supported null value. [IActivateFunction is null]");
+            throw new IllegalArgumentException("Neural Network do not supported null value. [IActivateFunction is null]");
         }
     }
 

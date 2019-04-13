@@ -50,7 +50,7 @@ public class IoC implements IIoC {
     @Override
     public <RESULT> void addComponent(Class<RESULT> clazz, Class component, InstanceType type, Object...constructorArguments) {
         if(clazz == null || component == null){
-            throw new NullPointerException(
+            throw new IllegalArgumentException(
                     String.format("IoC exception. Fail add component to IoC because any is null: clazz = [%s], component = [%s]",
                             clazz, component));
         }
@@ -65,7 +65,7 @@ public class IoC implements IIoC {
     @Override
     public void addComponent(String caption, Class component, InstanceType type, Object...constructorArguments) {
         if(caption == null || component == null){
-            throw new NullPointerException(
+            throw new IllegalArgumentException(
                     String.format("IoC exception. Fail add component to IoC because any is null: caption = [%s], component = [%s]",
                             caption, component));
         }
@@ -80,7 +80,7 @@ public class IoC implements IIoC {
     @Override
     public <RESULT> void addComponent(Class<RESULT> clazz, String caption, Class component, InstanceType type, Object...constructorArguments) {
         if(caption == null || clazz == null || component == null){
-            throw new NullPointerException(
+            throw new IllegalArgumentException(
                     String.format("IoC exception. Fail add component to IoC because any is null: caption = [%s], clazz = [%s], component = [%s]",
                             caption, clazz, component));
         }
@@ -99,7 +99,7 @@ public class IoC implements IIoC {
     @Override
     public void addSingleton(String caption, Object component) {
         if(caption == null || component == null){
-            throw new NullPointerException(
+            throw new IllegalArgumentException(
                     String.format("IoC exception. Fail add component to IoC because any is null: caption = [%s], component = [%s]",
                             caption, component));
         }
@@ -114,7 +114,7 @@ public class IoC implements IIoC {
     @Override
     public <RESULT> void addSingleton(Class<RESULT> clazz, Object component) {
         if(clazz == null || component == null){
-            throw new NullPointerException(
+            throw new IllegalArgumentException(
                     String.format("IoC exception. Fail add component to IoC because any is null: clazz = [%s], component = [%s]",
                             clazz, component));
         }
@@ -129,7 +129,7 @@ public class IoC implements IIoC {
     @Override
     public <RESULT> void addSingleton(Class<RESULT> clazz, String caption, Object component) {
         if(caption == null || clazz == null || component == null){
-            throw new NullPointerException(
+            throw new IllegalArgumentException(
                     String.format("IoC exception. Fail add component to IoC because any is null: caption = [%s], clazz = [%s], component = [%s]",
                             caption, clazz, component));
         }
@@ -244,7 +244,7 @@ public class IoC implements IIoC {
 
     private <RESULT> RESULT createInstance(Class clazzInstance, Object[] constructorArguments){
         if(clazzInstance == null || constructorArguments == null){
-            throw new NullPointerException(
+            throw new IllegalArgumentException(
                     String.format("IoC exception. Fail add component to IoC because any is null:" +
                                     "clazzInstance = [%s], constructorArguments = [%s]",
                             clazzInstance, constructorArguments));

@@ -115,7 +115,7 @@ public class ExcelFile extends OfficeFile<Workbook, ExcelFormat> implements IExc
     @Override
     public Sheet getSheet(String sheetCaption) {
         if(sheetCaption == null){
-            throw new NullPointerException("sheetCaption is NULL");
+            throw new IllegalArgumentException("sheetCaption is NULL");
         }
 
         Sheet sheet = source.getSheet(sheetCaption);
@@ -129,7 +129,7 @@ public class ExcelFile extends OfficeFile<Workbook, ExcelFormat> implements IExc
     @Override
     public org.apache.poi.ss.usermodel.Row getRow(Row row) {
         if(row == null){
-            throw new NullPointerException("row is NULL");
+            throw new IllegalArgumentException("row is NULL");
         }
 
         Sheet sheet = null;
@@ -160,7 +160,7 @@ public class ExcelFile extends OfficeFile<Workbook, ExcelFormat> implements IExc
     @Override
     public org.apache.poi.ss.usermodel.Cell getCell(Cell cell){
         if(cell == null){
-            throw new NullPointerException("cell is NULL");
+            throw new IllegalArgumentException("cell is NULL");
         }
 
         org.apache.poi.ss.usermodel.Row row = null;
@@ -197,7 +197,7 @@ public class ExcelFile extends OfficeFile<Workbook, ExcelFormat> implements IExc
     @Override
     public boolean isSheetExists(String sheetCaption) {
         if(sheetCaption == null){
-            throw new NullPointerException("sheetCaption is NULL");
+            throw new IllegalArgumentException("sheetCaption is NULL");
         }
 
         boolean result = source.getSheet(sheetCaption) != null;
@@ -217,7 +217,7 @@ public class ExcelFile extends OfficeFile<Workbook, ExcelFormat> implements IExc
     @Override
     public boolean isRowExists(Row row) {
         if(row == null){
-            throw new NullPointerException("row is NULL");
+            throw new IllegalArgumentException("row is NULL");
         }
 
         boolean result = false;
@@ -251,7 +251,7 @@ public class ExcelFile extends OfficeFile<Workbook, ExcelFormat> implements IExc
     @Override
     public boolean isCellExists(Cell cell) {
         if(cell == null){
-            throw new NullPointerException("cell is NULL");
+            throw new IllegalArgumentException("cell is NULL");
         }
 
         boolean result = false;
@@ -290,7 +290,7 @@ public class ExcelFile extends OfficeFile<Workbook, ExcelFormat> implements IExc
     @Override
     public String getValue(Cell cell) {
         if(cell == null){
-            throw new NullPointerException("cell is NULL");
+            throw new IllegalArgumentException("cell is NULL");
         }
         String result = null;
         org.apache.poi.ss.usermodel.Cell foundedCell = getCell(cell);
@@ -303,7 +303,7 @@ public class ExcelFile extends OfficeFile<Workbook, ExcelFormat> implements IExc
     @Override
     public void write(WriteCell cell){
         if(cell == null){
-            throw new NullPointerException("cell is NULL");
+            throw new IllegalArgumentException("cell is NULL");
         }
         org.apache.poi.ss.usermodel.Cell createCell = getCell(cell);
         createCell.setCellValue(cell.getValue());
@@ -316,7 +316,7 @@ public class ExcelFile extends OfficeFile<Workbook, ExcelFormat> implements IExc
     @Override
     public CellStyle createStyle(CellStyleType styleType) {
         if(styleType == null){
-            throw new NullPointerException("styleType is NULL");
+            throw new IllegalArgumentException("styleType is NULL");
         }
         CellStyle result = null;
         switch(styleType){

@@ -21,17 +21,17 @@ public class JsonFile<TARGET> implements IJsonFile<TARGET> {
 
     public JsonFile(String filePath) {
         if(ValidateBaseValue.isEmptyOrNull(filePath)){
-            throw new NullPointerException("filePath is NULL");
+            throw new IllegalArgumentException("filePath is NULL");
         }
         this.filePath = filePath;
     }
 
     public JsonFile(String filePath, Class<TARGET> targetClass) {
         if(ValidateBaseValue.isEmptyOrNull(filePath)){
-            throw new NullPointerException("filePath is NULL");
+            throw new IllegalArgumentException("filePath is NULL");
         }
         if(targetClass == null){
-            throw new NullPointerException("targetClass is NULL");
+            throw new IllegalArgumentException("targetClass is NULL");
         }
         this.filePath = filePath;
         this.targetClass = targetClass;

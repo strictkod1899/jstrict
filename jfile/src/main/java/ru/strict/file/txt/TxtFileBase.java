@@ -16,7 +16,7 @@ public abstract class TxtFileBase<SOURCE> implements IFileReader<SOURCE>, IFileW
 
     public TxtFileBase(String filePath) {
         if(ValidateBaseValue.isEmptyOrNull(filePath)){
-            throw new NullPointerException("filePath is NULL");
+            throw new IllegalArgumentException("filePath is NULL");
         }
         this.filePath = filePath;
     }

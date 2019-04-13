@@ -15,7 +15,7 @@ public class PropertiesFile implements AutoCloseable{
 
     private void initialize(String filePath, String suffix){
         if(ValidateBaseValue.isEmptyOrNull(filePath)){
-            throw new NullPointerException("properties file name is NULL");
+            throw new IllegalArgumentException("properties file name is NULL");
         }
 
         String fileName = filePath;

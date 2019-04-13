@@ -140,7 +140,7 @@ public class Producer extends QueueConnection {
         }
 
         if(listener == null){
-            throw new NullPointerException("ReturnListener-instance is NULL");
+            throw new IllegalArgumentException("ReturnListener-instance is NULL");
         }
 
         channel.addReturnListener(listener);
@@ -157,7 +157,7 @@ public class Producer extends QueueConnection {
         }
 
         if(ValidateBaseValue.isEmptyOrNull(consumerTag)){
-            throw new NullPointerException("consumerTag is NULL");
+            throw new IllegalArgumentException("consumerTag is NULL");
         }
 
         channel.basicCancel(consumerTag);

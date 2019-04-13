@@ -13,7 +13,7 @@ public abstract class OfficeFile<SOURCE, FORMAT extends IOfficeFormat>
 
     public OfficeFile(String filePath) {
         if(ValidateBaseValue.isEmptyOrNull(filePath)){
-            throw new NullPointerException("filePath is NULL");
+            throw new IllegalArgumentException("filePath is NULL");
         }
         format = getFormatByCaption(UtilFile.getFileExtension(filePath));
         if(!filePath.endsWith(format.getCaption())){
@@ -25,10 +25,10 @@ public abstract class OfficeFile<SOURCE, FORMAT extends IOfficeFormat>
 
     public OfficeFile(String filePath, FORMAT format) {
         if(ValidateBaseValue.isEmptyOrNull(filePath)){
-            throw new NullPointerException("filePath is NULL");
+            throw new IllegalArgumentException("filePath is NULL");
         }
         if(format == null){
-            throw new NullPointerException("format is NULL");
+            throw new IllegalArgumentException("format is NULL");
         }
         if(!filePath.endsWith(format.getCaption())){
             filePath += "." + format.getCaption();

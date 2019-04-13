@@ -18,6 +18,5 @@
     <module>jdb-spring</module>
     <module>jdb-hibernate</module>
     <module>jdb-mybatis</module>
-    <module>jdb-migration</module>
   </modules>
 </project>
