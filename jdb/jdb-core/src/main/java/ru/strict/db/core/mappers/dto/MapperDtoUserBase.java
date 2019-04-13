@@ -22,8 +22,8 @@ public class MapperDtoUserBase<ID> extends MapperDtoBase<ID, EntityUser<ID>, Dto
         this.mapperProfile = null;
     }
 
-    public MapperDtoUserBase(MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser
-            , MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> mapperProfile){
+    public MapperDtoUserBase(MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser,
+                             MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> mapperProfile){
         this.mapperRoleuser = mapperRoleuser;
         this.mapperProfile = mapperProfile;
     }
@@ -39,7 +39,8 @@ public class MapperDtoUserBase<ID> extends MapperDtoBase<ID, EntityUser<ID>, Dto
         entity.setUsername(dto.getUsername());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) ->
                 dto.getRoles().stream().forEach(r -> entity.addRole(mapper.map(r))));
-        Optional.ofNullable(mapperProfile).ifPresent((mapper) -> entity.setProfile(mapper.map(dto.getProfile())));
+        Optional.ofNullable(mapperProfile).ifPresent((mapper) ->
+                dto.getProfiles().stream().forEach(p -> entity.addProfile(mapper.map(p))));
         return entity;
     }
 
@@ -54,7 +55,8 @@ public class MapperDtoUserBase<ID> extends MapperDtoBase<ID, EntityUser<ID>, Dto
         dto.setConfirmEmail(entity.isConfirmEmail());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) ->
                 entity.getRoles().stream().forEach(r -> dto.addRole(mapper.map(r))));
-        Optional.ofNullable(mapperProfile).ifPresent((mapper) -> dto.setProfile(mapper.map(entity.getProfile())));
+        Optional.ofNullable(mapperProfile).ifPresent((mapper) ->
+                entity.getProfiles().stream().forEach(p -> dto.addProfile(mapper.map(p))));
         return dto;
     }
 }

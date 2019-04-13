@@ -3,9 +3,11 @@ package ru.strict.db.spring.security;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
+import ru.strict.db.core.dto.DtoProfile;
 import ru.strict.db.core.dto.DtoProfileInfo;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.dto.DtoUserOnRole;
+import ru.strict.db.core.entities.EntityProfile;
 import ru.strict.db.core.entities.EntityProfileInfo;
 import ru.strict.db.core.entities.EntityUserOnRole;
 import ru.strict.db.core.mappers.dto.MapperDtoProfile;
@@ -47,8 +49,7 @@ public class RepositoryUserSecurity<ID>
     @Override
     protected DtoUserSecurity<ID> fill(DtoUserSecurity<ID> dto){
         // Добавление ролей пользователей
-        RepositorySpringBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>> repositoryUserOnRole =
-                new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
+        IRepository<ID, DtoUserOnRole<ID>> repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
         List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
@@ -61,11 +62,10 @@ public class RepositoryUserSecurity<ID>
         dto.setRoles(roleusers);
 
         // Добавления профиля
-        RepositorySpringBase<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>> repositoryProfile =
-                new RepositoryProfileInfo<>(getConnectionSource(), GenerateIdType.NONE);
+        IRepository<ID, DtoProfile<ID>> repositoryProfile = new RepositoryProfile<>(getConnectionSource(), GenerateIdType.NONE);
         requests = new DbRequests();
         requests.addWhere(new DbWhereItem(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
-        dto.setProfile(repositoryProfile.readAll(requests).stream().findFirst().orElse(null));
+        dto.setProfiles(repositoryProfile.readAll(requests));
         return dto;
     }
 

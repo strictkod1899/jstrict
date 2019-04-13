@@ -59,7 +59,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
     protected DTO fill(DTO dto){
         IRepository<ID, DtoUserOnRole<ID>> repositoryUserOnRole = null;
         IRepository<ID, DtoRoleuser<ID>> repositoryRoleuser = null;
-        IRepository<ID, DtoProfileInfo<ID>> repositoryProfile = null;
+        IRepository<ID, DtoProfile<ID>> repositoryProfile = null;
         IRepository<ID, DtoJWTToken<ID>> repositoryToken = null;
         try {
             // Добавление ролей пользователей
@@ -76,10 +76,10 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
             dto.setRoles(roleusers);
 
             // Добавления профиля
-            repositoryProfile = new RepositoryProfileInfo<>(getConnectionSource(), GenerateIdType.NONE);
+            repositoryProfile = new RepositoryProfile<>(getConnectionSource(), GenerateIdType.NONE);
             requests = new DbRequests();
             requests.addWhere(new DbWhereItem(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
-            dto.setProfile(repositoryProfile.readAll(requests).stream().findFirst().orElse(null));
+            dto.setProfiles(repositoryProfile.readAll(requests));
 
             // Добавление токенов
             if(dto instanceof DtoUserWithToken){

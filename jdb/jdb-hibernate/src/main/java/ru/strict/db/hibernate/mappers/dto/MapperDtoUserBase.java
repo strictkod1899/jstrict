@@ -3,6 +3,7 @@ package ru.strict.db.hibernate.mappers.dto;
 import ru.strict.db.core.dto.DtoProfile;
 import ru.strict.db.core.dto.DtoRoleuser;
 import ru.strict.db.core.dto.DtoUserBase;
+import ru.strict.db.hibernate.entities.EntityProfile;
 import ru.strict.db.hibernate.entities.EntityProfileBase;
 import ru.strict.db.hibernate.entities.EntityRoleuser;
 import ru.strict.db.hibernate.entities.EntityUser;
@@ -16,15 +17,15 @@ import java.util.Optional;
 public class MapperDtoUserBase extends MapperDtoBase<Long, EntityUser, DtoUserBase<Long>> {
 
     private MapperDtoBase<Long, EntityRoleuser, DtoRoleuser<Long>> mapperRoleuser;
-    private MapperDtoBase<Long, EntityProfileBase, DtoProfile<Long>> mapperProfile;
+    private MapperDtoBase<Long, EntityProfile, DtoProfile<Long>> mapperProfile;
 
     public MapperDtoUserBase(){
         this.mapperRoleuser = null;
         this.mapperProfile = null;
     }
 
-    public MapperDtoUserBase(MapperDtoBase<Long, EntityRoleuser, DtoRoleuser<Long>> mapperRoleuser
-            , MapperDtoBase<Long, EntityProfileBase, DtoProfile<Long>> mapperProfile){
+    public MapperDtoUserBase(MapperDtoBase<Long, EntityRoleuser, DtoRoleuser<Long>> mapperRoleuser,
+                             MapperDtoBase<Long, EntityProfile, DtoProfile<Long>> mapperProfile){
         this.mapperRoleuser = mapperRoleuser;
         this.mapperProfile = mapperProfile;
     }
@@ -40,7 +41,8 @@ public class MapperDtoUserBase extends MapperDtoBase<Long, EntityUser, DtoUserBa
         entity.setUsername(dto.getUsername());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) ->
                 dto.getRoles().stream().forEach(r -> entity.addRole(mapper.map(r))));
-        Optional.ofNullable(mapperProfile).ifPresent((mapper) -> entity.setProfile(mapper.map(dto.getProfile())));
+        Optional.ofNullable(mapperProfile).ifPresent((mapper) ->
+                dto.getProfiles().stream().forEach(p -> entity.addProfile(mapper.map(p))));
         return entity;
     }
 
@@ -55,7 +57,8 @@ public class MapperDtoUserBase extends MapperDtoBase<Long, EntityUser, DtoUserBa
         dto.setConfirmEmail(entity.isConfirmEmail());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) ->
                 entity.getRoles().stream().forEach(r -> dto.addRole(mapper.map(r))));
-        Optional.ofNullable(mapperProfile).ifPresent((mapper) -> dto.setProfile(mapper.map(entity.getProfile())));
+        Optional.ofNullable(mapperProfile).ifPresent((mapper) ->
+                entity.getProfiles().stream().forEach(p -> dto.addProfile(mapper.map(p))));
         return dto;
     }
 }

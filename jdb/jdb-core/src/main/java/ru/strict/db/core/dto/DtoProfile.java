@@ -116,7 +116,7 @@ public class DtoProfile<ID> extends DtoBase<ID> {
 
     private void setUser(DtoUserBase<ID> user, boolean isCircleMode) {
         if(isCircleMode && user != null){
-            user.setProfileSafe(this);
+            user.addProfileSafe(this);
         }
 
         this.user = user;

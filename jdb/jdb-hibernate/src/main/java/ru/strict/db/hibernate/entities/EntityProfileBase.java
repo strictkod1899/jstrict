@@ -124,7 +124,7 @@ public abstract class EntityProfileBase extends EntityBase<Long> {
 
     private void setUser(EntityUser user, boolean isCircleMode) {
         if(isCircleMode && user != null){
-            user.setProfileSafe(this);
+            user.addProfileSafe(this);
         }
 
         this.user = user;

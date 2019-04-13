@@ -36,9 +36,9 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
      */
     private Collection<DtoRoleuser<ID>> roles;
     /**
-     * Профиль пользователя
+     * Профили пользователя
      */
-    private DtoProfile<ID> profile;
+    private Collection<DtoProfile<ID>> profiles;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String username, String email){
@@ -54,7 +54,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         isDeleted = false;
         isConfirmEmail = false;
         roles = new TreeSet<>();
-        profile = null;
+        profiles = new TreeSet<>();
     }
 
     public DtoUserBase() {
@@ -65,7 +65,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         isDeleted = false;
         isConfirmEmail = false;
         roles = new TreeSet<>();
-        profile = null;
+        profiles = new TreeSet<>();
     }
 
     public DtoUserBase(String username, String email) {
@@ -165,23 +165,49 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         }
     }
 
-    public DtoProfile<ID> getProfile() {
-        return profile;
+    public Collection<DtoProfile<ID>> getProfiles() {
+        return profiles;
     }
 
-    public void setProfile(DtoProfile<ID> profile) {
-        setProfile(profile, true);
-    }
-
-    protected void setProfileSafe(DtoProfile<ID> profile) {
-        setProfile(profile, false);
-    }
-
-    private void setProfile(DtoProfile<ID> profile, boolean isCircleMode) {
-        if(isCircleMode && profile != null){
-            profile.setUserSafe(this);
+    public void setProfiles(Collection<DtoProfile<ID>> profiles) {
+        if(profiles == null) {
+            throw new IllegalArgumentException("profiles is NULL");
         }
-        this.profile = profile;
+
+        for(DtoProfile<ID> profile : profiles){
+            profile.setUser(this);
+        }
+
+        this.profiles = profiles;
+    }
+
+    public void addProfile(DtoProfile<ID> profile){
+        addProfile(profile, true);
+    }
+
+    protected void addProfileSafe(DtoProfile<ID> profile){
+        addProfile(profile, false);
+    }
+
+    private void addProfile(DtoProfile<ID> profile, boolean isCircleMode){
+        if(profile == null) {
+            throw new IllegalArgumentException("profile is NULL");
+        }
+
+        if(profiles != null){
+            if(isCircleMode) {
+                profile.setUserSafe(this);
+            }
+            profiles.add(profile);
+        }
+    }
+
+    public void addProfiles(Collection<DtoProfile<ID>> profiles){
+        if(profiles!=null) {
+            for(DtoProfile<ID> profile : profiles){
+                addProfile(profile);
+            }
+        }
     }
     //</editor-fold>
 
@@ -203,12 +229,12 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
                 Objects.equals(username, that.username) &&
                 Objects.equals(email, that.email) &&
                 Objects.equals(roles, that.roles) &&
-                Objects.equals(profile, that.profile);
+                Objects.equals(profiles, that.profiles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), username, email, isBlocked, isDeleted, isConfirmEmail, roles, profile);
+        return Objects.hash(super.hashCode(), username, email, isBlocked, isDeleted, isConfirmEmail, roles, profiles);
     }
     //</editor-fold>
 }

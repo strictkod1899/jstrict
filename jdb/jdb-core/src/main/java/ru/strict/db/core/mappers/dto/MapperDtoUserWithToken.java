@@ -36,7 +36,7 @@ public class MapperDtoUserWithToken<ID> extends MapperDtoBase<ID, EntityUser<ID>
         entity.setDeleted(baseEntity.isDeleted());
         entity.setConfirmEmail(baseEntity.isConfirmEmail());
         entity.setRoles(baseEntity.getRoles());
-        entity.setProfile(baseEntity.getProfile());
+        entity.setProfiles(baseEntity.getProfiles());
         entity.setPasswordEncode(baseEntity.getPasswordEncode());
         Optional.ofNullable(mapperToken).ifPresent((mapper) ->
                 dto.getTokens().stream().forEach(token -> entity.addToken(mapper.map(token))));
@@ -55,7 +55,7 @@ public class MapperDtoUserWithToken<ID> extends MapperDtoBase<ID, EntityUser<ID>
         dto.setDeleted(baseDto.isDeleted());
         dto.setConfirmEmail(baseDto.isConfirmEmail());
         dto.setRoles(baseDto.getRoles());
-        dto.setProfile(baseDto.getProfile());
+        dto.setProfiles(baseDto.getProfiles());
         dto.setPasswordEncode(baseDto.getPasswordEncode());
         Optional.ofNullable(mapperToken).ifPresent((mapper) ->
                 entity.getTokens().stream().forEach(token -> dto.addToken(mapper.map(token))));

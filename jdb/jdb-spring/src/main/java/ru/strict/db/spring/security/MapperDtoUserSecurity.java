@@ -31,15 +31,16 @@ public class MapperDtoUserSecurity<ID> extends MapperDtoBase<ID, EntityUserSecur
     protected EntityUserSecurity<ID> implementMap(DtoUserSecurity<ID> dto) {
         EntityUserSecurity<ID> entity = new EntityUserSecurity();
         entity.setId(dto.getId());
+        entity.setUsername(dto.getUsername());
+        entity.setPasswordEncode(dto.getPasswordEncode());
         entity.setEmail(dto.getEmail());
         entity.setBlocked(dto.isBlocked());
         entity.setDeleted(dto.isDeleted());
         entity.setConfirmEmail(dto.isConfirmEmail());
-        entity.setUsername(dto.getUsername());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) ->
                 dto.getRoles().stream().forEach(r -> entity.addRole(mapper.map(r))));
-        Optional.ofNullable(mapperProfile).ifPresent((mapper) -> entity.setProfile(mapper.map(dto.getProfile())));
-        entity.setPasswordEncode(dto.getPasswordEncode());
+        Optional.ofNullable(mapperProfile).ifPresent((mapper) ->
+                dto.getProfiles().stream().forEach(p -> entity.addProfile(mapper.map(p))));
         return entity;
     }
 
@@ -48,14 +49,15 @@ public class MapperDtoUserSecurity<ID> extends MapperDtoBase<ID, EntityUserSecur
         DtoUserSecurity<ID> dto = new DtoUserSecurity();
         dto.setId(entity.getId());
         dto.setUsername(entity.getUsername());
+        dto.setPasswordEncode(entity.getPasswordEncode());
         dto.setEmail(entity.getEmail());
         dto.setBlocked(entity.isBlocked());
         dto.setDeleted(entity.isDeleted());
         dto.setConfirmEmail(entity.isConfirmEmail());
         Optional.ofNullable(mapperRoleuser).ifPresent((mapper) ->
                 entity.getRoles().stream().forEach(r -> dto.addRole(mapper.map(r))));
-        Optional.ofNullable(mapperProfile).ifPresent((mapper) -> dto.setProfile(mapper.map(entity.getProfile())));
-        dto.setPasswordEncode(entity.getPasswordEncode());
+        Optional.ofNullable(mapperProfile).ifPresent((mapper) ->
+                entity.getProfiles().stream().forEach(p -> dto.addProfile(mapper.map(p))));
         return dto;
     }
 }

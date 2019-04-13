@@ -54,11 +54,10 @@ public class EntityUser extends EntityBase<Long> {
             inverseJoinColumns = @JoinColumn(name = "roleuser_id", insertable = false, updatable = false))
     private Collection<EntityRoleuser> roles;
     /**
-     * Профиль пользователя
+     * Профили пользователя
      */
     @Transient
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private EntityProfileBase profile;
+    private Collection<EntityProfile> profiles;
     /**
      * Токены пользователя
      */
@@ -83,7 +82,7 @@ public class EntityUser extends EntityBase<Long> {
         isConfirmEmail = false;
         roles = new TreeSet<>();
         tokens = new TreeSet<>();
-        profile = null;
+        profiles = new TreeSet<>();
     }
 
     public EntityUser() {
@@ -96,7 +95,7 @@ public class EntityUser extends EntityBase<Long> {
         isConfirmEmail = false;
         roles = new TreeSet<>();
         tokens = new TreeSet<>();
-        profile = null;
+        profiles = new TreeSet<>();
     }
 
     public EntityUser(String username, String passwordEncode, String email) {
@@ -249,23 +248,57 @@ public class EntityUser extends EntityBase<Long> {
         }
     }
 
-    public EntityProfileBase getProfile() {
-        return profile;
+    public Collection<EntityProfile> getProfiles() {
+        return profiles;
     }
 
-    public void setProfile(EntityProfileBase profile) {
-        setProfile(profile, true);
-    }
-
-    protected void setProfileSafe(EntityProfileBase profile) {
-        setProfile(profile, false);
-    }
-
-    private void setProfile(EntityProfileBase profile, boolean isCircleMode) {
-        if(isCircleMode && profile != null){
-            profile.setUserSafe(this);
+    public void setProfiles(Collection<EntityProfile> profiles) {
+        if(profiles == null) {
+            throw new IllegalArgumentException("profiles is NULL");
         }
-        this.profile = profile;
+
+        for(EntityProfile profile : profiles){
+            profile.setUser(this);
+        }
+
+        this.profiles = profiles;
+    }
+
+    public void addProfile(EntityProfileBase profile){
+        addProfile(profile, true);
+    }
+
+    protected void addProfileSafe(EntityProfileBase profile){
+        addProfile(profile, false);
+    }
+
+    private void addProfile(EntityProfileBase profile, boolean isCircleMode){
+        if(profile == null) {
+            throw new IllegalArgumentException("profile is NULL");
+        }
+
+        if(profiles != null){
+            if(isCircleMode) {
+                profile.setUserSafe(this);
+            }
+
+            EntityProfile entityProfile = new EntityProfile();
+            entityProfile.setId(profile.getId());
+            entityProfile.setName(profile.getName());
+            entityProfile.setSurname(profile.getSurname());
+            entityProfile.setMiddlename(profile.getMiddlename());
+            entityProfile.setUserId(profile.getUserId());
+            entityProfile.setUser(profile.getUser());
+            profiles.add(entityProfile);
+        }
+    }
+
+    public void addProfiles(Collection<EntityProfile> profiles){
+        if(profiles!=null) {
+            for(EntityProfile profile : profiles){
+                addProfile(profile);
+            }
+        }
     }
     //</editor-fold>
 
@@ -289,13 +322,13 @@ public class EntityUser extends EntityBase<Long> {
                 Objects.equals(passwordEncode, object.passwordEncode) &&
                 Objects.equals(email, object.email) &&
                 Objects.equals(roles, object.roles) &&
-                Objects.equals(profile, object.profile) &&
+                Objects.equals(profiles, object.profiles) &&
                 Objects.equals(tokens, object.tokens);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), username, passwordEncode, email, isBlocked, isDeleted, isConfirmEmail, roles, profile, tokens);
+        return Objects.hash(super.hashCode(), username, passwordEncode, email, isBlocked, isDeleted, isConfirmEmail, roles, profiles, tokens);
     }
     //</editor-fold>
 }

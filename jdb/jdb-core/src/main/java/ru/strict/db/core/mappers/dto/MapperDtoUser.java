@@ -27,7 +27,7 @@ public class MapperDtoUser<ID> extends MapperDtoBase<ID, EntityUser<ID>, DtoUser
         entity.setDeleted(baseEntity.isDeleted());
         entity.setConfirmEmail(baseEntity.isConfirmEmail());
         entity.setRoles(baseEntity.getRoles());
-        entity.setProfile(baseEntity.getProfile());
+        entity.setProfiles(baseEntity.getProfiles());
         entity.setPasswordEncode(dto.getPasswordEncode());
         return entity;
     }
@@ -44,7 +44,7 @@ public class MapperDtoUser<ID> extends MapperDtoBase<ID, EntityUser<ID>, DtoUser
         dto.setDeleted(baseDto.isDeleted());
         dto.setConfirmEmail(baseDto.isConfirmEmail());
         dto.setRoles(baseDto.getRoles());
-        dto.setProfile(baseDto.getProfile());
+        dto.setProfiles(baseDto.getProfiles());
         dto.setPasswordEncode(entity.getPasswordEncode());
         return dto;
     }

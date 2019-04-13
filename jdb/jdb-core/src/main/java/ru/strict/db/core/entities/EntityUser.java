@@ -41,9 +41,9 @@ public class EntityUser<ID> extends EntityBase<ID> {
      */
     private Collection<EntityRoleuser<ID>> roles;
     /**
-     * Профиль пользователя
+     * Профили пользователя
      */
-    private EntityProfile<ID> profile;
+    private Collection<EntityProfile<ID>> profiles;
     /**
      * Токены пользователя
      */
@@ -67,7 +67,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
         isConfirmEmail = false;
         roles = new TreeSet<>();
         tokens = new TreeSet<>();
-        profile = null;
+        profiles = new TreeSet<>();
     }
 
     public EntityUser() {
@@ -80,7 +80,7 @@ public class EntityUser<ID> extends EntityBase<ID> {
         isConfirmEmail = false;
         roles = new TreeSet<>();
         tokens = new TreeSet<>();
-        profile = null;
+        profiles = new TreeSet<>();
     }
 
     public EntityUser(String username, String passwordEncode, String email) {
@@ -233,23 +233,49 @@ public class EntityUser<ID> extends EntityBase<ID> {
         }
     }
 
-    public EntityProfile<ID> getProfile() {
-        return profile;
+    public Collection<EntityProfile<ID>> getProfiles() {
+        return profiles;
     }
 
-    public void setProfile(EntityProfile<ID> profile) {
-        setProfile(profile, true);
-    }
-
-    protected void setProfileSafe(EntityProfile<ID> profile) {
-        setProfile(profile, false);
-    }
-
-    private void setProfile(EntityProfile<ID> profile, boolean isCircleMode) {
-        if(isCircleMode && profile != null){
-            profile.setUserSafe(this);
+    public void setProfiles(Collection<EntityProfile<ID>> profiles) {
+        if(profiles == null) {
+            throw new IllegalArgumentException("profiles is NULL");
         }
-        this.profile = profile;
+
+        for(EntityProfile<ID> profile : profiles){
+            profile.setUser(this);
+        }
+
+        this.profiles = profiles;
+    }
+
+    public void addProfile(EntityProfile<ID> profile){
+        addProfile(profile, true);
+    }
+
+    protected void addProfileSafe(EntityProfile<ID> profile){
+        addProfile(profile, false);
+    }
+
+    private void addProfile(EntityProfile<ID> profile, boolean isCircleMode){
+        if(profile == null) {
+            throw new IllegalArgumentException("profile is NULL");
+        }
+
+        if(profiles != null){
+            if(isCircleMode) {
+                profile.setUserSafe(this);
+            }
+            profiles.add(profile);
+        }
+    }
+
+    public void addProfiles(Collection<EntityProfile<ID>> profiles){
+        if(profiles!=null) {
+            for(EntityProfile<ID> profile : profiles){
+                addProfile(profile);
+            }
+        }
     }
     //</editor-fold>
 
@@ -272,13 +298,13 @@ public class EntityUser<ID> extends EntityBase<ID> {
                 Objects.equals(passwordEncode, that.passwordEncode) &&
                 Objects.equals(email, that.email) &&
                 Objects.equals(roles, that.roles) &&
-                Objects.equals(profile, that.profile) &&
+                Objects.equals(profiles, that.profiles) &&
                 Objects.equals(tokens, that.tokens);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), username, passwordEncode, email, isBlocked, isDeleted, isConfirmEmail, roles, profile, tokens);
+        return Objects.hash(super.hashCode(), username, passwordEncode, email, isBlocked, isDeleted, isConfirmEmail, roles, profiles, tokens);
     }
     //</editor-fold>
 }

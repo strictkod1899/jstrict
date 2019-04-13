@@ -90,19 +90,17 @@ public class DtoUserSecurity<ID> extends DtoUser<ID> implements UserDetails{
 
 	//<editor-fold defaultState="collapsed" desc="Base override">
 	@Override
-	public boolean equals(Object obj){
-    	if(obj != null && obj instanceof DtoUserSecurity) {
-			DtoUserSecurity object = (DtoUserSecurity) obj;
-			return super.equals(object) && Objects.equals(authorities, object.getAuthorities());
-		} else {
-			return false;
-		}
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		if (!super.equals(o)) return false;
+		DtoUserSecurity<ID> object = (DtoUserSecurity<ID>) o;
+		return Objects.equals(authorities, object.authorities);
 	}
 
 	@Override
-    public int hashCode(){
-		return Objects.hash(getId(), getUsername(), getEmail(), isBlocked(), isDeleted(), isConfirmEmail(),
-				getRoles(), getProfile(), getPasswordEncode(), authorities);
-    }
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), authorities);
+	}
 	//</editor-fold>
 }

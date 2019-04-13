@@ -13,11 +13,12 @@
     </resultMap>
 
     <resultMap id="userFill" type="ru.strict.db.core.entities.EntityUser" extends="user">
-        <association property="profile"
-                     column="id"
-                     javaType="ru.strict.db.core.entities.EntityProfile"
-                     select="ru.strict.db.mybatis.mappers.sql.MapperSqlProfile.readByUserId"
-                     fetchType="lazy"/>
+        <collection property="profiles"
+                    column="id"
+                    javaType="List"
+                    ofType="ru.strict.db.core.entities.EntityProfile"
+                    select="ru.strict.db.mybatis.mappers.sql.MapperSqlProfile.readByUserId"
+                    fetchType="lazy"/>
         <collection property="roles"
                     column="id"
                     javaType="List"

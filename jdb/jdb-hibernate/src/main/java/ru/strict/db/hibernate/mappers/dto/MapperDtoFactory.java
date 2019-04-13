@@ -80,7 +80,7 @@ public class MapperDtoFactory{
 
     private MapperDtoBase<Long, EntityUser, DtoUserBase<Long>> createMapperUserBase(){
         MapperDtoBase<Long, EntityRoleuser, DtoRoleuser<Long>> mapperRolesser = new MapperDtoRoleuser();
-        MapperDtoBase<Long, EntityProfileBase, DtoProfile<Long>> mapperProfile = createMapperProfileBase();
+        MapperDtoBase<Long, EntityProfile, DtoProfile<Long>> mapperProfile = createMapperProfile();
         return new MapperDtoUserBase(mapperRolesser, mapperProfile);
     }
 
