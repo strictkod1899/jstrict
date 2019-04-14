@@ -197,29 +197,37 @@
         <version>${plugin.site.version}</version>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>${plugin.cobertura.version}</version>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${plugin.jacoco.version}</version>
         <executions>
           <execution>
-            <id>site</id>
-            <phase>pre-site</phase>
             <goals>
-              <goal>cobertura</goal>
+              <goal>prepare-agent</goal>
             </goals>
+          </execution>
+          <execution>
+            <id>jacoco-report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>target/jacoco-report</outputDirectory>
+            </configuration>
           </execution>
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <version>${plugin.findbugs.version}</version>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>${plugin.spotbugs.version}</version>
         <configuration>
           <effort>Max</effort>
           <failOnError>false</failOnError>
           <threshold>Low</threshold>
           <xmlOutput>true</xmlOutput>
-          <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
+          <spotbugsXmlOutputDirectory>${project.build.directory}/spotbugs</spotbugsXmlOutputDirectory>
         </configuration>
         <executions>
           <execution>
@@ -238,9 +246,9 @@
         <configuration>
           <transformationSets>
             <transformationSet>
-              <dir>${project.build.directory}/findbugs</dir>
-              <outputDir>${project.build.directory}/findbugs</outputDir>
-              <stylesheet>default.xsl</stylesheet>
+              <dir>${project.build.directory}/spotbugs</dir>
+              <outputDir>${project.build.directory}/spotbugs</outputDir>
+              <stylesheet>fancy-hist.xsl</stylesheet>
               <fileMappers>
                 <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
                   <targetExtension>.html</targetExtension>
@@ -275,17 +283,6 @@
         <version>${plugin.info.report.version}</version>
         <configuration>
           <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>${plugin.cobertura.version}</version>
-        <configuration>
-          <formats>
-            <format>html</format>
-            <format>xml</format>
-          </formats>
         </configuration>
       </plugin>
     </plugins>
