@@ -128,5 +128,18 @@ public class DtoToken<ID> extends DtoBase<ID> {
     public int hashCode() {
         return Objects.hash(super.hashCode(), accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
     }
+
+    @Override
+    public DtoToken<ID> clone(){
+        DtoToken<ID> clone = new DtoToken<>();
+
+        clone.setId(getId());
+        clone.setAccessToken(accessToken);
+        clone.setRefreshToken(refreshToken);
+        clone.setExpireTimeAccess(expireTimeAccess == null ? null : (Date) expireTimeAccess.clone());
+        clone.setExpireTimeRefresh(expireTimeRefresh == null ? null : (Date) expireTimeRefresh.clone());
+        clone.setIssuedAt(issuedAt == null ? null : (Date) issuedAt.clone());
+        return clone;
+    }
     //</editor-fold>
 }

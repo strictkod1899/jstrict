@@ -137,5 +137,17 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
     public int hashCode() {
         return Objects.hash(super.hashCode(), code, description, users);
     }
+
+    @Override
+    public DtoRoleuser<ID> clone(){
+        DtoRoleuser<ID> clone = new DtoRoleuser<>();
+        clone.setId(getId());
+        clone.setCode(code);
+        clone.setDescription(description);
+        for(DtoUserBase<ID> user : users){
+            clone.addUser(user.clone());
+        }
+        return clone;
+    }
     //</editor-fold>
 }

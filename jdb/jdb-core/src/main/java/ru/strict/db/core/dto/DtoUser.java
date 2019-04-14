@@ -67,5 +67,22 @@ public class DtoUser<ID> extends DtoUserBase<ID> {
     public int hashCode() {
         return Objects.hash(super.hashCode(), passwordEncode);
     }
+
+    @Override
+    public DtoUser<ID> clone(){
+        DtoUserBase<ID> baseClone = super.clone();
+        DtoUser<ID> clone = new DtoUser<>();
+
+        clone.setId(getId());
+        clone.setBlocked(baseClone.isBlocked());
+        clone.setDeleted(baseClone.isDeleted());
+        clone.setConfirmEmail(baseClone.isConfirmEmail());
+        clone.setUsername(baseClone.getUsername());
+        clone.setPasswordEncode(passwordEncode);
+        clone.setEmail(baseClone.getEmail());
+        clone.setRoles(baseClone.getRoles());
+        clone.setProfiles(baseClone.getProfiles());
+        return clone;
+    }
     //</editor-fold>
 }

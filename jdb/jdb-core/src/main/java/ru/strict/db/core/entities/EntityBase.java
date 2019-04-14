@@ -10,7 +10,7 @@ import java.util.Objects;
  * Базовый entity-класс
  * @param <ID> Тип поля ID
  */
-public abstract class EntityBase<ID> implements MapTarget, Comparable<EntityBase<ID>> {
+public abstract class EntityBase<ID> implements MapTarget, Comparable<EntityBase<ID>>, Cloneable {
 
     /**
      * Идентификатор записи

@@ -118,5 +118,16 @@ public class DtoServiceOnRole<ID, SERVICE> extends DtoBase<ID> {
     public int hashCode() {
         return Objects.hash(super.hashCode(), serviceId, serviceProvider, roleId, role);
     }
+
+    @Override
+    public DtoServiceOnRole<ID, SERVICE> clone(){
+        DtoServiceOnRole<ID, SERVICE> clone = new DtoServiceOnRole<>();
+        clone.setId(getId());
+        clone.setServiceId(serviceId);
+        clone.setServiceProvider(serviceProvider);
+        clone.setRoleId(roleId);
+        clone.setRole(role == null ? null : role.clone());
+        return clone;
+    }
     //</editor-fold>
 }

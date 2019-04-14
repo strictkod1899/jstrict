@@ -12,7 +12,7 @@ import java.util.Objects;
  * Базовый entity-класс
  */
 @MappedSuperclass
-public abstract class EntityBase<ID> implements Serializable, Comparable<EntityBase<ID>> {
+public abstract class EntityBase<ID> implements Serializable, Comparable<EntityBase<ID>>, Cloneable {
 
     /**
      * Идентификатор записи

@@ -122,5 +122,21 @@ public class EntityProfileInfo extends EntityProfileBase {
     public int hashCode() {
         return Objects.hash(super.hashCode(), dateBirth, phone, cityId, city);
     }
+
+    @Override
+    public EntityProfileInfo clone(){
+        EntityProfileInfo clone = new EntityProfileInfo();
+        clone.setId(getId());
+        clone.setName(getName());
+        clone.setSurname(getSurname());
+        clone.setMiddlename(getMiddlename());
+        clone.setUserId(getUserId());
+        clone.setUser(getUser() == null ? null : getUser().clone());
+        clone.setDateBirth(dateBirth == null ? null : (Date) dateBirth.clone());
+        clone.setPhone(phone);
+        clone.setCityId(cityId);
+        clone.setCity(city == null ? null : city.clone());
+        return clone;
+    }
     //</editor-fold>
 }

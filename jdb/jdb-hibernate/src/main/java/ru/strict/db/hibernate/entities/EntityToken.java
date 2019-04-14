@@ -142,5 +142,18 @@ public class EntityToken extends EntityBase<Long> {
     public int hashCode() {
         return Objects.hash(super.hashCode(), accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
     }
+
+    @Override
+    public EntityToken clone(){
+        EntityToken clone = new EntityToken();
+
+        clone.setId(getId());
+        clone.setAccessToken(accessToken);
+        clone.setRefreshToken(refreshToken);
+        clone.setExpireTimeAccess(expireTimeAccess == null ? null : (Date) expireTimeAccess.clone());
+        clone.setExpireTimeRefresh(expireTimeRefresh == null ? null : (Date) expireTimeRefresh.clone());
+        clone.setIssuedAt(issuedAt == null ? null : (Date) issuedAt.clone());
+        return clone;
+    }
     //</editor-fold>
 }

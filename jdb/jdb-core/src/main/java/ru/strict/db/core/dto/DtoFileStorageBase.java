@@ -125,5 +125,19 @@ public class DtoFileStorageBase<ID> extends DtoBase<ID> {
     public int hashCode() {
         return Objects.hash(super.hashCode(), filename, extension, displayName, createDate, type, status);
     }
+
+    @Override
+    public DtoFileStorage<ID> clone(){
+        DtoFileStorage<ID> clone = new DtoFileStorage<>();
+
+        clone.setId(getId());
+        clone.setType(type);
+        clone.setStatus(status);
+        clone.setFilename(filename);
+        clone.setExtension(extension);
+        clone.setDisplayName(displayName);
+        clone.setCreateDate(createDate == null ? null : (Date)createDate.clone());
+        return clone;
+    }
     //</editor-fold>
 }

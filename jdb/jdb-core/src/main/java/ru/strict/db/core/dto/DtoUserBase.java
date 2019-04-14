@@ -236,5 +236,24 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     public int hashCode() {
         return Objects.hash(super.hashCode(), username, email, isBlocked, isDeleted, isConfirmEmail, roles, profiles);
     }
+
+    @Override
+    public DtoUserBase<ID> clone(){
+        DtoUserBase<ID> clone = new DtoUserBase<>();
+
+        clone.setId(getId());
+        clone.setBlocked(isBlocked);
+        clone.setDeleted(isDeleted);
+        clone.setConfirmEmail(isConfirmEmail);
+        clone.setUsername(username);
+        clone.setEmail(email);
+        for(DtoRoleuser<ID> role : roles){
+            clone.addRole(role.clone());
+        }
+        for(DtoProfile<ID> profile : profiles){
+            clone.addProfile(profile.clone());
+        }
+        return clone;
+    }
     //</editor-fold>
 }

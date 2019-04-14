@@ -306,5 +306,28 @@ public class EntityUser<ID> extends EntityBase<ID> {
     public int hashCode() {
         return Objects.hash(super.hashCode(), username, passwordEncode, email, isBlocked, isDeleted, isConfirmEmail, roles, profiles, tokens);
     }
+
+    @Override
+    public EntityUser<ID> clone(){
+        EntityUser<ID> clone = new EntityUser<>();
+
+        clone.setId(getId());
+        clone.setBlocked(isBlocked);
+        clone.setDeleted(isDeleted);
+        clone.setConfirmEmail(isConfirmEmail);
+        clone.setUsername(username);
+        clone.setPasswordEncode(passwordEncode);
+        clone.setEmail(email);
+        for(EntityRoleuser<ID> role : roles){
+            clone.addRole(role.clone());
+        }
+        for(EntityProfile<ID> profile : profiles){
+            clone.addProfile(profile.clone());
+        }
+        for(EntityJWTToken<ID> token : tokens){
+            clone.addToken(token.clone());
+        }
+        return clone;
+    }
     //</editor-fold>
 }

@@ -127,5 +127,16 @@ public class EntityServiceOnRole<SERVICE> extends EntityBase<Long> {
     public int hashCode() {
         return Objects.hash(super.hashCode(), serviceId, serviceProvider, roleId, role);
     }
+
+    @Override
+    public EntityServiceOnRole<SERVICE> clone(){
+        EntityServiceOnRole<SERVICE> clone = new EntityServiceOnRole();
+        clone.setId(getId());
+        clone.setServiceId(serviceId);
+        clone.setServiceProvider(serviceProvider);
+        clone.setRoleId(roleId);
+        clone.setRole(role == null ? null : role.clone());
+        return clone;
+    }
     //</editor-fold>
 }

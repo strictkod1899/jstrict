@@ -1,7 +1,5 @@
 package ru.strict.db.core.entities;
 
-
-
 import java.util.Date;
 import java.util.Objects;
 
@@ -135,6 +133,19 @@ public class EntityToken<ID> extends EntityBase<ID> {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
+    }
+
+    @Override
+    public EntityToken<ID> clone(){
+        EntityToken<ID> clone = new EntityToken<>();
+
+        clone.setId(getId());
+        clone.setAccessToken(accessToken);
+        clone.setRefreshToken(refreshToken);
+        clone.setExpireTimeAccess(expireTimeAccess == null ? null : (Date) expireTimeAccess.clone());
+        clone.setExpireTimeRefresh(expireTimeRefresh == null ? null : (Date) expireTimeRefresh.clone());
+        clone.setIssuedAt(issuedAt == null ? null : (Date) issuedAt.clone());
+        return clone;
     }
     //</editor-fold>
 }

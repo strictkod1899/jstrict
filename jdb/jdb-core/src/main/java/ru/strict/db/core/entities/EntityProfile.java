@@ -146,5 +146,18 @@ public class EntityProfile<ID> extends EntityBase<ID> {
     public int hashCode() {
         return Objects.hash(super.hashCode(), name, surname, middlename, userId, user);
     }
+
+    @Override
+    public EntityProfile<ID> clone(){
+        EntityProfile<ID> clone = new EntityProfile<>();
+
+        clone.setId(getId());
+        clone.setName(name);
+        clone.setSurname(surname);
+        clone.setMiddlename(middlename);
+        clone.setUserId(userId);
+        clone.setUser(user == null ? null : user.clone());
+        return clone;
+    }
     //</editor-fold>
 }

@@ -158,5 +158,21 @@ public class EntityFileStorage<ID> extends EntityBase<ID> {
         result = 31 * result + Arrays.hashCode(content);
         return result;
     }
+
+    @Override
+    public EntityFileStorage<ID> clone(){
+        EntityFileStorage<ID> clone = new EntityFileStorage<>();
+
+        clone.setId(getId());
+        clone.setType(type);
+        clone.setStatus(status);
+        clone.setFilename(filename);
+        clone.setExtension(extension);
+        clone.setDisplayName(displayName);
+        clone.setFilePath(filePath);
+        clone.setContent(content == null ? null : content.clone());
+        clone.setCreateDate(createDate == null ? null : (Date)createDate.clone());
+        return clone;
+    }
     //</editor-fold>
 }

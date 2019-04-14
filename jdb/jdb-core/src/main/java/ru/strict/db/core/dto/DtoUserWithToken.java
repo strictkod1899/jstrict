@@ -101,5 +101,25 @@ public class DtoUserWithToken<ID> extends DtoUser<ID> {
     public int hashCode() {
         return Objects.hash(super.hashCode(), tokens);
     }
+
+    @Override
+    public DtoUserWithToken<ID> clone(){
+        DtoUser<ID> baseClone = super.clone();
+        DtoUserWithToken<ID> clone = new DtoUserWithToken<>();
+
+        clone.setId(getId());
+        clone.setBlocked(baseClone.isBlocked());
+        clone.setDeleted(baseClone.isDeleted());
+        clone.setConfirmEmail(baseClone.isConfirmEmail());
+        clone.setUsername(baseClone.getUsername());
+        clone.setPasswordEncode(baseClone.getPasswordEncode());
+        clone.setEmail(baseClone.getEmail());
+        clone.setRoles(baseClone.getRoles());
+        clone.setProfiles(baseClone.getProfiles());
+        for(DtoJWTToken<ID> token : tokens){
+            clone.addToken(token.clone());
+        }
+        return clone;
+    }
     //</editor-fold>
 }

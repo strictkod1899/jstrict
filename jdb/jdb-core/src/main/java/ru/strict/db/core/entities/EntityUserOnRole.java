@@ -114,5 +114,16 @@ public class EntityUserOnRole<ID> extends EntityBase<ID> {
     public int hashCode() {
         return Objects.hash(super.hashCode(), userId, user, roleId, role);
     }
+
+    @Override
+    public EntityUserOnRole<ID> clone(){
+        EntityUserOnRole<ID> clone  = new EntityUserOnRole<>();
+        clone.setId(getId());
+        clone.setUserId(userId);
+        clone.setUser(user == null ? null : user.clone());
+        clone.setRoleId(roleId);
+        clone.setRole(role == null ? null : role.clone());
+        return clone;
+    }
     //</editor-fold>
 }

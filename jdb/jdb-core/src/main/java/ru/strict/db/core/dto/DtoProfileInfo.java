@@ -110,5 +110,23 @@ public class DtoProfileInfo<ID> extends DtoProfile<ID> {
     public int hashCode() {
         return Objects.hash(super.hashCode(), dateBirth, phone, cityId, city);
     }
+
+    @Override
+    public DtoProfileInfo<ID> clone(){
+        DtoProfile<ID> baseClone = super.clone();
+
+        DtoProfileInfo<ID> clone = new DtoProfileInfo<>();
+        clone.setId(baseClone.getId());
+        clone.setName(baseClone.getName());
+        clone.setSurname(baseClone.getSurname());
+        clone.setMiddlename(baseClone.getMiddlename());
+        clone.setUserId(baseClone.getUserId());
+        clone.setUser(baseClone.getUser());
+        clone.setDateBirth(dateBirth == null ? null : (Date) dateBirth.clone());
+        clone.setPhone(phone);
+        clone.setCityId(cityId);
+        clone.setCity(city == null ? null : city.clone());
+        return clone;
+    }
     //</editor-fold>
 }

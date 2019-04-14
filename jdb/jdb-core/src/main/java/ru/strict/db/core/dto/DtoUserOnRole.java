@@ -113,5 +113,16 @@ public class DtoUserOnRole<ID> extends DtoBase<ID> {
     public int hashCode() {
         return Objects.hash(super.hashCode(), userId, user, roleId, role);
     }
+
+    @Override
+    public DtoUserOnRole<ID> clone(){
+        DtoUserOnRole<ID> clone  = new DtoUserOnRole<>();
+        clone.setId(getId());
+        clone.setUserId(userId);
+        clone.setUser(user == null ? null : user.clone());
+        clone.setRoleId(roleId);
+        clone.setRole(role == null ? null : role.clone());
+        return clone;
+    }
     //</editor-fold>
 }

@@ -146,5 +146,18 @@ public class DtoProfile<ID> extends DtoBase<ID> {
     public int hashCode() {
         return Objects.hash(super.hashCode(), name, surname, middlename, userId, user);
     }
+
+    @Override
+    public DtoProfile<ID> clone(){
+        DtoProfile<ID> clone = new DtoProfile<>();
+
+        clone.setId(getId());
+        clone.setName(name);
+        clone.setSurname(surname);
+        clone.setMiddlename(middlename);
+        clone.setUserId(userId);
+        clone.setUser(user == null ? null : user.clone());
+        return clone;
+    }
     //</editor-fold>
 }

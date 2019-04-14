@@ -94,5 +94,16 @@ public class DtoCity<ID> extends DtoNamed<ID> {
     public int hashCode() {
         return Objects.hash(super.hashCode(), countryId, country);
     }
+
+    @Override
+    public DtoCity<ID> clone(){
+        DtoCity<ID> clone = new DtoCity<>();
+
+        clone.setId(getId());
+        clone.setCaption(getCaption());
+        clone.setCountryId(countryId);
+        clone.setCountry(country == null ? null : country.clone());
+        return clone;
+    }
     //</editor-fold>
 }

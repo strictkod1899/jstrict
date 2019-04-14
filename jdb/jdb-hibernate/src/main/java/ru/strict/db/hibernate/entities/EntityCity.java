@@ -101,5 +101,17 @@ public class EntityCity extends EntityNamed<Long> {
     public int hashCode() {
         return Objects.hash(super.hashCode(), countryId, country);
     }
+
+
+    @Override
+    public EntityCity clone(){
+        EntityCity clone = new EntityCity();
+
+        clone.setId(getId());
+        clone.setCaption(getCaption());
+        clone.setCountryId(countryId);
+        clone.setCountry(country == null ? null : country.clone());
+        return clone;
+    }
     //</editor-fold>
 }
