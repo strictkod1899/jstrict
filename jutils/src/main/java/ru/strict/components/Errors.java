@@ -45,13 +45,23 @@ public class Errors implements Cloneable {
 
     @Override
     public Errors clone() {
-        Errors clone = new Errors();
-        for(Error error : actionErrors){
-            clone.addActionError(error.clone());
+        try {
+            Errors clone = (Errors) super.clone();
+
+            List<Error> actionErrors = new ArrayList<>();
+            List<FieldError> fieldErrors = new ArrayList<>();
+            for(Error error : this.actionErrors){
+                actionErrors.add(error.clone());
+            }
+            for(FieldError error : this.fieldErrors){
+                fieldErrors.add(error.clone());
+            }
+
+            clone.actionErrors = actionErrors;
+            clone.fieldErrors = fieldErrors;
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
         }
-        for(FieldError error : fieldErrors){
-            clone.addFieldError(error.clone());
-        }
-        return clone;
     }
 }

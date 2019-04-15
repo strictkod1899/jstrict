@@ -44,7 +44,6 @@ public class FieldError extends Error implements IFieldError{
 
     @Override
     public FieldError clone() {
-        Error baseClone = super.clone();
-        return new FieldError(field, baseClone.getCode(), baseClone.getErrorMessage());
+        return (FieldError) super.clone();
     }
 }

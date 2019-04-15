@@ -84,6 +84,10 @@ public class Url implements Cloneable {
 
     @Override
     public Url clone() {
-        return new Url(protocol, host, address);
+        try {
+            return (Url)super.clone();
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }

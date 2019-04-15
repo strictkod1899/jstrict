@@ -102,6 +102,10 @@ public class Error implements IError, Cloneable {
 
     @Override
     public Error clone() {
-        return new Error(code, errorMessage);
+        try {
+            return (Error) super.clone();
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }

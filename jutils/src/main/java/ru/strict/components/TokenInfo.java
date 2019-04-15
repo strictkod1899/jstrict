@@ -55,6 +55,10 @@ public class TokenInfo implements Cloneable {
 
     @Override
     public TokenInfo clone() {
-        return new TokenInfo(token, secret, algorithm);
+        try {
+            return (TokenInfo) super.clone();
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }

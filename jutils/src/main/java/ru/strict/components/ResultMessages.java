@@ -3,6 +3,7 @@ package ru.strict.components;
 import ru.strict.validates.ValidateBaseValue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -90,12 +91,20 @@ public class ResultMessages implements Cloneable {
 
     @Override
     public ResultMessages clone() {
-        ResultMessages clone = new ResultMessages();
-        for(Error error : errors){
-            clone.addError(error.clone());
+        try {
+            ResultMessages clone = (ResultMessages)super.clone();
+
+            List<Error> errors = new ArrayList<>(this.errors.size());
+            for(Error error : this.errors){
+                errors.add(error.clone());
+            }
+
+            clone.messages = new ArrayList<>(this.messages);
+            clone.sequenceMessages = new ArrayList<>(this.sequenceMessages);
+            clone.errors = errors;
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
         }
-        clone.messages = messages;
-        clone.sequenceMessages = new ArrayList<>(sequenceMessages);
-        return clone;
     }
 }

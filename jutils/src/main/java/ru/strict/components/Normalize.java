@@ -45,6 +45,10 @@ public class Normalize implements Cloneable{
 
     @Override
     public Normalize clone() {
-        return new Normalize(min, max, targetMin, targetMax);
+        try {
+            return (Normalize)super.clone();
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }
