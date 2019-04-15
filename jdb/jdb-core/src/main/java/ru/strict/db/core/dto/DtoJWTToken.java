@@ -208,23 +208,9 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
 
     @Override
     public DtoJWTToken<ID> clone(){
-        DtoToken<ID> baseClone = super.clone();
+        DtoJWTToken<ID> clone = (DtoJWTToken<ID>) super.clone();
 
-        DtoJWTToken<ID> clone = new DtoJWTToken<>();
-        clone.setId(baseClone.getId());
-        clone.setAccessToken(baseClone.getAccessToken());
-        clone.setRefreshToken(baseClone.getRefreshToken());
-        clone.setExpireTimeAccess(baseClone.getExpireTimeAccess());
-        clone.setExpireTimeRefresh(baseClone.getExpireTimeRefresh());
-        clone.setIssuedAt(baseClone.getIssuedAt());
-        clone.setIssuer(issuer);
-        clone.setSubject(subject);
         clone.setNotBefore(notBefore == null ? null : (Date) notBefore.clone());
-        clone.setAudience(audience);
-        clone.setSecret(secret);
-        clone.setAlgorithm(algorithm);
-        clone.setType(type);
-        clone.setUserId(userId);
         clone.setUser(user == null ? null : user.clone());
         return clone;
     }

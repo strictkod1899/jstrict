@@ -137,15 +137,16 @@ public class EntityToken<ID> extends EntityBase<ID> {
 
     @Override
     public EntityToken<ID> clone(){
-        EntityToken<ID> clone = new EntityToken<>();
+        try {
+            EntityToken<ID> clone = (EntityToken<ID>) super.clone();
 
-        clone.setId(getId());
-        clone.setAccessToken(accessToken);
-        clone.setRefreshToken(refreshToken);
-        clone.setExpireTimeAccess(expireTimeAccess == null ? null : (Date) expireTimeAccess.clone());
-        clone.setExpireTimeRefresh(expireTimeRefresh == null ? null : (Date) expireTimeRefresh.clone());
-        clone.setIssuedAt(issuedAt == null ? null : (Date) issuedAt.clone());
-        return clone;
+            clone.setExpireTimeAccess(expireTimeAccess == null ? null : (Date) expireTimeAccess.clone());
+            clone.setExpireTimeRefresh(expireTimeRefresh == null ? null : (Date) expireTimeRefresh.clone());
+            clone.setIssuedAt(issuedAt == null ? null : (Date) issuedAt.clone());
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
     //</editor-fold>
 }

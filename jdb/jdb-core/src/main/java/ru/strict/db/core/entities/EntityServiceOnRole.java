@@ -120,14 +120,15 @@ public class EntityServiceOnRole<ID, SERVICE> extends EntityBase<ID> {
     }
 
     @Override
-    public EntityServiceOnRole<ID, SERVICE> clone(){
-        EntityServiceOnRole<ID, SERVICE> clone = new EntityServiceOnRole<>();
-        clone.setId(getId());
-        clone.setServiceId(serviceId);
-        clone.setServiceProvider(serviceProvider);
-        clone.setRoleId(roleId);
-        clone.setRole(role == null ? null : role.clone());
-        return clone;
+    public EntityServiceOnRole<ID, SERVICE> clone() {
+        try {
+            EntityServiceOnRole<ID, SERVICE> clone = (EntityServiceOnRole<ID, SERVICE>) super.clone();
+
+            clone.setRole(role == null ? null : role.clone());
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
     //</editor-fold>
 }

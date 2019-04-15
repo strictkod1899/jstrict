@@ -116,18 +116,9 @@ public class EntityProfileInfo<ID> extends EntityProfile<ID> {
 
     @Override
     public EntityProfileInfo<ID> clone(){
-        EntityProfile<ID> baseClone = super.clone();
+        EntityProfileInfo<ID> clone = (EntityProfileInfo<ID>) super.clone();
 
-        EntityProfileInfo<ID> clone = new EntityProfileInfo<>();
-        clone.setId(baseClone.getId());
-        clone.setName(baseClone.getName());
-        clone.setSurname(baseClone.getSurname());
-        clone.setMiddlename(baseClone.getMiddlename());
-        clone.setUserId(baseClone.getUserId());
-        clone.setUser(baseClone.getUser());
         clone.setDateBirth(dateBirth == null ? null : (Date) dateBirth.clone());
-        clone.setPhone(phone);
-        clone.setCityId(cityId);
         clone.setCity(city == null ? null : city.clone());
         return clone;
     }

@@ -97,13 +97,14 @@ public class DtoCity<ID> extends DtoNamed<ID> {
 
     @Override
     public DtoCity<ID> clone(){
-        DtoCity<ID> clone = new DtoCity<>();
+        try {
+            DtoCity<ID> clone = (DtoCity<ID>) super.clone();
 
-        clone.setId(getId());
-        clone.setCaption(getCaption());
-        clone.setCountryId(countryId);
-        clone.setCountry(country == null ? null : country.clone());
-        return clone;
+            clone.setCountry(country == null ? null : country.clone());
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
     //</editor-fold>
 }

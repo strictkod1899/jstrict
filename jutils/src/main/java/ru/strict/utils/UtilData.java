@@ -53,6 +53,10 @@ public class UtilData {
     }
 
     public static String convertStringToEncode(String value, String defaultEncoding, String encodingOutput){
+        if(value == null){
+            throw new IllegalArgumentException("value for convert to encode is NULL");
+        }
+
         String result = null;
         try {
             if(ValidateBaseValue.isEmptyOrNull(encodingOutput)){
@@ -72,6 +76,10 @@ public class UtilData {
     }
 
     public static <T> int compareTo(T source, T compareValue){
+        if(source == null || compareValue == null){
+            return -1;
+        }
+
         int result = -1;
 
         if(compareValue instanceof Comparable){
@@ -88,6 +96,13 @@ public class UtilData {
      * Пустые или нулевые строки будут пропущены
      */
     public static String join(String separator, String...strings) {
+        if(separator == null){
+            throw new IllegalArgumentException("separator is NULL");
+        }
+        if(strings == null || strings.length == 0){
+            throw new IllegalArgumentException("strings elements for join is NULL or EMPTY");
+        }
+
         String result = "";
         for(String item : strings){
             if(!ValidateBaseValue.isEmptySpaceOrNull(item)){

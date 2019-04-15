@@ -104,19 +104,10 @@ public class DtoUserWithToken<ID> extends DtoUser<ID> {
 
     @Override
     public DtoUserWithToken<ID> clone(){
-        DtoUser<ID> baseClone = super.clone();
-        DtoUserWithToken<ID> clone = new DtoUserWithToken<>();
+        DtoUserWithToken<ID> clone = (DtoUserWithToken<ID>) super.clone();
 
-        clone.setId(getId());
-        clone.setBlocked(baseClone.isBlocked());
-        clone.setDeleted(baseClone.isDeleted());
-        clone.setConfirmEmail(baseClone.isConfirmEmail());
-        clone.setUsername(baseClone.getUsername());
-        clone.setPasswordEncode(baseClone.getPasswordEncode());
-        clone.setEmail(baseClone.getEmail());
-        clone.setRoles(baseClone.getRoles());
-        clone.setProfiles(baseClone.getProfiles());
-        for(DtoJWTToken<ID> token : tokens){
+        clone.tokens = new TreeSet<>();
+        for(DtoJWTToken<ID> token : this.tokens){
             clone.addToken(token.clone());
         }
         return clone;

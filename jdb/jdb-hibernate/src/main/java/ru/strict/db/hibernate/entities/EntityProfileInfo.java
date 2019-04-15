@@ -125,18 +125,15 @@ public class EntityProfileInfo extends EntityProfileBase {
 
     @Override
     public EntityProfileInfo clone(){
-        EntityProfileInfo clone = new EntityProfileInfo();
-        clone.setId(getId());
-        clone.setName(getName());
-        clone.setSurname(getSurname());
-        clone.setMiddlename(getMiddlename());
-        clone.setUserId(getUserId());
-        clone.setUser(getUser() == null ? null : getUser().clone());
-        clone.setDateBirth(dateBirth == null ? null : (Date) dateBirth.clone());
-        clone.setPhone(phone);
-        clone.setCityId(cityId);
-        clone.setCity(city == null ? null : city.clone());
-        return clone;
+        try {
+            EntityProfileInfo clone = (EntityProfileInfo) super.clone();
+
+            clone.setDateBirth(dateBirth == null ? null : (Date) dateBirth.clone());
+            clone.setCity(city == null ? null : city.clone());
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
     //</editor-fold>
 }

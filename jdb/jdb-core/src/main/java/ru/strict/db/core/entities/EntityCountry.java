@@ -1,6 +1,7 @@
 package ru.strict.db.core.entities;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.TreeSet;
 
@@ -102,14 +103,17 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
 
     @Override
     public EntityCountry<ID> clone(){
-        EntityCountry<ID> clone = new EntityCountry<>();
+        try {
+            EntityCountry<ID> clone = (EntityCountry<ID>) super.clone();
 
-        clone.setId(getId());
-        clone.setCaption(getCaption());
-        for(EntityCity<ID> city : cities){
-            clone.addCity(city.clone());
+            clone.cities = new TreeSet<>();
+            for(EntityCity<ID> city : this.cities){
+                clone.addCity(city.clone());
+            }
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
         }
-        return clone;
     }
     //</editor-fold>
 }

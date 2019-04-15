@@ -126,13 +126,15 @@ public class EntityUserOnRole extends EntityBase<Long> {
 
     @Override
     public EntityUserOnRole clone(){
-        EntityUserOnRole clone  = new EntityUserOnRole();
-        clone.setId(getId());
-        clone.setUserId(userId);
-        clone.setUser(user == null ? null : user.clone());
-        clone.setRoleId(roleId);
-        clone.setRole(role == null ? null : role.clone());
-        return clone;
+        try {
+            EntityUserOnRole clone = (EntityUserOnRole) super.clone();
+
+            clone.setUser(user == null ? null : user.clone());
+            clone.setRole(role == null ? null : role.clone());
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
     //</editor-fold>
 }

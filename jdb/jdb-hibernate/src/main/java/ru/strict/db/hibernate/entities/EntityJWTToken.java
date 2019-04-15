@@ -223,23 +223,9 @@ public class EntityJWTToken extends EntityToken {
 
     @Override
     public EntityJWTToken clone(){
-        EntityToken baseClone = super.clone();
+        EntityJWTToken clone = (EntityJWTToken) super.clone();
 
-        EntityJWTToken clone = new EntityJWTToken();
-        clone.setId(baseClone.getId());
-        clone.setAccessToken(baseClone.getAccessToken());
-        clone.setRefreshToken(baseClone.getRefreshToken());
-        clone.setExpireTimeAccess(baseClone.getExpireTimeAccess());
-        clone.setExpireTimeRefresh(baseClone.getExpireTimeRefresh());
-        clone.setIssuedAt(baseClone.getIssuedAt());
-        clone.setIssuer(issuer);
-        clone.setSubject(subject);
         clone.setNotBefore(notBefore == null ? null : (Date) notBefore.clone());
-        clone.setAudience(audience);
-        clone.setSecret(secret);
-        clone.setAlgorithm(algorithm);
-        clone.setType(type);
-        clone.setUserId(userId);
         clone.setUser(user == null ? null : user.clone());
         return clone;
     }//</editor-fold>

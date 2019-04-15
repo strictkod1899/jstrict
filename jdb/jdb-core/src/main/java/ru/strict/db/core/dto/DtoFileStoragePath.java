@@ -50,19 +50,8 @@ public class DtoFileStoragePath<ID> extends DtoFileStorageBase<ID> {
     }
 
     @Override
-    public DtoFileStorage<ID> clone(){
-        DtoFileStorageBase<ID> baseClone = super.clone();
-        DtoFileStorage<ID> clone = new DtoFileStorage<>();
-
-        clone.setId(getId());
-        clone.setType(baseClone.getType());
-        clone.setStatus(baseClone.getStatus());
-        clone.setFilename(baseClone.getFilename());
-        clone.setExtension(baseClone.getExtension());
-        clone.setDisplayName(baseClone.getDisplayName());
-        clone.setFilePath(filePath);
-        clone.setCreateDate(baseClone.getCreateDate());
-        return clone;
+    public DtoFileStoragePath<ID> clone(){
+        return (DtoFileStoragePath<ID>) super.clone();
     }
     //</editor-fold>
 }

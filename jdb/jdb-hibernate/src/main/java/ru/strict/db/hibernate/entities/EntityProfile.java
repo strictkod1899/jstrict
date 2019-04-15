@@ -12,14 +12,12 @@ public class EntityProfile extends EntityProfileBase {
 
     @Override
     public EntityProfile clone(){
-        EntityProfile clone = new EntityProfile();
-
-        clone.setId(getId());
-        clone.setName(getName());
-        clone.setSurname(getSurname());
-        clone.setMiddlename(getMiddlename());
-        clone.setUserId(getUserId());
-        clone.setUser(getUser() == null ? null : getUser().clone());
-        return clone;
+        try {
+            EntityProfile clone = (EntityProfile) super.clone();
+            clone.setUser(getUser() == null ? null : getUser().clone());
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }

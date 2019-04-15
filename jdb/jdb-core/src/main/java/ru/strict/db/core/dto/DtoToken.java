@@ -131,15 +131,16 @@ public class DtoToken<ID> extends DtoBase<ID> {
 
     @Override
     public DtoToken<ID> clone(){
-        DtoToken<ID> clone = new DtoToken<>();
+        try {
+            DtoToken<ID> clone = (DtoToken<ID>) super.clone();
 
-        clone.setId(getId());
-        clone.setAccessToken(accessToken);
-        clone.setRefreshToken(refreshToken);
-        clone.setExpireTimeAccess(expireTimeAccess == null ? null : (Date) expireTimeAccess.clone());
-        clone.setExpireTimeRefresh(expireTimeRefresh == null ? null : (Date) expireTimeRefresh.clone());
-        clone.setIssuedAt(issuedAt == null ? null : (Date) issuedAt.clone());
-        return clone;
+            clone.setExpireTimeAccess(expireTimeAccess == null ? null : (Date) expireTimeAccess.clone());
+            clone.setExpireTimeRefresh(expireTimeRefresh == null ? null : (Date) expireTimeRefresh.clone());
+            clone.setIssuedAt(issuedAt == null ? null : (Date) issuedAt.clone());
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
     //</editor-fold>
 }

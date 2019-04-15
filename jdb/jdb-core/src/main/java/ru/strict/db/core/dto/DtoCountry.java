@@ -100,14 +100,17 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
 
     @Override
     public DtoCountry<ID> clone(){
-        DtoCountry<ID> clone = new DtoCountry<>();
+        try {
+            DtoCountry<ID> clone = (DtoCountry<ID>) super.clone();
 
-        clone.setId(getId());
-        clone.setCaption(getCaption());
-        for(DtoCity<ID> city : cities){
-            clone.addCity(city.clone());
+            clone.cities = new TreeSet<>();
+            for(DtoCity<ID> city : this.cities){
+                clone.addCity(city.clone());
+            }
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
         }
-        return clone;
     }
     //</editor-fold>
 }

@@ -121,13 +121,14 @@ public class DtoServiceOnRole<ID, SERVICE> extends DtoBase<ID> {
 
     @Override
     public DtoServiceOnRole<ID, SERVICE> clone(){
-        DtoServiceOnRole<ID, SERVICE> clone = new DtoServiceOnRole<>();
-        clone.setId(getId());
-        clone.setServiceId(serviceId);
-        clone.setServiceProvider(serviceProvider);
-        clone.setRoleId(roleId);
-        clone.setRole(role == null ? null : role.clone());
-        return clone;
+        try {
+            DtoServiceOnRole<ID, SERVICE> clone = (DtoServiceOnRole<ID, SERVICE>) super.clone();
+
+            clone.setRole(role == null ? null : role.clone());
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
     //</editor-fold>
 }

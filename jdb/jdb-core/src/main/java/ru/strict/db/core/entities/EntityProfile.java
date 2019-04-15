@@ -149,15 +149,13 @@ public class EntityProfile<ID> extends EntityBase<ID> {
 
     @Override
     public EntityProfile<ID> clone(){
-        EntityProfile<ID> clone = new EntityProfile<>();
-
-        clone.setId(getId());
-        clone.setName(name);
-        clone.setSurname(surname);
-        clone.setMiddlename(middlename);
-        clone.setUserId(userId);
-        clone.setUser(user == null ? null : user.clone());
-        return clone;
+        try {
+            EntityProfile<ID> clone = (EntityProfile<ID>) super.clone();
+            clone.setUser(user == null ? null : user.clone());
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
     //</editor-fold>
 }

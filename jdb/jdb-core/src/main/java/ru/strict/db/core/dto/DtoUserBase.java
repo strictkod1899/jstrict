@@ -239,21 +239,21 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
 
     @Override
     public DtoUserBase<ID> clone(){
-        DtoUserBase<ID> clone = new DtoUserBase<>();
+        try {
+            DtoUserBase<ID> clone = (DtoUserBase<ID>) super.clone();
 
-        clone.setId(getId());
-        clone.setBlocked(isBlocked);
-        clone.setDeleted(isDeleted);
-        clone.setConfirmEmail(isConfirmEmail);
-        clone.setUsername(username);
-        clone.setEmail(email);
-        for(DtoRoleuser<ID> role : roles){
-            clone.addRole(role.clone());
+            clone.roles = new TreeSet<>();
+            clone.profiles = new TreeSet<>();
+            for(DtoRoleuser<ID> role : this.roles){
+                clone.addRole(role.clone());
+            }
+            for(DtoProfile<ID> profile : this.profiles){
+                clone.addProfile(profile.clone());
+            }
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
         }
-        for(DtoProfile<ID> profile : profiles){
-            clone.addProfile(profile.clone());
-        }
-        return clone;
     }
     //</editor-fold>
 }

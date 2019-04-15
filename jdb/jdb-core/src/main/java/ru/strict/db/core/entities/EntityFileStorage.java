@@ -161,18 +161,15 @@ public class EntityFileStorage<ID> extends EntityBase<ID> {
 
     @Override
     public EntityFileStorage<ID> clone(){
-        EntityFileStorage<ID> clone = new EntityFileStorage<>();
+        try {
+            EntityFileStorage<ID> clone = (EntityFileStorage<ID>) super.clone();
 
-        clone.setId(getId());
-        clone.setType(type);
-        clone.setStatus(status);
-        clone.setFilename(filename);
-        clone.setExtension(extension);
-        clone.setDisplayName(displayName);
-        clone.setFilePath(filePath);
-        clone.setContent(content == null ? null : content.clone());
-        clone.setCreateDate(createDate == null ? null : (Date)createDate.clone());
-        return clone;
+            clone.setContent(content == null ? null : content.clone());
+            clone.setCreateDate(createDate == null ? null : (Date)createDate.clone());
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
     //</editor-fold>
 }

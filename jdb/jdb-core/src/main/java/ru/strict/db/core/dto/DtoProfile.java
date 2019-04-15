@@ -149,15 +149,13 @@ public class DtoProfile<ID> extends DtoBase<ID> {
 
     @Override
     public DtoProfile<ID> clone(){
-        DtoProfile<ID> clone = new DtoProfile<>();
-
-        clone.setId(getId());
-        clone.setName(name);
-        clone.setSurname(surname);
-        clone.setMiddlename(middlename);
-        clone.setUserId(userId);
-        clone.setUser(user == null ? null : user.clone());
-        return clone;
+        try {
+            DtoProfile<ID> clone = (DtoProfile<ID>) super.clone();
+            clone.setUser(user == null ? null : user.clone());
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
     //</editor-fold>
 }

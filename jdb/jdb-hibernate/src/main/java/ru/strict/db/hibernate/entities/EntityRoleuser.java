@@ -150,14 +150,17 @@ public class EntityRoleuser extends EntityBase<Long> {
 
     @Override
     public EntityRoleuser clone(){
-        EntityRoleuser clone = new EntityRoleuser();
-        clone.setId(getId());
-        clone.setCode(code);
-        clone.setDescription(description);
-        for(EntityUser user : users){
-            clone.addUser(user.clone());
+        try {
+            EntityRoleuser clone = (EntityRoleuser) super.clone();
+
+            clone.users = new TreeSet<>();
+            for(EntityUser user : this.users){
+                clone.addUser(user.clone());
+            }
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
         }
-        return clone;
     }
     //</editor-fold>
 }

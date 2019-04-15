@@ -309,25 +309,25 @@ public class EntityUser<ID> extends EntityBase<ID> {
 
     @Override
     public EntityUser<ID> clone(){
-        EntityUser<ID> clone = new EntityUser<>();
+        try {
+            EntityUser<ID> clone = (EntityUser<ID>) super.clone();
 
-        clone.setId(getId());
-        clone.setBlocked(isBlocked);
-        clone.setDeleted(isDeleted);
-        clone.setConfirmEmail(isConfirmEmail);
-        clone.setUsername(username);
-        clone.setPasswordEncode(passwordEncode);
-        clone.setEmail(email);
-        for(EntityRoleuser<ID> role : roles){
-            clone.addRole(role.clone());
+            clone.roles = new TreeSet<>();
+            clone.profiles = new TreeSet<>();
+            clone.tokens = new TreeSet<>();
+            for(EntityRoleuser<ID> role : this.roles){
+                clone.addRole(role.clone());
+            }
+            for(EntityProfile<ID> profile : this.profiles){
+                clone.addProfile(profile.clone());
+            }
+            for(EntityJWTToken<ID> token : this.tokens){
+                clone.addToken(token.clone());
+            }
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
         }
-        for(EntityProfile<ID> profile : profiles){
-            clone.addProfile(profile.clone());
-        }
-        for(EntityJWTToken<ID> token : tokens){
-            clone.addToken(token.clone());
-        }
-        return clone;
     }
     //</editor-fold>
 }

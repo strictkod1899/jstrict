@@ -105,13 +105,14 @@ public class EntityCity extends EntityNamed<Long> {
 
     @Override
     public EntityCity clone(){
-        EntityCity clone = new EntityCity();
+        try {
+            EntityCity clone = (EntityCity) super.clone();
 
-        clone.setId(getId());
-        clone.setCaption(getCaption());
-        clone.setCountryId(countryId);
-        clone.setCountry(country == null ? null : country.clone());
-        return clone;
+            clone.setCountry(country == null ? null : country.clone());
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
     //</editor-fold>
 }

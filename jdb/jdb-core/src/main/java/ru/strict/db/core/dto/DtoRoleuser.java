@@ -140,14 +140,17 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
 
     @Override
     public DtoRoleuser<ID> clone(){
-        DtoRoleuser<ID> clone = new DtoRoleuser<>();
-        clone.setId(getId());
-        clone.setCode(code);
-        clone.setDescription(description);
-        for(DtoUserBase<ID> user : users){
-            clone.addUser(user.clone());
+        try {
+            DtoRoleuser<ID> clone = (DtoRoleuser<ID>) super.clone();
+
+            clone.users = new TreeSet<>();
+            for(DtoUserBase<ID> user : this.users){
+                clone.addUser(user.clone());
+            }
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
         }
-        return clone;
     }
     //</editor-fold>
 }
