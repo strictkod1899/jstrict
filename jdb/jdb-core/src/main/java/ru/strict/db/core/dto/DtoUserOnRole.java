@@ -102,11 +102,11 @@ public class DtoUserOnRole<ID> extends DtoBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoUserOnRole<ID> that = (DtoUserOnRole<ID>) o;
-        return Objects.equals(userId, that.userId) &&
-                Objects.equals(user, that.user) &&
-                Objects.equals(roleId, that.roleId) &&
-                Objects.equals(role, that.role);
+        DtoUserOnRole<ID> object = (DtoUserOnRole<ID>) o;
+        return Objects.equals(userId, object.userId) &&
+                Objects.equals(user, object.user) &&
+                Objects.equals(roleId, object.roleId) &&
+                Objects.equals(role, object.role);
     }
 
     @Override

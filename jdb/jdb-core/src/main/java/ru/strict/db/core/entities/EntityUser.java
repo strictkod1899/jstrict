@@ -290,21 +290,36 @@ public class EntityUser<ID> extends EntityBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        EntityUser<ID> that = (EntityUser<ID>) o;
-        return isBlocked == that.isBlocked &&
-                isDeleted == that.isDeleted &&
-                isConfirmEmail == that.isConfirmEmail &&
-                Objects.equals(username, that.username) &&
-                Objects.equals(passwordEncode, that.passwordEncode) &&
-                Objects.equals(email, that.email) &&
-                Objects.equals(roles, that.roles) &&
-                Objects.equals(profiles, that.profiles) &&
-                Objects.equals(tokens, that.tokens);
+        EntityUser<ID> object = (EntityUser<ID>) o;
+        return isBlocked == object.isBlocked &&
+                isDeleted == object.isDeleted &&
+                isConfirmEmail == object.isConfirmEmail &&
+                Objects.equals(username, object.username) &&
+                Objects.equals(passwordEncode, object.passwordEncode) &&
+                Objects.equals(email, object.email) &&
+                Objects.equals(roles, object.roles) &&
+                Objects.equals(profiles, object.profiles) &&
+                Objects.equals(tokens, object.tokens);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), username, passwordEncode, email, isBlocked, isDeleted, isConfirmEmail, roles, profiles, tokens);
+        int rolesHashCode = 1;
+        for(EntityRoleuser<ID> role : roles){
+            rolesHashCode = 31 * rolesHashCode + (role == null ? 0 : role.hashCodeWithoutUser());
+        }
+
+        int tokensHashCode = 1;
+        for(EntityJWTToken<ID> token : tokens){
+            tokensHashCode = 31 * tokensHashCode + (token == null ? 0 : token.hashCodeWithoutUser());
+        }
+
+        int profilesHashCode = 1;
+        for(EntityProfile<ID> profile : profiles){
+            profilesHashCode = 31 * profilesHashCode + (profile == null ? 0 : profile.hashCodeWithoutUser());
+        }
+
+        return Objects.hash(super.hashCode(), username, passwordEncode, email, isBlocked, isDeleted, isConfirmEmail, rolesHashCode, profilesHashCode, tokensHashCode);
     }
 
     @Override
@@ -316,13 +331,13 @@ public class EntityUser<ID> extends EntityBase<ID> {
             clone.profiles = new TreeSet<>();
             clone.tokens = new TreeSet<>();
             for(EntityRoleuser<ID> role : this.roles){
-                clone.addRole(role.clone());
+                clone.addRole(role.cloneSafeUser(clone));
             }
             for(EntityProfile<ID> profile : this.profiles){
-                clone.addProfile(profile.clone());
+                clone.addProfile(profile.cloneSafeUser(clone));
             }
             for(EntityJWTToken<ID> token : this.tokens){
-                clone.addToken(token.clone());
+                clone.addToken(token.cloneSafeUser(clone));
             }
             return clone;
         } catch (CloneNotSupportedException ex) {

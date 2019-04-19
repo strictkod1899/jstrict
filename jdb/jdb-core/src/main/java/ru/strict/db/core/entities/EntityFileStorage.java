@@ -141,15 +141,15 @@ public class EntityFileStorage<ID> extends EntityBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        EntityFileStorage<?> that = (EntityFileStorage<?>) o;
-        return type == that.type &&
-                status == that.status &&
-                Objects.equals(filename, that.filename) &&
-                Objects.equals(extension, that.extension) &&
-                Objects.equals(displayName, that.displayName) &&
-                Objects.equals(filePath, that.filePath) &&
-                Arrays.equals(content, that.content) &&
-                Objects.equals(createDate, that.createDate);
+        EntityFileStorage<?> object = (EntityFileStorage<?>) o;
+        return type == object.type &&
+                status == object.status &&
+                Objects.equals(filename, object.filename) &&
+                Objects.equals(extension, object.extension) &&
+                Objects.equals(displayName, object.displayName) &&
+                Objects.equals(filePath, object.filePath) &&
+                Arrays.equals(content, object.content) &&
+                Objects.equals(createDate, object.createDate);
     }
 
     @Override

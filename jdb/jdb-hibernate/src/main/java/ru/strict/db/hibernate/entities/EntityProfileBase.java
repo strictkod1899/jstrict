@@ -152,7 +152,32 @@ public abstract class EntityProfileBase extends EntityBase<Long> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, surname, middlename, userId, user);
+        return Objects.hash(hashCodeWithoutUser(), user);
+    }
+
+    protected int hashCodeWithoutUser(){
+        return Objects.hash(super.hashCode(), name, surname, middlename, userId);
+    }
+
+    @Override
+    public EntityProfileBase clone(){
+        try {
+            EntityProfileBase clone = (EntityProfileBase) super.clone();
+            clone.setUser(user == null ? null : user.clone());
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    protected EntityProfileBase cloneSafeUser(EntityUser user){
+        try {
+            EntityProfileBase clone = (EntityProfileBase) super.clone();
+            clone.setUser(user);
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
     }
     //</editor-fold>
 }

@@ -89,6 +89,7 @@ public class DtoProfileInfo<ID> extends DtoProfile<ID> {
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
     public String toString(){
         return String.format("profileinfo [%s]: %s %s %s\n%tD, phone - %s, city - %s", String.valueOf(getId()),
                 getSurname(), getName(), getMiddlename(), dateBirth, phone, cityId);
@@ -99,11 +100,11 @@ public class DtoProfileInfo<ID> extends DtoProfile<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoProfileInfo<ID> that = (DtoProfileInfo<ID>) o;
-        return Objects.equals(dateBirth, that.dateBirth) &&
-                Objects.equals(phone, that.phone) &&
-                Objects.equals(cityId, that.cityId) &&
-                Objects.equals(city, that.city);
+        DtoProfileInfo<ID> object = (DtoProfileInfo<ID>) o;
+        return Objects.equals(dateBirth, object.dateBirth) &&
+                Objects.equals(phone, object.phone) &&
+                Objects.equals(cityId, object.cityId) &&
+                Objects.equals(city, object.city);
     }
 
     @Override

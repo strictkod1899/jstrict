@@ -103,11 +103,11 @@ public class EntityUserOnRole<ID> extends EntityBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        EntityUserOnRole<ID> that = (EntityUserOnRole<ID>) o;
-        return Objects.equals(userId, that.userId) &&
-                Objects.equals(user, that.user) &&
-                Objects.equals(roleId, that.roleId) &&
-                Objects.equals(role, that.role);
+        EntityUserOnRole<ID> object = (EntityUserOnRole<ID>) o;
+        return Objects.equals(userId, object.userId) &&
+                Objects.equals(user, object.user) &&
+                Objects.equals(roleId, object.roleId) &&
+                Objects.equals(role, object.role);
     }
 
     @Override

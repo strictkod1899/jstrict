@@ -1,5 +1,6 @@
 package ru.strict.db.core.dto;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
@@ -112,18 +113,19 @@ public class DtoFileStorageBase<ID> extends DtoBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoFileStorageBase<ID> that = (DtoFileStorageBase<ID>) o;
-        return type == that.type &&
-                status == that.status &&
-                Objects.equals(filename, that.filename) &&
-                Objects.equals(extension, that.extension) &&
-                Objects.equals(displayName, that.displayName) &&
-                Objects.equals(createDate, that.createDate);
+        DtoFileStorageBase<ID> object = (DtoFileStorageBase<ID>) o;
+        return type == object.type &&
+                status == object.status &&
+                Objects.equals(filename, object.filename) &&
+                Objects.equals(extension, object.extension) &&
+                Objects.equals(displayName, object.displayName) &&
+                Objects.equals(createDate, object.createDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), filename, extension, displayName, createDate, type, status);
+        int result = Objects.hash(super.hashCode(), filename, extension, displayName, createDate, type, status);
+        return result;
     }
 
     @Override

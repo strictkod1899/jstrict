@@ -44,14 +44,12 @@ public class EntityProfileInfo<ID> extends EntityProfile<ID> {
         city = null;
     }
 
-    public EntityProfileInfo(String name, String surname, String middlename, ID userId, Date dateBirth, String phone,
-                             ID cityId) {
+    public EntityProfileInfo(String name, String surname, String middlename, ID userId, Date dateBirth, String phone, ID cityId) {
         super(name, surname, middlename, userId);
         initialize(dateBirth, phone, cityId);
     }
 
-    public EntityProfileInfo(ID id, String name, String surname, String middlename, ID userId, Date dateBirth, String phone,
-                             ID cityId) {
+    public EntityProfileInfo(ID id, String name, String surname, String middlename, ID userId, Date dateBirth, String phone, ID cityId) {
         super(id, name, surname, middlename, userId);
         initialize(dateBirth, phone, cityId);
     }
@@ -92,6 +90,7 @@ public class EntityProfileInfo<ID> extends EntityProfile<ID> {
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
     public String toString(){
         return String.format("profileinfo [%s]: %s %s %s\n%tD, phone - %s, city - %s", String.valueOf(getId()),
                 getSurname(), getName(), getMiddlename(), dateBirth, phone, cityId);
@@ -102,11 +101,11 @@ public class EntityProfileInfo<ID> extends EntityProfile<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        EntityProfileInfo<ID> that = (EntityProfileInfo<ID>) o;
-        return Objects.equals(dateBirth, that.dateBirth) &&
-                Objects.equals(phone, that.phone) &&
-                Objects.equals(cityId, that.cityId) &&
-                Objects.equals(city, that.city);
+        EntityProfileInfo<ID> object = (EntityProfileInfo<ID>) o;
+        return Objects.equals(dateBirth, object.dateBirth) &&
+                Objects.equals(phone, object.phone) &&
+                Objects.equals(cityId, object.cityId) &&
+                Objects.equals(city, object.city);
     }
 
     @Override

@@ -89,13 +89,18 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoCountry<ID> that = (DtoCountry<ID>) o;
-        return Objects.equals(cities, that.cities);
+        DtoCountry<ID> object = (DtoCountry<ID>) o;
+        return Objects.equals(cities, object.cities);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), cities);
+        int citiesHashCode = 1;
+        for(DtoCity<ID> city : cities){
+            citiesHashCode = 31 * citiesHashCode + (city == null ? 0 : city.hashCodeWithoutCountry());
+        }
+
+        return Objects.hash(super.hashCode(), citiesHashCode);
     }
 
     @Override
@@ -105,7 +110,7 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
 
             clone.cities = new TreeSet<>();
             for(DtoCity<ID> city : this.cities){
-                clone.addCity(city.clone());
+                clone.addCity(city.cloneSafeCountry(clone));
             }
             return clone;
         } catch (CloneNotSupportedException ex) {

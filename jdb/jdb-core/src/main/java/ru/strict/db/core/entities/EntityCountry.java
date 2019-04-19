@@ -92,13 +92,18 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        EntityCountry<ID> that = (EntityCountry<ID>) o;
-        return Objects.equals(cities, that.cities);
+        EntityCountry<ID> object = (EntityCountry<ID>) o;
+        return Objects.equals(cities, object.cities);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), cities);
+        int citiesHashCode = 1;
+        for(EntityCity<ID> city : cities){
+            citiesHashCode = 31 * citiesHashCode + (city == null ? 0 : city.hashCodeWithoutCountry());
+        }
+
+        return Objects.hash(super.hashCode(), citiesHashCode);
     }
 
     @Override
@@ -108,7 +113,7 @@ public class EntityCountry<ID> extends EntityNamed<ID> {
 
             clone.cities = new TreeSet<>();
             for(EntityCity<ID> city : this.cities){
-                clone.addCity(city.clone());
+                clone.addCity(city.cloneSafeCountry(clone));
             }
             return clone;
         } catch (CloneNotSupportedException ex) {

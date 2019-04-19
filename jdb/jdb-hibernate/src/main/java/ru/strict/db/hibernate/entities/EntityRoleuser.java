@@ -145,7 +145,7 @@ public class EntityRoleuser extends EntityBase<Long> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), code, description, users);
+        return Objects.hash(hashCodeWithoutUser(), users);
     }
 
     @Override
@@ -157,6 +157,21 @@ public class EntityRoleuser extends EntityBase<Long> {
             for(EntityUser user : this.users){
                 clone.addUser(user.clone());
             }
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    protected int hashCodeWithoutUser(){
+        return Objects.hash(super.hashCode(), code, description);
+    }
+
+    protected EntityRoleuser cloneSafeUser(EntityUser user){
+        try {
+            EntityRoleuser clone = (EntityRoleuser) super.clone();
+
+            clone.addUser(user);
             return clone;
         } catch (CloneNotSupportedException ex) {
             throw new RuntimeException(ex);

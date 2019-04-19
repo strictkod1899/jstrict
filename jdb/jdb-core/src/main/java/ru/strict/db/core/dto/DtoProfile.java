@@ -134,17 +134,21 @@ public class DtoProfile<ID> extends DtoBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoProfile<ID> that = (DtoProfile<ID>) o;
-        return Objects.equals(name, that.name) &&
-                Objects.equals(surname, that.surname) &&
-                Objects.equals(middlename, that.middlename) &&
-                Objects.equals(userId, that.userId) &&
-                Objects.equals(user, that.user);
+        DtoProfile<ID> object = (DtoProfile<ID>) o;
+        return Objects.equals(name, object.name) &&
+                Objects.equals(surname, object.surname) &&
+                Objects.equals(middlename, object.middlename) &&
+                Objects.equals(userId, object.userId) &&
+                Objects.equals(user, object.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, surname, middlename, userId, user);
+        return Objects.hash(hashCodeWithoutUser(), user);
+    }
+
+    protected int hashCodeWithoutUser(){
+        return Objects.hash(super.hashCode(), name, surname, middlename, userId);
     }
 
     @Override
@@ -152,6 +156,16 @@ public class DtoProfile<ID> extends DtoBase<ID> {
         try {
             DtoProfile<ID> clone = (DtoProfile<ID>) super.clone();
             clone.setUser(user == null ? null : user.clone());
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    protected DtoProfile<ID> cloneSafeUser(DtoUserBase<ID> user){
+        try {
+            DtoProfile<ID> clone = (DtoProfile<ID>) super.clone();
+            clone.setUser(user);
             return clone;
         } catch (CloneNotSupportedException ex) {
             throw new RuntimeException(ex);

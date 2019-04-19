@@ -191,21 +191,21 @@ public class EntityJWTToken<ID> extends EntityToken<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        EntityJWTToken<ID> that = (EntityJWTToken<ID>) o;
-        return Objects.equals(issuer, that.issuer) &&
-                Objects.equals(subject, that.subject) &&
-                Objects.equals(notBefore, that.notBefore) &&
-                Objects.equals(audience, that.audience) &&
-                Objects.equals(secret, that.secret) &&
-                Objects.equals(algorithm, that.algorithm) &&
-                Objects.equals(type, that.type) &&
-                Objects.equals(userId, that.userId) &&
-                Objects.equals(user, that.user);
+        EntityJWTToken<ID> object = (EntityJWTToken<ID>) o;
+        return Objects.equals(issuer, object.issuer) &&
+                Objects.equals(subject, object.subject) &&
+                Objects.equals(notBefore, object.notBefore) &&
+                Objects.equals(audience, object.audience) &&
+                Objects.equals(secret, object.secret) &&
+                Objects.equals(algorithm, object.algorithm) &&
+                Objects.equals(type, object.type) &&
+                Objects.equals(userId, object.userId) &&
+                Objects.equals(user, object.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), issuer, subject, notBefore, audience, secret, algorithm, type, userId, user);
+        return Objects.hash(hashCodeWithoutUser(), user);
     }
 
     @Override
@@ -215,6 +215,18 @@ public class EntityJWTToken<ID> extends EntityToken<ID> {
         clone.setNotBefore(notBefore == null ? null : (Date) notBefore.clone());
         clone.setUser(user == null ? null : user.clone());
         return clone;
+    }
+
+    protected EntityJWTToken<ID> cloneSafeUser(EntityUser<ID> user){
+        EntityJWTToken<ID> clone = (EntityJWTToken<ID>) super.clone();
+
+        clone.setNotBefore(notBefore == null ? null : (Date) notBefore.clone());
+        clone.setUser(user);
+        return clone;
+    }
+
+    protected int hashCodeWithoutUser(){
+        return Objects.hash(super.hashCode(), issuer, subject, notBefore, audience, secret, algorithm, type, userId);
     }
     //</editor-fold>
 }

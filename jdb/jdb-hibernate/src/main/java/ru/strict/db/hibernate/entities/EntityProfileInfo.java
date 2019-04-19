@@ -101,6 +101,7 @@ public class EntityProfileInfo extends EntityProfileBase {
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
+    @Override
     public String toString(){
         return String.format("entity profileinfo [%s]: %s %s %s\n%tD, phone - %s, city - %s", String.valueOf(getId()),
                 getSurname(), getName(), getMiddlename(), dateBirth, phone, cityId);
@@ -125,15 +126,11 @@ public class EntityProfileInfo extends EntityProfileBase {
 
     @Override
     public EntityProfileInfo clone(){
-        try {
-            EntityProfileInfo clone = (EntityProfileInfo) super.clone();
+        EntityProfileInfo clone = (EntityProfileInfo) super.clone();
 
-            clone.setDateBirth(dateBirth == null ? null : (Date) dateBirth.clone());
-            clone.setCity(city == null ? null : city.clone());
-            return clone;
-        } catch (CloneNotSupportedException ex) {
-            throw new RuntimeException(ex);
-        }
+        clone.setDateBirth(dateBirth == null ? null : (Date) dateBirth.clone());
+        clone.setCity(city == null ? null : city.clone());
+        return clone;
     }
     //</editor-fold>
 }

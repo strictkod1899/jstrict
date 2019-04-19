@@ -222,19 +222,29 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoUserBase<ID> that = (DtoUserBase<ID>) o;
-        return isBlocked == that.isBlocked &&
-                isDeleted == that.isDeleted &&
-                isConfirmEmail == that.isConfirmEmail &&
-                Objects.equals(username, that.username) &&
-                Objects.equals(email, that.email) &&
-                Objects.equals(roles, that.roles) &&
-                Objects.equals(profiles, that.profiles);
+        DtoUserBase<ID> object = (DtoUserBase<ID>) o;
+        return isBlocked == object.isBlocked &&
+                isDeleted == object.isDeleted &&
+                isConfirmEmail == object.isConfirmEmail &&
+                Objects.equals(username, object.username) &&
+                Objects.equals(email, object.email) &&
+                Objects.equals(roles, object.roles) &&
+                Objects.equals(profiles, object.profiles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), username, email, isBlocked, isDeleted, isConfirmEmail, roles, profiles);
+        int rolesHashCode = 1;
+        for(DtoRoleuser<ID> role : roles){
+            rolesHashCode = 31 * rolesHashCode + (role == null ? 0 : role.hashCodeWithoutUser());
+        }
+
+        int profilesHashCode = 1;
+        for(DtoProfile<ID> profile : profiles){
+            profilesHashCode = 31 * profilesHashCode + (profile == null ? 0 : profile.hashCodeWithoutUser());
+        }
+
+        return Objects.hash(super.hashCode(), username, email, isBlocked, isDeleted, isConfirmEmail, rolesHashCode, profilesHashCode);
     }
 
     @Override
@@ -245,10 +255,10 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
             clone.roles = new TreeSet<>();
             clone.profiles = new TreeSet<>();
             for(DtoRoleuser<ID> role : this.roles){
-                clone.addRole(role.clone());
+                clone.addRole(role.cloneSafeUser(clone));
             }
             for(DtoProfile<ID> profile : this.profiles){
-                clone.addProfile(profile.clone());
+                clone.addProfile(profile.cloneSafeUser(clone));
             }
             return clone;
         } catch (CloneNotSupportedException ex) {

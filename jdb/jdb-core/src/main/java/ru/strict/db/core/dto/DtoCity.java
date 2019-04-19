@@ -92,7 +92,7 @@ public class DtoCity<ID> extends DtoNamed<ID> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), countryId, country);
+        return Objects.hash(hashCodeWithoutCountry(), country);
     }
 
     @Override
@@ -101,6 +101,21 @@ public class DtoCity<ID> extends DtoNamed<ID> {
             DtoCity<ID> clone = (DtoCity<ID>) super.clone();
 
             clone.setCountry(country == null ? null : country.clone());
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    protected int hashCodeWithoutCountry(){
+        return Objects.hash(super.hashCode(), countryId);
+    }
+
+    protected DtoCity<ID> cloneSafeCountry(DtoCountry<ID> country){
+        try {
+            DtoCity<ID> clone = (DtoCity<ID>) super.clone();
+
+            clone.setCountry(country);
             return clone;
         } catch (CloneNotSupportedException ex) {
             throw new RuntimeException(ex);

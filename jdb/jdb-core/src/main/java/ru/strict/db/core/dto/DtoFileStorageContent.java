@@ -42,8 +42,8 @@ public class DtoFileStorageContent<ID> extends DtoFileStorageBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoFileStorageContent<ID> that = (DtoFileStorageContent<ID>) o;
-        return Arrays.equals(content, that.content);
+        DtoFileStorageContent<ID> object = (DtoFileStorageContent<ID>) o;
+        return Arrays.equals(content, object.content);
     }
 
     @Override

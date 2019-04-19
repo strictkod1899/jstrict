@@ -129,7 +129,7 @@ public class EntityServiceOnRole<SERVICE> extends EntityBase<Long> {
     }
 
     @Override
-    public EntityServiceOnRole<SERVICE> clone(){
+    public EntityServiceOnRole<SERVICE> clone() {
         try {
             EntityServiceOnRole<SERVICE> clone = (EntityServiceOnRole<SERVICE>) super.clone();
 
