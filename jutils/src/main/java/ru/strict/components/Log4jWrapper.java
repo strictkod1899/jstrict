@@ -12,9 +12,11 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * Логирование с использованием Log4j.
- * Класс инициализирует конфигурацию по-умолчанию для консольного вывода и записи в файл 'logs/report.log'
+ * <p>Логирование с использованием Log4j.</p>
+ * <p>Класс инициализирует конфигурацию по-умолчанию для консольного вывода и записи в файл 'logs/report.log'</p>
  *
+ * <p><b>Пример использования:</b></p>
+ * <code><pre style="background-color: white; font-family: consolas">
  * import ru.strict.components.Log4jWrapper;
  * import ru.strict.components.LoggerConfiguration;
  *
@@ -37,14 +39,15 @@ import java.util.Objects;
  *     configuration.setLogDirectoryPath("mypath");
  * }
  * }
+ * </pre></code>
  */
 public class Log4jWrapper implements ILogger {
 
     private static final String DEFAULT_PATTERN = "%d{dd.MM.yyyy HH:mm:ss,SSS} [%p] %c{1}/%M:%L - %m%n";
-    private static final String DEFAULT_FOLDER_NAME = "logs";
-    private static final String DEFAULT_LOG_FILE_NAME = "report.log";
-    private static final String DEFAULT_MAX_LOG_FILE_SIZE = "1024KB";
-    private static final int DEFAULT_MAX_BACKUP_INDEX = 10;
+    protected static final String DEFAULT_FOLDER_NAME = "logs";
+    private static final String DEFAULT_LOG_FILE_NAME = "logs.log";
+    private static final String DEFAULT_MAX_LOG_FILE_SIZE = "5120KB";
+    private static final int DEFAULT_MAX_BACKUP_INDEX = 20;
 
     private Logger wrappedObject;
     private LoggerConfiguration configuration;
