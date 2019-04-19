@@ -77,7 +77,11 @@ public class UtilData {
 
     public static <T> int compareTo(T source, T compareValue){
         if(source == null || compareValue == null){
-            return -1;
+            if(source == null && compareValue == null){
+                return 0;
+            } else {
+                return -1;
+            }
         }
 
         int result = -1;
