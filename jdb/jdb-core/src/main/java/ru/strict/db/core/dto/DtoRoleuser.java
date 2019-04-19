@@ -127,15 +127,15 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoRoleuser<ID> that = (DtoRoleuser<ID>) o;
-        return Objects.equals(code, that.code) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(users, that.users);
+        DtoRoleuser<ID> object = (DtoRoleuser<ID>) o;
+        return Objects.equals(code, object.code) &&
+                Objects.equals(description, object.description) &&
+                Objects.equals(users, object.users);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), code, description, users);
+        return Objects.hash(hashCodeWithoutUser(), users);
     }
 
     @Override
@@ -147,6 +147,21 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
             for(DtoUserBase<ID> user : this.users){
                 clone.addUser(user.clone());
             }
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    protected int hashCodeWithoutUser(){
+        return Objects.hash(super.hashCode(), code, description);
+    }
+
+    protected DtoRoleuser<ID> cloneSafeUser(DtoUserBase<ID> user){
+        try {
+            DtoRoleuser<ID> clone = (DtoRoleuser<ID>) super.clone();
+
+            clone.addUser(user);
             return clone;
         } catch (CloneNotSupportedException ex) {
             throw new RuntimeException(ex);

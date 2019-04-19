@@ -100,7 +100,12 @@ public class EntityCountry extends EntityNamed<Long> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), cities);
+        int citiesHashCode = 1;
+        for(EntityCity city : cities){
+            citiesHashCode = 31 * citiesHashCode + (city == null ? 0 : city.hashCodeWithoutCountry());
+        }
+
+        return Objects.hash(super.hashCode(), citiesHashCode);
     }
 
     @Override
@@ -110,7 +115,7 @@ public class EntityCountry extends EntityNamed<Long> {
 
             clone.cities = new TreeSet<>();
             for(EntityCity city : this.cities){
-                clone.addCity(city.clone());
+                clone.addCity(city.cloneSafeCountry(clone));
             }
             return clone;
         } catch (CloneNotSupportedException ex) {

@@ -122,12 +122,12 @@ public class EntityToken<ID> extends EntityBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        EntityToken<ID> that = (EntityToken<ID>) o;
-        return Objects.equals(accessToken, that.accessToken) &&
-                Objects.equals(refreshToken, that.refreshToken) &&
-                Objects.equals(expireTimeAccess, that.expireTimeAccess) &&
-                Objects.equals(expireTimeRefresh, that.expireTimeRefresh) &&
-                Objects.equals(issuedAt, that.issuedAt);
+        EntityToken<ID> object = (EntityToken<ID>) o;
+        return Objects.equals(accessToken, object.accessToken) &&
+                Objects.equals(refreshToken, object.refreshToken) &&
+                Objects.equals(expireTimeAccess, object.expireTimeAccess) &&
+                Objects.equals(expireTimeRefresh, object.expireTimeRefresh) &&
+                Objects.equals(issuedAt, object.issuedAt);
     }
 
     @Override

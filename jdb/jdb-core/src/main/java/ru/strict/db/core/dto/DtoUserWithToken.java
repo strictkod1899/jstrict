@@ -93,13 +93,18 @@ public class DtoUserWithToken<ID> extends DtoUser<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoUserWithToken<ID> that = (DtoUserWithToken<ID>) o;
-        return Objects.equals(tokens, that.tokens);
+        DtoUserWithToken<ID> object = (DtoUserWithToken<ID>) o;
+        return Objects.equals(tokens, object.tokens);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), tokens);
+        int tokensHashCode = 1;
+        for(DtoJWTToken<ID> token : tokens){
+            tokensHashCode = 31 * tokensHashCode + (token == null ? 0 : token.hashCodeWithoutUser());
+        }
+
+        return Objects.hash(super.hashCode(), tokensHashCode);
     }
 
     @Override
@@ -108,7 +113,7 @@ public class DtoUserWithToken<ID> extends DtoUser<ID> {
 
         clone.tokens = new TreeSet<>();
         for(DtoJWTToken<ID> token : this.tokens){
-            clone.addToken(token.clone());
+            clone.addToken(token.cloneSafeUser(clone));
         }
         return clone;
     }

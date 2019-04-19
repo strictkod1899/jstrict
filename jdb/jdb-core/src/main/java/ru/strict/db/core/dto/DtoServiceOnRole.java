@@ -107,11 +107,11 @@ public class DtoServiceOnRole<ID, SERVICE> extends DtoBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoServiceOnRole<ID, SERVICE> that = (DtoServiceOnRole<ID, SERVICE>) o;
-        return Objects.equals(serviceId, that.serviceId) &&
-                Objects.equals(serviceProvider, that.serviceProvider) &&
-                Objects.equals(roleId, that.roleId) &&
-                Objects.equals(role, that.role);
+        DtoServiceOnRole<ID, SERVICE> object = (DtoServiceOnRole<ID, SERVICE>) o;
+        return Objects.equals(serviceId, object.serviceId) &&
+                Objects.equals(serviceProvider, object.serviceProvider) &&
+                Objects.equals(roleId, object.roleId) &&
+                Objects.equals(role, object.role);
     }
 
     @Override
@@ -120,7 +120,7 @@ public class DtoServiceOnRole<ID, SERVICE> extends DtoBase<ID> {
     }
 
     @Override
-    public DtoServiceOnRole<ID, SERVICE> clone(){
+    public DtoServiceOnRole<ID, SERVICE> clone() {
         try {
             DtoServiceOnRole<ID, SERVICE> clone = (DtoServiceOnRole<ID, SERVICE>) super.clone();
 

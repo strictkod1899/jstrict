@@ -99,9 +99,8 @@ public class EntityCity extends EntityNamed<Long> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), countryId, country);
+        return Objects.hash(hashCodeWithoutCountry(), country);
     }
-
 
     @Override
     public EntityCity clone(){
@@ -109,6 +108,21 @@ public class EntityCity extends EntityNamed<Long> {
             EntityCity clone = (EntityCity) super.clone();
 
             clone.setCountry(country == null ? null : country.clone());
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    protected int hashCodeWithoutCountry(){
+        return Objects.hash(super.hashCode(), countryId);
+    }
+
+    protected EntityCity cloneSafeCountry(EntityCountry country){
+        try {
+            EntityCity clone = (EntityCity) super.clone();
+
+            clone.setCountry(country);
             return clone;
         } catch (CloneNotSupportedException ex) {
             throw new RuntimeException(ex);

@@ -47,7 +47,7 @@ public class TestRepositoryFileStorage {
      */
     @Test
     public void test001CreateGenerateNumberId(){
-        DtoFileStorage dto = new DtoFileStorage<>("filename", "extension", "displayname", new Date(), 1, 1, "filepath", new byte[]{ 1, 2 });
+        DtoFileStorage dto = new DtoFileStorage<>("filename", "extension", "displayname", "filepath", new byte[]{ 1, 2 }, new Date(), 1, 1);
         DtoFileStorage createdDto = REPOSITORY_GENERATE_NUMBER_ID.create(dto);
         Assert.assertNotNull(createdDto.getId());
     }
@@ -57,7 +57,7 @@ public class TestRepositoryFileStorage {
      */
     @Test
     public void test002CreateGenerateUuidId(){
-        DtoFileStorage dto = new DtoFileStorage<>("filename", "extension", "displayname", new Date(), 1, 1, "filepath", new byte[]{ 1, 2 });
+        DtoFileStorage dto = new DtoFileStorage<>("filename", "extension", "displayname", "filepath", new byte[]{ 1, 2 }, new Date(), 1, 1);
         DtoFileStorage createdDto = REPOSITORY_GENERATE_UUID_ID.create(dto);
         Assert.assertNotNull(createdDto.getId());
     }
@@ -149,7 +149,7 @@ public class TestRepositoryFileStorage {
      */
     @Test
     public void test013CreateOrReadNotExists(){
-        DtoFileStorage<Integer> newDto = new DtoFileStorage<>(101, "filename10", "extension10", "displayname10", new Date(), 1, 1, "filepath10", new byte[]{ 1, 2, 3, 4 });
+        DtoFileStorage<Integer> newDto = new DtoFileStorage<>(101, "filename10", "extension10", "displayname10", "filepath10", new byte[]{ 1, 2, 3, 4 }, new Date(), 1, 1);
         DtoFileStorage dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(newDto);
         Assert.assertEquals(newDto, dto);
     }
@@ -177,7 +177,7 @@ public class TestRepositoryFileStorage {
      */
     @Test
     public void test016CreateOrUpdateNotExists(){
-        DtoFileStorage<Integer> newDto = new DtoFileStorage<>(102, "filename11", "extension11", "displayname11", new Date(), 1, 1, "filepath11", new byte[]{ 1, 2, 3, 4 });
+        DtoFileStorage<Integer> newDto = new DtoFileStorage<>(102, "filename11", "extension11", "displayname11", "filepath11", new byte[]{ 1, 2, 3, 4 }, new Date(), 1, 1);
         DtoFileStorage dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(newDto);
         Assert.assertEquals(newDto, dto);
     }

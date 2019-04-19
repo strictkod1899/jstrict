@@ -217,9 +217,8 @@ public class EntityJWTToken extends EntityToken {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), issuer, subject, notBefore, audience, secret, algorithm, type, userId, user);
+        return Objects.hash(hashCodeWithoutUser(), user);
     }
-
 
     @Override
     public EntityJWTToken clone(){
@@ -228,5 +227,18 @@ public class EntityJWTToken extends EntityToken {
         clone.setNotBefore(notBefore == null ? null : (Date) notBefore.clone());
         clone.setUser(user == null ? null : user.clone());
         return clone;
-    }//</editor-fold>
+    }
+
+    protected EntityJWTToken cloneSafeUser(EntityUser user){
+        EntityJWTToken clone = (EntityJWTToken) super.clone();
+
+        clone.setNotBefore(notBefore == null ? null : (Date) notBefore.clone());
+        clone.setUser(user);
+        return clone;
+    }
+
+    protected int hashCodeWithoutUser(){
+        return Objects.hash(super.hashCode(), issuer, subject, notBefore, audience, secret, algorithm, type, userId);
+    }
+    //</editor-fold>
 }

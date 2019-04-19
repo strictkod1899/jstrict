@@ -18,12 +18,12 @@ public class DtoFileStorage<ID> extends DtoFileStoragePath<ID> {
         super();
     }
 
-    public DtoFileStorage(String filename, String extension, String displayName, Date createDate, int type, int status, String filePath, byte[] content) {
+    public DtoFileStorage(String filename, String extension, String displayName, String filePath, byte[] content, Date createDate, int type, int status) {
         super(filename, extension, displayName, createDate, type, status, filePath);
         this.content = content;
     }
 
-    public DtoFileStorage(ID id, String filename, String extension, String displayName, Date createDate, int type, int status, String filePath, byte[] content) {
+    public DtoFileStorage(ID id, String filename, String extension, String displayName, String filePath, byte[] content, Date createDate, int type, int status) {
         super(id, filename, extension, displayName, createDate, type, status, filePath);
         this.content = content;
     }
@@ -42,8 +42,8 @@ public class DtoFileStorage<ID> extends DtoFileStoragePath<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoFileStorage<ID> that = (DtoFileStorage<ID>) o;
-        return Arrays.equals(content, that.content);
+        DtoFileStorage<ID> object = (DtoFileStorage<ID>) o;
+        return Arrays.equals(content, object.content);
     }
 
     @Override

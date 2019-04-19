@@ -40,8 +40,8 @@ public class DtoFileStoragePath<ID> extends DtoFileStorageBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoFileStoragePath<ID> that = (DtoFileStoragePath<ID>) o;
-        return Objects.equals(filePath, that.filePath);
+        DtoFileStoragePath<ID> object = (DtoFileStoragePath<ID>) o;
+        return Objects.equals(filePath, object.filePath);
     }
 
     @Override

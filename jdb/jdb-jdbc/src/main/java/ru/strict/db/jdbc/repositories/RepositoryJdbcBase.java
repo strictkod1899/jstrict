@@ -39,6 +39,10 @@ public abstract class RepositoryJdbcBase
                               MapperSqlBase<ID, E> sqlMapper,
                               GenerateIdType generateIdType) {
         super(tableName, columnsName, connectionSource, dtoMapper, generateIdType);
+        if(sqlMapper == null){
+            throw new IllegalArgumentException("sqlMapper is NULL");
+        }
+
         this.sqlMapper = sqlMapper;
     }
     //</editor-fold>

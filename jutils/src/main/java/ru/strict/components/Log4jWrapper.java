@@ -287,9 +287,9 @@ public class Log4jWrapper implements ILogger {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Log4jWrapper that = (Log4jWrapper) o;
-        return Objects.equals(wrappedObject, that.wrappedObject) &&
-                Objects.equals(configuration, that.configuration);
+        Log4jWrapper object = (Log4jWrapper) o;
+        return Objects.equals(wrappedObject, object.wrappedObject) &&
+                Objects.equals(configuration, object.configuration);
     }
 
     @Override

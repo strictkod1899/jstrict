@@ -328,7 +328,22 @@ public class EntityUser extends EntityBase<Long> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), username, passwordEncode, email, isBlocked, isDeleted, isConfirmEmail, roles, profiles, tokens);
+        int rolesHashCode = 1;
+        for(EntityRoleuser role : roles){
+            rolesHashCode = 31 * rolesHashCode + (role == null ? 0 : role.hashCodeWithoutUser());
+        }
+
+        int tokensHashCode = 1;
+        for(EntityJWTToken token : tokens){
+            tokensHashCode = 31 * tokensHashCode + (token == null ? 0 : token.hashCodeWithoutUser());
+        }
+
+        int profilesHashCode = 1;
+        for(EntityProfile profile : profiles){
+            profilesHashCode = 31 * profilesHashCode + (profile == null ? 0 : profile.hashCodeWithoutUser());
+        }
+
+        return Objects.hash(super.hashCode(), username, passwordEncode, email, isBlocked, isDeleted, isConfirmEmail, rolesHashCode, profilesHashCode, tokensHashCode);
     }
 
     @Override
@@ -340,13 +355,13 @@ public class EntityUser extends EntityBase<Long> {
             clone.profiles = new TreeSet<>();
             clone.tokens = new TreeSet<>();
             for(EntityRoleuser role : this.roles){
-                clone.addRole(role.clone());
+                clone.addRole(role.cloneSafeUser(clone));
             }
             for(EntityProfile profile : this.profiles){
-                clone.addProfile(profile.clone());
+                clone.addProfile(profile.cloneSafeUser(clone));
             }
             for(EntityJWTToken token : this.tokens){
-                clone.addToken(token.clone());
+                clone.addToken(token.cloneSafeUser(clone));
             }
             return clone;
         } catch (CloneNotSupportedException ex) {

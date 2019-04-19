@@ -12,12 +12,6 @@ public class EntityProfile extends EntityProfileBase {
 
     @Override
     public EntityProfile clone(){
-        try {
-            EntityProfile clone = (EntityProfile) super.clone();
-            clone.setUser(getUser() == null ? null : getUser().clone());
-            return clone;
-        } catch (CloneNotSupportedException ex) {
-            throw new RuntimeException(ex);
-        }
+        return (EntityProfile) super.clone();
     }
 }

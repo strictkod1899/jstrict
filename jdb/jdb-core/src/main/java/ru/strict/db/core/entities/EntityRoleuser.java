@@ -128,15 +128,15 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        EntityRoleuser<ID> that = (EntityRoleuser<ID>) o;
-        return Objects.equals(code, that.code) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(users, that.users);
+        EntityRoleuser<ID> object = (EntityRoleuser<ID>) o;
+        return Objects.equals(code, object.code) &&
+                Objects.equals(description, object.description) &&
+                Objects.equals(users, object.users);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), code, description, users);
+        return Objects.hash(hashCodeWithoutUser(), users);
     }
 
     @Override
@@ -148,6 +148,21 @@ public class EntityRoleuser<ID> extends EntityBase<ID> {
             for(EntityUser<ID> user : this.users){
                 clone.addUser(user.clone());
             }
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    protected int hashCodeWithoutUser(){
+        return Objects.hash(super.hashCode(), code, description);
+    }
+
+    protected EntityRoleuser<ID> cloneSafeUser(EntityUser<ID> user){
+        try {
+            EntityRoleuser<ID> clone = (EntityRoleuser<ID>) super.clone();
+
+            clone.addUser(user);
             return clone;
         } catch (CloneNotSupportedException ex) {
             throw new RuntimeException(ex);

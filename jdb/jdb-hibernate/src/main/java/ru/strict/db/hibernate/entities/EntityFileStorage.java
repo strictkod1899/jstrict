@@ -182,5 +182,6 @@ public class EntityFileStorage extends EntityBase<Long> {
         } catch (CloneNotSupportedException ex) {
             throw new RuntimeException(ex);
         }
-    }//</editor-fold>
+    }
+    //</editor-fold>
 }

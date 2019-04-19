@@ -86,14 +86,14 @@ public class EntityCity<ID> extends EntityNamed<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        EntityCity<ID> that = (EntityCity<ID>) o;
-        return Objects.equals(countryId, that.countryId) &&
-                Objects.equals(country, that.country);
+        EntityCity<ID> object = (EntityCity<ID>) o;
+        return Objects.equals(countryId, object.countryId) &&
+                Objects.equals(country, object.country);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), countryId, country);
+        return Objects.hash(hashCodeWithoutCountry(), country);
     }
 
     @Override
@@ -102,6 +102,21 @@ public class EntityCity<ID> extends EntityNamed<ID> {
             EntityCity<ID> clone = (EntityCity<ID>) super.clone();
 
             clone.setCountry(country == null ? null : country.clone());
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    protected int hashCodeWithoutCountry(){
+        return Objects.hash(super.hashCode(), countryId);
+    }
+
+    protected EntityCity<ID> cloneSafeCountry(EntityCountry<ID> country){
+        try {
+            EntityCity<ID> clone = (EntityCity<ID>) super.clone();
+
+            clone.setCountry(country);
             return clone;
         } catch (CloneNotSupportedException ex) {
             throw new RuntimeException(ex);

@@ -107,11 +107,11 @@ public class EntityServiceOnRole<ID, SERVICE> extends EntityBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        EntityServiceOnRole<ID, SERVICE> that = (EntityServiceOnRole<ID, SERVICE>) o;
-        return Objects.equals(serviceId, that.serviceId) &&
-                Objects.equals(serviceProvider, that.serviceProvider) &&
-                Objects.equals(roleId, that.roleId) &&
-                Objects.equals(role, that.role);
+        EntityServiceOnRole<ID, SERVICE> object = (EntityServiceOnRole<ID, SERVICE>) o;
+        return Objects.equals(serviceId, object.serviceId) &&
+                Objects.equals(serviceProvider, object.serviceProvider) &&
+                Objects.equals(roleId, object.roleId) &&
+                Objects.equals(role, object.role);
     }
 
     @Override
