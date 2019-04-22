@@ -1,7 +1,6 @@
 package ru.strict.swing;
 
 import ru.strict.swing.components.TextFieldPlaceholder;
-import ru.strict.utils.UtilLogger;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
@@ -152,7 +151,6 @@ public class UtilSwing {
      * @return
      */
     public static JPanel createButtonLabel(int hgap, int vgap, final java.awt.Color baseColor, final java.awt.Color selectColor, String text, Font font, MouseListener...mouse){
-        UtilLogger.info(UtilSwing.class, "StrictControllerFrame.createButtonLabel - started");
         FlowLayout layout = new FlowLayout(FlowLayout.CENTER, hgap, vgap);
         final JPanel panel = new JPanel();
         panel.setLayout(layout);
@@ -169,7 +167,6 @@ public class UtilSwing {
             lab.setFont(font);
         }
         panel.add(lab);
-        UtilLogger.info(UtilSwing.class, "StrictControllerFrame.createButtonLabel - finished");
         return panel;
     }
 
@@ -185,7 +182,6 @@ public class UtilSwing {
      * @return
      */
     public static JPanel[] createButtonLabels(int hgap, int vgap, final java.awt.Color baseColor, final java.awt.Color selectColor, Font font, MouseListener mouse, String...texts){
-        UtilLogger.info(UtilSwing.class, "StrictControllerFrame.createButtonLabels - started");
         JPanel [] arrPanel;
         if(texts!=null) {
             arrPanel = new JPanel[texts.length];
@@ -197,7 +193,6 @@ public class UtilSwing {
             arrPanel[0] = createButtonLabel(hgap, vgap, baseColor, selectColor, "", font, mouse);
         }
 
-        UtilLogger.info(UtilSwing.class, "StrictControllerFrame.createButtonLabels - finished");
         return arrPanel;
     }
 
@@ -212,7 +207,6 @@ public class UtilSwing {
      * @return
      */
     public static JPanel createButtonImage(int hgap, int vgap, final java.awt.Color baseColor, final java.awt.Color selectColor, ImageIcon image, MouseListener...mouse){
-        UtilLogger.info(UtilSwing.class, "StrictControllerFrame.createButtonImage - started");
         FlowLayout layout = new FlowLayout(FlowLayout.CENTER, hgap, vgap);
         JPanel panel = new JPanel();
         panel.setLayout(layout);
@@ -229,7 +223,6 @@ public class UtilSwing {
             lab.setIcon(image);
         }
         panel.add(lab);
-        UtilLogger.info(UtilSwing.class, "StrictControllerFrame.createButtonImage - finished");
         return panel;
     }
 
@@ -244,7 +237,6 @@ public class UtilSwing {
      * @return
      */
     public static JPanel[] createButtonsImage(int hgap, int vgap, final java.awt.Color baseColor, final java.awt.Color selectColor, MouseListener mouse, ImageIcon...images){
-        UtilLogger.info(UtilSwing.class, "StrictControllerFrame.createButtonsImage - started");
         JPanel [] arrPanel;
         if(images!=null) {
             arrPanel = new JPanel[images.length];
@@ -256,7 +248,6 @@ public class UtilSwing {
             arrPanel[0] = createButtonLabel(hgap, vgap, baseColor, selectColor, "", null, mouse);
         }
 
-        UtilLogger.info(UtilSwing.class, "StrictControllerFrame.createButtonsImage - finished");
         return arrPanel;
     }
 
@@ -272,7 +263,6 @@ public class UtilSwing {
      * @return
      */
     public static JPanel createButtonImageText(int hgap, int vgap, final java.awt.Color baseColor, final java.awt.Color selectColor, ImageIcon image, String text, Font font, MouseListener...mouse){
-        UtilLogger.info(UtilSwing.class, "StrictControllerFrame.createButtonImageText - started");
         FlowLayout layout = new FlowLayout(FlowLayout.CENTER, hgap, vgap);
         final JPanel panel = new JPanel();
         panel.setLayout(layout);
@@ -295,7 +285,6 @@ public class UtilSwing {
             lab.setIcon(image);
         }
         panel.add(lab);
-        UtilLogger.info(UtilSwing.class, "StrictControllerFrame.createButtonImageText - finished");
         return panel;
     }
 
@@ -312,7 +301,6 @@ public class UtilSwing {
      */
     public static JPanel[] createButtonsImageText(int hgap, int vgap, final java.awt.Color baseColor, final Color selectColor,
                                                   MouseListener [] mouses, String [] texts, Font font, ImageIcon...images){
-        UtilLogger.info(UtilSwing.class, "StrictControllerFrame.createButtonsImageText - started");
         JPanel [] arrPanel;
         if(images!=null) {
             arrPanel = new JPanel[images.length];
@@ -324,7 +312,6 @@ public class UtilSwing {
             arrPanel[0] = createButtonLabel(hgap, vgap, baseColor, selectColor, "", null, mouses[0]);
         }
 
-        UtilLogger.info(UtilSwing.class, "StrictControllerFrame.createButtonsImageText - finished");
         return arrPanel;
     }
 

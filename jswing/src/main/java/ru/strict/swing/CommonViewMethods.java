@@ -1,7 +1,5 @@
 package ru.strict.swing;
 
-import ru.strict.utils.UtilLogger;
-
 import java.awt.*;
 import java.awt.Color;
 
@@ -76,7 +74,6 @@ class CommonViewMethods {
      * Установить размер формы по содержимому
      */
     public static void pack(Container container) {
-        UtilLogger.info(CommonViewMethods.class, "pack  started");
         Component[] components = container.getComponents();
         int width = 0;
         int height = 0;
@@ -87,14 +84,12 @@ class CommonViewMethods {
 
         container.setSize(width, height);
         container.setPreferredSize(new Dimension(width, height));
-        UtilLogger.info(CommonViewMethods.class, "pack  finished");
     }
 
     /**
      * Установить высоту формы по содержимому
      */
     public static void packHeight(Container container) {
-        UtilLogger.info(CommonViewMethods.class, "packHeight  started");
         Component[] components = container.getComponents();
         int height = 0;
         for (Component component : components) {
@@ -102,14 +97,12 @@ class CommonViewMethods {
         }
         container.setSize(container.getPreferredSize().width, height);
         container.setPreferredSize(new Dimension(container.getWidth(), height));
-        UtilLogger.info(CommonViewMethods.class, "packHeight  finished");
     }
 
     /**
      * Установить ширину формы по содержимому
      */
     public static void packWidth(Container container) {
-        UtilLogger.info(CommonViewMethods.class, "packWidth  started");
         Component[] components = container.getComponents();
         int width = 0;
         for (Component component : components) {
@@ -117,6 +110,5 @@ class CommonViewMethods {
         }
         container.setSize(width, container.getPreferredSize().height);
         container.setPreferredSize(new Dimension(width, container.getHeight()));
-        UtilLogger.info(CommonViewMethods.class, "packWidth  finished");
     }
 }
