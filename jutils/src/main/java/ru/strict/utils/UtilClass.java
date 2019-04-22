@@ -1,5 +1,8 @@
 package ru.strict.utils;
 
+import java.io.File;
+import java.net.URISyntaxException;
+
 public class UtilClass {
 
     /**
@@ -23,6 +26,32 @@ public class UtilClass {
         try {
             result = Class.forName(className);
         } catch (ClassNotFoundException e) {}
+
+        return result;
+    }
+
+
+    /**
+     * Получить путь до директории класса
+     * @param appClass
+     * @return
+     * @throws URISyntaxException
+     */
+    public static String getPathByClass(Class appClass) throws URISyntaxException {
+        String result = null;
+
+        if(appClass != null) {
+            try {
+                File file = new File(appClass.getProtectionDomain().getCodeSource().getLocation().toURI());
+                if(file.isDirectory()) {
+                    result = file.getPath();
+                } else {
+                    result = file.getParentFile().getPath();
+                }
+            } catch (URISyntaxException ex) {
+                throw ex;
+            }
+        }
 
         return result;
     }
