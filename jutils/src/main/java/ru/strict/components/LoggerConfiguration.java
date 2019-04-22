@@ -15,6 +15,14 @@ public class LoggerConfiguration {
     private boolean isLogToConsole;
     private boolean isLogToFile;
 
+    /**
+     * Логирование ошибок дополнительно в отдельный файл
+     */
+    private boolean isLogErrorsToAdditionalFile;
+    private String errorLogFileName;
+    private String errorMaxFileSize;
+    private int errorMaxBackupIndex;
+
     public String getPattern() {
         return pattern;
     }
@@ -71,22 +79,58 @@ public class LoggerConfiguration {
         isLogToFile = logToFile;
     }
 
+    public boolean isLogErrorsToAdditionalFile() {
+        return isLogErrorsToAdditionalFile;
+    }
+
+    public void setLogErrorsToAdditionalFile(boolean logErrorsToAdditionalFile) {
+        isLogErrorsToAdditionalFile = logErrorsToAdditionalFile;
+    }
+
+    public String getErrorLogFileName() {
+        return errorLogFileName;
+    }
+
+    public void setErrorLogFileName(String errorLogFileName) {
+        this.errorLogFileName = errorLogFileName;
+    }
+
+    public String getErrorMaxFileSize() {
+        return errorMaxFileSize;
+    }
+
+    public void setErrorMaxFileSize(String errorMaxFileSize) {
+        this.errorMaxFileSize = errorMaxFileSize;
+    }
+
+    public int getErrorMaxBackupIndex() {
+        return errorMaxBackupIndex;
+    }
+
+    public void setErrorMaxBackupIndex(int errorMaxBackupIndex) {
+        this.errorMaxBackupIndex = errorMaxBackupIndex;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LoggerConfiguration object = (LoggerConfiguration) o;
-        return maxBackupIndex == object.maxBackupIndex &&
-                isLogToConsole == object.isLogToConsole &&
-                isLogToFile == object.isLogToFile &&
-                Objects.equals(pattern, object.pattern) &&
-                Objects.equals(logDirectoryPath, object.logDirectoryPath) &&
-                Objects.equals(logFileName, object.logFileName) &&
-                Objects.equals(maxFileSize, object.maxFileSize);
+        LoggerConfiguration that = (LoggerConfiguration) o;
+        return maxBackupIndex == that.maxBackupIndex &&
+                isLogToConsole == that.isLogToConsole &&
+                isLogToFile == that.isLogToFile &&
+                isLogErrorsToAdditionalFile == that.isLogErrorsToAdditionalFile &&
+                errorMaxBackupIndex == that.errorMaxBackupIndex &&
+                Objects.equals(pattern, that.pattern) &&
+                Objects.equals(logDirectoryPath, that.logDirectoryPath) &&
+                Objects.equals(logFileName, that.logFileName) &&
+                Objects.equals(maxFileSize, that.maxFileSize) &&
+                Objects.equals(errorLogFileName, that.errorLogFileName) &&
+                Objects.equals(errorMaxFileSize, that.errorMaxFileSize);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pattern, logDirectoryPath, logFileName, maxFileSize, maxBackupIndex, isLogToConsole, isLogToFile);
+        return Objects.hash(pattern, logDirectoryPath, logFileName, maxFileSize, maxBackupIndex, isLogToConsole, isLogToFile, isLogErrorsToAdditionalFile, errorLogFileName, errorMaxFileSize, errorMaxBackupIndex);
     }
 }

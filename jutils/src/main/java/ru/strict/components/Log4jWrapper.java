@@ -1,10 +1,7 @@
 package ru.strict.components;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.RollingFileAppender;
-import ru.strict.utils.UtilSystem;
+import org.apache.log4j.*;
+import ru.strict.utils.UtilClass;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -48,6 +45,9 @@ public class Log4jWrapper implements ILogger {
     private static final String DEFAULT_LOG_FILE_NAME = "logs.log";
     private static final String DEFAULT_MAX_LOG_FILE_SIZE = "5120KB";
     private static final int DEFAULT_MAX_BACKUP_INDEX = 20;
+    private static final String DEFAULT_ERROR_LOG_FILE_NAME = "errors.log";
+    private static final String DEFAULT_ERROR_MAX_LOG_FILE_SIZE = "5120KB";
+    private static final int DEFAULT_ERROR_MAX_BACKUP_INDEX = 10;
 
     private Logger wrappedObject;
     private LoggerConfiguration configuration;
@@ -232,15 +232,21 @@ public class Log4jWrapper implements ILogger {
         if(configuration != null) {
             configuration.setPattern(DEFAULT_PATTERN);
             try {
-                configuration.setLogDirectoryPath(UtilSystem.getPathByClass(this.getClass()) + File.separator + DEFAULT_FOLDER_NAME);
+                configuration.setLogDirectoryPath(UtilClass.getPathByClass(this.getClass()) + File.separator + DEFAULT_FOLDER_NAME);
             } catch (URISyntaxException ex) {
                 throw new RuntimeException(ex);
             }
             configuration.setLogFileName(DEFAULT_LOG_FILE_NAME);
             configuration.setMaxFileSize(DEFAULT_MAX_LOG_FILE_SIZE);
             configuration.setMaxBackupIndex(DEFAULT_MAX_BACKUP_INDEX);
+
+            configuration.setErrorLogFileName(DEFAULT_ERROR_LOG_FILE_NAME);
+            configuration.setErrorMaxFileSize(DEFAULT_ERROR_MAX_LOG_FILE_SIZE);
+            configuration.setErrorMaxBackupIndex(DEFAULT_ERROR_MAX_BACKUP_INDEX);
+
             configuration.setLogToConsole(true);
             configuration.setLogToFile(true);
+            configuration.setLogErrorsToAdditionalFile(true);
 
             prepareConfiguration(configuration);
             configuration();
@@ -273,6 +279,17 @@ public class Log4jWrapper implements ILogger {
                 fileAppender.activateOptions();
                 wrappedObject.addAppender(fileAppender);
             }
+
+            if(configuration.isLogErrorsToAdditionalFile()){
+                RollingFileAppender errorFileAppender = new RollingFileAppender();
+                errorFileAppender.setThreshold(Level.ERROR);
+                errorFileAppender.setFile(configuration.getLogDirectoryPath() + "\\" + configuration.getErrorLogFileName());
+                errorFileAppender.setMaxFileSize(configuration.getErrorMaxFileSize());
+                errorFileAppender.setMaxBackupIndex(configuration.getErrorMaxBackupIndex());
+                errorFileAppender.setLayout(layout);
+                errorFileAppender.activateOptions();
+                wrappedObject.addAppender(errorFileAppender);
+            }
         }
     }
     //</editor-fold>
@@ -296,6 +313,5 @@ public class Log4jWrapper implements ILogger {
     public int hashCode() {
         return Objects.hash(wrappedObject, configuration);
     }
-
     //</editor-fold>
 }
