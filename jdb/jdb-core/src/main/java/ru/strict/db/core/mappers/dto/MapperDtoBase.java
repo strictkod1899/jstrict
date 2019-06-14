@@ -1,6 +1,6 @@
 package ru.strict.db.core.mappers.dto;
 
-import ru.strict.db.core.dto.DtoBase;
+import ru.strict.models.DtoBase;
 import ru.strict.db.core.mappers.MapperBase;
 
 /**

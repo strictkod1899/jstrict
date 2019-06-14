@@ -1,6 +1,6 @@
 package ru.strict.db.core.entities;
 
-import ru.strict.db.core.models.IModelProvider;
+import ru.strict.models.IModelProvider;
 
 import java.util.Objects;
 

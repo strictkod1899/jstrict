@@ -1,11 +1,11 @@
 package ru.strict.db.core.repositories.interfaces;
 
-import ru.strict.db.core.dto.DtoUserBase;
+import ru.strict.models.UserBase;
 import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereItem;
 
-public interface IRepositoryUser<ID, DTO extends DtoUserBase<ID>> extends IRepositoryNamed<ID, DTO> {
+public interface IRepositoryUser<ID, DTO extends UserBase<ID>> extends IRepositoryNamed<ID, DTO> {
     default DTO readByEmail(String email){
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(getTableName(), "email", email, "="));

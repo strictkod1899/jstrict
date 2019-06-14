@@ -1,10 +1,8 @@
 package ru.strict.db.core.mappers.dto;
 
-import ru.strict.db.core.dto.DtoJWTToken;
-import ru.strict.db.core.dto.DtoRoleuser;
-import ru.strict.db.core.dto.DtoUserWithToken;
+import ru.strict.models.JWTToken;
+import ru.strict.models.UserWithToken;
 import ru.strict.db.core.entities.EntityJWTToken;
-import ru.strict.db.core.entities.EntityRoleuser;
 import ru.strict.db.core.entities.EntityUser;
 
 import java.util.Optional;
@@ -12,20 +10,20 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityJWTToken и DtoJWTToken
  */
-public class MapperDtoJWTToken<ID> extends MapperDtoBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>> {
+public class MapperDtoJWTToken<ID> extends MapperDtoBase<ID, EntityJWTToken<ID>, JWTToken<ID>> {
 
-    private MapperDtoBase<ID, EntityUser<ID>, DtoUserWithToken<ID>> mapperUser;
+    private MapperDtoBase<ID, EntityUser<ID>, UserWithToken<ID>> mapperUser;
 
     public MapperDtoJWTToken(){
         mapperUser = null;
     }
 
-    public MapperDtoJWTToken(MapperDtoBase<ID, EntityUser<ID>, DtoUserWithToken<ID>> mapperUser){
+    public MapperDtoJWTToken(MapperDtoBase<ID, EntityUser<ID>, UserWithToken<ID>> mapperUser){
         this.mapperUser = mapperUser;
     }
 
     @Override
-    protected EntityJWTToken<ID> implementMap(DtoJWTToken<ID> dto) {
+    protected EntityJWTToken<ID> implementMap(JWTToken<ID> dto) {
         EntityJWTToken<ID> entity = new EntityJWTToken();
         entity.setId(dto.getId());
         entity.setAccessToken(dto.getAccessToken());
@@ -46,8 +44,8 @@ public class MapperDtoJWTToken<ID> extends MapperDtoBase<ID, EntityJWTToken<ID>,
     }
 
     @Override
-    protected DtoJWTToken<ID> implementMap(EntityJWTToken<ID> entity) {
-        DtoJWTToken<ID> dto = new DtoJWTToken();
+    protected JWTToken<ID> implementMap(EntityJWTToken<ID> entity) {
+        JWTToken<ID> dto = new JWTToken();
         dto.setId(entity.getId());
         dto.setAccessToken(entity.getAccessToken());
         dto.setRefreshToken(entity.getRefreshToken());

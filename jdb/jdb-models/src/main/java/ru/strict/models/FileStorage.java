@@ -1,30 +1,29 @@
-package ru.strict.db.core.dto;
+package ru.strict.models;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Objects;
 
 /**
- * Представление FileStorage с содержимым файла, игнорируя атрибут filePath
+ * Полное представление FileStorage
  */
-public class DtoFileStorageContent<ID> extends DtoFileStorageBase<ID> {
+public class FileStorage<ID> extends FileStoragePath<ID> {
 
     /**
      * Байтовое представление файла
      */
     private byte[] content;
 
-    public DtoFileStorageContent() {
+    public FileStorage() {
         super();
     }
 
-    public DtoFileStorageContent(String filename, String extension, String displayName, Date createDate, int type, int status, byte[] content) {
-        super(filename, extension, displayName, createDate, type, status);
+    public FileStorage(String filename, String extension, String displayName, String filePath, byte[] content, Date createDate, int type, int status) {
+        super(filename, extension, displayName, createDate, type, status, filePath);
         this.content = content;
     }
 
-    public DtoFileStorageContent(ID id, String filename, String extension, String displayName, Date createDate, int type, int status, byte[] content) {
-        super(id, filename, extension, displayName, createDate, type, status);
+    public FileStorage(ID id, String filename, String extension, String displayName, String filePath, byte[] content, Date createDate, int type, int status) {
+        super(id, filename, extension, displayName, createDate, type, status, filePath);
         this.content = content;
     }
 
@@ -42,7 +41,7 @@ public class DtoFileStorageContent<ID> extends DtoFileStorageBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoFileStorageContent<ID> object = (DtoFileStorageContent<ID>) o;
+        FileStorage<ID> object = (FileStorage<ID>) o;
         return Arrays.equals(content, object.content);
     }
 
@@ -54,8 +53,8 @@ public class DtoFileStorageContent<ID> extends DtoFileStorageBase<ID> {
     }
 
     @Override
-    public DtoFileStorageContent<ID> clone(){
-        DtoFileStorageContent<ID> clone = (DtoFileStorageContent<ID>) super.clone();
+    public FileStorage<ID> clone(){
+        FileStorage<ID> clone = (FileStorage<ID>) super.clone();
 
         clone.setContent(content == null ? null : content.clone());
         return clone;

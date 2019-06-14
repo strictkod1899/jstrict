@@ -2,11 +2,10 @@ package ru.strict.db.core.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.ICreateConnection;
-import ru.strict.db.core.dto.DtoBase;
+import ru.strict.models.DtoBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereItem;
-import ru.strict.db.core.requests.WhereType;
 
 import java.util.List;
 import java.util.Objects;

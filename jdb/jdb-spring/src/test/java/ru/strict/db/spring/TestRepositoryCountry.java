@@ -3,7 +3,7 @@ package ru.strict.db.spring;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.dto.DtoCountry;
+import ru.strict.models.Country;
 import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.spring.data.TestData;
 import ru.strict.db.spring.repositories.RepositoryCountry;
@@ -15,9 +15,9 @@ import java.util.UUID;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRepositoryCountry {
 
-    private static IRepositoryNamed<Integer, DtoCountry<Integer>> REPOSITORY_NOT_GENERATE_ID;
-    private static IRepositoryNamed<Integer, DtoCountry<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
-    private static IRepositoryNamed<UUID, DtoCountry<UUID>> REPOSITORY_GENERATE_UUID_ID;
+    private static IRepositoryNamed<Integer, Country<Integer>> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryNamed<Integer, Country<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
+    private static IRepositoryNamed<UUID, Country<UUID>> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
     public static void prepare(){
@@ -45,8 +45,8 @@ public class TestRepositoryCountry {
      */
     @Test
     public void test001CreateGenerateNumberId(){
-        DtoCountry dto = new DtoCountry<>("country");
-        DtoCountry createdDto = REPOSITORY_GENERATE_NUMBER_ID.create(dto);
+        Country dto = new Country<>("country");
+        Country createdDto = REPOSITORY_GENERATE_NUMBER_ID.create(dto);
         Assert.assertNotNull(createdDto.getId());
     }
 
@@ -55,8 +55,8 @@ public class TestRepositoryCountry {
      */
     @Test
     public void test002CreateGenerateUuidId(){
-        DtoCountry dto = new DtoCountry<>("country");
-        DtoCountry createdDto = REPOSITORY_GENERATE_UUID_ID.create(dto);
+        Country dto = new Country<>("country");
+        Country createdDto = REPOSITORY_GENERATE_UUID_ID.create(dto);
         Assert.assertNotNull(createdDto.getId());
     }
 
@@ -65,7 +65,7 @@ public class TestRepositoryCountry {
      */
     @Test
     public void test003CreateNotGenerateId(){
-        DtoCountry createdDto = REPOSITORY_NOT_GENERATE_ID.create(TestData.COUNTRY1);
+        Country createdDto = REPOSITORY_NOT_GENERATE_ID.create(TestData.COUNTRY1);
         Assert.assertEquals(TestData.COUNTRY1, createdDto);
     }
 
@@ -74,7 +74,7 @@ public class TestRepositoryCountry {
      */
     @Test
     public void test004ReadByInteger(){
-        DtoCountry dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.COUNTRY1.getId());
+        Country dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.COUNTRY1.getId());
         Assert.assertEquals(TestData.COUNTRY1, dto);
     }
 
@@ -83,7 +83,7 @@ public class TestRepositoryCountry {
      */
     @Test
     public void test006ReadAllInteger(){
-        List<DtoCountry<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        List<Country<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
         Assert.assertTrue(list.size() == 2);
     }
 
@@ -92,7 +92,7 @@ public class TestRepositoryCountry {
      */
     @Test
     public void test007ReadAllUuid(){
-        List<DtoCountry<UUID>> list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
+        List<Country<UUID>> list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
         Assert.assertTrue(list.size() == 1);
     }
 
@@ -110,7 +110,7 @@ public class TestRepositoryCountry {
      */
     @Test
     public void test009ReadByName(){
-        DtoCountry dto = REPOSITORY_GENERATE_NUMBER_ID.readByName(TestData.COUNTRY1.getCaption());
+        Country dto = REPOSITORY_GENERATE_NUMBER_ID.readByName(TestData.COUNTRY1.getCaption());
         Assert.assertEquals(TestData.COUNTRY1, dto);
     }
 
@@ -119,7 +119,7 @@ public class TestRepositoryCountry {
      */
     @Test
     public void test010ReadAllByName(){
-        List<DtoCountry<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAllByName(TestData.COUNTRY1.getCaption());
+        List<Country<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAllByName(TestData.COUNTRY1.getCaption());
         Assert.assertTrue(list.size() == 1);
         Assert.assertTrue(list.get(0).equals(TestData.COUNTRY1));
     }
@@ -138,7 +138,7 @@ public class TestRepositoryCountry {
      */
     @Test
     public void test012CreateOrReadExists(){
-        DtoCountry dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(TestData.COUNTRY1);
+        Country dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(TestData.COUNTRY1);
         Assert.assertEquals(TestData.COUNTRY1, dto);
     }
 
@@ -147,8 +147,8 @@ public class TestRepositoryCountry {
      */
     @Test
     public void test013CreateOrReadNotExists(){
-        DtoCountry<Integer> newDto = new DtoCountry<>(101, "country10");
-        DtoCountry dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(newDto);
+        Country<Integer> newDto = new Country<>(101, "country10");
+        Country dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(newDto);
         Assert.assertEquals(newDto, dto);
     }
 
@@ -157,7 +157,7 @@ public class TestRepositoryCountry {
      */
     @Test
     public void test014Update(){
-        DtoCountry dto = REPOSITORY_GENERATE_NUMBER_ID.update(TestData.COUNTRY1_UPDATED);
+        Country dto = REPOSITORY_GENERATE_NUMBER_ID.update(TestData.COUNTRY1_UPDATED);
         Assert.assertEquals(TestData.COUNTRY1_UPDATED, dto);
     }
 
@@ -166,7 +166,7 @@ public class TestRepositoryCountry {
      */
     @Test
     public void test015CreateOrUpdateExists(){
-        DtoCountry dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.COUNTRY1);
+        Country dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.COUNTRY1);
         Assert.assertEquals(TestData.COUNTRY1, dto);
     }
 
@@ -175,8 +175,8 @@ public class TestRepositoryCountry {
      */
     @Test
     public void test016CreateOrUpdateNotExists(){
-        DtoCountry<Integer> newDto = new DtoCountry<>(102, "country11");
-        DtoCountry dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(newDto);
+        Country<Integer> newDto = new Country<>(102, "country11");
+        Country dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(newDto);
         Assert.assertEquals(newDto, dto);
     }
 
@@ -185,7 +185,7 @@ public class TestRepositoryCountry {
      */
     @Test
     public void test017ExecuteCreateAndUpdateIsSuccess(){
-        List<DtoCountry<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        List<Country<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
         Assert.assertTrue(list.size() == 4);
     }
 
@@ -195,8 +195,8 @@ public class TestRepositoryCountry {
     @Test
     public void test018Delete(){
         REPOSITORY_GENERATE_NUMBER_ID.delete(TestData.COUNTRY1.getId());
-        List<DtoCountry<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
-        DtoCountry<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.COUNTRY1.getId());
+        List<Country<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        Country<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.COUNTRY1.getId());
         Assert.assertTrue(list.size() == 3);
         Assert.assertNull(dto);
     }

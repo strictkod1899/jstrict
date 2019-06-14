@@ -1,7 +1,7 @@
 package ru.strict.db.hibernate.mappers.dto;
 
-import ru.strict.db.core.dto.DtoCity;
-import ru.strict.db.core.dto.DtoCountry;
+import ru.strict.models.City;
+import ru.strict.models.Country;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.hibernate.entities.EntityCity;
 import ru.strict.db.hibernate.entities.EntityCountry;
@@ -11,20 +11,20 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityCountry и DtoCountry
  */
-public class MapperDtoCountry extends MapperDtoBase<Long, EntityCountry, DtoCountry<Long>> {
+public class MapperDtoCountry extends MapperDtoBase<Long, EntityCountry, Country<Long>> {
 
-    private MapperDtoBase<Long, EntityCity, DtoCity<Long>> mapperCity;
+    private MapperDtoBase<Long, EntityCity, City<Long>> mapperCity;
 
     public MapperDtoCountry(){
         mapperCity = null;
     }
 
-    public MapperDtoCountry(MapperDtoBase<Long, EntityCity, DtoCity<Long>> mapperCity){
+    public MapperDtoCountry(MapperDtoBase<Long, EntityCity, City<Long>> mapperCity){
         this.mapperCity = mapperCity;
     }
 
     @Override
-    protected EntityCountry implementMap(DtoCountry<Long> dto) {
+    protected EntityCountry implementMap(Country<Long> dto) {
         EntityCountry entity = new EntityCountry();
         entity.setId(dto.getId());
         entity.setCaption(dto.getCaption());
@@ -34,8 +34,8 @@ public class MapperDtoCountry extends MapperDtoBase<Long, EntityCountry, DtoCoun
     }
 
     @Override
-    protected DtoCountry<Long> implementMap(EntityCountry entity) {
-        DtoCountry<Long> dto = new DtoCountry();
+    protected Country<Long> implementMap(EntityCountry entity) {
+        Country<Long> dto = new Country();
         dto.setId(entity.getId());
         dto.setCaption(entity.getCaption());
         Optional.ofNullable(mapperCity).ifPresent((mapper) ->

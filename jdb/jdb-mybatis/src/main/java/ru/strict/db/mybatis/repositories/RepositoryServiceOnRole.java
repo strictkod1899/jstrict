@@ -2,7 +2,7 @@ package ru.strict.db.mybatis.repositories;
 
 import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.dto.DtoServiceOnRole;
+import ru.strict.models.ServiceOnRole;
 import ru.strict.db.core.entities.EntityServiceOnRole;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.interfaces.IRepositoryServiceOnRole;
@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RepositoryServiceOnRole<ID, SERVICE>
-        extends RepositoryMybatisBase<ID, EntityServiceOnRole<ID, SERVICE>, DtoServiceOnRole<ID, SERVICE>, MapperSqlServiceOnRole<ID, SERVICE>>
+        extends RepositoryMybatisBase<ID, EntityServiceOnRole<ID, SERVICE>, ServiceOnRole<ID, SERVICE>, MapperSqlServiceOnRole<ID, SERVICE>>
         implements IRepositoryServiceOnRole<ID, SERVICE> {
 
     private static final String[] COLUMNS_NAME = new String[] {"service_id", "roleuser_id"};
 
     public RepositoryServiceOnRole(CreateConnectionByMybatis connectionSource,
-                                   MapperDtoBase<ID, EntityServiceOnRole<ID, SERVICE>, DtoServiceOnRole<ID, SERVICE>> dtoMapper,
+                                   MapperDtoBase<ID, EntityServiceOnRole<ID, SERVICE>, ServiceOnRole<ID, SERVICE>> dtoMapper,
                                    GenerateIdType generateIdType) {
         super("service_on_role",
                 COLUMNS_NAME,
@@ -31,11 +31,11 @@ public class RepositoryServiceOnRole<ID, SERVICE>
     }
 
     @Override
-    public List<DtoServiceOnRole<ID, SERVICE>> readByServiceId(Integer serviceId) {
+    public List<ServiceOnRole<ID, SERVICE>> readByServiceId(Integer serviceId) {
         if(serviceId == null){
             throw new IllegalArgumentException("serviceId for read is NULL");
         }
-        List<DtoServiceOnRole<ID, SERVICE>> result = null;
+        List<ServiceOnRole<ID, SERVICE>> result = null;
         SqlSession session = null;
         try {
             session = createConnection();
@@ -58,11 +58,11 @@ public class RepositoryServiceOnRole<ID, SERVICE>
     }
 
     @Override
-    public List<DtoServiceOnRole<ID, SERVICE>> readByRoleId(ID roleId) {
+    public List<ServiceOnRole<ID, SERVICE>> readByRoleId(ID roleId) {
         if(roleId == null){
             throw new IllegalArgumentException("roleId for read is NULL");
         }
-        List<DtoServiceOnRole<ID, SERVICE>> result = null;
+        List<ServiceOnRole<ID, SERVICE>> result = null;
         SqlSession session = null;
         try {
             session = createConnection();

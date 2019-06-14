@@ -2,7 +2,7 @@ package ru.strict.db.mybatis.repositories;
 
 import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.dto.DtoCity;
+import ru.strict.models.City;
 import ru.strict.db.core.entities.EntityCity;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.interfaces.IRepositoryCity;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RepositoryCity<ID>
-        extends RepositoryNamedBase<ID, EntityCity<ID>, DtoCity<ID>, MapperSqlCity<ID>>
+        extends RepositoryNamedBase<ID, EntityCity<ID>, City<ID>, MapperSqlCity<ID>>
         implements IRepositoryCity<ID> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption", "country_id"};
@@ -24,16 +24,16 @@ public class RepositoryCity<ID>
                 COLUMNS_NAME,
                 connectionSource,
                 UtilClass.<MapperSqlCity<ID>>castClass(MapperSqlCity.class),
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityCity.class), UtilClass.castClass(DtoCity.class)),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityCity.class), UtilClass.castClass(City.class)),
                 generateIdType);
     }
 
     @Override
-    public List<DtoCity<ID>> readByCountryId(ID countryId) {
+    public List<City<ID>> readByCountryId(ID countryId) {
         if(countryId == null){
             throw new IllegalArgumentException("countryId for read is NULL");
         }
-        List<DtoCity<ID>> result = null;
+        List<City<ID>> result = null;
         SqlSession session = null;
         try {
             session = createConnection();

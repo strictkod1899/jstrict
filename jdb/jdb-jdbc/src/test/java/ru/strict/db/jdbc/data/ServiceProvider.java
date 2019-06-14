@@ -1,6 +1,6 @@
 package ru.strict.db.jdbc.data;
 
-import ru.strict.db.core.models.IModelProvider;
+import ru.strict.models.IModelProvider;
 
 public class ServiceProvider implements IModelProvider<ServiceModel> {
     @Override

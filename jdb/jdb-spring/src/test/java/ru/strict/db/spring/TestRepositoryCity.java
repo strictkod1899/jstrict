@@ -3,8 +3,8 @@ package ru.strict.db.spring;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.dto.DtoCity;
-import ru.strict.db.core.dto.DtoCountry;
+import ru.strict.models.City;
+import ru.strict.models.Country;
 import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.core.repositories.interfaces.IRepositoryCity;
 import ru.strict.db.spring.data.TestData;
@@ -43,8 +43,8 @@ public class TestRepositoryCity {
      * Подготовить тестовые данные
      */
     private static void prepareData(){
-        IRepositoryNamed<Integer, DtoCountry<Integer>> repositoryCountryNumberId = new RepositoryCountry<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
-        IRepositoryNamed<UUID, DtoCountry<UUID>> repositoryCountryUuidId = new RepositoryCountry<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
+        IRepositoryNamed<Integer, Country<Integer>> repositoryCountryNumberId = new RepositoryCountry<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
+        IRepositoryNamed<UUID, Country<UUID>> repositoryCountryUuidId = new RepositoryCountry<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
 
         TestRunner.repositories.add(repositoryCountryNumberId);
         TestRunner.repositories.add(repositoryCountryUuidId);
@@ -63,8 +63,8 @@ public class TestRepositoryCity {
      */
     @Test
     public void test001CreateGenerateNumberId(){
-        DtoCity dto = new DtoCity<>("city", TestData.COUNTRY1.getId());
-        DtoCity createdDto = REPOSITORY_GENERATE_NUMBER_ID.create(dto);
+        City dto = new City<>("city", TestData.COUNTRY1.getId());
+        City createdDto = REPOSITORY_GENERATE_NUMBER_ID.create(dto);
         Assert.assertNotNull(createdDto.getId());
     }
 
@@ -73,8 +73,8 @@ public class TestRepositoryCity {
      */
     @Test
     public void test002CreateGenerateUuidId(){
-        DtoCity dto = new DtoCity<>("city", TestData.COUNTRY1_UUID.getId());
-        DtoCity createdDto = REPOSITORY_GENERATE_UUID_ID.create(dto);
+        City dto = new City<>("city", TestData.COUNTRY1_UUID.getId());
+        City createdDto = REPOSITORY_GENERATE_UUID_ID.create(dto);
         Assert.assertNotNull(createdDto.getId());
     }
 
@@ -83,7 +83,7 @@ public class TestRepositoryCity {
      */
     @Test
     public void test003CreateNotGenerateId(){
-        DtoCity createdDto = REPOSITORY_NOT_GENERATE_ID.create(TestData.CITY1);
+        City createdDto = REPOSITORY_NOT_GENERATE_ID.create(TestData.CITY1);
         Assert.assertEquals(TestData.CITY1, createdDto);
     }
 
@@ -92,7 +92,7 @@ public class TestRepositoryCity {
      */
     @Test
     public void test004ReadByInteger(){
-        DtoCity dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.CITY1.getId());
+        City dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.CITY1.getId());
         Assert.assertEquals(TestData.CITY1, dto);
     }
 
@@ -101,7 +101,7 @@ public class TestRepositoryCity {
      */
     @Test
     public void test006ReadAllInteger(){
-        List<DtoCity<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        List<City<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
         Assert.assertTrue(list.size() == 2);
     }
 
@@ -110,7 +110,7 @@ public class TestRepositoryCity {
      */
     @Test
     public void test007ReadAllUuid(){
-        List<DtoCity<UUID>> list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
+        List<City<UUID>> list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
         Assert.assertTrue(list.size() == 1);
     }
 
@@ -128,7 +128,7 @@ public class TestRepositoryCity {
      */
     @Test
     public void test009ReadByName(){
-        DtoCity dto = REPOSITORY_GENERATE_NUMBER_ID.readByName(TestData.CITY1.getCaption());
+        City dto = REPOSITORY_GENERATE_NUMBER_ID.readByName(TestData.CITY1.getCaption());
         Assert.assertEquals(TestData.CITY1, dto);
     }
 
@@ -137,7 +137,7 @@ public class TestRepositoryCity {
      */
     @Test
     public void test010ReadAllByName(){
-        List<DtoCity<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAllByName(TestData.CITY1.getCaption());
+        List<City<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAllByName(TestData.CITY1.getCaption());
         Assert.assertTrue(list.size() == 1);
         Assert.assertTrue(list.get(0).equals(TestData.CITY1));
     }
@@ -156,7 +156,7 @@ public class TestRepositoryCity {
      */
     @Test
     public void test012CreateOrReadExists(){
-        DtoCity dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(TestData.CITY1);
+        City dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(TestData.CITY1);
         Assert.assertEquals(TestData.CITY1, dto);
     }
 
@@ -165,8 +165,8 @@ public class TestRepositoryCity {
      */
     @Test
     public void test013CreateOrReadNotExists(){
-        DtoCity<Integer> newDto = new DtoCity<>(101, "city10", TestData.CITY1.getCountryId());
-        DtoCity dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(newDto);
+        City<Integer> newDto = new City<>(101, "city10", TestData.CITY1.getCountryId());
+        City dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(newDto);
         Assert.assertEquals(newDto, dto);
     }
 
@@ -175,7 +175,7 @@ public class TestRepositoryCity {
      */
     @Test
     public void test014Update(){
-        DtoCity dto = REPOSITORY_GENERATE_NUMBER_ID.update(TestData.CITY1_UPDATED);
+        City dto = REPOSITORY_GENERATE_NUMBER_ID.update(TestData.CITY1_UPDATED);
         Assert.assertEquals(TestData.CITY1_UPDATED, dto);
     }
 
@@ -184,7 +184,7 @@ public class TestRepositoryCity {
      */
     @Test
     public void test015CreateOrUpdateExists(){
-        DtoCity dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.CITY1);
+        City dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.CITY1);
         Assert.assertEquals(TestData.CITY1, dto);
     }
 
@@ -193,8 +193,8 @@ public class TestRepositoryCity {
      */
     @Test
     public void test016CreateOrUpdateNotExists(){
-        DtoCity<Integer> newDto = new DtoCity<>(102, "city11", TestData.CITY1.getCountryId());
-        DtoCity dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(newDto);
+        City<Integer> newDto = new City<>(102, "city11", TestData.CITY1.getCountryId());
+        City dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(newDto);
         Assert.assertEquals(newDto, dto);
     }
 
@@ -203,7 +203,7 @@ public class TestRepositoryCity {
      */
     @Test
     public void test017ExecuteCreateAndUpdateIsSuccess(){
-        List<DtoCity<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        List<City<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
         Assert.assertTrue(list.size() == 4);
     }
 
@@ -213,15 +213,15 @@ public class TestRepositoryCity {
     @Test
     public void test018Delete(){
         REPOSITORY_GENERATE_NUMBER_ID.delete(TestData.CITY1.getId());
-        List<DtoCity<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
-        DtoCity<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.CITY1.getId());
+        List<City<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        City<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.CITY1.getId());
         Assert.assertTrue(list.size() == 3);
         Assert.assertNull(dto);
     }
 
     @Test
     public void test019ReadByCountryId(){
-        List<DtoCity<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByCountryId(TestData.COUNTRY1.getId());
+        List<City<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByCountryId(TestData.COUNTRY1.getId());
         Assert.assertTrue(list.size() == 3);
     }
 }

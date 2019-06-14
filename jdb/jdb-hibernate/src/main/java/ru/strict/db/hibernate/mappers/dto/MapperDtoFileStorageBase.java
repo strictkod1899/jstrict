@@ -1,18 +1,18 @@
 package ru.strict.db.hibernate.mappers.dto;
 
-import ru.strict.db.core.dto.DtoFileStorageBase;
+import ru.strict.models.FileStorageBase;
 import ru.strict.db.hibernate.entities.EntityFileStorage;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 
 /**
  * Двухсторонний маппинг объектов типа EntityFileStorage и DtoFileStorageBase
  */
-public class MapperDtoFileStorageBase extends MapperDtoBase<Long, EntityFileStorage, DtoFileStorageBase<Long>> {
+public class MapperDtoFileStorageBase extends MapperDtoBase<Long, EntityFileStorage, FileStorageBase<Long>> {
 
     public MapperDtoFileStorageBase(){}
 
     @Override
-    protected EntityFileStorage implementMap(DtoFileStorageBase<Long> dto) {
+    protected EntityFileStorage implementMap(FileStorageBase<Long> dto) {
         EntityFileStorage entity = new EntityFileStorage();
         entity.setId(dto.getId());
         entity.setFilename(dto.getFilename());
@@ -25,8 +25,8 @@ public class MapperDtoFileStorageBase extends MapperDtoBase<Long, EntityFileStor
     }
 
     @Override
-    protected DtoFileStorageBase<Long> implementMap(EntityFileStorage entity) {
-        DtoFileStorageBase<Long> dto = new DtoFileStorageBase();
+    protected FileStorageBase<Long> implementMap(EntityFileStorage entity) {
+        FileStorageBase<Long> dto = new FileStorageBase();
         dto.setId(entity.getId());
         dto.setFilename(entity.getFilename());
         dto.setExtension(entity.getExtension());

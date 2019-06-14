@@ -1,4 +1,4 @@
-package ru.strict.db.core.dto;
+package ru.strict.models;
 
 import java.util.Date;
 import java.util.Objects;
@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * Токен
  */
-public class DtoToken<ID> extends DtoBase<ID> {
+public class Token<ID> extends DtoBase<ID> {
     /**
      * Токен авторизации
      */
@@ -43,7 +43,7 @@ public class DtoToken<ID> extends DtoBase<ID> {
         this.issuedAt = issuedAt;
     }
 
-    public DtoToken() {
+    public Token() {
         super();
         accessToken = null;
         refreshToken = null;
@@ -52,12 +52,12 @@ public class DtoToken<ID> extends DtoBase<ID> {
         issuedAt = null;
     }
 
-    public DtoToken(String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt) {
+    public Token(String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt) {
         super();
         initialize(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
     }
 
-    public DtoToken(ID id, String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt) {
+    public Token(ID id, String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt) {
         super(id);
         initialize(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
     }
@@ -116,7 +116,7 @@ public class DtoToken<ID> extends DtoBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoToken<ID> dtoToken = (DtoToken<ID>) o;
+        Token<ID> dtoToken = (Token<ID>) o;
         return Objects.equals(accessToken, dtoToken.accessToken) &&
                 Objects.equals(refreshToken, dtoToken.refreshToken) &&
                 Objects.equals(expireTimeAccess, dtoToken.expireTimeAccess) &&
@@ -130,9 +130,9 @@ public class DtoToken<ID> extends DtoBase<ID> {
     }
 
     @Override
-    public DtoToken<ID> clone(){
+    public Token<ID> clone(){
         try {
-            DtoToken<ID> clone = (DtoToken<ID>) super.clone();
+            Token<ID> clone = (Token<ID>) super.clone();
 
             clone.setExpireTimeAccess(expireTimeAccess == null ? null : (Date) expireTimeAccess.clone());
             clone.setExpireTimeRefresh(expireTimeRefresh == null ? null : (Date) expireTimeRefresh.clone());

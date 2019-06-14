@@ -1,4 +1,4 @@
-package ru.strict.db.core.models;
+package ru.strict.models;
 
 public interface INamedModel<ID> extends IModelBase<ID> {
     String getCaption();

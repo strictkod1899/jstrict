@@ -1,4 +1,4 @@
-package ru.strict.db.core.dto;
+package ru.strict.models;
 
 import ru.strict.patterns.MapTarget;
 import ru.strict.utils.UtilData;
@@ -6,10 +6,15 @@ import ru.strict.utils.UtilData;
 import java.util.Objects;
 
 /**
- * Базовый entity-класс
+ * Базовый класс модели
  * @param <ID> Тип поля ID
  */
-public abstract class DtoBase<ID> implements MapTarget, Comparable<DtoBase<ID>>, Cloneable {
+public abstract class DtoBase<ID> implements IModelBase<ID>,
+        IFillModelBase<ID>,
+        MapTarget,
+        Comparable<DtoBase<ID>>,
+        Cloneable
+{
 
     /**
      * Идентификатор записи
@@ -27,10 +32,12 @@ public abstract class DtoBase<ID> implements MapTarget, Comparable<DtoBase<ID>>,
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
+    @Override
     public ID getId() {
         return id;
     }
 
+    @Override
     public void setId(ID id) {
         this.id = id;
     }

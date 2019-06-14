@@ -1,10 +1,9 @@
-package ru.strict.db.core.dto;
+package ru.strict.models;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
-public class DtoFileStorageBase<ID> extends DtoBase<ID> {
+public class FileStorageBase<ID> extends DtoBase<ID> {
 
     /**
      * Наименование файла
@@ -31,11 +30,11 @@ public class DtoFileStorageBase<ID> extends DtoBase<ID> {
      */
     private int status;
 
-    public DtoFileStorageBase() {
+    public FileStorageBase() {
         super();
     }
 
-    public DtoFileStorageBase(String filename, String extension, String displayName, Date createDate, int type, int status) {
+    public FileStorageBase(String filename, String extension, String displayName, Date createDate, int type, int status) {
         this.filename = filename;
         this.extension = extension;
         this.displayName = displayName;
@@ -44,7 +43,7 @@ public class DtoFileStorageBase<ID> extends DtoBase<ID> {
         this.status = status;
     }
 
-    public DtoFileStorageBase(ID id, String filename, String extension, String displayName, Date createDate, int type, int status) {
+    public FileStorageBase(ID id, String filename, String extension, String displayName, Date createDate, int type, int status) {
         super(id);
         this.filename = filename;
         this.extension = extension;
@@ -113,7 +112,7 @@ public class DtoFileStorageBase<ID> extends DtoBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoFileStorageBase<ID> object = (DtoFileStorageBase<ID>) o;
+        FileStorageBase<ID> object = (FileStorageBase<ID>) o;
         return type == object.type &&
                 status == object.status &&
                 Objects.equals(filename, object.filename) &&
@@ -129,9 +128,9 @@ public class DtoFileStorageBase<ID> extends DtoBase<ID> {
     }
 
     @Override
-    public DtoFileStorageBase<ID> clone(){
+    public FileStorageBase<ID> clone(){
         try {
-            DtoFileStorageBase<ID> clone = (DtoFileStorageBase<ID>) super.clone();
+            FileStorageBase<ID> clone = (FileStorageBase<ID>) super.clone();
 
             clone.setCreateDate(createDate == null ? null : (Date)createDate.clone());
             return clone;

@@ -1,18 +1,16 @@
 package ru.strict.db.hibernate.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.dto.DtoCountry;
+import ru.strict.models.Country;
 import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.hibernate.entities.EntityCountry;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
 import ru.strict.utils.UtilClass;
 
-import java.io.Serializable;
-
 public class RepositoryCountry
-        extends RepositoryHibernateBase<Long, EntityCountry, DtoCountry<Long>>
-        implements IRepositoryNamed<Long, DtoCountry<Long>> {
+        extends RepositoryHibernateBase<Long, EntityCountry, Country<Long>>
+        implements IRepositoryNamed<Long, Country<Long>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption"};
 
@@ -20,12 +18,12 @@ public class RepositoryCountry
         super("country",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory().instance(UtilClass.castClass(EntityCountry.class), UtilClass.castClass(DtoCountry.class)),
+                new MapperDtoFactory().instance(UtilClass.castClass(EntityCountry.class), UtilClass.castClass(Country.class)),
                 generateIdType);
     }
 
     @Override
-    protected DtoCountry<Long> fill(DtoCountry<Long> dto){
+    protected Country<Long> fill(Country<Long> dto){
         return dto;
     }
 

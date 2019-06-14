@@ -11,7 +11,7 @@ import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.SqlParameter;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
-import ru.strict.db.core.dto.DtoBase;
+import ru.strict.models.DtoBase;
 import ru.strict.db.core.entities.EntityBase;
 import ru.strict.db.core.repositories.RepositoryBase;
 import ru.strict.db.core.requests.DbRequests;

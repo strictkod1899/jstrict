@@ -1,24 +1,23 @@
 package ru.strict.db.core.mappers.dto;
 
-import ru.strict.db.core.dto.DtoFileStorageBase;
-import ru.strict.db.core.dto.DtoFileStorageContent;
-import ru.strict.db.core.dto.DtoFileStorageContent;
+import ru.strict.models.FileStorageBase;
+import ru.strict.models.FileStorageContent;
 import ru.strict.db.core.entities.EntityFileStorage;
 
 /**
  * Двухсторонний маппинг объектов типа EntityFileStorage и DtoFileStorageContent
  */
-public class MapperDtoFileStorageContent<ID> extends MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStorageContent<ID>> {
+public class MapperDtoFileStorageContent<ID> extends MapperDtoBase<ID, EntityFileStorage<ID>, FileStorageContent<ID>> {
 
-    private MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStorageBase<ID>> mapperBase;
+    private MapperDtoBase<ID, EntityFileStorage<ID>, FileStorageBase<ID>> mapperBase;
 
-    public MapperDtoFileStorageContent(MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStorageBase<ID>> mapperBase) {
+    public MapperDtoFileStorageContent(MapperDtoBase<ID, EntityFileStorage<ID>, FileStorageBase<ID>> mapperBase) {
         super();
         this.mapperBase = mapperBase;
     }
 
     @Override
-    protected EntityFileStorage<ID> implementMap(DtoFileStorageContent<ID> dto) {
+    protected EntityFileStorage<ID> implementMap(FileStorageContent<ID> dto) {
         EntityFileStorage<ID> baseEntity = mapperBase.map(dto);
 
         EntityFileStorage<ID> entity = new EntityFileStorage();
@@ -34,10 +33,10 @@ public class MapperDtoFileStorageContent<ID> extends MapperDtoBase<ID, EntityFil
     }
 
     @Override
-    protected DtoFileStorageContent<ID> implementMap(EntityFileStorage<ID> entity) {
-        DtoFileStorageBase<ID> baseDto = mapperBase.map(entity);
+    protected FileStorageContent<ID> implementMap(EntityFileStorage<ID> entity) {
+        FileStorageBase<ID> baseDto = mapperBase.map(entity);
 
-        DtoFileStorageContent<ID> dto = new DtoFileStorageContent();
+        FileStorageContent<ID> dto = new FileStorageContent();
         dto.setId(baseDto.getId());
         dto.setFilename(baseDto.getFilename());
         dto.setExtension(baseDto.getExtension());

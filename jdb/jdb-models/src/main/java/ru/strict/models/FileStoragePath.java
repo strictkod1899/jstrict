@@ -1,4 +1,4 @@
-package ru.strict.db.core.dto;
+package ru.strict.models;
 
 import java.util.Date;
 import java.util.Objects;
@@ -6,22 +6,22 @@ import java.util.Objects;
 /**
  * Представление FileStorage с путем до файла, игнорируя атрибут content
  */
-public class DtoFileStoragePath<ID> extends DtoFileStorageBase<ID> {
+public class FileStoragePath<ID> extends FileStorageBase<ID> {
     /**
      * Путь до файла
      */
     private String filePath;
 
-    public DtoFileStoragePath() {
+    public FileStoragePath() {
         super();
     }
 
-    public DtoFileStoragePath(String filename, String extension, String displayName, Date createDate, int type, int status, String filePath) {
+    public FileStoragePath(String filename, String extension, String displayName, Date createDate, int type, int status, String filePath) {
         super(filename, extension, displayName, createDate, type, status);
         this.filePath = filePath;
     }
 
-    public DtoFileStoragePath(ID id, String filename, String extension, String displayName, Date createDate, int type, int status, String filePath) {
+    public FileStoragePath(ID id, String filename, String extension, String displayName, Date createDate, int type, int status, String filePath) {
         super(id, filename, extension, displayName, createDate, type, status);
         this.filePath = filePath;
     }
@@ -40,7 +40,7 @@ public class DtoFileStoragePath<ID> extends DtoFileStorageBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoFileStoragePath<ID> object = (DtoFileStoragePath<ID>) o;
+        FileStoragePath<ID> object = (FileStoragePath<ID>) o;
         return Objects.equals(filePath, object.filePath);
     }
 
@@ -50,8 +50,8 @@ public class DtoFileStoragePath<ID> extends DtoFileStorageBase<ID> {
     }
 
     @Override
-    public DtoFileStoragePath<ID> clone(){
-        return (DtoFileStoragePath<ID>) super.clone();
+    public FileStoragePath<ID> clone(){
+        return (FileStoragePath<ID>) super.clone();
     }
     //</editor-fold>
 }

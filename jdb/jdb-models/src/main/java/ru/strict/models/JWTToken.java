@@ -1,4 +1,4 @@
-package ru.strict.db.core.dto;
+package ru.strict.models;
 
 import java.util.Date;
 import java.util.Objects;
@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * JWT-токен
  */
-public class DtoJWTToken<ID> extends DtoToken<ID> {
+public class JWTToken<ID> extends Token<ID> {
 
     /**
      * Издатель токена
@@ -43,7 +43,7 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
     /**
      * Пользователь, связанного с данным токеном
      */
-    private DtoUserWithToken<ID> user;
+    private UserWithToken<ID> user;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(ID userId){
@@ -55,7 +55,7 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
         user = null;
     }
 
-    public DtoJWTToken() {
+    public JWTToken() {
         super();
         issuer = null;
         subject = null;
@@ -67,8 +67,8 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
         user = null;
     }
 
-    public DtoJWTToken(String accessToken, String refreshToken, Date expireTimeAccess,
-                       Date expireTimeRefresh, Date issuedAt, ID userId) {
+    public JWTToken(String accessToken, String refreshToken, Date expireTimeAccess,
+                    Date expireTimeRefresh, Date issuedAt, ID userId) {
         super(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
         issuer = null;
         subject = null;
@@ -79,8 +79,8 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
         initialize(userId);
     }
 
-    public DtoJWTToken(ID id, String accessToken, String refreshToken, Date expireTimeAccess,
-                       Date expireTimeRefresh, Date issuedAt, ID userId) {
+    public JWTToken(ID id, String accessToken, String refreshToken, Date expireTimeAccess,
+                    Date expireTimeRefresh, Date issuedAt, ID userId) {
         super(id, accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
         issuer = null;
         subject = null;
@@ -157,19 +157,19 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
         this.userId = userId;
     }
 
-    public DtoUserWithToken<ID> getUser() {
+    public UserWithToken<ID> getUser() {
         return user;
     }
 
-    public void setUser(DtoUserWithToken<ID> user) {
+    public void setUser(UserWithToken<ID> user) {
         setUser(user, true);
     }
 
-    protected void setUserSafe(DtoUserWithToken<ID> user) {
+    protected void setUserSafe(UserWithToken<ID> user) {
         setUser(user, false);
     }
 
-    private void setUser(DtoUserWithToken<ID> user, boolean isCircleMode) {
+    private void setUser(UserWithToken<ID> user, boolean isCircleMode) {
         if(isCircleMode && user != null){
             user.addTokenSafe(this);
         }
@@ -189,7 +189,7 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoJWTToken<ID> object = (DtoJWTToken<ID>) o;
+        JWTToken<ID> object = (JWTToken<ID>) o;
         return Objects.equals(issuer, object.issuer) &&
                 Objects.equals(subject, object.subject) &&
                 Objects.equals(notBefore, object.notBefore) &&
@@ -207,16 +207,16 @@ public class DtoJWTToken<ID> extends DtoToken<ID> {
     }
 
     @Override
-    public DtoJWTToken<ID> clone(){
-        DtoJWTToken<ID> clone = (DtoJWTToken<ID>) super.clone();
+    public JWTToken<ID> clone(){
+        JWTToken<ID> clone = (JWTToken<ID>) super.clone();
 
         clone.setNotBefore(notBefore == null ? null : (Date) notBefore.clone());
         clone.setUser(user == null ? null : user.clone());
         return clone;
     }
 
-    protected DtoJWTToken<ID> cloneSafeUser(DtoUserWithToken<ID> user){
-        DtoJWTToken<ID> clone = (DtoJWTToken<ID>) super.clone();
+    protected JWTToken<ID> cloneSafeUser(UserWithToken<ID> user){
+        JWTToken<ID> clone = (JWTToken<ID>) super.clone();
 
         clone.setNotBefore(notBefore == null ? null : (Date) notBefore.clone());
         clone.setUser(user);

@@ -1,4 +1,4 @@
-package ru.strict.db.core.dto;
+package ru.strict.models;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -7,56 +7,56 @@ import java.util.TreeSet;
 /**
  * Страна
  */
-public class DtoCountry<ID> extends DtoNamed<ID> {
+public class Country<ID> extends DtoNamed<ID> {
 
     /**
      * Города свзяанные со страной
      */
-    private Collection<DtoCity<ID>> cities;
+    private Collection<City<ID>> cities;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public DtoCountry() {
+    public Country() {
         super();
         cities = new TreeSet<>();
     }
 
-    public DtoCountry(String caption) {
+    public Country(String caption) {
         super(caption);
         cities = new TreeSet<>();
     }
 
-    public DtoCountry(ID id, String caption) {
+    public Country(ID id, String caption) {
         super(id, caption);
         cities = new TreeSet<>();
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public Collection<DtoCity<ID>> getCities() {
+    public Collection<City<ID>> getCities() {
         return cities;
     }
 
-    public void setCities(Collection<DtoCity<ID>> cities) {
+    public void setCities(Collection<City<ID>> cities) {
         if(cities == null) {
             throw new IllegalArgumentException("cities is NULL");
         }
 
-        for(DtoCity<ID> city : cities){
+        for(City<ID> city : cities){
             city.setCountrySafe(this);
         }
 
         this.cities = cities;
     }
 
-    public void addCity(DtoCity<ID> city){
+    public void addCity(City<ID> city){
         addCity(city, true);
     }
 
-    protected void addCitySafe(DtoCity<ID> city){
+    protected void addCitySafe(City<ID> city){
         addCity(city, false);
     }
 
-    private void addCity(DtoCity<ID> city, boolean isCircleMode){
+    private void addCity(City<ID> city, boolean isCircleMode){
         if(city == null) {
             throw new IllegalArgumentException("city is NULL");
         }
@@ -69,9 +69,9 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
         }
     }
 
-    public void addCities(Collection<DtoCity<ID>> cities){
+    public void addCities(Collection<City<ID>> cities){
         if(cities!=null) {
-            for(DtoCity<ID> city : cities){
+            for(City<ID> city : cities){
                 addCity(city);
             }
         }
@@ -89,14 +89,14 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoCountry<ID> object = (DtoCountry<ID>) o;
+        Country<ID> object = (Country<ID>) o;
         return Objects.equals(cities, object.cities);
     }
 
     @Override
     public int hashCode() {
         int citiesHashCode = 1;
-        for(DtoCity<ID> city : cities){
+        for(City<ID> city : cities){
             citiesHashCode = 31 * citiesHashCode + (city == null ? 0 : city.hashCodeWithoutCountry());
         }
 
@@ -104,12 +104,12 @@ public class DtoCountry<ID> extends DtoNamed<ID> {
     }
 
     @Override
-    public DtoCountry<ID> clone(){
+    public Country<ID> clone(){
         try {
-            DtoCountry<ID> clone = (DtoCountry<ID>) super.clone();
+            Country<ID> clone = (Country<ID>) super.clone();
 
             clone.cities = new TreeSet<>();
-            for(DtoCity<ID> city : this.cities){
+            for(City<ID> city : this.cities){
                 clone.addCity(city.cloneSafeCountry(clone));
             }
             return clone;

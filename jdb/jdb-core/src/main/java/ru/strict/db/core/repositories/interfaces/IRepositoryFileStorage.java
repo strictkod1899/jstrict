@@ -1,13 +1,13 @@
 package ru.strict.db.core.repositories.interfaces;
 
-import ru.strict.db.core.dto.DtoFileStorageBase;
+import ru.strict.models.FileStorageBase;
 import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereItem;
 
 import java.util.List;
 
-public interface IRepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>> extends IRepositoryNamed<ID, DTO> {
+public interface IRepositoryFileStorage<ID, DTO extends FileStorageBase<ID>> extends IRepositoryNamed<ID, DTO> {
     default List<DTO> readByDisplayName(String displayName){
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(getTableName(), "displayname", displayName, "="));

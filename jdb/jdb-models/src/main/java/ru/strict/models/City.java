@@ -1,11 +1,11 @@
-package ru.strict.db.core.dto;
+package ru.strict.models;
 
 import java.util.Objects;
 
 /**
  * Город
  */
-public class DtoCity<ID> extends DtoNamed<ID> {
+public class City<ID> extends DtoNamed<ID> {
 
     /**
      * Идентификатор страны
@@ -15,7 +15,7 @@ public class DtoCity<ID> extends DtoNamed<ID> {
     /**
      * Страна связанная с данным городом
      */
-    private DtoCountry<ID> country;
+    private Country<ID> country;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(ID countryId){
@@ -27,18 +27,18 @@ public class DtoCity<ID> extends DtoNamed<ID> {
         country = null;
     }
 
-    public DtoCity() {
+    public City() {
         super();
         countryId = null;
         country = null;
     }
 
-    public DtoCity(String caption, ID countryId) {
+    public City(String caption, ID countryId) {
         super(caption);
         initialize(countryId);
     }
 
-    public DtoCity(ID id, String caption, ID countryId) {
+    public City(ID id, String caption, ID countryId) {
         super(id, caption);
         initialize(countryId);
     }
@@ -53,19 +53,19 @@ public class DtoCity<ID> extends DtoNamed<ID> {
         this.countryId = countryId;
     }
 
-    public DtoCountry<ID> getCountry() {
+    public Country<ID> getCountry() {
         return country;
     }
 
-    public void setCountry(DtoCountry<ID> country) {
+    public void setCountry(Country<ID> country) {
         setCountry(country, true);
     }
 
-    protected void setCountrySafe(DtoCountry<ID> country) {
+    protected void setCountrySafe(Country<ID> country) {
         setCountry(country, false);
     }
 
-    private void setCountry(DtoCountry<ID> country, boolean isCircleMode){
+    private void setCountry(Country<ID> country, boolean isCircleMode){
         if(isCircleMode && country != null){
             country.addCitySafe(this);
         }
@@ -85,7 +85,7 @@ public class DtoCity<ID> extends DtoNamed<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoCity<ID> dtoCity = (DtoCity<ID>) o;
+        City<ID> dtoCity = (City<ID>) o;
         return Objects.equals(countryId, dtoCity.countryId) &&
                 Objects.equals(country, dtoCity.country);
     }
@@ -96,9 +96,9 @@ public class DtoCity<ID> extends DtoNamed<ID> {
     }
 
     @Override
-    public DtoCity<ID> clone(){
+    public City<ID> clone(){
         try {
-            DtoCity<ID> clone = (DtoCity<ID>) super.clone();
+            City<ID> clone = (City<ID>) super.clone();
 
             clone.setCountry(country == null ? null : country.clone());
             return clone;
@@ -111,9 +111,9 @@ public class DtoCity<ID> extends DtoNamed<ID> {
         return Objects.hash(super.hashCode(), countryId);
     }
 
-    protected DtoCity<ID> cloneSafeCountry(DtoCountry<ID> country){
+    protected City<ID> cloneSafeCountry(Country<ID> country){
         try {
-            DtoCity<ID> clone = (DtoCity<ID>) super.clone();
+            City<ID> clone = (City<ID>) super.clone();
 
             clone.setCountry(country);
             return clone;

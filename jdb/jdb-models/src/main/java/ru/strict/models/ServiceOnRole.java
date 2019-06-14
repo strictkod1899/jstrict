@@ -1,13 +1,11 @@
-package ru.strict.db.core.dto;
-
-import ru.strict.db.core.models.IModelProvider;
+package ru.strict.models;
 
 import java.util.Objects;
 
 /**
  * Связка сервиса с ролью
  */
-public class DtoServiceOnRole<ID, SERVICE> extends DtoBase<ID> {
+public class ServiceOnRole<ID, SERVICE> extends DtoBase<ID> {
 
     /**
      * Идентификатор сервиса
@@ -24,7 +22,7 @@ public class DtoServiceOnRole<ID, SERVICE> extends DtoBase<ID> {
     /**
      * Роль пользователя
      */
-    private DtoRoleuser<ID> role;
+    private Roleuser<ID> role;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(Integer serviceId, ID roleId){
@@ -40,19 +38,19 @@ public class DtoServiceOnRole<ID, SERVICE> extends DtoBase<ID> {
         role = null;
     }
 
-    public DtoServiceOnRole() {
+    public ServiceOnRole() {
         super();
         serviceId = null;
         roleId = null;
         role = null;
     }
 
-    public DtoServiceOnRole(Integer serviceId, ID roleId) {
+    public ServiceOnRole(Integer serviceId, ID roleId) {
         super();
         initialize(serviceId, roleId);
     }
 
-    public DtoServiceOnRole(ID id, Integer serviceId, ID roleId) {
+    public ServiceOnRole(ID id, Integer serviceId, ID roleId) {
         super(id);
         initialize(serviceId, roleId);
     }
@@ -87,11 +85,11 @@ public class DtoServiceOnRole<ID, SERVICE> extends DtoBase<ID> {
         this.roleId = roleId;
     }
 
-    public DtoRoleuser<ID> getRole() {
+    public Roleuser<ID> getRole() {
         return role;
     }
 
-    public void setRole(DtoRoleuser<ID> role) {
+    public void setRole(Roleuser<ID> role) {
         this.role = role;
     }
     //</editor-fold>
@@ -107,7 +105,7 @@ public class DtoServiceOnRole<ID, SERVICE> extends DtoBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoServiceOnRole<ID, SERVICE> object = (DtoServiceOnRole<ID, SERVICE>) o;
+        ServiceOnRole<ID, SERVICE> object = (ServiceOnRole<ID, SERVICE>) o;
         return Objects.equals(serviceId, object.serviceId) &&
                 Objects.equals(serviceProvider, object.serviceProvider) &&
                 Objects.equals(roleId, object.roleId) &&
@@ -120,9 +118,9 @@ public class DtoServiceOnRole<ID, SERVICE> extends DtoBase<ID> {
     }
 
     @Override
-    public DtoServiceOnRole<ID, SERVICE> clone() {
+    public ServiceOnRole<ID, SERVICE> clone() {
         try {
-            DtoServiceOnRole<ID, SERVICE> clone = (DtoServiceOnRole<ID, SERVICE>) super.clone();
+            ServiceOnRole<ID, SERVICE> clone = (ServiceOnRole<ID, SERVICE>) super.clone();
 
             clone.setRole(role == null ? null : role.clone());
             return clone;

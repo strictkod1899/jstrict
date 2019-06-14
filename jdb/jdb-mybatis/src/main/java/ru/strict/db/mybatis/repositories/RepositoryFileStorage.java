@@ -2,8 +2,8 @@ package ru.strict.db.mybatis.repositories;
 
 import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.dto.DtoFileStorage;
-import ru.strict.db.core.dto.DtoFileStorageBase;
+import ru.strict.models.FileStorage;
+import ru.strict.models.FileStorageBase;
 import ru.strict.db.core.entities.EntityFileStorage;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
@@ -16,7 +16,7 @@ import ru.strict.validates.ValidateBaseValue;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
+public class RepositoryFileStorage<ID, DTO extends FileStorageBase<ID>>
         extends RepositoryNamedBase<ID, EntityFileStorage<ID>, DTO, MapperSqlFileStorage<ID>>
         implements IRepositoryFileStorage<ID, DTO> {
 
@@ -28,7 +28,7 @@ public class RepositoryFileStorage<ID, DTO extends DtoFileStorageBase<ID>>
                 COLUMNS_NAME,
                 connectionSource,
                 UtilClass.<MapperSqlFileStorage<ID>>castClass(MapperSqlFileStorage.class),
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityFileStorage.class), UtilClass.castClass(DtoFileStorage.class)),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityFileStorage.class), UtilClass.castClass(FileStorage.class)),
                 generateIdType);
     }
 

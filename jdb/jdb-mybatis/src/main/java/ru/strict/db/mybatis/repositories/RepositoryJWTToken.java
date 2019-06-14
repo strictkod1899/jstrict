@@ -2,7 +2,7 @@ package ru.strict.db.mybatis.repositories;
 
 import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.dto.DtoJWTToken;
+import ru.strict.models.JWTToken;
 import ru.strict.db.core.entities.EntityJWTToken;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.interfaces.IRepositoryJWTToken;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RepositoryJWTToken<ID>
-        extends RepositoryMybatisBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>, MapperSqlJWTToken<ID>>
+        extends RepositoryMybatisBase<ID, EntityJWTToken<ID>, JWTToken<ID>, MapperSqlJWTToken<ID>>
         implements IRepositoryJWTToken<ID> {
 
     private static final String[] COLUMNS_NAME = new String[] {"access_token", "refresh_token", "expire_time_access",
@@ -27,16 +27,16 @@ public class RepositoryJWTToken<ID>
                 COLUMNS_NAME,
                 connectionSource,
                 UtilClass.<MapperSqlJWTToken<ID>>castClass(MapperSqlJWTToken.class),
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityJWTToken.class), UtilClass.castClass(DtoJWTToken.class)),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityJWTToken.class), UtilClass.castClass(JWTToken.class)),
                 generateIdType);
     }
 
     @Override
-    public DtoJWTToken<ID> readByAccessToken(String accessToken) {
+    public JWTToken<ID> readByAccessToken(String accessToken) {
         if(ValidateBaseValue.isEmptyOrNull(accessToken)){
             throw new IllegalArgumentException("accessToken for read is NULL");
         }
-        DtoJWTToken<ID> result = null;
+        JWTToken<ID> result = null;
         SqlSession session = null;
         try {
             session = createConnection();
@@ -59,11 +59,11 @@ public class RepositoryJWTToken<ID>
     }
 
     @Override
-    public DtoJWTToken<ID> readByRefreshToken(String refreshToken) {
+    public JWTToken<ID> readByRefreshToken(String refreshToken) {
         if(ValidateBaseValue.isEmptyOrNull(refreshToken)){
             throw new IllegalArgumentException("refreshToken for read is NULL");
         }
-        DtoJWTToken<ID> result = null;
+        JWTToken<ID> result = null;
         SqlSession session = null;
         try {
             session = createConnection();
@@ -86,11 +86,11 @@ public class RepositoryJWTToken<ID>
     }
 
     @Override
-    public List<DtoJWTToken<ID>> readByUserId(ID userId) {
+    public List<JWTToken<ID>> readByUserId(ID userId) {
         if(userId == null){
             throw new IllegalArgumentException("userId for read is NULL");
         }
-        List<DtoJWTToken<ID>> result = null;
+        List<JWTToken<ID>> result = null;
         SqlSession session = null;
         try {
             session = createConnection();

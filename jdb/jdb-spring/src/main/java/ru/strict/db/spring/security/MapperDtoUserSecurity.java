@@ -1,7 +1,7 @@
 package ru.strict.db.spring.security;
 
-import ru.strict.db.core.dto.DtoProfile;
-import ru.strict.db.core.dto.DtoRoleuser;
+import ru.strict.models.Profile;
+import ru.strict.models.Roleuser;
 import ru.strict.db.core.entities.EntityProfile;
 import ru.strict.db.core.entities.EntityRoleuser;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
@@ -11,24 +11,24 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityUserSecurity и DtoUserSecurity
  */
-public class MapperDtoUserSecurity<ID> extends MapperDtoBase<ID, EntityUserSecurity<ID>, DtoUserSecurity<ID>> {
+public class MapperDtoUserSecurity<ID> extends MapperDtoBase<ID, EntityUserSecurity<ID>, UserSecurity<ID>> {
 
-    private MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser;
-    private MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> mapperProfile;
+    private MapperDtoBase<ID, EntityRoleuser<ID>, Roleuser<ID>> mapperRoleuser;
+    private MapperDtoBase<ID, EntityProfile<ID>, Profile<ID>> mapperProfile;
 
     public MapperDtoUserSecurity(){
         this.mapperRoleuser = null;
         this.mapperProfile = null;
     }
 
-    public MapperDtoUserSecurity(MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser
-            , MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> mapperProfile){
+    public MapperDtoUserSecurity(MapperDtoBase<ID, EntityRoleuser<ID>, Roleuser<ID>> mapperRoleuser
+            , MapperDtoBase<ID, EntityProfile<ID>, Profile<ID>> mapperProfile){
         this.mapperRoleuser = mapperRoleuser;
         this.mapperProfile = mapperProfile;
     }
 
     @Override
-    protected EntityUserSecurity<ID> implementMap(DtoUserSecurity<ID> dto) {
+    protected EntityUserSecurity<ID> implementMap(UserSecurity<ID> dto) {
         EntityUserSecurity<ID> entity = new EntityUserSecurity();
         entity.setId(dto.getId());
         entity.setUsername(dto.getUsername());
@@ -45,8 +45,8 @@ public class MapperDtoUserSecurity<ID> extends MapperDtoBase<ID, EntityUserSecur
     }
 
     @Override
-    protected DtoUserSecurity<ID> implementMap(EntityUserSecurity<ID> entity) {
-        DtoUserSecurity<ID> dto = new DtoUserSecurity();
+    protected UserSecurity<ID> implementMap(EntityUserSecurity<ID> entity) {
+        UserSecurity<ID> dto = new UserSecurity();
         dto.setId(entity.getId());
         dto.setUsername(entity.getUsername());
         dto.setPasswordEncode(entity.getPasswordEncode());

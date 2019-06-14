@@ -2,7 +2,7 @@ package ru.strict.db.hibernate.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
 
-import ru.strict.db.core.dto.DtoJWTToken;
+import ru.strict.models.JWTToken;
 import ru.strict.db.core.repositories.interfaces.IRepositoryJWTToken;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityJWTToken;
@@ -10,7 +10,7 @@ import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
 import ru.strict.utils.UtilClass;
 
 public class RepositoryJWTToken
-        extends RepositoryHibernateBase<Long, EntityJWTToken, DtoJWTToken<Long>>
+        extends RepositoryHibernateBase<Long, EntityJWTToken, JWTToken<Long>>
         implements IRepositoryJWTToken<Long> {
 
     private static final String[] COLUMNS_NAME = new String[] {"access_token", "refresh_token",
@@ -21,12 +21,12 @@ public class RepositoryJWTToken
         super("token",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory().instance(UtilClass.castClass(EntityJWTToken.class), UtilClass.castClass(DtoJWTToken.class)),
+                new MapperDtoFactory().instance(UtilClass.castClass(EntityJWTToken.class), UtilClass.castClass(JWTToken.class)),
                 generateIdType);
     }
 
     @Override
-    protected DtoJWTToken<Long> fill(DtoJWTToken dto){
+    protected JWTToken<Long> fill(JWTToken dto){
         return dto;
     }
 

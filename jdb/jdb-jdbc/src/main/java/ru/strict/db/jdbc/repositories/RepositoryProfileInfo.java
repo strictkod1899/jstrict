@@ -4,9 +4,9 @@ import ru.strict.db.core.common.GenerateIdType;
 
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.ICreateConnection;
-import ru.strict.db.core.dto.DtoCity;
-import ru.strict.db.core.dto.DtoProfileInfo;
-import ru.strict.db.core.dto.DtoUser;
+import ru.strict.models.City;
+import ru.strict.models.ProfileDetails;
+import ru.strict.models.User;
 import ru.strict.db.core.entities.EntityProfileInfo;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
@@ -16,8 +16,6 @@ import ru.strict.db.jdbc.mappers.sql.MapperSqlProfileInfo;
 import ru.strict.utils.UtilClass;
 
 import java.sql.Connection;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * Репозиторий таблицы "profileinfo".
@@ -25,15 +23,15 @@ import java.util.Map;
  * @param <ID> Тип идентификатора
  */
 public class RepositoryProfileInfo<ID>
-        extends RepositoryJdbcBase<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>>
-        implements IRepositoryProfile<ID, DtoProfileInfo<ID>> {
+        extends RepositoryJdbcBase<ID, EntityProfileInfo<ID>, ProfileDetails<ID>>
+        implements IRepositoryProfile<ID, ProfileDetails<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id", "datebirth",
             "phone", "city_id"};
 
     public RepositoryProfileInfo(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
         super("profile", COLUMNS_NAME, connectionSource,
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityProfileInfo.class), UtilClass.castClass(DtoProfileInfo.class)),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityProfileInfo.class), UtilClass.castClass(ProfileDetails.class)),
                 new MapperSqlProfileInfo<ID>(COLUMNS_NAME),
                 generateIdType);
     }
@@ -52,13 +50,13 @@ public class RepositoryProfileInfo<ID>
     }
 
     @Override
-    protected DtoProfileInfo<ID> fill(DtoProfileInfo<ID> dto){
-        IRepository<ID, DtoUser<ID>> repositoryUser = new RepositoryUser<>(getConnectionSource(),
-                new MapperDtoFactory().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUser.class)),
+    protected ProfileDetails<ID> fill(ProfileDetails<ID> dto){
+        IRepository<ID, User<ID>> repositoryUser = new RepositoryUser<>(getConnectionSource(),
+                new MapperDtoFactory().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(User.class)),
                 GenerateIdType.NONE);
         dto.setUser(repositoryUser.read(dto.getUserId()));
 
-        IRepository<ID, DtoCity<ID>> repositoryCity = new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
+        IRepository<ID, City<ID>> repositoryCity = new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
         dto.setCity(repositoryCity.read(dto.getCityId()));
 
         return dto;

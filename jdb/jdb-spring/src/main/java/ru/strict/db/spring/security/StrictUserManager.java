@@ -4,9 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 /**
  * Специальный класс, который предоставляет данные пользователя для SpringSecurity.
@@ -14,7 +12,7 @@ import org.springframework.stereotype.Service;
  */
 public class StrictUserManager<ID> {
 
-	private HashMap<String, DtoUserSecurity<ID>> users;
+	private HashMap<String, UserSecurity<ID>> users;
 
 	public StrictUserManager(RepositoryUserSecurity<ID> repositoryUser) {
 		users = new HashMap();
@@ -25,13 +23,13 @@ public class StrictUserManager<ID> {
 		/*
 		Загружаем пользователей из базы данных
 		*/
-		List<DtoUserSecurity<ID>> users = repositoryUser.readAll(null);
-		for(DtoUserSecurity<ID> user : users) {
+		List<UserSecurity<ID>> users = repositoryUser.readAll(null);
+		for(UserSecurity<ID> user : users) {
 			this.users.put(user.getUsername(), user);
 		}
 	}
 
-	public DtoUserSecurity<ID> getUser(String username){
+	public UserSecurity<ID> getUser(String username){
 		try {
 			if (!users.containsKey(username)) {
 				throw new UsernameNotFoundException(username + " not found");
@@ -43,7 +41,7 @@ public class StrictUserManager<ID> {
 		}
 	}
 
-	public HashMap<String, DtoUserSecurity<ID>> getUsers() {
+	public HashMap<String, UserSecurity<ID>> getUsers() {
 		return users;
 	}
 

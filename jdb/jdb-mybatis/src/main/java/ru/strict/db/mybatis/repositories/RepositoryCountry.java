@@ -1,7 +1,7 @@
 package ru.strict.db.mybatis.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.dto.DtoCountry;
+import ru.strict.models.Country;
 import ru.strict.db.core.entities.EntityCountry;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepositoryNamed;
@@ -10,8 +10,8 @@ import ru.strict.db.mybatis.mappers.sql.MapperSqlCountry;
 import ru.strict.utils.UtilClass;
 
 public class RepositoryCountry<ID>
-        extends RepositoryNamedBase<ID, EntityCountry<ID>, DtoCountry<ID>, MapperSqlCountry<ID>>
-        implements IRepositoryNamed<ID, DtoCountry<ID>> {
+        extends RepositoryNamedBase<ID, EntityCountry<ID>, Country<ID>, MapperSqlCountry<ID>>
+        implements IRepositoryNamed<ID, Country<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption"};
 
@@ -20,7 +20,7 @@ public class RepositoryCountry<ID>
                 COLUMNS_NAME,
                 connectionSource,
                 UtilClass.<MapperSqlCountry<ID>>castClass(MapperSqlCountry.class),
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityCountry.class), UtilClass.castClass(DtoCountry.class)),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityCountry.class), UtilClass.castClass(Country.class)),
                 generateIdType);
     }
 

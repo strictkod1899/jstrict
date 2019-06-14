@@ -1,8 +1,8 @@
 package ru.strict.db.hibernate.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.dto.DtoFileStorage;
-import ru.strict.db.core.dto.DtoFileStorageBase;
+import ru.strict.models.FileStorage;
+import ru.strict.models.FileStorageBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.interfaces.IRepositoryFileStorage;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
@@ -10,9 +10,7 @@ import ru.strict.db.hibernate.entities.EntityFileStorage;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
 import ru.strict.utils.UtilClass;
 
-import java.io.Serializable;
-
-public class RepositoryFileStorage<DTO extends DtoFileStorageBase<Long>>
+public class RepositoryFileStorage<DTO extends FileStorageBase<Long>>
         extends RepositoryHibernateBase<Long, EntityFileStorage, DTO>
         implements IRepositoryFileStorage<Long, DTO> {
 
@@ -24,7 +22,7 @@ public class RepositoryFileStorage<DTO extends DtoFileStorageBase<Long>>
         super("file_storage",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory().instance(UtilClass.castClass(EntityFileStorage.class), UtilClass.castClass(DtoFileStorage.class)),
+                new MapperDtoFactory().instance(UtilClass.castClass(EntityFileStorage.class), UtilClass.castClass(FileStorage.class)),
                 generateIdType);
     }
 

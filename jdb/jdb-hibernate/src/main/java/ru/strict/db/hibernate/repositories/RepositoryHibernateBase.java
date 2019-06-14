@@ -3,7 +3,7 @@ package ru.strict.db.hibernate.repositories;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.dto.DtoBase;
+import ru.strict.models.DtoBase;
 import ru.strict.db.core.requests.*;
 import ru.strict.db.hibernate.entities.EntityBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;

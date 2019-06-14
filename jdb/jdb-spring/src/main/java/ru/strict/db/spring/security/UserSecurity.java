@@ -2,8 +2,8 @@ package ru.strict.db.spring.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.strict.db.core.dto.DtoRoleuser;
-import ru.strict.db.core.dto.DtoUser;
+import ru.strict.models.Roleuser;
+import ru.strict.models.User;
 import ru.strict.validates.ValidateBaseValue;
 
 import java.util.Collection;
@@ -13,29 +13,29 @@ import java.util.Objects;
 /**
  * Пользователь системы
  */
-public class DtoUserSecurity<ID> extends DtoUser<ID> implements UserDetails{
+public class UserSecurity<ID> extends User<ID> implements UserDetails{
 
 	private static final long serialVersionUID = 8266525488057072269L;
 
 	private Collection<GrantedAuthority> authorities;
 
 	//<editor-fold defaultState="collapsed" desc="constructors">
-    public DtoUserSecurity() {
+    public UserSecurity() {
     	super();
 	}
 
-	public DtoUserSecurity(String username, String email, String passwordEncode) {
+	public UserSecurity(String username, String email, String passwordEncode) {
 		super(username, email, passwordEncode);
 	}
 
-	public DtoUserSecurity(ID id, String username, String email, String passwordEncode) {
+	public UserSecurity(ID id, String username, String email, String passwordEncode) {
 		super(id, username, email, passwordEncode);
 	}
 	//</editor-fold>
 
 	//<editor-fold defaultState="collapsed" desc="Get/Set">
 	@Override
-	public void addRole(DtoRoleuser<ID> roleuser){
+	public void addRole(Roleuser<ID> roleuser){
 		this.authorities = new HashSet<>();
 		if (roleuser.getCode() != null && !ValidateBaseValue.isEmptyOrNull(roleuser.getCode())) {
 			GrantedAuthority grandAuthority = new GrantedAuthority() {
@@ -94,7 +94,7 @@ public class DtoUserSecurity<ID> extends DtoUser<ID> implements UserDetails{
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		if (!super.equals(o)) return false;
-		DtoUserSecurity<ID> object = (DtoUserSecurity<ID>) o;
+		UserSecurity<ID> object = (UserSecurity<ID>) o;
 		return Objects.equals(authorities, object.authorities);
 	}
 

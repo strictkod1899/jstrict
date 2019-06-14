@@ -1,24 +1,24 @@
 package ru.strict.db.hibernate.mappers.dto;
 
-import ru.strict.db.core.dto.DtoUser;
-import ru.strict.db.core.dto.DtoUserBase;
+import ru.strict.models.User;
+import ru.strict.models.UserBase;
 import ru.strict.db.hibernate.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 
 /**
  * Двухсторонний маппинг объектов типа EntityUser и DtoUser
  */
-public class MapperDtoUser extends MapperDtoBase<Long, EntityUser, DtoUser<Long>> {
+public class MapperDtoUser extends MapperDtoBase<Long, EntityUser, User<Long>> {
 
-    private MapperDtoBase<Long, EntityUser, DtoUserBase<Long>> mapperBase;
+    private MapperDtoBase<Long, EntityUser, UserBase<Long>> mapperBase;
 
-    public MapperDtoUser(MapperDtoBase<Long, EntityUser, DtoUserBase<Long>> mapperBase) {
+    public MapperDtoUser(MapperDtoBase<Long, EntityUser, UserBase<Long>> mapperBase) {
         super();
         this.mapperBase = mapperBase;
     }
 
     @Override
-    protected EntityUser implementMap(DtoUser<Long> dto) {
+    protected EntityUser implementMap(User<Long> dto) {
         EntityUser baseEntity = mapperBase.map(dto);
 
         EntityUser entity = new EntityUser();
@@ -35,10 +35,10 @@ public class MapperDtoUser extends MapperDtoBase<Long, EntityUser, DtoUser<Long>
     }
 
     @Override
-    protected DtoUser<Long> implementMap(EntityUser entity) {
-        DtoUserBase<Long> baseDto = mapperBase.map(entity);
+    protected User<Long> implementMap(EntityUser entity) {
+        UserBase<Long> baseDto = mapperBase.map(entity);
 
-        DtoUser<Long> dto = new DtoUser();
+        User<Long> dto = new User();
         dto.setId(baseDto.getId());
         dto.setUsername(baseDto.getUsername());
         dto.setEmail(baseDto.getEmail());

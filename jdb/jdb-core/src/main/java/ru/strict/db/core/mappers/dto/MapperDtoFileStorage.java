@@ -1,23 +1,23 @@
 package ru.strict.db.core.mappers.dto;
 
-import ru.strict.db.core.dto.DtoFileStorage;
-import ru.strict.db.core.dto.DtoFileStoragePath;
+import ru.strict.models.FileStorage;
+import ru.strict.models.FileStoragePath;
 import ru.strict.db.core.entities.EntityFileStorage;
 
 /**
  * Двухсторонний маппинг объектов типа EntityFileStorage и DtoFileStorage
  */
-public class MapperDtoFileStorage<ID> extends MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStorage<ID>> {
+public class MapperDtoFileStorage<ID> extends MapperDtoBase<ID, EntityFileStorage<ID>, FileStorage<ID>> {
 
-    private MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStoragePath<ID>> mapperBase;
+    private MapperDtoBase<ID, EntityFileStorage<ID>, FileStoragePath<ID>> mapperBase;
 
-    public MapperDtoFileStorage(MapperDtoBase<ID, EntityFileStorage<ID>, DtoFileStoragePath<ID>> mapperBase) {
+    public MapperDtoFileStorage(MapperDtoBase<ID, EntityFileStorage<ID>, FileStoragePath<ID>> mapperBase) {
         super();
         this.mapperBase = mapperBase;
     }
 
     @Override
-    protected EntityFileStorage<ID> implementMap(DtoFileStorage<ID> dto) {
+    protected EntityFileStorage<ID> implementMap(FileStorage<ID> dto) {
         EntityFileStorage<ID> baseEntity = mapperBase.map(dto);
 
         EntityFileStorage<ID> entity = new EntityFileStorage();
@@ -34,10 +34,10 @@ public class MapperDtoFileStorage<ID> extends MapperDtoBase<ID, EntityFileStorag
     }
 
     @Override
-    protected DtoFileStorage<ID> implementMap(EntityFileStorage<ID> entity) {
-        DtoFileStoragePath<ID> baseDto = mapperBase.map(entity);
+    protected FileStorage<ID> implementMap(EntityFileStorage<ID> entity) {
+        FileStoragePath<ID> baseDto = mapperBase.map(entity);
 
-        DtoFileStorage<ID> dto = new DtoFileStorage();
+        FileStorage<ID> dto = new FileStorage();
         dto.setId(baseDto.getId());
         dto.setFilename(baseDto.getFilename());
         dto.setExtension(baseDto.getExtension());

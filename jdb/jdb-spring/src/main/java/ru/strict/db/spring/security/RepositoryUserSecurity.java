@@ -3,13 +3,9 @@ package ru.strict.db.spring.security;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
-import ru.strict.db.core.dto.DtoProfile;
-import ru.strict.db.core.dto.DtoProfileInfo;
-import ru.strict.db.core.dto.DtoRoleuser;
-import ru.strict.db.core.dto.DtoUserOnRole;
-import ru.strict.db.core.entities.EntityProfile;
-import ru.strict.db.core.entities.EntityProfileInfo;
-import ru.strict.db.core.entities.EntityUserOnRole;
+import ru.strict.models.Profile;
+import ru.strict.models.Roleuser;
+import ru.strict.models.UserOnRole;
 import ru.strict.db.core.mappers.dto.MapperDtoProfile;
 import ru.strict.db.core.mappers.dto.MapperDtoRoleuser;
 import ru.strict.db.core.repositories.IRepository;
@@ -21,8 +17,8 @@ import ru.strict.db.spring.repositories.*;
 import java.util.*;
 
 public class RepositoryUserSecurity<ID>
-        extends RepositorySpringBase<ID, EntityUserSecurity<ID>, DtoUserSecurity<ID>>
-        implements IRepositoryNamed<ID, DtoUserSecurity<ID>> {
+        extends RepositorySpringBase<ID, EntityUserSecurity<ID>, UserSecurity<ID>>
+        implements IRepositoryNamed<ID, UserSecurity<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "email",
             "is_blocked", "is_deleted", "is_confirm_email"};
@@ -47,22 +43,22 @@ public class RepositoryUserSecurity<ID>
     }
 
     @Override
-    protected DtoUserSecurity<ID> fill(DtoUserSecurity<ID> dto){
+    protected UserSecurity<ID> fill(UserSecurity<ID> dto){
         // Добавление ролей пользователей
-        IRepository<ID, DtoUserOnRole<ID>> repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
+        IRepository<ID, UserOnRole<ID>> repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
-        List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
+        List<UserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
 
-        IRepository<ID, DtoRoleuser<ID>> repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
-        Collection<DtoRoleuser<ID>> roleusers = new ArrayList<>();
-        for(DtoUserOnRole<ID> userOnRole : userOnRoles) {
+        IRepository<ID, Roleuser<ID>> repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
+        Collection<Roleuser<ID>> roleusers = new ArrayList<>();
+        for(UserOnRole<ID> userOnRole : userOnRoles) {
             roleusers.add(repositoryRoleuser.read(userOnRole.getRoleId()));
         }
         dto.setRoles(roleusers);
 
         // Добавления профиля
-        IRepository<ID, DtoProfile<ID>> repositoryProfile = new RepositoryProfile<>(getConnectionSource(), GenerateIdType.NONE);
+        IRepository<ID, Profile<ID>> repositoryProfile = new RepositoryProfile<>(getConnectionSource(), GenerateIdType.NONE);
         requests = new DbRequests();
         requests.addWhere(new DbWhereItem(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
         dto.setProfiles(repositoryProfile.readAll(requests));

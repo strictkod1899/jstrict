@@ -1,11 +1,11 @@
-package ru.strict.db.core.dto;
+package ru.strict.models;
 
 import java.util.Objects;
 
 /**
  * Основная информация профиля пользователя (имя, фамилия, отчество)
  */
-public class DtoProfile<ID> extends DtoBase<ID> {
+public class Profile<ID> extends DtoBase<ID> {
 
     /**
      * Имя
@@ -30,7 +30,7 @@ public class DtoProfile<ID> extends DtoBase<ID> {
     /**
      * Пользователь системы связанный с данным профилем
      */
-    private DtoUserBase<ID> user;
+    private UserBase<ID> user;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String name, String surname, String middlename, ID userId){
@@ -49,7 +49,7 @@ public class DtoProfile<ID> extends DtoBase<ID> {
         user = null;
     }
 
-    public DtoProfile() {
+    public Profile() {
         super();
         name = null;
         surname = null;
@@ -58,12 +58,12 @@ public class DtoProfile<ID> extends DtoBase<ID> {
         user = null;
     }
 
-    public DtoProfile(String name, String surname, String middlename, ID userId) {
+    public Profile(String name, String surname, String middlename, ID userId) {
         super();
         initialize(name, surname, middlename, userId);
     }
 
-    public DtoProfile(ID id, String name, String surname, String middlename, ID userId) {
+    public Profile(ID id, String name, String surname, String middlename, ID userId) {
         super(id);
         initialize(name, surname, middlename, userId);
     }
@@ -102,19 +102,19 @@ public class DtoProfile<ID> extends DtoBase<ID> {
         this.userId = userId;
     }
 
-    public DtoUserBase<ID> getUser() {
+    public UserBase<ID> getUser() {
         return user;
     }
 
-    public void setUser(DtoUserBase<ID> user) {
+    public void setUser(UserBase<ID> user) {
         setUser(user, true);
     }
 
-    protected void setUserSafe(DtoUserBase<ID> user) {
+    protected void setUserSafe(UserBase<ID> user) {
         setUser(user, false);
     }
 
-    private void setUser(DtoUserBase<ID> user, boolean isCircleMode) {
+    private void setUser(UserBase<ID> user, boolean isCircleMode) {
         if(isCircleMode && user != null){
             user.addProfileSafe(this);
         }
@@ -134,7 +134,7 @@ public class DtoProfile<ID> extends DtoBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoProfile<ID> object = (DtoProfile<ID>) o;
+        Profile<ID> object = (Profile<ID>) o;
         return Objects.equals(name, object.name) &&
                 Objects.equals(surname, object.surname) &&
                 Objects.equals(middlename, object.middlename) &&
@@ -152,9 +152,9 @@ public class DtoProfile<ID> extends DtoBase<ID> {
     }
 
     @Override
-    public DtoProfile<ID> clone(){
+    public Profile<ID> clone(){
         try {
-            DtoProfile<ID> clone = (DtoProfile<ID>) super.clone();
+            Profile<ID> clone = (Profile<ID>) super.clone();
             clone.setUser(user == null ? null : user.clone());
             return clone;
         } catch (CloneNotSupportedException ex) {
@@ -162,9 +162,9 @@ public class DtoProfile<ID> extends DtoBase<ID> {
         }
     }
 
-    protected DtoProfile<ID> cloneSafeUser(DtoUserBase<ID> user){
+    protected Profile<ID> cloneSafeUser(UserBase<ID> user){
         try {
-            DtoProfile<ID> clone = (DtoProfile<ID>) super.clone();
+            Profile<ID> clone = (Profile<ID>) super.clone();
             clone.setUser(user);
             return clone;
         } catch (CloneNotSupportedException ex) {

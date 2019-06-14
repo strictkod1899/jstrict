@@ -2,7 +2,7 @@ package ru.strict.db.mybatis.repositories;
 
 import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.dto.DtoProfileInfo;
+import ru.strict.models.ProfileDetails;
 import ru.strict.db.core.entities.EntityProfileInfo;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.interfaces.IRepositoryProfile;
@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RepositoryProfileInfo<ID>
-        extends RepositoryMybatisBase<ID, EntityProfileInfo<ID>, DtoProfileInfo<ID>, MapperSqlProfileInfo<ID>>
-        implements IRepositoryProfile<ID, DtoProfileInfo<ID>> {
+        extends RepositoryMybatisBase<ID, EntityProfileInfo<ID>, ProfileDetails<ID>, MapperSqlProfileInfo<ID>>
+        implements IRepositoryProfile<ID, ProfileDetails<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id", "datebirth",
             "phone", "city_id"};
@@ -25,13 +25,13 @@ public class RepositoryProfileInfo<ID>
                 COLUMNS_NAME,
                 connectionSource,
                 UtilClass.<MapperSqlProfileInfo<ID>>castClass(MapperSqlProfileInfo.class),
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityProfileInfo.class), UtilClass.castClass(DtoProfileInfo.class)),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityProfileInfo.class), UtilClass.castClass(ProfileDetails.class)),
                 generateIdType);
     }
 
     @Override
-    public List<DtoProfileInfo<ID>> readByFio(String name, String surname, String middlename) {
-        List<DtoProfileInfo<ID>> result = null;
+    public List<ProfileDetails<ID>> readByFio(String name, String surname, String middlename) {
+        List<ProfileDetails<ID>> result = null;
         SqlSession session = null;
         try {
             session = createConnection();
@@ -54,11 +54,11 @@ public class RepositoryProfileInfo<ID>
     }
 
     @Override
-    public List<DtoProfileInfo<ID>> readByUserId(ID userId) {
+    public List<ProfileDetails<ID>> readByUserId(ID userId) {
         if(userId == null){
             throw new IllegalArgumentException("userId for read is NULL");
         }
-        List<DtoProfileInfo<ID>> result = null;
+        List<ProfileDetails<ID>> result = null;
         SqlSession session = null;
         try {
             session = createConnection();

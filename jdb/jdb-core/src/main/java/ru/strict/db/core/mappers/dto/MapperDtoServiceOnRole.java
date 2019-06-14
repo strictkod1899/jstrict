@@ -1,20 +1,20 @@
 package ru.strict.db.core.mappers.dto;
 
-import ru.strict.db.core.dto.DtoRoleuser;
-import ru.strict.db.core.dto.DtoServiceOnRole;
+import ru.strict.models.Roleuser;
+import ru.strict.models.ServiceOnRole;
 import ru.strict.db.core.entities.EntityRoleuser;
 import ru.strict.db.core.entities.EntityServiceOnRole;
-import ru.strict.db.core.models.IModelProvider;
+import ru.strict.models.IModelProvider;
 
 import java.util.Optional;
 
 /**
  * Двухсторонний маппинг объектов типа EntityServiceOnRole и DtoServiceOnRole
  */
-public class MapperDtoServiceOnRole<ID, SERVICE> extends MapperDtoBase<ID, EntityServiceOnRole<ID, SERVICE>, DtoServiceOnRole<ID, SERVICE>> {
+public class MapperDtoServiceOnRole<ID, SERVICE> extends MapperDtoBase<ID, EntityServiceOnRole<ID, SERVICE>, ServiceOnRole<ID, SERVICE>> {
 
     private IModelProvider<SERVICE> serviceProvider;
-    private MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser;
+    private MapperDtoBase<ID, EntityRoleuser<ID>, Roleuser<ID>> mapperRoleuser;
 
     public MapperDtoServiceOnRole(){
         this.serviceProvider = null;
@@ -22,13 +22,13 @@ public class MapperDtoServiceOnRole<ID, SERVICE> extends MapperDtoBase<ID, Entit
     }
 
     public MapperDtoServiceOnRole(IModelProvider<SERVICE> serviceProvider,
-                                  MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser){
+                                  MapperDtoBase<ID, EntityRoleuser<ID>, Roleuser<ID>> mapperRoleuser){
         this.serviceProvider = serviceProvider;
         this.mapperRoleuser = mapperRoleuser;
     }
 
     @Override
-    protected EntityServiceOnRole<ID, SERVICE> implementMap(DtoServiceOnRole<ID, SERVICE> dto) {
+    protected EntityServiceOnRole<ID, SERVICE> implementMap(ServiceOnRole<ID, SERVICE> dto) {
         EntityServiceOnRole<ID, SERVICE> entity = new EntityServiceOnRole();
         entity.setId(dto.getId());
         entity.setRoleId(dto.getRoleId());
@@ -39,8 +39,8 @@ public class MapperDtoServiceOnRole<ID, SERVICE> extends MapperDtoBase<ID, Entit
     }
 
     @Override
-    protected DtoServiceOnRole<ID, SERVICE> implementMap(EntityServiceOnRole<ID, SERVICE> entity) {
-        DtoServiceOnRole<ID, SERVICE> dto = new DtoServiceOnRole();
+    protected ServiceOnRole<ID, SERVICE> implementMap(EntityServiceOnRole<ID, SERVICE> entity) {
+        ServiceOnRole<ID, SERVICE> dto = new ServiceOnRole();
         dto.setId(entity.getId());
         dto.setRoleId(entity.getRoleId());
         dto.setServiceId(entity.getServiceId());

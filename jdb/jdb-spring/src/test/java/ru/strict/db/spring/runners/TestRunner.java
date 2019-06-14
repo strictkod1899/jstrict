@@ -6,8 +6,6 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import ru.strict.db.core.common.ConnectionDbInfo;
-import ru.strict.db.core.connections.ConnectionInfo;
-import ru.strict.db.core.connections.CreateConnectionByConnectionInfo;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
 import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.spring.*;
@@ -26,7 +24,7 @@ import java.util.List;
         TestRepositoryUser.class,
         TestRepositoryUserOnRole.class,
         TestRepositoryProfile.class,
-        TestRepositoryProfileInfo.class,
+        TestRepositoryProfileDetails.class,
         TestRepositoryFileStorage.class,
         TestRepositoryJWTToken.class,
         TestRepositoryServiceOnRole.class

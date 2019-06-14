@@ -1,10 +1,8 @@
 package ru.strict.db.hibernate.mappers.dto;
 
-import ru.strict.db.core.dto.DtoJWTToken;
-import ru.strict.db.core.dto.DtoRoleuser;
-import ru.strict.db.core.dto.DtoUserWithToken;
+import ru.strict.models.JWTToken;
+import ru.strict.models.UserWithToken;
 import ru.strict.db.hibernate.entities.EntityJWTToken;
-import ru.strict.db.hibernate.entities.EntityRoleuser;
 import ru.strict.db.hibernate.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 
@@ -13,20 +11,20 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityJWTToken и DtoJWTToken
  */
-public class MapperDtoJWTToken extends MapperDtoBase<Long, EntityJWTToken, DtoJWTToken<Long>> {
+public class MapperDtoJWTToken extends MapperDtoBase<Long, EntityJWTToken, JWTToken<Long>> {
 
-    private MapperDtoBase<Long, EntityUser, DtoUserWithToken<Long>> mapperUser;
+    private MapperDtoBase<Long, EntityUser, UserWithToken<Long>> mapperUser;
 
     public MapperDtoJWTToken(){
         mapperUser = null;
     }
 
-    public MapperDtoJWTToken(MapperDtoBase<Long, EntityUser, DtoUserWithToken<Long>> mapperUser){
+    public MapperDtoJWTToken(MapperDtoBase<Long, EntityUser, UserWithToken<Long>> mapperUser){
         this.mapperUser = mapperUser;
     }
 
     @Override
-    protected EntityJWTToken implementMap(DtoJWTToken<Long> dto) {
+    protected EntityJWTToken implementMap(JWTToken<Long> dto) {
         EntityJWTToken entity = new EntityJWTToken();
         entity.setId(dto.getId());
         entity.setAccessToken(dto.getAccessToken());
@@ -47,8 +45,8 @@ public class MapperDtoJWTToken extends MapperDtoBase<Long, EntityJWTToken, DtoJW
     }
 
     @Override
-    protected DtoJWTToken<Long> implementMap(EntityJWTToken entity) {
-        DtoJWTToken<Long> dto = new DtoJWTToken();
+    protected JWTToken<Long> implementMap(EntityJWTToken entity) {
+        JWTToken<Long> dto = new JWTToken();
         dto.setId(entity.getId());
         dto.setAccessToken(entity.getAccessToken());
         dto.setRefreshToken(entity.getRefreshToken());

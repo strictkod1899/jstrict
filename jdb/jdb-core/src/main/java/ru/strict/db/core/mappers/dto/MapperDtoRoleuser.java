@@ -1,7 +1,7 @@
 package ru.strict.db.core.mappers.dto;
 
-import ru.strict.db.core.dto.DtoRoleuser;
-import ru.strict.db.core.dto.DtoUserBase;
+import ru.strict.models.Roleuser;
+import ru.strict.models.UserBase;
 import ru.strict.db.core.entities.EntityRoleuser;
 import ru.strict.db.core.entities.EntityUser;
 
@@ -10,20 +10,20 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityRoleuser и DtoRoleuser
  */
-public class MapperDtoRoleuser<ID> extends MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> {
+public class MapperDtoRoleuser<ID> extends MapperDtoBase<ID, EntityRoleuser<ID>, Roleuser<ID>> {
 
-    private MapperDtoBase<ID, EntityUser<ID>, DtoUserBase<ID>> mapperUser;
+    private MapperDtoBase<ID, EntityUser<ID>, UserBase<ID>> mapperUser;
 
     public MapperDtoRoleuser(){
         mapperUser = null;
     }
 
-    public MapperDtoRoleuser(MapperDtoBase<ID, EntityUser<ID>, DtoUserBase<ID>> mapperUser){
+    public MapperDtoRoleuser(MapperDtoBase<ID, EntityUser<ID>, UserBase<ID>> mapperUser){
         this.mapperUser = mapperUser;
     }
 
     @Override
-    protected EntityRoleuser<ID> implementMap(DtoRoleuser<ID> dto) {
+    protected EntityRoleuser<ID> implementMap(Roleuser<ID> dto) {
         EntityRoleuser<ID> entity = new EntityRoleuser();
         entity.setId(dto.getId());
         entity.setDescription(dto.getDescription());
@@ -34,8 +34,8 @@ public class MapperDtoRoleuser<ID> extends MapperDtoBase<ID, EntityRoleuser<ID>,
     }
 
     @Override
-    protected DtoRoleuser<ID> implementMap(EntityRoleuser<ID> entity) {
-        DtoRoleuser<ID> dto = new DtoRoleuser();
+    protected Roleuser<ID> implementMap(EntityRoleuser<ID> entity) {
+        Roleuser<ID> dto = new Roleuser();
         dto.setId(entity.getId());
         dto.setDescription(entity.getDescription());
         dto.setCode(entity.getCode());

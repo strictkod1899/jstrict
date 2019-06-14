@@ -1,6 +1,6 @@
 package ru.strict.db.core.repositories.interfaces;
 
-import ru.strict.db.core.dto.DtoProfile;
+import ru.strict.models.Profile;
 import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereIsNull;
@@ -8,7 +8,7 @@ import ru.strict.db.core.requests.DbWhereItem;
 
 import java.util.List;
 
-public interface IRepositoryProfile<ID, DTO extends DtoProfile<ID>> extends IRepositoryExtension<ID, DTO> {
+public interface IRepositoryProfile<ID, DTO extends Profile<ID>> extends IRepositoryExtension<ID, DTO> {
     default List<DTO> readByFio(String name, String surname, String middlename){
         DbRequests requests = new DbRequests();
         if(name != null) {

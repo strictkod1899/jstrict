@@ -1,24 +1,24 @@
 package ru.strict.db.hibernate.mappers.dto;
 
-import ru.strict.db.core.dto.DtoFileStorage;
-import ru.strict.db.core.dto.DtoFileStoragePath;
+import ru.strict.models.FileStorage;
+import ru.strict.models.FileStoragePath;
 import ru.strict.db.hibernate.entities.EntityFileStorage;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 
 /**
  * Двухсторонний маппинг объектов типа EntityFileStorage и DtoFileStorage
  */
-public class MapperDtoFileStorage extends MapperDtoBase<Long, EntityFileStorage, DtoFileStorage<Long>> {
+public class MapperDtoFileStorage extends MapperDtoBase<Long, EntityFileStorage, FileStorage<Long>> {
 
-    private MapperDtoBase<Long, EntityFileStorage, DtoFileStoragePath<Long>> mapperBase;
+    private MapperDtoBase<Long, EntityFileStorage, FileStoragePath<Long>> mapperBase;
 
-    public MapperDtoFileStorage(MapperDtoBase<Long, EntityFileStorage, DtoFileStoragePath<Long>> mapperBase) {
+    public MapperDtoFileStorage(MapperDtoBase<Long, EntityFileStorage, FileStoragePath<Long>> mapperBase) {
         super();
         this.mapperBase = mapperBase;
     }
 
     @Override
-    protected EntityFileStorage implementMap(DtoFileStorage<Long> dto) {
+    protected EntityFileStorage implementMap(FileStorage<Long> dto) {
         EntityFileStorage baseEntity = mapperBase.map(dto);
 
         EntityFileStorage entity = new EntityFileStorage();
@@ -35,10 +35,10 @@ public class MapperDtoFileStorage extends MapperDtoBase<Long, EntityFileStorage,
     }
 
     @Override
-    protected DtoFileStorage<Long> implementMap(EntityFileStorage entity) {
-        DtoFileStoragePath<Long> baseDto = mapperBase.map(entity);
+    protected FileStorage<Long> implementMap(EntityFileStorage entity) {
+        FileStoragePath<Long> baseDto = mapperBase.map(entity);
 
-        DtoFileStorage<Long> dto = new DtoFileStorage();
+        FileStorage<Long> dto = new FileStorage();
         dto.setId(baseDto.getId());
         dto.setFilename(baseDto.getFilename());
         entity.setExtension(baseDto.getExtension());

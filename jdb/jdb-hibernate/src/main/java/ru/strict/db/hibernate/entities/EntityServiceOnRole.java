@@ -1,6 +1,6 @@
 package ru.strict.db.hibernate.entities;
 
-import ru.strict.db.core.models.IModelProvider;
+import ru.strict.models.IModelProvider;
 
 import javax.persistence.*;
 import java.util.Objects;

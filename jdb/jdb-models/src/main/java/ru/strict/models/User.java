@@ -1,4 +1,4 @@
-package ru.strict.db.core.dto;
+package ru.strict.models;
 
 import ru.strict.validates.ValidateBaseValue;
 
@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Пользователь системы
  */
-public class DtoUser<ID> extends DtoUserBase<ID> {
+public class User<ID> extends UserBase<ID> {
 
     /**
      * Зашифрованный пароль пользователя
@@ -22,17 +22,17 @@ public class DtoUser<ID> extends DtoUserBase<ID> {
 
         this.passwordEncode = passwordEncode;
     }
-    public DtoUser() {
+    public User() {
         super();
         passwordEncode = null;
     }
 
-    public DtoUser(String username, String email, String passwordEncode) {
+    public User(String username, String email, String passwordEncode) {
         super(username, email);
         initialize(passwordEncode);
     }
 
-    public DtoUser(ID id, String username, String email, String passwordEncode) {
+    public User(ID id, String username, String email, String passwordEncode) {
         super(id, username, email);
         initialize(passwordEncode);
     }
@@ -59,7 +59,7 @@ public class DtoUser<ID> extends DtoUserBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoUser<ID> dtoUser = (DtoUser<ID>) o;
+        User<ID> dtoUser = (User<ID>) o;
         return Objects.equals(passwordEncode, dtoUser.passwordEncode);
     }
 
@@ -69,8 +69,8 @@ public class DtoUser<ID> extends DtoUserBase<ID> {
     }
 
     @Override
-    public DtoUser<ID> clone(){
-        return (DtoUser<ID>) super.clone();
+    public User<ID> clone(){
+        return (User<ID>) super.clone();
     }
     //</editor-fold>
 }

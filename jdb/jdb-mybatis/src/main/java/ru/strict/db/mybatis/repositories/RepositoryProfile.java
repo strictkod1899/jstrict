@@ -2,7 +2,7 @@ package ru.strict.db.mybatis.repositories;
 
 import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.dto.DtoProfile;
+import ru.strict.models.Profile;
 import ru.strict.db.core.entities.EntityProfile;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.interfaces.IRepositoryProfile;
@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RepositoryProfile<ID>
-        extends RepositoryMybatisBase<ID, EntityProfile<ID>, DtoProfile<ID>, MapperSqlProfile<ID>>
-        implements IRepositoryProfile<ID, DtoProfile<ID>> {
+        extends RepositoryMybatisBase<ID, EntityProfile<ID>, Profile<ID>, MapperSqlProfile<ID>>
+        implements IRepositoryProfile<ID, Profile<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id"};
 
@@ -24,13 +24,13 @@ public class RepositoryProfile<ID>
                 COLUMNS_NAME,
                 connectionSource,
                 UtilClass.<MapperSqlProfile<ID>>castClass(MapperSqlProfile.class),
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityProfile.class), UtilClass.castClass(DtoProfile.class)),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityProfile.class), UtilClass.castClass(Profile.class)),
                 generateIdType);
     }
 
     @Override
-    public List<DtoProfile<ID>> readByFio(String name, String surname, String middlename) {
-        List<DtoProfile<ID>> result = null;
+    public List<Profile<ID>> readByFio(String name, String surname, String middlename) {
+        List<Profile<ID>> result = null;
         SqlSession session = null;
         try {
             session = createConnection();
@@ -53,11 +53,11 @@ public class RepositoryProfile<ID>
     }
 
     @Override
-    public List<DtoProfile<ID>> readByUserId(ID userId) {
+    public List<Profile<ID>> readByUserId(ID userId) {
         if(userId == null){
             throw new IllegalArgumentException("userId for read is NULL");
         }
-        List<DtoProfile<ID>> result = null;
+        List<Profile<ID>> result = null;
         SqlSession session = null;
         try {
             session = createConnection();

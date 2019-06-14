@@ -1,8 +1,8 @@
 package ru.strict.db.core.mappers.dto;
 
-import ru.strict.db.core.dto.DtoProfile;
-import ru.strict.db.core.dto.DtoRoleuser;
-import ru.strict.db.core.dto.DtoUserBase;
+import ru.strict.models.Profile;
+import ru.strict.models.Roleuser;
+import ru.strict.models.UserBase;
 import ru.strict.db.core.entities.EntityProfile;
 import ru.strict.db.core.entities.EntityRoleuser;
 import ru.strict.db.core.entities.EntityUser;
@@ -12,24 +12,24 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityUser и DtoUserBase
  */
-public class MapperDtoUserBase<ID> extends MapperDtoBase<ID, EntityUser<ID>, DtoUserBase<ID>> {
+public class MapperDtoUserBase<ID> extends MapperDtoBase<ID, EntityUser<ID>, UserBase<ID>> {
 
-    private MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser;
-    private MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> mapperProfile;
+    private MapperDtoBase<ID, EntityRoleuser<ID>, Roleuser<ID>> mapperRoleuser;
+    private MapperDtoBase<ID, EntityProfile<ID>, Profile<ID>> mapperProfile;
 
     public MapperDtoUserBase(){
         this.mapperRoleuser = null;
         this.mapperProfile = null;
     }
 
-    public MapperDtoUserBase(MapperDtoBase<ID, EntityRoleuser<ID>, DtoRoleuser<ID>> mapperRoleuser,
-                             MapperDtoBase<ID, EntityProfile<ID>, DtoProfile<ID>> mapperProfile){
+    public MapperDtoUserBase(MapperDtoBase<ID, EntityRoleuser<ID>, Roleuser<ID>> mapperRoleuser,
+                             MapperDtoBase<ID, EntityProfile<ID>, Profile<ID>> mapperProfile){
         this.mapperRoleuser = mapperRoleuser;
         this.mapperProfile = mapperProfile;
     }
 
     @Override
-    protected EntityUser<ID> implementMap(DtoUserBase<ID> dto) {
+    protected EntityUser<ID> implementMap(UserBase<ID> dto) {
         EntityUser<ID> entity = new EntityUser();
         entity.setId(dto.getId());
         entity.setEmail(dto.getEmail());
@@ -45,8 +45,8 @@ public class MapperDtoUserBase<ID> extends MapperDtoBase<ID, EntityUser<ID>, Dto
     }
 
     @Override
-    protected DtoUserBase<ID> implementMap(EntityUser<ID> entity) {
-        DtoUserBase<ID> dto = new DtoUserBase();
+    protected UserBase<ID> implementMap(EntityUser<ID> entity) {
+        UserBase<ID> dto = new UserBase();
         dto.setId(entity.getId());
         dto.setUsername(entity.getUsername());
         dto.setEmail(entity.getEmail());

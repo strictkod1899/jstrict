@@ -1,10 +1,9 @@
 package ru.strict.db.hibernate.mappers.dto;
 
-import ru.strict.db.core.dto.DtoCity;
-import ru.strict.db.core.dto.DtoProfile;
-import ru.strict.db.core.dto.DtoProfileInfo;
+import ru.strict.models.City;
+import ru.strict.models.Profile;
+import ru.strict.models.ProfileDetails;
 import ru.strict.db.hibernate.entities.EntityCity;
-import ru.strict.db.hibernate.entities.EntityProfile;
 import ru.strict.db.hibernate.entities.EntityProfileBase;
 import ru.strict.db.hibernate.entities.EntityProfileInfo;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
@@ -14,25 +13,25 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityProfileInfo и DtoProfileInfo
  */
-public class MapperDtoProfileInfo extends MapperDtoBase<Long, EntityProfileInfo, DtoProfileInfo<Long>> {
+public class MapperDtoProfileInfo extends MapperDtoBase<Long, EntityProfileInfo, ProfileDetails<Long>> {
 
-    private MapperDtoBase<Long, EntityProfileBase, DtoProfile<Long>> mapperBase;
-    private MapperDtoBase<Long, EntityCity, DtoCity<Long>> mapperCity;
+    private MapperDtoBase<Long, EntityProfileBase, Profile<Long>> mapperBase;
+    private MapperDtoBase<Long, EntityCity, City<Long>> mapperCity;
 
-    public MapperDtoProfileInfo(MapperDtoBase<Long, EntityProfileBase, DtoProfile<Long>> mapperBase){
+    public MapperDtoProfileInfo(MapperDtoBase<Long, EntityProfileBase, Profile<Long>> mapperBase){
         super();
         mapperCity = null;
         this.mapperBase = mapperBase;
     }
 
-    public MapperDtoProfileInfo(MapperDtoBase<Long, EntityProfileBase, DtoProfile<Long>> mapperBase,
-                                MapperDtoBase<Long, EntityCity, DtoCity<Long>> mapperCity){
+    public MapperDtoProfileInfo(MapperDtoBase<Long, EntityProfileBase, Profile<Long>> mapperBase,
+                                MapperDtoBase<Long, EntityCity, City<Long>> mapperCity){
         this.mapperBase = mapperBase;
         this.mapperCity = mapperCity;
     }
 
     @Override
-    protected EntityProfileInfo implementMap(DtoProfileInfo<Long> dto) {
+    protected EntityProfileInfo implementMap(ProfileDetails<Long> dto) {
         EntityProfileBase baseEntity = mapperBase.map(dto);
 
         EntityProfileInfo entity = new EntityProfileInfo();
@@ -50,10 +49,10 @@ public class MapperDtoProfileInfo extends MapperDtoBase<Long, EntityProfileInfo,
     }
 
     @Override
-    protected DtoProfileInfo<Long> implementMap(EntityProfileInfo entity) {
-        DtoProfile<Long> baseDto = mapperBase.map(entity);
+    protected ProfileDetails<Long> implementMap(EntityProfileInfo entity) {
+        Profile<Long> baseDto = mapperBase.map(entity);
 
-        DtoProfileInfo<Long> dto = new DtoProfileInfo();
+        ProfileDetails<Long> dto = new ProfileDetails();
         dto.setId(baseDto.getId());
         dto.setName(baseDto.getName());
         dto.setSurname(baseDto.getSurname());

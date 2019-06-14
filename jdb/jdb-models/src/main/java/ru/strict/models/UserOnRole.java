@@ -1,11 +1,11 @@
-package ru.strict.db.core.dto;
+package ru.strict.models;
 
 import java.util.Objects;
 
 /**
  * Связка пользователя с ролью
  */
-public class DtoUserOnRole<ID> extends DtoBase<ID> {
+public class UserOnRole<ID> extends DtoBase<ID> {
 
     /**
      * Идентификатор пользователя
@@ -14,7 +14,7 @@ public class DtoUserOnRole<ID> extends DtoBase<ID> {
     /**
      * Пользователь
      */
-    private DtoUser<ID> user;
+    private User<ID> user;
     /**
      * Идентификатор роли
      */
@@ -22,7 +22,7 @@ public class DtoUserOnRole<ID> extends DtoBase<ID> {
     /**
      * Роль пользователя
      */
-    private DtoRoleuser<ID> role;
+    private Roleuser<ID> role;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(ID userId, ID roleId){
@@ -38,7 +38,7 @@ public class DtoUserOnRole<ID> extends DtoBase<ID> {
         role = null;
     }
 
-    public DtoUserOnRole() {
+    public UserOnRole() {
         super();
         userId = null;
         user = null;
@@ -46,12 +46,12 @@ public class DtoUserOnRole<ID> extends DtoBase<ID> {
         role = null;
     }
 
-    public DtoUserOnRole(ID userId, ID roleId) {
+    public UserOnRole(ID userId, ID roleId) {
         super();
         initialize(userId, roleId);
     }
 
-    public DtoUserOnRole(ID id, ID userId, ID roleId) {
+    public UserOnRole(ID id, ID userId, ID roleId) {
         super(id);
         initialize(userId, roleId);
     }
@@ -66,11 +66,11 @@ public class DtoUserOnRole<ID> extends DtoBase<ID> {
         this.userId = userId;
     }
 
-    public DtoUser<ID> getUser() {
+    public User<ID> getUser() {
         return user;
     }
 
-    public void setUser(DtoUser<ID> user) {
+    public void setUser(User<ID> user) {
         this.user = user;
     }
 
@@ -82,11 +82,11 @@ public class DtoUserOnRole<ID> extends DtoBase<ID> {
         this.roleId = roleId;
     }
 
-    public DtoRoleuser<ID> getRole() {
+    public Roleuser<ID> getRole() {
         return role;
     }
 
-    public void setRole(DtoRoleuser<ID> role) {
+    public void setRole(Roleuser<ID> role) {
         this.role = role;
     }
     //</editor-fold>
@@ -102,7 +102,7 @@ public class DtoUserOnRole<ID> extends DtoBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoUserOnRole<ID> object = (DtoUserOnRole<ID>) o;
+        UserOnRole<ID> object = (UserOnRole<ID>) o;
         return Objects.equals(userId, object.userId) &&
                 Objects.equals(user, object.user) &&
                 Objects.equals(roleId, object.roleId) &&
@@ -115,9 +115,9 @@ public class DtoUserOnRole<ID> extends DtoBase<ID> {
     }
 
     @Override
-    public DtoUserOnRole<ID> clone(){
+    public UserOnRole<ID> clone(){
         try {
-            DtoUserOnRole<ID> clone = (DtoUserOnRole<ID>) super.clone();
+            UserOnRole<ID> clone = (UserOnRole<ID>) super.clone();
 
             clone.setUser(user == null ? null : user.clone());
             clone.setRole(role == null ? null : role.clone());

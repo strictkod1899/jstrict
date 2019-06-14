@@ -4,9 +4,9 @@ import ru.strict.db.core.common.GenerateIdType;
 
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.ICreateConnection;
-import ru.strict.db.core.dto.DtoRoleuser;
-import ru.strict.db.core.dto.DtoUser;
-import ru.strict.db.core.dto.DtoUserOnRole;
+import ru.strict.models.Roleuser;
+import ru.strict.models.User;
+import ru.strict.models.UserOnRole;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.entities.EntityUserOnRole;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
@@ -16,18 +16,16 @@ import ru.strict.db.jdbc.mappers.sql.MapperSqlUserOnRole;
 import ru.strict.utils.UtilClass;
 
 import java.sql.Connection;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class RepositoryUserOnRole<ID>
-        extends RepositoryJdbcBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>>
+        extends RepositoryJdbcBase<ID, EntityUserOnRole<ID>, UserOnRole<ID>>
         implements IRepositoryUserOnRole<ID> {
 
     private static final String[] COLUMNS_NAME = new String[] {"userx_id", "roleuser_id"};
 
     public RepositoryUserOnRole(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
         super("user_on_role", COLUMNS_NAME, connectionSource,
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUserOnRole.class), UtilClass.castClass(DtoUserOnRole.class)),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUserOnRole.class), UtilClass.castClass(UserOnRole.class)),
                 new MapperSqlUserOnRole<ID>(COLUMNS_NAME),
                 generateIdType);
     }
@@ -41,15 +39,15 @@ public class RepositoryUserOnRole<ID>
     }
 
     @Override
-    protected DtoUserOnRole<ID> fill(DtoUserOnRole<ID> dto){
+    protected UserOnRole<ID> fill(UserOnRole<ID> dto){
         // Добавление пользователя
-        IRepository<ID, DtoUser<ID>> repositoryUser = new RepositoryUser(getConnectionSource(),
-                new MapperDtoFactory().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUser.class)),
+        IRepository<ID, User<ID>> repositoryUser = new RepositoryUser(getConnectionSource(),
+                new MapperDtoFactory().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(User.class)),
                 GenerateIdType.NONE);
         dto.setUser(repositoryUser.read(dto.getUserId()));
 
         // Добавление роли пользователя
-        IRepository<ID, DtoRoleuser<ID>> repositoryRoleuser = new RepositoryRoleuser(getConnectionSource(), GenerateIdType.NONE);
+        IRepository<ID, Roleuser<ID>> repositoryRoleuser = new RepositoryRoleuser(getConnectionSource(), GenerateIdType.NONE);
         dto.setRole(repositoryRoleuser.read(dto.getRoleId()));
         return dto;
     }

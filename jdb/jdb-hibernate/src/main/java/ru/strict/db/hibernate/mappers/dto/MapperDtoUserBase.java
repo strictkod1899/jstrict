@@ -1,10 +1,9 @@
 package ru.strict.db.hibernate.mappers.dto;
 
-import ru.strict.db.core.dto.DtoProfile;
-import ru.strict.db.core.dto.DtoRoleuser;
-import ru.strict.db.core.dto.DtoUserBase;
+import ru.strict.models.Profile;
+import ru.strict.models.Roleuser;
+import ru.strict.models.UserBase;
 import ru.strict.db.hibernate.entities.EntityProfile;
-import ru.strict.db.hibernate.entities.EntityProfileBase;
 import ru.strict.db.hibernate.entities.EntityRoleuser;
 import ru.strict.db.hibernate.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
@@ -14,24 +13,24 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityUser и DtoUserBase
  */
-public class MapperDtoUserBase extends MapperDtoBase<Long, EntityUser, DtoUserBase<Long>> {
+public class MapperDtoUserBase extends MapperDtoBase<Long, EntityUser, UserBase<Long>> {
 
-    private MapperDtoBase<Long, EntityRoleuser, DtoRoleuser<Long>> mapperRoleuser;
-    private MapperDtoBase<Long, EntityProfile, DtoProfile<Long>> mapperProfile;
+    private MapperDtoBase<Long, EntityRoleuser, Roleuser<Long>> mapperRoleuser;
+    private MapperDtoBase<Long, EntityProfile, Profile<Long>> mapperProfile;
 
     public MapperDtoUserBase(){
         this.mapperRoleuser = null;
         this.mapperProfile = null;
     }
 
-    public MapperDtoUserBase(MapperDtoBase<Long, EntityRoleuser, DtoRoleuser<Long>> mapperRoleuser,
-                             MapperDtoBase<Long, EntityProfile, DtoProfile<Long>> mapperProfile){
+    public MapperDtoUserBase(MapperDtoBase<Long, EntityRoleuser, Roleuser<Long>> mapperRoleuser,
+                             MapperDtoBase<Long, EntityProfile, Profile<Long>> mapperProfile){
         this.mapperRoleuser = mapperRoleuser;
         this.mapperProfile = mapperProfile;
     }
 
     @Override
-    protected EntityUser implementMap(DtoUserBase<Long> dto) {
+    protected EntityUser implementMap(UserBase<Long> dto) {
         EntityUser entity = new EntityUser();
         entity.setId(dto.getId());
         entity.setEmail(dto.getEmail());
@@ -47,8 +46,8 @@ public class MapperDtoUserBase extends MapperDtoBase<Long, EntityUser, DtoUserBa
     }
 
     @Override
-    protected DtoUserBase<Long> implementMap(EntityUser entity) {
-        DtoUserBase<Long> dto = new DtoUserBase();
+    protected UserBase<Long> implementMap(EntityUser entity) {
+        UserBase<Long> dto = new UserBase();
         dto.setId(entity.getId());
         dto.setUsername(entity.getUsername());
         dto.setEmail(entity.getEmail());

@@ -1,4 +1,4 @@
-package ru.strict.db.core.dto;
+package ru.strict.models;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -7,7 +7,7 @@ import java.util.TreeSet;
 /**
  * Роль пользователя в системе (например, администратор, пользователь, неавторизированный пользователь и др.)
  */
-public class DtoRoleuser<ID> extends DtoBase<ID> {
+public class Roleuser<ID> extends DtoBase<ID> {
 
     /**
      * Набор символов характеризующих роль
@@ -22,7 +22,7 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
     /**
      * Пользователи свзяанные с ролью
      */
-    private Collection<DtoUserBase<ID>> users;
+    private Collection<UserBase<ID>> users;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String code, String description){
@@ -35,19 +35,19 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
         users = new TreeSet<>();
     }
 
-    public DtoRoleuser() {
+    public Roleuser() {
         super();
         code = null;
         description = null;
         users = new TreeSet<>();
     }
 
-    public DtoRoleuser(String code, String description) {
+    public Roleuser(String code, String description) {
         super();
         initialize(code, description);
     }
 
-    public DtoRoleuser(ID id, String code, String description) {
+    public Roleuser(ID id, String code, String description) {
         super(id);
         initialize(code, description);
     }
@@ -70,31 +70,31 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
         this.description = description;
     }
 
-    public Collection<DtoUserBase<ID>> getUsers() {
+    public Collection<UserBase<ID>> getUsers() {
         return users;
     }
 
-    public void setUsers(Collection<DtoUserBase<ID>> users) {
+    public void setUsers(Collection<UserBase<ID>> users) {
         if(users == null) {
             throw new IllegalArgumentException("users is NULL");
         }
 
-        for(DtoUserBase<ID> user : users){
+        for(UserBase<ID> user : users){
             user.addRoleSafe(this);
         }
 
         this.users = users;
     }
 
-    public void addUser(DtoUserBase<ID> user){
+    public void addUser(UserBase<ID> user){
         addUser(user, true);
     }
 
-    protected void addUserSafe(DtoUserBase<ID> user){
+    protected void addUserSafe(UserBase<ID> user){
         addUser(user, false);
     }
 
-    private void addUser(DtoUserBase<ID> user, boolean isCircleMode){
+    private void addUser(UserBase<ID> user, boolean isCircleMode){
         if(user == null) {
             throw new IllegalArgumentException("user is NULL");
         }
@@ -107,9 +107,9 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
         }
     }
 
-    public void addUsers(Collection<DtoUserBase<ID>> users){
+    public void addUsers(Collection<UserBase<ID>> users){
         if(users!=null) {
-            for(DtoUserBase<ID> user : users){
+            for(UserBase<ID> user : users){
                 addUser(user);
             }
         }
@@ -127,7 +127,7 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoRoleuser<ID> object = (DtoRoleuser<ID>) o;
+        Roleuser<ID> object = (Roleuser<ID>) o;
         return Objects.equals(code, object.code) &&
                 Objects.equals(description, object.description) &&
                 Objects.equals(users, object.users);
@@ -139,12 +139,12 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
     }
 
     @Override
-    public DtoRoleuser<ID> clone(){
+    public Roleuser<ID> clone(){
         try {
-            DtoRoleuser<ID> clone = (DtoRoleuser<ID>) super.clone();
+            Roleuser<ID> clone = (Roleuser<ID>) super.clone();
 
             clone.users = new TreeSet<>();
-            for(DtoUserBase<ID> user : this.users){
+            for(UserBase<ID> user : this.users){
                 clone.addUser(user.clone());
             }
             return clone;
@@ -157,9 +157,9 @@ public class DtoRoleuser<ID> extends DtoBase<ID> {
         return Objects.hash(super.hashCode(), code, description);
     }
 
-    protected DtoRoleuser<ID> cloneSafeUser(DtoUserBase<ID> user){
+    protected Roleuser<ID> cloneSafeUser(UserBase<ID> user){
         try {
-            DtoRoleuser<ID> clone = (DtoRoleuser<ID>) super.clone();
+            Roleuser<ID> clone = (Roleuser<ID>) super.clone();
 
             clone.addUser(user);
             return clone;

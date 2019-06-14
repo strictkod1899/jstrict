@@ -1,4 +1,4 @@
-package ru.strict.db.core.dto;
+package ru.strict.models;
 
 import java.util.Date;
 import java.util.Objects;
@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * Расширенная информация профиля пользователя (имя, фамилия, отчество, дата рождения, телефон, город)
  */
-public class DtoProfileInfo<ID> extends DtoProfile<ID> {
+public class ProfileDetails<ID> extends Profile<ID> {
 
     /**
      * Дата рождения
@@ -26,7 +26,7 @@ public class DtoProfileInfo<ID> extends DtoProfile<ID> {
     /**
      * Город связанный с пользователем
      */
-    private DtoCity<ID> city;
+    private City<ID> city;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(Date dateBirth, String phone, ID cityId){
@@ -35,7 +35,7 @@ public class DtoProfileInfo<ID> extends DtoProfile<ID> {
         this.cityId = cityId;
         city = null;
     }
-    public DtoProfileInfo(){
+    public ProfileDetails(){
         super();
         dateBirth = null;
         phone = null;
@@ -43,12 +43,12 @@ public class DtoProfileInfo<ID> extends DtoProfile<ID> {
         city = null;
     }
 
-    public DtoProfileInfo(String name, String surname, String middlename, ID userId, Date dateBirth, String phone, ID cityId) {
+    public ProfileDetails(String name, String surname, String middlename, ID userId, Date dateBirth, String phone, ID cityId) {
         super(name, surname, middlename, userId);
         initialize(dateBirth, phone, cityId);
     }
 
-    public DtoProfileInfo(ID id, String name, String surname, String middlename, ID userId, Date dateBirth, String phone, ID cityId) {
+    public ProfileDetails(ID id, String name, String surname, String middlename, ID userId, Date dateBirth, String phone, ID cityId) {
         super(id, name, surname, middlename, userId);
         initialize(dateBirth, phone, cityId);
     }
@@ -79,11 +79,11 @@ public class DtoProfileInfo<ID> extends DtoProfile<ID> {
         this.cityId = cityId;
     }
 
-    public DtoCity<ID> getCity() {
+    public City<ID> getCity() {
         return city;
     }
 
-    public void setCity(DtoCity<ID> city) {
+    public void setCity(City<ID> city) {
         this.city = city;
     }
     //</editor-fold>
@@ -100,7 +100,7 @@ public class DtoProfileInfo<ID> extends DtoProfile<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoProfileInfo<ID> object = (DtoProfileInfo<ID>) o;
+        ProfileDetails<ID> object = (ProfileDetails<ID>) o;
         return Objects.equals(dateBirth, object.dateBirth) &&
                 Objects.equals(phone, object.phone) &&
                 Objects.equals(cityId, object.cityId) &&
@@ -113,8 +113,8 @@ public class DtoProfileInfo<ID> extends DtoProfile<ID> {
     }
 
     @Override
-    public DtoProfileInfo<ID> clone(){
-        DtoProfileInfo<ID> clone = (DtoProfileInfo<ID>) super.clone();
+    public ProfileDetails<ID> clone(){
+        ProfileDetails<ID> clone = (ProfileDetails<ID>) super.clone();
 
         clone.setDateBirth(dateBirth == null ? null : (Date) dateBirth.clone());
         clone.setCity(city == null ? null : city.clone());

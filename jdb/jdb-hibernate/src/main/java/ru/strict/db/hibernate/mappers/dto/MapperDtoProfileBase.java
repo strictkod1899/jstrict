@@ -1,7 +1,7 @@
 package ru.strict.db.hibernate.mappers.dto;
 
-import ru.strict.db.core.dto.DtoProfile;
-import ru.strict.db.core.dto.DtoUserBase;
+import ru.strict.models.Profile;
+import ru.strict.models.UserBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.hibernate.entities.EntityProfile;
 import ru.strict.db.hibernate.entities.EntityProfileBase;
@@ -12,20 +12,20 @@ import java.util.Optional;
 /**
  * Двухсторонний маппинг объектов типа EntityProfileBase и DtoProfile
  */
-public class MapperDtoProfileBase extends MapperDtoBase<Long, EntityProfileBase, DtoProfile<Long>> {
+public class MapperDtoProfileBase extends MapperDtoBase<Long, EntityProfileBase, Profile<Long>> {
 
-    private MapperDtoBase<Long, EntityUser, DtoUserBase<Long>> mapperUser;
+    private MapperDtoBase<Long, EntityUser, UserBase<Long>> mapperUser;
 
     public MapperDtoProfileBase(){
         mapperUser = null;
     }
 
-    public MapperDtoProfileBase(MapperDtoBase<Long, EntityUser, DtoUserBase<Long>> mapperUser){
+    public MapperDtoProfileBase(MapperDtoBase<Long, EntityUser, UserBase<Long>> mapperUser){
         this.mapperUser = mapperUser;
     }
 
     @Override
-    protected EntityProfileBase implementMap(DtoProfile<Long> dto) {
+    protected EntityProfileBase implementMap(Profile<Long> dto) {
         EntityProfileBase entity = new EntityProfile();
         entity.setId(dto.getId());
         entity.setName(dto.getName());
@@ -37,8 +37,8 @@ public class MapperDtoProfileBase extends MapperDtoBase<Long, EntityProfileBase,
     }
 
     @Override
-    protected DtoProfile<Long> implementMap(EntityProfileBase entity) {
-        DtoProfile dto = new DtoProfile();
+    protected Profile<Long> implementMap(EntityProfileBase entity) {
+        Profile dto = new Profile();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setSurname(entity.getSurname());

@@ -2,7 +2,7 @@ package ru.strict.db.mybatis.repositories;
 
 import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.dto.DtoUserOnRole;
+import ru.strict.models.UserOnRole;
 import ru.strict.db.core.entities.EntityUserOnRole;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.interfaces.IRepositoryUserOnRole;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RepositoryUserOnRole<ID>
-        extends RepositoryMybatisBase<ID, EntityUserOnRole<ID>, DtoUserOnRole<ID>, MapperSqlUserOnRole<ID>>
+        extends RepositoryMybatisBase<ID, EntityUserOnRole<ID>, UserOnRole<ID>, MapperSqlUserOnRole<ID>>
         implements IRepositoryUserOnRole<ID> {
 
     private static final String[] COLUMNS_NAME = new String[] {"userx_id", "roleuser_id"};
@@ -24,16 +24,16 @@ public class RepositoryUserOnRole<ID>
                 COLUMNS_NAME,
                 connectionSource,
                 UtilClass.<MapperSqlUserOnRole<ID>>castClass(MapperSqlUserOnRole.class),
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUserOnRole.class), UtilClass.castClass(DtoUserOnRole.class)),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUserOnRole.class), UtilClass.castClass(UserOnRole.class)),
                 generateIdType);
     }
 
     @Override
-    public List<DtoUserOnRole<ID>> readByUserId(ID userId) {
+    public List<UserOnRole<ID>> readByUserId(ID userId) {
         if(userId == null){
             throw new IllegalArgumentException("userId for read is NULL");
         }
-        List<DtoUserOnRole<ID>> result = null;
+        List<UserOnRole<ID>> result = null;
         SqlSession session = null;
         try {
             session = createConnection();
@@ -56,11 +56,11 @@ public class RepositoryUserOnRole<ID>
     }
 
     @Override
-    public List<DtoUserOnRole<ID>> readByRoleId(ID roleId) {
+    public List<UserOnRole<ID>> readByRoleId(ID roleId) {
         if(roleId == null){
             throw new IllegalArgumentException("roleId for read is NULL");
         }
-        List<DtoUserOnRole<ID>> result = null;
+        List<UserOnRole<ID>> result = null;
         SqlSession session = null;
         try {
             session = createConnection();

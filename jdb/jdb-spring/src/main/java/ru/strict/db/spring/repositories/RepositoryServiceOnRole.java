@@ -3,25 +3,22 @@ package ru.strict.db.spring.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
-import ru.strict.db.core.dto.DtoRoleuser;
-import ru.strict.db.core.dto.DtoServiceOnRole;
+import ru.strict.models.Roleuser;
+import ru.strict.models.ServiceOnRole;
 import ru.strict.db.core.entities.EntityServiceOnRole;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.repositories.interfaces.IRepositoryServiceOnRole;
 import ru.strict.db.spring.mappers.sql.MapperSqlServiceOnRole;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 public class RepositoryServiceOnRole<ID, SERVICE>
-        extends RepositorySpringBase<ID, EntityServiceOnRole<ID, SERVICE>, DtoServiceOnRole<ID, SERVICE>>
+        extends RepositorySpringBase<ID, EntityServiceOnRole<ID, SERVICE>, ServiceOnRole<ID, SERVICE>>
         implements IRepositoryServiceOnRole<ID, SERVICE> {
 
     private static final String[] COLUMNS_NAME = new String[] {"service_id", "roleuser_id"};
 
     public RepositoryServiceOnRole(CreateConnectionByDataSource connectionSource,
-                                   MapperDtoBase<ID, EntityServiceOnRole<ID, SERVICE>, DtoServiceOnRole<ID, SERVICE>> dtoMapper,
+                                   MapperDtoBase<ID, EntityServiceOnRole<ID, SERVICE>, ServiceOnRole<ID, SERVICE>> dtoMapper,
                                    GenerateIdType generateIdType) {
         super("service_on_role", COLUMNS_NAME, connectionSource,
                 dtoMapper,
@@ -38,9 +35,9 @@ public class RepositoryServiceOnRole<ID, SERVICE>
     }
 
     @Override
-    protected DtoServiceOnRole<ID, SERVICE> fill(DtoServiceOnRole<ID, SERVICE> dto){
+    protected ServiceOnRole<ID, SERVICE> fill(ServiceOnRole<ID, SERVICE> dto){
         // Добавление роли пользователя
-        IRepository<ID, DtoRoleuser<ID>> repositoryRoleuser = new RepositoryRoleuser(getConnectionSource(), GenerateIdType.NONE);
+        IRepository<ID, Roleuser<ID>> repositoryRoleuser = new RepositoryRoleuser(getConnectionSource(), GenerateIdType.NONE);
         dto.setRole(repositoryRoleuser.read(dto.getRoleId()));
         return dto;
     }

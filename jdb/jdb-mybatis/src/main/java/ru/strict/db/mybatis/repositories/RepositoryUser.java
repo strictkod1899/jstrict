@@ -2,19 +2,18 @@ package ru.strict.db.mybatis.repositories;
 
 import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.dto.*;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.interfaces.IRepositoryUser;
-import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlUser;
+import ru.strict.models.User;
+import ru.strict.models.UserBase;
 import ru.strict.utils.UtilClass;
 import ru.strict.validates.ValidateBaseValue;
 
-public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
+public class RepositoryUser<ID, DTO extends UserBase<ID>>
         extends RepositoryNamedBase<ID, EntityUser<ID>, DTO, MapperSqlUser<ID>>
         implements IRepositoryUser<ID, DTO> {
 
@@ -29,7 +28,7 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
                 COLUMNS_NAME,
                 connectionSource,
                 UtilClass.<MapperSqlUser<ID>>castClass(MapperSqlUser.class),
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUser.class)),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(User.class)),
                 generateIdType);
     }
 

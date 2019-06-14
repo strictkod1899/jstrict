@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import ru.strict.db.core.dto.*;
+import ru.strict.models.*;
 
 import java.util.Date;
 
@@ -13,19 +13,19 @@ public class TestBaseMethods {
 
     @Test
     public void testCountryAndCity(){
-        DtoCountry country1 = new DtoCountry(1, "country1");
-        DtoCountry country2 = new DtoCountry(2, "country2");
-        DtoCountry country3 = new DtoCountry(1, "country1");
+        Country country1 = new Country(1, "country1");
+        Country country2 = new Country(2, "country2");
+        Country country3 = new Country(1, "country1");
 
-        DtoCity city1 = new DtoCity(1, "city1", 1);
+        City city1 = new City(1, "city1", 1);
         city1.setCountry(country1);
-        DtoCity city2 = new DtoCity(2, "city2", 1);
+        City city2 = new City(2, "city2", 1);
         city2.setCountry(country1);
-        DtoCity city3 = new DtoCity(3, "city3", 2);
+        City city3 = new City(3, "city3", 2);
         city3.setCountry(country2);
-        DtoCity city4 = new DtoCity(1, "city1", 1);
+        City city4 = new City(1, "city1", 1);
         city4.setCountry(country3);
-        DtoCity city5 = new DtoCity(2, "city2", 1);
+        City city5 = new City(2, "city2", 1);
         city5.setCountry(country3);
 
         /* -------------------------------
@@ -69,11 +69,11 @@ public class TestBaseMethods {
     public void testFileStorage(){
         Date date1 = new Date();
 
-        DtoFileStorage fileStorage1 = new DtoFileStorage(1, "filename", "extension", "displayName", "filePath",
+        FileStorage fileStorage1 = new FileStorage(1, "filename", "extension", "displayName", "filePath",
                 new byte[]{1, 2, 3}, date1, 1, 1);
-        DtoFileStorage fileStorage2 = new DtoFileStorage(2, "filename", "extension", "displayName", "filePath",
+        FileStorage fileStorage2 = new FileStorage(2, "filename", "extension", "displayName", "filePath",
                 new byte[]{1, 2, 3}, date1, 1, 1);
-        DtoFileStorage fileStorage3 = new DtoFileStorage(1, "filename", "extension", "displayName", "filePath",
+        FileStorage fileStorage3 = new FileStorage(1, "filename", "extension", "displayName", "filePath",
                 new byte[]{1, 2, 3}, date1, 1, 1);
 
         Assert.assertTrue(fileStorage1.equals(fileStorage3));
@@ -94,14 +94,14 @@ public class TestBaseMethods {
     @Test
     public void testJWTToken(){
         Date date1 = new Date();
-        DtoUserWithToken user = new DtoUserWithToken();
+        UserWithToken user = new UserWithToken();
         user.setId(1);
 
-        DtoJWTToken jwtToken1 = new DtoJWTToken(1, "accessToken", "refreshToken", date1, date1, date1, 1);
+        JWTToken jwtToken1 = new JWTToken(1, "accessToken", "refreshToken", date1, date1, date1, 1);
         jwtToken1.setUser(user);
-        DtoJWTToken jwtToken2 = new DtoJWTToken(2, "accessToken", "refreshToken", date1, date1, date1, 1);
+        JWTToken jwtToken2 = new JWTToken(2, "accessToken", "refreshToken", date1, date1, date1, 1);
         jwtToken2.setUser(user);
-        DtoJWTToken jwtToken3 = new DtoJWTToken(1, "accessToken", "refreshToken", date1, date1, date1, 1);
+        JWTToken jwtToken3 = new JWTToken(1, "accessToken", "refreshToken", date1, date1, date1, 1);
         jwtToken3.setUser(user);
 
         Assert.assertTrue(jwtToken1.equals(jwtToken3));
@@ -123,9 +123,9 @@ public class TestBaseMethods {
     public void testToken(){
         Date date1 = new Date();
 
-        DtoToken token1 = new DtoToken(1, "accessToken", "refreshToken", date1, date1, date1);
-        DtoToken token2 = new DtoToken(2, "accessToken", "refreshToken", date1, date1, date1);
-        DtoToken token3 = new DtoToken(1, "accessToken", "refreshToken", date1, date1, date1);
+        Token token1 = new Token(1, "accessToken", "refreshToken", date1, date1, date1);
+        Token token2 = new Token(2, "accessToken", "refreshToken", date1, date1, date1);
+        Token token3 = new Token(1, "accessToken", "refreshToken", date1, date1, date1);
 
         Assert.assertTrue(token1.equals(token3));
         Assert.assertEquals(token1, token3);
@@ -144,14 +144,14 @@ public class TestBaseMethods {
 
     @Test
     public void testProfile(){
-        DtoUser user = new DtoUser();
+        User user = new User();
         user.setId(1);
 
-        DtoProfile profile1 = new DtoProfile(1, "name", "surname", "middlename", 1);
+        Profile profile1 = new Profile(1, "name", "surname", "middlename", 1);
         profile1.setUser(user);
-        DtoProfile profile2 = new DtoProfile(2, "name", "surname", "middlename", 1);
+        Profile profile2 = new Profile(2, "name", "surname", "middlename", 1);
         profile2.setUser(user);
-        DtoProfile profile3 = new DtoProfile(1, "name", "surname", "middlename", 1);
+        Profile profile3 = new Profile(1, "name", "surname", "middlename", 1);
         profile3.setUser(user);
 
         Assert.assertTrue(profile1.equals(profile3));
@@ -172,46 +172,46 @@ public class TestBaseMethods {
     @Test
     public void testProfileInfo(){
         Date date = new Date();
-        DtoUser user = new DtoUser();
+        User user = new User();
         user.setId(1);
-        DtoCity city = new DtoCity();
+        City city = new City();
         city.setId(1);
 
-        DtoProfileInfo profileInfo1 = new DtoProfileInfo(1, "name", "surname", "middlename", 1, date, "phone", 1);
-        profileInfo1.setUser(user);
-        profileInfo1.setCity(city);
-        DtoProfileInfo profileInfo2 = new DtoProfileInfo(2, "name", "surname", "middlename", 1, date, "phone", 1);
-        profileInfo2.setUser(user);
-        profileInfo2.setCity(city);
-        DtoProfileInfo profileInfo3 = new DtoProfileInfo(1, "name", "surname", "middlename", 1, date, "phone", 1);
-        profileInfo3.setUser(user);
-        profileInfo3.setCity(city);
+        ProfileDetails profileDetails1 = new ProfileDetails(1, "name", "surname", "middlename", 1, date, "phone", 1);
+        profileDetails1.setUser(user);
+        profileDetails1.setCity(city);
+        ProfileDetails profileDetails2 = new ProfileDetails(2, "name", "surname", "middlename", 1, date, "phone", 1);
+        profileDetails2.setUser(user);
+        profileDetails2.setCity(city);
+        ProfileDetails profileDetails3 = new ProfileDetails(1, "name", "surname", "middlename", 1, date, "phone", 1);
+        profileDetails3.setUser(user);
+        profileDetails3.setCity(city);
 
-        Assert.assertTrue(profileInfo1.equals(profileInfo3));
-        Assert.assertEquals(profileInfo1, profileInfo3);
-        Assert.assertEquals(profileInfo1.hashCode(), profileInfo3.hashCode());
-        Assert.assertEquals(profileInfo1.clone(), profileInfo3.clone());
-        Assert.assertEquals(profileInfo1, profileInfo1.clone());
-        Assert.assertEquals(profileInfo1.hashCode(), profileInfo1.clone().hashCode());
+        Assert.assertTrue(profileDetails1.equals(profileDetails3));
+        Assert.assertEquals(profileDetails1, profileDetails3);
+        Assert.assertEquals(profileDetails1.hashCode(), profileDetails3.hashCode());
+        Assert.assertEquals(profileDetails1.clone(), profileDetails3.clone());
+        Assert.assertEquals(profileDetails1, profileDetails1.clone());
+        Assert.assertEquals(profileDetails1.hashCode(), profileDetails1.clone().hashCode());
 
-        Assert.assertFalse(profileInfo1.equals(profileInfo2));
-        Assert.assertNotEquals(profileInfo1, profileInfo2);
-        Assert.assertNotEquals(profileInfo3, profileInfo2);
-        Assert.assertNotEquals(profileInfo1.hashCode(), profileInfo2.hashCode());
-        Assert.assertNotEquals(profileInfo1.clone(), profileInfo2);
-        Assert.assertNotEquals(profileInfo1.clone(), profileInfo2.clone());
+        Assert.assertFalse(profileDetails1.equals(profileDetails2));
+        Assert.assertNotEquals(profileDetails1, profileDetails2);
+        Assert.assertNotEquals(profileDetails3, profileDetails2);
+        Assert.assertNotEquals(profileDetails1.hashCode(), profileDetails2.hashCode());
+        Assert.assertNotEquals(profileDetails1.clone(), profileDetails2);
+        Assert.assertNotEquals(profileDetails1.clone(), profileDetails2.clone());
     }
 
     @Test
     public void testRoleuser(){
-        DtoUser user = new DtoUser();
+        User user = new User();
         user.setId(1);
 
-        DtoRoleuser role1 = new DtoRoleuser(1, "code", "description");
+        Roleuser role1 = new Roleuser(1, "code", "description");
         role1.addUser(user);
-        DtoRoleuser role2 = new DtoRoleuser(2, "code", "description");
+        Roleuser role2 = new Roleuser(2, "code", "description");
         role2.addUser(user);
-        DtoRoleuser role3 = new DtoRoleuser(1, "code", "description");
+        Roleuser role3 = new Roleuser(1, "code", "description");
         role3.addUser(user);
 
         Assert.assertTrue(role1.equals(role3));
@@ -232,19 +232,19 @@ public class TestBaseMethods {
     @Test
     public void testUser(){
         Date date1 = new Date();
-        DtoProfile profile1 = new DtoProfile(1, "name", "surname", "middlename", 1);
-        DtoRoleuser role1 = new DtoRoleuser(1, "code", "description");
-        DtoJWTToken jwtToken1 = new DtoJWTToken(1, "accessToken", "refreshToken", date1, date1, date1, 1);
+        Profile profile1 = new Profile(1, "name", "surname", "middlename", 1);
+        Roleuser role1 = new Roleuser(1, "code", "description");
+        JWTToken jwtToken1 = new JWTToken(1, "accessToken", "refreshToken", date1, date1, date1, 1);
 
-        DtoUserWithToken user1 = new DtoUserWithToken(1, "username", "password", "email");
+        UserWithToken user1 = new UserWithToken(1, "username", "password", "email");
         user1.addProfile(profile1);
         user1.addRole(role1);
         user1.addToken(jwtToken1);
-        DtoUserWithToken user2 = new DtoUserWithToken(2, "username", "password", "email");
+        UserWithToken user2 = new UserWithToken(2, "username", "password", "email");
         user2.addProfile(profile1);
         user2.addRole(role1);
         user2.addToken(jwtToken1);
-        DtoUserWithToken user3 = new DtoUserWithToken(1, "username", "password", "email");
+        UserWithToken user3 = new UserWithToken(1, "username", "password", "email");
         user3.addProfile(profile1);
         user3.addRole(role1);
         user3.addToken(jwtToken1);
@@ -266,13 +266,13 @@ public class TestBaseMethods {
 
     @Test
     public void testServiceOnRole(){
-        DtoRoleuser role = new DtoRoleuser(1, "code", "description");
+        Roleuser role = new Roleuser(1, "code", "description");
 
-        DtoServiceOnRole serviceOnRole1 = new DtoServiceOnRole(1, 1, 1);
+        ServiceOnRole serviceOnRole1 = new ServiceOnRole(1, 1, 1);
         serviceOnRole1.setRole(role);
-        DtoServiceOnRole serviceOnRole2 = new DtoServiceOnRole(2, 1, 1);
+        ServiceOnRole serviceOnRole2 = new ServiceOnRole(2, 1, 1);
         serviceOnRole2.setRole(role);
-        DtoServiceOnRole serviceOnRole3 = new DtoServiceOnRole(1, 1, 1);
+        ServiceOnRole serviceOnRole3 = new ServiceOnRole(1, 1, 1);
         serviceOnRole3.setRole(role);
 
         Assert.assertTrue(serviceOnRole1.equals(serviceOnRole3));
@@ -292,16 +292,16 @@ public class TestBaseMethods {
 
     @Test
     public void testUserOnRole(){
-        DtoRoleuser role = new DtoRoleuser(1, "code", "description");
-        DtoUser user = new DtoUser(1, "username", "password", "email");
+        Roleuser role = new Roleuser(1, "code", "description");
+        User user = new User(1, "username", "password", "email");
 
-        DtoUserOnRole userOnRole1 = new DtoUserOnRole(1, 1, 1);
+        UserOnRole userOnRole1 = new UserOnRole(1, 1, 1);
         userOnRole1.setRole(role);
         userOnRole1.setUser(user);
-        DtoUserOnRole userOnRole2 = new DtoUserOnRole(2, 1, 1);
+        UserOnRole userOnRole2 = new UserOnRole(2, 1, 1);
         userOnRole2.setRole(role);
         userOnRole2.setUser(user);
-        DtoUserOnRole userOnRole3 = new DtoUserOnRole(1, 1, 1);
+        UserOnRole userOnRole3 = new UserOnRole(1, 1, 1);
         userOnRole3.setRole(role);
         userOnRole3.setUser(user);
 

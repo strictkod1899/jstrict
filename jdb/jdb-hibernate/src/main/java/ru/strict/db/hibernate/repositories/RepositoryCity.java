@@ -1,17 +1,15 @@
 package ru.strict.db.hibernate.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.dto.DtoCity;
+import ru.strict.models.City;
 import ru.strict.db.core.repositories.interfaces.IRepositoryCity;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityCity;
 import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
 import ru.strict.utils.UtilClass;
 
-import java.io.Serializable;
-
 public class RepositoryCity
-        extends RepositoryHibernateBase<Long, EntityCity, DtoCity<Long>>
+        extends RepositoryHibernateBase<Long, EntityCity, City<Long>>
         implements IRepositoryCity<Long> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption", "country_id"};
@@ -20,12 +18,12 @@ public class RepositoryCity
         super("city",
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory().instance(UtilClass.castClass(EntityCity.class), UtilClass.castClass(DtoCity.class)),
+                new MapperDtoFactory().instance(UtilClass.castClass(EntityCity.class), UtilClass.castClass(City.class)),
                 generateIdType);
     }
 
     @Override
-    protected DtoCity fill(DtoCity dto){
+    protected City fill(City dto){
         return dto;
     }
 

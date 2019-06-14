@@ -1,4 +1,4 @@
-package ru.strict.db.core.dto;
+package ru.strict.models;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -9,7 +9,7 @@ import ru.strict.validates.ValidateBaseValue;
 /**
  * Базовая информация о пользователе (логин, роли, профиль)
  */
-public class DtoUserBase<ID> extends DtoBase<ID> {
+public class UserBase<ID> extends DtoBase<ID> {
 
     /**
      * Логин пользователя
@@ -34,11 +34,11 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     /**
      * Роли пользователя
      */
-    private Collection<DtoRoleuser<ID>> roles;
+    private Collection<Roleuser<ID>> roles;
     /**
      * Профили пользователя
      */
-    private Collection<DtoProfile<ID>> profiles;
+    private Collection<Profile<ID>> profiles;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(String username, String email){
@@ -57,7 +57,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         profiles = new TreeSet<>();
     }
 
-    public DtoUserBase() {
+    public UserBase() {
         super();
         username = null;
         email = null;
@@ -68,12 +68,12 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         profiles = new TreeSet<>();
     }
 
-    public DtoUserBase(String username, String email) {
+    public UserBase(String username, String email) {
         super();
         initialize(username, email);
     }
 
-    public DtoUserBase(ID id, String username, String email) {
+    public UserBase(ID id, String username, String email) {
         super(id);
         initialize(username, email);
     }
@@ -120,31 +120,31 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         isConfirmEmail = confirmEmail;
     }
 
-    public Collection<DtoRoleuser<ID>> getRoles() {
+    public Collection<Roleuser<ID>> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<DtoRoleuser<ID>> roles) {
+    public void setRoles(Collection<Roleuser<ID>> roles) {
         if(roles == null) {
             throw new IllegalArgumentException("roles is NULL");
         }
 
-        for(DtoRoleuser<ID> role : roles){
+        for(Roleuser<ID> role : roles){
             role.addUserSafe(this);
         }
 
         this.roles = roles;
     }
 
-    public void addRole(DtoRoleuser<ID> role){
+    public void addRole(Roleuser<ID> role){
         addRole(role, true);
     }
 
-    protected void addRoleSafe(DtoRoleuser<ID> role){
+    protected void addRoleSafe(Roleuser<ID> role){
         addRole(role, false);
     }
 
-    private void addRole(DtoRoleuser<ID> role, boolean isCircleMode){
+    private void addRole(Roleuser<ID> role, boolean isCircleMode){
         if(role == null) {
             throw new IllegalArgumentException("role is NULL");
         }
@@ -157,39 +157,39 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         }
     }
 
-    public void addRoles(Collection<DtoRoleuser<ID>> roles){
+    public void addRoles(Collection<Roleuser<ID>> roles){
         if(roles!=null) {
-            for(DtoRoleuser<ID> user : roles){
+            for(Roleuser<ID> user : roles){
                 addRole(user);
             }
         }
     }
 
-    public Collection<DtoProfile<ID>> getProfiles() {
+    public Collection<Profile<ID>> getProfiles() {
         return profiles;
     }
 
-    public void setProfiles(Collection<DtoProfile<ID>> profiles) {
+    public void setProfiles(Collection<Profile<ID>> profiles) {
         if(profiles == null) {
             throw new IllegalArgumentException("profiles is NULL");
         }
 
-        for(DtoProfile<ID> profile : profiles){
+        for(Profile<ID> profile : profiles){
             profile.setUser(this);
         }
 
         this.profiles = profiles;
     }
 
-    public void addProfile(DtoProfile<ID> profile){
+    public void addProfile(Profile<ID> profile){
         addProfile(profile, true);
     }
 
-    protected void addProfileSafe(DtoProfile<ID> profile){
+    protected void addProfileSafe(Profile<ID> profile){
         addProfile(profile, false);
     }
 
-    private void addProfile(DtoProfile<ID> profile, boolean isCircleMode){
+    private void addProfile(Profile<ID> profile, boolean isCircleMode){
         if(profile == null) {
             throw new IllegalArgumentException("profile is NULL");
         }
@@ -202,9 +202,9 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         }
     }
 
-    public void addProfiles(Collection<DtoProfile<ID>> profiles){
+    public void addProfiles(Collection<Profile<ID>> profiles){
         if(profiles!=null) {
-            for(DtoProfile<ID> profile : profiles){
+            for(Profile<ID> profile : profiles){
                 addProfile(profile);
             }
         }
@@ -222,7 +222,7 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        DtoUserBase<ID> object = (DtoUserBase<ID>) o;
+        UserBase<ID> object = (UserBase<ID>) o;
         return isBlocked == object.isBlocked &&
                 isDeleted == object.isDeleted &&
                 isConfirmEmail == object.isConfirmEmail &&
@@ -235,12 +235,12 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     @Override
     public int hashCode() {
         int rolesHashCode = 1;
-        for(DtoRoleuser<ID> role : roles){
+        for(Roleuser<ID> role : roles){
             rolesHashCode = 31 * rolesHashCode + (role == null ? 0 : role.hashCodeWithoutUser());
         }
 
         int profilesHashCode = 1;
-        for(DtoProfile<ID> profile : profiles){
+        for(Profile<ID> profile : profiles){
             profilesHashCode = 31 * profilesHashCode + (profile == null ? 0 : profile.hashCodeWithoutUser());
         }
 
@@ -248,16 +248,16 @@ public class DtoUserBase<ID> extends DtoBase<ID> {
     }
 
     @Override
-    public DtoUserBase<ID> clone(){
+    public UserBase<ID> clone(){
         try {
-            DtoUserBase<ID> clone = (DtoUserBase<ID>) super.clone();
+            UserBase<ID> clone = (UserBase<ID>) super.clone();
 
             clone.roles = new TreeSet<>();
             clone.profiles = new TreeSet<>();
-            for(DtoRoleuser<ID> role : this.roles){
+            for(Roleuser<ID> role : this.roles){
                 clone.addRole(role.cloneSafeUser(clone));
             }
-            for(DtoProfile<ID> profile : this.profiles){
+            for(Profile<ID> profile : this.profiles){
                 clone.addProfile(profile.cloneSafeUser(clone));
             }
             return clone;

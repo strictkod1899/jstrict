@@ -3,9 +3,9 @@ package ru.strict.db.jdbc.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.ICreateConnection;
-import ru.strict.db.core.dto.DtoJWTToken;
-import ru.strict.db.core.dto.DtoUser;
-import ru.strict.db.core.dto.DtoUserWithToken;
+import ru.strict.models.JWTToken;
+import ru.strict.models.User;
+import ru.strict.models.UserWithToken;
 import ru.strict.db.core.entities.EntityJWTToken;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
@@ -17,7 +17,7 @@ import ru.strict.utils.UtilClass;
 import java.sql.Connection;
 
 public class RepositoryJWTToken<ID>
-        extends RepositoryJdbcBase<ID, EntityJWTToken<ID>, DtoJWTToken<ID>>
+        extends RepositoryJdbcBase<ID, EntityJWTToken<ID>, JWTToken<ID>>
         implements IRepositoryJWTToken<ID> {
 
     private static final String[] COLUMNS_NAME = new String[] {"access_token", "refresh_token", "expire_time_access",
@@ -26,7 +26,7 @@ public class RepositoryJWTToken<ID>
 
     public RepositoryJWTToken(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
         super("token", COLUMNS_NAME, connectionSource,
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityJWTToken.class), UtilClass.castClass(DtoJWTToken.class)),
+                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityJWTToken.class), UtilClass.castClass(JWTToken.class)),
                 new MapperSqlJWTToken<ID>(COLUMNS_NAME),
                 generateIdType);
     }
@@ -51,10 +51,10 @@ public class RepositoryJWTToken<ID>
     }
 
     @Override
-    protected DtoJWTToken<ID> fill(DtoJWTToken<ID> dto){
+    protected JWTToken<ID> fill(JWTToken<ID> dto){
         // Добавление пользователя
-        IRepository<ID, DtoUserWithToken<ID>> repositoryUser = new RepositoryUser(getConnectionSource(),
-                new MapperDtoFactory().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUser.class)),
+        IRepository<ID, UserWithToken<ID>> repositoryUser = new RepositoryUser(getConnectionSource(),
+                new MapperDtoFactory().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(User.class)),
                 GenerateIdType.NONE);
         dto.setUser(repositoryUser.read(dto.getUserId()));
         return dto;
