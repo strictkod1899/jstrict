@@ -44,14 +44,8 @@ public abstract class TxtFileBase<SOURCE> implements IFileReader<SOURCE>, IFileW
 
     @Override
     public void write() {
-        try {
-            UtilFile.recreateFile(filePath);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))){
-            writer.write(content);
+        try{
+            UtilFile.saveFile(filePath, content);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
