@@ -7,8 +7,6 @@ import ru.strict.validates.ValidateBaseValue;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Map;
 
 public abstract class JsonFileBase<TARGET> implements IJsonFile<TARGET> {
 
@@ -17,7 +15,7 @@ public abstract class JsonFileBase<TARGET> implements IJsonFile<TARGET> {
     @JsonIgnore
     private Class<TARGET> targetClass;
     @JsonIgnore
-    private List<Map<String, Object>> source;
+    private Object content;
 
     public JsonFileBase(String filePath) {
         if(ValidateBaseValue.isEmptyOrNull(filePath)){
@@ -57,18 +55,29 @@ public abstract class JsonFileBase<TARGET> implements IJsonFile<TARGET> {
      */
     protected abstract TARGET defaultInitialize();
 
+    /**
+     * <pre>
+     * Прочитать файл.
+     * Если читаем массив, то на выходе будет объект List<Map<String, Object>>
+     * Если читаем один объект, то на выходе будет объект Map<String, Object>
+     * </pre>
+     * @return
+     */
     @Override
-    public List<Map<String, Object>> read(){
+    public Object read(){
         if(!Files.exists(Paths.get(filePath))){
             return null;
         }
-        source = UtilJson.loadFromJson(filePath, UtilClass.castClass(List.class));
-        return source;
+        content = UtilJson.loadFromJson(filePath, UtilClass.castClass(Object.class));
+        return content;
     }
 
     @Override
     public TARGET readToTargetClass(){
-        if(targetClass == null || !Files.exists(Paths.get(filePath))){
+        if(targetClass == null){
+            throw new NullPointerException("targetClass is NULL");
+        }
+        if(!Files.exists(Paths.get(filePath))){
             return null;
         }
         return UtilJson.loadFromJson(filePath, targetClass);
@@ -81,15 +90,23 @@ public abstract class JsonFileBase<TARGET> implements IJsonFile<TARGET> {
 
     @Override
     public void write(){
-        UtilJson.saveToJson(source, filePath);
+        UtilJson.saveToJson(content, filePath);
     }
 
     public String getFilePath() {
         return filePath;
     }
 
-    public List<Map<String, Object>> getSource() {
-        return source;
+    /**
+     * Получить данные прочитанный из файла.
+     * Обновляются только после вызова метода read()
+     */
+    public Object getContent() {
+        return content;
+    }
+
+    public void setContent(Object content) {
+        this.content = content;
     }
 
     public Class getTargetClass() {
