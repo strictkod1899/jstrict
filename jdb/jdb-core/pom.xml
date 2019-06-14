@@ -22,6 +22,10 @@
       <artifactId>jpatterns</artifactId>
     </dependency>
     <dependency>
+      <groupId>ru.strict</groupId>
+      <artifactId>jdb-models</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <version>42.2.2</version>

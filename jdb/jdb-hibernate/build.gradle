@@ -2,6 +2,7 @@ dependencies{
     compile group: PROJECT_GROUP, name: 'jutils', version: PROJECT_VERSION
     compile group: PROJECT_GROUP, name: 'jpatterns', version: PROJECT_VERSION
     compile group: PROJECT_GROUP, name: 'jdb-core', version: PROJECT_VERSION
+    compile group: PROJECT_GROUP, name: 'jdb-models', version: PROJECT_VERSION
     compile group: 'org.hibernate', name: 'hibernate-core', version: '5.3.1.Final'
     compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.3.1.Final'
     compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.2.Final'

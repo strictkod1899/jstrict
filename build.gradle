@@ -7,7 +7,7 @@ subprojects{
         JDK_VERSION = '1.8'
         PROJECT_ENCODING = 'UTF-8'
         PROJECT_GROUP = 'ru.strict'
-        PROJECT_VERSION = '0.1.33'
+        PROJECT_VERSION = '0.1.37'
     }
 
     group = PROJECT_GROUP

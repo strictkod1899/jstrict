@@ -2,6 +2,7 @@ dependencies{
     compile group: PROJECT_GROUP, name: 'jutils', version: PROJECT_VERSION
     compile group: PROJECT_GROUP, name: 'jpatterns', version: PROJECT_VERSION
     compile group: PROJECT_GROUP, name: 'jdb-core', version: PROJECT_VERSION
+    compile group: PROJECT_GROUP, name: 'jdb-models', version: PROJECT_VERSION
     compile group: 'org.springframework', name: 'spring-jdbc', version: '5.0.5.RELEASE'
     compile group: 'org.springframework.security', name: 'spring-security-core', version: '5.0.4.RELEASE'
     compile group: 'org.springframework.security', name: 'spring-security-web', version: '5.0.4.RELEASE'

@@ -44,6 +44,10 @@
       <artifactId>jdb-core</artifactId>
     </dependency>
     <dependency>
+      <groupId>ru.strict</groupId>
+      <artifactId>jdb-models</artifactId>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
     </dependency>

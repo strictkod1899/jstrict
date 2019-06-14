@@ -1,5 +1,6 @@
 include 'jutils'
 include 'jpatterns'
+include 'jdb:jdb-models'
 include 'jdb:jdb-core'
 include 'jdb:jdb-hibernate'
 include 'jdb:jdb-jdbc'

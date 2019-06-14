@@ -75,6 +75,11 @@
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
+        <artifactId>jdb-models</artifactId>
+        <version>0.1.37</version>
+      </dependency>
+      <dependency>
+        <groupId>ru.strict</groupId>
         <artifactId>jdb-core</artifactId>
         <version>0.1.37</version>
       </dependency>

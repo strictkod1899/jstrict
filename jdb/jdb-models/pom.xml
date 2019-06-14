@@ -7,43 +7,19 @@
     <version>0.1.37</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-  <artifactId>jdb-spring</artifactId>
+  <artifactId>jdb-models</artifactId>
   <version>0.1.37</version>
   <packaging>jar</packaging>
-  <name>jdb-spring</name>
+  <name>jdb-models</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
       <groupId>ru.strict</groupId>
-      <artifactId>jdb-core</artifactId>
+      <artifactId>jutils</artifactId>
     </dependency>
     <dependency>
       <groupId>ru.strict</groupId>
-      <artifactId>jdb-models</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-jdbc</artifactId>
-      <version>5.0.5.RELEASE</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-core</artifactId>
-      <version>5.0.4.RELEASE</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-web</artifactId>
-      <version>5.0.4.RELEASE</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-config</artifactId>
-      <version>5.0.4.RELEASE</version>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <artifactId>jpatterns</artifactId>
     </dependency>
   </dependencies>
   <build>
@@ -86,7 +62,7 @@
             <configuration>
               <printSummary>true</printSummary>
               <includes>
-                <include>ru/strict/db/spring/runners/**</include>
+                <include>ru/strict/models/**</include>
               </includes>
             </configuration>
           </execution>
