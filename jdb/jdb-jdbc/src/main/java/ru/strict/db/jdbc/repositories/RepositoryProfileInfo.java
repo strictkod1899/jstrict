@@ -53,25 +53,14 @@ public class RepositoryProfileInfo<ID>
 
     @Override
     protected DtoProfileInfo<ID> fill(DtoProfileInfo<ID> dto){
-        IRepository<ID, DtoUser<ID>> repositoryUser = null;
-        IRepository<ID, DtoCity<ID>> repositoryCity = null;
-        try {
-            repositoryUser = new RepositoryUser<>(getConnectionSource(),
-                    new MapperDtoFactory().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUser.class)),
-                    GenerateIdType.NONE);
-            dto.setUser(repositoryUser.read(dto.getUserId()));
+        IRepository<ID, DtoUser<ID>> repositoryUser = new RepositoryUser<>(getConnectionSource(),
+                new MapperDtoFactory().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUser.class)),
+                GenerateIdType.NONE);
+        dto.setUser(repositoryUser.read(dto.getUserId()));
 
-            repositoryCity = new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
-            dto.setCity(repositoryCity.read(dto.getCityId()));
-        }finally {
-            if(repositoryUser != null){
-                repositoryUser.close();
-            }
+        IRepository<ID, DtoCity<ID>> repositoryCity = new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
+        dto.setCity(repositoryCity.read(dto.getCityId()));
 
-            if(repositoryCity != null){
-                repositoryCity.close();
-            }
-        }
         return dto;
     }
 

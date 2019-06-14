@@ -44,32 +44,19 @@ public class RepositoryRoleuser<ID>
 
     @Override
     protected DtoRoleuser<ID> fill(DtoRoleuser<ID> dto){
-        IRepository<ID, DtoUserOnRole<ID>> repositoryUserOnRole = null;
-        IRepository<ID, DtoUserBase<ID>> repositoryUser = null;
-        try {
-            // Добавление пользователей
-            repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
-            DbRequests requests = new DbRequests();
-            requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTableName(), "roleuser_id", dto.getId(), "="));
-            List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
-
-            repositoryUser = new RepositoryUser<>(getConnectionSource(),
-                    new MapperDtoFactory().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUser.class)),
-                    GenerateIdType.NONE);
-            Collection<DtoUserBase<ID>> users = new ArrayList<>();
-            for (DtoUserOnRole<ID> userOnRole : userOnRoles) {
-                users.add(repositoryUser.read(userOnRole.getUserId()));
-            }
-            dto.setUsers(users);
-        }finally {
-            if(repositoryUserOnRole != null){
-                repositoryUserOnRole.close();
-            }
-
-            if(repositoryUser != null){
-                repositoryUser.close();
-            }
+        // Добавление пользователей
+        IRepository<ID, DtoUserOnRole<ID>> repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
+        DbRequests requests = new DbRequests();
+        requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTableName(), "roleuser_id", dto.getId(), "="));
+        List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
+        IRepository<ID, DtoUserBase<ID>> repositoryUser = new RepositoryUser<>(getConnectionSource(),
+                new MapperDtoFactory().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUser.class)),
+                GenerateIdType.NONE);
+        Collection<DtoUserBase<ID>> users = new ArrayList<>();
+        for (DtoUserOnRole<ID> userOnRole : userOnRoles) {
+            users.add(repositoryUser.read(userOnRole.getUserId()));
         }
+        dto.setUsers(users);
         return dto;
     }
 

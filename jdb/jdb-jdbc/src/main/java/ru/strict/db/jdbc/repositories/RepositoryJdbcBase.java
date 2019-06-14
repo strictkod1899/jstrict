@@ -708,10 +708,4 @@ public abstract class RepositoryJdbcBase
         return Objects.hash(getConnectionSource(), getDtoMapper(), getTableName(), getColumnsName(),
                 getGenerateIdType(), sqlMapper);
     }
-
-    @Override
-    public void close(){
-        sqlMapper = null;
-        super.close();
-    }
 }

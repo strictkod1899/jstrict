@@ -40,16 +40,9 @@ public class RepositoryServiceOnRole<ID, SERVICE>
 
     @Override
     protected DtoServiceOnRole<ID, SERVICE> fill(DtoServiceOnRole<ID, SERVICE> dto){
-        IRepository<ID, DtoRoleuser<ID>> repositoryRoleuser = null;
-        try {
-            // Добавление роли пользователя
-            repositoryRoleuser = new RepositoryRoleuser(getConnectionSource(), GenerateIdType.NONE);
-            dto.setRole(repositoryRoleuser.read(dto.getRoleId()));
-        }finally {
-            if(repositoryRoleuser != null){
-                repositoryRoleuser.close();
-            }
-        }
+        // Добавление роли пользователя
+        IRepository<ID, DtoRoleuser<ID>> repositoryRoleuser = new RepositoryRoleuser(getConnectionSource(), GenerateIdType.NONE);
+        dto.setRole(repositoryRoleuser.read(dto.getRoleId()));
         return dto;
     }
 

@@ -43,15 +43,8 @@ public class RepositoryCity<ID>
 
     @Override
     protected DtoCity<ID> fill(DtoCity<ID> dto){
-        IRepository<ID, DtoCountry<ID>> repositoryCountry = null;
-        try {
-            repositoryCountry = new RepositoryCountry(getConnectionSource(), GenerateIdType.NONE);
-            dto.setCountry(repositoryCountry.read(dto.getCountryId()));
-        }finally {
-            if(repositoryCountry != null){
-                repositoryCountry.close();
-            }
-        }
+        IRepository<ID, DtoCountry<ID>> repositoryCountry = new RepositoryCountry(getConnectionSource(), GenerateIdType.NONE);
+        dto.setCountry(repositoryCountry.read(dto.getCountryId()));
         return dto;
     }
 

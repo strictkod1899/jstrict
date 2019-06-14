@@ -53,17 +53,10 @@ public class RepositoryJWTToken<ID>
     @Override
     protected DtoJWTToken<ID> fill(DtoJWTToken<ID> dto){
         // Добавление пользователя
-        IRepository<ID, DtoUserWithToken<ID>> repositoryUser = null;
-        try {
-            repositoryUser = new RepositoryUser(getConnectionSource(),
-                    new MapperDtoFactory().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUser.class)),
-                    GenerateIdType.NONE);
-            dto.setUser(repositoryUser.read(dto.getUserId()));
-        }finally {
-            if(repositoryUser != null){
-                repositoryUser.close();
-            }
-        }
+        IRepository<ID, DtoUserWithToken<ID>> repositoryUser = new RepositoryUser(getConnectionSource(),
+                new MapperDtoFactory().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(DtoUser.class)),
+                GenerateIdType.NONE);
+        dto.setUser(repositoryUser.read(dto.getUserId()));
         return dto;
     }
 

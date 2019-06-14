@@ -57,52 +57,32 @@ public class RepositoryUser<ID, DTO extends DtoUserBase<ID>>
 
     @Override
     protected DTO fill(DTO dto){
-        IRepository<ID, DtoUserOnRole<ID>> repositoryUserOnRole = null;
-        IRepository<ID, DtoRoleuser<ID>> repositoryRoleuser = null;
-        IRepository<ID, DtoProfile<ID>> repositoryProfile = null;
-        IRepository<ID, DtoJWTToken<ID>> repositoryToken = null;
-        try {
-            // Добавление ролей пользователей
-            repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
-            DbRequests requests = new DbRequests();
-            requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
-            List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
+        // Добавление ролей пользователей
+        IRepository<ID, DtoUserOnRole<ID>> repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
+        DbRequests requests = new DbRequests();
+        requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
+        List<DtoUserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
+        IRepository<ID, DtoRoleuser<ID>> repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
+        Collection<DtoRoleuser<ID>> roleusers = new ArrayList<>();
+        for (DtoUserOnRole<ID> userOnRole : userOnRoles) {
+            roleusers.add(repositoryRoleuser.read(userOnRole.getRoleId()));
+        }
+        dto.setRoles(roleusers);
 
-            repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
-            Collection<DtoRoleuser<ID>> roleusers = new ArrayList<>();
-            for (DtoUserOnRole<ID> userOnRole : userOnRoles) {
-                roleusers.add(repositoryRoleuser.read(userOnRole.getRoleId()));
-            }
-            dto.setRoles(roleusers);
+        // Добавления профиля
+        IRepository<ID, DtoProfile<ID>> repositoryProfile = new RepositoryProfile<>(getConnectionSource(), GenerateIdType.NONE);
+        requests = new DbRequests();
+        requests.addWhere(new DbWhereItem(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
+        dto.setProfiles(repositoryProfile.readAll(requests));
 
-            // Добавления профиля
-            repositoryProfile = new RepositoryProfile<>(getConnectionSource(), GenerateIdType.NONE);
+        // Добавление токенов
+        if(dto instanceof DtoUserWithToken){
+            IRepository<ID, DtoJWTToken<ID>> repositoryToken = new RepositoryJWTToken<>(getConnectionSource(), GenerateIdType.NONE);
             requests = new DbRequests();
-            requests.addWhere(new DbWhereItem(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
-            dto.setProfiles(repositoryProfile.readAll(requests));
+            requests.addWhere(new DbWhereItem(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));
 
-            // Добавление токенов
-            if(dto instanceof DtoUserWithToken){
-                repositoryToken = new RepositoryJWTToken<>(getConnectionSource(), GenerateIdType.NONE);
-                requests = new DbRequests();
-                requests.addWhere(new DbWhereItem(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));
-
-                List<DtoJWTToken<ID>> tokens = repositoryToken.readAll(requests);
-                ((DtoUserWithToken)dto).setTokens(tokens);
-            }
-        }finally {
-            if(repositoryUserOnRole != null){
-                repositoryUserOnRole.close();
-            }
-            if(repositoryRoleuser != null){
-                repositoryRoleuser.close();
-            }
-            if(repositoryProfile != null){
-                repositoryProfile.close();
-            }
-            if(repositoryToken != null){
-                repositoryToken.close();
-            }
+            List<DtoJWTToken<ID>> tokens = repositoryToken.readAll(requests);
+            ((DtoUserWithToken)dto).setTokens(tokens);
         }
         return dto;
     }

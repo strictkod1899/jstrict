@@ -41,19 +41,12 @@ public class RepositoryCountry<ID>
 
     @Override
     protected DtoCountry<ID> fill(DtoCountry<ID> dto){
-        IRepository<ID, DtoCity<ID>> repositoryCity = null;
-        try {
-            repositoryCity = new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
-            DbRequests requests = new DbRequests();
-            requests.addWhere(new DbWhereItem(repositoryCity.getTableName(), "country_id", dto.getId(), "="));
+        IRepository<ID, DtoCity<ID>> repositoryCity = new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
+        DbRequests requests = new DbRequests();
+        requests.addWhere(new DbWhereItem(repositoryCity.getTableName(), "country_id", dto.getId(), "="));
 
-            List<DtoCity<ID>> cities = repositoryCity.readAll(requests);
-            dto.setCities(cities);
-        } finally {
-            if(repositoryCity != null){
-                repositoryCity.close();
-            }
-        }
+        List<DtoCity<ID>> cities = repositoryCity.readAll(requests);
+        dto.setCities(cities);
 
         return dto;
     }

@@ -10,7 +10,7 @@ import java.util.List;
  * @param <ID> Тип идентификатора
  * @param <DTO> Тип Dto-сущности базы данных
  */
-public interface IRepository<ID, DTO extends DtoBase<ID>> extends AutoCloseable {
+public interface IRepository<ID, DTO extends DtoBase<ID>> {
 
     /**
      * Добавить в базу данных новый объект, переданный в качестве параметра
@@ -82,6 +82,4 @@ public interface IRepository<ID, DTO extends DtoBase<ID>> extends AutoCloseable 
     default String getColumnIdName(){
         return "id";
     }
-
-    void close();
 }

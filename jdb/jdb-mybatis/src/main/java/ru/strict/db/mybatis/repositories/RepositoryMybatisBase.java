@@ -318,10 +318,4 @@ public abstract class RepositoryMybatisBase
         return Objects.hash(getConnectionSource(), getDtoMapper(), getTableName(), getColumnsName(),
                 getGenerateIdType(), mybatisMapper);
     }
-
-    @Override
-    public void close(){
-        mybatisMapper = null;
-        super.close();
-    }
 }

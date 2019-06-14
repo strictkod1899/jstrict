@@ -285,14 +285,5 @@ public abstract class RepositoryBase
     public int hashCode(){
         return Objects.hash(connectionSource, dtoMapper, tableName, columnsName, generateIdType);
     }
-
-    @Override
-    public void close(){
-        connectionSource = null;
-        dtoMapper = null;
-        tableName = null;
-        columnsName = null;
-        generateIdType = null;
-    }
     //</editor-fold>
 }
