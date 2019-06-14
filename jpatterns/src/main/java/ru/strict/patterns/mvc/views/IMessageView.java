@@ -5,5 +5,6 @@ package ru.strict.patterns.mvc.views;
  */
 public interface IMessageView extends IView {
     void showMessage(String message);
+    void showWarning(String message);
     void showError(String message);
 }

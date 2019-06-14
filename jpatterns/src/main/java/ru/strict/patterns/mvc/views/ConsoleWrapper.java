@@ -1,6 +1,7 @@
 package ru.strict.patterns.mvc.views;
 
-import ru.strict.utils.UtilData;
+import ru.strict.components.AnsiColor;
+import ru.strict.utils.UtilAnsiConsole;
 import ru.strict.validates.ValidateBaseValue;
 
 import java.io.BufferedReader;
@@ -47,12 +48,17 @@ public abstract class ConsoleWrapper<M> extends ViewBase<M> implements IInteract
     @Override
     public void showMessage(String message){
         currentMessage = message;
-        System.out.print(message);
+        UtilAnsiConsole.print(message);
+    }
+
+    @Override
+    public void showWarning(String message) {
+        UtilAnsiConsole.println(message, AnsiColor.YELLOW_BOLD);
     }
 
     @Override
     public void showError(String message){
-        System.out.println(message);
+        UtilAnsiConsole.println(message, AnsiColor.RED_BOLD);
     }
 
     @Override
