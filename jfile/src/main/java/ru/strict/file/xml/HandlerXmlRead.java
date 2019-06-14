@@ -19,7 +19,7 @@ import java.util.List;
  * Используется для SAX-парсинга.
  * </pre>
  */
-public class HandlerXmlRead extends DefaultHandler implements AutoCloseable {
+public class HandlerXmlRead extends DefaultHandler {
 
     /**
      * Установленный путь считывания элемента
@@ -264,14 +264,5 @@ public class HandlerXmlRead extends DefaultHandler implements AutoCloseable {
         }
         path.addInner(listElements.get(0));
         listElements.remove(listElements.size()-1);
-    }
-
-    @Override
-    public void close(){
-        path = null;
-        currentPathElement = null;
-        currentElement = null;
-        currentContent = null;
-        listElements = null;
     }
 }

@@ -7,14 +7,13 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Класс используется для задания пути парсинга xml-файла относительно корневого элемента.
- * Чтобы начать пользоваться объектом этого класса, необходимо вызвать метод next();
+ * Класс используется для задания пути парсинга xml-файла относительно корневого элемента
  */
-public class XmlNode<E extends Element> {
+public class XmlNode {
     /**
      * Список элементов, после последовательного прохождения которых будут считываться значения
      */
-    private List<E> nodes;
+    private List<Element> nodes;
 
     /**
      * Текущий индекс
@@ -45,9 +44,9 @@ public class XmlNode<E extends Element> {
      * Добавляемые элементы пути
      * @param elements
      */
-    public XmlNode(E... elements) {
+    public XmlNode(Element... elements) {
         nodes = new ArrayList<>();
-        for (E element : elements) {
+        for (Element element : elements) {
             nodes.add(element);
         }
         currentIndex = -1;
@@ -63,7 +62,7 @@ public class XmlNode<E extends Element> {
      *
      * @param element
      */
-    public void add(E element) {
+    public void add(Element element) {
         nodes.add(element);
         elementsMark.add(false);
     }
@@ -84,7 +83,7 @@ public class XmlNode<E extends Element> {
      * @param index
      * @return
      */
-    public E get(int index) {
+    public Element get(int index) {
         return nodes.get(index);
     }
 
@@ -93,7 +92,7 @@ public class XmlNode<E extends Element> {
      *
      * @return
      */
-    public E next() {
+    public Element next() {
         this.currentIndex++;
         return nodes.get(this.currentIndex);
     }
@@ -103,7 +102,7 @@ public class XmlNode<E extends Element> {
      *
      * @return
      */
-    public E back() {
+    public Element back() {
         return nodes.get(this.currentIndex--);
     }
 
@@ -112,7 +111,7 @@ public class XmlNode<E extends Element> {
      *
      * @return
      */
-    public E getCurrent() {
+    public Element getCurrent() {
         return nodes.get(this.currentIndex);
     }
 
@@ -121,7 +120,7 @@ public class XmlNode<E extends Element> {
      *
      * @return
      */
-    public List<E> getNodes() {
+    public List<Element> getNodes() {
         return nodes;
     }
 
