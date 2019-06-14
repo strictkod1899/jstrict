@@ -50,10 +50,4 @@ public class StartupConfig extends PropertiesResourceFile {
     public int hashCode(){
         return Objects.hash(getPathToDirectory(), getFileName(), getSuffix());
     }
-
-    @Override
-    public void close(){
-        environment = null;
-        super.close();
-    }
 }

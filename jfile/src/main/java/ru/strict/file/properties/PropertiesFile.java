@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-public class PropertiesFile implements AutoCloseable{
+public class PropertiesFile {
 
     private String pathToDirectory;
     private String fileName;
@@ -118,13 +118,6 @@ public class PropertiesFile implements AutoCloseable{
 
     protected void setPathToDirectory(String pathToDirectory) {
         this.pathToDirectory = pathToDirectory;
-    }
-
-    @Override
-    public void close() {
-        pathToDirectory = null;
-        fileName = null;
-        suffix = null;
     }
 
     @Override

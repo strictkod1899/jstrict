@@ -32,9 +32,4 @@ public class AppConfig extends PropertiesResourceFile {
     public String getEnvironment() {
         return getSuffix();
     }
-
-    @Override
-    public void close(){
-        super.close();
-    }
 }
