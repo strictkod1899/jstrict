@@ -79,6 +79,17 @@ public class UtilHtml {
         document.close();
     }
 
+    /**
+     * Получить строки html-таблицы
+     */
+    public static Elements getTableRows(String content) throws IOException {
+        try {
+            return selectByContent(content, "tbody > tr");
+        } catch (IOException ex) {
+            throw ex;
+        }
+    }
+
     private static Elements getTag(Document page, String selector){
         Elements tags = null;
         if(ValidateBaseValue.isEmptyOrNull(selector)){
