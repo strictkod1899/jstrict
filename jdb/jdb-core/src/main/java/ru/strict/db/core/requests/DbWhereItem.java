@@ -2,6 +2,7 @@ package ru.strict.db.core.requests;
 
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.patterns.composite.CompositeLeaf;
+import ru.strict.validates.ValidateBaseValue;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -23,14 +24,8 @@ import java.util.UUID;
  * При передаче columnValue равным null, это значение будет игнорироваться
  */
 public class DbWhereItem extends DbWhereBase {
-    /**
-     * Наименование таблицы
-     */
-    private String tableName;
-    /**
-     * Наименование столбца
-     */
-    private String columnName;
+
+    private DbSelectItem whereItem;
     /**
      * Значение столбца
      */
@@ -45,17 +40,47 @@ public class DbWhereItem extends DbWhereBase {
     private TemplateSymbol templateSymbol;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public DbWhereItem(String tableName, String columnName, Object columnValue, String operator) {
-        this.tableName = tableName;
-        this.columnName = columnName;
+    public DbWhereItem(DbTable table, String column, Object columnValue, String operator) {
+        this.whereItem = new DbSelectItem(table, column);
+        if(ValidateBaseValue.isEmptyOrNull(operator)){
+            throw new IllegalArgumentException("operator is NULL");
+        }
         this.columnValue = columnValue;
         this.operator = operator;
         templateSymbol = null;
     }
 
-    public DbWhereItem(String tableName, String columnName, Object columnValue, String operator, TemplateSymbol templateSymbol) {
-        this.tableName = tableName;
-        this.columnName = columnName;
+    public DbWhereItem(DbTable table, String column, Object columnValue, String operator, TemplateSymbol templateSymbol) {
+        this.whereItem = new DbSelectItem(table, column);
+        if(ValidateBaseValue.isEmptyOrNull(operator)){
+            throw new IllegalArgumentException("operator is NULL");
+        }
+        this.columnValue = columnValue;
+        this.operator = operator;
+        this.templateSymbol = templateSymbol;
+    }
+
+    public DbWhereItem(DbSelectItem whereItem, Object columnValue, String operator) {
+        if(whereItem == null){
+            throw new IllegalArgumentException("whereItem is NULL");
+        }
+        if(ValidateBaseValue.isEmptyOrNull(operator)){
+            throw new IllegalArgumentException("operator is NULL");
+        }
+        this.whereItem = whereItem;
+        this.columnValue = columnValue;
+        this.operator = operator;
+        templateSymbol = null;
+    }
+
+    public DbWhereItem(DbSelectItem whereItem, Object columnValue, String operator, TemplateSymbol templateSymbol) {
+        if(whereItem == null){
+            throw new IllegalArgumentException("whereItem is NULL");
+        }
+        if(ValidateBaseValue.isEmptyOrNull(operator)){
+            throw new IllegalArgumentException("operator is NULL");
+        }
+        this.whereItem = whereItem;
         this.columnValue = columnValue;
         this.operator = operator;
         this.templateSymbol = templateSymbol;
@@ -63,12 +88,12 @@ public class DbWhereItem extends DbWhereBase {
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public String getTableName() {
-        return tableName;
+    public DbTable getTable() {
+        return whereItem.getTable();
     }
 
     public String getColumnName() {
-        return columnName;
+        return whereItem.getColumnName();
     }
 
     public Object getColumnValue() {
@@ -105,25 +130,25 @@ public class DbWhereItem extends DbWhereBase {
         String result = null;
 
         if(columnValue instanceof String || columnValue instanceof UUID ){
-            result = getTableName() + "." + columnName + " "
-                    + operator + " " + "'"
-                    + getFormattedColumnValue() + "'";
+            result = String.format("%s %s", whereItem.getSql(), operator) +
+                    (columnValue == null ? "" : String.format(" '%s'", getFormattedColumnValue()));
         } else {
-            result = getTableName() + "." + columnName + " " + operator + " "
-                    + (columnValue == null ? "" : columnValue);
+            result = String.format("%s %s", whereItem.getSql(), operator) + (columnValue == null ? "" : String.format(" %s", columnValue));
         }
         return result.trim();
     }
 
     @Override
     public String getParametrizedSql() {
-        return String.format("%s.%s %s ?", getTableName(), columnName, operator);
+        return String.format("%s %s", whereItem.getSql(), operator) + (columnValue == null ? "" : " ?");
     }
 
     @Override
     public SqlParameters getParameters() {
         SqlParameters sqlParameters = new SqlParameters();
-        sqlParameters.add(0, "where", columnValue);
+        if(columnValue != null) {
+            sqlParameters.add(0, "where", columnValue);
+        }
         return sqlParameters;
     }
 
@@ -134,21 +159,19 @@ public class DbWhereItem extends DbWhereBase {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof DbWhereItem) {
-            DbWhereItem object = (DbWhereItem) obj;
-            return super.equals(obj) && Objects.equals(columnName, object.getColumnName())
-                    && Objects.equals(columnValue, object.getColumnValue())
-                    && Objects.equals(operator, object.getOperator())
-                    && Objects.equals(templateSymbol, object.getTemplateSymbol());
-        } else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DbWhereItem that = (DbWhereItem) o;
+        return Objects.equals(whereItem, that.whereItem) &&
+                Objects.equals(columnValue, that.columnValue) &&
+                Objects.equals(operator, that.operator) &&
+                Objects.equals(templateSymbol, that.templateSymbol);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(getTableName(), columnName, columnValue, operator, templateSymbol);
+    public int hashCode() {
+        return Objects.hash(whereItem, columnValue, operator, templateSymbol);
     }
     //</editor-fold>
 }

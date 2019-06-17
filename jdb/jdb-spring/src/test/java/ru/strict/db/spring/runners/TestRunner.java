@@ -76,7 +76,7 @@ public class TestRunner {
 
     public static void postProcess(){
         for(IRepositoryExtension repository : repositories){
-            repository.executeSql("DELETE FROM " + repository.getTableName());
+            repository.executeSql("DELETE FROM " + repository.getTable().getTableName());
         }
         repositories.clear();
     }

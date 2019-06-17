@@ -34,10 +34,8 @@ public class UtilClass {
     /**
      * Получить путь до директории класса
      * @param appClass
-     * @return
-     * @throws URISyntaxException
      */
-    public static String getPathByClass(Class appClass) throws URISyntaxException {
+    public static String getPathByClass(Class appClass) {
         String result = null;
 
         if(appClass != null) {
@@ -49,7 +47,7 @@ public class UtilClass {
                     result = file.getParentFile().getPath();
                 }
             } catch (URISyntaxException ex) {
-                throw ex;
+                throw new RuntimeException(ex);
             }
         }
 

@@ -1,6 +1,7 @@
 package ru.strict.db.hibernate.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.User;
 import ru.strict.models.UserBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
@@ -21,7 +22,7 @@ public class RepositoryUser<DTO extends UserBase<Long>>
      * Для этого конструктуора используется DtoUser
      */
     public RepositoryUser(CreateConnectionHibernate connectionSource, GenerateIdType generateIdType) {
-        super("userx",
+        super(new DbTable("userx", "usr"),
                 COLUMNS_NAME,
                 connectionSource,
                 new MapperDtoFactory().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(User.class)),
@@ -31,7 +32,7 @@ public class RepositoryUser<DTO extends UserBase<Long>>
     public RepositoryUser(CreateConnectionHibernate connectionSource,
                           MapperDtoBase<Long, EntityUser, DTO> dtoMapper,
                           GenerateIdType generateIdType) {
-        super("userx",
+        super(new DbTable("userx", "usr"),
                 COLUMNS_NAME,
                 connectionSource,
                 dtoMapper,

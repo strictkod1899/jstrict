@@ -2,6 +2,7 @@ package ru.strict.db.mybatis.repositories;
 
 import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.DtoBase;
 import ru.strict.db.core.entities.EntityBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
@@ -18,13 +19,13 @@ public abstract class RepositoryNamedBase
         extends RepositoryMybatisBase<ID, E, DTO, MAPPER>
         implements IRepositoryNamed<ID, DTO> {
 
-    public RepositoryNamedBase(String tableName,
+    public RepositoryNamedBase(DbTable table,
                                String[] columnsName,
                                CreateConnectionByMybatis connectionSource,
                                Class<MAPPER> mybatisMapper,
                                MapperDtoBase<ID, E, DTO> dtoMapper,
                                GenerateIdType generateIdType) {
-        super(tableName, columnsName, connectionSource, mybatisMapper, dtoMapper, generateIdType);
+        super(table, columnsName, connectionSource, mybatisMapper, dtoMapper, generateIdType);
     }
 
     @Override

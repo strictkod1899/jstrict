@@ -7,5 +7,5 @@ package ru.strict.patterns;
  */
 public interface IMapper<S, T extends MapTarget> {
     S map(T t);
-    T map(S entity);
+    T map(S s);
 }

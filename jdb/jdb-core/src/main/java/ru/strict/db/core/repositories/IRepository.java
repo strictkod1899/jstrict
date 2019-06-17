@@ -1,5 +1,6 @@
 package ru.strict.db.core.repositories;
 
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.DtoBase;
 import ru.strict.db.core.requests.DbRequests;
 
@@ -73,7 +74,7 @@ public interface IRepository<ID, DTO extends DtoBase<ID>> {
      * Получить наименование таблицы, с которой связан данный репозиторий
      * @return
      */
-    String getTableName();
+    DbTable getTable();
 
     /**
      * Получить наименование столбца, который представляет столбец с идентификатором

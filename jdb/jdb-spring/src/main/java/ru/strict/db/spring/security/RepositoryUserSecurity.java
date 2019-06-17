@@ -3,6 +3,7 @@ package ru.strict.db.spring.security;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.Profile;
 import ru.strict.models.Roleuser;
 import ru.strict.models.UserOnRole;
@@ -24,7 +25,9 @@ public class RepositoryUserSecurity<ID>
             "is_blocked", "is_deleted", "is_confirm_email"};
 
     public RepositoryUserSecurity(CreateConnectionByDataSource connectionSource, GenerateIdType generateIdType) {
-        super("userx", COLUMNS_NAME, connectionSource,
+        super(new DbTable("userx", "usr"),
+                COLUMNS_NAME,
+                connectionSource,
                 new MapperDtoUserSecurity<ID>(new MapperDtoRoleuser(), new MapperDtoProfile()),
                 new MapperSqlUserSecurity<ID>(COLUMNS_NAME),
                 generateIdType);
@@ -47,7 +50,7 @@ public class RepositoryUserSecurity<ID>
         // Добавление ролей пользователей
         IRepository<ID, UserOnRole<ID>> repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
         DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
+        requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTable(), "userx_id", dto.getId(), "="));
         List<UserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
 
         IRepository<ID, Roleuser<ID>> repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
@@ -60,7 +63,7 @@ public class RepositoryUserSecurity<ID>
         // Добавления профиля
         IRepository<ID, Profile<ID>> repositoryProfile = new RepositoryProfile<>(getConnectionSource(), GenerateIdType.NONE);
         requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
+        requests.addWhere(new DbWhereItem(repositoryProfile.getTable(), "userx_id", dto.getId(), "="));
         dto.setProfiles(repositoryProfile.readAll(requests));
         return dto;
     }

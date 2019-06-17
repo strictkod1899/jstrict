@@ -19,11 +19,24 @@ public class KeyValues<KEY, VALUE> extends ArrayList<KeyValue<KEY, VALUE>> {
         super(c);
     }
 
-    public boolean add(String key, String value){
+    public boolean add(KEY key, VALUE value){
         return add(new KeyValue(key, value));
     }
 
-    public void remove(String key){
+    public boolean addIfNotExists(KEY key, VALUE value){
+        KeyValue<KEY, VALUE> object = new KeyValue<>(key, value);
+        return addIfNotExists(object);
+    }
+
+    public boolean addIfNotExists(KeyValue<KEY, VALUE> object){
+        if(!contains(object)) {
+            return add(object);
+        } else {
+            return false;
+        }
+    }
+
+    public void removeByKey(KEY key){
         removeIf(kv -> kv.getKey().equals(key));
     }
 
@@ -31,15 +44,11 @@ public class KeyValues<KEY, VALUE> extends ArrayList<KeyValue<KEY, VALUE>> {
         return stream().map(kv -> kv.getKey()).collect(Collectors.toList());
     }
 
-    public VALUE getValue(String key){
-        KeyValue<KEY, VALUE> object = stream()
+    public VALUE getValue(KEY key){
+        return stream()
                 .filter(kv -> kv.getKey().equals(key))
                 .findFirst()
+                .map(obj -> obj.getValue())
                 .orElse(null);
-        if(object != null){
-            return object.getValue();
-        }else{
-            return null;
-        }
     }
 }

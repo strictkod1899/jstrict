@@ -3,6 +3,7 @@ package ru.strict.db.jdbc.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.ICreateConnection;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.JWTToken;
 import ru.strict.models.User;
 import ru.strict.models.UserWithToken;
@@ -25,7 +26,9 @@ public class RepositoryJWTToken<ID>
             "algorithm", "type", "userx_id"};
 
     public RepositoryJWTToken(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
-        super("token", COLUMNS_NAME, connectionSource,
+        super(new DbTable("token", "tkn"),
+                COLUMNS_NAME,
+                connectionSource,
                 new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityJWTToken.class), UtilClass.castClass(JWTToken.class)),
                 new MapperSqlJWTToken<ID>(COLUMNS_NAME),
                 generateIdType);

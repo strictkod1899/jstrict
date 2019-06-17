@@ -2,6 +2,7 @@ package ru.strict.db.mybatis.repositories;
 
 import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.JWTToken;
 import ru.strict.db.core.entities.EntityJWTToken;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
@@ -23,7 +24,7 @@ public class RepositoryJWTToken<ID>
             "algorithm", "type", "userx_id"};
 
     public RepositoryJWTToken(CreateConnectionByMybatis connectionSource, GenerateIdType generateIdType) {
-        super("token",
+        super(new DbTable("token", "tkn"),
                 COLUMNS_NAME,
                 connectionSource,
                 UtilClass.<MapperSqlJWTToken<ID>>castClass(MapperSqlJWTToken.class),

@@ -2,6 +2,7 @@ package ru.strict.db.mybatis.repositories;
 
 import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.City;
 import ru.strict.db.core.entities.EntityCity;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
@@ -20,7 +21,7 @@ public class RepositoryCity<ID>
     private static final String[] COLUMNS_NAME = new String[] {"caption", "country_id"};
 
     public RepositoryCity(CreateConnectionByMybatis connectionSource, GenerateIdType generateIdType) {
-        super("city",
+        super(new DbTable("city", "ci"),
                 COLUMNS_NAME,
                 connectionSource,
                 UtilClass.<MapperSqlCity<ID>>castClass(MapperSqlCity.class),

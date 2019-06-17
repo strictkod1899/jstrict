@@ -26,12 +26,12 @@ public abstract class RepositoryHibernateBase
         extends RepositoryBase<ID, Session, CreateConnectionHibernate, E, DTO> {
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public RepositoryHibernateBase(String tableName,
+    public RepositoryHibernateBase(DbTable table,
                                    String[] columnsName,
                                    CreateConnectionHibernate connectionSource,
                                    MapperDtoBase<ID, E, DTO> dtoMapper,
                                    GenerateIdType generateIdType) {
-        super(tableName, columnsName, connectionSource, dtoMapper, generateIdType);
+        super(table, columnsName, connectionSource, dtoMapper, generateIdType);
     }
     //</editor-fold>
 
@@ -172,11 +172,14 @@ public abstract class RepositoryHibernateBase
     @Override
     public int readCount(DbRequests requests) {
         int result = -1;
-        String sql = createSqlCount() + (requests==null ? "" : " " + requests.getSql());
+
+        DbSelect select = createSqlCount();
+        select.setRequests(requests);
+
         Session session = null;
         try{
             session = createConnection();
-            NativeQuery resultQuery = session.createNativeQuery(sql);
+            NativeQuery resultQuery = session.createNativeQuery(select.getSql());
             result = (Integer) resultQuery.list().get(0);
         }catch(Exception ex){
             if(session != null) {

@@ -1,6 +1,7 @@
 package ru.strict.db.hibernate.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.ProfileDetails;
 import ru.strict.db.core.repositories.interfaces.IRepositoryProfile;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
@@ -20,7 +21,7 @@ public class RepositoryProfileInfo
             "phone", "city_id"};
 
     public RepositoryProfileInfo(CreateConnectionHibernate connectionSource, GenerateIdType generateIdType) {
-        super("profile",
+        super(new DbTable("profile", "pr"),
                 COLUMNS_NAME,
                 connectionSource,
                 new MapperDtoFactory().instance(UtilClass.castClass(EntityProfileInfo.class), UtilClass.castClass(ProfileDetails.class)),

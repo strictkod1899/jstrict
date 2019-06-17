@@ -2,6 +2,7 @@ package ru.strict.db.mybatis.repositories;
 
 import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.Profile;
 import ru.strict.db.core.entities.EntityProfile;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
@@ -20,7 +21,7 @@ public class RepositoryProfile<ID>
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id"};
 
     public RepositoryProfile(CreateConnectionByMybatis connectionSource, GenerateIdType generateIdType) {
-        super("profile",
+        super(new DbTable("profile", "pr"),
                 COLUMNS_NAME,
                 connectionSource,
                 UtilClass.<MapperSqlProfile<ID>>castClass(MapperSqlProfile.class),

@@ -1,20 +1,36 @@
 package ru.strict.db.core.requests;
 
+import ru.strict.validates.ValidateBaseValue;
+
+import java.util.Objects;
+
 /**
  * Конструкция join sql-запроса
  */
 public class DbJoin extends DbRequestBase {
     private JoinType joinType;
     private String table1Column;
-    private String table2Name;
+    private DbTable table2;
     private String table2Column;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public DbJoin(JoinType joinType, String table1Name, String table1Column, String table2Name, String table2Column) {
-        super(table1Name);
+    public DbJoin(JoinType joinType, DbTable table1, String table1Column, DbTable table2, String table2Column) {
+        super(table1);
+        if(joinType == null){
+            throw new IllegalArgumentException("joinType is NULL");
+        }
+        if(ValidateBaseValue.isEmptyOrNull(table1Column)){
+            throw new IllegalArgumentException("table1Column is NULL");
+        }
+        if(table2 == null){
+            throw new IllegalArgumentException("table2 is NULL");
+        }
+        if(ValidateBaseValue.isEmptyOrNull(table2Column)){
+            throw new IllegalArgumentException("table2Column is NULL");
+        }
         this.joinType = joinType;
         this.table1Column = table1Column;
-        this.table2Name = table2Name;
+        this.table2 = table2;
         this.table2Column = table2Column;
     }
     //</editor-fold>
@@ -24,16 +40,16 @@ public class DbJoin extends DbRequestBase {
         return joinType;
     }
 
-    public String getTable1Name() {
-        return getTableName();
+    public DbTable getTable1(){
+        return getTable();
     }
 
     public String getTable1Column() {
         return table1Column;
     }
 
-    public String getTable2Name() {
-        return table2Name;
+    public DbTable getTable2() {
+        return table2;
     }
 
     public String getTable2Column() {
@@ -44,8 +60,13 @@ public class DbJoin extends DbRequestBase {
     @Override
     public String getSql(){
         String result;
-        result = String.format("%s JOIN %s ON %s.%s = %s.%s", joinType.getCaption(), getTable1Name(), getTable1Name(), table1Column,
-                table2Name, table2Column);
+        result = String.format("%s JOIN %s ON %s.%s = %s.%s",
+                joinType.getCaption(),
+                getTable1().getSql(),
+                getTable1().getRequiredName(),
+                table1Column,
+                table2.getRequiredName(),
+                table2Column);
         return result.trim();
     }
 
@@ -54,5 +75,23 @@ public class DbJoin extends DbRequestBase {
     public String toString(){
         return getSql();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        DbJoin dbJoin = (DbJoin) o;
+        return joinType == dbJoin.joinType &&
+                Objects.equals(table1Column, dbJoin.table1Column) &&
+                Objects.equals(table2, dbJoin.table2) &&
+                Objects.equals(table2Column, dbJoin.table2Column);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), joinType, table1Column, table2, table2Column);
+    }
+
     //</editor-fold>
 }

@@ -11,13 +11,9 @@ import java.util.*;
 public class DbRequests implements IDbRequest, IDbParametrizedRequest {
 
     private List<DbJoin> joinRequests;
-
     private DbWhere whereRequests;
-
     private DbLimit limitRequest;
-
     private DbOffset offsetRequest;
-
     private DbSort sortRequest;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
@@ -165,18 +161,20 @@ public class DbRequests implements IDbRequest, IDbParametrizedRequest {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof DbRequests) {
-            DbRequests object = (DbRequests) obj;
-            return Objects.equals(whereRequests, object.getWhere());
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DbRequests requests = (DbRequests) o;
+        return Objects.equals(joinRequests, requests.joinRequests) &&
+                Objects.equals(whereRequests, requests.whereRequests) &&
+                Objects.equals(limitRequest, requests.limitRequest) &&
+                Objects.equals(offsetRequest, requests.offsetRequest) &&
+                Objects.equals(sortRequest, requests.sortRequest);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(whereRequests);
+    public int hashCode() {
+        return Objects.hash(joinRequests, whereRequests, limitRequest, offsetRequest, sortRequest);
     }
     //</editor-fold>
 }

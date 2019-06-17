@@ -2,6 +2,7 @@ package ru.strict.db.hibernate.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
 
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.JWTToken;
 import ru.strict.db.core.repositories.interfaces.IRepositoryJWTToken;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
@@ -18,7 +19,7 @@ public class RepositoryJWTToken
             "audience", "secret", "algorithm", "type", "userx_id"};
 
     public RepositoryJWTToken(CreateConnectionHibernate connectionSource, GenerateIdType generateIdType) {
-        super("token",
+        super(new DbTable("token", "tkn"),
                 COLUMNS_NAME,
                 connectionSource,
                 new MapperDtoFactory().instance(UtilClass.castClass(EntityJWTToken.class), UtilClass.castClass(JWTToken.class)),

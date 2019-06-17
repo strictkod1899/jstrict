@@ -2,12 +2,12 @@ package ru.strict.db.jdbc.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.ICreateConnection;
+import ru.strict.db.core.requests.*;
 import ru.strict.models.DtoBase;
 import ru.strict.db.core.entities.EntityBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.mappers.sql.MapperSqlBase;
 import ru.strict.db.core.repositories.RepositoryBase;
-import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.common.SqlParameter;
 import ru.strict.db.core.common.SqlParameters;
 
@@ -33,12 +33,12 @@ public abstract class RepositoryJdbcBase
     private MapperSqlBase<ID, E> sqlMapper;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public RepositoryJdbcBase(String tableName, String[] columnsName,
+    public RepositoryJdbcBase(DbTable table, String[] columnsName,
                               ICreateConnection<Connection> connectionSource,
                               MapperDtoBase<ID, E, DTO> dtoMapper,
                               MapperSqlBase<ID, E> sqlMapper,
                               GenerateIdType generateIdType) {
-        super(tableName, columnsName, connectionSource, dtoMapper, generateIdType);
+        super(table, columnsName, connectionSource, dtoMapper, generateIdType);
         if(sqlMapper == null){
             throw new IllegalArgumentException("sqlMapper is NULL");
         }
@@ -209,7 +209,11 @@ public abstract class RepositoryJdbcBase
         Connection connection = null;
         try{
             connection = createConnection();
-            statement = connection.prepareStatement(String.format("%s WHERE " + getColumnIdName() + " = ?", createSqlSelect()));
+
+            DbSelect select = createSqlSelect();
+            select.getRequests().addWhere(new DbWhereEquals(getTable(), getColumnIdName(), id));
+
+            statement = connection.prepareStatement(select.getParametrizedSql());
 
             if(id instanceof Integer)
                 statement.setInt(1, (Integer) id);
@@ -279,10 +283,15 @@ public abstract class RepositoryJdbcBase
         Connection connection = null;
         try{
             connection = createConnection();
-            String sql = createSqlSelect() + (requests==null ? "" : " " + requests.getParametrizedSql());
-            statement = connection.prepareStatement(sql);
+
+            DbSelect select = createSqlSelect();
             if(requests != null) {
-                setParametersToPrepareStatement(statement, requests.getParameters());
+                select.setRequests(requests);
+            }
+
+            statement = connection.prepareStatement(select.getParametrizedSql());
+            if(requests != null) {
+                setParametersToPrepareStatement(statement, select.getParameters());
             }
             resultSet = statement.executeQuery();
 
@@ -437,10 +446,15 @@ public abstract class RepositoryJdbcBase
         Connection connection = null;
         try{
             connection = createConnection();
-            String sql = createSqlCount() + (requests==null ? "" : " " + requests.getParametrizedSql());
-            statement = connection.prepareStatement(sql);
+
+            DbSelect select = createSqlCount();
             if(requests != null) {
-                setParametersToPrepareStatement(statement, requests.getParameters());
+                select.setRequests(requests);
+            }
+
+            statement = connection.prepareStatement(select.getParametrizedSql());
+            if(requests != null) {
+                setParametersToPrepareStatement(statement, select.getParameters());
             }
             resultSet = statement.executeQuery();
 
@@ -540,7 +554,7 @@ public abstract class RepositoryJdbcBase
      * @return
      */
     private String createSqlInsertShort(int parametersCount){
-        StringBuilder sql = new StringBuilder(String.format("INSERT INTO %s (", getTableName()));
+        StringBuilder sql = new StringBuilder(String.format("INSERT INTO %s (", getTable().getTableName()));
         for(String columnName : getColumnsName()) {
             sql.append(columnName);
             sql.append(", ");
@@ -561,7 +575,7 @@ public abstract class RepositoryJdbcBase
      * @return
      */
     private String createSqlInsertFull(int parametersCount){
-        StringBuilder sql = new StringBuilder(String.format("INSERT INTO %s (id, ", getTableName()));
+        StringBuilder sql = new StringBuilder(String.format("INSERT INTO %s (%s, ", getTable().getTableName(), getColumnIdName()));
         for(String columnName : getColumnsName()) {
             sql.append(columnName);
             sql.append(", ");
@@ -582,7 +596,7 @@ public abstract class RepositoryJdbcBase
      * @return
      */
     private String createSqlUpdate(){
-        StringBuilder sql = new StringBuilder(String.format("UPDATE %s SET ", getTableName()));
+        StringBuilder sql = new StringBuilder(String.format("UPDATE %s SET ", getTable().getTableName()));
         for(int i=0; i<getColumnsName().length; i++){
             sql.append(getColumnsName()[i]);
             sql.append(" = ?, ");
@@ -599,7 +613,7 @@ public abstract class RepositoryJdbcBase
      * @return
      */
     private String createSqlDelete(){
-        return String.format("DELETE FROM %s WHERE %s = ?", getTableName(), getColumnIdName());
+        return String.format("DELETE FROM %s WHERE %s = ?", getTable().getTableName(), getColumnIdName());
     }
     //</editor-fold>
 
@@ -705,7 +719,7 @@ public abstract class RepositoryJdbcBase
 
     @Override
     public int hashCode(){
-        return Objects.hash(getConnectionSource(), getDtoMapper(), getTableName(), getColumnsName(),
+        return Objects.hash(getConnectionSource(), getDtoMapper(), getTable(), getColumnsName(),
                 getGenerateIdType(), sqlMapper);
     }
 }

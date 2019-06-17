@@ -1,6 +1,5 @@
 package ru.strict.db.core.requests;
 
-
 import java.util.Objects;
 
 /**
@@ -11,16 +10,18 @@ public abstract class DbRequestBase implements IDbRequest {
     /**
      * Наименование таблицы
      */
-    private String tableName;
+    private DbTable table;
 
-    public DbRequestBase(String tableName) {
-        this.tableName = tableName;
+    public DbRequestBase(DbTable table) {
+        if(table == null){
+            throw new IllegalArgumentException("table is NULL");
+        }
+        this.table = table;
     }
 
-    public String getTableName() {
-        return tableName;
+    public DbTable getTable() {
+        return table;
     }
-
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
@@ -31,7 +32,7 @@ public abstract class DbRequestBase implements IDbRequest {
     public boolean equals(Object obj){
         if(obj!=null && obj instanceof DbRequestBase) {
             DbRequestBase object = (DbRequestBase) obj;
-            return Objects.equals(tableName, object.getTableName());
+            return Objects.equals(table, object.table);
         }else {
             return false;
         }
@@ -39,7 +40,7 @@ public abstract class DbRequestBase implements IDbRequest {
 
     @Override
     public int hashCode(){
-        return Objects.hash(tableName);
+        return Objects.hash(table);
     }
     //</editor-fold>
 }

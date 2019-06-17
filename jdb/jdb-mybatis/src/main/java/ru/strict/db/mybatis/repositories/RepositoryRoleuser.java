@@ -1,6 +1,7 @@
 package ru.strict.db.mybatis.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.Roleuser;
 import ru.strict.db.core.entities.EntityRoleuser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
@@ -16,7 +17,7 @@ public class RepositoryRoleuser<ID>
     private static final String[] COLUMNS_NAME = new String[] {"code", "description"};
 
     public RepositoryRoleuser(CreateConnectionByMybatis connectionSource, GenerateIdType generateIdType) {
-        super("roleuser",
+        super(new DbTable("roleuser", "role"),
                 COLUMNS_NAME,
                 connectionSource,
                 UtilClass.<MapperSqlRoleuser<ID>>castClass(MapperSqlRoleuser.class),

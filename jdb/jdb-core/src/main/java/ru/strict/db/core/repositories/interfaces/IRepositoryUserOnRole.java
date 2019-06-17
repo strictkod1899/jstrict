@@ -1,5 +1,6 @@
 package ru.strict.db.core.repositories.interfaces;
 
+import ru.strict.db.core.requests.DbSelectItem;
 import ru.strict.models.UserOnRole;
 import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.core.requests.DbRequests;
@@ -10,7 +11,7 @@ import java.util.List;
 public interface IRepositoryUserOnRole<ID> extends IRepositoryExtension<ID, UserOnRole<ID>> {
     default List<UserOnRole<ID>> readByUserId(ID userId){
         DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(getTableName(), "userx_id", userId, "="));
+        requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "userx_id"), userId, "="));
 
         List<UserOnRole<ID>> result = readAll(requests);
         return result;
@@ -18,7 +19,7 @@ public interface IRepositoryUserOnRole<ID> extends IRepositoryExtension<ID, User
 
     default List<UserOnRole<ID>> readByRoleId(ID roleId){
         DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(getTableName(), "roleuser_id", roleId, "="));
+        requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "roleuser_id"), roleId, "="));
 
         List<UserOnRole<ID>> result = readAll(requests);
         return result;

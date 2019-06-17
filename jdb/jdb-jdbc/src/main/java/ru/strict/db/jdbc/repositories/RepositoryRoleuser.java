@@ -4,6 +4,7 @@ import ru.strict.db.core.common.GenerateIdType;
 
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.ICreateConnection;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.Roleuser;
 import ru.strict.models.User;
 import ru.strict.models.UserBase;
@@ -28,7 +29,9 @@ public class RepositoryRoleuser<ID>
     private static final String[] COLUMNS_NAME = new String[] {"code", "description"};
 
     public RepositoryRoleuser(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
-        super("roleuser", COLUMNS_NAME, connectionSource,
+        super(new DbTable("roleuser", "role"),
+                COLUMNS_NAME,
+                connectionSource,
                 new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityRoleuser.class), UtilClass.castClass(Roleuser.class)),
                 new MapperSqlRoleuser<ID>(COLUMNS_NAME),
                 generateIdType);
@@ -47,7 +50,7 @@ public class RepositoryRoleuser<ID>
         // Добавление пользователей
         IRepository<ID, UserOnRole<ID>> repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
         DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTableName(), "roleuser_id", dto.getId(), "="));
+        requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTable(), "roleuser_id", dto.getId(), "="));
         List<UserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
 
         IRepository<ID, UserBase<ID>> repositoryUser = new RepositoryUser<>(getConnectionSource(),

@@ -1,6 +1,7 @@
 package ru.strict.db.hibernate.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.ServiceOnRole;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.interfaces.IRepositoryServiceOnRole;
@@ -17,7 +18,7 @@ public class RepositoryServiceOnRole<SERVICE>
     public RepositoryServiceOnRole(CreateConnectionHibernate connectionSource,
                                    MapperDtoBase<Long, EntityServiceOnRole<SERVICE>, ServiceOnRole<Long, SERVICE>> dtoMapper,
                                    GenerateIdType generateIdType) {
-        super("service_on_role",
+        super(new DbTable("service_on_role", "sr"),
                 COLUMNS_NAME,
                 connectionSource,
                 dtoMapper,

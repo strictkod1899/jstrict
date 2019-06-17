@@ -1,5 +1,6 @@
 package ru.strict.db.core.repositories;
 
+import ru.strict.db.core.requests.DbSelectItem;
 import ru.strict.models.DtoBase;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereItem;
@@ -24,7 +25,7 @@ public interface IRepositoryNamed<ID, DTO extends DtoBase<ID>> extends IReposito
             throw new IllegalArgumentException("caption for read by name is NULL");
         }
         DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(getTableName(), getColumnWithName(), caption, "="));
+        requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), getColumnWithName()), caption, "="));
 
         DTO result = readAll(requests).stream().findFirst().orElse(null);
         return result;
@@ -40,7 +41,7 @@ public interface IRepositoryNamed<ID, DTO extends DtoBase<ID>> extends IReposito
             throw new IllegalArgumentException("caption for read by name is NULL");
         }
         DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(getTableName(), getColumnWithName(), caption, "="));
+        requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), getColumnWithName()), caption, "="));
 
         List<DTO> result = readAll(requests);
         return result;

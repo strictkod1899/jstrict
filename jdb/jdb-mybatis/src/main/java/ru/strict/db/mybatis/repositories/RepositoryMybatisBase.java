@@ -2,6 +2,7 @@ package ru.strict.db.mybatis.repositories;
 
 import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.DtoBase;
 import ru.strict.db.core.entities.EntityBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
@@ -21,13 +22,13 @@ public abstract class RepositoryMybatisBase
 
     private Class<MAPPER> mybatisMapper;
 
-    public RepositoryMybatisBase(String tableName,
+    public RepositoryMybatisBase(DbTable table,
                                  String[] columnsName,
                                  CreateConnectionByMybatis connectionSource,
                                  Class<MAPPER> mybatisMapper,
                                  MapperDtoBase<ID, E, DTO> dtoMapper,
                                  GenerateIdType generateIdType) {
-        super(tableName, columnsName, connectionSource, dtoMapper, generateIdType);
+        super(table, columnsName, connectionSource, dtoMapper, generateIdType);
         this.mybatisMapper = mybatisMapper;
     }
 
@@ -314,8 +315,16 @@ public abstract class RepositoryMybatisBase
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        RepositoryMybatisBase<?, ?, ?, ?> that = (RepositoryMybatisBase<?, ?, ?, ?>) o;
+        return Objects.equals(mybatisMapper, that.mybatisMapper);
+    }
+
+    @Override
     public int hashCode(){
-        return Objects.hash(getConnectionSource(), getDtoMapper(), getTableName(), getColumnsName(),
-                getGenerateIdType(), mybatisMapper);
+        return Objects.hash(super.hashCode(), mybatisMapper);
     }
 }
