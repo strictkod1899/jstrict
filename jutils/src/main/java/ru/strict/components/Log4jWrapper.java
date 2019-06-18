@@ -231,11 +231,7 @@ public class Log4jWrapper implements ILogger {
     private void defaultConfiguration(){
         if(configuration != null) {
             configuration.setPattern(DEFAULT_PATTERN);
-            try {
-                configuration.setLogDirectoryPath(UtilClass.getPathByClass(this.getClass()) + File.separator + DEFAULT_FOLDER_NAME);
-            } catch (URISyntaxException ex) {
-                throw new RuntimeException(ex);
-            }
+            configuration.setLogDirectoryPath(UtilClass.getPathByClass(this.getClass()) + File.separator + DEFAULT_FOLDER_NAME);
             configuration.setLogFileName(DEFAULT_LOG_FILE_NAME);
             configuration.setMaxFileSize(DEFAULT_MAX_LOG_FILE_SIZE);
             configuration.setMaxBackupIndex(DEFAULT_MAX_BACKUP_INDEX);
