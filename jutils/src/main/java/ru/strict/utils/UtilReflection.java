@@ -45,7 +45,7 @@ public class UtilReflection {
                 if(!isAccessible) {
                     targetConstructor.setAccessible(false);
                 }
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException ex) {
+            } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
         }
@@ -64,16 +64,23 @@ public class UtilReflection {
                 if (constructorParametersCount == userConstructorParameters.length) {
                     Class[] constructorParameters = constructor.getParameterTypes();
                     for (int i = 0; i < constructorParametersCount; i++) {
-                        Class constructorParameter = constructorParameters[i];
-                        if (constructorParameter != userConstructorParameters[i].getClass() && !isPrimitive(userConstructorParameters[i].getClass(), constructorParameter)) {
-                            boolean checkBySuperClass = isSuperClass(constructorParameter, userConstructorParameters[i].getClass());
-                            if(!checkBySuperClass) {
-                                break;
+                        try {
+                            Class constructorParameter = constructorParameters[i];
+                            Class userConstructorParameter = userConstructorParameters[i] instanceof Class
+                                    ? (Class) userConstructorParameters[i]
+                                    : userConstructorParameters[i].getClass();
+                            if (constructorParameter != userConstructorParameter && !isPrimitive(userConstructorParameter, constructorParameter)) {
+                                boolean checkBySuperClass = isSuperClass(constructorParameter, userConstructorParameter);
+                                if (!checkBySuperClass) {
+                                    break;
+                                }
                             }
-                        }
 
-                        if (i == constructorParametersCount - 1)
-                            targetConstructor = constructor;
+                            if (i == constructorParametersCount - 1)
+                                targetConstructor = constructor;
+                        }catch (Exception ex){
+                            int g = 1;
+                        }
                     }
                 }
             }
