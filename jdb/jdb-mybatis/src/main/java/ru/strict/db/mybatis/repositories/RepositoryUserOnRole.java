@@ -2,6 +2,7 @@ package ru.strict.db.mybatis.repositories;
 
 import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.UserOnRole;
 import ru.strict.db.core.entities.EntityUserOnRole;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
@@ -20,7 +21,7 @@ public class RepositoryUserOnRole<ID>
     private static final String[] COLUMNS_NAME = new String[] {"userx_id", "roleuser_id"};
 
     public RepositoryUserOnRole(CreateConnectionByMybatis connectionSource, GenerateIdType generateIdType) {
-        super("user_on_role",
+        super(new DbTable("user_on_role", "ur"),
                 COLUMNS_NAME,
                 connectionSource,
                 UtilClass.<MapperSqlUserOnRole<ID>>castClass(MapperSqlUserOnRole.class),

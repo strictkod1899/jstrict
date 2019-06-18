@@ -1,6 +1,7 @@
 package ru.strict.db.hibernate.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.FileStorage;
 import ru.strict.models.FileStorageBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
@@ -19,7 +20,7 @@ public class RepositoryFileStorage<DTO extends FileStorageBase<Long>>
 
     public RepositoryFileStorage(CreateConnectionHibernate connectionSource,
                                  GenerateIdType generateIdType) {
-        super("file_storage",
+        super(new DbTable("file_storage", "fs"),
                 COLUMNS_NAME,
                 connectionSource,
                 new MapperDtoFactory().instance(UtilClass.castClass(EntityFileStorage.class), UtilClass.castClass(FileStorage.class)),
@@ -29,7 +30,7 @@ public class RepositoryFileStorage<DTO extends FileStorageBase<Long>>
     public RepositoryFileStorage(CreateConnectionHibernate connectionSource,
                                  MapperDtoBase<Long, EntityFileStorage, DTO> dtoMapper,
                                  GenerateIdType generateIdType) {
-        super("file_storage",
+        super(new DbTable("file_storage", "fs"),
                 COLUMNS_NAME,
                 connectionSource,
                 dtoMapper,

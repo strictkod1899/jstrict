@@ -11,6 +11,7 @@ import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.SqlParameter;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.DtoBase;
 import ru.strict.db.core.entities.EntityBase;
 import ru.strict.db.core.repositories.RepositoryBase;
@@ -40,12 +41,13 @@ public abstract class RepositorySpringBase
     private RowMapper<E> springMapper;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public RepositorySpringBase(String tableName, String[] columnsName,
+    public RepositorySpringBase(DbTable table,
+                                String[] columnsName,
                                 CreateConnectionByDataSource connectionSource,
                                 MapperDtoBase<ID, E, DTO> dtoMapper,
                                 RowMapper<E> springMapper,
                                 GenerateIdType generateIdType) {
-        super(tableName, columnsName, connectionSource, dtoMapper, generateIdType);
+        super(table, columnsName, connectionSource, dtoMapper, generateIdType);
         this.springJdbc = new NamedParameterJdbcTemplate(getConnectionSource().getConnectionSource());
         this.springMapper = springMapper;
     }
@@ -92,7 +94,7 @@ public abstract class RepositorySpringBase
     @Override
     public final DTO read(ID id) {
         SqlParameterSource parameters = new MapSqlParameterSource(getColumnIdName(), id);
-        String sql = String.format("%s WHERE %s = :%s", createSqlSelect(), getColumnIdName(), getColumnIdName());
+        String sql = String.format("%s WHERE %s = :%s", createSqlSelect().getSql(), getColumnIdName(), getColumnIdName());
         E entity = null;
         try {
             entity = springJdbc.queryForObject(sql, parameters, springMapper);
@@ -103,7 +105,7 @@ public abstract class RepositorySpringBase
     @Override
     public final List<DTO> readAll(DbRequests requests) {
         String sqlRequests = getSpringParametrizedSql(requests);
-        String sql = createSqlSelect() + " " +  UtilData.nullToEmpty(sqlRequests);
+        String sql = String.format("%s %s", createSqlSelect().getSql(), UtilData.nullToEmpty(sqlRequests)).trim();
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         if(requests != null){
             SqlParameters<?> requestParameters = requests.getParameters();
@@ -174,7 +176,7 @@ public abstract class RepositorySpringBase
      * @return
      */
     private String createSqlInsertShort(String[] parametersName){
-        StringBuilder sql = new StringBuilder(String.format("INSERT INTO %s (", getTableName()));
+        StringBuilder sql = new StringBuilder(String.format("INSERT INTO %s (", getTable().getTableName()));
         for(String columnName : getColumnsName()) {
             sql.append(columnName);
             sql.append(", ");
@@ -195,7 +197,7 @@ public abstract class RepositorySpringBase
      * @return
      */
     private String createSqlInsertFull(String[] parametersName){
-        StringBuilder sql = new StringBuilder(String.format("INSERT INTO %s (%s, ", getTableName(), getColumnIdName()));
+        StringBuilder sql = new StringBuilder(String.format("INSERT INTO %s (%s, ", getTable().getTableName(), getColumnIdName()));
         for(String columnName : getColumnsName()) {
             sql.append(columnName);
             sql.append(", ");
@@ -216,7 +218,7 @@ public abstract class RepositorySpringBase
      * @return
      */
     private String createSqlUpdate(String[] parametersName){
-        StringBuilder sql = new StringBuilder(String.format("UPDATE %s SET ", getTableName()));
+        StringBuilder sql = new StringBuilder(String.format("UPDATE %s SET ", getTable().getTableName()));
         for(int i=0; i<getColumnsName().length; i++){
             sql.append(String.format("%s = :%s, ", getColumnsName()[i], parametersName[i]));
         }
@@ -231,7 +233,7 @@ public abstract class RepositorySpringBase
      */
     private String createSqlDelete(){
         StringBuilder sql = new StringBuilder("DELETE FROM ");
-        sql.append(getTableName());
+        sql.append(getTable().getTableName());
         sql.append(String.format(" WHERE %s = :%s", getColumnIdName(), getColumnIdName()));
 
         return sql.toString();

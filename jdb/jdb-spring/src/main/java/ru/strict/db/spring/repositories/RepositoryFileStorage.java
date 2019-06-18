@@ -7,6 +7,7 @@ import ru.strict.db.core.entities.EntityFileStorage;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.interfaces.IRepositoryFileStorage;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.db.spring.mappers.sql.MapperSqlFileStorage;
 import ru.strict.models.FileStorage;
 import ru.strict.models.FileStorageBase;
@@ -21,7 +22,9 @@ public class RepositoryFileStorage<ID, DTO extends FileStorageBase<ID>>
 
     public RepositoryFileStorage(CreateConnectionByDataSource connectionSource,
                                  GenerateIdType generateIdType) {
-        super("file_storage", COLUMNS_NAME, connectionSource,
+        super(new DbTable("file_storage", "fs"),
+                COLUMNS_NAME,
+                connectionSource,
                 new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityFileStorage.class), UtilClass.castClass(FileStorage.class)),
                 new MapperSqlFileStorage<ID>(COLUMNS_NAME),
                 generateIdType);
@@ -30,7 +33,9 @@ public class RepositoryFileStorage<ID, DTO extends FileStorageBase<ID>>
     public RepositoryFileStorage(CreateConnectionByDataSource connectionSource,
                                  MapperDtoBase<ID, EntityFileStorage<ID>, DTO> dtoMapper,
                                  GenerateIdType generateIdType) {
-        super("file_storage", COLUMNS_NAME, connectionSource,
+        super(new DbTable("file_storage", "fs"),
+                COLUMNS_NAME,
+                connectionSource,
                 dtoMapper,
                 new MapperSqlFileStorage<ID>(COLUMNS_NAME),
                 generateIdType);

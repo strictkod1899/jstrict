@@ -1,5 +1,6 @@
 package ru.strict.db.core.repositories.interfaces;
 
+import ru.strict.db.core.requests.DbSelectItem;
 import ru.strict.models.Profile;
 import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.core.requests.DbRequests;
@@ -12,21 +13,21 @@ public interface IRepositoryProfile<ID, DTO extends Profile<ID>> extends IReposi
     default List<DTO> readByFio(String name, String surname, String middlename){
         DbRequests requests = new DbRequests();
         if(name != null) {
-            requests.addWhere(new DbWhereItem(getTableName(), "name", name, "="));
+            requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "name"), name, "="));
         }else{
-            requests.addWhere(new DbWhereIsNull(getTableName(), "name"));
+            requests.addWhere(new DbWhereIsNull(new DbSelectItem(getTable(), "name")));
         }
 
         if(surname != null) {
-            requests.addWhere(new DbWhereItem(getTableName(), "surname", surname, "="));
+            requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "surname"), surname, "="));
         }else{
-            requests.addWhere(new DbWhereIsNull(getTableName(), "surname"));
+            requests.addWhere(new DbWhereIsNull(new DbSelectItem(getTable(), "surname")));
         }
 
         if(middlename != null) {
-            requests.addWhere(new DbWhereItem(getTableName(), "middlename", middlename, "="));
+            requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "middlename"), middlename, "="));
         }else{
-            requests.addWhere(new DbWhereIsNull(getTableName(), "middlename"));
+            requests.addWhere(new DbWhereIsNull(new DbSelectItem(getTable(), "middlename")));
         }
 
         List<DTO> result = readAll(requests);
@@ -35,7 +36,7 @@ public interface IRepositoryProfile<ID, DTO extends Profile<ID>> extends IReposi
 
     default List<DTO> readByUserId(ID userId){
         DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(getTableName(), "userx_id", userId, "="));
+        requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "userx_id"), userId, "="));
 
         List<DTO> result = readAll(requests);
         return result;

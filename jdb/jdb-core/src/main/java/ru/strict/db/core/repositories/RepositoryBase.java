@@ -2,10 +2,9 @@ package ru.strict.db.core.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.ICreateConnection;
+import ru.strict.db.core.requests.*;
 import ru.strict.models.DtoBase;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
-import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.core.requests.DbWhereItem;
 
 import java.util.List;
 import java.util.Objects;
@@ -35,7 +34,7 @@ public abstract class RepositoryBase
     /**
      * Наименование таблицы
      */
-    private String tableName;
+    private DbTable table;
 
     /**
      * Наименование столбцов таблицы в базе данных, без учета ID
@@ -49,10 +48,10 @@ public abstract class RepositoryBase
     private GenerateIdType generateIdType;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public RepositoryBase(String tableName, String[] columnsName, SOURCE connectionSource,
+    public RepositoryBase(DbTable table, String[] columnsName, SOURCE connectionSource,
                           MapperDtoBase<ID, E, DTO> dtoMapper, GenerateIdType generateIdType) {
-        if(tableName == null){
-            throw new IllegalArgumentException("tableName is NULL");
+        if(table == null){
+            throw new IllegalArgumentException("table is NULL");
         } else if(columnsName == null){
             throw new IllegalArgumentException("columnsName is NULL");
         } else if(connectionSource == null){
@@ -66,7 +65,7 @@ public abstract class RepositoryBase
         this.connectionSource = connectionSource;
         this.dtoMapper = dtoMapper;
         this.generateIdType = generateIdType;
-        this.tableName = tableName;
+        this.table = table;
         this.columnsName = columnsName;
     }
     //</editor-fold>
@@ -86,10 +85,11 @@ public abstract class RepositoryBase
         if(dto == null){
             throw new IllegalArgumentException("dto is NULL");
         }
-        if(isRowExists(dto.getId()))
+        if(isRowExists(dto.getId())) {
             return update(dto);
-        else
+        } else {
             return create(dto);
+        }
     }
 
     @Override
@@ -117,7 +117,7 @@ public abstract class RepositoryBase
      *      RepositoryJdbcBase<ID, SOURCE, EntityUserOnRole, DtoUserOnRole> repositoryUserOnRole =
      *                 new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
      *      DbRequests requests = new DbRequests(true);
-     *      requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
+     *      requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTable(), "userx_id", dto.getId(), "="));
      *      List<DtoUserOnRole> userOnRoles = repositoryUserOnRole.readAll(requests);
      *
      *      IRepository<ID, DtoRoleuser> repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
@@ -134,7 +134,7 @@ public abstract class RepositoryBase
      *     RepositoryJdbcBase<ID, SOURCE, EntityCity, DtoCity> repositoryCity =
      *             new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
      *     DbRequests requests = new DbRequests(true);
-     *     requests.addWhere(new DbWhereItem(repositoryCity.getTableName(), "country_id", dto.getId(), "="));
+     *     requests.addWhere(new DbWhereItem(repositoryCity.getTable(), "country_id", dto.getId(), "="));
      *
      *     List<DtoCity> cities = repositoryCity.readAll(requests);
      *     dto.setCities(cities);
@@ -188,7 +188,7 @@ public abstract class RepositoryBase
         boolean result = false;
 
         DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(getTableName(), getColumnIdName(), id, "="));
+        requests.addWhere(new DbWhereItem(getTable(), getColumnIdName(), id, "="));
 
         int count = readCount(requests);
         if(count > 0){
@@ -204,28 +204,22 @@ public abstract class RepositoryBase
      * Sql-запрос на создание записи в таблице (без учета ID)
      * @return
      */
-    protected String createSqlSelect(){
-        StringBuilder sql = new StringBuilder(String.format("SELECT %s.%s, ", getTableName(), getColumnIdName()));
-        for(String columnName : getColumnsName()){
-            sql.append(getTableName());
-            sql.append(".");
-            sql.append(columnName);
-            sql.append(", ");
-        }
-        sql.replace(sql.length()-2, sql.length(), "");
-        sql.append(" FROM ");
-        sql.append(getTableName());
+    protected DbSelect createSqlSelect(){
+        DbSelect select = new DbSelect(table, new DbSelectItem(table, getColumnIdName()));
 
-        return sql.toString();
+        for(String columnName : getColumnsName()){
+            select.addSelectItem(table, columnName);
+        }
+
+        return select;
     }
 
     /**
      * Sql-запрос на создание записи в таблице (без учета ID)
      * @return
      */
-    protected String createSqlCount(){
-        StringBuilder sql = new StringBuilder(String.format("SELECT COUNT(1) FROM %s", getTableName()));
-        return sql.toString();
+    protected DbSelect createSqlCount(){
+        return new DbSelect(table, new DbSelectItem("COUNT(1)"));
     }
     //</editor-fold>
 
@@ -251,8 +245,8 @@ public abstract class RepositoryBase
     }
 
     @Override
-    public String getTableName() {
-        return tableName;
+    public DbTable getTable() {
+        return table;
     }
 
     public String[] getColumnsName() {
@@ -263,7 +257,7 @@ public abstract class RepositoryBase
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("repository [%s]. Connection: %s", getTableName(), getConnectionSource().toString());
+        return String.format("repository [%s]. Connection: %s", getTable(), getConnectionSource().toString());
     }
 
     @Override
@@ -272,7 +266,7 @@ public abstract class RepositoryBase
             RepositoryBase object = (RepositoryBase) obj;
             return Objects.equals(connectionSource, object.getConnectionSource())
                     && Objects.equals(dtoMapper, object.getDtoMapper())
-                    && Objects.equals(tableName, object.getTableName())
+                    && Objects.equals(table, object.getTable())
                     && Objects.equals(columnsName, object.getColumnsName())
                     && Objects.equals(generateIdType, object.getGenerateIdType());
         }else{
@@ -282,7 +276,7 @@ public abstract class RepositoryBase
 
     @Override
     public int hashCode(){
-        return Objects.hash(connectionSource, dtoMapper, tableName, columnsName, generateIdType);
+        return Objects.hash(connectionSource, dtoMapper, table, columnsName, generateIdType);
     }
     //</editor-fold>
 }

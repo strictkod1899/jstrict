@@ -1,6 +1,7 @@
 package ru.strict.db.hibernate.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.Roleuser;
 import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
@@ -15,7 +16,7 @@ public class RepositoryRoleuser
     private static final String[] COLUMNS_NAME = new String[] {"code", "description"};
 
     public RepositoryRoleuser(CreateConnectionHibernate connectionSource, GenerateIdType generateIdType) {
-        super("roleuser",
+        super(new DbTable("roleuser", "role"),
                 COLUMNS_NAME,
                 connectionSource,
                 new MapperDtoFactory().instance(UtilClass.castClass(EntityRoleuser.class), UtilClass.castClass(Roleuser.class)),

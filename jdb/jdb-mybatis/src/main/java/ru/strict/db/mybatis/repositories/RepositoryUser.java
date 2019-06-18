@@ -6,6 +6,7 @@ import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.interfaces.IRepositoryUser;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlUser;
 import ru.strict.models.User;
@@ -24,7 +25,7 @@ public class RepositoryUser<ID, DTO extends UserBase<ID>>
      * Для этого конструктуора используется DtoUser
      */
     public RepositoryUser(CreateConnectionByMybatis connectionSource, GenerateIdType generateIdType) {
-        super("userx",
+        super(new DbTable("userx", "usr"),
                 COLUMNS_NAME,
                 connectionSource,
                 UtilClass.<MapperSqlUser<ID>>castClass(MapperSqlUser.class),
@@ -35,7 +36,7 @@ public class RepositoryUser<ID, DTO extends UserBase<ID>>
     public RepositoryUser(CreateConnectionByMybatis connectionSource,
                               MapperDtoBase<ID, EntityUser<ID>, DTO> dtoMapper,
                               GenerateIdType generateIdType) {
-        super("userx",
+        super(new DbTable("userx", "usr"),
                 COLUMNS_NAME,
                 connectionSource,
                 UtilClass.castClass(MapperSqlUser.class),

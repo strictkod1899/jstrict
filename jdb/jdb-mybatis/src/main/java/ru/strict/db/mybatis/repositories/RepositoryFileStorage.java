@@ -2,6 +2,7 @@ package ru.strict.db.mybatis.repositories;
 
 import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.FileStorage;
 import ru.strict.models.FileStorageBase;
 import ru.strict.db.core.entities.EntityFileStorage;
@@ -24,7 +25,7 @@ public class RepositoryFileStorage<ID, DTO extends FileStorageBase<ID>>
             "create_date", "type", "status"};
 
     public RepositoryFileStorage(CreateConnectionByMybatis connectionSource, GenerateIdType generateIdType) {
-        super("file_storage",
+        super(new DbTable("file_storage", "fs"),
                 COLUMNS_NAME,
                 connectionSource,
                 UtilClass.<MapperSqlFileStorage<ID>>castClass(MapperSqlFileStorage.class),
@@ -35,7 +36,7 @@ public class RepositoryFileStorage<ID, DTO extends FileStorageBase<ID>>
     public RepositoryFileStorage(CreateConnectionByMybatis connectionSource,
                                  MapperDtoBase<ID, EntityFileStorage<ID>, DTO> dtoMapper,
                                  GenerateIdType generateIdType) {
-        super("file_storage",
+        super(new DbTable("file_storage", "fs"),
                 COLUMNS_NAME,
                 connectionSource,
                 UtilClass.<MapperSqlFileStorage<ID>>castClass(MapperSqlFileStorage.class),

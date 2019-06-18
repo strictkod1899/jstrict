@@ -2,6 +2,7 @@ package ru.strict.db.mybatis.repositories;
 
 import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.ServiceOnRole;
 import ru.strict.db.core.entities.EntityServiceOnRole;
 import ru.strict.db.core.mappers.dto.MapperDtoBase;
@@ -22,7 +23,7 @@ public class RepositoryServiceOnRole<ID, SERVICE>
     public RepositoryServiceOnRole(CreateConnectionByMybatis connectionSource,
                                    MapperDtoBase<ID, EntityServiceOnRole<ID, SERVICE>, ServiceOnRole<ID, SERVICE>> dtoMapper,
                                    GenerateIdType generateIdType) {
-        super("service_on_role",
+        super(new DbTable("service_on_role", "sr"),
                 COLUMNS_NAME,
                 connectionSource,
                 UtilClass.<MapperSqlServiceOnRole<ID, SERVICE>>castClass(MapperSqlServiceOnRole.class),

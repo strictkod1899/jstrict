@@ -3,6 +3,7 @@ package ru.strict.db.jdbc.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.ICreateConnection;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.City;
 import ru.strict.models.Country;
 import ru.strict.db.core.entities.EntityCountry;
@@ -24,7 +25,9 @@ public class RepositoryCountry<ID>
     private static final String[] COLUMNS_NAME = new String[] {"caption"};
 
     public RepositoryCountry(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
-        super("country", COLUMNS_NAME, connectionSource,
+        super(new DbTable("country", "co"),
+                COLUMNS_NAME,
+                connectionSource,
                 new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityCountry.class), UtilClass.castClass(Country.class)),
                 new MapperSqlCountry<ID>(COLUMNS_NAME),
                 generateIdType);
@@ -41,7 +44,7 @@ public class RepositoryCountry<ID>
     protected Country<ID> fill(Country<ID> dto){
         IRepository<ID, City<ID>> repositoryCity = new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
         DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(repositoryCity.getTableName(), "country_id", dto.getId(), "="));
+        requests.addWhere(new DbWhereItem(repositoryCity.getTable(), "country_id", dto.getId(), "="));
 
         List<City<ID>> cities = repositoryCity.readAll(requests);
         dto.setCities(cities);

@@ -3,6 +3,7 @@ package ru.strict.db.spring.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.*;
 import ru.strict.db.core.entities.EntityUser;
 import ru.strict.db.core.mappers.dto.MapperDtoFactory;
@@ -28,7 +29,9 @@ public class RepositoryUser<ID, DTO extends UserBase<ID>>
      * Для этого конструктуора используется DtoUser
      */
     public RepositoryUser(CreateConnectionByDataSource connectionSource, GenerateIdType generateIdType) {
-        super("userx", COLUMNS_NAME, connectionSource,
+        super(new DbTable("userx", "usr"),
+                COLUMNS_NAME,
+                connectionSource,
                 new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(User.class)),
                 new MapperSqlUser<ID>(COLUMNS_NAME),
                 generateIdType);
@@ -37,7 +40,12 @@ public class RepositoryUser<ID, DTO extends UserBase<ID>>
     public RepositoryUser(CreateConnectionByDataSource connectionSource,
                           MapperDtoBase<ID, EntityUser<ID>, DTO> dtoMapper,
                           GenerateIdType generateIdType) {
-        super("userx", COLUMNS_NAME, connectionSource, dtoMapper, new MapperSqlUser(COLUMNS_NAME), generateIdType);
+        super(new DbTable("userx", "usr"),
+                COLUMNS_NAME,
+                connectionSource,
+                dtoMapper,
+                new MapperSqlUser(COLUMNS_NAME),
+                generateIdType);
     }
 
     @Override
@@ -57,7 +65,7 @@ public class RepositoryUser<ID, DTO extends UserBase<ID>>
         // Добавление ролей пользователей
         IRepository<ID, UserOnRole<ID>> repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
         DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTableName(), "userx_id", dto.getId(), "="));
+        requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTable(), "userx_id", dto.getId(), "="));
         List<UserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
         IRepository<ID, Roleuser<ID>> repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
         Collection<Roleuser<ID>> roleusers = new ArrayList<>();
@@ -69,14 +77,14 @@ public class RepositoryUser<ID, DTO extends UserBase<ID>>
         // Добавления профиля
         IRepository<ID, Profile<ID>> repositoryProfile = new RepositoryProfile<>(getConnectionSource(), GenerateIdType.NONE);
         requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(repositoryProfile.getTableName(), "userx_id", dto.getId(), "="));
+        requests.addWhere(new DbWhereItem(repositoryProfile.getTable(), "userx_id", dto.getId(), "="));
         dto.setProfiles(repositoryProfile.readAll(requests));
 
         // Добавление токенов
         if(dto instanceof UserWithToken){
             IRepository<ID, JWTToken<ID>> repositoryToken = new RepositoryJWTToken<>(getConnectionSource(), GenerateIdType.NONE);
             requests = new DbRequests();
-            requests.addWhere(new DbWhereItem(repositoryToken.getTableName(), "userx_id", dto.getId(), "="));
+            requests.addWhere(new DbWhereItem(repositoryToken.getTable(), "userx_id", dto.getId(), "="));
 
             List<JWTToken<ID>> tokens = repositoryToken.readAll(requests);
             ((UserWithToken)dto).setTokens(tokens);

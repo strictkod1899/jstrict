@@ -4,6 +4,7 @@ import ru.strict.db.core.common.GenerateIdType;
 
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.City;
 import ru.strict.models.Country;
 import ru.strict.db.core.entities.EntityCity;
@@ -20,7 +21,9 @@ public class RepositoryCity<ID>
     private static final String[] COLUMNS_NAME = new String[] {"caption", "country_id"};
 
     public RepositoryCity(CreateConnectionByDataSource connectionSource, GenerateIdType generateIdType) {
-        super("city", COLUMNS_NAME, connectionSource,
+        super(new DbTable("city", "ci"),
+                COLUMNS_NAME,
+                connectionSource,
                 new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityCity.class), UtilClass.castClass(City.class)),
                 new MapperSqlCity<ID>(COLUMNS_NAME),
                 generateIdType);

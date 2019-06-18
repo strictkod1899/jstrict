@@ -1,6 +1,7 @@
 package ru.strict.db.hibernate.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.Country;
 import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.hibernate.entities.EntityCountry;
@@ -15,7 +16,7 @@ public class RepositoryCountry
     private static final String[] COLUMNS_NAME = new String[] {"caption"};
 
     public RepositoryCountry(CreateConnectionHibernate connectionSource, GenerateIdType generateIdType) {
-        super("country",
+        super(new DbTable("country", "co"),
                 COLUMNS_NAME,
                 connectionSource,
                 new MapperDtoFactory().instance(UtilClass.castClass(EntityCountry.class), UtilClass.castClass(Country.class)),

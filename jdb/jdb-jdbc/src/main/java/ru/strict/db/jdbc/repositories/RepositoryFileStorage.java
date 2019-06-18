@@ -3,6 +3,7 @@ package ru.strict.db.jdbc.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.ICreateConnection;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.FileStorage;
 import ru.strict.models.FileStorageBase;
 import ru.strict.db.core.entities.EntityFileStorage;
@@ -23,7 +24,8 @@ public class RepositoryFileStorage<ID, DTO extends FileStorageBase<ID>>
 
     public RepositoryFileStorage(ICreateConnection<Connection> connectionSource,
                                  GenerateIdType generateIdType) {
-        super("file_storage", COLUMNS_NAME,
+        super(new DbTable("file_storage", "fs"),
+                COLUMNS_NAME,
                 connectionSource,
                 new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityFileStorage.class), UtilClass.castClass(FileStorage.class)),
                 new MapperSqlFileStorage<ID>(COLUMNS_NAME),
@@ -33,7 +35,8 @@ public class RepositoryFileStorage<ID, DTO extends FileStorageBase<ID>>
     public RepositoryFileStorage(ICreateConnection<Connection> connectionSource,
                                  MapperDtoBase<ID, EntityFileStorage<ID>, DTO> dtoMapper,
                                  GenerateIdType generateIdType) {
-        super("file_storage", COLUMNS_NAME,
+        super(new DbTable("file_storage", "fs"),
+                COLUMNS_NAME,
                 connectionSource,
                 dtoMapper,
                 new MapperSqlFileStorage<ID>(COLUMNS_NAME),

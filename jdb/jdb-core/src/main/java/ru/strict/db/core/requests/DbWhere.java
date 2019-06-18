@@ -13,23 +13,35 @@ public class DbWhere extends DbWhereBase<List<DbWhereBase>, DbWhereBase> {
 
     public DbWhere(WhereType whereType){
         super();
+        if(whereType == null){
+            throw new IllegalArgumentException("wherType is NULL");
+        }
         this.whereType = whereType;
         childs = new ArrayList<>();
     }
 
     @Override
-    public void add(DbWhereBase component){
-        childs.add(component);
+    public void add(DbWhereBase whereItem){
+        if(whereItem == null){
+            throw new IllegalArgumentException("whereItem is NULL");
+        }
+        childs.add(whereItem);
     }
 
     @Override
-    public void remove(DbWhereBase component){
-        childs.remove(component);
+    public void remove(DbWhereBase whereItem){
+        if(whereItem == null){
+            throw new IllegalArgumentException("whereItem is NULL");
+        }
+        childs.remove(whereItem);
     }
 
     @Override
-    public void set(int i, DbWhereBase component){
-        childs.set(i, component);
+    public void set(int i, DbWhereBase whereItem){
+        if(whereItem == null){
+            throw new IllegalArgumentException("whereItem is NULL");
+        }
+        childs.set(i, whereItem);
     }
 
     @Override
@@ -53,8 +65,11 @@ public class DbWhere extends DbWhereBase<List<DbWhereBase>, DbWhereBase> {
     }
 
     @Override
-    public boolean contains(DbWhereBase component) {
-        return childs.contains(component);
+    public boolean contains(DbWhereBase whereItem) {
+        if(whereItem == null){
+            throw new IllegalArgumentException("whereItem is NULL");
+        }
+        return childs.contains(whereItem);
     }
 
     @Override

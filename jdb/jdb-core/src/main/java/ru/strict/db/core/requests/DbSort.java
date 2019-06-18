@@ -1,5 +1,7 @@
 package ru.strict.db.core.requests;
 
+import java.util.Objects;
+
 /**
  * Элемент ORDER BY sql-запроса
  */
@@ -14,8 +16,8 @@ public class DbSort extends DbRequestBase {
      */
     private SortType sortType;
 
-    public DbSort(String tableName, String columnName, SortType sortType) {
-        super(tableName);
+    public DbSort(DbTable table, String columnName, SortType sortType) {
+        super(table);
         this.columnName = columnName;
         this.sortType = sortType;
     }
@@ -30,11 +32,26 @@ public class DbSort extends DbRequestBase {
 
     @Override
     public String getSql() {
-        return String.format("ORDER BY %s.%s %s", getTableName(), columnName, sortType.getCaption());
+        return String.format("ORDER BY %s.%s %s", getTable().getRequiredName(), columnName, sortType.getCaption());
     }
 
     @Override
     public String toString() {
         return getSql();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        DbSort dbSort = (DbSort) o;
+        return Objects.equals(columnName, dbSort.columnName) &&
+                sortType == dbSort.sortType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), columnName, sortType);
     }
 }

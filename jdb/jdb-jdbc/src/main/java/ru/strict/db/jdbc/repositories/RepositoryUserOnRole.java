@@ -4,6 +4,7 @@ import ru.strict.db.core.common.GenerateIdType;
 
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.ICreateConnection;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.Roleuser;
 import ru.strict.models.User;
 import ru.strict.models.UserOnRole;
@@ -24,7 +25,9 @@ public class RepositoryUserOnRole<ID>
     private static final String[] COLUMNS_NAME = new String[] {"userx_id", "roleuser_id"};
 
     public RepositoryUserOnRole(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
-        super("user_on_role", COLUMNS_NAME, connectionSource,
+        super(new DbTable("user_on_role", "ur"),
+                COLUMNS_NAME,
+                connectionSource,
                 new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUserOnRole.class), UtilClass.castClass(UserOnRole.class)),
                 new MapperSqlUserOnRole<ID>(COLUMNS_NAME),
                 generateIdType);

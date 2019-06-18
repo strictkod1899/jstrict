@@ -3,6 +3,7 @@ package ru.strict.db.spring.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.Roleuser;
 import ru.strict.models.ServiceOnRole;
 import ru.strict.db.core.entities.EntityServiceOnRole;
@@ -20,7 +21,9 @@ public class RepositoryServiceOnRole<ID, SERVICE>
     public RepositoryServiceOnRole(CreateConnectionByDataSource connectionSource,
                                    MapperDtoBase<ID, EntityServiceOnRole<ID, SERVICE>, ServiceOnRole<ID, SERVICE>> dtoMapper,
                                    GenerateIdType generateIdType) {
-        super("service_on_role", COLUMNS_NAME, connectionSource,
+        super(new DbTable("service_on_role", "sr"),
+                COLUMNS_NAME,
+                connectionSource,
                 dtoMapper,
                 new MapperSqlServiceOnRole<ID, SERVICE>(COLUMNS_NAME),
                 generateIdType);

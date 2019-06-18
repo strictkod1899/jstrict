@@ -1,7 +1,7 @@
 package ru.strict.db.core.mappers.dto;
 
-import ru.strict.models.DtoBase;
 import ru.strict.db.core.mappers.MapperBase;
+import ru.strict.models.DtoBase;
 
 /**
  * Базовая реализация маппера из entity в dto

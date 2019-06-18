@@ -4,6 +4,7 @@ import ru.strict.db.core.common.GenerateIdType;
 
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.ICreateConnection;
+import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.Profile;
 import ru.strict.models.User;
 import ru.strict.db.core.entities.EntityProfile;
@@ -27,7 +28,9 @@ public class RepositoryProfile<ID>
     private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id"};
 
     public RepositoryProfile(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
-        super("profile", COLUMNS_NAME, connectionSource,
+        super(new DbTable("profile", "pr"),
+                COLUMNS_NAME,
+                connectionSource,
                 new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityProfile.class), UtilClass.castClass(Profile.class)),
                 new MapperSqlProfile<ID>(COLUMNS_NAME),
                 generateIdType);
