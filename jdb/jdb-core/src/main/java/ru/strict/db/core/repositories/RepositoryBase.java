@@ -156,17 +156,23 @@ public abstract class RepositoryBase
 
     @Override
     public DTO readFill(ID id) {
-        DTO user = read(id);
-        user = fill(user);
-        return user;
+        DTO dto = read(id);
+        if(dto != null) {
+            dto = fill(dto);
+        }
+        return dto;
     }
 
     @Override
     public List<DTO> readAllFill(DbRequests requests) {
-        List<DTO> users = readAll(requests);
-        users.stream().forEach((dto)-> dto = fill(dto));
-        return users;
+        List<DTO> dtoList = readAll(requests);
+        if(dtoList != null) {
+            dtoList.stream().forEach((dto) -> dto = fill(dto));
+        }
+        return dtoList;
     }
+
+
 
     @Override
     public DTO createOrReadFill(DTO dto) {

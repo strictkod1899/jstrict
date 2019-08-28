@@ -16,7 +16,7 @@ import ru.strict.utils.UtilClass;
 import java.sql.Connection;
 
 public class RepositoryFileStorage<ID, DTO extends FileStorageBase<ID>>
-        extends RepositoryJdbcBase<ID, EntityFileStorage<ID>, DTO>
+        extends RepositoryJdbcNamed<ID, EntityFileStorage<ID>, DTO>
         implements IRepositoryFileStorage<ID, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"filename", "extension", "displayname", "content", "filepath",

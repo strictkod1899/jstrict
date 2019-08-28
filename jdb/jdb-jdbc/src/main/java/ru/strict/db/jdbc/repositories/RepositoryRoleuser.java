@@ -23,7 +23,7 @@ import java.sql.Connection;
 import java.util.*;
 
 public class RepositoryRoleuser<ID>
-        extends RepositoryJdbcBase<ID, EntityRoleuser<ID>, Roleuser<ID>>
+        extends RepositoryJdbcNamed<ID, EntityRoleuser<ID>, Roleuser<ID>>
         implements IRepositoryNamed<ID, Roleuser<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"code", "description"};

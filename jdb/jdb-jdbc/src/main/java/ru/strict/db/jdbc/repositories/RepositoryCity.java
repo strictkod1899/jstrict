@@ -17,7 +17,7 @@ import ru.strict.utils.UtilClass;
 import java.sql.Connection;
 
 public class RepositoryCity<ID>
-        extends RepositoryJdbcBase<ID, EntityCity<ID>, City<ID>>
+        extends RepositoryJdbcNamed<ID, EntityCity<ID>, City<ID>>
         implements IRepositoryCity<ID> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption", "country_id"};

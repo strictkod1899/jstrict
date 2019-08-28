@@ -47,6 +47,10 @@ public interface IRepositoryNamed<ID, DTO extends DtoBase<ID>> extends IReposito
         return result;
     }
 
+    DTO readByNameFill(String caption);
+
+    List<DTO> readAllByNameFill(String caption);
+
     /**
      * Получить наименование столбца, который выполняет роль наименования записи
      * @return

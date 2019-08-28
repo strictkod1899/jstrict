@@ -1,7 +1,6 @@
 package ru.strict.db.core.requests;
 
 import ru.strict.db.core.common.SqlParameters;
-import ru.strict.patterns.composite.CompositeLeaf;
 import ru.strict.validates.ValidateBaseValue;
 
 import java.util.Objects;
@@ -25,6 +24,9 @@ import java.util.UUID;
  */
 public class DbWhereItem extends DbWhereBase {
 
+    /**
+     * Элемент сравнения
+     */
     private DbSelectItem whereItem;
     /**
      * Значение столбца
@@ -100,7 +102,7 @@ public class DbWhereItem extends DbWhereBase {
         return columnValue;
     }
 
-    public String getFormattedColumnValue() {
+    private String getFormattedStringValue() {
         return (templateSymbol != null
                     ? (templateSymbol.getPointTemplateSymbol()== PointTemplateSymbol.BEGIN
                             || templateSymbol.getPointTemplateSymbol()== PointTemplateSymbol.BOTH
@@ -123,15 +125,19 @@ public class DbWhereItem extends DbWhereBase {
     public TemplateSymbol getTemplateSymbol() {
         return templateSymbol;
     }
+
+    public DbSelectItem getWhereItem() {
+        return whereItem;
+    }
     //</editor-fold>
 
     @Override
     public String getSql(){
         String result = null;
 
-        if(columnValue instanceof String || columnValue instanceof UUID ){
+        if(columnValue instanceof String || columnValue instanceof UUID){
             result = String.format("%s %s", whereItem.getSql(), operator) +
-                    (columnValue == null ? "" : String.format(" '%s'", getFormattedColumnValue()));
+                    (columnValue == null ? "" : String.format(" '%s'", getFormattedStringValue()));
         } else {
             result = String.format("%s %s", whereItem.getSql(), operator) + (columnValue == null ? "" : String.format(" %s", columnValue));
         }
@@ -140,16 +146,24 @@ public class DbWhereItem extends DbWhereBase {
 
     @Override
     public String getParametrizedSql() {
-        return String.format("%s %s", whereItem.getSql(), operator) + (columnValue == null ? "" : " ?");
+        if(columnValue instanceof IDbParametrizedRequest) {
+            return String.format("%s %s %s", getWhereItem().getSql(), getOperator(), ((DbIn) getColumnValue()).getParametrizedSql());
+        } else {
+            return String.format("%s %s", whereItem.getSql(), operator) + (columnValue == null ? "" : " ?");
+        }
     }
 
     @Override
     public SqlParameters getParameters() {
-        SqlParameters sqlParameters = new SqlParameters();
-        if(columnValue != null) {
-            sqlParameters.add(0, "where", columnValue);
+        if(columnValue instanceof IDbParametrizedRequest){
+            return ((IDbParametrizedRequest)columnValue).getParameters();
+        } else {
+            SqlParameters sqlParameters = new SqlParameters();
+            if (columnValue != null) {
+                sqlParameters.add(0, "where", columnValue);
+            }
+            return sqlParameters;
         }
-        return sqlParameters;
     }
 
     //<editor-fold defaultState="collapsed" desc="Base override">

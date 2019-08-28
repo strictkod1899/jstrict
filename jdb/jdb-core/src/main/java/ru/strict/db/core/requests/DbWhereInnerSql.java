@@ -25,17 +25,23 @@ public class DbWhereInnerSql extends DbWhereBase {
         this.operator = operator;
         this.innerSelect = innerSelect;
     }
+
+    public DbWhereInnerSql(Object leftWhereItem, String operator, DbSelect innerSelect) {
+        this.leftWhereItem = new DbObject<>(leftWhereItem);
+        this.operator = operator;
+        this.innerSelect = innerSelect;
+    }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
     @Override
     public String getSql() {
-        return String.format("%s %s (%s)", leftWhereItem, operator, innerSelect.getSql());
+        return String.format("(%s) %s (%s)", leftWhereItem, operator, innerSelect.getSql());
     }
 
     @Override
     public String getParametrizedSql() {
-        return String.format("%s %s (%s)", leftWhereItem, operator, innerSelect.getParametrizedSql());
+        return String.format("(%s) %s (%s)", leftWhereItem, operator, innerSelect.getParametrizedSql());
     }
 
     @Override

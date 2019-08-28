@@ -1,5 +1,6 @@
 package ru.strict.db.core.requests;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -94,6 +95,42 @@ public class TestDbRequests {
     }
 
     @Test
+    public void testWhere7(){
+        String sqlExpected = "SELECT * FROM table1 WHERE (table1.column1 IN (1, 2, 'test'))";
+
+        DbTable table = new DbTable("table1");
+        DbSelect select = new DbSelect(table);
+        select.getRequests().addWhere(new DbWhereIn(table, "column1", new DbIn(Arrays.asList(new Object[]{1, 2, "test"}))));
+        Assert.assertEquals(sqlExpected, select.getSql());
+    }
+
+    @Test
+    public void testWhere8(){
+        String sqlExpected = "SELECT * FROM table1 WHERE (table1.column1 IN (SELECT table2.column1 FROM table2))";
+
+        DbTable table1 = new DbTable("table1");
+        DbSelect select = new DbSelect(table1);
+
+        DbTable table2 = new DbTable("table2");
+        DbSelect innerSelect = new DbSelect(table2);
+        innerSelect.addSelectItem(table2, "column1");
+
+        select.getRequests().addWhere(new DbWhereIn(table1, "column1", new DbIn(innerSelect)));
+        Assert.assertEquals(sqlExpected, select.getSql());
+    }
+
+    @Test
+    public void testGroup(){
+        String sqlExpected = "SELECT * FROM table1 WHERE (table1.column1 = 1) GROUP BY table1.column3 HAVING (COUNT(1) > 1)";
+
+        DbTable table = new DbTable("table1");
+        DbSelect select = new DbSelect(table);
+        select.getRequests().addWhere(new DbWhereEquals(table, "column1", 1));
+        select.getRequests().setGroup(new DbGroup(table, "column3", new DbWhereItem(null, "COUNT(1)", 1, ">")));
+        Assert.assertEquals(sqlExpected, select.getSql());
+    }
+
+    @Test
     public void testJoin1(){
         String sqlExpected = "SELECT * FROM table1 INNER JOIN table2 ON table2.column1 = table1.column2";
 
@@ -164,7 +201,7 @@ public class TestDbRequests {
     @Test
     public void testWhereInnerSql(){
         String sqlExpected = "SELECT * FROM table1 as t1 WHERE (t1.column1 = 123) AND " +
-                "(t1.column2 in (SELECT t2.column1 FROM table2 as t2 WHERE (t2.column2 like 'Hello World'))) " +
+                "((t1.column2) in (SELECT t2.column1 FROM table2 as t2 WHERE (t2.column2 like 'Hello World'))) " +
                 "ORDER BY t1.column1 DESC";
 
         DbTable table = new DbTable("table1", "t1");

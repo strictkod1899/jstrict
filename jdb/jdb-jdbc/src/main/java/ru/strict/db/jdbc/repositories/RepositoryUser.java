@@ -19,7 +19,7 @@ import java.sql.Connection;
 import java.util.*;
 
 public class RepositoryUser<ID, DTO extends UserBase<ID>>
-        extends RepositoryJdbcBase<ID, EntityUser<ID>, DTO>
+        extends RepositoryJdbcNamed<ID, EntityUser<ID>, DTO>
         implements IRepositoryUser<ID, DTO> {
 
     private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "email",

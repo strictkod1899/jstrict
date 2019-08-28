@@ -1,5 +1,6 @@
 package ru.strict.db.core.requests;
 
+import ru.strict.db.core.common.SqlParameter;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.validates.ValidateBaseValue;
 
@@ -12,9 +13,10 @@ public class DbRequests implements IDbRequest, IDbParametrizedRequest {
 
     private List<DbJoin> joinRequests;
     private DbWhere whereRequests;
+    private DbGroup group;
+    private DbSort sortRequest;
     private DbLimit limitRequest;
     private DbOffset offsetRequest;
-    private DbSort sortRequest;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public DbRequests() {
@@ -34,6 +36,7 @@ public class DbRequests implements IDbRequest, IDbParametrizedRequest {
 
         result = fillJoin(result);
         result = fillWhere(result);
+        result = fillGroup(result);
         result = fillOrderBy(result);
         result = fillLimitOffset(result);
 
@@ -45,7 +48,8 @@ public class DbRequests implements IDbRequest, IDbParametrizedRequest {
         String result = "";
 
         result = fillJoin(result);
-        result = fillParametrizedWhere(result);
+        result = fillParameterizedWhere(result);
+        result = fillParameterizedGroup(result);
         result = fillOrderBy(result);
         result = fillLimitOffset(result);
 
@@ -56,6 +60,15 @@ public class DbRequests implements IDbRequest, IDbParametrizedRequest {
     public SqlParameters getParameters() {
         SqlParameters parameters = new SqlParameters();
         parameters.addAll(whereRequests.getParameters());
+        if(group != null) {
+            SqlParameters<?> groupParameters = group.getParameters();
+            int i = parameters.size();
+            for(SqlParameter parameter : groupParameters.getParameters()){
+                i++;
+                parameter.setIndex(i);
+            }
+            parameters.addAll(groupParameters);
+        }
         return parameters;
     }
 
@@ -76,11 +89,27 @@ public class DbRequests implements IDbRequest, IDbParametrizedRequest {
         return result;
     }
 
-    private String fillParametrizedWhere(String result){
+    private String fillParameterizedWhere(String result){
         String sql = whereRequests.getParametrizedSql();
         if(!ValidateBaseValue.isEmptySpaceOrNull(sql)) {
             result += " WHERE " + sql;
         }
+        return result;
+    }
+
+    private String fillGroup(String result){
+        if(group != null){
+            result += " " + group.getSql();
+        }
+
+        return result;
+    }
+
+    private String fillParameterizedGroup(String result){
+        if(group != null){
+            result += " " + group.getParametrizedSql();
+        }
+
         return result;
     }
 
@@ -129,6 +158,22 @@ public class DbRequests implements IDbRequest, IDbParametrizedRequest {
         return whereRequests;
     }
 
+    public DbGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(DbGroup group) {
+        this.group = group;
+    }
+
+    public DbSort getSort() {
+        return sortRequest;
+    }
+
+    public void setSort(DbSort sortRequest) {
+        this.sortRequest = sortRequest;
+    }
+
     public DbLimit getLimit() {
         return limitRequest;
     }
@@ -143,14 +188,6 @@ public class DbRequests implements IDbRequest, IDbParametrizedRequest {
 
     public void setOffset(DbOffset offsetRequest) {
         this.offsetRequest = offsetRequest;
-    }
-
-    public DbSort getSort() {
-        return sortRequest;
-    }
-
-    public void setSort(DbSort sortRequest) {
-        this.sortRequest = sortRequest;
     }
     //</editor-fold>
 
@@ -167,6 +204,7 @@ public class DbRequests implements IDbRequest, IDbParametrizedRequest {
         DbRequests requests = (DbRequests) o;
         return Objects.equals(joinRequests, requests.joinRequests) &&
                 Objects.equals(whereRequests, requests.whereRequests) &&
+                Objects.equals(group, requests.group) &&
                 Objects.equals(limitRequest, requests.limitRequest) &&
                 Objects.equals(offsetRequest, requests.offsetRequest) &&
                 Objects.equals(sortRequest, requests.sortRequest);
@@ -174,7 +212,7 @@ public class DbRequests implements IDbRequest, IDbParametrizedRequest {
 
     @Override
     public int hashCode() {
-        return Objects.hash(joinRequests, whereRequests, limitRequest, offsetRequest, sortRequest);
+        return Objects.hash(joinRequests, whereRequests, group, limitRequest, offsetRequest, sortRequest);
     }
     //</editor-fold>
 }

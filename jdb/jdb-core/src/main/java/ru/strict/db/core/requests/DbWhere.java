@@ -10,6 +10,7 @@ public class DbWhere extends DbWhereBase<List<DbWhereBase>, DbWhereBase> {
     
     private List<DbWhereBase> childs;
     private WhereType whereType;
+    private String parameterPrefix;
 
     public DbWhere(WhereType whereType){
         super();
@@ -18,6 +19,15 @@ public class DbWhere extends DbWhereBase<List<DbWhereBase>, DbWhereBase> {
         }
         this.whereType = whereType;
         childs = new ArrayList<>();
+        this.parameterPrefix = "where";
+    }
+
+    public void setParameterPrefix(String parameterPrefix) {
+        this.parameterPrefix = parameterPrefix;
+    }
+
+    public String getParameterPrefix() {
+        return parameterPrefix;
     }
 
     @Override
@@ -119,7 +129,7 @@ public class DbWhere extends DbWhereBase<List<DbWhereBase>, DbWhereBase> {
             int i = result.size();
             for(SqlParameter parameter : parameters.getParameters()){
                 parameter.setIndex(i);
-                parameter.setName("where" + i);
+                parameter.setName(parameterPrefix + i);
                 i++;
             }
             result.addAll(parameters);

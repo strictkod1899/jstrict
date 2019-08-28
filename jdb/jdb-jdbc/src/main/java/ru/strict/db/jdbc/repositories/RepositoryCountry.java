@@ -19,7 +19,7 @@ import java.sql.Connection;
 import java.util.List;
 
 public class RepositoryCountry<ID>
-        extends RepositoryJdbcBase<ID, EntityCountry<ID>, Country<ID>>
+        extends RepositoryJdbcNamed<ID, EntityCountry<ID>, Country<ID>>
         implements IRepositoryNamed<ID, Country<ID>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"caption"};
