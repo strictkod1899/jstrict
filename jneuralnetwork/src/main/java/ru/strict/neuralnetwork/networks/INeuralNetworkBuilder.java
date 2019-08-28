@@ -6,5 +6,5 @@ public interface INeuralNetworkBuilder<RESULT extends NeuralNetworkHidden> exten
     INeuralNetworkBuilder addLayout(int countHiddenNeurons);
     INeuralNetworkBuilder addTrainingSet(Neuron[] inputSet, Neuron[] outputSet);
     INeuralNetworkBuilder addTestSet(Neuron[] inputSet, Neuron[] outputSet);
-    INeuralNetworkBuilder setUseBias(boolean isUseBias);
+    INeuralNetworkBuilder useBias(boolean isUseBias);
 }

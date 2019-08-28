@@ -44,6 +44,12 @@ class NeuralNetworkData implements Cloneable{
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
     NeuralNetworkData(int countInputs, int countOutputs) {
+        if(countInputs < 1){
+            throw new IllegalArgumentException("inputNeurons is NULL");
+        }
+        if(countOutputs < 1){
+            throw new IllegalArgumentException("outputNeurons is NULL");
+        }
         this.countInputs = countInputs;
         this.countOutputs = countOutputs;
         trainingSets = new ArrayList();

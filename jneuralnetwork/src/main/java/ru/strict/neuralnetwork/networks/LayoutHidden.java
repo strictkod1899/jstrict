@@ -49,10 +49,10 @@ class LayoutHidden {
      * <b>ВАЖНО:</b> Не использовать метод вручную. Требуемая область видимости: protected.
      * Создавать объект LayoutHidden через метод addLayout класса HiddenStructure
      * </pre>
-     * @param isUseBeas
+     * @param isUseBias
      */
-    public void setBias(boolean isUseBeas) {
-        if(isUseBeas)
+    public void setBias(boolean isUseBias) {
+        if(isUseBias)
             this.bias = new Neuron(1, NeuronType.BIAS);
         else
             this.bias = new Neuron(0, NeuronType.BIAS);

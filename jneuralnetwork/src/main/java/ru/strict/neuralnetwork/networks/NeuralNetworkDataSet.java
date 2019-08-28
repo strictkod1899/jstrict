@@ -28,6 +28,12 @@ class NeuralNetworkDataSet {
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
     NeuralNetworkDataSet(Neuron[] inputNeurons, Neuron[] outputNeurons) {
+        if(inputNeurons == null || inputNeurons.length < 1){
+            throw new IllegalArgumentException("inputNeurons is NULL or empty");
+        }
+        if(outputNeurons == null || outputNeurons.length < 1){
+            throw new IllegalArgumentException("outputNeurons is NULL or empty");
+        }
         this.inputNeurons = inputNeurons;
         this.outputNeurons = outputNeurons;
         this.countInput = inputNeurons.length;
