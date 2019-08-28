@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Упорядоченная последовательность пар 'ключ-значение'
+ */
 public class KeyValues<KEY, VALUE> extends ArrayList<KeyValue<KEY, VALUE>> {
 
     public KeyValues() {
