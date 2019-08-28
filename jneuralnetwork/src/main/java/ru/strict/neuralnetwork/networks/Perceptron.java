@@ -1,8 +1,8 @@
 package ru.strict.neuralnetwork.networks;
 
 import ru.strict.neuralnetwork.functions.IActivateFunction;
-import ru.strict.patterns.IBuilder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -183,19 +183,57 @@ public class Perceptron extends NeuralNetworkHidden<NeuralNetworkData, HiddenStr
         return feedforward(inputNeurons);
     }
 
-    public static Builder builder(int countInputs, int countHiddens, int countOutputs, IActivateFunction activateFunction){
-        return new Builder(countInputs, countHiddens, countOutputs, activateFunction);
+    public static Builder builder(){
+        return new Builder();
     }
 
     public static class Builder implements INeuralNetworkBuilder<Perceptron>{
-        private NeuralNetworkData data;
-        private HiddenStructure structure;
+        /**
+         * required
+         */
+        private int inputNeurons;
+        /**
+         * required
+         */
+        private int outputNeurons;
+        /**
+         * required: minimum 1 record
+         */
+        private List<Integer> hiddenLayouts;
+        /**
+         * required
+         */
         private IActivateFunction activateFunction;
+        /**
+         * required
+         */
+        private List<NeuralNetworkDataSet> trainingSets;
+        /**
+         * required
+         */
+        private List<NeuralNetworkDataSet> testSets;
+        private boolean useBias;
 
-        private Builder(int countInputs, int countHiddens, int countOutputs, IActivateFunction activateFunction){
-            this.data = new NeuralNetworkData(countInputs, countOutputs);
-            this.structure = new HiddenStructure(countInputs, countHiddens, countOutputs);
+        public Builder() {
+            hiddenLayouts = new ArrayList<>();
+            trainingSets = new ArrayList<>();
+            testSets = new ArrayList<>();
+            useBias = false;
+        }
+
+        public Builder inputNeurons(int inputNeurons) {
+            this.inputNeurons = inputNeurons;
+            return this;
+        }
+
+        public Builder outputNeurons(int outputNeurons) {
+            this.outputNeurons = outputNeurons;
+            return this;
+        }
+
+        public Builder activateFunction(IActivateFunction activateFunction) {
             this.activateFunction = activateFunction;
+            return this;
         }
 
         /**
@@ -204,32 +242,54 @@ public class Perceptron extends NeuralNetworkHidden<NeuralNetworkData, HiddenStr
          */
         @Override
         public Builder addLayout(int countHiddenNeurons){
-            structure.addLayoutHidden(countHiddenNeurons);
+            hiddenLayouts.add(countHiddenNeurons);
             return this;
         }
 
         @Override
         public Builder addTrainingSet(Neuron[] inputSet, Neuron[] outputSet){
-            data.addTrainingSet(new NeuralNetworkDataSet(inputSet, outputSet));
+            trainingSets.add(new NeuralNetworkDataSet(inputSet, outputSet));
             return this;
         }
 
         @Override
         public Builder addTestSet(Neuron[] inputSet, Neuron[] outputSet){
-            data.addTestSet(new NeuralNetworkDataSet(inputSet, outputSet));
+            testSets.add(new NeuralNetworkDataSet(inputSet, outputSet));
             return this;
         }
 
         @Override
-        public Builder setUseBias(boolean isUseBias){
-            structure.setUseBias(isUseBias);
+        public Builder useBias(boolean isUseBias){
+            useBias = isUseBias;
             return this;
         }
 
         @Override
         public Perceptron build(){
-            boolean isUseBias = structure.getBias().getValue()==1 ? true : false;
-            structure.getLayoutsHidden().stream().forEach(l -> l.setBias(isUseBias));
+            if(hiddenLayouts.isEmpty()){
+                throw new IllegalArgumentException("Empty hidden layouts for Perceptron");
+            }
+            if(trainingSets.isEmpty()){
+                throw new IllegalArgumentException("Empty training sets for Perceptron");
+            }
+            if(activateFunction == null){
+                throw new IllegalArgumentException("activateFunction is NULL");
+            }
+
+            NeuralNetworkData data = new NeuralNetworkData(inputNeurons, outputNeurons);
+            HiddenStructure structure = new HiddenStructure(inputNeurons, hiddenLayouts.get(0), outputNeurons);
+            if(hiddenLayouts.size() > 1){
+                for(int i = 1; i < hiddenLayouts.size(); i++){
+                    structure.addLayoutHidden(hiddenLayouts.get(i));
+                }
+            }
+            structure.setUseBias(useBias);
+            structure.getLayoutsHidden().stream().forEach(l -> l.setBias(useBias));
+
+            for(NeuralNetworkDataSet trainingSet : trainingSets){
+                data.addTrainingSet(trainingSet);
+            }
+
             return new Perceptron(data, structure, activateFunction);
         }
     }
