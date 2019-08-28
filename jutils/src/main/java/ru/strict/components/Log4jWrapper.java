@@ -230,6 +230,7 @@ public class Log4jWrapper implements ILogger {
      */
     private void defaultConfiguration(){
         if(configuration != null) {
+            configuration.setLevel(Level.INFO);
             configuration.setPattern(DEFAULT_PATTERN);
             configuration.setLogDirectoryPath(UtilClass.getPathByClass(this.getClass()) + File.separator + DEFAULT_FOLDER_NAME);
             configuration.setLogFileName(DEFAULT_LOG_FILE_NAME);
@@ -258,6 +259,8 @@ public class Log4jWrapper implements ILogger {
             layout.setConversionPattern(configuration.getPattern());
 
             wrappedObject.removeAllAppenders();
+
+            wrappedObject.setLevel(configuration.getLevel());
 
             if(configuration.isLogToConsole()){
                 ConsoleAppender consoleAppender = new ConsoleAppender();

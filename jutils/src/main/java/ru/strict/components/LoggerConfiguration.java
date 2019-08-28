@@ -1,5 +1,7 @@
 package ru.strict.components;
 
+import org.apache.log4j.Level;
+
 import java.util.Objects;
 
 /**
@@ -7,6 +9,7 @@ import java.util.Objects;
  */
 public class LoggerConfiguration {
 
+    private Level level;
     private String pattern;
     private String logDirectoryPath;
     private String logFileName;
@@ -22,6 +25,14 @@ public class LoggerConfiguration {
     private String errorLogFileName;
     private String errorMaxFileSize;
     private int errorMaxBackupIndex;
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
 
     public String getPattern() {
         return pattern;
@@ -116,7 +127,8 @@ public class LoggerConfiguration {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LoggerConfiguration that = (LoggerConfiguration) o;
-        return maxBackupIndex == that.maxBackupIndex &&
+        return level == that.level &&
+                maxBackupIndex == that.maxBackupIndex &&
                 isLogToConsole == that.isLogToConsole &&
                 isLogToFile == that.isLogToFile &&
                 isLogErrorsToAdditionalFile == that.isLogErrorsToAdditionalFile &&
@@ -131,6 +143,6 @@ public class LoggerConfiguration {
 
     @Override
     public int hashCode() {
-        return Objects.hash(pattern, logDirectoryPath, logFileName, maxFileSize, maxBackupIndex, isLogToConsole, isLogToFile, isLogErrorsToAdditionalFile, errorLogFileName, errorMaxFileSize, errorMaxBackupIndex);
+        return Objects.hash(level, pattern, logDirectoryPath, logFileName, maxFileSize, maxBackupIndex, isLogToConsole, isLogToFile, isLogErrorsToAdditionalFile, errorLogFileName, errorMaxFileSize, errorMaxBackupIndex);
     }
 }
