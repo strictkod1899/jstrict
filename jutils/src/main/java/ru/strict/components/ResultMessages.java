@@ -74,6 +74,14 @@ public class ResultMessages implements Cloneable {
         return sequenceMessages.stream().map(message -> message.toString()).collect(Collectors.toList());
     }
 
+    public boolean hasMessages(){
+        return !messages.isEmpty();
+    }
+
+    public boolean hasErrors(){
+        return !errors.isEmpty();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -10,6 +10,10 @@ public class ResultObject<OBJECT> extends ResultMessages {
         super();
     }
 
+    public ResultObject(OBJECT object) {
+        this.object = object;
+    }
+
     public OBJECT getObject() {
         return object;
     }
