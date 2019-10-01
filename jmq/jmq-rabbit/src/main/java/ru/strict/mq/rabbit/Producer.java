@@ -4,7 +4,7 @@ import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.ReturnListener;
 import org.apache.commons.lang3.SerializationUtils;
 import ru.strict.mq.rabbit.exceptions.QueueConnectionNotExistsException;
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.validate.ValidateBaseValue;
 
 import java.io.IOException;
 import java.io.Serializable;

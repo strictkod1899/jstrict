@@ -1,16 +1,17 @@
 package ru.strict.db.core.repositories;
 
-import ru.strict.models.DtoBase;
 import ru.strict.db.core.requests.DbRequests;
+import ru.strict.db.core.requests.DbWhereItem;
+import ru.strict.models.ModelBase;
 
 import java.util.List;
 
 /**
  * Расширенные возможности репозитория
  * @param <ID> Тип идентификатора
- * @param <DTO> Тип Dto-сущности базы данных
+ * @param <T> Модель сущности базы данных
  */
-public interface IRepositoryExtension<ID, DTO extends DtoBase<ID>> extends IRepository<ID, DTO> {
+public interface IRepositoryExtension<ID, T extends ModelBase<ID>> extends IRepository<ID, T> {
 
     /**
      * Получить объект из базы данных по переданному id, подгрузив в качестве объектов внешние ссылки
@@ -18,7 +19,7 @@ public interface IRepositoryExtension<ID, DTO extends DtoBase<ID>> extends IRepo
      * @param id Идентификатор записи
      * @return Объект связанный с переданным id
      */
-    DTO readFill(ID id);
+    T readFill(ID id);
 
     /**
      * Получить все объекты из базы данных по переданным условиям, подгрузив в качестве объектов внешние ссылки
@@ -26,16 +27,29 @@ public interface IRepositoryExtension<ID, DTO extends DtoBase<ID>> extends IRepo
      * @param requests Условия выборки объектов. Если передать null, то будут считаны все объекты БД
      * @return Список объектов из базы данных
      */
-    List<DTO> readAllFill(DbRequests requests);
+    List<T> readAllFill(DbRequests requests);
 
     /**
-     * Создать или прочитать запись в таблице базы данных на основе dto-объекта, переданного в параметрах метода, подгрузив в качестве объектов внешние ссылки
+     * Создать или прочитать запись в таблице базы данных на основе объекта, переданного в параметрах метода, подгрузив в качестве объектов внешние ссылки
      * Если в базе данных содержится запись с идентификатором переданного объекта, то метод вернет соответствующий объект, иначе пытаемся сохарнить запись
      *
-     * @param dto Добавляемый объект
+     * @param model Добавляемый объект
      * @return Созданный/прочитанный объект
      */
-    DTO createOrReadFill(DTO dto);
+    default T createOrReadFill(T model){
+        if(model == null){
+            throw new IllegalArgumentException("model is NULL");
+        }
+
+        boolean rowExists = isRowExists(model.getId());
+        if(rowExists){
+            return readFill(model.getId());
+        } else {
+            ID savedId = create(model);
+            model.setId(savedId);
+            return model;
+        }
+    }
 
     /**
      * Получить количество записей из базы данных по переданным условиям
@@ -50,7 +64,17 @@ public interface IRepositoryExtension<ID, DTO extends DtoBase<ID>> extends IRepo
      * @param id
      * @return
      */
-    boolean isRowExists(ID id);
+    default boolean isRowExists(ID id){
+        if(id == null){
+            throw new IllegalArgumentException("id is NULL");
+        }
+
+        DbRequests requests = new DbRequests();
+        requests.addWhere(new DbWhereItem(getTable(), getColumnIdName(), id, "="));
+
+        int count = readCount(requests);
+        return count > 0 ? true : false;
+    }
 
     /**
      * Выполнить sql-запрос к базе данных

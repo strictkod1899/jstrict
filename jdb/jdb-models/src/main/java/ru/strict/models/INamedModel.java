@@ -16,6 +16,6 @@ package ru.strict.models;
  * </pre></code>
  * @return
  */
-public interface INamedModel<ID> extends IModelBase<ID> {
+public interface INamedModel<ID> extends IModel<ID> {
     String getCaption();
 }

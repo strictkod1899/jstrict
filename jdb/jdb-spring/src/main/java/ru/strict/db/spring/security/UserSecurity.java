@@ -1,10 +1,9 @@
 package ru.strict.db.spring.security;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import ru.strict.models.Roleuser;
-import ru.strict.models.User;
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.models.Role;
+import ru.strict.models.UserDetails;
+import ru.strict.validate.ValidateBaseValue;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -13,7 +12,7 @@ import java.util.Objects;
 /**
  * Пользователь системы
  */
-public class UserSecurity<ID> extends User<ID> implements UserDetails{
+public class UserSecurity<ID> extends UserDetails<ID> implements org.springframework.security.core.userdetails.UserDetails {
 
 	private static final long serialVersionUID = 8266525488057072269L;
 
@@ -22,37 +21,34 @@ public class UserSecurity<ID> extends User<ID> implements UserDetails{
 	//<editor-fold defaultState="collapsed" desc="constructors">
     public UserSecurity() {
     	super();
+		this.authorities = new HashSet<>();
 	}
 
-	public UserSecurity(String username, String email, String passwordEncode) {
-		super(username, email, passwordEncode);
-	}
-
-	public UserSecurity(ID id, String username, String email, String passwordEncode) {
-		super(id, username, email, passwordEncode);
+	public UserSecurity(UserDetails<ID> user) {
+		super(user.getId(), user.getUsername(), user.getEmail(), user.getPasswordEncode(), user.getSalt(), user.getSecret());
+		this.authorities = new HashSet<>();
 	}
 	//</editor-fold>
 
 	//<editor-fold defaultState="collapsed" desc="Get/Set">
 	@Override
-	public void addRole(Roleuser<ID> roleuser){
-		this.authorities = new HashSet<>();
-		if (roleuser.getCode() != null && !ValidateBaseValue.isEmptyOrNull(roleuser.getCode())) {
+	public void addRole(Role<ID> role){
+		if (!ValidateBaseValue.isEmptyOrNull(role.getCode())) {
 			GrantedAuthority grandAuthority = new GrantedAuthority() {
 				private static final long serialVersionUID = 3958183417696804555L;
 
 				public String getAuthority() {
-					return roleuser.getCode();
+					return role.getCode();
 				}
 
 				@Override
 				public int hashCode(){
-					return Objects.hash(roleuser);
+					return Objects.hash(getAuthority());
 				}
 			};
 			this.authorities.add(grandAuthority);
 		}
-		super.addRole(roleuser);
+		super.addRole(role);
 	}
 	//</editor-fold>
 
@@ -74,7 +70,7 @@ public class UserSecurity<ID> extends User<ID> implements UserDetails{
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return true;
+		return !isBlocked();
 	}
 
 	@Override
@@ -84,7 +80,7 @@ public class UserSecurity<ID> extends User<ID> implements UserDetails{
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return !(isBlocked() || isDeleted());
 	}
 	//</editor-fold>
 

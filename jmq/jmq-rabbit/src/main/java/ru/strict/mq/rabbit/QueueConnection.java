@@ -4,7 +4,7 @@ import com.rabbitmq.client.*;
 import ru.strict.mq.rabbit.exceptions.QueueChangeException;
 import ru.strict.mq.rabbit.exceptions.QueueConnectionException;
 import ru.strict.mq.rabbit.exceptions.QueueConnectionNotExistsException;
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.validate.ValidateBaseValue;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

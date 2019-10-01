@@ -1,20 +1,20 @@
 package ru.strict.db.mybatis.mappers.sql;
 
 import org.apache.ibatis.annotations.Param;
-import ru.strict.db.core.entities.EntityFileStorage;
+import ru.strict.models.FileStorage;
 
 import java.util.List;
 
-public interface MapperSqlFileStorage<ID> extends MapperSqlNamed<ID, EntityFileStorage<ID>> {
-    List<EntityFileStorage<ID>> readByDisplayName(@Param("displayName") String displayName);
+public interface MapperSqlFileStorage<ID> extends MapperSqlNamed<ID, FileStorage<ID>> {
+    List<FileStorage<ID>> readByDisplayName(@Param("displayName") String displayName);
 
-    List<EntityFileStorage<ID>> readByFileNameAndExtension(@Param("fileName") String fileName, @Param("extension") String extension);
+    List<FileStorage<ID>> readByFileNameAndExtension(@Param("fileName") String fileName, @Param("extension") String extension);
 
-    List<EntityFileStorage<ID>> readByDisplayNameAndExtension(@Param("displayName") String displayName, @Param("extension") String extension);
+    List<FileStorage<ID>> readByDisplayNameAndExtension(@Param("displayName") String displayName, @Param("extension") String extension);
 
-    EntityFileStorage<ID> readByFilePath(@Param("filePath") String filePath);
+    FileStorage<ID> readByFilePath(@Param("filePath") String filePath);
 
-    List<EntityFileStorage<ID>> readByType(@Param("type") int type);
+    List<FileStorage<ID>> readByType(@Param("type") int type);
 
-    List<EntityFileStorage<ID>> readByStatus(@Param("status") int status);
+    List<FileStorage<ID>> readByStatus(@Param("status") int status);
 }

@@ -10,18 +10,22 @@ import java.util.List;
 
 public interface IRepositoryUserOnRole<ID> extends IRepositoryExtension<ID, UserOnRole<ID>> {
     default List<UserOnRole<ID>> readByUserId(ID userId){
+        if(userId == null){
+            throw new IllegalArgumentException("userId is NULL");
+        }
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "userx_id"), userId, "="));
 
-        List<UserOnRole<ID>> result = readAll(requests);
-        return result;
+        return readAll(requests);
     }
 
     default List<UserOnRole<ID>> readByRoleId(ID roleId){
+        if(roleId == null){
+            throw new IllegalArgumentException("roleId is NULL");
+        }
         DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "roleuser_id"), roleId, "="));
+        requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "role_id"), roleId, "="));
 
-        List<UserOnRole<ID>> result = readAll(requests);
-        return result;
+        return readAll(requests);
     }
 }

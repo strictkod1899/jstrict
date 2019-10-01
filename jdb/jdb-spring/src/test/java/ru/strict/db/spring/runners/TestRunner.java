@@ -16,29 +16,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses(value = {
+@Suite.SuiteClasses({
         TestConnection.class,
         TestRepositoryCountry.class,
         TestRepositoryCity.class,
-        TestRepositoryRoleuser.class,
+        TestRepositoryRole.class,
         TestRepositoryUser.class,
+        TestRepositoryUserSecurity.class,
         TestRepositoryUserOnRole.class,
         TestRepositoryProfile.class,
         TestRepositoryProfileDetails.class,
         TestRepositoryFileStorage.class,
         TestRepositoryJWTToken.class,
-        TestRepositoryServiceOnRole.class
+        TestRepositoryPermissionOnRole.class
 })
 public class TestRunner {
 
     private static final String DB_INTEGER_FILE_PATH = "testdb_integer.sqlite";
     private static final String DB_UUID_FILE_PATH = "testdb_uuid.sqlite";
 
-    private static File DB_INTEGER_FILE;
-    private static File DB_UUID_FILE;
+    public static File DB_INTEGER_FILE;
+    public static File DB_UUID_FILE;
     public static CreateConnectionByDataSource CREATE_DB_INTEGER_CONNECTION;
     public static CreateConnectionByDataSource CREATE_DB_UUID_CONNECTION;
-    public static List<IRepositoryExtension> repositories;
+    public static List<IRepositoryExtension> repositoriesForClearDb;
 
     @BeforeClass
     public static void prepare(){
@@ -53,31 +54,31 @@ public class TestRunner {
 
         BasicDataSource dataSourceInteger = new BasicDataSource();
         dataSourceInteger.setDriverClassName(ConnectionDbInfo.SQLITE.getDriver());
-        dataSourceInteger.setUrl(ConnectionDbInfo.SQLITE.getUrl() + TestRunner.DB_INTEGER_FILE.getAbsolutePath());
+        dataSourceInteger.setUrl(ConnectionDbInfo.SQLITE.getUrl() + DB_INTEGER_FILE.getAbsolutePath());
         dataSourceInteger.setUsername("");
         dataSourceInteger.setPassword("");
 
         BasicDataSource dataSourceUUID = new BasicDataSource();
         dataSourceUUID.setDriverClassName(ConnectionDbInfo.SQLITE.getDriver());
-        dataSourceUUID.setUrl(ConnectionDbInfo.SQLITE.getUrl() + TestRunner.DB_UUID_FILE.getAbsolutePath());
+        dataSourceUUID.setUrl(ConnectionDbInfo.SQLITE.getUrl() + DB_UUID_FILE.getAbsolutePath());
         dataSourceUUID.setUsername("");
         dataSourceUUID.setPassword("");
 
         CREATE_DB_INTEGER_CONNECTION = new CreateConnectionByDataSource(dataSourceInteger);
         CREATE_DB_UUID_CONNECTION = new CreateConnectionByDataSource(dataSourceUUID);
 
-        repositories = new ArrayList<>();
+        repositoriesForClearDb = new ArrayList<>();
     }
 
     @AfterClass
     public static void post(){
-        postProcess();
+        cleanDatabase();
     }
 
-    public static void postProcess(){
-        for(IRepositoryExtension repository : repositories){
-            repository.executeSql("DELETE FROM " + repository.getTable().getTableName());
-        }
-        repositories.clear();
+    public static void cleanDatabase(){
+        repositoriesForClearDb.forEach(repository ->
+                repository.executeSql(String.format("DELETE FROM %s", repository.getTable().getTableName()))
+        );
+        repositoriesForClearDb.clear();
     }
 }

@@ -3,7 +3,7 @@ package ru.strict.file.json;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ru.strict.utils.UtilClass;
 import ru.strict.utils.UtilJson;
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.validate.ValidateBaseValue;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;

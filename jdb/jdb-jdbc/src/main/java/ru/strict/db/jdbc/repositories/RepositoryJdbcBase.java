@@ -3,13 +3,11 @@ package ru.strict.db.jdbc.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.requests.*;
-import ru.strict.models.DtoBase;
-import ru.strict.db.core.entities.EntityBase;
-import ru.strict.db.core.mappers.dto.MapperDtoBase;
-import ru.strict.db.core.mappers.sql.MapperSqlBase;
+import ru.strict.db.jdbc.mappers.sql.MapperSqlBase;
 import ru.strict.db.core.repositories.RepositoryBase;
 import ru.strict.db.core.common.SqlParameter;
 import ru.strict.db.core.common.SqlParameters;
+import ru.strict.models.ModelBase;
 
 import java.math.BigDecimal;
 import java.net.URL;
@@ -20,50 +18,73 @@ import java.util.Date;
 /**
  * Базовый класс репозитория с использованием Jdbc
  * @param <ID> Тип идентификатора
- * @param <E> Тип сущности базы данных (entity)
- * @param <DTO> Тип Dto-сущности базы данных
+ * @param <T> Тип сущности базы данных
  */
 public abstract class RepositoryJdbcBase
-        <ID, E extends EntityBase<ID>, DTO extends DtoBase<ID>>
-        extends RepositoryBase<ID, Connection, ICreateConnection<Connection>, E, DTO> {
+        <ID, T extends ModelBase<ID>>
+        extends RepositoryBase<ID, Connection, ICreateConnection<Connection>, T> {
 
     /**
-     * Объект для преобразования полученных данных из sql-запроса в объект сущности азы данных (entity)
+     * Объект для преобразования полученных данных из sql-запроса в объект сущности базы данных (model)
      */
-    private MapperSqlBase<ID, E> sqlMapper;
+    private MapperSqlBase<ID, T> sqlMapper;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public RepositoryJdbcBase(DbTable table, String[] columnsName,
-                              ICreateConnection<Connection> connectionSource,
-                              MapperDtoBase<ID, E, DTO> dtoMapper,
-                              MapperSqlBase<ID, E> sqlMapper,
-                              GenerateIdType generateIdType) {
-        super(table, columnsName, connectionSource, dtoMapper, generateIdType);
+    private void initialize(MapperSqlBase<ID, T> sqlMapper){
         if(sqlMapper == null){
             throw new IllegalArgumentException("sqlMapper is NULL");
         }
 
         this.sqlMapper = sqlMapper;
     }
+
+    public RepositoryJdbcBase(DbTable table,
+                              String[] columns,
+                              ICreateConnection<Connection> connectionSource,
+                              MapperSqlBase<ID, T> sqlMapper,
+                              GenerateIdType generateIdType,
+                              SQLType sqlIdType) {
+        super(table, columns, connectionSource, generateIdType, sqlIdType);
+        initialize(sqlMapper);
+    }
+
+    public RepositoryJdbcBase(DbTable table,
+                              String[] columns,
+                              ICreateConnection<Connection> connectionSource,
+                              MapperSqlBase<ID, T> sqlMapper,
+                              GenerateIdType generateIdType) {
+        super(table, columns, connectionSource, generateIdType);
+        initialize(sqlMapper);
+    }
+
+    RepositoryJdbcBase(DbTable table,
+                       String[] columns,
+                       ICreateConnection<Connection> connectionSource,
+                       GenerateIdType generateIdType,
+                       SQLType sqlIdType) {
+        super(table, columns, connectionSource, generateIdType, sqlIdType);
+    }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="CRUD">
     @Override
-    public final DTO create(DTO dto) {
+    public final ID create(T model) {
         PreparedStatement statement = null;
         SqlParameters parameters;
         String sql = null;
-        E entity = getDtoMapper().map(dto);
         Connection connection = null;
 
+        ID generatedId = null;
+
         GenerateIdType usingGenerateIdType = getGenerateIdType();
-        if(dto.getId() != null){
+        if(model.getId() != null){
             usingGenerateIdType = GenerateIdType.NONE;
+            generatedId = model.getId();
         }
 
         switch(usingGenerateIdType){
-            case NUMBER:
-                parameters = getParameters(entity);
+            case INT:
+                parameters = getParameters(model);
                 sql = createSqlInsertShort(parameters.size());
 
                 try{
@@ -74,7 +95,55 @@ public abstract class RepositoryJdbcBase
 
                     try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                         if (generatedKeys.next()) {
-                            dto.setId((ID)(Object)generatedKeys.getLong(1));
+                            generatedId = (ID)(Object)generatedKeys.getInt(1);
+                        }else {
+                            throw new SQLException("Creating user failed, no ID obtained");
+                        }
+                    }
+                } catch (SQLException ex) {
+                    if(connection != null) {
+                        try {
+                            connection.rollback();
+                        } catch (SQLException e) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                    throw new RuntimeException(ex);
+                }finally {
+                    if(statement != null) {
+                        try {
+                            if(!statement.isClosed()) {
+                                statement.close();
+                            }
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+
+                    if(connection != null) {
+                        try {
+                            if(!connection.isClosed()) {
+                                connection.close();
+                            }
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                }
+                break;
+            case LONG:
+                parameters = getParameters(model);
+                sql = createSqlInsertShort(parameters.size());
+
+                try{
+                    connection = createConnection();
+                    statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                    statement = setParametersToPrepareStatement(statement, parameters);
+                    statement.executeUpdate();
+
+                    try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                        if (generatedKeys.next()) {
+                            generatedId = (ID)(Object)generatedKeys.getLong(1);
                         }else {
                             throw new SQLException("Creating user failed, no ID obtained");
                         }
@@ -111,9 +180,9 @@ public abstract class RepositoryJdbcBase
                 }
                 break;
             case UUID:
-                parameters = shiftParameters(getParameters(entity), 1);
-                Object id = UUID.randomUUID();
-                parameters.add(0, getColumnIdName(), id);
+                parameters = shiftParameters(getParameters(model), 1);
+                generatedId = (ID) UUID.randomUUID();
+                parameters.add(0, getColumnIdName(), generatedId);
                 sql = createSqlInsertFull(parameters.size()-1);
 
                 try{
@@ -151,12 +220,10 @@ public abstract class RepositoryJdbcBase
                         }
                     }
                 }
-
-                dto.setId((ID)id);
                 break;
             case NONE:
-                parameters = shiftParameters(getParameters(entity), 1);
-                parameters.add(0, getColumnIdName(), dto.getId());
+                parameters = shiftParameters(getParameters(model), 1);
+                parameters.add(0, getColumnIdName(), model.getId());
                 sql = createSqlInsertFull(parameters.size()-1);
                 try{
                     connection = createConnection();
@@ -196,16 +263,15 @@ public abstract class RepositoryJdbcBase
                 break;
             default:
                 throw new IllegalArgumentException("Type for generate id is not determine. Entity was not created into");
-        };
+        }
 
-        return dto;
+        return generatedId;
     }
 
     @Override
-    public DTO read(ID id) {
+    public T read(ID id) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        DTO result = null;
         Connection connection = null;
         try{
             connection = createConnection();
@@ -215,22 +281,23 @@ public abstract class RepositoryJdbcBase
 
             statement = connection.prepareStatement(select.getParametrizedSql());
 
-            if(id instanceof Integer)
+            if(id instanceof Integer) {
                 statement.setInt(1, (Integer) id);
-            else if(id instanceof Long)
+            } else if(id instanceof Long) {
                 statement.setLong(1, (Long) id);
-            else if(id instanceof UUID)
-                statement.setString(1, ((UUID)id).toString());
-            else if(id instanceof String)
-                statement.setString(1, (String)id);
-            else{
+            } else if(id instanceof UUID) {
+                statement.setString(1, ((UUID) id).toString());
+            } else if(id instanceof String) {
+                statement.setString(1, (String) id);
+            } else {
                 throw new IllegalArgumentException("Error sql-query [read]: ID type not supported");
             }
 
             resultSet = statement.executeQuery();
             if(!resultSet.isClosed()) {
-                result = getDtoMapper().map(sqlMapper.map(resultSet));
+                return sqlMapper.map(resultSet);
             }
+            return null;
         } catch (SQLException ex) {
             if(connection != null) {
                 try {
@@ -240,7 +307,7 @@ public abstract class RepositoryJdbcBase
                 }
             }
             throw new RuntimeException(ex);
-        }finally {
+        } finally {
             if(resultSet != null){
                 try {
                     if(!resultSet.isClosed()) {
@@ -271,15 +338,13 @@ public abstract class RepositoryJdbcBase
                 }
             }
         }
-
-        return result;
     }
 
     @Override
-    public List<DTO> readAll(DbRequests requests) {
+    public List<T> readAll(DbRequests requests) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<DTO> result = new ArrayList<>();
+        List<T> result = new ArrayList<>();
         Connection connection = null;
         try{
             connection = createConnection();
@@ -297,7 +362,7 @@ public abstract class RepositoryJdbcBase
 
             if(!resultSet.isClosed()) {
                 while (resultSet.next()) {
-                    result.add(getDtoMapper().map(sqlMapper.map(resultSet)));
+                    result.add(sqlMapper.map(resultSet));
                 }
             }
         } catch (SQLException ex) {
@@ -345,10 +410,9 @@ public abstract class RepositoryJdbcBase
     }
 
     @Override
-    public DTO update(DTO dto) {
-        E entity = getDtoMapper().map(dto);
-        SqlParameters parameters = getParameters(entity);
-        parameters.addLast(getColumnIdName(), dto.getId());
+    public void update(T model) {
+        SqlParameters parameters = getParameters(model);
+        parameters.addLast(getColumnIdName(), model.getId());
         String sql = createSqlUpdate();
 
         PreparedStatement statement = null;
@@ -389,7 +453,6 @@ public abstract class RepositoryJdbcBase
                 }
             }
         }
-        return dto;
     }
 
     @Override
@@ -555,7 +618,7 @@ public abstract class RepositoryJdbcBase
      */
     private String createSqlInsertShort(int parametersCount){
         StringBuilder sql = new StringBuilder(String.format("INSERT INTO %s (", getTable().getTableName()));
-        for(String columnName : getColumnsName()) {
+        for(String columnName : getColumns()) {
             sql.append(columnName);
             sql.append(", ");
         }
@@ -576,7 +639,7 @@ public abstract class RepositoryJdbcBase
      */
     private String createSqlInsertFull(int parametersCount){
         StringBuilder sql = new StringBuilder(String.format("INSERT INTO %s (%s, ", getTable().getTableName(), getColumnIdName()));
-        for(String columnName : getColumnsName()) {
+        for(String columnName : getColumns()) {
             sql.append(columnName);
             sql.append(", ");
         }
@@ -597,8 +660,8 @@ public abstract class RepositoryJdbcBase
      */
     private String createSqlUpdate(){
         StringBuilder sql = new StringBuilder(String.format("UPDATE %s SET ", getTable().getTableName()));
-        for(int i=0; i<getColumnsName().length; i++){
-            sql.append(getColumnsName()[i]);
+        for(int i = 0; i< getColumns().length; i++){
+            sql.append(getColumns()[i]);
             sql.append(" = ?, ");
         }
         sql.replace(sql.length()-2, sql.length(), "");
@@ -618,19 +681,19 @@ public abstract class RepositoryJdbcBase
     //</editor-fold>
 
     /**
-     * Сопоставить номер столбца базы данных с полем entity-объекта. Отсчет номера столбца начинать с нуля.
+     * Сопоставить номер столбца базы данных с полем model-объекта. Отсчет номера столбца начинать с нуля.
      * ID не учитывается. </br>
      * <p><b>Пример использования:</b></p>
      * <code><pre style="background-color: white; font-family: consolas">
      *      SqlParameters parameters = new SqlParameters();
-     *      parameters.add(0, COLUMNS_NAME[0], entity.getCaption());
-     *      parameters.add(1, COLUMNS_NAME[1], entity.getCountryId());
+     *      parameters.add(0, COLUMNS_NAME[0], model.getCaption());
+     *      parameters.add(1, COLUMNS_NAME[1], model.getCountryId());
      *      return parameters;
      * </pre></code>
-     * @param entity Entity-объект из которого берутся значения для параметров
+     * @param model Объект из которого берутся значения для параметров
      * @return
      */
-    protected abstract SqlParameters getParameters(E entity);
+    protected abstract SqlParameters getParameters(T model);
 
     //<editor-fold defaultState="collapsed" desc="Determine statement parameters">
     /**
@@ -712,14 +775,18 @@ public abstract class RepositoryJdbcBase
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public MapperSqlBase<ID, E> getSqlMapper() {
+    void setSqlMapper(MapperSqlBase<ID, T> sqlMapper){
+        this.sqlMapper = sqlMapper;
+    }
+
+    public MapperSqlBase<ID, T> getSqlMapper() {
         return sqlMapper;
     }
     //</editor-fold>
 
     @Override
     public int hashCode(){
-        return Objects.hash(getConnectionSource(), getDtoMapper(), getTable(), getColumnsName(),
+        return Objects.hash(getConnectionSource(), getTable(), getColumns(),
                 getGenerateIdType(), sqlMapper);
     }
 }

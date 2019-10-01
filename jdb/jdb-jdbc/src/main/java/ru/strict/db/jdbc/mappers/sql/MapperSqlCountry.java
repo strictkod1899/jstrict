@@ -1,28 +1,22 @@
 package ru.strict.db.jdbc.mappers.sql;
 
-import ru.strict.db.core.entities.EntityCountry;
-import ru.strict.db.core.mappers.sql.MapperSqlBase;
+import ru.strict.models.Country;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLType;
 
-public class MapperSqlCountry<ID> extends MapperSqlBase<ID, EntityCountry<ID>> {
+public class MapperSqlCountry<ID> extends MapperSqlBase<ID, Country<ID>> {
 
-    private final String[] COLUMNS_NAME;
-
-    public MapperSqlCountry(String[] columnsName){
-        this.COLUMNS_NAME = columnsName;
+    public MapperSqlCountry(String[] columns, SQLType idType, String idColumnName){
+        super(columns, idType, idColumnName);
     }
 
     @Override
-    public EntityCountry<ID> implementMap(ResultSet resultSet) {
-        EntityCountry<ID> entity = new EntityCountry();
-        try {
-            entity.setId((ID)resultSet.getObject("id"));
-            entity.setCaption(resultSet.getString(COLUMNS_NAME[0]));
-        }catch(SQLException ex){
-            throw new RuntimeException(ex);
-        }
-        return entity;
+    public Country<ID> implementMap(ResultSet resultSet) throws SQLException {
+        Country<ID> model = new Country();
+        model.setId(mapValueBySqlType(idType, resultSet, idColumnName));
+        model.setCaption(resultSet.getString(columns[0]));
+        return model;
     }
 }

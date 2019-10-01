@@ -2,105 +2,135 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ru.strict.db.mybatis.mappers.sql.MapperSqlUser">
 
-    <resultMap id="user" type="ru.strict.db.core.entities.EntityUser">
+    <resultMap id="user" type="ru.strict.models.UserDetails">
         <id property="id" column="id"/>
         <result property="username" column="username"/>
         <result property="email" column="email"/>
         <result property="passwordEncode" column="passwordencode"/>
-        <result property="isBlocked" column="is_blocked"/>
-        <result property="isDeleted" column="is_deleted"/>
-        <result property="isConfirmEmail" column="is_confirm_email"/>
+        <result property="blocked" column="is_blocked"/>
+        <result property="deleted" column="is_deleted"/>
+        <result property="confirmEmail" column="is_confirm_email"/>
+        <result property="salt" column="salt"/>
+        <result property="secret" column="secret"/>
     </resultMap>
 
-    <resultMap id="userFill" type="ru.strict.db.core.entities.EntityUser" extends="user">
+    <resultMap id="userFill" type="ru.strict.models.UserDetails" extends="user">
         <collection property="profiles"
                     column="id"
                     javaType="List"
-                    ofType="ru.strict.db.core.entities.EntityProfile"
+                    ofType="ru.strict.models.Profile"
                     select="ru.strict.db.mybatis.mappers.sql.MapperSqlProfile.readByUserId"
                     fetchType="lazy"/>
         <collection property="roles"
                     column="id"
                     javaType="List"
-                    ofType="ru.strict.db.core.entities.EntityRoleuser"
-                    select="ru.strict.db.mybatis.mappers.sql.MapperSqlRoleuser.readByUserId"
+                    ofType="ru.strict.models.Role"
+                    select="ru.strict.db.mybatis.mappers.sql.MapperSqlRole.readByUserId"
                     fetchType="lazy"/>
         <collection property="tokens"
                     column="id"
                     javaType="List"
-                    ofType="ru.strict.db.core.entities.EntityJWTToken"
+                    ofType="ru.strict.models.JWTToken"
                     select="ru.strict.db.mybatis.mappers.sql.MapperSqlJWTToken.readByUserId"
                     fetchType="lazy"/>
     </resultMap>
 
-    <insert id="create" parameterType="ru.strict.db.core.entities.EntityUser">
-        INSERT INTO userx (id, username, email, passwordencode, is_blocked, is_deleted, is_confirm_email)
-        VALUES (#{id}, #{username}, #{email}, #{passwordEncode}, #{isBlocked}, #{isDeleted}, #{isConfirmEmail})
+    <sql id="userFields">
+        id,
+        username,
+        email,
+        passwordencode,
+        is_blocked,
+        is_deleted,
+        is_confirm_email,
+        salt,
+        secret
+    </sql>
+
+    <sql id="selectByName">
+        SELECT <include refid="userFields"/> FROM userx WHERE username = #{caption}
+    </sql>
+
+    <insert id="create" parameterType="ru.strict.models.UserDetails">
+        INSERT INTO userx (id, username, email, passwordencode, is_blocked, is_deleted, is_confirm_email, salt, secret)
+        VALUES (#{id}, #{username}, #{email}, #{passwordEncode}, #{blocked}, #{deleted}, #{confirmEmail},
+        #{salt}, #{secret})
     </insert>
 
-    <insert id="createGenerateId" parameterType="ru.strict.db.core.entities.EntityUser"
+    <insert id="createGenerateId"
+            parameterType="map"
             useGeneratedKeys="true"
             keyColumn="id"
-            keyProperty="id">
-        INSERT INTO userx (username, email, passwordencode, is_blocked, is_deleted, is_confirm_email)
-        VALUES (#{username}, #{email}, #{passwordEncode}, #{isBlocked}, #{isDeleted}, #{isConfirmEmail})
+            keyProperty="generateId.value">
+        INSERT INTO userx (username, email, passwordencode, is_blocked, is_deleted, is_confirm_email, salt, secret)
+        VALUES (#{model.username}, #{model.email}, #{model.passwordEncode}, #{model.blocked},
+        #{model.deleted}, #{model.confirmEmail}, #{model.salt}, #{model.secret})
     </insert>
 
-    <select id="read" parameterType="java.lang.Object" resultMap="user">
-        SELECT * FROM userx WHERE id = #{id}
+    <select id="read" resultMap="user">
+        SELECT <include refid="userFields"/> FROM userx WHERE id = #{id}
     </select>
 
     <select id="readAll" resultMap="user">
-        SELECT * FROM userx
+        SELECT <include refid="userFields"/> FROM userx
     </select>
 
-    <update id="update" parameterType="ru.strict.db.core.entities.EntityUser">
+    <update id="update" parameterType="ru.strict.models.UserDetails">
         UPDATE userx SET username = #{username}, email = #{email}, passwordencode = #{passwordEncode},
-        is_blocked = #{isBlocked}, is_deleted = #{isDeleted}, is_confirm_email = #{isConfirmEmail}
+        is_blocked = #{blocked}, is_deleted = #{deleted}, is_confirm_email = #{confirmEmail},
+        salt = #{salt}, secret = #{secret}
         WHERE id = #{id}
     </update>
 
-    <delete id="delete" parameterType="java.lang.Object">
+    <delete id="delete">
         DELETE FROM userx WHERE id = #{id}
     </delete>
 
-    <select id="readFill" parameterType="java.lang.Object" resultMap="userFill" >
-        SELECT * FROM userx WHERE id = #{id}
+    <select id="readFill" resultMap="userFill" >
+        SELECT <include refid="userFields"/> FROM userx WHERE id = #{id}
     </select>
 
     <select id="readAllFill" resultMap="userFill">
-        SELECT * FROM userx
+        SELECT <include refid="userFields"/> FROM userx
     </select>
 
     <select id="readCount" resultType="int">
         SELECT COUNT(1) FROM userx
     </select>
 
-    <select id="readCountById" parameterType="java.lang.Object" resultType="int">
+    <select id="readCountById" resultType="int">
         SELECT COUNT(1) FROM userx WHERE id = #{id}
     </select>
 
     <select id="readByName" parameterType="java.lang.String" resultMap="user">
-        SELECT * FROM userx WHERE username = #{caption}
+        <include refid="selectByName"/>
     </select>
 
     <select id="readAllByName" parameterType="java.lang.String" resultMap="user">
-        SELECT * FROM userx WHERE username = #{caption}
+        <include refid="selectByName"/>
+    </select>
+
+    <select id="readByNameFill" parameterType="java.lang.String" resultMap="userFill">
+        <include refid="selectByName"/>
+    </select>
+
+    <select id="readAllByNameFill" parameterType="java.lang.String" resultMap="userFill">
+        <include refid="selectByName"/>
     </select>
 
     <select id="readByEmail" parameterType="java.lang.String" resultMap="user">
-        SELECT * FROM userx WHERE email = #{email}
+        SELECT <include refid="userFields"/> FROM userx WHERE email = #{email}
     </select>
 
-    <select id="isDeleted" parameterType="java.lang.Object" resultType="boolean">
+    <select id="isDeleted" resultType="boolean">
         SELECT is_deleted FROM userx WHERE id = #{id}
     </select>
 
-    <select id="isBlocked" parameterType="java.lang.Object" resultType="boolean">
+    <select id="isBlocked" resultType="boolean">
         SELECT is_blocked FROM userx WHERE id = #{id}
     </select>
 
-    <select id="isConfirmEmail" parameterType="java.lang.Object" resultType="boolean">
+    <select id="isConfirmEmail" resultType="boolean">
         SELECT is_confirm_email FROM userx WHERE id = #{id}
     </select>
 </mapper>

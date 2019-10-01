@@ -20,14 +20,14 @@ import java.util.List;
         TestConnection.class,
         TestRepositoryCountry.class,
         TestRepositoryCity.class,
-        TestRepositoryRoleuser.class,
+        TestRepositoryRole.class,
         TestRepositoryUser.class,
         TestRepositoryUserOnRole.class,
         TestRepositoryProfile.class,
         TestRepositoryProfileDetails.class,
         TestRepositoryFileStorage.class,
         TestRepositoryJWTToken.class,
-        TestRepositoryServiceOnRole.class
+        TestRepositoryPermissionOnRole.class
 })
 public class TestRunner {
 
@@ -38,7 +38,7 @@ public class TestRunner {
     public static File DB_UUID_FILE;
     public static CreateConnectionByConnectionInfo CREATE_DB_INTEGER_CONNECTION;
     public static CreateConnectionByConnectionInfo CREATE_DB_UUID_CONNECTION;
-    public static List<IRepositoryExtension> repositories;
+    public static List<IRepositoryExtension> repositoriesForClearDb;
 
     @BeforeClass
     public static void prepare(){
@@ -65,18 +65,18 @@ public class TestRunner {
         CREATE_DB_INTEGER_CONNECTION = new CreateConnectionByConnectionInfo(connectionInfoForDbInteger);
         CREATE_DB_UUID_CONNECTION = new CreateConnectionByConnectionInfo(connectionInfoForDbUuid);
 
-        repositories = new ArrayList<>();
+        repositoriesForClearDb = new ArrayList<>();
     }
 
     @AfterClass
     public static void post(){
-        postProcess();
+        cleanDatabase();
     }
 
-    public static void postProcess(){
-        for(IRepositoryExtension repository : repositories){
-            repository.executeSql("DELETE FROM " + repository.getTable().getTableName());
-        }
-        repositories.clear();
+    public static void cleanDatabase(){
+        repositoriesForClearDb.forEach(repository ->
+                repository.executeSql(String.format("DELETE FROM %s", repository.getTable().getTableName()))
+        );
+        repositoriesForClearDb.clear();
     }
 }

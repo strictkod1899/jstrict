@@ -1,9 +1,8 @@
 package ru.strict.components;
 
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.validate.ValidateBaseValue;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;

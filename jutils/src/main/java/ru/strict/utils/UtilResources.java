@@ -1,12 +1,11 @@
 package ru.strict.utils;
 
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.validate.ValidateBaseValue;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Optional;
 
 /**
  * Управление файлами ресурсов

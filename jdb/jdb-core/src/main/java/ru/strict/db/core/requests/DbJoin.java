@@ -1,6 +1,6 @@
 package ru.strict.db.core.requests;
 
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.validate.ValidateBaseValue;
 
 import java.util.Objects;
 

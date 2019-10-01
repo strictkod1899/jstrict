@@ -2,43 +2,37 @@ package ru.strict.db.mybatis.repositories;
 
 import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.requests.DbTable;
+import ru.strict.db.core.repositories.DefaultColumns;
+import ru.strict.db.core.repositories.DefaultTable;
 import ru.strict.models.Profile;
-import ru.strict.db.core.entities.EntityProfile;
-import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.interfaces.IRepositoryProfile;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlProfile;
 import ru.strict.utils.UtilClass;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RepositoryProfile<ID>
-        extends RepositoryMybatisBase<ID, EntityProfile<ID>, Profile<ID>, MapperSqlProfile<ID>>
+        extends RepositoryMybatisBase<ID, Profile<ID>, MapperSqlProfile<ID, Profile<ID>>>
         implements IRepositoryProfile<ID, Profile<ID>> {
 
-    private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id"};
+    private static final String[] COLUMNS_NAME = DefaultColumns.PROFILE.columns();
 
     public RepositoryProfile(CreateConnectionByMybatis connectionSource, GenerateIdType generateIdType) {
-        super(new DbTable("profile", "pr"),
+        super(DefaultTable.PROFILE.table(),
                 COLUMNS_NAME,
                 connectionSource,
-                UtilClass.<MapperSqlProfile<ID>>castClass(MapperSqlProfile.class),
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityProfile.class), UtilClass.castClass(Profile.class)),
+                UtilClass.castClass(MapperSqlProfile.class),
                 generateIdType);
     }
 
     @Override
-    public List<Profile<ID>> readByFio(String name, String surname, String middlename) {
-        List<Profile<ID>> result = null;
+    public List<Profile<ID>> readBySurname(String name, String surname) {
         SqlSession session = null;
         try {
             session = createConnection();
-            MapperSqlProfile<ID> mapperMybatis = session.getMapper(getMybatisMapperClass());
-            List<EntityProfile<ID>> entities = mapperMybatis.readByFio(name, surname, middlename);
-            result = entities.stream().map(e -> getDtoMapper().map(e)).collect(Collectors.toList());
-            session.commit();
+            MapperSqlProfile<ID, Profile<ID>> mapperMybatis = session.getMapper(getMybatisMapperClass());
+            return mapperMybatis.readBySurname(name, surname);
         }catch(Exception ex){
             if(session != null){
                 session.rollback();
@@ -49,8 +43,6 @@ public class RepositoryProfile<ID>
                 session.close();
             }
         }
-
-        return result;
     }
 
     @Override
@@ -58,14 +50,12 @@ public class RepositoryProfile<ID>
         if(userId == null){
             throw new IllegalArgumentException("userId for read is NULL");
         }
-        List<Profile<ID>> result = null;
+
         SqlSession session = null;
         try {
             session = createConnection();
-            MapperSqlProfile<ID> mapperMybatis = session.getMapper(getMybatisMapperClass());
-            List<EntityProfile<ID>> entities = mapperMybatis.readByUserId(userId);
-            result = entities.stream().map(e -> getDtoMapper().map(e)).collect(Collectors.toList());
-            session.commit();
+            MapperSqlProfile<ID, Profile<ID>> mapperMybatis = session.getMapper(getMybatisMapperClass());
+            return mapperMybatis.readByUserId(userId);
         }catch(Exception ex){
             if(session != null){
                 session.rollback();
@@ -76,8 +66,6 @@ public class RepositoryProfile<ID>
                 session.close();
             }
         }
-
-        return result;
     }
 
     @Override

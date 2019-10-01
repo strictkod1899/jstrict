@@ -2,73 +2,92 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ru.strict.db.mybatis.mappers.sql.MapperSqlCity">
 
-    <resultMap id="city" type="ru.strict.db.core.entities.EntityCity">
+    <resultMap id="city" type="ru.strict.models.City">
         <id property="id" column="id"/>
         <result property="caption" column="caption"/>
         <result property="countryId" column="country_id"/>
     </resultMap>
 
-    <resultMap id="cityFill" type="ru.strict.db.core.entities.EntityCity" extends="city">
+    <resultMap id="cityFill" type="ru.strict.models.City" extends="city">
         <association property="country"
                      column="country_id"
-                     javaType="ru.strict.db.core.entities.EntityCountry"
+                     javaType="ru.strict.models.Country"
                      select="ru.strict.db.mybatis.mappers.sql.MapperSqlCountry.read"
                      fetchType="lazy"
         />
     </resultMap>
 
-    <insert id="create" parameterType="ru.strict.db.core.entities.EntityCity">
+    <sql id="cityFields">
+        id,
+        caption,
+        country_id
+    </sql>
+
+    <sql id="selectByName">
+        SELECT <include refid="cityFields"/> FROM city WHERE caption = #{caption}
+    </sql>
+
+    <insert id="create" parameterType="ru.strict.models.City">
         INSERT INTO city (id, caption, country_id) VALUES (#{id}, #{caption}, #{countryId})
     </insert>
 
-    <insert id="createGenerateId" parameterType="ru.strict.db.core.entities.EntityCity"
+    <insert id="createGenerateId"
+            parameterType="map"
             useGeneratedKeys="true"
             keyColumn="id"
-            keyProperty="id">
-        INSERT INTO city (caption, country_id) VALUES (#{caption}, #{countryId})
+            keyProperty="generateId.value">
+        INSERT INTO city (caption, country_id) VALUES (#{model.caption}, #{model.countryId})
     </insert>
 
-    <select id="read" parameterType="java.lang.Object" resultMap="city">
-        SELECT * FROM city WHERE id = #{id}
+    <select id="read" resultMap="city">
+        SELECT <include refid="cityFields"/> FROM city WHERE id = #{id}
     </select>
 
     <select id="readAll" resultMap="city">
-        SELECT * FROM city
+        SELECT <include refid="cityFields"/> FROM city
     </select>
 
-    <update id="update" parameterType="ru.strict.db.core.entities.EntityCity">
+    <update id="update" parameterType="ru.strict.models.City">
         UPDATE city SET caption = #{caption}, country_id = #{countryId} WHERE id = #{id}
     </update>
 
-    <delete id="delete" parameterType="java.lang.Object">
+    <delete id="delete">
         DELETE FROM city WHERE id = #{id}
     </delete>
 
-    <select id="readFill" parameterType="java.lang.Object" resultMap="cityFill" >
-        SELECT * FROM city WHERE id = #{id}
+    <select id="readFill" resultMap="cityFill" >
+        SELECT <include refid="cityFields"/> FROM city WHERE id = #{id}
     </select>
 
     <select id="readAllFill" resultMap="cityFill">
-        SELECT * FROM city
+        SELECT <include refid="cityFields"/> FROM city
     </select>
 
     <select id="readCount" resultType="int">
         SELECT COUNT(1) FROM city
     </select>
 
-    <select id="readCountById" parameterType="java.lang.Object" resultType="int">
+    <select id="readCountById" resultType="int">
         SELECT COUNT(1) FROM city WHERE id = #{id}
     </select>
 
     <select id="readByName" parameterType="java.lang.String" resultMap="city">
-        SELECT * FROM city WHERE caption = #{caption}
+        <include refid="selectByName"/>
     </select>
 
     <select id="readAllByName" parameterType="java.lang.String" resultMap="city">
-        SELECT * FROM city WHERE caption = #{caption}
+        <include refid="selectByName"/>
     </select>
 
-    <select id="readByCountryId" parameterType="java.lang.Object" resultMap="city">
-        SELECT * FROM city WHERE country_id = #{countryId}
+    <select id="readByNameFill" parameterType="java.lang.String" resultMap="cityFill">
+        <include refid="selectByName"/>
+    </select>
+
+    <select id="readAllByNameFill" parameterType="java.lang.String" resultMap="cityFill">
+        <include refid="selectByName"/>
+    </select>
+
+    <select id="readByCountryId" resultMap="city">
+        SELECT <include refid="cityFields"/> FROM city WHERE country_id = #{countryId}
     </select>
 </mapper>

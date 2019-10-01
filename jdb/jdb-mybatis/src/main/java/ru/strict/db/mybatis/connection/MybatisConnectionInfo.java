@@ -11,11 +11,14 @@ import java.util.Objects;
  * <p><b>Пример использования:</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
  *     ...
- *     MybatisConnectionInfo connectionInfo = new MybatisConnectionInfo("com.mysql.jdbc.Driver", "jdbc:mysql://mydb", "mysqluser", "mysqlpassword");
- *     SqlSession connection = connectionCreater.createConnection();
+ *     MybatisConnectionInfo connectionInfo = new MybatisConnectionInfo("com.mysql.jdbc.Driver", "jdbc:mysql://mydb", "myuser", "mypassword");
+ *     SqlSession connection = connectionCreator.createConnection();
  * </pre></code>
  */
 public class MybatisConnectionInfo {
+    /**
+     * Путь до файла конфигурации mybatis
+     */
     private String configFilePath;
     /**
      * Строка драйвера подключаемой базы данных
@@ -36,8 +39,12 @@ public class MybatisConnectionInfo {
      * Пароль для подключения к базе данных
      */
     private String password;
-
+    /**
+     * Классы mybatis-мапперов
+     */
     private List<Class<? extends MapperSqlBase>> mappers;
+
+    private String environment;
 
     public MybatisConnectionInfo(String configFilePath) {
         this.configFilePath = configFilePath;
@@ -49,6 +56,7 @@ public class MybatisConnectionInfo {
         this.username = username;
         this.password = password;
         mappers = new ArrayList<>();
+        environment = "development";
     }
 
     public String getConfigFilePath() {
@@ -69,6 +77,14 @@ public class MybatisConnectionInfo {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(String environment) {
+        this.environment = environment;
     }
 
     public void addMapper(Class<? extends MapperSqlBase> mapperClass){

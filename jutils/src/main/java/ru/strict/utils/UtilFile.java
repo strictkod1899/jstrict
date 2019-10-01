@@ -1,6 +1,6 @@
 package ru.strict.utils;
 
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.validate.ValidateBaseValue;
 
 import java.io.*;
 import java.util.ArrayList;

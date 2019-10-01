@@ -10,7 +10,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import ru.strict.db.core.connections.CreateConnectionBase;
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.validate.ValidateBaseValue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,8 +20,8 @@ import java.io.InputStream;
  * <p><b>Пример использования:</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
  *     ...
- *     ICreateConnection connectionCreater = new CreateConnectionByMybatis(mybatisConnectionInfo);
- *     SqlSession connection = connectionCreater.createConnection();
+ *     ICreateConnection connectionCreator = new CreateConnectionByMybatis(mybatisConnectionInfo);
+ *     SqlSession connection = connectionCreator.createConnection();
  * </pre></code>
  */
 public class CreateConnectionByMybatis extends CreateConnectionBase<MybatisConnectionInfo, SqlSession> {
@@ -40,28 +40,10 @@ public class CreateConnectionByMybatis extends CreateConnectionBase<MybatisConne
 
     private void initializeSessionFactory(){
         sessionFactory = null;
-        String configFilePath = null;
-        BasicDataSource dataSource = null;
+
         if(!ValidateBaseValue.isEmptyOrNull(getConnectionSource().getConfigFilePath())){
-            configFilePath = getConnectionSource().getConfigFilePath();
-        }else {
-            dataSource = new BasicDataSource();
-            dataSource.setDriverClassName(getConnectionSource().getDriver());
-            dataSource.setUrl(getConnectionSource().getUrl());
-            dataSource.setUsername(getConnectionSource().getUsername());
-            dataSource.setPassword(getConnectionSource().getPassword());
-        }
+            String configFilePath = getConnectionSource().getConfigFilePath();
 
-        if(dataSource != null){
-            TransactionFactory transactionFactory = new JdbcTransactionFactory();
-            Environment environment = new Environment("development", transactionFactory, dataSource);
-            Configuration configuration = new Configuration(environment);
-            for(Class mapperClass : getConnectionSource().getMappers()) {
-                configuration.addMapper(mapperClass);
-            }
-
-            sessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-        }else if(!ValidateBaseValue.isEmptyOrNull(configFilePath)){
             InputStream configStream = null;
             try {
                 configStream = Resources.getResourceAsStream(configFilePath);
@@ -69,6 +51,19 @@ public class CreateConnectionByMybatis extends CreateConnectionBase<MybatisConne
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
+        }else {
+            BasicDataSource dataSource = new BasicDataSource();
+            dataSource.setDriverClassName(getConnectionSource().getDriver());
+            dataSource.setUrl(getConnectionSource().getUrl());
+            dataSource.setUsername(getConnectionSource().getUsername());
+            dataSource.setPassword(getConnectionSource().getPassword());
+
+            TransactionFactory transactionFactory = new JdbcTransactionFactory();
+            Environment environment = new Environment(getConnectionSource().getEnvironment(), transactionFactory, dataSource);
+            Configuration configuration = new Configuration(environment);
+            getConnectionSource().getMappers().forEach(mapperClass -> configuration.addMapper(mapperClass));
+
+            sessionFactory = new SqlSessionFactoryBuilder().build(configuration);
         }
     }
 }

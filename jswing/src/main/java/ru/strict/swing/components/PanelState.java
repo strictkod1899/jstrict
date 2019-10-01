@@ -7,7 +7,7 @@ import ru.strict.swing.MouseActionChangeBackground;
 import ru.strict.swing.UtilSwing;
 import ru.strict.utils.UtilImage;
 import ru.strict.utils.UtilResources;
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.validate.ValidateBaseValue;
 
 import javax.swing.*;
 import java.awt.*;

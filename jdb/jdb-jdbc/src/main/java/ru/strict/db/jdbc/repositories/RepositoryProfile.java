@@ -1,58 +1,54 @@
 package ru.strict.db.jdbc.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.ICreateConnection;
+import ru.strict.db.core.repositories.DefaultColumns;
+import ru.strict.db.core.repositories.DefaultTable;
 import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.Profile;
 import ru.strict.models.User;
-import ru.strict.db.core.entities.EntityProfile;
-import ru.strict.db.core.entities.EntityUser;
-import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.repositories.interfaces.IRepositoryProfile;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlProfile;
-import ru.strict.utils.UtilClass;
-
 import java.sql.Connection;
+import java.sql.SQLType;
 
 /**
- * Репозиторий таблицы "profile". Определяет столбцы: "name", "surname", "middlename", "userx_id"
+ * Репозиторий таблицы "profile".
  * @param <ID> Тип идентификатора
  */
 public class RepositoryProfile<ID>
-        extends RepositoryJdbcBase<ID, EntityProfile<ID>, Profile<ID>>
+        extends RepositoryJdbcBase<ID, Profile<ID>>
         implements IRepositoryProfile<ID, Profile<ID>> {
 
-    private static final String[] COLUMNS_NAME = new String[] {"name", "surname", "middlename", "userx_id"};
+    private static final String[] COLUMNS_NAME = DefaultColumns.PROFILE.columns();
 
-    public RepositoryProfile(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
-        super(new DbTable("profile", "pr"),
+    public RepositoryProfile(ICreateConnection<Connection> connectionSource,
+                             GenerateIdType generateIdType,
+                             SQLType sqlIdType) {
+        super(DefaultTable.PROFILE.table(),
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityProfile.class), UtilClass.castClass(Profile.class)),
-                new MapperSqlProfile<ID>(COLUMNS_NAME),
-                generateIdType);
+                generateIdType,
+                sqlIdType);
+        setSqlMapper(new MapperSqlProfile<>(COLUMNS_NAME, sqlIdType, getColumnIdName()));
     }
 
     @Override
-    protected SqlParameters getParameters(EntityProfile<ID> entity){
+    protected SqlParameters getParameters(Profile<ID> model){
         SqlParameters parameters = new SqlParameters();
-        parameters.add(0, COLUMNS_NAME[0], entity.getName());
-        parameters.add(1, COLUMNS_NAME[1], entity.getSurname());
-        parameters.add(2, COLUMNS_NAME[2], entity.getMiddlename());
-        parameters.add(3, COLUMNS_NAME[3], entity.getUserId());
+        parameters.add(0, COLUMNS_NAME[0], model.getName());
+        parameters.add(1, COLUMNS_NAME[1], model.getSurname());
+        parameters.add(2, COLUMNS_NAME[2], model.getUserId());
         return parameters;
     }
 
     @Override
-    protected Profile<ID> fill(Profile<ID> dto){
-        IRepository<ID, User<ID>> repositoryUser = new RepositoryUser(getConnectionSource(),
-                new MapperDtoFactory().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(User.class)),
-                GenerateIdType.NONE);
-        dto.setUser(repositoryUser.read(dto.getUserId()));
-        return dto;
+    protected Profile<ID> fill(Profile<ID> model){
+        IRepository<ID, User<ID>> repositoryUser = new RepositoryUser(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+        model.setUser(repositoryUser.read(model.getUserId()));
+        return model;
     }
 
     @Override

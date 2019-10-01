@@ -1,8 +1,6 @@
 package ru.strict.db.hibernate.entities;
 
-import org.hibernate.annotations.GeneratorType;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.id.IncrementGenerator;
 import ru.strict.utils.UtilData;
 import javax.persistence.*;
 import java.io.Serializable;

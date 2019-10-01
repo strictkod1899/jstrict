@@ -3,59 +3,81 @@ package ru.strict.db.spring;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.models.City;
-import ru.strict.models.Country;
+import ru.strict.db.core.common.SqlType;
 import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.core.repositories.interfaces.IRepositoryCity;
-import ru.strict.db.spring.data.TestData;
 import ru.strict.db.spring.repositories.RepositoryCity;
 import ru.strict.db.spring.repositories.RepositoryCountry;
 import ru.strict.db.spring.runners.TestRunner;
+import ru.strict.models.City;
+import ru.strict.models.Country;
+import ru.strict.models.ModelBase;
 
+import java.sql.JDBCType;
 import java.util.List;
 import java.util.UUID;
+
+import static ru.strict.db.spring.data.TestData.*;
+import static ru.strict.db.spring.runners.TestRunner.*;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRepositoryCity {
 
-    private static IRepositoryCity<Integer> REPOSITORY_NOT_GENERATE_ID;
-    private static IRepositoryCity<Integer> REPOSITORY_GENERATE_NUMBER_ID;
+    private static City[] data;
+
+    private static IRepositoryCity<Long> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryCity<Long> REPOSITORY_GENERATE_NUMBER_ID;
     private static IRepositoryCity<UUID> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
-    public static void prepare(){
+    public static void setUpClass(){
         prepareRepositories();
         prepareData();
+        fillData();
+    }
+
+    @AfterClass
+    public static void tearDownClass(){
+        TestRunner.cleanDatabase();
     }
 
     /**
      * Подготовить тестовые репозитории
      */
     private static void prepareRepositories(){
-        REPOSITORY_NOT_GENERATE_ID = new RepositoryCity<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
-        REPOSITORY_GENERATE_NUMBER_ID = new RepositoryCity<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NUMBER);
-        REPOSITORY_GENERATE_UUID_ID = new RepositoryCity<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.UUID);
-        TestRunner.repositories.add(REPOSITORY_GENERATE_NUMBER_ID);
-        TestRunner.repositories.add(REPOSITORY_GENERATE_UUID_ID);
+        REPOSITORY_NOT_GENERATE_ID = new RepositoryCity<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE, JDBCType.BIGINT);
+        REPOSITORY_GENERATE_NUMBER_ID = new RepositoryCity<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.LONG, JDBCType.BIGINT);
+        REPOSITORY_GENERATE_UUID_ID = new RepositoryCity<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.UUID, SqlType.UUID);
+        TestRunner.repositoriesForClearDb.add(REPOSITORY_GENERATE_NUMBER_ID);
+        TestRunner.repositoriesForClearDb.add(REPOSITORY_GENERATE_UUID_ID);
     }
 
     /**
      * Подготовить тестовые данные
      */
     private static void prepareData(){
-        IRepositoryNamed<Integer, Country<Integer>> repositoryCountryNumberId = new RepositoryCountry<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
-        IRepositoryNamed<UUID, Country<UUID>> repositoryCountryUuidId = new RepositoryCountry<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
+        IRepositoryNamed<Long, Country<Long>> repositoryCountryNumberId = new RepositoryCountry<>(CREATE_DB_INTEGER_CONNECTION,GenerateIdType.NONE, JDBCType.BIGINT);
+        IRepositoryNamed<UUID, Country<UUID>> repositoryCountryUuidId = new RepositoryCountry<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE, SqlType.UUID);
 
-        TestRunner.repositories.add(repositoryCountryNumberId);
-        TestRunner.repositories.add(repositoryCountryUuidId);
+        TestRunner.repositoriesForClearDb.add(repositoryCountryNumberId);
+        TestRunner.repositoriesForClearDb.add(repositoryCountryUuidId);
 
-        repositoryCountryNumberId.create(TestData.COUNTRY1);
-        repositoryCountryUuidId.create(TestData.COUNTRY1_UUID);
+        repositoryCountryNumberId.create(COUNTRY1);
+        repositoryCountryUuidId.create(COUNTRY1_UUID);
     }
 
-    @AfterClass
-    public static void post(){
-        TestRunner.postProcess();
+    /**
+     * Заполнить тестовые данные
+     */
+    private static void fillData(){
+        data = new City[]{
+                new City<>("city", COUNTRY1.getId()),
+                new City<>("city", COUNTRY1_UUID.getId()),
+                CITY1,
+                CITY2,
+                CITY3,
+                CITY1_UPDATED
+        };
     }
 
     /**
@@ -63,9 +85,9 @@ public class TestRepositoryCity {
      */
     @Test
     public void test001CreateGenerateNumberId(){
-        City dto = new City<>("city", TestData.COUNTRY1.getId());
-        City createdDto = REPOSITORY_GENERATE_NUMBER_ID.create(dto);
-        Assert.assertNotNull(createdDto.getId());
+        Long id = REPOSITORY_GENERATE_NUMBER_ID.create(data[0]);
+        data[0].setId(id);
+        Assert.assertNotNull(id);
     }
 
     /**
@@ -73,9 +95,9 @@ public class TestRepositoryCity {
      */
     @Test
     public void test002CreateGenerateUuidId(){
-        City dto = new City<>("city", TestData.COUNTRY1_UUID.getId());
-        City createdDto = REPOSITORY_GENERATE_UUID_ID.create(dto);
-        Assert.assertNotNull(createdDto.getId());
+        UUID id = REPOSITORY_GENERATE_UUID_ID.create(data[1]);
+        data[1].setId(id);
+        Assert.assertNotNull(id);
     }
 
     /**
@@ -83,8 +105,8 @@ public class TestRepositoryCity {
      */
     @Test
     public void test003CreateNotGenerateId(){
-        City createdDto = REPOSITORY_NOT_GENERATE_ID.create(TestData.CITY1);
-        Assert.assertEquals(TestData.CITY1, createdDto);
+        Long id = REPOSITORY_NOT_GENERATE_ID.create(data[2]);
+        Assert.assertEquals(data[2].getId(), id);
     }
 
     /**
@@ -92,8 +114,17 @@ public class TestRepositoryCity {
      */
     @Test
     public void test004ReadByInteger(){
-        City dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.CITY1.getId());
-        Assert.assertEquals(TestData.CITY1, dto);
+        ModelBase model = REPOSITORY_GENERATE_NUMBER_ID.read((Long)data[2].getId());
+        Assert.assertEquals(data[2], model);
+    }
+
+    /**
+     * Чтение одной записи по uuid идентификатору
+     */
+    @Test
+    public void test005ReadByUuid(){
+        ModelBase model = REPOSITORY_GENERATE_UUID_ID.read((UUID)data[1].getId());
+        Assert.assertEquals(data[1], model);
     }
 
     /**
@@ -101,8 +132,10 @@ public class TestRepositoryCity {
      */
     @Test
     public void test006ReadAllInteger(){
-        List<City<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
-        Assert.assertTrue(list.size() == 2);
+        List list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        Assert.assertEquals(2, list.size());
+        Assert.assertTrue(list.contains(data[0]));
+        Assert.assertTrue(list.contains(data[2]));
     }
 
     /**
@@ -110,17 +143,18 @@ public class TestRepositoryCity {
      */
     @Test
     public void test007ReadAllUuid(){
-        List<City<UUID>> list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
-        Assert.assertTrue(list.size() == 1);
+        List list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
+        Assert.assertEquals(1, list.size());
+        Assert.assertTrue(list.contains(data[1]));
     }
 
     /**
-     * Получить количество записей в базе данных
+     * Получить количество записей в integer базе данных
      */
     @Test
     public void test008ReadCount(){
-        Integer count = REPOSITORY_GENERATE_NUMBER_ID.readCount(null);
-        Assert.assertTrue(count == 2);
+        int count = REPOSITORY_GENERATE_NUMBER_ID.readCount(null);
+        Assert.assertEquals(2, count);
     }
 
     /**
@@ -128,8 +162,8 @@ public class TestRepositoryCity {
      */
     @Test
     public void test009ReadByName(){
-        City dto = REPOSITORY_GENERATE_NUMBER_ID.readByName(TestData.CITY1.getCaption());
-        Assert.assertEquals(TestData.CITY1, dto);
+        ModelBase model = REPOSITORY_GENERATE_NUMBER_ID.readByName(data[0].getCaption());
+        Assert.assertEquals(data[0], model);
     }
 
     /**
@@ -137,9 +171,9 @@ public class TestRepositoryCity {
      */
     @Test
     public void test010ReadAllByName(){
-        List<City<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAllByName(TestData.CITY1.getCaption());
-        Assert.assertTrue(list.size() == 1);
-        Assert.assertTrue(list.get(0).equals(TestData.CITY1));
+        List list = REPOSITORY_GENERATE_NUMBER_ID.readAllByName(data[0].getCaption());
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(data[0], list.get(0));
     }
 
     /**
@@ -147,27 +181,31 @@ public class TestRepositoryCity {
      */
     @Test
     public void test011IsRowExists(){
-        boolean isRowExists = REPOSITORY_GENERATE_NUMBER_ID.isRowExists(TestData.CITY1.getId());
+        boolean isRowExists = REPOSITORY_GENERATE_NUMBER_ID.isRowExists((Long)data[0].getId());
         Assert.assertTrue(isRowExists);
+        isRowExists = REPOSITORY_GENERATE_UUID_ID.isRowExists((UUID)data[1].getId());
+        Assert.assertTrue(isRowExists);
+        isRowExists = REPOSITORY_GENERATE_UUID_ID.isRowExists(UUID.randomUUID());
+        Assert.assertFalse(isRowExists);
     }
 
     /**
-     * Тестирование метода создания или чтения существует записи
+     * Тестирование создания или чтения существующей записи
      */
     @Test
     public void test012CreateOrReadExists(){
-        City dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(TestData.CITY1);
-        Assert.assertEquals(TestData.CITY1, dto);
+        ModelBase model = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(data[0]);
+        Assert.assertEquals(data[0], model);
     }
 
     /**
-     * Тестирование метода создания или чтения несуществует записи
+     * Тестирование метода создания или чтения несуществующей записи
      */
     @Test
     public void test013CreateOrReadNotExists(){
-        City<Integer> newDto = new City<>(101, "city10", TestData.CITY1.getCountryId());
-        City dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(newDto);
-        Assert.assertEquals(newDto, dto);
+        ModelBase model = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(data[3]);
+        data[3].setId(model.getId());
+        Assert.assertEquals(data[3], model);
     }
 
     /**
@@ -175,27 +213,35 @@ public class TestRepositoryCity {
      */
     @Test
     public void test014Update(){
-        City dto = REPOSITORY_GENERATE_NUMBER_ID.update(TestData.CITY1_UPDATED);
-        Assert.assertEquals(TestData.CITY1_UPDATED, dto);
+        REPOSITORY_GENERATE_NUMBER_ID.update(data[5]);
+        ModelBase model = REPOSITORY_GENERATE_NUMBER_ID.read((Long)data[5].getId());
+        // Эту модель мы только что обновили, поэтому model2 == model (data[5] == data[2])
+        ModelBase model2 = REPOSITORY_GENERATE_NUMBER_ID.read((Long)data[2].getId());
+        Assert.assertEquals(data[5], model);
+        Assert.assertNotEquals(data[2], model2);
     }
 
     /**
-     * Тестирование метода создания или обновления существует записи
+     * Тестирование метода создания или обновления существующей записи
      */
     @Test
     public void test015CreateOrUpdateExists(){
-        City dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.CITY1);
-        Assert.assertEquals(TestData.CITY1, dto);
+        Long id = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(data[2]);
+        ModelBase model = REPOSITORY_GENERATE_NUMBER_ID.read(id);
+        Assert.assertEquals(data[2].getId(), id);
+        Assert.assertEquals(data[2], model);
     }
 
     /**
-     * Тестирование метода создания или обновления несуществует записи
+     * Тестирование метода создания или обновления несуществующей записи
      */
     @Test
     public void test016CreateOrUpdateNotExists(){
-        City<Integer> newDto = new City<>(102, "city11", TestData.CITY1.getCountryId());
-        City dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(newDto);
-        Assert.assertEquals(newDto, dto);
+        Long id = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(data[4]);
+        ModelBase model = REPOSITORY_GENERATE_NUMBER_ID.read(id);
+        data[4].setId(id);
+        Assert.assertNotNull(id);
+        Assert.assertEquals(data[4], model);
     }
 
     /**
@@ -203,8 +249,8 @@ public class TestRepositoryCity {
      */
     @Test
     public void test017ExecuteCreateAndUpdateIsSuccess(){
-        List<City<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
-        Assert.assertTrue(list.size() == 4);
+        List list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        Assert.assertEquals(4, list.size());
     }
 
     /**
@@ -212,16 +258,16 @@ public class TestRepositoryCity {
      */
     @Test
     public void test018Delete(){
-        REPOSITORY_GENERATE_NUMBER_ID.delete(TestData.CITY1.getId());
-        List<City<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
-        City<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.CITY1.getId());
-        Assert.assertTrue(list.size() == 3);
-        Assert.assertNull(dto);
+        REPOSITORY_GENERATE_NUMBER_ID.delete((Long)data[0].getId());
+        List list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        ModelBase model = REPOSITORY_GENERATE_NUMBER_ID.read((Long)data[0].getId());
+        Assert.assertEquals(3, list.size());
+        Assert.assertNull(model);
     }
 
     @Test
     public void test019ReadByCountryId(){
-        List<City<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByCountryId(TestData.COUNTRY1.getId());
-        Assert.assertTrue(list.size() == 3);
+        List list = REPOSITORY_GENERATE_NUMBER_ID.readByCountryId(COUNTRY1.getId());
+        Assert.assertEquals(3, list.size());
     }
 }

@@ -18,11 +18,13 @@
     <mappers>
         <mapper resource="ru/strict/db/mybatis/mappers/sql/MapperSqlCity.xml"/>
         <mapper resource="ru/strict/db/mybatis/mappers/sql/MapperSqlCountry.xml"/>
-        <mapper resource="ru/strict/db/mybatis/mappers/sql/MapperSqlRoleuser.xml"/>
+        <mapper resource="ru/strict/db/mybatis/mappers/sql/MapperSqlFileStorage.xml"/>
+        <mapper resource="ru/strict/db/mybatis/mappers/sql/MapperSqlJWTToken.xml"/>
+        <mapper resource="ru/strict/db/mybatis/mappers/sql/MapperSqlPermissionOnRole.xml"/>
+        <mapper resource="ru/strict/db/mybatis/mappers/sql/MapperSqlProfile.xml"/>
+        <mapper resource="ru/strict/db/mybatis/mappers/sql/MapperSqlProfileDetails.xml"/>
+        <mapper resource="ru/strict/db/mybatis/mappers/sql/MapperSqlRole.xml"/>
         <mapper resource="ru/strict/db/mybatis/mappers/sql/MapperSqlUser.xml"/>
         <mapper resource="ru/strict/db/mybatis/mappers/sql/MapperSqlUserOnRole.xml"/>
-        <mapper resource="ru/strict/db/mybatis/mappers/sql/MapperSqlProfile.xml"/>
-        <mapper resource="ru/strict/db/mybatis/mappers/sql/MapperSqlProfileInfo.xml"/>
-        <mapper resource="ru/strict/db/mybatis/mappers/sql/MapperSqlJWTToken.xml"/>
     </mappers>
 </configuration>

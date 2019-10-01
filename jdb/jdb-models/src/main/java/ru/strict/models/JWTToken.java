@@ -43,7 +43,7 @@ public class JWTToken<ID> extends Token<ID> {
     /**
      * Пользователь, связанного с данным токеном
      */
-    private UserWithToken<ID> user;
+    private User<ID> user;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(ID userId){
@@ -157,22 +157,11 @@ public class JWTToken<ID> extends Token<ID> {
         this.userId = userId;
     }
 
-    public UserWithToken<ID> getUser() {
+    public User<ID> getUser() {
         return user;
     }
 
-    public void setUser(UserWithToken<ID> user) {
-        setUser(user, true);
-    }
-
-    protected void setUserSafe(UserWithToken<ID> user) {
-        setUser(user, false);
-    }
-
-    private void setUser(UserWithToken<ID> user, boolean isCircleMode) {
-        if(isCircleMode && user != null){
-            user.addTokenSafe(this);
-        }
+    public void setUser(User<ID> user) {
         this.user = user;
     }
     //</editor-fold>
@@ -203,7 +192,7 @@ public class JWTToken<ID> extends Token<ID> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(hashCodeWithoutUser(), user);
+        return Objects.hash(super.hashCode(), issuer, subject, notBefore, audience, secret, algorithm, type, userId, user);
     }
 
     @Override
@@ -213,18 +202,6 @@ public class JWTToken<ID> extends Token<ID> {
         clone.setNotBefore(notBefore == null ? null : (Date) notBefore.clone());
         clone.setUser(user == null ? null : user.clone());
         return clone;
-    }
-
-    protected JWTToken<ID> cloneSafeUser(UserWithToken<ID> user){
-        JWTToken<ID> clone = (JWTToken<ID>) super.clone();
-
-        clone.setNotBefore(notBefore == null ? null : (Date) notBefore.clone());
-        clone.setUser(user);
-        return clone;
-    }
-
-    protected int hashCodeWithoutUser(){
-        return Objects.hash(super.hashCode(), issuer, subject, notBefore, audience, secret, algorithm, type, userId);
     }
     //</editor-fold>
 }

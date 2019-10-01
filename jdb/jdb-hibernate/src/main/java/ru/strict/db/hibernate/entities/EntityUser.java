@@ -1,7 +1,7 @@
 package ru.strict.db.hibernate.entities;
 
 import javax.persistence.*;
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.validate.ValidateBaseValue;
 
 import java.util.Collection;
 import java.util.Objects;

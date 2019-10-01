@@ -3,61 +3,49 @@ package ru.strict.db.spring.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.CreateConnectionByDataSource;
-import ru.strict.db.core.entities.EntityFileStorage;
-import ru.strict.db.core.mappers.dto.MapperDtoBase;
-import ru.strict.db.core.mappers.dto.MapperDtoFactory;
+import ru.strict.db.core.repositories.DefaultColumns;
+import ru.strict.db.core.repositories.DefaultTable;
 import ru.strict.db.core.repositories.interfaces.IRepositoryFileStorage;
 import ru.strict.db.core.requests.DbTable;
-import ru.strict.db.spring.mappers.sql.MapperSqlFileStorage;
+import ru.strict.db.spring.mappers.sql.MapperSpringFileStorage;
 import ru.strict.models.FileStorage;
-import ru.strict.models.FileStorageBase;
-import ru.strict.utils.UtilClass;
 
-public class RepositoryFileStorage<ID, DTO extends FileStorageBase<ID>>
-        extends RepositorySpringBase<ID, EntityFileStorage<ID>, DTO>
-        implements IRepositoryFileStorage<ID, DTO> {
+import java.sql.SQLType;
 
-    private static final String[] COLUMNS_NAME = new String[] {"filename", "extension", "displayname", "content", "filepath",
-            "create_date", "type", "status"};
+public class RepositoryFileStorage<ID>
+        extends RepositorySpringNamed<ID, FileStorage<ID>>
+        implements IRepositoryFileStorage<ID, FileStorage<ID>> {
 
-    public RepositoryFileStorage(CreateConnectionByDataSource connectionSource,
-                                 GenerateIdType generateIdType) {
-        super(new DbTable("file_storage", "fs"),
-                COLUMNS_NAME,
-                connectionSource,
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityFileStorage.class), UtilClass.castClass(FileStorage.class)),
-                new MapperSqlFileStorage<ID>(COLUMNS_NAME),
-                generateIdType);
-    }
+    private static final String[] COLUMNS_NAME = DefaultColumns.FILE_STORAGE.columns();
 
     public RepositoryFileStorage(CreateConnectionByDataSource connectionSource,
-                                 MapperDtoBase<ID, EntityFileStorage<ID>, DTO> dtoMapper,
-                                 GenerateIdType generateIdType) {
-        super(new DbTable("file_storage", "fs"),
+                                 GenerateIdType generateIdType,
+                                 SQLType sqlIdType) {
+        super(DefaultTable.FILE_STORAGE.table(),
                 COLUMNS_NAME,
                 connectionSource,
-                dtoMapper,
-                new MapperSqlFileStorage<ID>(COLUMNS_NAME),
-                generateIdType);
+                generateIdType,
+                sqlIdType);
+        setSpringMapper(new MapperSpringFileStorage<>(COLUMNS_NAME, sqlIdType, getColumnIdName()));
     }
 
     @Override
-    protected SqlParameters getParameters(EntityFileStorage<ID> entity){
+    protected SqlParameters getParameters(FileStorage<ID> model){
         SqlParameters parameters = new SqlParameters();
-        parameters.add(0, COLUMNS_NAME[0], entity.getFilename());
-        parameters.add(1, COLUMNS_NAME[1], entity.getExtension());
-        parameters.add(2, COLUMNS_NAME[2], entity.getDisplayName());
-        parameters.add(3, COLUMNS_NAME[3], entity.getContent());
-        parameters.add(4, COLUMNS_NAME[4], entity.getFilePath());
-        parameters.add(5, COLUMNS_NAME[5], entity.getCreateDate());
-        parameters.add(6, COLUMNS_NAME[6], entity.getType());
-        parameters.add(7, COLUMNS_NAME[7], entity.getStatus());
+        parameters.add(0, COLUMNS_NAME[0], model.getFilename());
+        parameters.add(1, COLUMNS_NAME[1], model.getExtension());
+        parameters.add(2, COLUMNS_NAME[2], model.getDisplayName());
+        parameters.add(3, COLUMNS_NAME[3], model.getContent());
+        parameters.add(4, COLUMNS_NAME[4], model.getFilePath());
+        parameters.add(5, COLUMNS_NAME[5], model.getCreateDate());
+        parameters.add(6, COLUMNS_NAME[6], model.getType());
+        parameters.add(7, COLUMNS_NAME[7], model.getStatus());
         return parameters;
     }
 
     @Override
-    protected DTO fill(DTO dto){
-        return dto;
+    protected FileStorage<ID> fill(FileStorage<ID> model){
+        return model;
     }
 
     @Override

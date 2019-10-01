@@ -1,6 +1,6 @@
 package ru.strict.swing.components.table;
 
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.validate.ValidateBaseValue;
 
 import java.text.SimpleDateFormat;
 import java.util.*;

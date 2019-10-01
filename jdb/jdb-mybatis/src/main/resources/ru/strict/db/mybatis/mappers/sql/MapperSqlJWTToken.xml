@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ru.strict.db.mybatis.mappers.sql.MapperSqlJWTToken">
 
-    <resultMap id="token" type="ru.strict.db.core.entities.EntityJWTToken">
+    <resultMap id="token" type="ru.strict.models.JWTToken">
         <id property="id" column="id"/>
         <result property="accessToken" column="access_token"/>
         <result property="refreshToken" column="refresh_token"/>
@@ -19,40 +19,59 @@
         <result property="userId" column="userx_id"/>
     </resultMap>
 
-    <resultMap id="tokenFill" type="ru.strict.db.core.entities.EntityJWTToken" extends="token">
+    <resultMap id="tokenFill" type="ru.strict.models.JWTToken" extends="token">
         <association property="user"
                      column="userx_id"
-                     javaType="ru.strict.db.core.entities.EntityUser"
+                     javaType="ru.strict.models.User"
                      select="ru.strict.db.mybatis.mappers.sql.MapperSqlUser.read"
                      fetchType="lazy"/>
     </resultMap>
 
-    <insert id="create" parameterType="ru.strict.db.core.entities.EntityJWTToken">
+    <sql id="tokenFields">
+        id,
+        access_token,
+        refresh_token,
+        expire_time_access,
+        expire_time_refresh,
+        issued_at,
+        issuer,
+        subject,
+        not_before,
+        audience,
+        secret,
+        algorithm,
+        type,
+        userx_id
+    </sql>
+
+    <insert id="create" parameterType="ru.strict.models.JWTToken">
         INSERT INTO token (id, access_token, refresh_token, expire_time_access, expire_time_refresh, issued_at, issuer,
                 subject, not_before, audience, secret, algorithm, type, userx_id)
         VALUES (#{id}, #{accessToken}, #{refreshToken}, #{expireTimeAccess}, #{expireTimeRefresh}, #{issuedAt}, #{issuer},
                 #{subject}, #{notBefore}, #{audience}, #{secret}, #{algorithm}, #{type}, #{userId})
     </insert>
 
-    <insert id="createGenerateId" parameterType="ru.strict.db.core.entities.EntityJWTToken"
+    <insert id="createGenerateId"
+            parameterType="map"
             useGeneratedKeys="true"
             keyColumn="id"
-            keyProperty="id">
+            keyProperty="generateId.value">
         INSERT INTO token (access_token, refresh_token, expire_time_access, expire_time_refresh, issued_at, issuer,
                 subject, not_before, audience, secret, algorithm, type, userx_id)
-        VALUES (#{accessToken}, #{refreshToken}, #{expireTimeAccess}, #{expireTimeRefresh}, #{issuedAt}, #{issuer},
-                #{subject}, #{notBefore}, #{audience}, #{secret}, #{algorithm}, #{type}, #{userId})
+        VALUES (#{model.accessToken}, #{model.refreshToken}, #{model.expireTimeAccess}, #{model.expireTimeRefresh},
+        #{model.issuedAt}, #{model.issuer}, #{model.subject}, #{model.notBefore}, #{model.audience}, #{model.secret},
+        #{model.algorithm}, #{model.type}, #{model.userId})
     </insert>
 
-    <select id="read" parameterType="java.lang.Object" resultMap="token">
-        SELECT * FROM token WHERE id = #{id}
+    <select id="read" resultMap="token">
+        SELECT <include refid="tokenFields"/> FROM token WHERE id = #{id}
     </select>
 
     <select id="readAll" resultMap="token">
-        SELECT * FROM token
+        SELECT <include refid="tokenFields"/> FROM token
     </select>
 
-    <update id="update" parameterType="ru.strict.db.core.entities.EntityJWTToken">
+    <update id="update" parameterType="ru.strict.models.JWTToken">
         UPDATE token SET access_token = #{accessToken}, refresh_token = #{refreshToken}, expire_time_access = #{expireTimeAccess},
          expire_time_refresh = #{expireTimeRefresh}, issued_at = #{issuedAt}, issuer = #{issuer}, subject = #{subject},
          not_before = #{notBefore}, audience = #{audience}, secret = #{secret}, algorithm = #{algorithm}, type = #{type},
@@ -60,35 +79,35 @@
          WHERE id = #{id}
     </update>
 
-    <delete id="delete" parameterType="java.lang.Object">
+    <delete id="delete">
         DELETE FROM token WHERE id = #{id}
     </delete>
 
-    <select id="readFill" parameterType="java.lang.Object" resultMap="tokenFill" >
-        SELECT * FROM token WHERE id = #{id}
+    <select id="readFill" resultMap="tokenFill" >
+        SELECT <include refid="tokenFields"/> FROM token WHERE id = #{id}
     </select>
 
     <select id="readAllFill" resultMap="tokenFill">
-        SELECT * FROM token
+        SELECT <include refid="tokenFields"/> FROM token
     </select>
 
     <select id="readCount" resultType="int">
         SELECT COUNT(1) FROM token
     </select>
 
-    <select id="readCountById" parameterType="java.lang.Object" resultType="int">
+    <select id="readCountById" resultType="int">
         SELECT COUNT(1) FROM token WHERE id = #{id}
     </select>
 
-    <select id="readByUserId" parameterType="java.lang.Object" resultMap="token">
-        SELECT * FROM token WHERE userx_id = #{userId}
+    <select id="readByUserId" resultMap="token">
+        SELECT <include refid="tokenFields"/> FROM token WHERE userx_id = #{userId}
     </select>
 
     <select id="readByAccessToken" parameterType="java.lang.String" resultMap="token">
-        SELECT * FROM token WHERE access_token = #{accessToken}
+        SELECT <include refid="tokenFields"/> FROM token WHERE access_token = #{accessToken}
     </select>
 
     <select id="readByRefreshToken" parameterType="java.lang.String" resultMap="token">
-        SELECT * FROM token WHERE refresh_token = #{refreshToken}
+        SELECT <include refid="tokenFields"/> FROM token WHERE refresh_token = #{refreshToken}
     </select>
 </mapper>

@@ -2,61 +2,42 @@ package ru.strict.db.mybatis.repositories;
 
 import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.requests.DbTable;
-import ru.strict.models.FileStorage;
-import ru.strict.models.FileStorageBase;
-import ru.strict.db.core.entities.EntityFileStorage;
-import ru.strict.db.core.mappers.dto.MapperDtoBase;
-import ru.strict.db.core.mappers.dto.MapperDtoFactory;
+import ru.strict.db.core.repositories.DefaultColumns;
+import ru.strict.db.core.repositories.DefaultTable;
 import ru.strict.db.core.repositories.interfaces.IRepositoryFileStorage;
+import ru.strict.models.FileStorage;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlFileStorage;
 import ru.strict.utils.UtilClass;
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.validate.ValidateBaseValue;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class RepositoryFileStorage<ID, DTO extends FileStorageBase<ID>>
-        extends RepositoryNamedBase<ID, EntityFileStorage<ID>, DTO, MapperSqlFileStorage<ID>>
-        implements IRepositoryFileStorage<ID, DTO> {
+public class RepositoryFileStorage<ID>
+        extends RepositoryMybatisNamed<ID, FileStorage<ID>, MapperSqlFileStorage<ID>>
+        implements IRepositoryFileStorage<ID, FileStorage<ID>> {
 
-    private static final String[] COLUMNS_NAME = new String[] {"filename", "extension", "displayname", "content", "filepath",
-            "create_date", "type", "status"};
+    private static final String[] COLUMNS_NAME = DefaultColumns.FILE_STORAGE.columns();
 
     public RepositoryFileStorage(CreateConnectionByMybatis connectionSource, GenerateIdType generateIdType) {
-        super(new DbTable("file_storage", "fs"),
+        super(DefaultTable.FILE_STORAGE.table(),
                 COLUMNS_NAME,
                 connectionSource,
-                UtilClass.<MapperSqlFileStorage<ID>>castClass(MapperSqlFileStorage.class),
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityFileStorage.class), UtilClass.castClass(FileStorage.class)),
-                generateIdType);
-    }
-
-    public RepositoryFileStorage(CreateConnectionByMybatis connectionSource,
-                                 MapperDtoBase<ID, EntityFileStorage<ID>, DTO> dtoMapper,
-                                 GenerateIdType generateIdType) {
-        super(new DbTable("file_storage", "fs"),
-                COLUMNS_NAME,
-                connectionSource,
-                UtilClass.<MapperSqlFileStorage<ID>>castClass(MapperSqlFileStorage.class),
-                dtoMapper,
+                UtilClass.castClass(MapperSqlFileStorage.class),
                 generateIdType);
     }
 
     @Override
-    public List<DTO> readByDisplayName(String displayName) {
+    public List<FileStorage<ID>> readByDisplayName(String displayName) {
         if(ValidateBaseValue.isEmptyOrNull(displayName)){
             throw new IllegalArgumentException("displayName for read is NULL");
         }
-        List<DTO> result = null;
+
         SqlSession session = null;
         try {
             session = createConnection();
             MapperSqlFileStorage<ID> mapperMybatis = session.getMapper(getMybatisMapperClass());
-            List<EntityFileStorage<ID>> entities = mapperMybatis.readByDisplayName(displayName);
-            result = entities.stream().map(e -> getDtoMapper().map(e)).collect(Collectors.toList());
-            session.commit();
+            return mapperMybatis.readByDisplayName(displayName);
         }catch(Exception ex){
             if(session != null){
                 session.rollback();
@@ -67,26 +48,22 @@ public class RepositoryFileStorage<ID, DTO extends FileStorageBase<ID>>
                 session.close();
             }
         }
-
-        return result;
     }
 
     @Override
-    public List<DTO> readByFileNameAndExtension(String fileName, String extension) {
+    public List<FileStorage<ID>> readByFileNameAndExtension(String fileName, String extension) {
         if(ValidateBaseValue.isEmptyOrNull(fileName)){
             throw new IllegalArgumentException("fileName for read is NULL");
         }
         if(ValidateBaseValue.isEmptyOrNull(extension)){
             throw new IllegalArgumentException("extension for read is NULL");
         }
-        List<DTO> result = null;
+
         SqlSession session = null;
         try {
             session = createConnection();
             MapperSqlFileStorage<ID> mapperMybatis = session.getMapper(getMybatisMapperClass());
-            List<EntityFileStorage<ID>> entities = mapperMybatis.readByFileNameAndExtension(fileName, extension);
-            result = entities.stream().map(e -> getDtoMapper().map(e)).collect(Collectors.toList());
-            session.commit();
+            return mapperMybatis.readByFileNameAndExtension(fileName, extension);
         }catch(Exception ex){
             if(session != null){
                 session.rollback();
@@ -97,26 +74,22 @@ public class RepositoryFileStorage<ID, DTO extends FileStorageBase<ID>>
                 session.close();
             }
         }
-
-        return result;
     }
 
     @Override
-    public List<DTO> readByDisplayNameAndExtension(String displayName, String extension) {
+    public List<FileStorage<ID>> readByDisplayNameAndExtension(String displayName, String extension) {
         if(ValidateBaseValue.isEmptyOrNull(displayName)){
             throw new IllegalArgumentException("displayName for read is NULL");
         }
         if(ValidateBaseValue.isEmptyOrNull(extension)){
             throw new IllegalArgumentException("extension for read is NULL");
         }
-        List<DTO> result = null;
+
         SqlSession session = null;
         try {
             session = createConnection();
             MapperSqlFileStorage<ID> mapperMybatis = session.getMapper(getMybatisMapperClass());
-            List<EntityFileStorage<ID>> entities = mapperMybatis.readByDisplayNameAndExtension(displayName, extension);
-            result = entities.stream().map(e -> getDtoMapper().map(e)).collect(Collectors.toList());
-            session.commit();
+            return mapperMybatis.readByDisplayNameAndExtension(displayName, extension);
         }catch(Exception ex){
             if(session != null){
                 session.rollback();
@@ -127,23 +100,19 @@ public class RepositoryFileStorage<ID, DTO extends FileStorageBase<ID>>
                 session.close();
             }
         }
-
-        return result;
     }
 
     @Override
-    public DTO readByFilePath(String filePath) {
+    public FileStorage<ID> readByFilePath(String filePath) {
         if(ValidateBaseValue.isEmptyOrNull(filePath)){
             throw new IllegalArgumentException("filePath for read is NULL");
         }
-        DTO result = null;
+
         SqlSession session = null;
         try {
             session = createConnection();
             MapperSqlFileStorage<ID> mapperMybatis = session.getMapper(getMybatisMapperClass());
-            EntityFileStorage<ID> entity = mapperMybatis.readByFilePath(filePath);
-            result = getDtoMapper().map(entity);
-            session.commit();
+            return mapperMybatis.readByFilePath(filePath);
         }catch(Exception ex){
             if(session != null){
                 session.rollback();
@@ -154,20 +123,15 @@ public class RepositoryFileStorage<ID, DTO extends FileStorageBase<ID>>
                 session.close();
             }
         }
-
-        return result;
     }
 
     @Override
-    public List<DTO> readByType(int type) {
-        List<DTO> result = null;
+    public List<FileStorage<ID>> readByType(int type) {
         SqlSession session = null;
         try {
             session = createConnection();
             MapperSqlFileStorage<ID> mapperMybatis = session.getMapper(getMybatisMapperClass());
-            List<EntityFileStorage<ID>> entities = mapperMybatis.readByType(type);
-            result = entities.stream().map(e -> getDtoMapper().map(e)).collect(Collectors.toList());
-            session.commit();
+            return mapperMybatis.readByType(type);
         }catch(Exception ex){
             if(session != null){
                 session.rollback();
@@ -178,20 +142,15 @@ public class RepositoryFileStorage<ID, DTO extends FileStorageBase<ID>>
                 session.close();
             }
         }
-
-        return result;
     }
 
     @Override
-    public List<DTO> readByStatus(int status) {
-        List<DTO> result = null;
+    public List<FileStorage<ID>> readByStatus(int status) {
         SqlSession session = null;
         try {
             session = createConnection();
             MapperSqlFileStorage<ID> mapperMybatis = session.getMapper(getMybatisMapperClass());
-            List<EntityFileStorage<ID>> entities = mapperMybatis.readByStatus(status);
-            result = entities.stream().map(e -> getDtoMapper().map(e)).collect(Collectors.toList());
-            session.commit();
+            return mapperMybatis.readByStatus(status);
         }catch(Exception ex){
             if(session != null){
                 session.rollback();
@@ -202,8 +161,6 @@ public class RepositoryFileStorage<ID, DTO extends FileStorageBase<ID>>
                 session.close();
             }
         }
-
-        return result;
     }
 
     @Override

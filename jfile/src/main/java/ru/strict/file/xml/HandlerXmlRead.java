@@ -1,13 +1,10 @@
 package ru.strict.file.xml;
 
 import org.jdom2.Attribute;
-import org.jdom2.AttributeType;
 import org.jdom2.Element;
-import org.jdom2.Namespace;
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import ru.strict.validates.ValidateBaseRegex;
+import ru.strict.validate.ValidateBaseRegex;
 
 import java.util.ArrayList;
 import java.util.Iterator;

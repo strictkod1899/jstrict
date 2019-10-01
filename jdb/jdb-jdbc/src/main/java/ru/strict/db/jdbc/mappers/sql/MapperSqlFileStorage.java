@@ -1,35 +1,29 @@
 package ru.strict.db.jdbc.mappers.sql;
 
-import ru.strict.db.core.entities.EntityFileStorage;
-import ru.strict.db.core.mappers.sql.MapperSqlBase;
+import ru.strict.models.FileStorage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLType;
 
-public class MapperSqlFileStorage<ID> extends MapperSqlBase<ID, EntityFileStorage<ID>> {
+public class MapperSqlFileStorage<ID> extends MapperSqlBase<ID, FileStorage<ID>> {
 
-    private final String[] COLUMNS_NAME;
-
-    public MapperSqlFileStorage(String[] columnsName){
-        this.COLUMNS_NAME = columnsName;
+    public MapperSqlFileStorage(String[] columns, SQLType idType, String idColumnName){
+        super(columns, idType, idColumnName);
     }
 
     @Override
-    public EntityFileStorage<ID> implementMap(ResultSet resultSet) {
-        EntityFileStorage<ID> entity = new EntityFileStorage();
-        try {
-            entity.setId((ID)resultSet.getObject("id"));
-            entity.setFilename(resultSet.getString(COLUMNS_NAME[0]));
-            entity.setExtension(resultSet.getString(COLUMNS_NAME[1]));
-            entity.setDisplayName(resultSet.getString(COLUMNS_NAME[2]));
-            entity.setContent(resultSet.getBytes(COLUMNS_NAME[3]));
-            entity.setFilePath(resultSet.getString(COLUMNS_NAME[4]));
-            entity.setCreateDate(resultSet.getDate(COLUMNS_NAME[5]));
-            entity.setType(resultSet.getInt(COLUMNS_NAME[6]));
-            entity.setStatus(resultSet.getInt(COLUMNS_NAME[7]));
-        }catch(SQLException ex){
-            throw new RuntimeException(ex);
-        }
-        return entity;
+    public FileStorage<ID> implementMap(ResultSet resultSet) throws SQLException {
+        FileStorage<ID> model = new FileStorage();
+        model.setId(mapValueBySqlType(idType, resultSet, idColumnName));
+        model.setFilename(resultSet.getString(columns[0]));
+        model.setExtension(resultSet.getString(columns[1]));
+        model.setDisplayName(resultSet.getString(columns[2]));
+        model.setContent(resultSet.getBytes(columns[3]));
+        model.setFilePath(resultSet.getString(columns[4]));
+        model.setCreateDate(resultSet.getDate(columns[5]));
+        model.setType(resultSet.getInt(columns[6]));
+        model.setStatus(resultSet.getInt(columns[7]));
+        return model;
     }
 }

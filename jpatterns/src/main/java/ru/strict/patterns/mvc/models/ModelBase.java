@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Модель представления (паттерн MVC)
+ */
 public class ModelBase<STAGE> implements IStageModel<STAGE>, IResetModel{
 
     private STAGE currentStage;

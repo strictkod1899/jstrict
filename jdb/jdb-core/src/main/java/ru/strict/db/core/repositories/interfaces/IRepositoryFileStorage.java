@@ -8,54 +8,66 @@ import ru.strict.db.core.requests.DbWhereItem;
 
 import java.util.List;
 
-public interface IRepositoryFileStorage<ID, DTO extends FileStorageBase<ID>> extends IRepositoryNamed<ID, DTO> {
-    default List<DTO> readByDisplayName(String displayName){
+public interface IRepositoryFileStorage<ID, T extends FileStorageBase<ID>> extends IRepositoryNamed<ID, T> {
+    default List<T> readByDisplayName(String displayName){
+        if(displayName == null){
+            throw new IllegalArgumentException("displayName is NULL");
+        }
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "displayname"), displayName, "="));
 
-        List<DTO> result = readAll(requests);
-        return result;
+        return readAll(requests);
     }
 
-    default List<DTO> readByFileNameAndExtension(String fileName, String extension){
+    default List<T> readByFileNameAndExtension(String fileName, String extension){
+        if(fileName == null){
+            throw new IllegalArgumentException("fileName is NULL");
+        }
+        if(extension == null){
+            throw new IllegalArgumentException("extension is NULL");
+        }
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "filename"), fileName, "="));
         requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "extension"), extension, "="));
 
-        List<DTO> result = readAll(requests);
-        return result;
+        return readAll(requests);
     }
 
-    default List<DTO> readByDisplayNameAndExtension(String displayName, String extension){
+    default List<T> readByDisplayNameAndExtension(String displayName, String extension){
+        if(displayName == null){
+            throw new IllegalArgumentException("displayName is NULL");
+        }
+        if(extension == null){
+            throw new IllegalArgumentException("extension is NULL");
+        }
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "displayname"), displayName, "="));
         requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "extension"), extension, "="));
 
-        List<DTO> result = readAll(requests);
-        return result;
+        return readAll(requests);
     }
 
-    default DTO readByFilePath(String filePath){
+    default T readByFilePath(String filePath){
+        if(filePath == null){
+            throw new IllegalArgumentException("filePath is NULL");
+        }
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "filepath"), filePath, "="));
 
-        DTO result = readAll(requests).stream().findFirst().orElse(null);
-        return result;
+        return readAll(requests).stream().findFirst().orElse(null);
     }
 
-    default List<DTO> readByType(int type){
+    default List<T> readByType(int type){
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "type"), type, "="));
 
-        List<DTO> result = readAll(requests);
-        return result;
+        return readAll(requests);
     }
 
-    default List<DTO> readByStatus(int status){
+    default List<T> readByStatus(int status){
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "status"), status, "="));
 
-        List<DTO> result = readAll(requests);
-        return result;
+        return readAll(requests);
     }
 }

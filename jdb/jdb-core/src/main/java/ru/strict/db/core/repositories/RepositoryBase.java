@@ -3,9 +3,9 @@ package ru.strict.db.core.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.requests.*;
-import ru.strict.models.DtoBase;
-import ru.strict.db.core.mappers.dto.MapperDtoBase;
+import ru.strict.models.ModelBase;
 
+import java.sql.SQLType;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,60 +13,86 @@ import java.util.Objects;
  * Базовый класс репозитория
  * @param <ID> Тип идентификатора
  * @param <SOURCE> Источник для получения соединения с базой данных (CreateConnectionByDataSource, CreateConnectionByConnectionInfo)
- * @param <E> Тип сущности базы данных (entity)
- * @param <DTO> Тип Dto-сущности базы данных
+ * @param <T> Модель сущности базы данных
  */
 public abstract class RepositoryBase
-        <ID, CONNECTION, SOURCE extends ICreateConnection<CONNECTION>, E, DTO extends DtoBase<ID>>
-        implements IRepositoryExtension<ID, DTO> {
+        <ID, CONNECTION, SOURCE extends ICreateConnection<CONNECTION>, T extends ModelBase<ID>>
+        implements IRepositoryExtension<ID, T> {
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
      * является реализацией интерфейса ICreateConnection (CreateConnectionByDataSource, CreateConnectionByConnectionInfo)
      */
-    private SOURCE connectionSource;
-
-    /**
-     * Маппер связанной сущности/dto
-     */
-    private MapperDtoBase<ID, E, DTO> dtoMapper;
+    private final SOURCE connectionSource;
 
     /**
      * Наименование таблицы
      */
-    private DbTable table;
+    private final DbTable table;
 
     /**
      * Наименование столбцов таблицы в базе данных, без учета ID
      */
-    private String[] columnsName;
+    private final String[] columns;
 
     /**
      * Метка: если значение true, то идентификатор должен генерироваться на стороне базы данных,
-     * иначе при создании записи id будет взято из dto-объекта
+     * иначе при создании записи id будет взято из объекта
      */
-    private GenerateIdType generateIdType;
+    private final GenerateIdType generateIdType;
+
+    /**
+     * Тип идентификатора в базе данных. Необязательный параметр. Нужен для универсальных решений
+     */
+    private final SQLType sqlIdType;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public RepositoryBase(DbTable table, String[] columnsName, SOURCE connectionSource,
-                          MapperDtoBase<ID, E, DTO> dtoMapper, GenerateIdType generateIdType) {
+    private void validateConstructor(DbTable table,
+                                     String[] columns,
+                                     SOURCE connectionSource,
+                                     GenerateIdType generateIdType){
         if(table == null){
             throw new IllegalArgumentException("table is NULL");
-        } else if(columnsName == null){
-            throw new IllegalArgumentException("columnsName is NULL");
-        } else if(connectionSource == null){
+        }
+        if(columns == null){
+            throw new IllegalArgumentException("columns is NULL");
+        }
+        if(connectionSource == null){
             throw new IllegalArgumentException("connectionSource is NULL");
-        } else if(dtoMapper == null){
-            throw new IllegalArgumentException("dtoMapper is NULL");
-        } else if(generateIdType == null){
+        }
+        if(generateIdType == null){
             throw new IllegalArgumentException("generateIdType is NULL");
         }
+    }
 
-        this.connectionSource = connectionSource;
-        this.dtoMapper = dtoMapper;
-        this.generateIdType = generateIdType;
+    public RepositoryBase(DbTable table,
+                          String[] columns,
+                          SOURCE connectionSource,
+                          GenerateIdType generateIdType,
+                          SQLType sqlIdType) {
+        validateConstructor(table, columns, connectionSource, generateIdType);
+        if(sqlIdType == null){
+            throw new IllegalArgumentException("idType is NULL");
+        }
+
         this.table = table;
-        this.columnsName = columnsName;
+        this.columns = columns;
+        this.connectionSource = connectionSource;
+        this.generateIdType = generateIdType;
+        this.sqlIdType = sqlIdType;
+    }
+
+    public RepositoryBase(DbTable table,
+                          String[] columns,
+                          SOURCE connectionSource,
+                          GenerateIdType generateIdType) {
+        validateConstructor(table, columns, connectionSource, generateIdType);
+
+        this.table = table;
+        this.columns = columns;
+        this.connectionSource = connectionSource;
+        this.generateIdType = generateIdType;
+        this.sqlIdType = null;
     }
     //</editor-fold>
 
@@ -81,127 +107,101 @@ public abstract class RepositoryBase
 
     //<editor-fold defaultState="collapsed" desc="CRUD">
     @Override
-    public DTO createOrUpdate(DTO dto) {
-        if(dto == null){
-            throw new IllegalArgumentException("dto is NULL");
+    public ID createOrUpdate(T model) {
+        if(model == null){
+            throw new IllegalArgumentException("model is NULL");
         }
-        if(isRowExists(dto.getId())) {
-            return update(dto);
+        boolean rowExists = isRowExists(model.getId());
+        if(rowExists){
+            update(model);
+            return model.getId();
         } else {
-            return create(dto);
+            return create(model);
         }
     }
 
     @Override
-    public DTO createOrRead(DTO dto) {
-        if(dto == null){
-            throw new IllegalArgumentException("dto is NULL");
+    public T createOrRead(T model) {
+        if(model == null){
+            throw new IllegalArgumentException("model is NULL");
         }
-        if(isRowExists(dto.getId()))
-            return read(dto.getId());
-        else
-            return create(dto);
+        boolean rowExists = isRowExists(model.getId());
+        if(rowExists){
+            return read(model.getId());
+        } else {
+            ID savedId = create(model);
+            model.setId(savedId);
+            return model;
+        }
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="CRUD extension">
     /**
      * Добавление объектов внешних ключей к прочитанной ранее сущности из базы данных.
-     * Если сущность не имеет внешних ключей, то рекомендуется возвращать переданный dto-объект.
+     * Если сущность не имеет внешних ключей, то рекомендуется возвращать переданный объект.
      *
      * <p><b>Пример использования:</b></p>
      * <p>Чтение ролей пользователя.
      * Пользователь содержит роли. Внешний ключи хранятся в промежуточной таблице (пользовать = роль).
      * После чтения записей промежуточной таблицы считываем все записи соответствующих ролей)</p>
      * <code><pre style="background-color: white; font-family: consolas">
-     *      RepositoryJdbcBase<ID, SOURCE, EntityUserOnRole, DtoUserOnRole> repositoryUserOnRole =
+     *      RepositoryJdbcBase<ID, SOURCE, UserOnRole> repositoryUserOnRole =
      *                 new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
      *      DbRequests requests = new DbRequests(true);
-     *      requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTable(), "userx_id", dto.getId(), "="));
-     *      List<DtoUserOnRole> userOnRoles = repositoryUserOnRole.readAll(requests);
+     *      requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTable(), "userx_id", model.getId(), "="));
+     *      List<UserOnRole> userOnRoles = repositoryUserOnRole.readAll(requests);
      *
-     *      IRepository<ID, DtoRoleuser> repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
-     *      Collection<DtoRoleuser> roleusers = new ArrayList<>();
-     *      for(DtoUserOnRole<ID> userOnRole : userOnRoles) {
-     *          roleusers.add(repositoryRoleuser.read(userOnRole.getRoleId()));
+     *      IRepository<ID, Role> repositoryRole = new RepositoryRole<>(getConnectionSource(), GenerateIdType.NONE);
+     *      Collection<Role> roles = new ArrayList<>();
+     *      for(UserOnRole<ID> userOnRole : userOnRoles) {
+     *          roles.add(repositoryRole.read(userOnRole.getRoleId()));
      *      }
-     *      dto.setRoles(roleusers);
-     *      return dto;
+     *      model.setRoles(roleus);
+     *      return model;
      * </pre></code>
      * <p><b>Пример использования:</b></p>
      * <p>К одной стране относится несколько городов и необходимо получить все города связанные со страной</p>
      * <code><pre style="background-color: white; font-family: consolas">
-     *     RepositoryJdbcBase<ID, SOURCE, EntityCity, DtoCity> repositoryCity =
+     *     RepositoryJdbcBase<ID, SOURCE, City> repositoryCity =
      *             new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
      *     DbRequests requests = new DbRequests(true);
-     *     requests.addWhere(new DbWhereItem(repositoryCity.getTable(), "country_id", dto.getId(), "="));
+     *     requests.addWhere(new DbWhereItem(repositoryCity.getTable(), "country_id", model.getId(), "="));
      *
-     *     List<DtoCity> cities = repositoryCity.readAll(requests);
-     *     dto.setCities(cities);
+     *     List<City> cities = repositoryCity.readAll(requests);
+     *     model.setCities(cities);
      *
-     *     return dto;
+     *     return model;
      * </pre></code>
      * <p><b>Пример использования:</b></p>
      * <p>Профиль относится к какому-то пользователю и содержит внешний ключ на пользователя (user)</p>
      * <code><pre style="background-color: white; font-family: consolas">
-     *     IRepository<ID, DtoCountry> repositoryCountry =
+     *     IRepository<ID, Country> repositoryCountry =
      *         new RepositoryCountry(getConnectionSource(), GenerateIdType.NONE);
-     *     dto.setCountry(repositoryCountry.read((ID) dto.getCountryId()));
-     *     return dto;
+     *     model.setCountry(repositoryCountry.read((ID) model.getCountryId()));
+     *     return model;
      * </pre></code>
-     * @param dto Сущность прочитанная из базы данных (без внешних ключей)
+     * @param model Сущность прочитанная из базы данных (без внешних ключей)
      * @return Сущность с внешними ключами
      */
-    protected abstract DTO fill(DTO dto);
+    protected abstract T fill(T model);
 
     @Override
-    public DTO readFill(ID id) {
-        DTO dto = read(id);
-        if(dto != null) {
-            dto = fill(dto);
+    public T readFill(ID id) {
+        T model = read(id);
+        if(model != null) {
+            model = fill(model);
         }
-        return dto;
+        return model;
     }
 
     @Override
-    public List<DTO> readAllFill(DbRequests requests) {
-        List<DTO> dtoList = readAll(requests);
-        if(dtoList != null) {
-            dtoList.stream().forEach((dto) -> dto = fill(dto));
+    public List<T> readAllFill(DbRequests requests) {
+        List<T> models = readAll(requests);
+        if(models != null) {
+            models.stream().forEach((model) -> model = fill(model));
         }
-        return dtoList;
-    }
-
-
-
-    @Override
-    public DTO createOrReadFill(DTO dto) {
-        if(dto == null){
-            throw new IllegalArgumentException("dto is NULL");
-        }
-        if(isRowExists(dto.getId()))
-            return readFill(dto.getId());
-        else
-            return create(dto);
-    }
-
-    @Override
-    public boolean isRowExists(ID id) {
-        if(id == null){
-            return false;
-        }
-
-        boolean result = false;
-
-        DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(getTable(), getColumnIdName(), id, "="));
-
-        int count = readCount(requests);
-        if(count > 0){
-            result = true;
-        }
-
-        return result;
+        return models;
     }
     //</editor-fold>
 
@@ -213,7 +213,7 @@ public abstract class RepositoryBase
     protected DbSelect createSqlSelect(){
         DbSelect select = new DbSelect(table, new DbSelectItem(table, getColumnIdName()));
 
-        for(String columnName : getColumnsName()){
+        for(String columnName : getColumns()){
             select.addSelectItem(table, columnName);
         }
 
@@ -238,10 +238,6 @@ public abstract class RepositoryBase
         return connectionSource.createConnection();
     }
 
-    protected MapperDtoBase<ID, E, DTO> getDtoMapper() {
-        return dtoMapper;
-    }
-
     public SOURCE getConnectionSource() {
         return connectionSource;
     }
@@ -255,8 +251,12 @@ public abstract class RepositoryBase
         return table;
     }
 
-    public String[] getColumnsName() {
-        return columnsName;
+    public String[] getColumns() {
+        return columns;
+    }
+
+    protected SQLType getSqlIdType(){
+        return sqlIdType;
     }
     //</editor-fold>
 
@@ -268,21 +268,19 @@ public abstract class RepositoryBase
 
     @Override
     public boolean equals(Object obj){
-        if(obj!=null && obj instanceof RepositoryBase) {
-            RepositoryBase object = (RepositoryBase) obj;
-            return Objects.equals(connectionSource, object.getConnectionSource())
-                    && Objects.equals(dtoMapper, object.getDtoMapper())
-                    && Objects.equals(table, object.getTable())
-                    && Objects.equals(columnsName, object.getColumnsName())
-                    && Objects.equals(generateIdType, object.getGenerateIdType());
-        }else{
-            return false;
-        }
+        if(this == obj) return true;
+        if(obj == null || getClass() != obj.getClass()) return false;
+
+        RepositoryBase object = (RepositoryBase) obj;
+        return Objects.equals(connectionSource, object.getConnectionSource())
+                && Objects.equals(table, object.getTable())
+                && Objects.equals(columns, object.getColumns())
+                && Objects.equals(generateIdType, object.getGenerateIdType());
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(connectionSource, dtoMapper, table, columnsName, generateIdType);
+        return Objects.hash(connectionSource, table, columns, generateIdType);
     }
     //</editor-fold>
 }

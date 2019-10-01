@@ -9,52 +9,71 @@ import java.util.Objects;
 public class ProfileDetails<ID> extends Profile<ID> {
 
     /**
+     * Отчетство
+     */
+    private String middlename;
+    /**
+     * Пол = Мужчина
+     */
+    private Boolean man;
+    /**
      * Дата рождения
      */
     private Date dateBirth;
-
     /**
      * Номер телефона
      */
     private String phone;
-
     /**
      * Идентификатор города
      */
     private ID cityId;
-
     /**
      * Город связанный с пользователем
      */
     private City<ID> city;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void initialize(Date dateBirth, String phone, ID cityId){
+    private void initialize(String middlename, Boolean man, Date dateBirth, String phone, ID cityId){
+        this.middlename = middlename;
+        this.man = man;
         this.dateBirth = dateBirth;
         this.phone = phone;
         this.cityId = cityId;
-        city = null;
     }
+
     public ProfileDetails(){
         super();
-        dateBirth = null;
-        phone = null;
-        cityId = null;
-        city = null;
     }
 
-    public ProfileDetails(String name, String surname, String middlename, ID userId, Date dateBirth, String phone, ID cityId) {
-        super(name, surname, middlename, userId);
-        initialize(dateBirth, phone, cityId);
+    public ProfileDetails(String name, String surname, String middlename, ID userId, Boolean man, Date dateBirth, String phone, ID cityId) {
+        super(name, surname, userId);
+        initialize(middlename, man, dateBirth, phone, cityId);
     }
 
-    public ProfileDetails(ID id, String name, String surname, String middlename, ID userId, Date dateBirth, String phone, ID cityId) {
-        super(id, name, surname, middlename, userId);
-        initialize(dateBirth, phone, cityId);
+    public ProfileDetails(ID id, String name, String surname, String middlename, ID userId, Boolean man, Date dateBirth, String phone, ID cityId) {
+        super(id, name, surname, userId);
+        initialize(middlename, man, dateBirth, phone, cityId);
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
+    public String getMiddlename() {
+        return middlename;
+    }
+
+    public void setMiddlename(String middlename) {
+        this.middlename = middlename;
+    }
+
+    public Boolean isMan() {
+        return man;
+    }
+
+    public void setMan(Boolean man) {
+        this.man = man;
+    }
+
     public Date getDateBirth() {
         return dateBirth;
     }
@@ -102,6 +121,8 @@ public class ProfileDetails<ID> extends Profile<ID> {
         if (!super.equals(o)) return false;
         ProfileDetails<ID> object = (ProfileDetails<ID>) o;
         return Objects.equals(dateBirth, object.dateBirth) &&
+                Objects.equals(middlename, object.middlename) &&
+                Objects.equals(man, object.man) &&
                 Objects.equals(phone, object.phone) &&
                 Objects.equals(cityId, object.cityId) &&
                 Objects.equals(city, object.city);
@@ -109,7 +130,7 @@ public class ProfileDetails<ID> extends Profile<ID> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), dateBirth, phone, cityId, city);
+        return Objects.hash(super.hashCode(), middlename, man, dateBirth, phone, cityId, city);
     }
 
     @Override

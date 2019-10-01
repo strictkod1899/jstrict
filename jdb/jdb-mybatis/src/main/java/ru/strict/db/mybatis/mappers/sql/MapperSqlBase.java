@@ -1,15 +1,14 @@
 package ru.strict.db.mybatis.mappers.sql;
 
 import org.apache.ibatis.annotations.Param;
-import ru.strict.db.core.entities.EntityBase;
+import ru.strict.models.ModelBase;
 
 import java.util.List;
-import java.util.UUID;
 
-public interface MapperSqlBase<ID, ENTITY extends EntityBase<ID>> {
-    void create(ENTITY entity);
-    ENTITY read(@Param("id")ID id);
-    List<ENTITY> readAll();
-    void update(ENTITY entity);
+public interface MapperSqlBase<ID, T extends ModelBase<ID>> {
+    void create(T model);
+    T read(@Param("id")ID id);
+    List<T> readAll();
+    void update(T model);
     void delete(@Param("id")ID id);
 }

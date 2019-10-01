@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * Токен
  */
-public class Token<ID> extends DtoBase<ID> {
+public class Token<ID> extends ModelBase<ID> {
     /**
      * Токен авторизации
      */
@@ -116,12 +116,12 @@ public class Token<ID> extends DtoBase<ID> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        Token<ID> dtoToken = (Token<ID>) o;
-        return Objects.equals(accessToken, dtoToken.accessToken) &&
-                Objects.equals(refreshToken, dtoToken.refreshToken) &&
-                Objects.equals(expireTimeAccess, dtoToken.expireTimeAccess) &&
-                Objects.equals(expireTimeRefresh, dtoToken.expireTimeRefresh) &&
-                Objects.equals(issuedAt, dtoToken.issuedAt);
+        Token<ID> token = (Token<ID>) o;
+        return Objects.equals(accessToken, token.accessToken) &&
+                Objects.equals(refreshToken, token.refreshToken) &&
+                Objects.equals(expireTimeAccess, token.expireTimeAccess) &&
+                Objects.equals(expireTimeRefresh, token.expireTimeRefresh) &&
+                Objects.equals(issuedAt, token.issuedAt);
     }
 
     @Override

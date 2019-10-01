@@ -11,8 +11,8 @@ import ru.strict.db.core.connections.CreateConnectionBase;
  * <p><b>Пример использования:</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
  *     ...
- *     ICreateConnection connectionCreater = new CreateConnectionHibernate(hibernateConnectionInfo);
- *     Session connection = connectionCreater.createConnection();
+ *     ICreateConnection connectionCreator = new CreateConnectionHibernate(hibernateConnectionInfo);
+ *     Session connection = connectionCreator.createConnection();
  * </pre></code>
  */
 public class CreateConnectionHibernate extends CreateConnectionBase<HibernateConnectionInfo, Session> {

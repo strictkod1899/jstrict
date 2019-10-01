@@ -108,7 +108,7 @@ public class EntityServiceOnRole<SERVICE> extends EntityBase<Long> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString(){
-        return String.format("serviceOnRole [%s]. service: %s. role: %s.", String.valueOf(getId()), serviceId, roleId);
+        return String.format("permissionOnRole [%s]. service: %s. role: %s.", String.valueOf(getId()), serviceId, roleId);
     }
 
     @Override

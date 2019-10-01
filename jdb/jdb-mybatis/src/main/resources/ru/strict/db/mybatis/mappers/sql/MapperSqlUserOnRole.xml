@@ -2,73 +2,80 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ru.strict.db.mybatis.mappers.sql.MapperSqlUserOnRole">
 
-    <resultMap id="userOnRole" type="ru.strict.db.core.entities.EntityUserOnRole">
+    <resultMap id="userOnRole" type="ru.strict.models.UserOnRole">
         <id property="id" column="id"/>
         <result property="userId" column="userx_id"/>
-        <result property="roleId" column="roleuser_id"/>
+        <result property="roleId" column="role_id"/>
     </resultMap>
 
-    <resultMap id="userOnRoleFill" type="ru.strict.db.core.entities.EntityUserOnRole" extends="userOnRole">
+    <resultMap id="userOnRoleFill" type="ru.strict.models.UserOnRole" extends="userOnRole">
         <association property="user"
                      column="userx_id"
-                     javaType="ru.strict.db.core.entities.EntityUser"
+                     javaType="ru.strict.models.User"
                      select="ru.strict.db.mybatis.mappers.sql.MapperSqlUser.read"
                      fetchType="lazy"/>
         <association property="role"
-                     column="roleuser_id"
-                     javaType="ru.strict.db.core.entities.EntityRoleuser"
-                     select="ru.strict.db.mybatis.mappers.sql.MapperSqlRoleuser.read"
+                     column="role_id"
+                     javaType="ru.strict.models.Role"
+                     select="ru.strict.db.mybatis.mappers.sql.MapperSqlRole.read"
                      fetchType="lazy"/>
     </resultMap>
 
-    <insert id="create" parameterType="ru.strict.db.core.entities.EntityUserOnRole">
-        INSERT INTO user_on_role (id, userx_id, roleuser_id) VALUES (#{id}, #{userId}, #{roleId})
+    <sql id="userOnRoleFields">
+        id,
+        userx_id,
+        role_id
+    </sql>
+
+    <insert id="create" parameterType="ru.strict.models.UserOnRole">
+        INSERT INTO user_on_role (id, userx_id, role_id) VALUES (#{id}, #{userId}, #{roleId})
     </insert>
 
-    <insert id="createGenerateId" parameterType="ru.strict.db.core.entities.EntityUserOnRole"
+    <insert id="createGenerateId"
+            parameterType="map"
             useGeneratedKeys="true"
             keyColumn="id"
-            keyProperty="id">
-        INSERT INTO user_on_role (userx_id, roleuser_id) VALUES (#{userId}, #{roleId})
+            keyProperty="generateId.value">
+        INSERT INTO user_on_role (userx_id, role_id) VALUES (#{model.userId}, #{model.roleId})
     </insert>
 
-    <select id="read" parameterType="java.lang.Object" resultMap="userOnRole">
-        SELECT * FROM user_on_role WHERE id = #{id}
+    <select id="read" resultMap="userOnRole">
+        SELECT <include refid="userOnRoleFields"/> FROM user_on_role WHERE id = #{id}
     </select>
 
     <select id="readAll" resultMap="userOnRole">
-        SELECT * FROM user_on_role
+        SELECT <include refid="userOnRoleFields"/> FROM user_on_role
     </select>
 
-    <update id="update" parameterType="ru.strict.db.core.entities.EntityUserOnRole">
-        UPDATE user_on_role SET userx_id = #{userId}, roleuser_id = #{roleId} WHERE id = #{id}
+    <update id="update" parameterType="ru.strict.models.UserOnRole">
+        UPDATE user_on_role SET userx_id = #{userId}, role_id = #{roleId} WHERE id = #{id}
     </update>
 
-    <delete id="delete" parameterType="java.lang.Object">
+    <delete id="delete">
         DELETE FROM user_on_role WHERE id = #{id}
     </delete>
 
-    <select id="readFill" parameterType="java.lang.Object" resultMap="userOnRoleFill">
-        SELECT * FROM user_on_role WHERE id = #{id}
+    <select id="readFill" resultMap="userOnRoleFill">
+        SELECT <include refid="userOnRoleFields"/> FROM user_on_role WHERE id = #{id}
     </select>
 
     <select id="readAllFill" resultMap="userOnRoleFill">
-        SELECT * FROM user_on_role
+        SELECT <include refid="userOnRoleFields"/> FROM user_on_role
     </select>
 
     <select id="readCount" resultType="int">
         SELECT COUNT(1) FROM user_on_role
     </select>
 
-    <select id="readCountById" parameterType="java.lang.Object" resultType="int">
+    <select id="readCountById" resultType="int">
         SELECT COUNT(1) FROM user_on_role WHERE id = #{id}
     </select>
 
-    <select id="readByUserId" parameterType="java.lang.Object" resultMap="userOnRole">
-        SELECT * FROM user_on_role WHERE userx_id = #{userId}
+    <select id="readByUserId" resultMap="userOnRole">
+        SELECT <include refid="userOnRoleFields"/> FROM user_on_role WHERE userx_id = #{userId}
     </select>
 
-    <select id="readByRoleId" parameterType="java.lang.Object" resultMap="userOnRole">
-        SELECT * FROM user_on_role WHERE roleuser_id = #{roleId}
+    <select id="readByRoleId" resultMap="userOnRole">
+        SELECT <include refid="userOnRoleFields"/> FROM user_on_role WHERE role_id = #{roleId}
     </select>
 </mapper>

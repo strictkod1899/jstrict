@@ -278,26 +278,26 @@ public class TestBaseMethods {
     public void testServiceOnRole(){
         EntityRoleuser role = new EntityRoleuser(1, "code", "description");
 
-        EntityServiceOnRole serviceOnRole1 = new EntityServiceOnRole(1, 1, 1);
-        serviceOnRole1.setRole(role);
-        EntityServiceOnRole serviceOnRole2 = new EntityServiceOnRole(2, 1, 1);
-        serviceOnRole2.setRole(role);
-        EntityServiceOnRole serviceOnRole3 = new EntityServiceOnRole(1, 1, 1);
-        serviceOnRole3.setRole(role);
+        EntityServiceOnRole permissionOnRole1 = new EntityServiceOnRole(1, 1, 1);
+        permissionOnRole1.setRole(role);
+        EntityServiceOnRole permissionOnRole2 = new EntityServiceOnRole(2, 1, 1);
+        permissionOnRole2.setRole(role);
+        EntityServiceOnRole permissionOnRole3 = new EntityServiceOnRole(1, 1, 1);
+        permissionOnRole3.setRole(role);
 
-        Assert.assertTrue(serviceOnRole1.equals(serviceOnRole3));
-        Assert.assertEquals(serviceOnRole1, serviceOnRole3);
-        Assert.assertEquals(serviceOnRole1.hashCode(), serviceOnRole3.hashCode());
-        Assert.assertEquals(serviceOnRole1.clone(), serviceOnRole3.clone());
-        Assert.assertEquals(serviceOnRole1, serviceOnRole1.clone());
-        Assert.assertEquals(serviceOnRole1.hashCode(), serviceOnRole1.clone().hashCode());
+        Assert.assertTrue(permissionOnRole1.equals(permissionOnRole3));
+        Assert.assertEquals(permissionOnRole1, permissionOnRole3);
+        Assert.assertEquals(permissionOnRole1.hashCode(), permissionOnRole3.hashCode());
+        Assert.assertEquals(permissionOnRole1.clone(), permissionOnRole3.clone());
+        Assert.assertEquals(permissionOnRole1, permissionOnRole1.clone());
+        Assert.assertEquals(permissionOnRole1.hashCode(), permissionOnRole1.clone().hashCode());
 
-        Assert.assertFalse(serviceOnRole1.equals(serviceOnRole2));
-        Assert.assertNotEquals(serviceOnRole1, serviceOnRole2);
-        Assert.assertNotEquals(serviceOnRole3, serviceOnRole2);
-        Assert.assertNotEquals(serviceOnRole1.hashCode(), serviceOnRole2.hashCode());
-        Assert.assertNotEquals(serviceOnRole1.clone(), serviceOnRole2);
-        Assert.assertNotEquals(serviceOnRole1.clone(), serviceOnRole2.clone());
+        Assert.assertFalse(permissionOnRole1.equals(permissionOnRole2));
+        Assert.assertNotEquals(permissionOnRole1, permissionOnRole2);
+        Assert.assertNotEquals(permissionOnRole3, permissionOnRole2);
+        Assert.assertNotEquals(permissionOnRole1.hashCode(), permissionOnRole2.hashCode());
+        Assert.assertNotEquals(permissionOnRole1.clone(), permissionOnRole2);
+        Assert.assertNotEquals(permissionOnRole1.clone(), permissionOnRole2.clone());
     }
 
     @Test

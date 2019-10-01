@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ru.strict.db.mybatis.mappers.sql.MapperSqlFileStorage">
 
-    <resultMap id="fileStorage" type="ru.strict.db.core.entities.EntityFileStorage">
+    <resultMap id="fileStorage" type="ru.strict.models.FileStorage">
         <id property="id" column="id"/>
         <result property="filename" column="filename"/>
         <result property="extension" column="extension"/>
@@ -14,84 +14,110 @@
         <result property="status" column="status"/>
     </resultMap>
 
-    <resultMap id="fileStorageFill" type="ru.strict.db.core.entities.EntityFileStorage" extends="fileStorage"></resultMap>
+    <resultMap id="fileStorageFill" type="ru.strict.models.FileStorage" extends="fileStorage"></resultMap>
 
-    <insert id="create" parameterType="ru.strict.db.core.entities.EntityFileStorage">
+    <sql id="fileStorageFields">
+        id,
+        filename,
+        extension,
+        displayname,
+        filepath,
+        content,
+        create_date,
+        type,
+        status
+    </sql>
+
+    <sql id="selectByName">
+        SELECT <include refid="fileStorageFields"/> FROM file_storage WHERE filename = #{caption}
+    </sql>
+
+    <insert id="create" parameterType="ru.strict.models.FileStorage">
         INSERT INTO file_storage (id, filename, extension, displayname, filepath, content, create_date, type, status)
         VALUES (#{id}, #{filename}, #{extension}, #{displayName}, #{filePath}, #{content}, #{createDate}, #{type}, #{status})
     </insert>
 
-    <insert id="createGenerateId" parameterType="ru.strict.db.core.entities.EntityFileStorage"
+    <insert id="createGenerateId"
+            parameterType="map"
             useGeneratedKeys="true"
             keyColumn="id"
-            keyProperty="id">
+            keyProperty="generateId.value">
         INSERT INTO file_storage (id, filename, extension, displayname, filepath, content, create_date, type, status)
-        VALUES (#{id}, #{filename}, #{extension}, #{displayName}, #{filePath}, #{content}, #{createDate}, #{type}, #{status})
+        VALUES (#{model.id}, #{model.filename}, #{model.extension}, #{model.displayName}, #{model.filePath},
+        #{model.content}, #{model.createDate}, #{model.type}, #{model.status})
     </insert>
 
-    <select id="read" parameterType="java.lang.Object" resultMap="fileStorage">
-        SELECT * FROM file_storage WHERE id = #{id}
+    <select id="read" resultMap="fileStorage">
+        SELECT <include refid="fileStorageFields"/> FROM file_storage WHERE id = #{id}
     </select>
 
     <select id="readAll" resultMap="fileStorage">
-        SELECT * FROM file_storage
+        SELECT <include refid="fileStorageFields"/> FROM file_storage
     </select>
 
-    <update id="update" parameterType="ru.strict.db.core.entities.EntityFileStorage">
+    <update id="update" parameterType="ru.strict.models.FileStorage">
         UPDATE file_storage SET filename = #{filename}, extension = #{extension}, displayname = #{displayName},
         filepath = #{filePath}, content = #{content}, create_date = #{createDate}, type = #{type}, status = #{status}
         WHERE id = #{id}
     </update>
 
-    <delete id="delete" parameterType="java.lang.Object">
+    <delete id="delete">
         DELETE FROM file_storage WHERE id = #{id}
     </delete>
 
-    <select id="readFill" parameterType="java.lang.Object" resultMap="fileStorageFill" >
-        SELECT * FROM file_storage WHERE id = #{id}
+    <select id="readFill" resultMap="fileStorageFill" >
+        SELECT <include refid="fileStorageFields"/> FROM file_storage WHERE id = #{id}
     </select>
 
     <select id="readAllFill" resultMap="fileStorageFill">
-        SELECT * FROM file_storage
+        SELECT <include refid="fileStorageFields"/> FROM file_storage
     </select>
 
     <select id="readCount" resultType="int">
         SELECT COUNT(1) FROM file_storage
     </select>
 
-    <select id="readCountById" parameterType="java.lang.Object" resultType="int">
+    <select id="readCountById" resultType="int">
         SELECT COUNT(1) FROM file_storage WHERE id = #{id}
     </select>
 
     <select id="readByName" parameterType="java.lang.String" resultMap="fileStorage">
-        SELECT * FROM file_storage WHERE filename = #{caption}
+        <include refid="selectByName"/>
     </select>
 
     <select id="readAllByName" parameterType="java.lang.String" resultMap="fileStorage">
-        SELECT * FROM file_storage WHERE filename = #{caption}
+        <include refid="selectByName"/>
+    </select>
+
+    <select id="readByNameFill" parameterType="java.lang.String" resultMap="fileStorageFill">
+        <include refid="selectByName"/>
+    </select>
+
+    <select id="readAllByNameFill" parameterType="java.lang.String" resultMap="fileStorageFill">
+        <include refid="selectByName"/>
     </select>
 
     <select id="readByDisplayName" parameterType="java.lang.String" resultMap="fileStorage">
-        SELECT * FROM file_storage WHERE displayname = #{displayName}
+        SELECT <include refid="fileStorageFields"/> FROM file_storage WHERE displayname = #{displayName}
     </select>
 
     <select id="readByFileNameAndExtension" parameterType="map" resultMap="fileStorage">
-        SELECT * FROM file_storage WHERE filename = #{fileName} AND extension = #{extension}
+        SELECT <include refid="fileStorageFields"/> FROM file_storage WHERE filename = #{fileName} AND extension = #{extension}
     </select>
 
     <select id="readByDisplayNameAndExtension" parameterType="map" resultMap="fileStorage">
-        SELECT * FROM file_storage WHERE displayname = #{displayName} AND extension = #{extension}
+        SELECT <include refid="fileStorageFields"/> FROM file_storage WHERE displayname = #{displayName} AND extension = #{extension}
     </select>
 
     <select id="readByFilePath" parameterType="java.lang.String" resultMap="fileStorage">
-        SELECT * FROM file_storage WHERE filepath = #{filePath}
+        SELECT <include refid="fileStorageFields"/> FROM file_storage WHERE filepath = #{filePath}
     </select>
 
     <select id="readByType" parameterType="java.lang.Integer" resultMap="fileStorage">
-        SELECT * FROM file_storage WHERE type = #{type}
+        SELECT <include refid="fileStorageFields"/> FROM file_storage WHERE type = #{type}
     </select>
 
     <select id="readByStatus" parameterType="java.lang.Integer" resultMap="fileStorage">
-        SELECT * FROM file_storage WHERE status = #{status}
+        SELECT <include refid="fileStorageFields"/> FROM file_storage WHERE status = #{status}
     </select>
 </mapper>

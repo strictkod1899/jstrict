@@ -2,7 +2,7 @@ package ru.strict.db.hibernate.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.requests.DbTable;
-import ru.strict.models.Roleuser;
+import ru.strict.models.Role;
 import ru.strict.db.core.repositories.IRepositoryNamed;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
 import ru.strict.db.hibernate.entities.EntityRoleuser;
@@ -10,8 +10,8 @@ import ru.strict.db.hibernate.mappers.dto.MapperDtoFactory;
 import ru.strict.utils.UtilClass;
 
 public class RepositoryRoleuser
-        extends RepositoryHibernateBase<Long, EntityRoleuser, Roleuser<Long>>
-        implements IRepositoryNamed<Long, Roleuser<Long>> {
+        extends RepositoryHibernateBase<Long, EntityRoleuser, Role<Long>>
+        implements IRepositoryNamed<Long, Role<Long>> {
 
     private static final String[] COLUMNS_NAME = new String[] {"code", "description"};
 
@@ -19,12 +19,12 @@ public class RepositoryRoleuser
         super(new DbTable("roleuser", "role"),
                 COLUMNS_NAME,
                 connectionSource,
-                new MapperDtoFactory().instance(UtilClass.castClass(EntityRoleuser.class), UtilClass.castClass(Roleuser.class)),
+                new MapperDtoFactory().instance(UtilClass.castClass(EntityRoleuser.class), UtilClass.castClass(Role.class)),
                 generateIdType);
     }
 
     @Override
-    protected Roleuser<Long> fill(Roleuser<Long> dto){
+    protected Role<Long> fill(Role<Long> dto){
         return dto;
     }
 

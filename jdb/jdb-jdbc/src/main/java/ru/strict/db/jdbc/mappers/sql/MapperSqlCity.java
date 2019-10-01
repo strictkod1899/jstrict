@@ -1,31 +1,23 @@
 package ru.strict.db.jdbc.mappers.sql;
 
-
-import ru.strict.db.core.entities.EntityCity;
-import ru.strict.db.core.entities.EntityCountry;
-import ru.strict.db.core.mappers.sql.MapperSqlBase;
+import ru.strict.models.City;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLType;
 
-public class MapperSqlCity<ID> extends MapperSqlBase<ID, EntityCity<ID>> {
+public class MapperSqlCity<ID> extends MapperSqlBase<ID, City<ID>> {
 
-    private final String[] COLUMNS_NAME;
-
-    public MapperSqlCity(String[] columnsName){
-        this.COLUMNS_NAME = columnsName;
+    public MapperSqlCity(String[] columns, SQLType idType, String idColumnName){
+        super(columns, idType, idColumnName);
     }
 
     @Override
-    public EntityCity<ID> implementMap(ResultSet resultSet) {
-        EntityCity<ID> entity = new EntityCity();
-        try {
-            entity.setId((ID)resultSet.getObject("id"));
-            entity.setCaption(resultSet.getString(COLUMNS_NAME[0]));
-            entity.setCountryId((ID)resultSet.getObject(COLUMNS_NAME[1]));
-        }catch(SQLException ex){
-            throw new RuntimeException(ex);
-        }
-        return entity;
+    public City<ID> implementMap(ResultSet resultSet) throws SQLException {
+        City<ID> model = new City();
+        model.setId(mapValueBySqlType(idType, resultSet, idColumnName));
+        model.setCaption(resultSet.getString(columns[0]));
+        model.setCountryId(mapValueBySqlType(idType, resultSet, columns[1]));
+        return model;
     }
 }

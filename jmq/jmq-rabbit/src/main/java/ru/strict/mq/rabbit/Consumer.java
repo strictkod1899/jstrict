@@ -1,7 +1,7 @@
 package ru.strict.mq.rabbit;
 
 import ru.strict.mq.rabbit.exceptions.QueueConnectionNotExistsException;
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.validate.ValidateBaseValue;
 
 import java.io.IOException;
 

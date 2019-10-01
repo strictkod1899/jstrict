@@ -1,34 +1,33 @@
 package ru.strict.db.core.repositories;
 
 import ru.strict.db.core.requests.DbSelectItem;
-import ru.strict.models.DtoBase;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereItem;
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.models.ModelBase;
+import ru.strict.validate.ValidateBaseValue;
 
 import java.util.List;
 
 /**
  * Расширенные возможности репозитория для выполнения операций с записья используя ее столбец наименования
  * @param <ID> Тип идентификатора
- * @param <DTO> Тип Dto-сущности базы данных
+ * @param <T> Модель сущности базы данных
  */
-public interface IRepositoryNamed<ID, DTO extends DtoBase<ID>> extends IRepositoryExtension<ID, DTO> {
+public interface IRepositoryNamed<ID, T extends ModelBase<ID>> extends IRepositoryExtension<ID, T> {
 
     /**
      * Чтение записи из базы данных по наименованию
      * @param caption Значение столбца наименования
      * @return
      */
-    default DTO readByName(String caption){
+    default T readByName(String caption){
         if(ValidateBaseValue.isEmptyOrNull(caption)){
             throw new IllegalArgumentException("caption for read by name is NULL");
         }
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), getColumnWithName()), caption, "="));
 
-        DTO result = readAll(requests).stream().findFirst().orElse(null);
-        return result;
+        return readAll(requests).stream().findFirst().orElse(null);
     }
 
     /**
@@ -36,20 +35,19 @@ public interface IRepositoryNamed<ID, DTO extends DtoBase<ID>> extends IReposito
      * @param caption Значение столбца наименования
      * @return
      */
-    default List<DTO> readAllByName(String caption){
+    default List<T> readAllByName(String caption){
         if(ValidateBaseValue.isEmptyOrNull(caption)){
             throw new IllegalArgumentException("caption for read by name is NULL");
         }
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), getColumnWithName()), caption, "="));
 
-        List<DTO> result = readAll(requests);
-        return result;
+        return readAll(requests);
     }
 
-    DTO readByNameFill(String caption);
+    T readByNameFill(String caption);
 
-    List<DTO> readAllByNameFill(String caption);
+    List<T> readAllByNameFill(String caption);
 
     /**
      * Получить наименование столбца, который выполняет роль наименования записи

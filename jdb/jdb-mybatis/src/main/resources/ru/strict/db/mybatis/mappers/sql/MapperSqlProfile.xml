@@ -2,74 +2,81 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ru.strict.db.mybatis.mappers.sql.MapperSqlProfile">
 
-    <resultMap id="profile" type="ru.strict.db.core.entities.EntityProfile">
+    <resultMap id="profile" type="ru.strict.models.Profile">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="surname" column="surname"/>
-        <result property="middlename" column="middlename"/>
         <result property="userId" column="userx_id"/>
     </resultMap>
 
-    <resultMap id="profileFill" type="ru.strict.db.core.entities.EntityProfile" extends="profile">
+    <resultMap id="profileFill" type="ru.strict.models.Profile" extends="profile">
         <association property="user"
                      column="userx_id"
-                     javaType="ru.strict.db.core.entities.EntityUser"
+                     javaType="ru.strict.models.User"
                      select="ru.strict.db.mybatis.mappers.sql.MapperSqlUser.read"
                      fetchType="lazy"/>
     </resultMap>
 
-    <insert id="create" parameterType="ru.strict.db.core.entities.EntityProfile">
-        INSERT INTO profile (id, name, surname, middlename, userx_id)
-        VALUES (#{id}, #{name}, #{surname}, #{middlename}, #{userId})
+    <sql id="profileFields">
+        id,
+        name,
+        surname,
+        userx_id
+    </sql>
+
+    <insert id="create" parameterType="ru.strict.models.Profile">
+        INSERT INTO profile (id, name, surname, userx_id)
+        VALUES (#{id}, #{name}, #{surname}, #{userId})
     </insert>
 
-    <insert id="createGenerateId" parameterType="ru.strict.db.core.entities.EntityProfile"
+    <insert id="createGenerateId"
+            parameterType="map"
             useGeneratedKeys="true"
             keyColumn="id"
-            keyProperty="id">
-        INSERT INTO profile (name, surname, middlename, userx_id)
-        VALUES (#{name}, #{surname}, #{middlename}, #{userId})
+            keyProperty="generateId.value">
+        INSERT INTO profile (name, surname, userx_id)
+        VALUES (#{model.name}, #{model.surname}, #{model.userId})
     </insert>
 
-    <select id="read" parameterType="java.lang.Object" resultMap="profile">
-        SELECT * FROM profile WHERE id = #{id}
+    <select id="read" resultMap="profile">
+        SELECT <include refid="profileFields"/> FROM profile WHERE id = #{id}
     </select>
 
     <select id="readAll" resultMap="profile">
-        SELECT * FROM profile
+        SELECT <include refid="profileFields"/> FROM profile
     </select>
 
-    <update id="update" parameterType="ru.strict.db.core.entities.EntityProfile">
-        UPDATE profile SET name = #{name}, surname = #{surname}, middlename = #{middlename}, userx_id = #{userId}
+    <update id="update" parameterType="ru.strict.models.Profile">
+        UPDATE profile SET name = #{name}, surname = #{surname}, userx_id = #{userId}
         WHERE id = #{id}
     </update>
 
-    <delete id="delete" parameterType="java.lang.Object">
+    <delete id="delete">
         DELETE FROM profile WHERE id = #{id}
     </delete>
 
-    <select id="readFill" parameterType="java.lang.Object" resultMap="profileFill" >
-        SELECT * FROM profile WHERE id = #{id}
+    <select id="readFill" resultMap="profileFill" >
+        SELECT <include refid="profileFields"/> FROM profile WHERE id = #{id}
     </select>
 
     <select id="readAllFill" resultMap="profileFill">
-        SELECT * FROM profile
+        SELECT <include refid="profileFields"/> FROM profile
     </select>
 
     <select id="readCount" resultType="int">
         SELECT COUNT(1) FROM profile
     </select>
 
-    <select id="readCountById" parameterType="java.lang.Object" resultType="int">
+    <select id="readCountById" resultType="int">
         SELECT COUNT(1) FROM profile WHERE id = #{id}
     </select>
 
-    <select id="readByUserId" parameterType="java.lang.Object" resultMap="profile">
-        SELECT * FROM profile WHERE userx_id = #{userId}
+    <select id="readByUserId" resultMap="profile">
+        SELECT <include refid="profileFields"/> FROM profile WHERE userx_id = #{userId}
     </select>
 
-    <select id="readByFio" parameterType="map" resultMap="profile">
-        SELECT * FROM profile
+    <select id="readBySurname" parameterType="map" resultMap="profile">
+        SELECT <include refid="profileFields"/> FROM profile
         WHERE
         <if test="name != null" >
             name = #{name}
@@ -83,13 +90,6 @@
         </if>
         <if test="surname == null" >
             surname IS NULL
-        </if>
-        AND
-        <if test="middlename != null" >
-            middlename = #{middlename}
-        </if>
-        <if test="middlename == null" >
-            middlename IS NULL
         </if>
     </select>
 </mapper>

@@ -3,7 +3,7 @@ package ru.strict.file.txt;
 import ru.strict.file.IFileReader;
 import ru.strict.file.IFileWriter;
 import ru.strict.utils.UtilFile;
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.validate.ValidateBaseValue;
 
 import java.io.*;
 import java.nio.file.Files;

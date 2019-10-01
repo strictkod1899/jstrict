@@ -1,7 +1,7 @@
 package ru.strict.office;
 
 import ru.strict.utils.UtilFile;
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.validate.ValidateBaseValue;
 
 public abstract class OfficeFile<SOURCE, FORMAT extends IOfficeFormat>
         implements IOfficeFile<SOURCE>, AutoCloseable {

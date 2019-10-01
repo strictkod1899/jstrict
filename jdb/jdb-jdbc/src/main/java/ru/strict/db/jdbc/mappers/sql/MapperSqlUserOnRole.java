@@ -1,31 +1,23 @@
 package ru.strict.db.jdbc.mappers.sql;
 
-
-import ru.strict.db.core.entities.EntityUserOnRole;
-import ru.strict.db.core.mappers.sql.MapperSqlBase;
+import ru.strict.models.UserOnRole;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLType;
 
-public class MapperSqlUserOnRole<ID> extends MapperSqlBase<ID, EntityUserOnRole<ID>> {
+public class MapperSqlUserOnRole<ID> extends MapperSqlBase<ID, UserOnRole<ID>> {
 
-    private final String[] COLUMNS_NAME;
-
-    public MapperSqlUserOnRole(String[] columnsName){
-        this.COLUMNS_NAME = columnsName;
+    public MapperSqlUserOnRole(String[] columns, SQLType idType, String idColumnName){
+        super(columns, idType, idColumnName);
     }
 
     @Override
-    public EntityUserOnRole<ID> implementMap(ResultSet resultSet) {
-        EntityUserOnRole<ID> entity = new EntityUserOnRole();
-        try {
-            entity.setId((ID)resultSet.getObject("id"));
-            entity.setUserId((ID)resultSet.getObject(COLUMNS_NAME[0]));
-            entity.setRoleId((ID)resultSet.getObject(COLUMNS_NAME[1]));
-        }catch(SQLException ex){
-            throw new RuntimeException(ex);
-        }
-
-        return entity;
+    public UserOnRole<ID> implementMap(ResultSet resultSet) throws SQLException {
+        UserOnRole<ID> model = new UserOnRole();
+        model.setId(mapValueBySqlType(idType, resultSet, idColumnName));
+        model.setUserId(mapValueBySqlType(idType, resultSet, columns[0]));
+        model.setRoleId(mapValueBySqlType(idType, resultSet, columns[1]));
+        return model;
     }
 }

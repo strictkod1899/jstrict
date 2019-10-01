@@ -9,8 +9,8 @@ import ru.strict.db.core.requests.DbWhereItem;
 
 import java.util.List;
 
-public interface IRepositoryProfile<ID, DTO extends Profile<ID>> extends IRepositoryExtension<ID, DTO> {
-    default List<DTO> readByFio(String name, String surname, String middlename){
+public interface IRepositoryProfile<ID, T extends Profile<ID>> extends IRepositoryExtension<ID, T> {
+    default List<T> readBySurname(String name, String surname){
         DbRequests requests = new DbRequests();
         if(name != null) {
             requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "name"), name, "="));
@@ -24,21 +24,16 @@ public interface IRepositoryProfile<ID, DTO extends Profile<ID>> extends IReposi
             requests.addWhere(new DbWhereIsNull(new DbSelectItem(getTable(), "surname")));
         }
 
-        if(middlename != null) {
-            requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "middlename"), middlename, "="));
-        }else{
-            requests.addWhere(new DbWhereIsNull(new DbSelectItem(getTable(), "middlename")));
-        }
-
-        List<DTO> result = readAll(requests);
-        return result;
+        return readAll(requests);
     }
 
-    default List<DTO> readByUserId(ID userId){
+    default List<T> readByUserId(ID userId){
+        if(userId == null){
+            throw new IllegalArgumentException("userId is NULL");
+        }
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "userx_id"), userId, "="));
 
-        List<DTO> result = readAll(requests);
-        return result;
+        return readAll(requests);
     }
 }

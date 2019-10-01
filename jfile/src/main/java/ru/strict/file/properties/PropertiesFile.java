@@ -1,7 +1,7 @@
 package ru.strict.file.properties;
 
 import ru.strict.utils.UtilProperties;
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.validate.ValidateBaseValue;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;

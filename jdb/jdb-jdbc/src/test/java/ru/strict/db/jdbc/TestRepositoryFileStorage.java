@@ -3,42 +3,78 @@ package ru.strict.db.jdbc;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.common.SqlType;
 import ru.strict.models.FileStorage;
 import ru.strict.db.core.repositories.interfaces.IRepositoryFileStorage;
-import ru.strict.db.jdbc.data.TestData;
 import ru.strict.db.jdbc.repositories.RepositoryFileStorage;
 import ru.strict.db.jdbc.runners.TestRunner;
+import ru.strict.models.ModelBase;
 
+import java.sql.JDBCType;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static ru.strict.db.jdbc.data.TestData.*;
+import static ru.strict.db.jdbc.runners.TestRunner.*;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRepositoryFileStorage {
 
-    private static IRepositoryFileStorage<Integer, FileStorage<Integer>> REPOSITORY_NOT_GENERATE_ID;
-    private static IRepositoryFileStorage<Integer, FileStorage<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
+    private static FileStorage[] data;
+
+    private static IRepositoryFileStorage<Long, FileStorage<Long>> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryFileStorage<Long, FileStorage<Long>> REPOSITORY_GENERATE_NUMBER_ID;
     private static IRepositoryFileStorage<UUID, FileStorage<UUID>> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
-    public static void prepare(){
+    public static void setUpClass(){
         prepareRepositories();
+        fillData();
+    }
+
+    @AfterClass
+    public static void tearDownClass(){
+        TestRunner.cleanDatabase();
     }
 
     /**
      * Подготовить тестовые репозитории
      */
     private static void prepareRepositories(){
-        REPOSITORY_NOT_GENERATE_ID = new RepositoryFileStorage<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
-        REPOSITORY_GENERATE_NUMBER_ID = new RepositoryFileStorage<>(TestRunner.CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NUMBER);
-        REPOSITORY_GENERATE_UUID_ID = new RepositoryFileStorage<>(TestRunner.CREATE_DB_UUID_CONNECTION, GenerateIdType.UUID);
-        TestRunner.repositories.add(REPOSITORY_GENERATE_NUMBER_ID);
-        TestRunner.repositories.add(REPOSITORY_GENERATE_UUID_ID);
+        REPOSITORY_NOT_GENERATE_ID = new RepositoryFileStorage<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE, JDBCType.BIGINT);
+        REPOSITORY_GENERATE_NUMBER_ID = new RepositoryFileStorage<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.LONG, JDBCType.BIGINT);
+        REPOSITORY_GENERATE_UUID_ID = new RepositoryFileStorage<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.UUID, SqlType.UUID);
+        TestRunner.repositoriesForClearDb.add(REPOSITORY_GENERATE_NUMBER_ID);
+        TestRunner.repositoriesForClearDb.add(REPOSITORY_GENERATE_UUID_ID);
     }
 
-    @AfterClass
-    public static void post(){
-        TestRunner.postProcess();
+    /**
+     * Заполнить тестовые данные
+     */
+    private static void fillData(){
+        data = new FileStorage[]{
+                new FileStorage<>("filename",
+                        "extension",
+                        "displayname",
+                        "filepath",
+                        new byte[]{ 1, 2, 3, 4, 5, 6, 7, 8 },
+                        new Date(),
+                        1,
+                        1),
+                new FileStorage<>("filename",
+                        "extension",
+                        "displayname",
+                        "filepath",
+                        new byte[]{ 1, 2, 3, 4, 5, 6, 7, 8 },
+                        new Date(),
+                        1,
+                        1),
+                FILE_STORAGE1,
+                FILE_STORAGE2,
+                FILE_STORAGE3,
+                FILE_STORAGE1_UPDATED
+        };
     }
 
     /**
@@ -46,9 +82,9 @@ public class TestRepositoryFileStorage {
      */
     @Test
     public void test001CreateGenerateNumberId(){
-        FileStorage dto = new FileStorage<>("filename", "extension", "displayname", "filepath", new byte[]{ 1, 2 }, new Date(), 1, 1);
-        FileStorage createdDto = REPOSITORY_GENERATE_NUMBER_ID.create(dto);
-        Assert.assertNotNull(createdDto.getId());
+        Long id = REPOSITORY_GENERATE_NUMBER_ID.create(data[0]);
+        data[0].setId(id);
+        Assert.assertNotNull(id);
     }
 
     /**
@@ -56,18 +92,18 @@ public class TestRepositoryFileStorage {
      */
     @Test
     public void test002CreateGenerateUuidId(){
-        FileStorage dto = new FileStorage<>("filename", "extension", "displayname", "filepath", new byte[]{ 1, 2 }, new Date(), 1, 1);
-        FileStorage createdDto = REPOSITORY_GENERATE_UUID_ID.create(dto);
-        Assert.assertNotNull(createdDto.getId());
+        UUID id = REPOSITORY_GENERATE_UUID_ID.create(data[1]);
+        data[1].setId(id);
+        Assert.assertNotNull(id);
     }
 
     /**
-     * Создание без генерации integer идентификатора
+     * Создание без генерации идентификатора
      */
     @Test
     public void test003CreateNotGenerateId(){
-        FileStorage createdDto = REPOSITORY_NOT_GENERATE_ID.create(TestData.FILE_STORAGE1);
-        Assert.assertEquals(TestData.FILE_STORAGE1, createdDto);
+        Long id = REPOSITORY_NOT_GENERATE_ID.create(data[2]);
+        Assert.assertEquals(data[2].getId(), id);
     }
 
     /**
@@ -75,8 +111,17 @@ public class TestRepositoryFileStorage {
      */
     @Test
     public void test004ReadByInteger(){
-        FileStorage dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.FILE_STORAGE1.getId());
-        Assert.assertEquals(TestData.FILE_STORAGE1, dto);
+        ModelBase model = REPOSITORY_GENERATE_NUMBER_ID.read((Long)data[2].getId());
+        Assert.assertEquals(data[2], model);
+    }
+
+    /**
+     * Чтение одной записи по uuid идентификатору
+     */
+    @Test
+    public void test005ReadByUuid(){
+        ModelBase model = REPOSITORY_GENERATE_UUID_ID.read((UUID)data[1].getId());
+        Assert.assertEquals(data[1], model);
     }
 
     /**
@@ -84,8 +129,10 @@ public class TestRepositoryFileStorage {
      */
     @Test
     public void test006ReadAllInteger(){
-        List<FileStorage<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
-        Assert.assertTrue(list.size() == 2);
+        List list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        Assert.assertEquals(2, list.size());
+        Assert.assertTrue(list.contains(data[0]));
+        Assert.assertTrue(list.contains(data[2]));
     }
 
     /**
@@ -93,36 +140,18 @@ public class TestRepositoryFileStorage {
      */
     @Test
     public void test007ReadAllUuid(){
-        List<FileStorage<UUID>> list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
-        Assert.assertTrue(list.size() == 1);
+        List list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
+        Assert.assertEquals(1, list.size());
+        Assert.assertTrue(list.contains(data[1]));
     }
 
     /**
-     * Получить количество записей в базе данных
+     * Получить количество записей в integer базе данных
      */
     @Test
     public void test008ReadCount(){
-        Integer count = REPOSITORY_GENERATE_NUMBER_ID.readCount(null);
-        Assert.assertTrue(count == 2);
-    }
-
-    /**
-     * Чтение записи по названию
-     */
-    @Test
-    public void test009ReadByName(){
-        FileStorage dto = REPOSITORY_GENERATE_NUMBER_ID.readByName(TestData.FILE_STORAGE1.getFilename());
-        Assert.assertEquals(TestData.FILE_STORAGE1, dto);
-    }
-
-    /**
-     * Чтение нескольких записей по названию
-     */
-    @Test
-    public void test010ReadAllByName(){
-        List<FileStorage<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAllByName(TestData.FILE_STORAGE1.getFilename());
-        Assert.assertTrue(list.size() == 1);
-        Assert.assertTrue(list.get(0).equals(TestData.FILE_STORAGE1));
+        int count = REPOSITORY_GENERATE_NUMBER_ID.readCount(null);
+        Assert.assertEquals(2, count);
     }
 
     /**
@@ -130,27 +159,31 @@ public class TestRepositoryFileStorage {
      */
     @Test
     public void test011IsRowExists(){
-        boolean isRowExists = REPOSITORY_GENERATE_NUMBER_ID.isRowExists(TestData.FILE_STORAGE1.getId());
+        boolean isRowExists = REPOSITORY_GENERATE_NUMBER_ID.isRowExists((Long)data[0].getId());
         Assert.assertTrue(isRowExists);
+        isRowExists = REPOSITORY_GENERATE_UUID_ID.isRowExists((UUID)data[1].getId());
+        Assert.assertTrue(isRowExists);
+        isRowExists = REPOSITORY_GENERATE_UUID_ID.isRowExists(UUID.randomUUID());
+        Assert.assertFalse(isRowExists);
     }
 
     /**
-     * Тестирование метода создания или чтения существует записи
+     * Тестирование создания или чтения существующей записи
      */
     @Test
     public void test012CreateOrReadExists(){
-        FileStorage dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(TestData.FILE_STORAGE1);
-        Assert.assertEquals(TestData.FILE_STORAGE1, dto);
+        ModelBase model = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(data[0]);
+        Assert.assertEquals(data[0], model);
     }
 
     /**
-     * Тестирование метода создания или чтения несуществует записи
+     * Тестирование метода создания или чтения несуществующей записи
      */
     @Test
     public void test013CreateOrReadNotExists(){
-        FileStorage<Integer> newDto = new FileStorage<>(101, "filename10", "extension10", "displayname10", "filepath10", new byte[]{ 1, 2, 3, 4 }, new Date(), 1, 1);
-        FileStorage dto = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(newDto);
-        Assert.assertEquals(newDto, dto);
+        ModelBase model = REPOSITORY_GENERATE_NUMBER_ID.createOrRead(data[3]);
+        data[3].setId(model.getId());
+        Assert.assertEquals(data[3], model);
     }
 
     /**
@@ -158,27 +191,35 @@ public class TestRepositoryFileStorage {
      */
     @Test
     public void test014Update(){
-        FileStorage dto = REPOSITORY_GENERATE_NUMBER_ID.update(TestData.FILE_STORAGE1_UPDATED);
-        Assert.assertEquals(TestData.FILE_STORAGE1_UPDATED, dto);
+        REPOSITORY_GENERATE_NUMBER_ID.update(data[5]);
+        ModelBase model = REPOSITORY_GENERATE_NUMBER_ID.read((Long)data[5].getId());
+        // Эту модель мы только что обновили, поэтому model2 == model (data[5] == data[2])
+        ModelBase model2 = REPOSITORY_GENERATE_NUMBER_ID.read((Long)data[2].getId());
+        Assert.assertEquals(data[5], model);
+        Assert.assertNotEquals(data[2], model2);
     }
 
     /**
-     * Тестирование метода создания или обновления существует записи
+     * Тестирование метода создания или обновления существующей записи
      */
     @Test
     public void test015CreateOrUpdateExists(){
-        FileStorage dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(TestData.FILE_STORAGE1);
-        Assert.assertEquals(TestData.FILE_STORAGE1, dto);
+        Long id = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(data[2]);
+        ModelBase model = REPOSITORY_GENERATE_NUMBER_ID.read(id);
+        Assert.assertEquals(data[2].getId(), id);
+        Assert.assertEquals(data[2], model);
     }
 
     /**
-     * Тестирование метода создания или обновления несуществует записи
+     * Тестирование метода создания или обновления несуществующей записи
      */
     @Test
     public void test016CreateOrUpdateNotExists(){
-        FileStorage<Integer> newDto = new FileStorage<>(102, "filename11", "extension11", "displayname11", "filepath11", new byte[]{ 1, 2, 3, 4 }, new Date(), 1, 1);
-        FileStorage dto = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(newDto);
-        Assert.assertEquals(newDto, dto);
+        Long id = REPOSITORY_GENERATE_NUMBER_ID.createOrUpdate(data[4]);
+        ModelBase model = REPOSITORY_GENERATE_NUMBER_ID.read(id);
+        data[4].setId(id);
+        Assert.assertNotNull(id);
+        Assert.assertEquals(data[4], model);
     }
 
     /**
@@ -186,8 +227,8 @@ public class TestRepositoryFileStorage {
      */
     @Test
     public void test017ExecuteCreateAndUpdateIsSuccess(){
-        List<FileStorage<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
-        Assert.assertTrue(list.size() == 4);
+        List list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        Assert.assertEquals(4, list.size());
     }
 
     /**
@@ -195,58 +236,57 @@ public class TestRepositoryFileStorage {
      */
     @Test
     public void test018Delete(){
-        REPOSITORY_GENERATE_NUMBER_ID.delete(TestData.FILE_STORAGE1.getId());
-        List<FileStorage<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
-        FileStorage<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.read(TestData.FILE_STORAGE1.getId());
-        Assert.assertTrue(list.size() == 3);
-        Assert.assertNull(dto);
+        REPOSITORY_GENERATE_NUMBER_ID.delete((Long)data[0].getId());
+        List list = REPOSITORY_GENERATE_NUMBER_ID.readAll(null);
+        ModelBase model = REPOSITORY_GENERATE_NUMBER_ID.read((Long)data[0].getId());
+        Assert.assertEquals(3, list.size());
+        Assert.assertNull(model);
     }
 
     @Test
     public void test019ReadByDisplayName(){
-        REPOSITORY_GENERATE_NUMBER_ID.create(TestData.FILE_STORAGE2);
-        List<FileStorage<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByDisplayName(TestData.FILE_STORAGE2.getDisplayName());
-        Assert.assertTrue(list.size() == 1);
-        Assert.assertTrue(list.get(0).equals(TestData.FILE_STORAGE2));
+        List list = REPOSITORY_GENERATE_NUMBER_ID.readByDisplayName(data[3].getDisplayName());
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(data[3], list.get(0));
     }
 
     @Test
     public void test020ReadByFileNameAndExtension(){
-        List<FileStorage<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByFileNameAndExtension(
-                TestData.FILE_STORAGE2.getFilename(),
-                TestData.FILE_STORAGE2.getExtension()
+        List list = REPOSITORY_GENERATE_NUMBER_ID.readByFileNameAndExtension(
+                data[3].getFilename(),
+                data[3].getExtension()
         );
-        Assert.assertTrue(list.size() == 1);
-        Assert.assertTrue(list.get(0).equals(TestData.FILE_STORAGE2));
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(data[3], list.get(0));
     }
 
     @Test
     public void test021ReadByDisplayNameAndExtension(){
-        List<FileStorage<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByDisplayNameAndExtension(
-                TestData.FILE_STORAGE2.getDisplayName(),
-                TestData.FILE_STORAGE2.getExtension()
+        List list = REPOSITORY_GENERATE_NUMBER_ID.readByDisplayNameAndExtension(
+                data[3].getDisplayName(),
+                data[3].getExtension()
         );
-        Assert.assertTrue(list.size() == 1);
-        Assert.assertTrue(list.get(0).equals(TestData.FILE_STORAGE2));
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(data[3], list.get(0));
     }
 
     @Test
     public void test022ReadByFilePath(){
-        FileStorage<Integer> dto = REPOSITORY_GENERATE_NUMBER_ID.readByFilePath(TestData.FILE_STORAGE2.getFilePath());
-        Assert.assertTrue(dto.equals(TestData.FILE_STORAGE2));
+        FileStorage model = REPOSITORY_GENERATE_NUMBER_ID.readByFilePath(data[3].getFilePath());
+        Assert.assertEquals(data[3], model);
     }
 
     @Test
     public void test023ReadByType(){
-        List<FileStorage<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByType(TestData.FILE_STORAGE2.getType());
-        Assert.assertTrue(list.size() == 1);
-        Assert.assertTrue(list.get(0).equals(TestData.FILE_STORAGE2));
+        List list = REPOSITORY_GENERATE_NUMBER_ID.readByType(data[3].getType());
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(data[3], list.get(0));
     }
 
     @Test
     public void test024ReadByStatus(){
-        List<FileStorage<Integer>> list = REPOSITORY_GENERATE_NUMBER_ID.readByStatus(TestData.FILE_STORAGE2.getStatus());
-        Assert.assertTrue(list.size() == 1);
-        Assert.assertTrue(list.get(0).equals(TestData.FILE_STORAGE2));
+        List list = REPOSITORY_GENERATE_NUMBER_ID.readByStatus(data[3].getStatus());
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals(data[3], list.get(0));
     }
 }

@@ -3,7 +3,7 @@ package ru.strict.utils;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import ru.strict.components.TokenInfo;
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.validate.ValidateBaseValue;
 
 import java.security.Key;
 import java.util.Date;

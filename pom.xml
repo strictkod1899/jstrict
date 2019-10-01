@@ -93,11 +93,11 @@
         <artifactId>jdb-spring</artifactId>
         <version>0.1.37</version>
       </dependency>
-      <dependency>
+      <!--<dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jdb-hibernate</artifactId>
         <version>0.1.37</version>
-      </dependency>
+      </dependency>-->
       <dependency>
         <groupId>ru.strict</groupId>
         <artifactId>jdb-mybatis</artifactId>

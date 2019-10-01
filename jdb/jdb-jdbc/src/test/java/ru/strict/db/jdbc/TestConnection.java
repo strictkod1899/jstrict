@@ -8,11 +8,13 @@ import ru.strict.db.jdbc.runners.TestRunner;
 
 import java.sql.Connection;
 
+import static ru.strict.db.jdbc.runners.TestRunner.*;
+
 public class TestConnection {
 
     @Test
     public void testConnectionInfo(){
-        Connection connection = TestRunner.CREATE_DB_INTEGER_CONNECTION.createConnection();
+        Connection connection = CREATE_DB_INTEGER_CONNECTION.createConnection();
         Assert.assertNotNull(connection);
     }
 

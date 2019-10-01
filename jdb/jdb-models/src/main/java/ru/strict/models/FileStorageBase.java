@@ -3,7 +3,7 @@ package ru.strict.models;
 import java.util.Date;
 import java.util.Objects;
 
-public class FileStorageBase<ID> extends DtoBase<ID> {
+public class FileStorageBase<ID> extends ModelBase<ID> {
 
     /**
      * Наименование файла

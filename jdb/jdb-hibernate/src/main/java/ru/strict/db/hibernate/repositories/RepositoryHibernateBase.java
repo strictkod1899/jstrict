@@ -3,12 +3,10 @@ package ru.strict.db.hibernate.repositories;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.models.DtoBase;
-import ru.strict.db.core.requests.*;
-import ru.strict.db.hibernate.entities.EntityBase;
-import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.RepositoryBase;
+import ru.strict.db.core.requests.*;
 import ru.strict.db.hibernate.connection.CreateConnectionHibernate;
+import ru.strict.models.ModelBase;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -22,28 +20,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class RepositoryHibernateBase
-        <ID extends Serializable, E extends EntityBase<ID>, DTO extends DtoBase<ID>>
-        extends RepositoryBase<ID, Session, CreateConnectionHibernate, E, DTO> {
+        <ID extends Serializable, T extends ModelBase<ID>>
+        extends RepositoryBase<ID, Session, CreateConnectionHibernate, T> {
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public RepositoryHibernateBase(DbTable table,
                                    String[] columnsName,
                                    CreateConnectionHibernate connectionSource,
-                                   MapperDtoBase<ID, E, DTO> dtoMapper,
                                    GenerateIdType generateIdType) {
-        super(table, columnsName, connectionSource, dtoMapper, generateIdType);
+        super(table, columnsName, connectionSource, generateIdType);
     }
     //</editor-fold>
 
     @Override
-    public DTO create(DTO dto) {
+    public ID create(T model) {
         Session session = null;
+        ID generatedId = null;
         try{
             session = createConnection();
             session.beginTransaction();
-            E entity = getDtoMapper().map(dto);
-            session.save(entity);
+            session.save(model);
             session.getTransaction().commit();
+            generatedId = model.getId();
+            model.setId(null);
         }catch(Exception ex){
             if(session != null) {
                 session.getTransaction().rollback();
@@ -54,19 +53,15 @@ public abstract class RepositoryHibernateBase
                 session.close();
             }
         }
-        return dto;
+        return generatedId;
     }
 
     @Override
-    public DTO read(ID id) {
-        DTO result = null;
+    public T read(ID id) {
         Session session = null;
         try{
             session = createConnection();
-            session.beginTransaction();
-            E entity = session.get(getEntityClass(), id);
-            result = getDtoMapper().map(entity);
-            session.getTransaction().commit();
+            return session.get(getEntityClass(), id);
         }catch(Exception ex){
             if(session != null) {
                 session.getTransaction().rollback();
@@ -77,21 +72,19 @@ public abstract class RepositoryHibernateBase
                 session.close();
             }
         }
-        return result;
     }
 
     @Override
-    public List<DTO> readAll(DbRequests requests) {
-        List<DTO> result = new ArrayList<>();
+    public List<T> readAll(DbRequests requests) {
+        List<T> result = new ArrayList<>();
         Session session = null;
         EntityManagerFactory entityManagerFactory = null;
         EntityManager entityManager = null;
         try{
             session = createConnection();
-            session.beginTransaction();
             entityManagerFactory = session.getEntityManagerFactory();
             entityManager = entityManagerFactory.createEntityManager();
-            CriteriaQuery<E> criteriaEntity = createCriteriaEntityByRequests(entityManager, requests);
+            CriteriaQuery<T> criteriaEntity = createCriteriaEntityByRequests(entityManager, requests);
             Query query = entityManager.createQuery(criteriaEntity);
 
             if(requests.getLimit() != null){
@@ -101,10 +94,7 @@ public abstract class RepositoryHibernateBase
                 query.setFirstResult(requests.getOffset().getOffset());
             }
 
-            List<E> entities = query.getResultList();
-            entities.stream().forEach(entity -> result.add(getDtoMapper().map(entity)));
-
-            session.getTransaction().commit();
+            return query.getResultList();
         }catch(Exception ex){
             if(session != null) {
                 session.getTransaction().rollback();
@@ -123,17 +113,15 @@ public abstract class RepositoryHibernateBase
                 session.close();
             }
         }
-        return result;
     }
 
     @Override
-    public DTO update(DTO dto) {
+    public void update(T model) {
         Session session = null;
         try{
             session = createConnection();
             session.beginTransaction();
-            E entity = getDtoMapper().map(dto);
-            session.update(entity);
+            session.update(model);
             session.getTransaction().commit();
         }catch(Exception ex){
             if(session != null) {
@@ -145,17 +133,20 @@ public abstract class RepositoryHibernateBase
                 session.close();
             }
         }
-        return dto;
     }
 
     @Override
     public void delete(ID id) {
+        // TODO: добавитьп рвоерку на null
         Session session = null;
         try{
             session = createConnection();
             session.beginTransaction();
-            E entity = getDtoMapper().map(read(id));
-            session.delete(entity);
+            T model = read(id);
+            if(model == null){
+                throw new NullPointerException(String.format("Entity by id [%s] not found", id));
+            }
+            session.delete(model);
             session.getTransaction().commit();
         }catch(Exception ex){
             if(session != null) {
@@ -171,7 +162,6 @@ public abstract class RepositoryHibernateBase
 
     @Override
     public int readCount(DbRequests requests) {
-        int result = -1;
 
         DbSelect select = createSqlCount();
         select.setRequests(requests);
@@ -180,7 +170,7 @@ public abstract class RepositoryHibernateBase
         try{
             session = createConnection();
             NativeQuery resultQuery = session.createNativeQuery(select.getSql());
-            result = (Integer) resultQuery.list().get(0);
+            return (Integer) resultQuery.list().get(0);
         }catch(Exception ex){
             if(session != null) {
                 session.getTransaction().rollback();
@@ -191,8 +181,6 @@ public abstract class RepositoryHibernateBase
                 session.close();
             }
         }
-
-        return result;
     }
 
     @Override
@@ -221,10 +209,10 @@ public abstract class RepositoryHibernateBase
      * @param requests объект DbRequests, который требуется преобразовать
      * @return
      */
-    protected CriteriaQuery<E> createCriteriaEntityByRequests(EntityManager entityManager, DbRequests requests){
+    protected CriteriaQuery<T> createCriteriaEntityByRequests(EntityManager entityManager, DbRequests requests){
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<E> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
-        Root<E> criteriaRoot = criteriaEntity.from(getEntityClass());
+        CriteriaQuery<T> criteriaEntity = criteriaBuilder.createQuery(getEntityClass());
+        Root<T> criteriaRoot = criteriaEntity.from(getEntityClass());
         criteriaEntity.select(criteriaRoot);
 
         if(requests != null) {
@@ -257,7 +245,7 @@ public abstract class RepositoryHibernateBase
     /**
      * Преобразовать объект DbWhere в Predicate
      */
-    private Predicate convertWhereToPredicate(CriteriaBuilder criteriaBuilder, DbWhere where, Root<E> criteriaRoot){
+    private Predicate convertWhereToPredicate(CriteriaBuilder criteriaBuilder, DbWhere where, Root<T> criteriaRoot){
         List<DbWhereBase> whereItems = where.getChilds();
         Predicate predicate = null;
 
@@ -305,7 +293,7 @@ public abstract class RepositoryHibernateBase
      * Преобразовать объект DbWhereItem в Predicate
      * @return
      */
-    private Predicate createPredicateByWhereItem(CriteriaBuilder criteriaBuilder, DbWhereItem whereItem, Root<E> criteriaRoot){
+    private Predicate createPredicateByWhereItem(CriteriaBuilder criteriaBuilder, DbWhereItem whereItem, Root<T> criteriaRoot){
         Predicate predicate = null;
         if(whereItem.getOperator().equalsIgnoreCase("LIKE")) {
             predicate = criteriaBuilder.like(criteriaRoot.get(whereItem.getColumnName()), whereItem.getFormattedColumnValue());
@@ -317,5 +305,5 @@ public abstract class RepositoryHibernateBase
     }
     //</editor-fold>
 
-    protected abstract Class<E> getEntityClass();
+    protected abstract Class<T> getEntityClass();
 }

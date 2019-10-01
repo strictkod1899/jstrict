@@ -3,22 +3,21 @@ package ru.strict.db.mybatis.repositories;
 import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.requests.DbTable;
-import ru.strict.models.DtoBase;
-import ru.strict.db.core.entities.EntityBase;
-import ru.strict.db.core.mappers.dto.MapperDtoBase;
 import ru.strict.db.core.repositories.RepositoryBase;
 import ru.strict.db.core.requests.DbRequests;
+import ru.strict.db.mybatis.components.IntegerId;
+import ru.strict.db.mybatis.components.LongId;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlExtension;
+import ru.strict.models.ModelBase;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public abstract class RepositoryMybatisBase
-        <ID, E extends EntityBase<ID>, DTO extends DtoBase<ID>, MAPPER extends MapperSqlExtension<ID, E>>
-        extends RepositoryBase<ID, SqlSession, CreateConnectionByMybatis, E, DTO> {
+        <ID, T extends ModelBase<ID>, MAPPER extends MapperSqlExtension<ID, T>>
+        extends RepositoryBase<ID, SqlSession, CreateConnectionByMybatis, T> {
 
     private Class<MAPPER> mybatisMapper;
 
@@ -26,30 +25,53 @@ public abstract class RepositoryMybatisBase
                                  String[] columnsName,
                                  CreateConnectionByMybatis connectionSource,
                                  Class<MAPPER> mybatisMapper,
-                                 MapperDtoBase<ID, E, DTO> dtoMapper,
                                  GenerateIdType generateIdType) {
-        super(table, columnsName, connectionSource, dtoMapper, generateIdType);
+        super(table, columnsName, connectionSource, generateIdType);
+        if(mybatisMapper == null){
+            throw new IllegalArgumentException("mybatisMapper is NULL");
+        }
         this.mybatisMapper = mybatisMapper;
     }
 
     @Override
-    public DTO create(DTO dto) {
+    public ID create(T model) {
         SqlSession session = null;
-
         GenerateIdType usingGenerateIdType = getGenerateIdType();
-        if(dto.getId() != null){
+
+        ID generatedId = null;
+        if(model.getId() != null){
             usingGenerateIdType = GenerateIdType.NONE;
+            generatedId = model.getId();
         }
 
         switch(usingGenerateIdType){
-            case NUMBER:
+            case INT:
                 try {
                     session = createConnection();
                     MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
-                    E entity = getDtoMapper().map(dto);
-                    mapperMybatis.createGenerateId(entity);
+                    IntegerId generateId = new IntegerId();
+                    mapperMybatis.createGenerateId(model, generateId);
                     session.commit();
-                    dto.setId(entity.getId());
+                    generatedId = (ID) generateId.getValue();
+                }catch(Exception ex){
+                    if(session != null){
+                        session.rollback();
+                    }
+                    throw ex;
+                }finally {
+                    if(session != null) {
+                        session.close();
+                    }
+                }
+                break;
+            case LONG:
+                try {
+                    session = createConnection();
+                    MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
+                    LongId generateId = new LongId();
+                    mapperMybatis.createGenerateId(model, generateId);
+                    session.commit();
+                    generatedId = (ID) generateId.getValue();
                 }catch(Exception ex){
                     if(session != null){
                         session.rollback();
@@ -62,13 +84,32 @@ public abstract class RepositoryMybatisBase
                 }
                 break;
             case UUID:
-                dto.setId((ID)UUID.randomUUID());
+                try {
+                    generatedId = (ID)UUID.randomUUID();
+                    model.setId(generatedId);
+
+                    session = createConnection();
+                    MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
+                    mapperMybatis.create(model);
+                    session.commit();
+
+                    model.setId(null);
+                }catch(Exception ex){
+                    if(session != null){
+                        session.rollback();
+                    }
+                    throw ex;
+                }finally {
+                    if(session != null) {
+                        session.close();
+                    }
+                }
+                break;
             case NONE:
                 try {
                     session = createConnection();
                     MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
-                    E entity = getDtoMapper().map(dto);
-                    mapperMybatis.create(entity);
+                    mapperMybatis.create(model);
                     session.commit();
                 }catch(Exception ex){
                     if(session != null){
@@ -85,19 +126,16 @@ public abstract class RepositoryMybatisBase
                 throw new IllegalArgumentException("Type for generate id is not determine. Entity was not created into");
         };
 
-        return dto;
+        return generatedId;
     }
 
     @Override
-    public DTO read(ID id) {
-        DTO result = null;
+    public T read(ID id) {
         SqlSession session = null;
         try {
             session = createConnection();
             MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
-            E entity = mapperMybatis.read(id);
-            result = getDtoMapper().map(entity);
-            session.commit();
+            return mapperMybatis.read(id);
         }catch(Exception ex){
             if(session != null){
                 session.rollback();
@@ -108,23 +146,18 @@ public abstract class RepositoryMybatisBase
                 session.close();
             }
         }
-
-        return result;
     }
 
     @Override
-    public List<DTO> readAll(DbRequests requests) {
+    public List<T> readAll(DbRequests requests) {
         if(requests != null){
-            throw new UnsupportedOperationException("This repository not supported a query by DbRequests");
+            throw new UnsupportedOperationException("This repository not supported an query by DbRequests");
         }
-        List<DTO> result = null;
         SqlSession session = null;
         try {
             session = createConnection();
             MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
-            List<E> entities = mapperMybatis.readAll();
-            result = entities.stream().map(e -> getDtoMapper().map(e)).collect(Collectors.toList());
-            session.commit();
+            return mapperMybatis.readAll();
         }catch(Exception ex){
             if(session != null){
                 session.rollback();
@@ -135,18 +168,15 @@ public abstract class RepositoryMybatisBase
                 session.close();
             }
         }
-
-        return result;
     }
 
     @Override
-    public DTO update(DTO dto) {
+    public void update(T model) {
         SqlSession session = null;
         try {
             session = createConnection();
             MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
-            E entity = getDtoMapper().map(dto);
-            mapperMybatis.update(entity);
+            mapperMybatis.update(model);
             session.commit();
         }catch(Exception ex){
             if(session != null){
@@ -158,8 +188,6 @@ public abstract class RepositoryMybatisBase
                 session.close();
             }
         }
-
-        return dto;
     }
 
     @Override
@@ -183,15 +211,12 @@ public abstract class RepositoryMybatisBase
     }
 
     @Override
-    public DTO readFill(ID id) {
-        DTO result = null;
+    public T readFill(ID id) {
         SqlSession session = null;
         try {
             session = createConnection();
             MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
-            E entity = mapperMybatis.readFill(id);
-            result = getDtoMapper().map(entity);
-            session.commit();
+            return mapperMybatis.readFill(id);
         }catch(Exception ex){
             if(session != null){
                 session.rollback();
@@ -202,23 +227,18 @@ public abstract class RepositoryMybatisBase
                 session.close();
             }
         }
-
-        return result;
     }
 
     @Override
-    public List<DTO> readAllFill(DbRequests requests) {
+    public List<T> readAllFill(DbRequests requests) {
         if(requests != null){
             throw new UnsupportedOperationException("This repository not supported a query by DbRequests");
         }
-        List<DTO> result = null;
         SqlSession session = null;
         try {
             session = createConnection();
             MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
-            List<E> entities = mapperMybatis.readAllFill();
-            result = entities.stream().map(e -> getDtoMapper().map(e)).collect(Collectors.toList());
-            session.commit();
+            return mapperMybatis.readAllFill();
         }catch(Exception ex){
             if(session != null){
                 session.rollback();
@@ -229,8 +249,6 @@ public abstract class RepositoryMybatisBase
                 session.close();
             }
         }
-
-        return result;
     }
 
     @Override
@@ -238,13 +256,11 @@ public abstract class RepositoryMybatisBase
         if(requests != null){
             throw new UnsupportedOperationException("This repository not supported a query by DbRequests");
         }
-        int result = -1;
         SqlSession session = null;
         try {
             session = createConnection();
             MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
-            result = mapperMybatis.readCount();
-            session.commit();
+            return mapperMybatis.readCount();
         }catch(Exception ex){
             if(session != null){
                 session.rollback();
@@ -255,8 +271,6 @@ public abstract class RepositoryMybatisBase
                 session.close();
             }
         }
-
-        return result;
     }
 
     @Override
@@ -265,13 +279,11 @@ public abstract class RepositoryMybatisBase
             return false;
         }
 
-        boolean result = false;
         SqlSession session = null;
         try {
             session = createConnection();
             MAPPER mapperMybatis = session.getMapper(getMybatisMapperClass());
-            result = mapperMybatis.readCountById(id) > 0 ? true : false;
-            session.commit();
+            return mapperMybatis.readCountById(id) > 0 ? true : false;
         }catch(Exception ex){
             if(session != null){
                 session.rollback();
@@ -282,8 +294,6 @@ public abstract class RepositoryMybatisBase
                 session.close();
             }
         }
-
-        return result;
     }
 
     @Override
@@ -306,7 +316,7 @@ public abstract class RepositoryMybatisBase
     }
 
     @Override
-    protected DTO fill(DTO dto) {
+    protected T fill(T model) {
         throw new UnsupportedOperationException("Implementation to this method not required");
     }
 
@@ -319,7 +329,7 @@ public abstract class RepositoryMybatisBase
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        RepositoryMybatisBase<?, ?, ?, ?> that = (RepositoryMybatisBase<?, ?, ?, ?>) o;
+        RepositoryMybatisBase<?, ?, ?> that = (RepositoryMybatisBase<?, ?, ?>) o;
         return Objects.equals(mybatisMapper, that.mybatisMapper);
     }
 

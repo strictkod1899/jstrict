@@ -1,76 +1,59 @@
 package ru.strict.models;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
-import java.util.TreeSet;
+import java.util.ArrayList;
 
 /**
  * Страна
  */
-public class Country<ID> extends DtoNamed<ID> {
+public class Country<ID> extends ModelNamed<ID> {
 
     /**
      * Города свзяанные со страной
      */
-    private Collection<City<ID>> cities;
+    private List<City<ID>> cities;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public Country() {
         super();
-        cities = new TreeSet<>();
+        cities = new ArrayList<>();
     }
 
     public Country(String caption) {
         super(caption);
-        cities = new TreeSet<>();
+        cities = new ArrayList<>();
     }
 
     public Country(ID id, String caption) {
         super(id, caption);
-        cities = new TreeSet<>();
+        cities = new ArrayList<>();
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public Collection<City<ID>> getCities() {
+    public List<City<ID>> getCities() {
         return cities;
     }
 
-    public void setCities(Collection<City<ID>> cities) {
+    public void setCities(List<City<ID>> cities) {
         if(cities == null) {
             throw new IllegalArgumentException("cities is NULL");
-        }
-
-        for(City<ID> city : cities){
-            city.setCountrySafe(this);
         }
 
         this.cities = cities;
     }
 
     public void addCity(City<ID> city){
-        addCity(city, true);
-    }
-
-    protected void addCitySafe(City<ID> city){
-        addCity(city, false);
-    }
-
-    private void addCity(City<ID> city, boolean isCircleMode){
         if(city == null) {
             throw new IllegalArgumentException("city is NULL");
         }
 
-        if(cities != null){
-            if(isCircleMode) {
-                city.setCountrySafe(this);
-            }
-            cities.add(city);
-        }
+        this.cities.add(city);
     }
 
-    public void addCities(Collection<City<ID>> cities){
-        if(cities!=null) {
+    public void addCities(List<City<ID>> cities){
+        if(cities != null) {
             for(City<ID> city : cities){
                 addCity(city);
             }
@@ -97,7 +80,7 @@ public class Country<ID> extends DtoNamed<ID> {
     public int hashCode() {
         int citiesHashCode = 1;
         for(City<ID> city : cities){
-            citiesHashCode = 31 * citiesHashCode + (city == null ? 0 : city.hashCodeWithoutCountry());
+            citiesHashCode = 31 * citiesHashCode + (city == null ? 0 : city.hashCode());
         }
 
         return Objects.hash(super.hashCode(), citiesHashCode);
@@ -108,9 +91,9 @@ public class Country<ID> extends DtoNamed<ID> {
         try {
             Country<ID> clone = (Country<ID>) super.clone();
 
-            clone.cities = new TreeSet<>();
+            clone.cities = new ArrayList<>();
             for(City<ID> city : this.cities){
-                clone.addCity(city.cloneSafeCountry(clone));
+                clone.addCity(city.clone());
             }
             return clone;
         } catch (CloneNotSupportedException ex) {

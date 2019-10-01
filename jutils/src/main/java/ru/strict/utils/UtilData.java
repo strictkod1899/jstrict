@@ -1,6 +1,6 @@
 package ru.strict.utils;
 
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.validate.ValidateBaseValue;
 
 import java.io.*;
 
@@ -84,15 +84,11 @@ public class UtilData {
             }
         }
 
-        int result = -1;
-
         if(compareValue instanceof Comparable){
-            result = ((Comparable) source).compareTo(compareValue);
+            return ((Comparable) source).compareTo(compareValue);
         }else {
             throw new UnsupportedOperationException(String.format("This type [%s] for comparable not supported", source.getClass().toString()));
         }
-
-        return result;
     }
 
     /**
@@ -107,19 +103,18 @@ public class UtilData {
             throw new IllegalArgumentException("strings elements for join is NULL or EMPTY");
         }
 
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for(String item : strings){
-            if(!ValidateBaseValue.isEmptySpaceOrNull(item)){
-                if(!ValidateBaseValue.isEmptyOrNull(result)){
-                    result += separator;
+            if(item != null){
+                if(result.length() > 0){
+                    result.append(separator);
                 }
-    
-                result += item;
+
+                result.append(item);
             }
         }
-    
-        return result;
-    }
+
+        return result.toString();    }
 
     /**
      * Если строка равна null, тогда вернется пустая строка

@@ -1,6 +1,6 @@
 package ru.strict.db.mybatis.mappers.sql;
 
-import ru.strict.db.core.entities.EntityCountry;
+import ru.strict.models.Country;
 
-public interface MapperSqlCountry<ID> extends MapperSqlNamed<ID, EntityCountry<ID>> {
+public interface MapperSqlCountry<ID> extends MapperSqlNamed<ID, Country<ID>> {
 }

@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Связка пользователя с ролью
  */
-public class UserOnRole<ID> extends DtoBase<ID> {
+public class UserOnRole<ID> extends ModelBase<ID> {
 
     /**
      * Идентификатор пользователя
@@ -22,7 +22,7 @@ public class UserOnRole<ID> extends DtoBase<ID> {
     /**
      * Роль пользователя
      */
-    private Roleuser<ID> role;
+    private Role<ID> role;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void initialize(ID userId, ID roleId){
@@ -82,11 +82,11 @@ public class UserOnRole<ID> extends DtoBase<ID> {
         this.roleId = roleId;
     }
 
-    public Roleuser<ID> getRole() {
+    public Role<ID> getRole() {
         return role;
     }
 
-    public void setRole(Roleuser<ID> role) {
+    public void setRole(Role<ID> role) {
         this.role = role;
     }
     //</editor-fold>

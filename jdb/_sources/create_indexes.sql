@@ -6,8 +6,8 @@ CREATE INDEX i_city_caption ON city (caption);
 CREATE INDEX i_city_country_id ON city (country_id);
 CREATE UNIQUE INDEX i_city_caption_country_id ON city (caption, country_id);
 
-CREATE UNIQUE INDEX i_roleuser_id ON roleuser (id);
-CREATE UNIQUE INDEX i_roleuser_code ON roleuser (code);
+CREATE UNIQUE INDEX i_role_id ON role (id);
+CREATE UNIQUE INDEX i_role_code ON role (code);
 
 CREATE UNIQUE INDEX i_userx_id ON userx (id);
 CREATE UNIQUE INDEX i_userx_username ON userx (username);
@@ -15,13 +15,13 @@ CREATE UNIQUE INDEX i_userx_email ON userx (email);
 
 CREATE UNIQUE INDEX i_user_on_role_id ON user_on_role (id);
 CREATE INDEX i_user_on_role_userx_id ON user_on_role (userx_id);
-CREATE INDEX i_user_on_role_roleuserx_id ON user_on_role (roleuser_id);
-CREATE UNIQUE INDEX i_user_on_role_group ON user_on_role (userx_id, roleuser_id);
+CREATE INDEX i_user_on_role_role_id ON user_on_role (role_id);
+CREATE UNIQUE INDEX i_user_on_role_group ON user_on_role (userx_id, role_id);
 
-CREATE UNIQUE INDEX i_service_on_role_id ON service_on_role (id);
-CREATE INDEX i_service_on_role_userx_id ON service_on_role (service_id);
-CREATE INDEX i_service_on_role_roleuserx_id ON service_on_role (roleuser_id);
-CREATE UNIQUE INDEX i_service_on_role_group ON service_on_role (service_id, roleuser_id);
+CREATE UNIQUE INDEX i_permission_on_role_id ON permission_on_role (id);
+CREATE INDEX i_permission_on_role_userx_id ON permission_on_role (permission_id);
+CREATE INDEX i_permission_on_role_role_id ON permission_on_role (role_id);
+CREATE UNIQUE INDEX i_permission_on_role_group ON permission_on_role (permission_id, role_id);
 
 CREATE UNIQUE INDEX i_file_storage_id ON file_storage (id);
 CREATE INDEX i_file_storage_filename ON file_storage (filename);

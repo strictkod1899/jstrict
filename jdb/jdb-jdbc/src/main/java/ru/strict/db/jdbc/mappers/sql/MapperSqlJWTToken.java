@@ -1,41 +1,34 @@
 package ru.strict.db.jdbc.mappers.sql;
 
-
-import ru.strict.db.core.entities.EntityJWTToken;
-import ru.strict.db.core.mappers.sql.MapperSqlBase;
+import ru.strict.models.JWTToken;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLType;
 
-public class MapperSqlJWTToken<ID> extends MapperSqlBase<ID, EntityJWTToken<ID>> {
+public class MapperSqlJWTToken<ID> extends MapperSqlBase<ID, JWTToken<ID>> {
 
-    private final String[] COLUMNS_NAME;
-
-    public MapperSqlJWTToken(String[] columnsName){
-        this.COLUMNS_NAME = columnsName;
+    public MapperSqlJWTToken(String[] columns, SQLType idType, String idColumnName){
+        super(columns, idType, idColumnName);
     }
 
     @Override
-    public EntityJWTToken<ID> implementMap(ResultSet resultSet) {
-        EntityJWTToken<ID> entity = new EntityJWTToken();
-        try {
-            entity.setId((ID)resultSet.getObject("id"));
-            entity.setAccessToken(resultSet.getString(COLUMNS_NAME[0]));
-            entity.setRefreshToken(resultSet.getString(COLUMNS_NAME[1]));
-            entity.setExpireTimeAccess(resultSet.getDate(COLUMNS_NAME[2]));
-            entity.setExpireTimeRefresh(resultSet.getDate(COLUMNS_NAME[3]));
-            entity.setIssuedAt(resultSet.getDate(COLUMNS_NAME[4]));
-            entity.setIssuer(resultSet.getString(COLUMNS_NAME[5]));
-            entity.setSubject(resultSet.getString(COLUMNS_NAME[6]));
-            entity.setNotBefore(resultSet.getDate(COLUMNS_NAME[7]));
-            entity.setAudience(resultSet.getString(COLUMNS_NAME[8]));
-            entity.setSecret(resultSet.getString(COLUMNS_NAME[9]));
-            entity.setAlgorithm(resultSet.getString(COLUMNS_NAME[10]));
-            entity.setType(resultSet.getString(COLUMNS_NAME[11]));
-            entity.setUserId((ID)resultSet.getObject(COLUMNS_NAME[12]));
-        }catch(SQLException ex){
-            throw new RuntimeException(ex);
-        }
-        return entity;
+    public JWTToken<ID> implementMap(ResultSet resultSet) throws SQLException {
+        JWTToken<ID> model = new JWTToken();
+        model.setId(mapValueBySqlType(idType, resultSet, idColumnName));
+        model.setAccessToken(resultSet.getString(columns[0]));
+        model.setRefreshToken(resultSet.getString(columns[1]));
+        model.setExpireTimeAccess(resultSet.getDate(columns[2]));
+        model.setExpireTimeRefresh(resultSet.getDate(columns[3]));
+        model.setIssuedAt(resultSet.getDate(columns[4]));
+        model.setIssuer(resultSet.getString(columns[5]));
+        model.setSubject(resultSet.getString(columns[6]));
+        model.setNotBefore(resultSet.getDate(columns[7]));
+        model.setAudience(resultSet.getString(columns[8]));
+        model.setSecret(resultSet.getString(columns[9]));
+        model.setAlgorithm(resultSet.getString(columns[10]));
+        model.setType(resultSet.getString(columns[11]));
+        model.setUserId(mapValueBySqlType(idType, resultSet, columns[12]));
+        return model;
     }
 }

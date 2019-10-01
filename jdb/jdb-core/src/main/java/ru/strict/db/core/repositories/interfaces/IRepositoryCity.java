@@ -10,10 +10,12 @@ import java.util.List;
 
 public interface IRepositoryCity<ID> extends IRepositoryNamed<ID, City<ID>> {
     default List<City<ID>> readByCountryId(ID countryId){
+        if(countryId == null){
+            throw new IllegalArgumentException("countryId is NULL");
+        }
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "country_id"), countryId, "="));
 
-        List<City<ID>> result = readAll(requests);
-        return result;
+        return readAll(requests);
     }
 }

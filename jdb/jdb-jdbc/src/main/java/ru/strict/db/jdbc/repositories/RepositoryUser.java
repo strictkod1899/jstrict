@@ -3,94 +3,77 @@ package ru.strict.db.jdbc.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.ICreateConnection;
+import ru.strict.db.core.repositories.DefaultColumns;
+import ru.strict.db.core.repositories.DefaultTable;
 import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.*;
-import ru.strict.db.core.entities.EntityUser;
-import ru.strict.db.core.mappers.dto.MapperDtoBase;
-import ru.strict.db.core.mappers.dto.MapperDtoFactory;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.repositories.interfaces.IRepositoryUser;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.jdbc.mappers.sql.MapperSqlUser;
-import ru.strict.utils.UtilClass;
-
 import java.sql.Connection;
+import java.sql.SQLType;
 import java.util.*;
 
-public class RepositoryUser<ID, DTO extends UserBase<ID>>
-        extends RepositoryJdbcNamed<ID, EntityUser<ID>, DTO>
-        implements IRepositoryUser<ID, DTO> {
+public class RepositoryUser<ID>
+        extends RepositoryJdbcNamed<ID, UserDetails<ID>>
+        implements IRepositoryUser<ID, UserDetails<ID>> {
 
-    private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "email",
-            "is_blocked", "is_deleted", "is_confirm_email"};
-
-    /**
-     * Для этого конструктуора используется DtoUser
-     */
-    public RepositoryUser(ICreateConnection<Connection> connectionSource, GenerateIdType generateIdType) {
-        super(new DbTable("userx", "usr"),
-                COLUMNS_NAME,
-                connectionSource,
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(User.class)),
-                new MapperSqlUser<ID>(COLUMNS_NAME),
-                generateIdType);
-    }
+    private static final String[] COLUMNS_NAME = DefaultColumns.USER.columns();
 
     public RepositoryUser(ICreateConnection<Connection> connectionSource,
-                          MapperDtoBase<ID, EntityUser<ID>, DTO> dtoMapper,
-                          GenerateIdType generateIdType) {
-        super(new DbTable("userx", "usr"),
+                          GenerateIdType generateIdType,
+                          SQLType sqlIdType) {
+        super(DefaultTable.USER.table(),
                 COLUMNS_NAME,
                 connectionSource,
-                dtoMapper,
-                new MapperSqlUser<ID>(COLUMNS_NAME),
-                generateIdType);
+                generateIdType,
+                sqlIdType);
+        setSqlMapper(new MapperSqlUser<>(COLUMNS_NAME, sqlIdType, getColumnIdName()));
     }
 
     @Override
-    protected SqlParameters getParameters(EntityUser<ID> entity){
+    protected SqlParameters getParameters(UserDetails<ID> model){
         SqlParameters parameters = new SqlParameters();
-        parameters.add(0, COLUMNS_NAME[0], entity.getUsername());
-        parameters.add(1, COLUMNS_NAME[1], entity.getPasswordEncode());
-        parameters.add(2, COLUMNS_NAME[2], entity.getEmail());
-        parameters.add(3, COLUMNS_NAME[3], entity.isBlocked());
-        parameters.add(4, COLUMNS_NAME[4], entity.isDeleted());
-        parameters.add(5, COLUMNS_NAME[5], entity.isConfirmEmail());
+        parameters.add(0, COLUMNS_NAME[0], model.getUsername());
+        parameters.add(1, COLUMNS_NAME[1], model.getPasswordEncode());
+        parameters.add(2, COLUMNS_NAME[2], model.getEmail());
+        parameters.add(3, COLUMNS_NAME[3], model.isBlocked());
+        parameters.add(4, COLUMNS_NAME[4], model.isDeleted());
+        parameters.add(5, COLUMNS_NAME[5], model.isConfirmEmail());
+        parameters.add(6, COLUMNS_NAME[6], model.getSalt());
+        parameters.add(7, COLUMNS_NAME[7], model.getSecret());
         return parameters;
     }
 
     @Override
-    protected DTO fill(DTO dto){
+    protected UserDetails<ID> fill(UserDetails<ID> model){
         // Добавление ролей пользователей
-        IRepository<ID, UserOnRole<ID>> repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
+        IRepository<ID, UserOnRole<ID>> repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
         DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTable(), "userx_id", dto.getId(), "="));
+        requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTable(), "userx_id", model.getId(), "="));
         List<UserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
 
-        IRepository<ID, Roleuser<ID>> repositoryRoleuser = new RepositoryRoleuser<>(getConnectionSource(), GenerateIdType.NONE);
-        Collection<Roleuser<ID>> roleusers = new ArrayList<>();
+        IRepository<ID, Role<ID>> repositoryRole = new RepositoryRole<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+        List<Role<ID>> roles = new ArrayList<>();
         for (UserOnRole<ID> userOnRole : userOnRoles) {
-            roleusers.add(repositoryRoleuser.read(userOnRole.getRoleId()));
+            roles.add(repositoryRole.read(userOnRole.getRoleId()));
         }
-        dto.setRoles(roleusers);
+        model.setRoles(roles);
 
         // Добавления профиля
-        IRepository<ID, Profile<ID>> repositoryProfile = new RepositoryProfile<>(getConnectionSource(), GenerateIdType.NONE);
+        IRepository<ID, Profile<ID>> repositoryProfile = new RepositoryProfile<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
         requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(repositoryProfile.getTable(), "userx_id", dto.getId(), "="));
-        dto.setProfiles(repositoryProfile.readAll(requests));
+        requests.addWhere(new DbWhereItem(repositoryProfile.getTable(), "userx_id", model.getId(), "="));
+        model.setProfiles(repositoryProfile.readAll(requests));
 
         // Добавление токенов
-        if(dto instanceof UserWithToken){
-            IRepository<ID, JWTToken<ID>> repositoryToken = new RepositoryJWTToken<>(getConnectionSource(), GenerateIdType.NONE);
-            requests = new DbRequests();
-            requests.addWhere(new DbWhereItem(repositoryToken.getTable(), "userx_id", dto.getId(), "="));
-
-            List<JWTToken<ID>> tokens = repositoryToken.readAll(requests);
-            ((UserWithToken)dto).setTokens(tokens);
-        }
-        return dto;
+        IRepository<ID, JWTToken<ID>> repositoryToken = new RepositoryJWTToken<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+        requests = new DbRequests();
+        requests.addWhere(new DbWhereItem(repositoryToken.getTable(), "userx_id", model.getId(), "="));
+        model.setTokens(repositoryToken.readAll(requests));
+        return model;
     }
 
     @Override

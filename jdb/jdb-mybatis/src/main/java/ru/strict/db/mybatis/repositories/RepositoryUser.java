@@ -2,61 +2,39 @@ package ru.strict.db.mybatis.repositories;
 
 import org.apache.ibatis.session.SqlSession;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.entities.EntityUser;
-import ru.strict.db.core.mappers.dto.MapperDtoBase;
-import ru.strict.db.core.mappers.dto.MapperDtoFactory;
+import ru.strict.db.core.repositories.DefaultColumns;
+import ru.strict.db.core.repositories.DefaultTable;
 import ru.strict.db.core.repositories.interfaces.IRepositoryUser;
-import ru.strict.db.core.requests.DbTable;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlUser;
-import ru.strict.models.User;
-import ru.strict.models.UserBase;
+import ru.strict.models.UserDetails;
 import ru.strict.utils.UtilClass;
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.validate.ValidateBaseValue;
 
-public class RepositoryUser<ID, DTO extends UserBase<ID>>
-        extends RepositoryNamedBase<ID, EntityUser<ID>, DTO, MapperSqlUser<ID>>
-        implements IRepositoryUser<ID, DTO> {
+public class RepositoryUser<ID>
+        extends RepositoryMybatisNamed<ID, UserDetails<ID>, MapperSqlUser<ID>>
+        implements IRepositoryUser<ID, UserDetails<ID>> {
 
-    private static final String[] COLUMNS_NAME = new String[] {"username", "passwordencode", "email",
-            "is_blocked", "is_deleted", "is_confirm_email"};
+    private static final String[] COLUMNS_NAME = DefaultColumns.USER.columns();
 
-    /**
-     * Для этого конструктуора используется DtoUser
-     */
     public RepositoryUser(CreateConnectionByMybatis connectionSource, GenerateIdType generateIdType) {
-        super(new DbTable("userx", "usr"),
-                COLUMNS_NAME,
-                connectionSource,
-                UtilClass.<MapperSqlUser<ID>>castClass(MapperSqlUser.class),
-                new MapperDtoFactory<ID>().instance(UtilClass.castClass(EntityUser.class), UtilClass.castClass(User.class)),
-                generateIdType);
-    }
-
-    public RepositoryUser(CreateConnectionByMybatis connectionSource,
-                              MapperDtoBase<ID, EntityUser<ID>, DTO> dtoMapper,
-                              GenerateIdType generateIdType) {
-        super(new DbTable("userx", "usr"),
+        super(DefaultTable.USER.table(),
                 COLUMNS_NAME,
                 connectionSource,
                 UtilClass.castClass(MapperSqlUser.class),
-                dtoMapper,
                 generateIdType);
     }
 
     @Override
-    public DTO readByEmail(String email) {
+    public UserDetails<ID> readByEmail(String email) {
         if(ValidateBaseValue.isEmptyOrNull(email)){
             throw new IllegalArgumentException("email for read is NULL");
         }
-        DTO result = null;
         SqlSession session = null;
         try {
             session = createConnection();
             MapperSqlUser<ID> mapperMybatis = session.getMapper(getMybatisMapperClass());
-            EntityUser<ID> entity = mapperMybatis.readByEmail(email);
-            result = getDtoMapper().map(entity);
-            session.commit();
+            return mapperMybatis.readByEmail(email);
         }catch(Exception ex){
             if(session != null){
                 session.rollback();
@@ -67,8 +45,6 @@ public class RepositoryUser<ID, DTO extends UserBase<ID>>
                 session.close();
             }
         }
-
-        return result;
     }
 
     @Override
@@ -76,13 +52,12 @@ public class RepositoryUser<ID, DTO extends UserBase<ID>>
         if(id == null){
             throw new IllegalArgumentException("id for read is NULL");
         }
-        boolean result = false;
+
         SqlSession session = null;
         try {
             session = createConnection();
             MapperSqlUser<ID> mapperMybatis = session.getMapper(getMybatisMapperClass());
-            result = mapperMybatis.isDeleted(id);
-            session.commit();
+            return mapperMybatis.isDeleted(id);
         }catch(Exception ex){
             if(session != null){
                 session.rollback();
@@ -93,8 +68,6 @@ public class RepositoryUser<ID, DTO extends UserBase<ID>>
                 session.close();
             }
         }
-
-        return result;
     }
 
     @Override
@@ -102,13 +75,12 @@ public class RepositoryUser<ID, DTO extends UserBase<ID>>
         if(id == null){
             throw new IllegalArgumentException("id for read is NULL");
         }
-        boolean result = false;
+
         SqlSession session = null;
         try {
             session = createConnection();
             MapperSqlUser<ID> mapperMybatis = session.getMapper(getMybatisMapperClass());
-            result = mapperMybatis.isBlocked(id);
-            session.commit();
+            return mapperMybatis.isBlocked(id);
         }catch(Exception ex){
             if(session != null){
                 session.rollback();
@@ -119,8 +91,6 @@ public class RepositoryUser<ID, DTO extends UserBase<ID>>
                 session.close();
             }
         }
-
-        return result;
     }
 
     @Override
@@ -128,13 +98,12 @@ public class RepositoryUser<ID, DTO extends UserBase<ID>>
         if(id == null){
             throw new IllegalArgumentException("id for read is NULL");
         }
-        boolean result = false;
+
         SqlSession session = null;
         try {
             session = createConnection();
             MapperSqlUser<ID> mapperMybatis = session.getMapper(getMybatisMapperClass());
-            result = mapperMybatis.isConfirmEmail(id);
-            session.commit();
+            return mapperMybatis.isConfirmEmail(id);
         }catch(Exception ex){
             if(session != null){
                 session.rollback();
@@ -145,8 +114,6 @@ public class RepositoryUser<ID, DTO extends UserBase<ID>>
                 session.close();
             }
         }
-
-        return result;
     }
 
     @Override

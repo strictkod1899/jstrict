@@ -17,7 +17,7 @@
     <module>jdb-core</module>
     <module>jdb-jdbc</module>
     <module>jdb-spring</module>
-    <module>jdb-hibernate</module>
+    <!--<module>jdb-hibernate</module>-->
     <module>jdb-mybatis</module>
   </modules>
 </project>

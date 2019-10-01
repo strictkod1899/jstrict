@@ -2,7 +2,7 @@ package ru.strict.patterns.mvc.views;
 
 import ru.strict.components.AnsiColor;
 import ru.strict.utils.UtilAnsiConsole;
-import ru.strict.validates.ValidateBaseValue;
+import ru.strict.validate.ValidateBaseValue;
 
 import java.io.BufferedReader;
 import java.io.IOException;
