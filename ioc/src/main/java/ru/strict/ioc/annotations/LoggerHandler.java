@@ -1,10 +1,10 @@
 package ru.strict.ioc.annotations;
 
-import ru.strict.components.ILogger;
-import ru.strict.components.LoggerBase;
 import ru.strict.ioc.IoC;
 import ru.strict.ioc.exceptions.ConstructorNotFound;
 import ru.strict.ioc.exceptions.ManyMatchConstructorsException;
+import ru.strict.logging.ILogger;
+import ru.strict.logging.LoggerBase;
 import ru.strict.utils.ReflectionUtil;
 import ru.strict.validate.Validator;
 

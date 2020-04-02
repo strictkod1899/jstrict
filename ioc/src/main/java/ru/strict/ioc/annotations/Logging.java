@@ -1,7 +1,7 @@
 package ru.strict.ioc.annotations;
 
-import ru.strict.components.LogLevel;
-import ru.strict.components.LoggerBase;
+import ru.strict.logging.LogLevel;
+import ru.strict.logging.LoggerBase;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

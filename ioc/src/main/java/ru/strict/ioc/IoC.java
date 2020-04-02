@@ -1,12 +1,12 @@
 package ru.strict.ioc;
 
-import ru.strict.components.LoggerBase;
 import ru.strict.ioc.annotations.ComponentHandler;
 import ru.strict.ioc.annotations.LoggerHandler;
 import ru.strict.ioc.annotations.LoggingHandler;
 import ru.strict.ioc.exceptions.ManyMatchComponentsException;
 import ru.strict.ioc.exceptions.ManyMatchConstructorsException;
 import ru.strict.ioc.exceptions.MatchInstanceTypeException;
+import ru.strict.logging.LoggerBase;
 import ru.strict.utils.ReflectionUtil;
 
 import java.lang.reflect.Constructor;
