@@ -2,7 +2,7 @@ package ru.strict.utils;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import ru.strict.components.TokenInfo;
+import ru.strict.components.Token;
 import ru.strict.validate.ValidateBaseValue;
 
 import java.security.Key;
@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class JWTTokenUtil {
 
-    public static TokenInfo createToken(UUID id,
+    public static Token createToken(UUID id,
                                         Date expireTimeAccess,
                                         Date issuedAt,
                                         String issuer,
@@ -49,7 +49,7 @@ public class JWTTokenUtil {
         String secret = new String(key.getEncoded());
         String token = builder.signWith(key).compact();
 
-        return new TokenInfo(token, secret, algorithm.name());
+        return new Token(token, secret, algorithm.name());
     }
 
     public static Jws<Claims> decodeToken(String key, String token){
