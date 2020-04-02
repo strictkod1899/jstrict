@@ -5,5 +5,5 @@ public enum NeuronType {
     HIDDEN,
     OUTPUT,
     BIAS,
-    UNKNOW
+    UNKNOWN
 }

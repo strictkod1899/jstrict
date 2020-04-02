@@ -1,10 +1,18 @@
 package ru.strict.ioc;
 
+import ru.strict.components.LoggerBase;
+import ru.strict.ioc.annotations.ComponentHandler;
+import ru.strict.ioc.annotations.LoggerHandler;
+import ru.strict.ioc.annotations.LoggingHandler;
 import ru.strict.ioc.exceptions.ManyMatchComponentsException;
+import ru.strict.ioc.exceptions.ManyMatchConstructorsException;
 import ru.strict.ioc.exceptions.MatchInstanceTypeException;
-import ru.strict.utils.UtilReflection;
+import ru.strict.utils.ReflectionUtil;
 
+import java.lang.reflect.Constructor;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -18,7 +26,7 @@ import java.util.Map;
  *
  *      public IoC() {
  *          super();
- *          initialize();
+ *          init();
  *     }
  *
  *     public static IoC instance(){
@@ -29,7 +37,7 @@ import java.util.Map;
  *         return instance;
  *     }
  *
- *     private void initialize(){
+ *     private void init(){
  *         addComponent(A.class, A.class, InstanceType.REQUEST);
  *         addComponent(B.class, B.class, InstanceType.REQUEST, "comp1", "@param2", new Param3());
  *         addSingleton(C.class, new C());
@@ -42,9 +50,42 @@ import java.util.Map;
 public class IoC implements IIoC {
 
     private Map<IoCKeys, IoCData> components;
+    private Collection<Class<? extends LoggerBase>> defaultLoggingClasses;
+    private Class<? extends LoggerBase> defaultLogger;
 
     public IoC() {
         components = new HashMap<>();
+        defaultLoggingClasses = new HashSet<>();
+    }
+
+    public IoC(IoC...joins){
+        this();
+        for(IoC join : joins){
+            joinIoC(join);
+        }
+    }
+
+    /**
+     * Объединить несколько IoC-контейнеров в один
+     * @param join объединяемый IoC-контейнер
+     */
+    public void joinIoC(IoC join){
+        join.components
+                .keySet()
+                .forEach(key -> {
+                    IoCData joinData = join.components.get(key);
+                    addComponent(key.getClazz(),
+                            key.getCaption(),
+                            joinData.getClazzInstance(),
+                            joinData.getType(),
+                            joinData.getConstructorArguments()
+                    );
+                });
+    }
+
+    @Override
+    public <RESULT> void addComponent(Class<RESULT> clazz, InstanceType type, Object...constructorArguments) {
+        addComponent(clazz, clazz, type, constructorArguments);
     }
 
     @Override
@@ -59,7 +100,7 @@ public class IoC implements IIoC {
             throw new ManyMatchComponentsException(clazz);
         }
 
-        components.put(new IoCKeys(null, clazz), new IoCData(component, constructorArguments, type));
+        components.put(new IoCKeys(clazz.getSimpleName(), clazz), new IoCData(component, constructorArguments, type));
     }
 
     @Override
@@ -123,7 +164,7 @@ public class IoC implements IIoC {
             throw new ManyMatchComponentsException(clazz);
         }
 
-        components.put(new IoCKeys(null, clazz), new IoCData(component));
+        components.put(new IoCKeys(clazz.getSimpleName(), clazz), new IoCData(component));
     }
 
     @Override
@@ -166,7 +207,7 @@ public class IoC implements IIoC {
         RESULT result = null;
         if(clazz != null) {
             IoCKeys key = components.keySet().stream()
-                    .filter((k) -> k.getClazz() != null && UtilReflection.isInstanceOf(clazz, k.getClazz()))
+                    .filter((k) -> k.getClazz() != null && ReflectionUtil.isInstanceOf(clazz, k.getClazz()))
                     .findFirst()
                     .orElse(null);
             if (key != null) {
@@ -180,7 +221,7 @@ public class IoC implements IIoC {
     public <RESULT> void closeSessionInstance(Class<RESULT> clazz) throws MatchInstanceTypeException {
         if(clazz != null) {
             IoCKeys key = components.keySet().stream()
-                    .filter((k) -> k.getClazz() != null && UtilReflection.isInstanceOf(clazz, k.getClazz()))
+                    .filter((k) -> k.getClazz() != null && ReflectionUtil.isInstanceOf(clazz, k.getClazz()))
                     .findFirst()
                     .orElse(null);
             if (key != null) {
@@ -200,6 +241,51 @@ public class IoC implements IIoC {
                 closeSessionInstanceProcess(key);
             }
         }
+    }
+
+    public static <T> Constructor<T> findConstructor(Class<T> instanceClass) {
+        return findConstructor(instanceClass, false);
+    }
+
+    public static <T> Constructor<T> findConstructor(Class<T> instanceClass, boolean onlyPublic) {
+        Constructor[] constructors = onlyPublic ? instanceClass.getConstructors() : instanceClass.getDeclaredConstructors();
+        Constructor mainConstructor = ComponentHandler.getMainConstructor(constructors);
+        if (mainConstructor == null) {
+            if (constructors.length == 1) {
+                mainConstructor = constructors[0];
+            } else {
+                throw new ManyMatchConstructorsException(instanceClass);
+            }
+        }
+
+        return mainConstructor;
+    }
+
+    /**
+     * Создать объекты для аргументов указанного конструктора
+     */
+    public Object[] createConstructorArguments(Constructor<?> constructor) {
+        Class<?>[] argumentTypes = constructor.getParameterTypes();
+        Object[] arguments = new Object[argumentTypes.length];
+        for (int i = 0; i < arguments.length; i++) {
+            arguments[i] = getComponent(argumentTypes[i]);
+        }
+
+        return arguments;
+    }
+
+    /**
+     * Установить класс логирования, который будет использоваться по-умолчнию с аннотацией @Logger
+     */
+    public void setDefaultLogger(Class<? extends LoggerBase> loggerClass) {
+        this.defaultLogger = loggerClass;
+    }
+
+    /**
+     * Добавить класс логирования, который будет использоваться по-умолчнию с аннотацией @Loggin
+     */
+    public void addDefaultLogging(Class<? extends LoggerBase> loggerClass) {
+        this.defaultLoggingClasses.add(loggerClass);
     }
 
     private void closeSessionInstanceProcess(IoCKeys key) throws MatchInstanceTypeException {
@@ -243,14 +329,41 @@ public class IoC implements IIoC {
     }
 
     private <RESULT> RESULT createInstance(Class clazzInstance, Object[] constructorArguments){
-        if(clazzInstance == null || constructorArguments == null){
+        return createInstance(clazzInstance, constructorArguments, false);
+    }
+
+    private <RESULT> RESULT createInstance(Class instanceClass, Object[] constructorArguments, boolean skipComponentHandler) {
+        if (instanceClass == null || constructorArguments == null) {
             throw new IllegalArgumentException(
                     String.format("IoC exception. Fail add component to IoC because any is null:" +
                                     "clazzInstance = [%s], constructorArguments = [%s]",
-                            clazzInstance, constructorArguments));
+                            instanceClass, constructorArguments));
         }
+
+        if (!skipComponentHandler) {
+            Constructor<?> mainConstructor = findConstructor(instanceClass);
+            if (constructorArguments.length == 0 && mainConstructor != null) {
+                Object[] instanceArguments = ComponentHandler.getConstructorArguments(mainConstructor);
+                return createInstance(instanceClass, instanceArguments, true);
+            } else {
+                RESULT result = createInstanceByArguments(instanceClass, constructorArguments);
+                return postCreateProcess(result);
+            }
+        } else {
+            RESULT result = createInstanceByArguments(instanceClass, constructorArguments);
+            return postCreateProcess(result);
+        }
+    }
+
+    private <RESULT> RESULT postCreateProcess(RESULT instance) {
+        LoggerHandler.injectLogger(instance, this, defaultLogger);
+        instance = (RESULT) LoggingHandler.getLoggedInstance(instance, this, defaultLoggingClasses.toArray(new Class[0]));
+        return instance;
+    }
+
+    private <RESULT> RESULT createInstanceByArguments(Class clazzInstance, Object[] constructorArguments){
         Object[] instanceArguments = createInstanceArguments(constructorArguments);
-        return (RESULT) UtilReflection.createDeclaredInstance(clazzInstance, instanceArguments);
+        return (RESULT) ReflectionUtil.createDeclaredInstance(clazzInstance, false, instanceArguments);
     }
 
     private Object[] createInstanceArguments(Object[] createArguments){

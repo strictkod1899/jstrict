@@ -1,6 +1,6 @@
 package ru.strict.ioc;
 
-import ru.strict.utils.UtilData;
+import ru.strict.utils.StringUtil;
 
 import java.util.Objects;
 
@@ -42,6 +42,6 @@ class IoCKeys {
 
     @Override
     public String toString() {
-        return UtilData.join(" / ", caption, clazz.toString());
+        return StringUtil.join(" / ", caption, clazz.toString());
     }
 }

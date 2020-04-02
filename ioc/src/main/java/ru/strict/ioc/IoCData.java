@@ -2,7 +2,7 @@ package ru.strict.ioc;
 
 import ru.strict.ioc.exceptions.SessionInstanceExistsException;
 import ru.strict.ioc.exceptions.SingletonInstanceExistsException;
-import ru.strict.utils.UtilData;
+import ru.strict.utils.StringUtil;
 
 import java.util.Optional;
 
@@ -68,7 +68,7 @@ class IoCData {
 
     @Override
     public String toString() {
-        return UtilData.join(", ", type.name(),
+        return StringUtil.join(", ", type.name(),
                 Optional.ofNullable(clazzInstance).map(o -> o.toString()).orElse(null),
                 Optional.ofNullable(singletonInstance).map(o -> o.toString()).orElse(null));
     }

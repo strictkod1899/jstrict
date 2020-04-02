@@ -4,6 +4,15 @@ import ru.strict.ioc.exceptions.MatchInstanceTypeException;
 
 public interface IIoC {
     /**
+     * Добавить компонент с классом --clazz--, для обращения к нему, как экземпляр класса --clazz--,
+     * с передачей в конструктор параметров --constructorArguments--.
+     * Если в --constructorArguments-- в качестве одного из элементов передать .class, то, по возможности, он будет внедрен как зависимость.
+     * @param clazz Класс создаваемого компонента и для обращения к компоненту
+     * @param type Тип компонента: singleton или при каждом обращении создавать новый экземпляр
+     * @param constructorArguments Параметры передаваемые в конструктор класса --component--
+     */
+    <RESULT> void addComponent(Class<RESULT> clazz, InstanceType type, Object...constructorArguments);
+    /**
      * Добавить компонент с названием --caption-- как экземпляр класса --component--,
      * спередачей в конструктор параметров --constructorArguments--.
      * Если в --constructorArguments-- в качестве одного из элементов передать .class, то, по возможности, он будет внедрен как зависимость.
@@ -23,7 +32,7 @@ public interface IIoC {
      * @param type Тип компонента: singleton или при каждом обращении создавать новый экземпляр
      * @param constructorArguments Параметры передаваемые в конструктор класса --component--
      */
-    <RESULT >void addComponent(Class<RESULT> clazz, Class component, InstanceType type, Object...constructorArguments);
+    <RESULT> void addComponent(Class<RESULT> clazz, Class component, InstanceType type, Object...constructorArguments);
     /**
      * Добавить компонент с названием --caption-- и с классом --clazz--, для обращения к нему, как экземпляр класса --component--,
      * с передачей в конструктор параметров --constructorArguments--.
@@ -47,7 +56,7 @@ public interface IIoC {
      * @param clazz Класс компонента для получения из IoC
      * @param component Singleton-компонент
      */
-    <RESULT >void addSingleton(Class<RESULT> clazz, Object component);
+    <RESULT> void addSingleton(Class<RESULT> clazz, Object component);
     /**
      * Добавить компонент с названием --caption-- и с классом --clazz--, для обращения к нему, как экземпляр класса --component-- типа singleton
      * @param clazz Класс компонента для получения из IoC

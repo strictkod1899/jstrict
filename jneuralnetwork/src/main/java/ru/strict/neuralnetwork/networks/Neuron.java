@@ -29,7 +29,7 @@ public class Neuron implements Cloneable{
     public Neuron(float value) {
         entryId = UUID.randomUUID();
         this.value = value;
-        this.type = NeuronType.UNKNOW;
+        this.type = NeuronType.UNKNOWN;
         caption = "";
     }
 
@@ -37,14 +37,14 @@ public class Neuron implements Cloneable{
         entryId = UUID.randomUUID();
         this.value = value;
         this.caption = caption;
-        this.type = NeuronType.UNKNOW;
+        this.type = NeuronType.UNKNOWN;
     }
 
     public Neuron(UUID entryId, float value, String caption) {
         this.entryId = entryId;
         this.value = value;
         this.caption = caption;
-        this.type = NeuronType.UNKNOW;
+        this.type = NeuronType.UNKNOWN;
     }
 
     public Neuron(float value, NeuronType type) {
