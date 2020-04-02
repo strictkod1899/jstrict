@@ -1,4 +1,4 @@
-package ru.strict.utils;
+package ru.strict.file.html;
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfWriter;

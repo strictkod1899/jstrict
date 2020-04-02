@@ -2,7 +2,6 @@ package ru.strict.file.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ru.strict.utils.ClassUtil;
-import ru.strict.utils.JsonUtil;
 import ru.strict.validate.ValidateBaseValue;
 
 import java.nio.file.Files;

@@ -1,4 +1,4 @@
-package ru.strict.utils;
+package ru.strict.file.json;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,6 +6,7 @@ import java.io.InputStream;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import ru.strict.utils.FileUtil;
 import ru.strict.validate.ValidateBaseValue;
 
 public class JsonUtil {
