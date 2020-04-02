@@ -1,11 +1,9 @@
 package ru.strict.db.core.connections;
 
-import java.sql.Connection;
-
 /**
- * Конструктор соединения с базой данных
+ * Фабрика соединения с базой данных
  */
-public interface ICreateConnection<CONNECTION> {
+public interface IConnectionCreator<CONNECTION> {
 
     /**
      * Создать соединение с базой данных

@@ -1,6 +1,5 @@
 package ru.strict.db.core.connections;
 
-
 import java.util.Objects;
 
 /**
@@ -8,7 +7,8 @@ import java.util.Objects;
  * <p><b>Пример использования:</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
  *     ...
- *     ConnectionInfo connectionInfo = new ConnectionInfo("com.mysql.jdbc.Driver", "jdbc:mysql://mydb", "mysqluser", "mysqlpassword");
+ *     ConnectionInfo connectionInfo = new ConnectionInfo("com.mysql.jdbc.Driver", "jdbc:mysql://mydb", "mysqluser",
+ *     "mysqlpassword");
  *     Connection connection = connectionCreater.createConnection();
  * </pre></code>
  */
@@ -63,26 +63,29 @@ public class ConnectionInfo {
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("%s [%s]. UserDetails: %s/%s", driver, url, username, password);
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof ConnectionInfo) {
-            ConnectionInfo object = (ConnectionInfo) obj;
-            return Objects.equals(password, object.getPassword())
-                    && Objects.equals(username, object.getUsername())
-                    && Objects.equals(driver, object.getDriver())
-                    && Objects.equals(url, object.getUrl());
-        }else {
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
+        ConnectionInfo that = (ConnectionInfo) o;
+        return Objects.equals(driver, that.driver) &&
+                Objects.equals(url, that.url) &&
+                Objects.equals(username, that.username) &&
+                Objects.equals(password, that.password);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(password, username, driver, url);
+    public int hashCode() {
+        return Objects.hash(driver, url, username, password);
     }
+
     //</editor-fold>
 }

@@ -1,7 +1,7 @@
 package ru.strict.db.core.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.connections.ICreateConnection;
+import ru.strict.db.core.connections.IConnectionCreator;
 import ru.strict.db.core.requests.*;
 import ru.strict.models.BaseModel;
 
@@ -12,16 +12,16 @@ import java.util.Objects;
 /**
  * Базовый класс репозитория
  * @param <ID> Тип идентификатора
- * @param <SOURCE> Источник для получения соединения с базой данных (CreateConnectionByDataSource, CreateConnectionByConnectionInfo)
+ * @param <SOURCE> Источник для получения соединения с базой данных (ConnectionCreatorByDataSource, ConnectionCreatorByConnectionInfo)
  * @param <T> Модель сущности базы данных
  */
 public abstract class BaseRepository
-        <ID, CONNECTION, SOURCE extends ICreateConnection<CONNECTION>, T extends BaseModel<ID>>
+        <ID, CONNECTION, SOURCE extends IConnectionCreator<CONNECTION>, T extends BaseModel<ID>>
         implements IExtensionRepository<ID, T> {
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
-     * является реализацией интерфейса ICreateConnection (CreateConnectionByDataSource, CreateConnectionByConnectionInfo)
+     * является реализацией интерфейса IConnectionCreator (ConnectionCreatorByDataSource, ConnectionCreatorByConnectionInfo)
      */
     private final SOURCE connectionSource;
 

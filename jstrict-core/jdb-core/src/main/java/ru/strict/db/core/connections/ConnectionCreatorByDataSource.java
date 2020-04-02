@@ -9,7 +9,7 @@ import java.sql.SQLException;
  * <p><b>Пример использования:</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
  *     ...
- *     ICreateConnection connectionCreater = new CreateConnectionByDataSource(dataSource);
+ *     IConnectionCreator connectionCreater = new ConnectionCreatorByDataSource(dataSource);
  *     Connection connection = connectionCreater.createConnection();
  * </pre></code>
  *
@@ -21,11 +21,10 @@ import java.sql.SQLException;
  *     dataSource.setUsername("");
  *     dataSource.setPassword("");
  * </pre></code>
- *
  */
-public class CreateConnectionByDataSource extends CreateConnectionBase<DataSource, Connection> {
+public class ConnectionCreatorByDataSource extends BaseConnectionCreator<DataSource, Connection> {
 
-    public CreateConnectionByDataSource(DataSource connectionSource) {
+    public ConnectionCreatorByDataSource(DataSource connectionSource) {
         super(connectionSource);
     }
 

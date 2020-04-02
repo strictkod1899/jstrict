@@ -10,13 +10,13 @@ import java.sql.SQLException;
  * <p><b>Пример использования:</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
  *     ...
- *     ICreateConnection connectionCreater = new CreateConnectionByConnectionInfo(connectionInfo);
+ *     IConnectionCreator connectionCreater = new ConnectionCreatorByConnectionInfo(connectionInfo);
  *     Connection connection = connectionCreater.createConnection();
  * </pre></code>
  */
-public class CreateConnectionByConnectionInfo extends CreateConnectionBase<ConnectionInfo, Connection> {
+public class ConnectionCreatorByConnectionInfo extends BaseConnectionCreator<ConnectionInfo, Connection> {
 
-    public CreateConnectionByConnectionInfo(ConnectionInfo connectionSource) {
+    public ConnectionCreatorByConnectionInfo(ConnectionInfo connectionSource) {
         super(connectionSource);
     }
 
@@ -30,7 +30,9 @@ public class CreateConnectionByConnectionInfo extends CreateConnectionBase<Conne
             // Регистрация данного драйвера
             DriverManager.registerDriver(jdbcDriver);
             // Соединение с Базой Данных
-            Connection connection = DriverManager.getConnection(connectUrl, getConnectionSource().getUsername(), getConnectionSource().getPassword());
+            Connection connection = DriverManager.getConnection(connectUrl,
+                    getConnectionSource().getUsername(),
+                    getConnectionSource().getPassword());
             return connection;
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
             throw new RuntimeException(ex);

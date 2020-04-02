@@ -5,9 +5,10 @@ import java.util.Objects;
 
 /**
  * Конструктор соединения с базой данных
+ *
  * @param <SOURCE> Тип источника подключения к базе данных (DataSource, ConnectionInfo)
  */
-public abstract class CreateConnectionBase<SOURCE, CONNECTION> implements ICreateConnection<CONNECTION> {
+public abstract class BaseConnectionCreator<SOURCE, CONNECTION> implements IConnectionCreator<CONNECTION> {
 
     /**
      * Источник подключения к базе данных (DataSource, ConnectionInfo). <br/>
@@ -16,7 +17,7 @@ public abstract class CreateConnectionBase<SOURCE, CONNECTION> implements ICreat
     private SOURCE connectionSource;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public CreateConnectionBase(SOURCE connectionSource) {
+    public BaseConnectionCreator(SOURCE connectionSource) {
         this.connectionSource = connectionSource;
     }
     //</editor-fold>
@@ -29,22 +30,24 @@ public abstract class CreateConnectionBase<SOURCE, CONNECTION> implements ICreat
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public String toString(){
+    public String toString() {
         return connectionSource.toString();
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof CreateConnectionBase) {
-            CreateConnectionBase object = (CreateConnectionBase) obj;
-            return Objects.equals(connectionSource, object.getConnectionSource());
-        }else {
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
+        BaseConnectionCreator<?, ?> that = (BaseConnectionCreator<?, ?>) o;
+        return Objects.equals(connectionSource, that.connectionSource);
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return Objects.hash(connectionSource);
     }
     //</editor-fold>
