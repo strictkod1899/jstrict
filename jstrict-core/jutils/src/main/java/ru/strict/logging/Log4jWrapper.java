@@ -1,4 +1,4 @@
-package ru.strict.components;
+package ru.strict.logging;
 
 import org.apache.log4j.*;
 import ru.strict.utils.ClassUtil;
@@ -13,8 +13,8 @@ import java.util.Objects;
  *
  * <p><b>Пример использования:</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
- * import ru.strict.components.Log4jWrapper;
- * import ru.strict.components.LoggerConfiguration;
+ * import ru.strict.logging.Log4jWrapper;
+ * import ru.strict.logging.LoggerConfiguration;
  *
  * import java.io.File;
  *

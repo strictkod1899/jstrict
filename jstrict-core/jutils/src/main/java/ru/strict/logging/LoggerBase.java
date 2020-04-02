@@ -1,4 +1,4 @@
-package ru.strict.components;
+package ru.strict.logging;
 
 public abstract class LoggerBase implements ILogger {
     protected Class clazz;

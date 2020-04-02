@@ -1,4 +1,4 @@
-package ru.strict.components;
+package ru.strict.logging;
 
 import org.apache.log4j.Level;
 

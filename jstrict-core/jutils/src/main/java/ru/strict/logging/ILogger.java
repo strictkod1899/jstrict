@@ -1,4 +1,4 @@
-package ru.strict.components;
+package ru.strict.logging;
 
  public interface ILogger {
      void log(LogLevel logLevel, String format, Object...args);

@@ -1,4 +1,4 @@
-package ru.strict.components;
+package ru.strict.logging;
 
 public enum LogLevel {
     FATAL,
