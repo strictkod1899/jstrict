@@ -106,6 +106,10 @@ public final class StringUtil {
         return result.toString();
     }
 
+    public static boolean isEmptyOrNull(String str) {
+        return ValidateBaseValue.isEmptyOrNull(str);
+    }
+
     /**
      * Если строка равна null, тогда вернется пустая строка
      * @param str
@@ -122,5 +126,20 @@ public final class StringUtil {
      */
     public static String emptyToNull(String str){
         return ValidateBaseValue.isEmptyOrNull(str) ? null : str;
+    }
+
+    /**
+     * Сделать первый символ строки заглавным
+     */
+    public static String toUpperFirstSymbol(String str) {
+        if (str == null) {
+            return null;
+        }
+
+        if (str.length() == 0) {
+            return "";
+        }
+
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 }
