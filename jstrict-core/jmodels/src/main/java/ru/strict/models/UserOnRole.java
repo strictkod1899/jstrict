@@ -101,7 +101,6 @@ public class UserOnRole<ID> extends ModelBase<ID> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         UserOnRole<ID> object = (UserOnRole<ID>) o;
         return Objects.equals(userId, object.userId) &&
                 Objects.equals(user, object.user) &&
@@ -111,7 +110,7 @@ public class UserOnRole<ID> extends ModelBase<ID> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), userId, user, roleId, role);
+        return Objects.hash(userId, user, roleId, role);
     }
 
     @Override

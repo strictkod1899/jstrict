@@ -111,7 +111,6 @@ public class FileStorageBase<ID> extends ModelBase<ID> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         FileStorageBase<ID> object = (FileStorageBase<ID>) o;
         return type == object.type &&
                 status == object.status &&
@@ -123,7 +122,7 @@ public class FileStorageBase<ID> extends ModelBase<ID> {
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(super.hashCode(), filename, extension, displayName, createDate, type, status);
+        int result = Objects.hash(filename, extension, displayName, createDate, type, status);
         return result;
     }
 

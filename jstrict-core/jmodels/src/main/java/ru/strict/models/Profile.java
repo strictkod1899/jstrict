@@ -98,7 +98,6 @@ public class Profile<ID> extends ModelBase<ID> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         Profile<ID> object = (Profile<ID>) o;
         return Objects.equals(name, object.name) &&
                 Objects.equals(surname, object.surname) &&
@@ -108,7 +107,7 @@ public class Profile<ID> extends ModelBase<ID> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, surname, userId, user);
+        return Objects.hash(name, surname, userId, user);
     }
 
     @Override

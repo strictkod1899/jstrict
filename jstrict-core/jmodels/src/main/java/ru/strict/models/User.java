@@ -221,7 +221,6 @@ public class User<ID> extends ModelBase<ID> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         User<ID> object = (User<ID>) o;
         return blocked == object.blocked &&
                 deleted == object.deleted &&
@@ -248,7 +247,7 @@ public class User<ID> extends ModelBase<ID> {
             tokensHashCode = 31 * tokensHashCode + (token == null ? 0 : token.hashCode());
         }
 
-        return Objects.hash(super.hashCode(), username, email, blocked, deleted, confirmEmail,
+        return Objects.hash(username, email, blocked, deleted, confirmEmail,
                 rolesHashCode, profilesHashCode, tokensHashCode);
     }
 

@@ -104,7 +104,6 @@ public class PermissionOnRole<ID, PERMISSION> extends ModelBase<ID> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         PermissionOnRole<ID, PERMISSION> object = (PermissionOnRole<ID, PERMISSION>) o;
         return Objects.equals(permissionId, object.permissionId) &&
                 Objects.equals(permissionProvider, object.permissionProvider) &&
@@ -114,7 +113,7 @@ public class PermissionOnRole<ID, PERMISSION> extends ModelBase<ID> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), permissionId, permissionProvider, roleId, role);
+        return Objects.hash(permissionId, permissionProvider, roleId, role);
     }
 
     @Override

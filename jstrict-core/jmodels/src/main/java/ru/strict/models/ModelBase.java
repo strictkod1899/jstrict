@@ -45,19 +45,6 @@ public abstract class ModelBase<ID> implements IModel<ID>,
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ModelBase<ID> modelBase = (ModelBase<ID>) o;
-        return Objects.equals(id, modelBase.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
     public int compareTo(ModelBase<ID> object){
         return CommonUtil.compareTo(getId(), object.getId());
     }

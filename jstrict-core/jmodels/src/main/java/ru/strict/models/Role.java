@@ -109,7 +109,6 @@ public class Role<ID> extends ModelBase<ID> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         Role<ID> object = (Role<ID>) o;
         return Objects.equals(code, object.code) &&
                 Objects.equals(description, object.description) &&
@@ -118,7 +117,7 @@ public class Role<ID> extends ModelBase<ID> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), code, description, users);
+        return Objects.hash(code, description, users);
     }
 
     @Override
