@@ -79,7 +79,7 @@ public interface IRepository<ID, T extends IModel<ID>> {
      * @param requests Условия выборки объектов. Если передать null, то будут считаны все объекты БД
      * @return Еоличество записей из базы данных
      */
-    int readCount(DbRequests requests);
+    long readCount(DbRequests requests);
 
     /**
      * Проверить существование записи в базе данных с переданным идентификатором
@@ -90,7 +90,7 @@ public interface IRepository<ID, T extends IModel<ID>> {
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(getTable(), getIdColumnName(), id, "="));
 
-        int count = readCount(requests);
+        long count = readCount(requests);
         return count > 0 ? true : false;
     }
 
