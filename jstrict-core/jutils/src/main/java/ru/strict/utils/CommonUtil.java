@@ -4,6 +4,9 @@ import ru.strict.validate.Validator;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public final class CommonUtil {
 
@@ -12,12 +15,10 @@ public final class CommonUtil {
     private CommonUtil() {}
 
     public static <T> int compareTo(T source, T compareValue) throws UnsupportedOperationException {
-        if (source == null || compareValue == null) {
-            if (source == null && compareValue == null) {
-                return 0;
-            } else {
-                return -1;
-            }
+        if (source == null && compareValue == null) {
+            return 0;
+        } else if (source == null || compareValue == null) {
+            return -1;
         }
 
         if (compareValue instanceof Comparable) {
@@ -43,6 +44,46 @@ public final class CommonUtil {
         int roundValue = (int) Math.round(number);
         number = (double) roundValue / pow;
         return number;
+    }
+
+
+    /**
+     * Получить количество миллисекунд из объекта LocalDate с системным часовым поясом
+     */
+    public static Long getMillisFromLocalDate(LocalDate date) {
+        return getMillisFromLocalDate(date, ZoneId.systemDefault());
+    }
+
+    /**
+     * Получить количество миллисекунд из объекта LocalDate в указанном часовом поясе
+     */
+    public static Long getMillisFromLocalDate(LocalDate date, ZoneId zoneId) {
+        Validator.isNull(date, "date").onThrow();
+        Validator.isNull(zoneId, "zoneId").onThrow();
+
+        return date.atStartOfDay()
+                .atZone(zoneId)
+                .toInstant()
+                .toEpochMilli();
+    }
+
+    /**
+     * Получить количество миллисекунд из объекта LocalDateTime с системным часовым поясом
+     */
+    public static Long getMillisFromLocalDateTime(LocalDateTime date) {
+        return getMillisFromLocalDateTime(date, ZoneId.systemDefault());
+    }
+
+    /**
+     * Получить количество миллисекунд из объекта LocalDateTime в указанном часовом поясе
+     */
+    public static Long getMillisFromLocalDateTime(LocalDateTime date, ZoneId zoneId) {
+        Validator.isNull(date, "date").onThrow();
+        Validator.isNull(zoneId, "zoneId").onThrow();
+
+        return date.atZone(zoneId)
+                .toInstant()
+                .toEpochMilli();
     }
 
     /**
