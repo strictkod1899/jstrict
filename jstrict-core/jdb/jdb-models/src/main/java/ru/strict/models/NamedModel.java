@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Именованная модель (содержит строку заголовка)
  */
-public abstract class NamedModel<ID> extends ModelBase<ID> implements INamedModel<ID>, IFillNamedModel<ID> {
+public abstract class NamedModel<ID> extends ModelBase<ID> implements INamedModel<ID> {
 
     /**
      * Наименование записи
@@ -43,7 +43,6 @@ public abstract class NamedModel<ID> extends ModelBase<ID> implements INamedMode
         return caption;
     }
 
-    @Override
     public void setCaption(String caption) {
         this.caption = caption;
     }

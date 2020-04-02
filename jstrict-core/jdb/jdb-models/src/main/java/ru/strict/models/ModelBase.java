@@ -9,7 +9,6 @@ import java.util.Objects;
  * @param <ID> Тип поля ID
  */
 public abstract class ModelBase<ID> implements IModel<ID>,
-        IFillModelBase<ID>,
         Comparable<ModelBase<ID>>,
         Cloneable
 {
@@ -34,7 +33,6 @@ public abstract class ModelBase<ID> implements IModel<ID>,
         return id;
     }
 
-    @Override
     public void setId(ID id) {
         this.id = id;
     }
