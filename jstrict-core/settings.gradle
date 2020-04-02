@@ -1,6 +1,6 @@
 include 'jutils'
 include 'jpatterns'
-include 'jdb:jdb-models'
-include 'jdb:jdb-core'
+include 'jmodels'
+include 'jdb-core'
 include 'jfile'
 include 'joffice'

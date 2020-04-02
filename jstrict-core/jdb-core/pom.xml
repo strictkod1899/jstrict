@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>ru.strict</groupId>
-    <artifactId>jdb</artifactId>
+    <artifactId>jstrict</artifactId>
     <version>0.1.37</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
@@ -23,7 +23,7 @@
     </dependency>
     <dependency>
       <groupId>ru.strict</groupId>
-      <artifactId>jdb-models</artifactId>
+      <artifactId>jmodels</artifactId>
     </dependency>
     <dependency>
       <groupId>org.postgresql</groupId>

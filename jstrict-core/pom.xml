@@ -17,7 +17,8 @@
   <url>http://maven.apache.org</url>
   <modules>
     <module>jutils</module>
-    <module>jdb</module>
+    <module>jdb-core</module>
+    <module>jmodels</module>
     <module>jfile</module>
     <module>jpatterns</module>
     <module>joffice</module>
@@ -59,7 +60,7 @@
       </dependency>
       <dependency>
         <groupId>ru.strict</groupId>
-        <artifactId>jdb-models</artifactId>
+        <artifactId>jmodels</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

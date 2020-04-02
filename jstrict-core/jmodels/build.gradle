@@ -4,6 +4,6 @@ dependencies{
 }
 
 jar{
-    baseName = 'jdb-models'
+    baseName = 'jmodels'
     manifest.attributes('Class-Path': configurations.runtime.files.collect { "libs/$it.name"}.join(' '))
 }
