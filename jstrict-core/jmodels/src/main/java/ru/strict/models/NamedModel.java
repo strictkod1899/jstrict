@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Именованная модель (содержит строку заголовка)
  */
-public abstract class NamedModel<ID> extends ModelBase<ID> implements INamedModel<ID> {
+public abstract class NamedModel<ID> extends BaseModel<ID> implements INamedModel<ID> {
 
     /**
      * Наименование записи

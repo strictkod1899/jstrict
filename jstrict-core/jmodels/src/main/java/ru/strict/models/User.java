@@ -9,7 +9,7 @@ import ru.strict.validate.ValidateBaseValue;
 /**
  * Базовая информация о пользователе (логин, роли, профиль)
  */
-public class User<ID> extends ModelBase<ID> {
+public class User<ID> extends BaseModel<ID> {
 
     /**
      * Логин пользователя

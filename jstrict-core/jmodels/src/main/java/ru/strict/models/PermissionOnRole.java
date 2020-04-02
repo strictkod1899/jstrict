@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Связка права доступа с ролью
  */
-public class PermissionOnRole<ID, PERMISSION> extends ModelBase<ID> {
+public class PermissionOnRole<ID, PERMISSION> extends BaseModel<ID> {
 
     /**
      * Идентификатор права доступа

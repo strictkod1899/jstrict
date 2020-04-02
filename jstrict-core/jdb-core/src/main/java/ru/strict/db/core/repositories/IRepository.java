@@ -77,7 +77,7 @@ public interface IRepository<ID, T extends IModel<ID>> {
      * Получить количество записей из базы данных по переданным условиям
      *
      * @param requests Условия выборки объектов. Если передать null, то будут считаны все объекты БД
-     * @return Еоличество записей из базы данных
+     * @return Количество записей из базы данных
      */
     long readCount(DbRequests requests);
 

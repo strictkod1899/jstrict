@@ -1,8 +1,7 @@
 package ru.strict.db.core.repositories;
 
 import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.core.requests.DbWhereItem;
-import ru.strict.models.ModelBase;
+import ru.strict.models.BaseModel;
 
 import java.util.List;
 
@@ -11,7 +10,7 @@ import java.util.List;
  * @param <ID> Тип идентификатора
  * @param <T> Модель сущности базы данных
  */
-public interface IRepositoryExtension<ID, T extends ModelBase<ID>> extends IRepository<ID, T> {
+public interface IExtensionRepository<ID, T extends BaseModel<ID>> extends IRepository<ID, T> {
 
     /**
      * Получить объект из базы данных по переданному id, подгрузив в качестве объектов внешние ссылки

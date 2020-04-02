@@ -2,14 +2,14 @@ package ru.strict.db.core.repositories.interfaces;
 
 import ru.strict.db.core.requests.DbSelectItem;
 import ru.strict.models.Profile;
-import ru.strict.db.core.repositories.IRepositoryExtension;
+import ru.strict.db.core.repositories.IExtensionRepository;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereIsNull;
 import ru.strict.db.core.requests.DbWhereItem;
 
 import java.util.List;
 
-public interface IRepositoryProfile<ID, T extends Profile<ID>> extends IRepositoryExtension<ID, T> {
+public interface IProfileRepository<ID, T extends Profile<ID>> extends IExtensionRepository<ID, T> {
     default List<T> readBySurname(String name, String surname){
         DbRequests requests = new DbRequests();
         if(name != null) {

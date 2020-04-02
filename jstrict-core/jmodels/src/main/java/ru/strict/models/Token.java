@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * Токен
  */
-public class Token<ID> extends ModelBase<ID> {
+public class Token<ID> extends BaseModel<ID> {
     /**
      * Токен авторизации
      */

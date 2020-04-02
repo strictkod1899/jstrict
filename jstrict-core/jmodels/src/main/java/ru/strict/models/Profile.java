@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Основная информация профиля пользователя (имя, фамилия, отчество)
  */
-public class Profile<ID> extends ModelBase<ID> {
+public class Profile<ID> extends BaseModel<ID> {
 
     /**
      * Имя

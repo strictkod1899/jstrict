@@ -1,14 +1,14 @@
 package ru.strict.db.core.repositories.interfaces;
 
 import ru.strict.db.core.requests.DbSelectItem;
-import ru.strict.models.FileStorageBase;
-import ru.strict.db.core.repositories.IRepositoryNamed;
+import ru.strict.models.BaseFileStorage;
+import ru.strict.db.core.repositories.INamedRepository;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereItem;
 
 import java.util.List;
 
-public interface IRepositoryFileStorage<ID, T extends FileStorageBase<ID>> extends IRepositoryNamed<ID, T> {
+public interface IFileStorageRepository<ID, T extends BaseFileStorage<ID>> extends INamedRepository<ID, T> {
     default List<T> readByDisplayName(String displayName){
         if(displayName == null){
             throw new IllegalArgumentException("displayName is NULL");

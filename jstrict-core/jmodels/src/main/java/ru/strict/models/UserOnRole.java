@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Связка пользователя с ролью
  */
-public class UserOnRole<ID> extends ModelBase<ID> {
+public class UserOnRole<ID> extends BaseModel<ID> {
 
     /**
      * Идентификатор пользователя

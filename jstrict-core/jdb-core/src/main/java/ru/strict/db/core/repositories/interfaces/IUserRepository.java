@@ -2,12 +2,12 @@ package ru.strict.db.core.repositories.interfaces;
 
 import ru.strict.db.core.requests.DbSelectItem;
 import ru.strict.models.User;
-import ru.strict.db.core.repositories.IRepositoryNamed;
+import ru.strict.db.core.repositories.INamedRepository;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.validate.ValidateBaseValue;
 
-public interface IRepositoryUser<ID, T extends User<ID>> extends IRepositoryNamed<ID, T> {
+public interface IUserRepository<ID, T extends User<ID>> extends INamedRepository<ID, T> {
     default T readByEmail(String email){
         if(ValidateBaseValue.isEmptyOrNull(email)){
             throw new IllegalArgumentException("email is NULL");

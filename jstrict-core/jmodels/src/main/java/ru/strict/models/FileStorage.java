@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Полное представление FileStorage
  */
-public class FileStorage<ID> extends FileStoragePath<ID> {
+public class FileStorage<ID> extends PathFileStorage<ID> {
 
     /**
      * Байтовое представление файла

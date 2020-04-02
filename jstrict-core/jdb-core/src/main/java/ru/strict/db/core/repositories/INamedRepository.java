@@ -3,7 +3,7 @@ package ru.strict.db.core.repositories;
 import ru.strict.db.core.requests.DbSelectItem;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereItem;
-import ru.strict.models.ModelBase;
+import ru.strict.models.BaseModel;
 import ru.strict.validate.ValidateBaseValue;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  * @param <ID> Тип идентификатора
  * @param <T> Модель сущности базы данных
  */
-public interface IRepositoryNamed<ID, T extends ModelBase<ID>> extends IRepositoryExtension<ID, T> {
+public interface INamedRepository<ID, T extends BaseModel<ID>> extends IExtensionRepository<ID, T> {
 
     /**
      * Чтение записи из базы данных по наименованию

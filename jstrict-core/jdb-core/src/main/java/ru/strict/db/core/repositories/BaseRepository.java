@@ -3,7 +3,7 @@ package ru.strict.db.core.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.ICreateConnection;
 import ru.strict.db.core.requests.*;
-import ru.strict.models.ModelBase;
+import ru.strict.models.BaseModel;
 
 import java.sql.SQLType;
 import java.util.List;
@@ -15,9 +15,9 @@ import java.util.Objects;
  * @param <SOURCE> Источник для получения соединения с базой данных (CreateConnectionByDataSource, CreateConnectionByConnectionInfo)
  * @param <T> Модель сущности базы данных
  */
-public abstract class RepositoryBase
-        <ID, CONNECTION, SOURCE extends ICreateConnection<CONNECTION>, T extends ModelBase<ID>>
-        implements IRepositoryExtension<ID, T> {
+public abstract class BaseRepository
+        <ID, CONNECTION, SOURCE extends ICreateConnection<CONNECTION>, T extends BaseModel<ID>>
+        implements IExtensionRepository<ID, T> {
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
@@ -65,7 +65,7 @@ public abstract class RepositoryBase
         }
     }
 
-    public RepositoryBase(DbTable table,
+    public BaseRepository(DbTable table,
                           String[] columns,
                           SOURCE connectionSource,
                           GenerateIdType generateIdType,
@@ -82,7 +82,7 @@ public abstract class RepositoryBase
         this.sqlIdType = sqlIdType;
     }
 
-    public RepositoryBase(DbTable table,
+    public BaseRepository(DbTable table,
                           String[] columns,
                           SOURCE connectionSource,
                           GenerateIdType generateIdType) {
@@ -271,7 +271,7 @@ public abstract class RepositoryBase
         if(this == obj) return true;
         if(obj == null || getClass() != obj.getClass()) return false;
 
-        RepositoryBase object = (RepositoryBase) obj;
+        BaseRepository object = (BaseRepository) obj;
         return Objects.equals(connectionSource, object.getConnectionSource())
                 && Objects.equals(table, object.getTable())
                 && Objects.equals(columns, object.getColumns())

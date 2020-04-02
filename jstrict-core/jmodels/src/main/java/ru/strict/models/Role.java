@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Роль пользователя в системе (например, администратор, пользователь, неавторизированный пользователь и др.)
  */
-public class Role<ID> extends ModelBase<ID> {
+public class Role<ID> extends BaseModel<ID> {
 
     /**
      * Набор символов характеризующих роль

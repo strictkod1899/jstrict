@@ -8,7 +8,7 @@ import ru.strict.models.ProfileDetails;
 
 import java.util.List;
 
-public interface IRepositoryProfileDetails<ID, T extends ProfileDetails<ID>> extends IRepositoryProfile<ID, T> {
+public interface IDetailsProfileRepository<ID, T extends ProfileDetails<ID>> extends IProfileRepository<ID, T> {
     default List<T> readByFio(String name, String surname, String middlename){
         DbRequests requests = new DbRequests();
         if(name != null) {

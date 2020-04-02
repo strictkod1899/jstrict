@@ -5,7 +5,7 @@ import java.sql.SQLType;
 
 /**
  * Тип генерируемого значения для id записи в базе данных.
- * Используется в классах производных от RepositoryBase
+ * Используется в классах производных от BaseRepository
  */
 public enum GenerateIdType {
     /**

@@ -1,15 +1,15 @@
 package ru.strict.db.core.repositories.interfaces;
 
+import ru.strict.db.core.repositories.IExtensionRepository;
 import ru.strict.db.core.requests.DbSelectItem;
 import ru.strict.models.JWTToken;
-import ru.strict.db.core.repositories.IRepositoryExtension;
 import ru.strict.db.core.requests.DbRequests;
 import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.validate.ValidateBaseValue;
 
 import java.util.List;
 
-public interface IRepositoryJWTToken<ID> extends IRepositoryExtension<ID, JWTToken<ID>> {
+public interface IJWTTokenRepository<ID> extends IExtensionRepository<ID, JWTToken<ID>> {
     default JWTToken<ID> readByAccessToken(String accessToken){
         if(ValidateBaseValue.isEmptyOrNull(accessToken)){
             throw new IllegalArgumentException("accessToken is NULL");

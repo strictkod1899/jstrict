@@ -3,7 +3,7 @@ package ru.strict.models;
 import java.util.Date;
 import java.util.Objects;
 
-public class FileStorageBase<ID> extends ModelBase<ID> {
+public class BaseFileStorage<ID> extends BaseModel<ID> {
 
     /**
      * Наименование файла
@@ -30,11 +30,11 @@ public class FileStorageBase<ID> extends ModelBase<ID> {
      */
     private int status;
 
-    public FileStorageBase() {
+    public BaseFileStorage() {
         super();
     }
 
-    public FileStorageBase(String filename, String extension, String displayName, Date createDate, int type, int status) {
+    public BaseFileStorage(String filename, String extension, String displayName, Date createDate, int type, int status) {
         this.filename = filename;
         this.extension = extension;
         this.displayName = displayName;
@@ -43,7 +43,7 @@ public class FileStorageBase<ID> extends ModelBase<ID> {
         this.status = status;
     }
 
-    public FileStorageBase(ID id, String filename, String extension, String displayName, Date createDate, int type, int status) {
+    public BaseFileStorage(ID id, String filename, String extension, String displayName, Date createDate, int type, int status) {
         super(id);
         this.filename = filename;
         this.extension = extension;
@@ -111,7 +111,7 @@ public class FileStorageBase<ID> extends ModelBase<ID> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FileStorageBase<ID> object = (FileStorageBase<ID>) o;
+        BaseFileStorage<ID> object = (BaseFileStorage<ID>) o;
         return type == object.type &&
                 status == object.status &&
                 Objects.equals(filename, object.filename) &&
@@ -127,9 +127,9 @@ public class FileStorageBase<ID> extends ModelBase<ID> {
     }
 
     @Override
-    public FileStorageBase<ID> clone(){
+    public BaseFileStorage<ID> clone(){
         try {
-            FileStorageBase<ID> clone = (FileStorageBase<ID>) super.clone();
+            BaseFileStorage<ID> clone = (BaseFileStorage<ID>) super.clone();
 
             clone.setCreateDate(createDate == null ? null : (Date)createDate.clone());
             return clone;
