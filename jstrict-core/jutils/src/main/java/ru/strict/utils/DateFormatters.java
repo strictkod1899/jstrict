@@ -10,27 +10,28 @@ import static java.time.temporal.ChronoField.*;
 
 public final class DateFormatters {
 
-    private DateFormatters(){}
+    private DateFormatters() {}
 
     /**
      * Месяцы в родительном падеже для форматирования даты
      */
-    private static final Map<Long, String> OF_MONTHS = new HashMap() {
-        {
-            put(1L, "Января");
-            put(2L, "Февраля");
-            put(3L, "Марта");
-            put(4L, "Апреля");
-            put(5L, "Мая");
-            put(6L, "Июня");
-            put(7L, "Июля");
-            put(8L, "Августа");
-            put(9L, "Сентября");
-            put(10L, "Октября");
-            put(11L, "Ноября");
-            put(12L, "Декабря");
-        }
-    };
+    private static final Map<Long, String> OF_MONTHS = new HashMap<>();
+
+    static {
+        OF_MONTHS.put(1L, "Января");
+        OF_MONTHS.put(2L, "Февраля");
+        OF_MONTHS.put(3L, "Марта");
+        OF_MONTHS.put(4L, "Апреля");
+        OF_MONTHS.put(5L, "Мая");
+        OF_MONTHS.put(6L, "Июня");
+        OF_MONTHS.put(7L, "Июля");
+        OF_MONTHS.put(8L, "Августа");
+        OF_MONTHS.put(9L, "Сентября");
+        OF_MONTHS.put(10L, "Октября");
+        OF_MONTHS.put(11L, "Ноября");
+        OF_MONTHS.put(12L, "Декабря");
+    }
+
     /**
      * Форматирование даты в формате '1 Февраля 2019'
      */
