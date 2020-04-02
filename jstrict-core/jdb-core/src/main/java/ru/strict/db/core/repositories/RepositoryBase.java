@@ -225,7 +225,7 @@ public abstract class RepositoryBase
      * @return
      */
     protected DbSelect createSqlCount(){
-        return new DbSelect(table, new DbSelectItem("COUNT(1)"));
+        return new DbSelect(table, new DbSelectItem("COUNT(*)"));
     }
     //</editor-fold>
 

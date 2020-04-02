@@ -2,7 +2,9 @@ package ru.strict.db.core.repositories;
 
 import ru.strict.db.core.requests.DbTable;
 import ru.strict.db.core.requests.DbRequests;
+import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.models.IModel;
+import ru.strict.validate.Validator;
 
 import java.util.List;
 
@@ -70,6 +72,27 @@ public interface IRepository<ID, T extends IModel<ID>> {
      * @return Созданный/прочитанный объект
      */
     T createOrRead(T model);
+
+    /**
+     * Получить количество записей из базы данных по переданным условиям
+     *
+     * @param requests Условия выборки объектов. Если передать null, то будут считаны все объекты БД
+     * @return Еоличество записей из базы данных
+     */
+    int readCount(DbRequests requests);
+
+    /**
+     * Проверить существование записи в базе данных с переданным идентификатором
+     */
+    default boolean isRowExists(ID id){
+        Validator.isNull(id, "id").onThrow();
+
+        DbRequests requests = new DbRequests();
+        requests.addWhere(new DbWhereItem(getTable(), getIdColumnName(), id, "="));
+
+        int count = readCount(requests);
+        return count > 0 ? true : false;
+    }
 
     /**
      * Получить таблицу, с которой связан данный репозиторий

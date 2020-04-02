@@ -52,31 +52,6 @@ public interface IRepositoryExtension<ID, T extends ModelBase<ID>> extends IRepo
     }
 
     /**
-     * Получить количество записей из базы данных по переданным условиям
-     *
-     * @param requests Условия выборки объектов. Если передать null, то будут считаны все объекты БД
-     * @return Еоличество записей из базы данных
-     */
-    int readCount(DbRequests requests);
-
-    /**
-     * Проверить существование записи в базе данных с переданным идентификатором
-     * @param id
-     * @return
-     */
-    default boolean isRowExists(ID id){
-        if(id == null){
-            throw new IllegalArgumentException("id is NULL");
-        }
-
-        DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(getTable(), getIdColumnName(), id, "="));
-
-        int count = readCount(requests);
-        return count > 0 ? true : false;
-    }
-
-    /**
      * Выполнить sql-запрос к базе данных
      * @param sql
      * @return
