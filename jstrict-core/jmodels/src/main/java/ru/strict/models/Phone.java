@@ -21,7 +21,8 @@ public class Phone {
      */
     private String extNumber;
 
-    public Phone() {}
+    public Phone() {
+    }
 
     public Phone(PhoneType type, String number) {
         this.type = type;

@@ -37,24 +37,24 @@ public class Country<ID> extends NamedModel<ID> {
     }
 
     public void setCities(List<City<ID>> cities) {
-        if(cities == null) {
+        if (cities == null) {
             throw new IllegalArgumentException("cities is NULL");
         }
 
         this.cities = cities;
     }
 
-    public void addCity(City<ID> city){
-        if(city == null) {
+    public void addCity(City<ID> city) {
+        if (city == null) {
             throw new IllegalArgumentException("city is NULL");
         }
 
         this.cities.add(city);
     }
 
-    public void addCities(List<City<ID>> cities){
-        if(cities != null) {
-            for(City<ID> city : cities){
+    public void addCities(List<City<ID>> cities) {
+        if (cities != null) {
+            for (City<ID> city : cities) {
                 addCity(city);
             }
         }
@@ -63,15 +63,21 @@ public class Country<ID> extends NamedModel<ID> {
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("country [%s]: %s", String.valueOf(getId()), getCaption());
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
         Country<ID> object = (Country<ID>) o;
         return Objects.equals(cities, object.cities);
     }
@@ -79,7 +85,7 @@ public class Country<ID> extends NamedModel<ID> {
     @Override
     public int hashCode() {
         int citiesHashCode = 1;
-        for(City<ID> city : cities){
+        for (City<ID> city : cities) {
             citiesHashCode = 31 * citiesHashCode + (city == null ? 0 : city.hashCode());
         }
 
@@ -87,12 +93,12 @@ public class Country<ID> extends NamedModel<ID> {
     }
 
     @Override
-    public Country<ID> clone(){
+    public Country<ID> clone() {
         try {
             Country<ID> clone = (Country<ID>) super.clone();
 
             clone.cities = new ArrayList<>();
-            for(City<ID> city : this.cities){
+            for (City<ID> city : this.cities) {
                 clone.addCity(city.clone());
             }
             return clone;

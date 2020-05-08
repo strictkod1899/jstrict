@@ -16,6 +16,7 @@ import ru.strict.patterns.MapTarget;
  *         .orElse(null);
  * }
  * </pre></code>
+ *
  * @return
  */
 public interface IModel<ID> extends MapTarget {

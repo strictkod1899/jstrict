@@ -18,8 +18,8 @@ public class City<ID> extends NamedModel<ID> {
     private Country<ID> country;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void init(ID countryId){
-        if(countryId == null) {
+    private void init(ID countryId) {
+        if (countryId == null) {
             throw new IllegalArgumentException("countryId is NULL");
         }
 
@@ -64,15 +64,21 @@ public class City<ID> extends NamedModel<ID> {
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("city [%s]: %s, country - %s", String.valueOf(getId()), getCaption(), countryId);
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
         City<ID> city = (City<ID>) o;
         return Objects.equals(countryId, city.countryId) &&
                 Objects.equals(country, city.country);
@@ -84,7 +90,7 @@ public class City<ID> extends NamedModel<ID> {
     }
 
     @Override
-    public City<ID> clone(){
+    public City<ID> clone() {
         try {
             City<ID> clone = (City<ID>) super.clone();
 

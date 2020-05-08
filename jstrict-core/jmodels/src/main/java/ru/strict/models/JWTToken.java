@@ -46,8 +46,8 @@ public class JWTToken<ID> extends Token<ID> {
     private User<ID> user;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void init(ID userId){
-        if(userId == null){
+    private void init(ID userId) {
+        if (userId == null) {
             throw new IllegalArgumentException("userId is NULL");
         }
 
@@ -68,7 +68,7 @@ public class JWTToken<ID> extends Token<ID> {
     }
 
     public JWTToken(String accessToken, String refreshToken, Date expireTimeAccess,
-                    Date expireTimeRefresh, Date issuedAt, ID userId) {
+            Date expireTimeRefresh, Date issuedAt, ID userId) {
         super(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
         issuer = null;
         subject = null;
@@ -80,7 +80,7 @@ public class JWTToken<ID> extends Token<ID> {
     }
 
     public JWTToken(ID id, String accessToken, String refreshToken, Date expireTimeAccess,
-                    Date expireTimeRefresh, Date issuedAt, ID userId) {
+            Date expireTimeRefresh, Date issuedAt, ID userId) {
         super(id, accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
         issuer = null;
         subject = null;
@@ -168,16 +168,22 @@ public class JWTToken<ID> extends Token<ID> {
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("jwt-token [%s]: access - %s, refresh - %s", String.valueOf(getId()),
                 getAccessToken(), getRefreshToken());
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
         JWTToken<ID> object = (JWTToken<ID>) o;
         return Objects.equals(issuer, object.issuer) &&
                 Objects.equals(subject, object.subject) &&
@@ -192,11 +198,20 @@ public class JWTToken<ID> extends Token<ID> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), issuer, subject, notBefore, audience, secret, algorithm, type, userId, user);
+        return Objects.hash(super.hashCode(),
+                issuer,
+                subject,
+                notBefore,
+                audience,
+                secret,
+                algorithm,
+                type,
+                userId,
+                user);
     }
 
     @Override
-    public JWTToken<ID> clone(){
+    public JWTToken<ID> clone() {
         JWTToken<ID> clone = (JWTToken<ID>) super.clone();
 
         clone.setNotBefore(notBefore == null ? null : (Date) notBefore.clone());

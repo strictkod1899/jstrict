@@ -1,18 +1,22 @@
 package ru.strict.models;
 
+import ru.strict.validate.Validator;
+
 import java.util.Objects;
 
 /**
  * Связка права доступа с ролью
  */
-public class PermissionOnRole<ID, PERMISSION> extends BaseModel<ID> {
+public class PermissionOnRole<ID, PERMISSION extends IModel<Integer>> extends BaseModel<ID> {
 
     /**
      * Идентификатор права доступа
      */
     private Integer permissionId;
     /**
-     * Объект, который определяет право доступа по Id
+     * Объект, который определяет право доступа по Id.
+     * Предполагается, что класс Permission будет enum и у него будет метод getById.
+     * Тогда объект permissionProvider сможет возвращать объект Permission
      */
     private IModelProvider<PERMISSION> permissionProvider;
     /**
@@ -25,24 +29,16 @@ public class PermissionOnRole<ID, PERMISSION> extends BaseModel<ID> {
     private Role<ID> role;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void init(Integer permissionId, ID roleId){
-        if(permissionId == null) {
-            throw new IllegalArgumentException("permissionId is NULL");
-        } else if(roleId == null) {
-            throw new IllegalArgumentException("roleId is NULL");
-        }
+    private void init(Integer permissionId, ID roleId) {
+        Validator.isNull(permissionId, "permissionId").onThrow();
+        Validator.isNull(roleId, "roleId").onThrow();
 
         this.permissionId = permissionId;
-        permissionProvider = null;
         this.roleId = roleId;
-        role = null;
     }
 
     public PermissionOnRole() {
         super();
-        permissionId = null;
-        roleId = null;
-        role = null;
     }
 
     public PermissionOnRole(Integer permissionId, ID roleId) {
@@ -53,6 +49,18 @@ public class PermissionOnRole<ID, PERMISSION> extends BaseModel<ID> {
     public PermissionOnRole(ID id, Integer permissionId, ID roleId) {
         super(id);
         init(permissionId, roleId);
+    }
+
+    public PermissionOnRole(Integer permissionId, ID roleId, IModelProvider<PERMISSION> permissionProvider) {
+        super();
+        init(permissionId, roleId);
+        this.permissionProvider = permissionProvider;
+    }
+
+    public PermissionOnRole(ID id, Integer permissionId, ID roleId, IModelProvider<PERMISSION> permissionProvider) {
+        super(id);
+        init(permissionId, roleId);
+        this.permissionProvider = permissionProvider;
     }
     //</editor-fold>
 
@@ -96,24 +104,31 @@ public class PermissionOnRole<ID, PERMISSION> extends BaseModel<ID> {
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public String toString(){
-        return String.format("permissionOnRole [%s]. permission: %s. role: %s.", String.valueOf(getId()), permissionId, roleId);
+    public String toString() {
+        return String.format("permissionOnRole [%s]. permission: %s. role: %s.",
+                String.valueOf(getId()),
+                permissionId,
+                roleId);
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         PermissionOnRole<ID, PERMISSION> object = (PermissionOnRole<ID, PERMISSION>) o;
         return Objects.equals(permissionId, object.permissionId) &&
-                Objects.equals(permissionProvider, object.permissionProvider) &&
+                Objects.equals(getPermission(), object.getPermission()) &&
                 Objects.equals(roleId, object.roleId) &&
                 Objects.equals(role, object.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(permissionId, permissionProvider, roleId, role);
+        return Objects.hash(permissionId, getPermission(), roleId, role);
     }
 
     @Override

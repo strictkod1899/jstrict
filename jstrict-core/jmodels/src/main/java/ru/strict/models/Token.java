@@ -29,10 +29,14 @@ public class Token<ID> extends BaseModel<ID> {
     private Date issuedAt;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void init(String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt){
-        if(accessToken == null) {
+    private void init(String accessToken,
+            String refreshToken,
+            Date expireTimeAccess,
+            Date expireTimeRefresh,
+            Date issuedAt) {
+        if (accessToken == null) {
             throw new IllegalArgumentException("accessToken is NULL");
-        } else if(refreshToken == null) {
+        } else if (refreshToken == null) {
             throw new IllegalArgumentException("refreshToken is NULL");
         }
 
@@ -52,12 +56,21 @@ public class Token<ID> extends BaseModel<ID> {
         issuedAt = null;
     }
 
-    public Token(String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt) {
+    public Token(String accessToken,
+            String refreshToken,
+            Date expireTimeAccess,
+            Date expireTimeRefresh,
+            Date issuedAt) {
         super();
         init(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
     }
 
-    public Token(ID id, String accessToken, String refreshToken, Date expireTimeAccess, Date expireTimeRefresh, Date issuedAt) {
+    public Token(ID id,
+            String accessToken,
+            String refreshToken,
+            Date expireTimeAccess,
+            Date expireTimeRefresh,
+            Date issuedAt) {
         super(id);
         init(accessToken, refreshToken, expireTimeAccess, expireTimeRefresh, issuedAt);
     }
@@ -107,14 +120,21 @@ public class Token<ID> extends BaseModel<ID> {
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public String toString(){
-        return String.format("jwt-token [%s]: access - %s, refresh - %s", String.valueOf(getId()), accessToken, refreshToken);
+    public String toString() {
+        return String.format("jwt-token [%s]: access - %s, refresh - %s",
+                String.valueOf(getId()),
+                accessToken,
+                refreshToken);
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Token<ID> token = (Token<ID>) o;
         return Objects.equals(accessToken, token.accessToken) &&
                 Objects.equals(refreshToken, token.refreshToken) &&
@@ -129,7 +149,7 @@ public class Token<ID> extends BaseModel<ID> {
     }
 
     @Override
-    public Token<ID> clone(){
+    public Token<ID> clone() {
         try {
             Token<ID> clone = (Token<ID>) super.clone();
 

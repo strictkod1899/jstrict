@@ -8,7 +8,7 @@ import org.junit.runners.JUnit4;
 import java.util.Date;
 
 @RunWith(JUnit4.class)
-public class TestBaseMethods {
+public class EqualsAndHashCodeTest {
 
     @Test
     public void testCountryAndCity() {
@@ -64,12 +64,12 @@ public class TestBaseMethods {
     public void testFileStorage() {
         Date date1 = new Date();
 
-        FileStorage fileStorage1 = new FileStorage(1, "filename", "extension", "displayName", "filePath",
-                new byte[]{ 1, 2, 3 }, date1, 1, 1);
-        FileStorage fileStorage2 = new FileStorage(2, "filename2", "extension2", "displayName2", "filePath2",
-                new byte[]{ 1, 2, 3, 4 }, date1, 2, 2);
-        FileStorage fileStorage3 = new FileStorage(3, "filename", "extension", "displayName", "filePath",
-                new byte[]{ 1, 2, 3 }, date1, 1, 1);
+        FileStorage fileStorage1 = new FileStorage(1, "filename", "extension", "displayName", date1, 1, 1, "filePath",
+                new byte[]{ 1, 2, 3 });
+        FileStorage fileStorage2 = new FileStorage(2, "filename2", "extension2", "displayName2", date1, 2, 2, "filePath2",
+                new byte[]{ 1, 2, 3, 4 });
+        FileStorage fileStorage3 = new FileStorage(3, "filename", "extension", "displayName", date1, 1, 1, "filePath",
+                new byte[]{ 1, 2, 3 });
 
         Assert.assertEquals(fileStorage1, fileStorage3);
         Assert.assertEquals(fileStorage1.hashCode(), fileStorage3.hashCode());
@@ -133,7 +133,7 @@ public class TestBaseMethods {
 
     @Test
     public void testProfile() {
-        UserDetails user = new UserDetails();
+        DetailsUser user = new DetailsUser();
         user.setId(1);
 
         Profile profile1 = new Profile(1, "name", "surname", 1);
@@ -159,40 +159,40 @@ public class TestBaseMethods {
     @Test
     public void testProfileInfo() {
         Date date = new Date();
-        UserDetails user = new UserDetails();
+        DetailsUser user = new DetailsUser();
         user.setId(1);
         City city = new City();
         city.setId(1);
 
-        ProfileDetails profileDetails1 =
-                new ProfileDetails(1, "name", "surname", "middlename", 1, true, date, "phone", 1);
-        profileDetails1.setUser(user);
-        profileDetails1.setCity(city);
-        ProfileDetails profileDetails2 =
-                new ProfileDetails(2, "name2", "surname2", "middlename2", 1, false, date, "phone2", 1);
-        profileDetails2.setUser(user);
-        profileDetails2.setCity(city);
-        ProfileDetails profileDetails3 =
-                new ProfileDetails(3, "name", "surname", "middlename", 1, true, date, "phone", 1);
-        profileDetails3.setUser(user);
-        profileDetails3.setCity(city);
+        DetailsProfile detailsProfile1 =
+                new DetailsProfile(1, "name", "surname", "middlename", 1, true, date, "phone", 1);
+        detailsProfile1.setUser(user);
+        detailsProfile1.setCity(city);
+        DetailsProfile detailsProfile2 =
+                new DetailsProfile(2, "name2", "surname2", "middlename2", 1, false, date, "phone2", 1);
+        detailsProfile2.setUser(user);
+        detailsProfile2.setCity(city);
+        DetailsProfile detailsProfile3 =
+                new DetailsProfile(3, "name", "surname", "middlename", 1, true, date, "phone", 1);
+        detailsProfile3.setUser(user);
+        detailsProfile3.setCity(city);
 
-        Assert.assertEquals(profileDetails1, profileDetails3);
-        Assert.assertEquals(profileDetails1.hashCode(), profileDetails3.hashCode());
-        Assert.assertEquals(profileDetails1.clone(), profileDetails3.clone());
-        Assert.assertEquals(profileDetails1, profileDetails1.clone());
-        Assert.assertEquals(profileDetails1.hashCode(), profileDetails1.clone().hashCode());
+        Assert.assertEquals(detailsProfile1, detailsProfile3);
+        Assert.assertEquals(detailsProfile1.hashCode(), detailsProfile3.hashCode());
+        Assert.assertEquals(detailsProfile1.clone(), detailsProfile3.clone());
+        Assert.assertEquals(detailsProfile1, detailsProfile1.clone());
+        Assert.assertEquals(detailsProfile1.hashCode(), detailsProfile1.clone().hashCode());
 
-        Assert.assertNotEquals(profileDetails1, profileDetails2);
-        Assert.assertNotEquals(profileDetails3, profileDetails2);
-        Assert.assertNotEquals(profileDetails1.hashCode(), profileDetails2.hashCode());
-        Assert.assertNotEquals(profileDetails1.clone(), profileDetails2);
-        Assert.assertNotEquals(profileDetails1.clone(), profileDetails2.clone());
+        Assert.assertNotEquals(detailsProfile1, detailsProfile2);
+        Assert.assertNotEquals(detailsProfile3, detailsProfile2);
+        Assert.assertNotEquals(detailsProfile1.hashCode(), detailsProfile2.hashCode());
+        Assert.assertNotEquals(detailsProfile1.clone(), detailsProfile2);
+        Assert.assertNotEquals(detailsProfile1.clone(), detailsProfile2.clone());
     }
 
     @Test
     public void testRole() {
-        UserDetails user = new UserDetails();
+        DetailsUser user = new DetailsUser();
         user.setId(1);
 
         Role role1 = new Role(1, "code", "description");
@@ -222,15 +222,15 @@ public class TestBaseMethods {
         Role role1 = new Role(1, "code", "description");
         JWTToken jwtToken1 = new JWTToken(1, "accessToken", "refreshToken", date1, date1, date1, 1);
 
-        UserDetails user1 = new UserDetails(1, "username", "password", "email", "salt", "secret");
+        DetailsUser user1 = new DetailsUser(1, "username", "password", "email", "salt", "secret");
         user1.addProfile(profile1);
         user1.addRole(role1);
         user1.addToken(jwtToken1);
-        UserDetails user2 = new UserDetails(2, "username2", "password2", "email2", "salt2", "secret2");
+        DetailsUser user2 = new DetailsUser(2, "username2", "password2", "email2", "salt2", "secret2");
         user2.addProfile(profile1);
         user2.addRole(role1);
         user2.addToken(jwtToken1);
-        UserDetails user3 = new UserDetails(3, "username", "password", "email", "salt", "secret");
+        DetailsUser user3 = new DetailsUser(3, "username", "password", "email", "salt", "secret");
         user3.addProfile(profile1);
         user3.addRole(role1);
         user3.addToken(jwtToken1);
@@ -275,7 +275,7 @@ public class TestBaseMethods {
     @Test
     public void testUserOnRole() {
         Role role = new Role(1, "code", "description");
-        UserDetails user = new UserDetails(1, "username", "password", "email", "salt", "secret");
+        DetailsUser user = new DetailsUser(1, "username", "password", "email", "salt", "secret");
 
         UserOnRole userOnRole1 = new UserOnRole(1, 1, 1);
         userOnRole1.setRole(role);

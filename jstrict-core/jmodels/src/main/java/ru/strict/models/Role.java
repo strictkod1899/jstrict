@@ -25,8 +25,8 @@ public class Role<ID> extends BaseModel<ID> {
     private List<User<ID>> users;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void init(String code, String description){
-        if(code == null) {
+    private void init(String code, String description) {
+        if (code == null) {
             throw new IllegalArgumentException("code is NULL");
         }
 
@@ -75,24 +75,24 @@ public class Role<ID> extends BaseModel<ID> {
     }
 
     public void setUsers(List<User<ID>> users) {
-        if(users == null) {
+        if (users == null) {
             throw new IllegalArgumentException("users is NULL");
         }
 
         this.users = users;
     }
 
-    public void addUser(User<ID> user){
-        if(user == null) {
+    public void addUser(User<ID> user) {
+        if (user == null) {
             throw new IllegalArgumentException("user is NULL");
         }
 
         this.users.add(user);
     }
 
-    public void addUsers(List<User<ID>> users){
-        if(users != null) {
-            for(User<ID> user : users){
+    public void addUsers(List<User<ID>> users) {
+        if (users != null) {
+            for (User<ID> user : users) {
                 addUser(user);
             }
         }
@@ -101,14 +101,18 @@ public class Role<ID> extends BaseModel<ID> {
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("role [%s]: %s (%s)", String.valueOf(getId()), code, description);
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Role<ID> object = (Role<ID>) o;
         return Objects.equals(code, object.code) &&
                 Objects.equals(description, object.description) &&
@@ -121,12 +125,12 @@ public class Role<ID> extends BaseModel<ID> {
     }
 
     @Override
-    public Role<ID> clone(){
+    public Role<ID> clone() {
         try {
             Role<ID> clone = (Role<ID>) super.clone();
 
             clone.users = new ArrayList<>();
-            for(User<ID> user : this.users){
+            for (User<ID> user : this.users) {
                 clone.addUser(user.clone());
             }
             return clone;

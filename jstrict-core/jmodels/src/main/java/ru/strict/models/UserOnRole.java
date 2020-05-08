@@ -25,10 +25,10 @@ public class UserOnRole<ID> extends BaseModel<ID> {
     private Role<ID> role;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void init(ID userId, ID roleId){
-        if(userId == null) {
+    private void init(ID userId, ID roleId) {
+        if (userId == null) {
             throw new IllegalArgumentException("userId is NULL");
-        } else if(roleId == null) {
+        } else if (roleId == null) {
             throw new IllegalArgumentException("roleId is NULL");
         }
 
@@ -93,14 +93,18 @@ public class UserOnRole<ID> extends BaseModel<ID> {
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("userOnRole [%s]. user: %s. role: %s.", String.valueOf(getId()), userId, roleId);
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         UserOnRole<ID> object = (UserOnRole<ID>) o;
         return Objects.equals(userId, object.userId) &&
                 Objects.equals(user, object.user) &&
@@ -114,7 +118,7 @@ public class UserOnRole<ID> extends BaseModel<ID> {
     }
 
     @Override
-    public UserOnRole<ID> clone(){
+    public UserOnRole<ID> clone() {
         try {
             UserOnRole<ID> clone = (UserOnRole<ID>) super.clone();
 

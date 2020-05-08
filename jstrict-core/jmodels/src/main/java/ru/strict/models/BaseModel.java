@@ -4,12 +4,12 @@ import ru.strict.utils.CommonUtil;
 
 /**
  * Базовый класс модели
+ *
  * @param <ID> Тип поля ID
  */
 public abstract class BaseModel<ID> implements IModel<ID>,
         Comparable<BaseModel<ID>>,
-        Cloneable
-{
+        Cloneable {
     /**
      * Идентификатор записи
      */
@@ -38,12 +38,12 @@ public abstract class BaseModel<ID> implements IModel<ID>,
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public String toString(){
+    public String toString() {
         return id.toString();
     }
 
     @Override
-    public int compareTo(BaseModel<ID> object){
+    public int compareTo(BaseModel<ID> object) {
         return CommonUtil.compareTo(getId(), object.getId());
     }
     //</editor-fold>

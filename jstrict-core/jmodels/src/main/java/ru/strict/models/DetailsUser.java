@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Пользователь системы
  */
-public class UserDetails<ID> extends User<ID> {
+public class DetailsUser<ID> extends User<ID> {
 
     /**
      * Зашифрованный пароль пользователя
@@ -23,8 +23,8 @@ public class UserDetails<ID> extends User<ID> {
     private String secret;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void init(String passwordEncode, String salt, String secret){
-        if(ValidateBaseValue.isEmptyOrNull(passwordEncode)) {
+    private void init(String passwordEncode, String salt, String secret) {
+        if (ValidateBaseValue.isEmptyOrNull(passwordEncode)) {
             throw new IllegalArgumentException("passwordEncode is NULL");
         }
 
@@ -32,19 +32,46 @@ public class UserDetails<ID> extends User<ID> {
         this.salt = salt;
         this.secret = secret;
     }
-    public UserDetails() {
+
+    public DetailsUser() {
         super();
     }
 
-    public UserDetails(String username, String email, String passwordEncode, String salt, String secret) {
+    public DetailsUser(String username, String email, String passwordEncode, String salt, String secret) {
         super(username, email);
         init(passwordEncode, salt, secret);
     }
 
-    public UserDetails(ID id, String username, String email, String passwordEncode, String salt, String secret) {
+    public DetailsUser(ID id, String username, String email, String passwordEncode, String salt, String secret) {
         super(id, username, email);
         init(passwordEncode, salt, secret);
     }
+
+    public DetailsUser(String username,
+            String email,
+            boolean blocked,
+            boolean deleted,
+            boolean confirmEmail,
+            String passwordEncode,
+            String salt,
+            String secret) {
+        super(username, email, blocked, deleted, confirmEmail);
+        init(passwordEncode, salt, secret);
+    }
+
+    public DetailsUser(ID id,
+            String username,
+            String email,
+            boolean blocked,
+            boolean deleted,
+            boolean confirmEmail,
+            String passwordEncode,
+            String salt,
+            String secret) {
+        super(id, username, email, blocked, deleted, confirmEmail);
+        init(passwordEncode, salt, secret);
+    }
+
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
@@ -75,16 +102,22 @@ public class UserDetails<ID> extends User<ID> {
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("user [%s]: %s/%s", String.valueOf(getId()), getUsername(), passwordEncode);
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        UserDetails<ID> user = (UserDetails<ID>) o;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        DetailsUser<ID> user = (DetailsUser<ID>) o;
         return Objects.equals(passwordEncode, user.passwordEncode) &&
                 Objects.equals(salt, user.salt) &&
                 Objects.equals(secret, user.secret);
@@ -96,8 +129,8 @@ public class UserDetails<ID> extends User<ID> {
     }
 
     @Override
-    public UserDetails<ID> clone(){
-        return (UserDetails<ID>) super.clone();
+    public DetailsUser<ID> clone() {
+        return (DetailsUser<ID>) super.clone();
     }
     //</editor-fold>
 }

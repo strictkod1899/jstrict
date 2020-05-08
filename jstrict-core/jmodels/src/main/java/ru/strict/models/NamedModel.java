@@ -13,14 +13,6 @@ public abstract class NamedModel<ID> extends BaseModel<ID> implements INamedMode
     private String caption;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void init(String caption){
-        if(caption == null) {
-            throw new IllegalArgumentException("caption is NULL");
-        }
-
-        this.caption = caption;
-    }
-
     public NamedModel() {
         super();
         caption = null;
@@ -28,12 +20,12 @@ public abstract class NamedModel<ID> extends BaseModel<ID> implements INamedMode
 
     public NamedModel(String caption) {
         super();
-        init(caption);
+        this.caption = caption;
     }
 
     public NamedModel(ID id, String caption) {
         super(id);
-        init(caption);
+        this.caption = caption;
     }
     //</editor-fold>
 
@@ -50,14 +42,18 @@ public abstract class NamedModel<ID> extends BaseModel<ID> implements INamedMode
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("[%s]: %s", String.valueOf(getId()), caption);
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         NamedModel<ID> model = (NamedModel<ID>) o;
         return Objects.equals(caption, model.caption);
     }

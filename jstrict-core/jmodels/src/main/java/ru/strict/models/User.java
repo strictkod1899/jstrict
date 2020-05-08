@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ArrayList;
 
-import ru.strict.validate.ValidateBaseValue;
+import ru.strict.validate.Validator;
 
 /**
  * Базовая информация о пользователе (логин, роли, профиль)
@@ -45,12 +45,9 @@ public class User<ID> extends BaseModel<ID> {
     private List<JWTToken<ID>> tokens;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void init(String username, String email){
-        if(ValidateBaseValue.isEmptyOrNull(username)) {
-            throw new IllegalArgumentException("username is NULL");
-        } else if(ValidateBaseValue.isEmptyOrNull(email)) {
-            throw new IllegalArgumentException("email is NULL");
-        }
+    private void init(String username, String email) {
+        Validator.isEmptyOrNull(username, "username").onThrow();
+        Validator.isEmptyOrNull(username, "email").onThrow();
 
         this.username = username;
         this.email = email;
@@ -83,6 +80,23 @@ public class User<ID> extends BaseModel<ID> {
         super(id);
         init(username, email);
     }
+
+    public User(String username, String email, boolean blocked, boolean deleted, boolean confirmEmail) {
+        super();
+        init(username, email);
+        this.blocked = blocked;
+        this.deleted = deleted;
+        this.confirmEmail = confirmEmail;
+    }
+
+    public User(ID id, String username, String email, boolean blocked, boolean deleted, boolean confirmEmail) {
+        super(id);
+        init(username, email);
+        this.blocked = blocked;
+        this.deleted = deleted;
+        this.confirmEmail = confirmEmail;
+    }
+
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
@@ -131,24 +145,24 @@ public class User<ID> extends BaseModel<ID> {
     }
 
     public void setRoles(List<Role<ID>> roles) {
-        if(roles == null) {
+        if (roles == null) {
             throw new IllegalArgumentException("roles is NULL");
         }
 
         this.roles = roles;
     }
 
-    public void addRole(Role<ID> role){
-        if(role == null) {
+    public void addRole(Role<ID> role) {
+        if (role == null) {
             throw new IllegalArgumentException("role is NULL");
         }
 
         this.roles.add(role);
     }
 
-    public void addRoles(List<Role<ID>> roles){
-        if(roles!=null) {
-            for(Role<ID> user : roles){
+    public void addRoles(List<Role<ID>> roles) {
+        if (roles != null) {
+            for (Role<ID> user : roles) {
                 addRole(user);
             }
         }
@@ -159,24 +173,24 @@ public class User<ID> extends BaseModel<ID> {
     }
 
     public void setProfiles(List<Profile<ID>> profiles) {
-        if(profiles == null) {
+        if (profiles == null) {
             throw new IllegalArgumentException("profiles is NULL");
         }
 
         this.profiles = profiles;
     }
 
-    public void addProfile(Profile<ID> profile){
-        if(profile == null) {
+    public void addProfile(Profile<ID> profile) {
+        if (profile == null) {
             throw new IllegalArgumentException("profile is NULL");
         }
 
         this.profiles.add(profile);
     }
 
-    public void addProfiles(List<Profile<ID>> profiles){
-        if(profiles!=null) {
-            for(Profile<ID> profile : profiles){
+    public void addProfiles(List<Profile<ID>> profiles) {
+        if (profiles != null) {
+            for (Profile<ID> profile : profiles) {
                 addProfile(profile);
             }
         }
@@ -187,24 +201,24 @@ public class User<ID> extends BaseModel<ID> {
     }
 
     public void setTokens(List<JWTToken<ID>> tokens) {
-        if(tokens == null) {
+        if (tokens == null) {
             throw new IllegalArgumentException("tokens is NULL");
         }
 
         this.tokens = tokens;
     }
 
-    public void addToken(JWTToken<ID> token){
-        if(token == null) {
+    public void addToken(JWTToken<ID> token) {
+        if (token == null) {
             throw new IllegalArgumentException("token is NULL");
         }
 
         tokens.add(token);
     }
 
-    public void addTokens(List<JWTToken<ID>> tokens){
-        if(tokens!=null) {
-            for(JWTToken<ID> city : tokens){
+    public void addTokens(List<JWTToken<ID>> tokens) {
+        if (tokens != null) {
+            for (JWTToken<ID> city : tokens) {
                 addToken(city);
             }
         }
@@ -213,14 +227,18 @@ public class User<ID> extends BaseModel<ID> {
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("user [%s]: %s", String.valueOf(getId()), getUsername());
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         User<ID> object = (User<ID>) o;
         return blocked == object.blocked &&
                 deleted == object.deleted &&
@@ -235,15 +253,15 @@ public class User<ID> extends BaseModel<ID> {
     @Override
     public int hashCode() {
         int rolesHashCode = 1;
-        for(Role<ID> role : roles){
+        for (Role<ID> role : roles) {
             rolesHashCode = 31 * rolesHashCode + (role == null ? 0 : role.hashCode());
         }
         int profilesHashCode = 1;
-        for(Profile<ID> profile : profiles){
+        for (Profile<ID> profile : profiles) {
             profilesHashCode = 31 * profilesHashCode + (profile == null ? 0 : profile.hashCode());
         }
         int tokensHashCode = 1;
-        for(JWTToken<ID> token : tokens){
+        for (JWTToken<ID> token : tokens) {
             tokensHashCode = 31 * tokensHashCode + (token == null ? 0 : token.hashCode());
         }
 
@@ -252,7 +270,7 @@ public class User<ID> extends BaseModel<ID> {
     }
 
     @Override
-    public User<ID> clone(){
+    public User<ID> clone() {
         try {
             User<ID> clone = (User<ID>) super.clone();
 
@@ -260,13 +278,13 @@ public class User<ID> extends BaseModel<ID> {
             clone.profiles = new ArrayList<>();
             clone.tokens = new ArrayList<>();
 
-            for(Role<ID> role : this.roles){
+            for (Role<ID> role : this.roles) {
                 clone.addRole(role.clone());
             }
-            for(Profile<ID> profile : this.profiles){
+            for (Profile<ID> profile : this.profiles) {
                 clone.addProfile(profile.clone());
             }
-            for(JWTToken<ID> token : this.tokens){
+            for (JWTToken<ID> token : this.tokens) {
                 clone.addToken(token.clone());
             }
             return clone;

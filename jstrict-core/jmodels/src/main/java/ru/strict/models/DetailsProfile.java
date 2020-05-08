@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * Расширенная информация профиля пользователя (имя, фамилия, отчество, дата рождения, телефон, город)
  */
-public class ProfileDetails<ID> extends Profile<ID> {
+public class DetailsProfile<ID> extends Profile<ID> {
 
     /**
      * Отчетство
@@ -34,7 +34,7 @@ public class ProfileDetails<ID> extends Profile<ID> {
     private City<ID> city;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void init(String middlename, Boolean man, Date dateBirth, String phone, ID cityId){
+    private void init(String middlename, Boolean man, Date dateBirth, String phone, ID cityId) {
         this.middlename = middlename;
         this.man = man;
         this.dateBirth = dateBirth;
@@ -42,16 +42,31 @@ public class ProfileDetails<ID> extends Profile<ID> {
         this.cityId = cityId;
     }
 
-    public ProfileDetails(){
+    public DetailsProfile() {
         super();
     }
 
-    public ProfileDetails(String name, String surname, String middlename, ID userId, Boolean man, Date dateBirth, String phone, ID cityId) {
+    public DetailsProfile(String name,
+            String surname,
+            String middlename,
+            ID userId,
+            Boolean man,
+            Date dateBirth,
+            String phone,
+            ID cityId) {
         super(name, surname, userId);
         init(middlename, man, dateBirth, phone, cityId);
     }
 
-    public ProfileDetails(ID id, String name, String surname, String middlename, ID userId, Boolean man, Date dateBirth, String phone, ID cityId) {
+    public DetailsProfile(ID id,
+            String name,
+            String surname,
+            String middlename,
+            ID userId,
+            Boolean man,
+            Date dateBirth,
+            String phone,
+            ID cityId) {
         super(id, name, surname, userId);
         init(middlename, man, dateBirth, phone, cityId);
     }
@@ -109,17 +124,23 @@ public class ProfileDetails<ID> extends Profile<ID> {
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("profileinfo [%s]: %s %s %s\n%tD, phone - %s, city - %s", String.valueOf(getId()),
                 getSurname(), getName(), getMiddlename(), dateBirth, phone, cityId);
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        ProfileDetails<ID> object = (ProfileDetails<ID>) o;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        DetailsProfile<ID> object = (DetailsProfile<ID>) o;
         return Objects.equals(dateBirth, object.dateBirth) &&
                 Objects.equals(middlename, object.middlename) &&
                 Objects.equals(man, object.man) &&
@@ -134,8 +155,8 @@ public class ProfileDetails<ID> extends Profile<ID> {
     }
 
     @Override
-    public ProfileDetails<ID> clone(){
-        ProfileDetails<ID> clone = (ProfileDetails<ID>) super.clone();
+    public DetailsProfile<ID> clone() {
+        DetailsProfile<ID> clone = (DetailsProfile<ID>) super.clone();
 
         clone.setDateBirth(dateBirth == null ? null : (Date) dateBirth.clone());
         clone.setCity(city == null ? null : city.clone());

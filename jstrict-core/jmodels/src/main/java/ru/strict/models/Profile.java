@@ -25,12 +25,12 @@ public class Profile<ID> extends BaseModel<ID> {
     private User<ID> user;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void init(String name, String surname, ID userId){
-        if(name == null) {
+    private void init(String name, String surname, ID userId) {
+        if (name == null) {
             throw new IllegalArgumentException("name is NULL");
-        } else if(surname == null) {
+        } else if (surname == null) {
             throw new IllegalArgumentException("surname is NULL");
-        } else if(userId == null) {
+        } else if (userId == null) {
             throw new IllegalArgumentException("userId is NULL");
         }
 
@@ -90,14 +90,18 @@ public class Profile<ID> extends BaseModel<ID> {
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("profile [%s]: %s %s", String.valueOf(getId()), surname, name);
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Profile<ID> object = (Profile<ID>) o;
         return Objects.equals(name, object.name) &&
                 Objects.equals(surname, object.surname) &&
@@ -111,7 +115,7 @@ public class Profile<ID> extends BaseModel<ID> {
     }
 
     @Override
-    public Profile<ID> clone(){
+    public Profile<ID> clone() {
         try {
             Profile<ID> clone = (Profile<ID>) super.clone();
             clone.setUser(user == null ? null : user.clone());

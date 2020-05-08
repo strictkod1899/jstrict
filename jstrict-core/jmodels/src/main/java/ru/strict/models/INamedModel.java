@@ -14,6 +14,7 @@ package ru.strict.models;
  *         .orElse(null);
  * }
  * </pre></code>
+ *
  * @return
  */
 public interface INamedModel<ID> extends IModel<ID> {
