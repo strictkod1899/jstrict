@@ -17,8 +17,8 @@ import java.util.List;
 public class LoggerHandler {
 
     public static void injectLogger(Object instance,
-                                    IoC ioc,
-                                    Class<? extends ILogger> defaultLoggerClass) {
+            IoC ioc,
+            Class<? extends ILogger> defaultLoggerClass) {
         try {
             Collection<Field> fields = ReflectionUtil.getAllFields(instance.getClass());
             for (Field field : fields) {
@@ -45,7 +45,7 @@ public class LoggerHandler {
         if (loggers.isEmpty()) {
             return null;
         } else {
-           return loggers.get(0);
+            return loggers.get(0);
         }
     }
 
@@ -54,7 +54,8 @@ public class LoggerHandler {
         for (Class<? extends ILogger> loggerClass : loggersClasses) {
             Constructor<?>[] constructors = loggerClass.getConstructors();
             if (constructors.length == 0) {
-                throw new NullPointerException(String.format("Constructor for create logger not found [%s]", loggersClasses));
+                throw new NullPointerException(String.format("Constructor for create logger not found [%s]",
+                        loggersClasses));
             } else if (constructors.length > 1) {
                 throw new ManyMatchConstructorsException(loggerClass);
             }

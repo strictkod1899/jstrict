@@ -27,7 +27,7 @@ class IoCKeys {
             return true;
         }
 
-        if (o == null || !(o instanceof IoCKeys)){
+        if (o == null || !(o instanceof IoCKeys)) {
             return false;
         }
 

@@ -24,9 +24,9 @@ public class LoggingHandler implements InvocationHandler, MethodInterceptor, Cal
     private IoC ioc;
 
     public LoggingHandler(Object instance,
-                          Logging classAnnotation,
-                          Class<? extends ILogger>[] defaultLoggersClasses,
-                          IoC ioc) {
+            Logging classAnnotation,
+            Class<? extends ILogger>[] defaultLoggersClasses,
+            IoC ioc) {
         Validator.isNull(instance, "instance").onThrow();
         Validator.isNull(classAnnotation, "classAnnotation").onThrow();
         Validator.isNull(defaultLoggersClasses, "defaultLoggersClasses").onThrow();
@@ -39,8 +39,8 @@ public class LoggingHandler implements InvocationHandler, MethodInterceptor, Cal
     }
 
     public static <T> T getLoggedInstance(T instance,
-                                          IoC ioc,
-                                          Class<? extends ILogger>[] defaultLoggersClasses) {
+            IoC ioc,
+            Class<? extends ILogger>[] defaultLoggersClasses) {
         if (instance == null) {
             return null;
         }
@@ -85,7 +85,8 @@ public class LoggingHandler implements InvocationHandler, MethodInterceptor, Cal
         classLoggers.addAll(Arrays.asList(defaultLoggersClasses));
         if (classAnnotation != null) {
             classLoggers.addAll(Arrays.asList(classAnnotation.value()));
-            Collection<ILogger> loggers = LoggerHandler.createLoggers(classLoggers.toArray(new Class[0]), instance.getClass(), ioc);
+            Collection<ILogger> loggers =
+                    LoggerHandler.createLoggers(classLoggers.toArray(new Class[0]), instance.getClass(), ioc);
             LogLevel classLogLevel = classAnnotation.logLevel();
             loggers.forEach(logger -> loggersMap.put(logger, classLogLevel));
         }
@@ -117,11 +118,18 @@ public class LoggingHandler implements InvocationHandler, MethodInterceptor, Cal
                 methodLoggersInstances.forEach(logger -> loggersMap.put(logger, methodLogLevel));
             }
             try {
-                loggersMap.forEach((logger, level) -> logger.log(level, "Run method [%s] in class [%s]", method.getName(), instance.getClass().getName()));
+                loggersMap.forEach((logger, level) -> logger.log(level,
+                        "Run method [%s] in class [%s]",
+                        method.getName(),
+                        instance.getClass().getName()));
                 result = method.invoke(instance, args);
-                loggersMap.forEach((logger, level) -> logger.log(level, "Finished method [%s] in class [%s]", method.getName(), instance.getClass()));
+                loggersMap.forEach((logger, level) -> logger.log(level,
+                        "Finished method [%s] in class [%s]",
+                        method.getName(),
+                        instance.getClass()));
             } catch (Exception ex) {
-                loggersMap.forEach((logger, level) -> logger.error(String.format("An error occurred in method [%s] in class [%s]",
+                loggersMap.forEach((logger, level) -> logger.error(String.format(
+                        "An error occurred in method [%s] in class [%s]",
                         method.getName(),
                         instance.getClass().getName()),
                         ex

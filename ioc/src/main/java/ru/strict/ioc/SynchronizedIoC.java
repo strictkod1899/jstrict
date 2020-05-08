@@ -9,22 +9,34 @@ public class SynchronizedIoC extends IoC {
     }
 
     @Override
-    public synchronized <RESULT> void addComponent(Class<RESULT> clazz, InstanceType type, Object... constructorArguments) {
+    public synchronized <RESULT> void addComponent(Class<RESULT> clazz,
+            InstanceType type,
+            Object... constructorArguments) {
         super.addComponent(clazz, type, constructorArguments);
     }
 
     @Override
-    public synchronized <RESULT> void addComponent(Class<RESULT> clazz, Class component, InstanceType type, Object... constructorArguments) {
+    public synchronized <RESULT> void addComponent(Class<RESULT> clazz,
+            Class component,
+            InstanceType type,
+            Object... constructorArguments) {
         super.addComponent(clazz, component, type, constructorArguments);
     }
 
     @Override
-    public synchronized void addComponent(String caption, Class component, InstanceType type, Object... constructorArguments) {
+    public synchronized void addComponent(String caption,
+            Class component,
+            InstanceType type,
+            Object... constructorArguments) {
         super.addComponent(caption, component, type, constructorArguments);
     }
 
     @Override
-    public synchronized <RESULT> void addComponent(Class<RESULT> clazz, String caption, Class component, InstanceType type, Object... constructorArguments) {
+    public synchronized <RESULT> void addComponent(Class<RESULT> clazz,
+            String caption,
+            Class component,
+            InstanceType type,
+            Object... constructorArguments) {
         super.addComponent(clazz, caption, component, type, constructorArguments);
     }
 

@@ -8,6 +8,7 @@ import ru.strict.ioc.exceptions.ManyMatchConstructorsException;
 import ru.strict.ioc.exceptions.MatchInstanceTypeException;
 import ru.strict.logging.LoggerBase;
 import ru.strict.utils.ReflectionUtil;
+import ru.strict.validate.Validator;
 
 import java.lang.reflect.Constructor;
 import java.util.Collection;
@@ -58,18 +59,19 @@ public class IoC implements IIoC {
         defaultLoggingClasses = new HashSet<>();
     }
 
-    public IoC(IoC...joins){
+    public IoC(IoC... joins) {
         this();
-        for(IoC join : joins){
+        for (IoC join : joins) {
             joinIoC(join);
         }
     }
 
     /**
      * Объединить несколько IoC-контейнеров в один
+     *
      * @param join объединяемый IoC-контейнер
      */
-    public void joinIoC(IoC join){
+    public void joinIoC(IoC join) {
         join.components
                 .keySet()
                 .forEach(key -> {
@@ -84,19 +86,23 @@ public class IoC implements IIoC {
     }
 
     @Override
-    public <RESULT> void addComponent(Class<RESULT> clazz, InstanceType type, Object...constructorArguments) {
+    public <RESULT> void addComponent(Class<RESULT> clazz, InstanceType type, Object... constructorArguments) {
         addComponent(clazz, clazz, type, constructorArguments);
     }
 
     @Override
-    public <RESULT> void addComponent(Class<RESULT> clazz, Class component, InstanceType type, Object...constructorArguments) {
-        if(clazz == null || component == null){
-            throw new IllegalArgumentException(
-                    String.format("IoC exception. Fail add component to IoC because any is null: clazz = [%s], component = [%s]",
-                            clazz, component));
-        }
+    public <RESULT> void addComponent(Class<RESULT> clazz,
+            Class component,
+            InstanceType type,
+            Object... constructorArguments) {
+        Validator.isNull(clazz, "clazz")
+                .isNull(component, "component")
+                .details("IoC exception. Fail add component to IoC because any is null: clazz = [%s], component = [%s]",
+                        clazz,
+                        component)
+                .onThrow();
 
-        if(isExistsComponentClass(clazz)){
+        if (isExistsComponentClass(clazz)) {
             throw new ManyMatchComponentsException(clazz);
         }
 
@@ -104,14 +110,15 @@ public class IoC implements IIoC {
     }
 
     @Override
-    public void addComponent(String caption, Class component, InstanceType type, Object...constructorArguments) {
-        if(caption == null || component == null){
-            throw new IllegalArgumentException(
-                    String.format("IoC exception. Fail add component to IoC because any is null: caption = [%s], component = [%s]",
-                            caption, component));
-        }
+    public void addComponent(String caption, Class component, InstanceType type, Object... constructorArguments) {
+        Validator.isNull(caption, "caption")
+                .isNull(component, "component")
+                .details("IoC exception. Fail add component to IoC because any is null: caption = [%s], component = [%s]",
+                        caption,
+                        component)
+                .onThrow();
 
-        if(isExistsComponentCaption(caption)){
+        if (isExistsComponentCaption(caption)) {
             throw new ManyMatchComponentsException(caption);
         }
 
@@ -119,18 +126,26 @@ public class IoC implements IIoC {
     }
 
     @Override
-    public <RESULT> void addComponent(Class<RESULT> clazz, String caption, Class component, InstanceType type, Object...constructorArguments) {
-        if(caption == null || clazz == null || component == null){
-            throw new IllegalArgumentException(
-                    String.format("IoC exception. Fail add component to IoC because any is null: caption = [%s], clazz = [%s], component = [%s]",
-                            caption, clazz, component));
-        }
+    public <RESULT> void addComponent(Class<RESULT> clazz,
+            String caption,
+            Class component,
+            InstanceType type,
+            Object... constructorArguments) {
+        Validator.isNull(caption, "caption")
+                .isNull(clazz, "clazz")
+                .isNull(component, "component")
+                .details("IoC exception. Fail add component to IoC because any is null: caption = [%s]," +
+                                "clazz = [%s], component = [%s]",
+                        caption,
+                        clazz,
+                        component)
+                .onThrow();
 
-        if(isExistsComponentClass(clazz)){
+        if (isExistsComponentClass(clazz)) {
             throw new ManyMatchComponentsException(clazz);
         }
 
-        if(isExistsComponentCaption(caption)){
+        if (isExistsComponentCaption(caption)) {
             throw new ManyMatchComponentsException(caption);
         }
 
@@ -139,13 +154,14 @@ public class IoC implements IIoC {
 
     @Override
     public void addSingleton(String caption, Object component) {
-        if(caption == null || component == null){
-            throw new IllegalArgumentException(
-                    String.format("IoC exception. Fail add component to IoC because any is null: caption = [%s], component = [%s]",
-                            caption, component));
-        }
+        Validator.isNull(caption, "caption")
+                .isNull(component, "component")
+                .details("IoC exception. Fail add component to IoC because any is null: caption = [%s], component = [%s]",
+                        caption,
+                        component)
+                .onThrow();
 
-        if(isExistsComponentCaption(caption)){
+        if (isExistsComponentCaption(caption)) {
             throw new ManyMatchComponentsException(caption);
         }
 
@@ -154,13 +170,14 @@ public class IoC implements IIoC {
 
     @Override
     public <RESULT> void addSingleton(Class<RESULT> clazz, Object component) {
-        if(clazz == null || component == null){
-            throw new IllegalArgumentException(
-                    String.format("IoC exception. Fail add component to IoC because any is null: clazz = [%s], component = [%s]",
-                            clazz, component));
-        }
+        Validator.isNull(clazz, "clazz")
+                .isNull(component, "component")
+                .details("IoC exception. Fail add component to IoC because any is null: clazz = [%s], component = [%s]",
+                        clazz,
+                        component)
+                .onThrow();
 
-        if(isExistsComponentClass(clazz)){
+        if (isExistsComponentClass(clazz)) {
             throw new ManyMatchComponentsException(clazz);
         }
 
@@ -169,17 +186,21 @@ public class IoC implements IIoC {
 
     @Override
     public <RESULT> void addSingleton(Class<RESULT> clazz, String caption, Object component) {
-        if(caption == null || clazz == null || component == null){
-            throw new IllegalArgumentException(
-                    String.format("IoC exception. Fail add component to IoC because any is null: caption = [%s], clazz = [%s], component = [%s]",
-                            caption, clazz, component));
-        }
+        Validator.isNull(caption, "caption")
+                .isNull(clazz, "clazz")
+                .isNull(component, "component")
+                .details("IoC exception. Fail add component to IoC because any is null: caption = [%s]," +
+                                "clazz = [%s], component = [%s]",
+                        caption,
+                        clazz,
+                        component)
+                .onThrow();
 
-        if(isExistsComponentClass(clazz)){
+        if (isExistsComponentClass(clazz)) {
             throw new ManyMatchComponentsException(clazz);
         }
 
-        if(isExistsComponentCaption(caption)){
+        if (isExistsComponentCaption(caption)) {
             throw new ManyMatchComponentsException(caption);
         }
 
@@ -189,7 +210,7 @@ public class IoC implements IIoC {
     @Override
     public <RESULT> RESULT getComponent(String caption) {
         RESULT result = null;
-        if(caption != null) {
+        if (caption != null) {
             IoCKeys key = components.keySet().stream()
                     .filter((k) -> caption.equals(k.getCaption()))
                     .findFirst()
@@ -205,7 +226,7 @@ public class IoC implements IIoC {
     @Override
     public <RESULT> RESULT getComponent(Class<RESULT> clazz) {
         RESULT result = null;
-        if(clazz != null) {
+        if (clazz != null) {
             IoCKeys key = components.keySet().stream()
                     .filter((k) -> k.getClazz() != null && ReflectionUtil.isInstanceOf(clazz, k.getClazz()))
                     .findFirst()
@@ -219,7 +240,7 @@ public class IoC implements IIoC {
 
     @Override
     public <RESULT> void closeSessionInstance(Class<RESULT> clazz) throws MatchInstanceTypeException {
-        if(clazz != null) {
+        if (clazz != null) {
             IoCKeys key = components.keySet().stream()
                     .filter((k) -> k.getClazz() != null && ReflectionUtil.isInstanceOf(clazz, k.getClazz()))
                     .findFirst()
@@ -232,7 +253,7 @@ public class IoC implements IIoC {
 
     @Override
     public void closeSessionInstance(String caption) throws MatchInstanceTypeException {
-        if(caption != null) {
+        if (caption != null) {
             IoCKeys key = components.keySet().stream()
                     .filter((k) -> caption.equals(k.getCaption()))
                     .findFirst()
@@ -248,7 +269,8 @@ public class IoC implements IIoC {
     }
 
     public static <T> Constructor<T> findConstructor(Class<T> instanceClass, boolean onlyPublic) {
-        Constructor[] constructors = onlyPublic ? instanceClass.getConstructors() : instanceClass.getDeclaredConstructors();
+        Constructor[] constructors =
+                onlyPublic ? instanceClass.getConstructors() : instanceClass.getDeclaredConstructors();
         Constructor mainConstructor = ComponentHandler.getMainConstructor(constructors);
         if (mainConstructor == null) {
             if (constructors.length == 1) {
@@ -299,16 +321,16 @@ public class IoC implements IIoC {
         }
     }
 
-    private <RESULT> RESULT getInstance(IoCKeys key){
+    private <RESULT> RESULT getInstance(IoCKeys key) {
         RESULT result = null;
 
         IoCData instanceData = components.get(key);
-        switch(instanceData.getType()){
+        switch (instanceData.getType()) {
             case REQUEST:
                 result = createInstance(instanceData.getClazzInstance(), instanceData.getConstructorArguments());
                 break;
             case SESSION:
-                if(instanceData.getSessionInstance() != null){
+                if (instanceData.getSessionInstance() != null) {
                     result = instanceData.getSessionInstance();
                 } else {
                     result = createInstance(instanceData.getClazzInstance(), instanceData.getConstructorArguments());
@@ -316,7 +338,7 @@ public class IoC implements IIoC {
                 }
                 break;
             case SINGLETON:
-                if(instanceData.getSingletonInstance() != null){
+                if (instanceData.getSingletonInstance() != null) {
                     result = instanceData.getSingletonInstance();
                 } else {
                     result = createInstance(instanceData.getClazzInstance(), instanceData.getConstructorArguments());
@@ -328,17 +350,20 @@ public class IoC implements IIoC {
         return result;
     }
 
-    private <RESULT> RESULT createInstance(Class clazzInstance, Object[] constructorArguments){
+    private <RESULT> RESULT createInstance(Class clazzInstance, Object[] constructorArguments) {
         return createInstance(clazzInstance, constructorArguments, false);
     }
 
-    private <RESULT> RESULT createInstance(Class instanceClass, Object[] constructorArguments, boolean skipComponentHandler) {
-        if (instanceClass == null || constructorArguments == null) {
-            throw new IllegalArgumentException(
-                    String.format("IoC exception. Fail add component to IoC because any is null:" +
-                                    "clazzInstance = [%s], constructorArguments = [%s]",
-                            instanceClass, constructorArguments));
-        }
+    private <RESULT> RESULT createInstance(Class instanceClass,
+            Object[] constructorArguments,
+            boolean skipComponentHandler) {
+        Validator.isNull(instanceClass, "instanceClass")
+                .isNull(constructorArguments, "constructorArguments")
+                .details("IoC exception. Fail add component to IoC because any is null:" +
+                                "clazzInstance = [%s], constructorArguments = [%s]",
+                        instanceClass,
+                        constructorArguments)
+                .onThrow();
 
         if (!skipComponentHandler) {
             Constructor<?> mainConstructor = findConstructor(instanceClass);
@@ -357,33 +382,34 @@ public class IoC implements IIoC {
 
     private <RESULT> RESULT postCreateProcess(RESULT instance) {
         LoggerHandler.injectLogger(instance, this, defaultLogger);
-        instance = (RESULT) LoggingHandler.getLoggedInstance(instance, this, defaultLoggingClasses.toArray(new Class[0]));
+        instance =
+                (RESULT) LoggingHandler.getLoggedInstance(instance, this, defaultLoggingClasses.toArray(new Class[0]));
         return instance;
     }
 
-    private <RESULT> RESULT createInstanceByArguments(Class clazzInstance, Object[] constructorArguments){
+    private <RESULT> RESULT createInstanceByArguments(Class clazzInstance, Object[] constructorArguments) {
         Object[] instanceArguments = createInstanceArguments(constructorArguments);
         return (RESULT) ReflectionUtil.createDeclaredInstance(clazzInstance, false, instanceArguments);
     }
 
-    private Object[] createInstanceArguments(Object[] createArguments){
+    private Object[] createInstanceArguments(Object[] createArguments) {
         int countArguments = createArguments.length;
         Object[] instanceArguments = new Object[countArguments];
 
-        for(int i = 0; i < countArguments; i++){
+        for (int i = 0; i < countArguments; i++) {
             Object instanceArgument = null;
             Object createArgument = createArguments[i];
-            if(createArgument instanceof String && !((String)createArgument).startsWith("@")){
-                instanceArgument = getComponent((String)createArgument);
-            }else if(createArgument instanceof Class){
-                instanceArgument = getComponent((Class)createArgument);
-                if(instanceArgument == null){
+            if (createArgument instanceof String && !((String) createArgument).startsWith("@")) {
+                instanceArgument = getComponent((String) createArgument);
+            } else if (createArgument instanceof Class) {
+                instanceArgument = getComponent((Class) createArgument);
+                if (instanceArgument == null) {
                     instanceArgument = createArgument;
                 }
-            }else{
-                if(createArgument instanceof String && ((String)createArgument).startsWith("@")){
-                    instanceArgument = ((String)createArgument).substring(1, ((String)createArgument).length());
-                }else{
+            } else {
+                if (createArgument instanceof String && ((String) createArgument).startsWith("@")) {
+                    instanceArgument = ((String) createArgument).substring(1, ((String) createArgument).length());
+                } else {
                     instanceArgument = createArgument;
                 }
             }
@@ -394,11 +420,11 @@ public class IoC implements IIoC {
         return instanceArguments;
     }
 
-    private boolean isExistsComponentCaption(String componentCaption){
+    private boolean isExistsComponentCaption(String componentCaption) {
         return components.keySet().stream().anyMatch((k) -> componentCaption.equals(k.getCaption()));
     }
 
-    private boolean isExistsComponentClass(Class componentClass){
+    private boolean isExistsComponentClass(Class componentClass) {
         return components.keySet().stream().anyMatch((k) -> componentClass.equals(k.getClazz()));
     }
 }

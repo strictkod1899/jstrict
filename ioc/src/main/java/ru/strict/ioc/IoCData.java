@@ -45,7 +45,7 @@ class IoCData {
     }
 
     public void setSingletonInstance(Object singletonInstance) {
-        if(this.singletonInstance != null){
+        if (this.singletonInstance != null) {
             throw new SingletonInstanceExistsException(this.singletonInstance, singletonInstance);
         }
         this.singletonInstance = singletonInstance;
@@ -56,13 +56,13 @@ class IoCData {
     }
 
     public void setSessionInstance(Object sessionInstance) {
-        if(this.sessionInstance != null){
+        if (this.sessionInstance != null) {
             throw new SessionInstanceExistsException(this.sessionInstance, sessionInstance);
         }
         this.sessionInstance = sessionInstance;
     }
 
-    public void closeSessionInstance(){
+    public void closeSessionInstance() {
         this.sessionInstance = null;
     }
 
