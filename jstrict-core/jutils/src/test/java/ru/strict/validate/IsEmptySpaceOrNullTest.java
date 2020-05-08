@@ -9,12 +9,12 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @RunWith(Parameterized.class)
-public class TestIsEmptySpaceOrNull {
+public class IsEmptySpaceOrNullTest {
 
     private String value;
     private boolean expectedResult;
 
-    public TestIsEmptySpaceOrNull(String value, boolean expectedResult) {
+    public IsEmptySpaceOrNullTest(String value, boolean expectedResult) {
         this.value = value;
         this.expectedResult = expectedResult;
     }

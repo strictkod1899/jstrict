@@ -9,30 +9,31 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @RunWith(Parameterized.class)
-public class TestIsDouble {
+public class MinLengthTest {
 
     private String value;
+    private int minLength;
     private boolean expectedResult;
 
-    public TestIsDouble(String value, boolean expectedResult) {
+    public MinLengthTest(String value, int minLength, boolean expectedResult) {
         this.value = value;
+        this.minLength = minLength;
         this.expectedResult = expectedResult;
     }
 
     @Parameterized.Parameters
     public static Collection setUp(){
         return Arrays.asList(new Object[][]{
-                {"1.0", true},
-                {"-1.0", true},
-                {"1", true},
-                {" ", false},
-                {"", false},
-                {null, false}
+                {"123456", 6, true},
+                {"", 0, true},
+                {" ", 1, true},
+                {"123456", 7, false},
+                {null, 0, false}
         });
     }
 
     @Test
     public void test(){
-        Assert.assertEquals(ValidateBaseValue.isDouble(value), expectedResult);
+        Assert.assertEquals(ValidateBaseValue.isMinLength(value, minLength), expectedResult);
     }
 }

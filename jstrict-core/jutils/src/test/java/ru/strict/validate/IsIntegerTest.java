@@ -9,32 +9,30 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @RunWith(Parameterized.class)
-public class TestMaxLength {
+public class IsIntegerTest {
 
     private String value;
-    private int maxLength;
     private boolean expectedResult;
 
-    public TestMaxLength(String value, int maxLength, boolean expectedResult) {
+    public IsIntegerTest(String value, boolean expectedResult) {
         this.value = value;
-        this.maxLength = maxLength;
         this.expectedResult = expectedResult;
     }
 
     @Parameterized.Parameters
     public static Collection setUp(){
         return Arrays.asList(new Object[][]{
-                {"123456", 6, true},
-                {"123456", 7, true},
-                {"", 0, true},
-                {" ", 1, true},
-                {"123456", 2, false},
-                {null, 0, false}
+                {"1", true},
+                {"-1", true},
+                {"1.0", false},
+                {" ", false},
+                {"", false},
+                {null, false}
         });
     }
 
     @Test
     public void test(){
-        Assert.assertEquals(ValidateBaseValue.isMaxLength(value, maxLength), expectedResult);
+        Assert.assertEquals(ValidateBaseValue.isInteger(value), expectedResult);
     }
 }

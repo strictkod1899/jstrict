@@ -9,12 +9,12 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @RunWith(Parameterized.class)
-public class TestIsEmptyOrNull {
+public class IsDoubleTest {
 
     private String value;
     private boolean expectedResult;
 
-    public TestIsEmptyOrNull(String value, boolean expectedResult) {
+    public IsDoubleTest(String value, boolean expectedResult) {
         this.value = value;
         this.expectedResult = expectedResult;
     }
@@ -22,15 +22,17 @@ public class TestIsEmptyOrNull {
     @Parameterized.Parameters
     public static Collection setUp(){
         return Arrays.asList(new Object[][]{
-                {"", true},
-                {null, true},
+                {"1.0", true},
+                {"-1.0", true},
+                {"1", true},
                 {" ", false},
-                {"not empty", false},
+                {"", false},
+                {null, false}
         });
     }
 
     @Test
     public void test(){
-        Assert.assertEquals(ValidateBaseValue.isEmptyOrNull(value), expectedResult);
+        Assert.assertEquals(ValidateBaseValue.isDouble(value), expectedResult);
     }
 }

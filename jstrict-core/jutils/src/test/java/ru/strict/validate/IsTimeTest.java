@@ -9,13 +9,13 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @RunWith(Parameterized.class)
-public class TestIsDateYear {
+public class IsTimeTest {
 
     private String value;
     private char splitSymbol;
     private boolean expectedResult;
 
-    public TestIsDateYear(String value, char splitSymbol, boolean expectedResult) {
+    public IsTimeTest(String value, char splitSymbol, boolean expectedResult) {
         this.value = value;
         this.splitSymbol = splitSymbol;
         this.expectedResult = expectedResult;
@@ -24,11 +24,12 @@ public class TestIsDateYear {
     @Parameterized.Parameters
     public static Collection setUp(){
         return Arrays.asList(new Object[][]{
-                {"2000-01-01", '-', true},
-                {"0000/12/31", '/', true},
-                {"-0001-01-01", '-', false},
-                {"2000-13-01", '-', false},
-                {"2000-12-32", '-', false},
+                {"00:00:00", ':', true},
+                {"23-59-59", '-', true},
+                {"-01:01:01", ':', false},
+                {"24:00:00", ':', false},
+                {"23:60:00", ':', false},
+                {"23:00:60", ':', false},
                 {"", '-', false},
                 {null, '-', false}
         });
@@ -36,6 +37,6 @@ public class TestIsDateYear {
 
     @Test
     public void test(){
-        Assert.assertEquals(ValidateBaseValue.isDateStartYear(value, splitSymbol), expectedResult);
+        Assert.assertEquals(ValidateBaseValue.isTime(value, splitSymbol), expectedResult);
     }
 }

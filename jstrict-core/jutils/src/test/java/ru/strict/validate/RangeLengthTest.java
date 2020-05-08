@@ -9,14 +9,14 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @RunWith(Parameterized.class)
-public class TestRangeLength {
+public class RangeLengthTest {
 
     private String value;
     private int minLength;
     private int maxLength;
     private boolean expectedResult;
 
-    public TestRangeLength(String value, int minLength, int maxLength, boolean expectedResult) {
+    public RangeLengthTest(String value, int minLength, int maxLength, boolean expectedResult) {
         this.value = value;
         this.minLength = minLength;
         this.maxLength = maxLength;

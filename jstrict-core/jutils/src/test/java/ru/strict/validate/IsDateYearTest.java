@@ -9,13 +9,13 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @RunWith(Parameterized.class)
-public class TestIsDateDay {
+public class IsDateYearTest {
 
     private String value;
     private char splitSymbol;
     private boolean expectedResult;
 
-    public TestIsDateDay(String value, char splitSymbol, boolean expectedResult) {
+    public IsDateYearTest(String value, char splitSymbol, boolean expectedResult) {
         this.value = value;
         this.splitSymbol = splitSymbol;
         this.expectedResult = expectedResult;
@@ -24,11 +24,11 @@ public class TestIsDateDay {
     @Parameterized.Parameters
     public static Collection setUp(){
         return Arrays.asList(new Object[][]{
-                {"01-01-2000", '-', true},
-                {"31/12/0000", '/', true},
-                {"-01-01-0001", '-', false},
-                {"01-13-2000", '-', false},
-                {"32-12-2000", '-', false},
+                {"2000-01-01", '-', true},
+                {"0000/12/31", '/', true},
+                {"-0001-01-01", '-', false},
+                {"2000-13-01", '-', false},
+                {"2000-12-32", '-', false},
                 {"", '-', false},
                 {null, '-', false}
         });
@@ -36,6 +36,6 @@ public class TestIsDateDay {
 
     @Test
     public void test(){
-        Assert.assertEquals(ValidateBaseValue.isDateStartDay(value, splitSymbol), expectedResult);
+        Assert.assertEquals(ValidateBaseValue.isDateStartYear(value, splitSymbol), expectedResult);
     }
 }
