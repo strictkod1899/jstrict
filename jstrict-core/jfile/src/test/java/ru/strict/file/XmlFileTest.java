@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class TestXmlFile {
+public class XmlFileTest {
 
     private static final String TEST_FILE_NAME = "test.xml";
 

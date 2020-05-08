@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 @RunWith(JUnit4.class)
-public class TestJsonFile {
+public class JsonFileTest {
 
     private static final String TEST_FILE_NAME = "test.json";
     private static final String FILE_CONTENT = "{\n" +

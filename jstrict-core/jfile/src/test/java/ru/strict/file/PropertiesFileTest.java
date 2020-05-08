@@ -13,7 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 @RunWith(JUnit4.class)
-public class TestPropertiesFile {
+public class PropertiesFileTest {
 
     private static final String TEST_FILE_NAME = "test.properties";
 

@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 @RunWith(JUnit4.class)
-public class TestTxtFile {
+public class TxtFileTest {
 
     private static final String TEST_FILE_NAME = "test.txt";
     private static final String TEST_FILE_CONTENT_1 = "mytest_mytest1";
