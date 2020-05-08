@@ -16,7 +16,6 @@
 
     <modules>
         <module>jutils</module>
-        <module>jdb-core</module>
         <module>jmodels</module>
         <module>jfile</module>
         <module>jpatterns</module>

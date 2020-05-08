@@ -16,6 +16,7 @@
     <name>jdb</name>
 
     <modules>
+        <module>jdb-core</module>
         <module>jdb-test</module>
         <module>jdb-jdbc</module>
         <!--<module>jdb-spring</module>
