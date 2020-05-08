@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 @RunWith(JUnit4.class)
-public class TestDateWithoutTime {
+public class DateWithoutTimeTest {
 
     @Test
     public void test(){
