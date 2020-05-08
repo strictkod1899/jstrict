@@ -127,13 +127,15 @@ public class ValidateError {
     }
 
     public ValidateError isNull(Object value, String caption) {
+        if (currentError != null) {
+            errors.add(currentError);
+            currentError = null;
+        }
+
         if (checkReturn()) {
             return this;
         }
 
-        if (currentError != null) {
-            errors.add(currentError);
-        }
         currentError = new DetailsError();
 
         if (value == null) {
@@ -146,9 +148,16 @@ public class ValidateError {
     }
 
     public ValidateError isEmptyOrNull(String value, String caption) {
+        if (currentError != null) {
+            errors.add(currentError);
+            currentError = null;
+        }
+
         if (checkReturn()) {
             return this;
         }
+
+        currentError = new DetailsError();
 
         if (ValidateBaseValue.isEmptyOrNull(value)) {
             currentError.setValueName(caption);
@@ -160,9 +169,16 @@ public class ValidateError {
     }
 
     public ValidateError isEmptySpaceOrNull(String value, String caption) {
+        if (currentError != null) {
+            errors.add(currentError);
+            currentError = null;
+        }
+
         if (checkReturn()) {
             return this;
         }
+
+        currentError = new DetailsError();
 
         if (ValidateBaseValue.isEmptySpaceOrNull(value)) {
             currentError.setValueName(caption);
@@ -174,9 +190,16 @@ public class ValidateError {
     }
 
     public ValidateError isEmptyOrNull(Collection collection, String caption) {
+        if (currentError != null) {
+            errors.add(currentError);
+            currentError = null;
+        }
+
         if (checkReturn()) {
             return this;
         }
+
+        currentError = new DetailsError();
 
         if (ValidateBaseValue.isEmptyOrNull(collection)) {
             currentError.setValueName(caption);
@@ -188,9 +211,16 @@ public class ValidateError {
     }
 
     public ValidateError isEmptyOrNull(Object[] array, String caption) {
+        if (currentError != null) {
+            errors.add(currentError);
+            currentError = null;
+        }
+
         if (checkReturn()) {
             return this;
         }
+
+        currentError = new DetailsError();
 
         if (ValidateBaseValue.isEmptyOrNull(array)) {
             currentError.setValueName(caption);
@@ -202,9 +232,16 @@ public class ValidateError {
     }
 
     public ValidateError isMinValue(long number, String caption, long minValue) {
+        if (currentError != null) {
+            errors.add(currentError);
+            currentError = null;
+        }
+
         if (checkReturn()) {
             return this;
         }
+
+        currentError = new DetailsError();
 
         if (number < minValue) {
             currentError.setValueName(caption);
@@ -216,9 +253,16 @@ public class ValidateError {
     }
 
     public ValidateError isMinValue(double number, String caption, double minValue) {
+        if (currentError != null) {
+            errors.add(currentError);
+            currentError = null;
+        }
+
         if (checkReturn()) {
             return this;
         }
+
+        currentError = new DetailsError();
 
         if (number < minValue) {
             currentError.setValueName(caption);
@@ -230,9 +274,16 @@ public class ValidateError {
     }
 
     public ValidateError isMaxValue(long number, String caption, long maxValue) {
+        if (currentError != null) {
+            errors.add(currentError);
+            currentError = null;
+        }
+
         if (checkReturn()) {
             return this;
         }
+
+        currentError = new DetailsError();
 
         if (number > maxValue) {
             currentError.setValueName(caption);
@@ -244,9 +295,16 @@ public class ValidateError {
     }
 
     public ValidateError isMaxValue(double number, String caption, double maxValue) {
+        if (currentError != null) {
+            errors.add(currentError);
+            currentError = null;
+        }
+
         if (checkReturn()) {
             return this;
         }
+
+        currentError = new DetailsError();
 
         if (number > maxValue) {
             currentError.setValueName(caption);
@@ -258,9 +316,16 @@ public class ValidateError {
     }
 
     public ValidateError isNotRange(long number, String caption, long minValue, long maxValue) {
+        if (currentError != null) {
+            errors.add(currentError);
+            currentError = null;
+        }
+
         if (checkReturn()) {
             return this;
         }
+
+        currentError = new DetailsError();
 
         if (!ValidateBaseValue.isRange(number, minValue, maxValue)) {
             currentError.setValueName(caption);

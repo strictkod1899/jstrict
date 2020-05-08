@@ -1,5 +1,6 @@
 package ru.strict.validate;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -142,5 +143,48 @@ public class ValidatorTest {
                 .isNull(value2, "value2")
                 .isNull(value3, "value3")
                 .onThrow();
+    }
+
+    @Test
+    public void test1() {
+        Object value1 = null;
+        Object value2 = null;
+        Object value3 = null;
+
+        String expectedDetails = "details1";
+
+        try {
+            Validator.isNull(value1, "value1")
+                    .details(expectedDetails)
+                    .isNull(value2, "value2")
+                    .details("details2")
+                    .isNull(value3, "value3")
+                    .details("details3")
+                    .onThrow();
+        } catch (ValidateException ex) {
+            Assert.assertEquals(expectedDetails, ex.getDetails());
+        }
+    }
+
+    @Test
+    public void test2() {
+        Object value1 = null;
+        Object value2 = null;
+        Object value3 = null;
+
+        String expectedDetails = "details3";
+
+        try {
+            Validator.and()
+                    .isNull(value1, "value1")
+                    .details(expectedDetails)
+                    .isNull(value2, "value2")
+                    .details("details2")
+                    .isNull(value3, "value3")
+                    .details("details3")
+                    .onThrow();
+        } catch (ValidateException ex) {
+            Assert.assertEquals(expectedDetails, ex.getDetails());
+        }
     }
 }

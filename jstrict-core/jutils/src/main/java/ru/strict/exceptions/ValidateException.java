@@ -89,7 +89,7 @@ public class ValidateException extends RuntimeException {
                 errorText.append("    |    ");
             }
 
-            if (values.isEmpty()) {
+            if (values == null || values.isEmpty()) {
                 errorText.append(String.format("%s - %s", valuesNames.get(i), reasons.get(i)));
             } else {
                 errorText.append(String.format("%s - %s [value = %s]",
