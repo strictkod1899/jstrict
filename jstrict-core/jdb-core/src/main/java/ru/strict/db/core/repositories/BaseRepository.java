@@ -8,6 +8,7 @@ import ru.strict.models.BaseModel;
 import java.sql.SQLType;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Базовый класс репозитория
@@ -16,8 +17,8 @@ import java.util.Objects;
  * @param <T> Модель сущности базы данных
  */
 public abstract class BaseRepository
-        <ID, CONNECTION, SOURCE extends IConnectionCreator<CONNECTION>, T extends BaseModel<ID>>
-        implements IExtensionRepository<ID, T> {
+        <ID, CONNECTION, SOURCE extends IConnectionCreator<CONNECTION>, MODEL extends BaseModel<ID>>
+        implements IExtensionRepository<ID, MODEL> {
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
@@ -107,7 +108,7 @@ public abstract class BaseRepository
 
     //<editor-fold defaultState="collapsed" desc="CRUD">
     @Override
-    public ID createOrUpdate(T model) {
+    public final ID createOrUpdate(MODEL model) {
         if(model == null){
             throw new IllegalArgumentException("model is NULL");
         }
@@ -121,7 +122,7 @@ public abstract class BaseRepository
     }
 
     @Override
-    public T createOrRead(T model) {
+    public final MODEL createOrRead(MODEL model) {
         if(model == null){
             throw new IllegalArgumentException("model is NULL");
         }
@@ -133,6 +134,32 @@ public abstract class BaseRepository
             model.setId(savedId);
             return model;
         }
+    }
+
+    @Override
+    public final MODEL read(ID id) {
+        MODEL model = processRead(id);
+        model = postRead(model);
+        return model;
+    }
+
+    @Override
+    public final List<MODEL> readAll(DbRequests requests) {
+        List<MODEL> models = processReadAll(requests);
+        models = models.stream()
+                .map(this::postRead)
+                .collect(Collectors.toList());
+        return models;
+    }
+
+    protected abstract MODEL processRead(ID id);
+    protected abstract List<MODEL> processReadAll(DbRequests requests);
+
+    /**
+     * Выполнить преобразование объекта после его чтения. Может придти объект null
+     */
+    protected MODEL postRead(MODEL model) {
+        return model;
     }
     //</editor-fold>
 
@@ -184,11 +211,11 @@ public abstract class BaseRepository
      * @param model Сущность прочитанная из базы данных (без внешних ключей)
      * @return Сущность с внешними ключами
      */
-    protected abstract T fill(T model);
+    protected abstract MODEL fill(MODEL model);
 
     @Override
-    public T readFill(ID id) {
-        T model = read(id);
+    public final MODEL readFill(ID id) {
+        MODEL model = read(id);
         if(model != null) {
             model = fill(model);
         }
@@ -196,8 +223,8 @@ public abstract class BaseRepository
     }
 
     @Override
-    public List<T> readAllFill(DbRequests requests) {
-        List<T> models = readAll(requests);
+    public final List<MODEL> readAllFill(DbRequests requests) {
+        List<MODEL> models = readAll(requests);
         if(models != null) {
             models.stream().forEach((model) -> model = fill(model));
         }
