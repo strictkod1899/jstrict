@@ -7,13 +7,13 @@ import ru.strict.db.core.repositories.DefaultTable;
 import ru.strict.db.core.repositories.interfaces.IRepositoryUser;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlUser;
-import ru.strict.models.UserDetails;
+import ru.strict.models.DetailsUser;
 import ru.strict.utils.UtilClass;
 import ru.strict.validate.ValidateBaseValue;
 
 public class RepositoryUser<ID>
-        extends RepositoryMybatisNamed<ID, UserDetails<ID>, MapperSqlUser<ID>>
-        implements IRepositoryUser<ID, UserDetails<ID>> {
+        extends RepositoryMybatisNamed<ID, DetailsUser<ID>, MapperSqlUser<ID>>
+        implements IRepositoryUser<ID, DetailsUser<ID>> {
 
     private static final String[] COLUMNS_NAME = DefaultColumns.USER.columns();
 
@@ -26,7 +26,7 @@ public class RepositoryUser<ID>
     }
 
     @Override
-    public UserDetails<ID> readByEmail(String email) {
+    public DetailsUser<ID> readByEmail(String email) {
         if(ValidateBaseValue.isEmptyOrNull(email)){
             throw new IllegalArgumentException("email for read is NULL");
         }

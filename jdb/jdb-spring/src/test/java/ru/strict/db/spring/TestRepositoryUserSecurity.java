@@ -10,7 +10,7 @@ import ru.strict.db.spring.repositories.RepositoryUserSecurity;
 import ru.strict.db.spring.runners.TestRunner;
 import ru.strict.db.spring.security.UserSecurity;
 import ru.strict.models.ModelBase;
-import ru.strict.models.UserDetails;
+import ru.strict.models.DetailsUser;
 
 import java.sql.JDBCType;
 import java.util.List;
@@ -56,13 +56,13 @@ public class TestRepositoryUserSecurity {
      */
     private static void fillData(){
         data = new UserSecurity[]{
-                new UserSecurity(new UserDetails<>("user",
+                new UserSecurity(new DetailsUser<>("user",
                         "user@mail.ru",
                         "password",
                         "salt",
                         "secret")
                 ),
-                new UserSecurity(new UserDetails<>("user",
+                new UserSecurity(new DetailsUser<>("user",
                         "user@mail.ru",
                         "password",
                         "salt",
@@ -262,7 +262,7 @@ public class TestRepositoryUserSecurity {
 
     @Test
     public void test019ReadByEmail(){
-        UserDetails model = REPOSITORY_GENERATE_NUMBER_ID.readByEmail(data[2].getEmail());
+        DetailsUser model = REPOSITORY_GENERATE_NUMBER_ID.readByEmail(data[2].getEmail());
         Assert.assertEquals(model, data[2]);
     }
 

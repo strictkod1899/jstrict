@@ -13,7 +13,7 @@ import ru.strict.db.spring.runners.TestRunner;
 import ru.strict.models.City;
 import ru.strict.models.ModelBase;
 import ru.strict.models.Profile;
-import ru.strict.models.UserDetails;
+import ru.strict.models.DetailsUser;
 
 import java.sql.JDBCType;
 import java.util.List;
@@ -58,8 +58,8 @@ public class TestRepositoryProfile {
      * Подготовить тестовые данные
      */
     private static void prepareData(){
-        IRepositoryNamed<Long, UserDetails<Long>> repositoryUserNumberId = new RepositoryUser<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE, JDBCType.BIGINT);
-        IRepositoryNamed<UUID, UserDetails<UUID>> repositoryUserUuidId = new RepositoryUser<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE, JDBCType.BIGINT);
+        IRepositoryNamed<Long, DetailsUser<Long>> repositoryUserNumberId = new RepositoryUser<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE, JDBCType.BIGINT);
+        IRepositoryNamed<UUID, DetailsUser<UUID>> repositoryUserUuidId = new RepositoryUser<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE, JDBCType.BIGINT);
         IRepositoryNamed<Long, City<Long>> repositoryCityNumberId = new RepositoryCity<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE, JDBCType.BIGINT);
         IRepositoryNamed<UUID, City<UUID>> repositoryCityUuidId = new RepositoryCity<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE, JDBCType.BIGINT);
 

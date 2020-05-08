@@ -5,7 +5,7 @@ import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.repositories.DefaultColumns;
 import ru.strict.db.core.repositories.DefaultTable;
 import ru.strict.db.core.repositories.interfaces.IRepositoryProfileDetails;
-import ru.strict.models.ProfileDetails;
+import ru.strict.models.DetailsProfile;
 import ru.strict.db.mybatis.connection.CreateConnectionByMybatis;
 import ru.strict.db.mybatis.mappers.sql.MapperSqlProfileDetails;
 import ru.strict.utils.UtilClass;
@@ -13,8 +13,8 @@ import ru.strict.utils.UtilClass;
 import java.util.List;
 
 public class RepositoryProfileDetails<ID>
-        extends RepositoryMybatisBase<ID, ProfileDetails<ID>, MapperSqlProfileDetails<ID>>
-        implements IRepositoryProfileDetails<ID, ProfileDetails<ID>> {
+        extends RepositoryMybatisBase<ID, DetailsProfile<ID>, MapperSqlProfileDetails<ID>>
+        implements IRepositoryProfileDetails<ID, DetailsProfile<ID>> {
 
     private static final String[] COLUMNS_NAME = DefaultColumns.PROFILE_DETAILS.columns();
 
@@ -27,7 +27,7 @@ public class RepositoryProfileDetails<ID>
     }
 
     @Override
-    public List<ProfileDetails<ID>> readByFio(String name, String surname, String middlename) {
+    public List<DetailsProfile<ID>> readByFio(String name, String surname, String middlename) {
         SqlSession session = null;
         try {
             session = createConnection();
@@ -46,7 +46,7 @@ public class RepositoryProfileDetails<ID>
     }
 
     @Override
-    public List<ProfileDetails<ID>> readBySurname(String name, String surname) {
+    public List<DetailsProfile<ID>> readBySurname(String name, String surname) {
         SqlSession session = null;
         try {
             session = createConnection();
@@ -65,11 +65,11 @@ public class RepositoryProfileDetails<ID>
     }
 
     @Override
-    public List<ProfileDetails<ID>> readByUserId(ID userId) {
+    public List<DetailsProfile<ID>> readByUserId(ID userId) {
         if(userId == null){
             throw new IllegalArgumentException("userId for read is NULL");
         }
-        List<ProfileDetails<ID>> result = null;
+        List<DetailsProfile<ID>> result = null;
         SqlSession session = null;
         try {
             session = createConnection();

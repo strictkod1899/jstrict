@@ -2,7 +2,7 @@ package ru.strict.db.spring.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import ru.strict.models.Role;
-import ru.strict.models.UserDetails;
+import ru.strict.models.DetailsUser;
 import ru.strict.validate.ValidateBaseValue;
 
 import java.util.Collection;
@@ -12,7 +12,7 @@ import java.util.Objects;
 /**
  * Пользователь системы
  */
-public class UserSecurity<ID> extends UserDetails<ID> implements org.springframework.security.core.userdetails.UserDetails {
+public class UserSecurity<ID> extends DetailsUser<ID> implements org.springframework.security.core.userdetails.DetailsUser {
 
 	private static final long serialVersionUID = 8266525488057072269L;
 
@@ -24,7 +24,7 @@ public class UserSecurity<ID> extends UserDetails<ID> implements org.springframe
 		this.authorities = new HashSet<>();
 	}
 
-	public UserSecurity(UserDetails<ID> user) {
+	public UserSecurity(DetailsUser<ID> user) {
 		super(user.getId(), user.getUsername(), user.getEmail(), user.getPasswordEncode(), user.getSalt(), user.getSecret());
 		this.authorities = new HashSet<>();
 	}

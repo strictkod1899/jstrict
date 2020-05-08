@@ -8,7 +8,7 @@ import ru.strict.db.core.repositories.DefaultColumns;
 import ru.strict.db.core.repositories.DefaultTable;
 import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.Role;
-import ru.strict.models.UserDetails;
+import ru.strict.models.DetailsUser;
 import ru.strict.models.UserOnRole;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.repositories.interfaces.IRepositoryUserOnRole;
@@ -44,7 +44,7 @@ public class RepositoryUserOnRole<ID>
     @Override
     protected UserOnRole<ID> fill(UserOnRole<ID> model){
         // Добавление пользователя
-        IRepository<ID, UserDetails<ID>> repositoryUser = new RepositoryUser(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+        IRepository<ID, DetailsUser<ID>> repositoryUser = new RepositoryUser(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
         model.setUser(repositoryUser.read(model.getUserId()));
 
         // Добавление роли пользователя

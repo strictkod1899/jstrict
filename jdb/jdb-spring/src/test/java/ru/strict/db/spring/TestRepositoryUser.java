@@ -8,7 +8,7 @@ import ru.strict.db.core.repositories.interfaces.IRepositoryUser;
 import ru.strict.db.spring.repositories.RepositoryUser;
 import ru.strict.db.spring.runners.TestRunner;
 import ru.strict.models.ModelBase;
-import ru.strict.models.UserDetails;
+import ru.strict.models.DetailsUser;
 
 import java.sql.JDBCType;
 import java.util.List;
@@ -20,11 +20,11 @@ import static ru.strict.db.spring.runners.TestRunner.*;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRepositoryUser {
 
-    private static UserDetails[] data;
+    private static DetailsUser[] data;
 
-    private static IRepositoryUser<Long, UserDetails<Long>> REPOSITORY_NOT_GENERATE_ID;
-    private static IRepositoryUser<Long, UserDetails<Long>> REPOSITORY_GENERATE_NUMBER_ID;
-    private static IRepositoryUser<UUID, UserDetails<UUID>> REPOSITORY_GENERATE_UUID_ID;
+    private static IRepositoryUser<Long, DetailsUser<Long>> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryUser<Long, DetailsUser<Long>> REPOSITORY_GENERATE_NUMBER_ID;
+    private static IRepositoryUser<UUID, DetailsUser<UUID>> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
     public static void setUpClass(){
@@ -52,13 +52,13 @@ public class TestRepositoryUser {
      * Заполнить тестовые данные
      */
     private static void fillData(){
-        data = new UserDetails[]{
-                new UserDetails<>("user",
+        data = new DetailsUser[]{
+                new DetailsUser<>("user",
                         "user@mail.ru",
                         "password",
                         "salt",
                         "secret"),
-                new UserDetails<>("user",
+                new DetailsUser<>("user",
                         "user@mail.ru",
                         "password",
                         "salt",
@@ -257,7 +257,7 @@ public class TestRepositoryUser {
 
     @Test
     public void test019ReadByEmail(){
-        UserDetails model = REPOSITORY_GENERATE_NUMBER_ID.readByEmail(data[2].getEmail());
+        DetailsUser model = REPOSITORY_GENERATE_NUMBER_ID.readByEmail(data[2].getEmail());
         Assert.assertEquals(model, data[2]);
     }
 

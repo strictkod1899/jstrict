@@ -2,22 +2,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>ru.strict</groupId>
-        <artifactId>jstrict</artifactId>
+        <artifactId>jstrict-parent</artifactId>
         <version>0.1.37</version>
         <relativePath/>
     </parent>
+
     <artifactId>jdb</artifactId>
     <version>0.1.37</version>
     <packaging>pom</packaging>
     <name>jdb</name>
-    <url>http:\\maven.apache.org</url>
 
     <modules>
+        <module>jdb-test</module>
         <module>jdb-jdbc</module>
-        <module>jdb-spring</module>
+        <!--<module>jdb-spring</module>
         <module>jdb-mybatis</module>
-        <module>jdb-hibernate</module>
+        <module>jdb-hibernate</module>-->
     </modules>
 </project>

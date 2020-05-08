@@ -12,8 +12,8 @@ import ru.strict.db.spring.repositories.RepositoryUser;
 import ru.strict.db.spring.runners.TestRunner;
 import ru.strict.models.City;
 import ru.strict.models.ModelBase;
-import ru.strict.models.ProfileDetails;
-import ru.strict.models.UserDetails;
+import ru.strict.models.DetailsProfile;
+import ru.strict.models.DetailsUser;
 
 import java.sql.JDBCType;
 import java.util.Date;
@@ -26,11 +26,11 @@ import static ru.strict.db.spring.runners.TestRunner.*;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRepositoryProfileDetails {
 
-    private static ProfileDetails[] data;
+    private static DetailsProfile[] data;
 
-    private static IRepositoryProfileDetails<Long, ProfileDetails<Long>> REPOSITORY_NOT_GENERATE_ID;
-    private static IRepositoryProfileDetails<Long, ProfileDetails<Long>> REPOSITORY_GENERATE_NUMBER_ID;
-    private static IRepositoryProfileDetails<UUID, ProfileDetails<UUID>> REPOSITORY_GENERATE_UUID_ID;
+    private static IRepositoryProfileDetails<Long, DetailsProfile<Long>> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryProfileDetails<Long, DetailsProfile<Long>> REPOSITORY_GENERATE_NUMBER_ID;
+    private static IRepositoryProfileDetails<UUID, DetailsProfile<UUID>> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
     public static void setUpClass(){
@@ -59,8 +59,8 @@ public class TestRepositoryProfileDetails {
      * Подготовить тестовые данные
      */
     private static void prepareData(){
-        IRepositoryNamed<Long, UserDetails<Long>> repositoryUserNumberId = new RepositoryUser<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE, JDBCType.BIGINT);
-        IRepositoryNamed<UUID, UserDetails<UUID>> repositoryUserUuidId = new RepositoryUser<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE, JDBCType.BIGINT);
+        IRepositoryNamed<Long, DetailsUser<Long>> repositoryUserNumberId = new RepositoryUser<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE, JDBCType.BIGINT);
+        IRepositoryNamed<UUID, DetailsUser<UUID>> repositoryUserUuidId = new RepositoryUser<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE, JDBCType.BIGINT);
         IRepositoryNamed<Long, City<Long>> repositoryCityNumberId = new RepositoryCity<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE, JDBCType.BIGINT);
         IRepositoryNamed<UUID, City<UUID>> repositoryCityUuidId = new RepositoryCity<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE, JDBCType.BIGINT);
 
@@ -88,8 +88,8 @@ public class TestRepositoryProfileDetails {
      * Заполнить тестовые данные
      */
     private static void fillData(){
-        data = new ProfileDetails[]{
-                new ProfileDetails<>("name",
+        data = new DetailsProfile[]{
+                new DetailsProfile<>("name",
                         "surname",
                         "middlename",
                         USER1.getId(),
@@ -97,7 +97,7 @@ public class TestRepositoryProfileDetails {
                         new Date(),
                         "phone",
                         CITY1.getId()),
-                new ProfileDetails<>("name",
+                new DetailsProfile<>("name",
                         "surname",
                         "middlename",
                         USER1_UUID.getId(),

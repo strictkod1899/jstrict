@@ -11,7 +11,7 @@ import ru.strict.db.mybatis.repositories.RepositoryUserOnRole;
 import ru.strict.db.mybatis.tests.runners.TestRunner;
 import ru.strict.models.ModelBase;
 import ru.strict.models.Role;
-import ru.strict.models.UserDetails;
+import ru.strict.models.DetailsUser;
 import ru.strict.models.UserOnRole;
 
 import java.util.List;
@@ -56,8 +56,8 @@ public class TestRepositoryUserOnRole {
      * Подготовить тестовые данные
      */
     private static void prepareData(){
-        IRepositoryNamed<Integer, UserDetails<Integer>> repositoryUserNumberId = new RepositoryUser<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
-        IRepositoryNamed<UUID, UserDetails<UUID>> repositoryUserUuidId = new RepositoryUser<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
+        IRepositoryNamed<Integer, DetailsUser<Integer>> repositoryUserNumberId = new RepositoryUser<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
+        IRepositoryNamed<UUID, DetailsUser<UUID>> repositoryUserUuidId = new RepositoryUser<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
         IRepositoryNamed<Integer, Role<Integer>> repositoryRoleNumberId = new RepositoryRole<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
         IRepositoryNamed<UUID, Role<UUID>> repositoryRoleUuidId = new RepositoryRole<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
 

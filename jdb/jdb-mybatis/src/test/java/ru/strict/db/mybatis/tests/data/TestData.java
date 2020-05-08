@@ -37,55 +37,55 @@ public class TestData {
 
 
 
-    public static final UserDetails<Integer> USER1 = new UserDetails<>(111,
+    public static final DetailsUser<Integer> USER1 = new DetailsUser<>(111,
             "user1",
             "user1@mail.ru",
             "password1",
             "salt1",
             "secret1");
-    public static final UserDetails<Integer> USER1_UPDATED = new UserDetails<>(111,
+    public static final DetailsUser<Integer> USER1_UPDATED = new DetailsUser<>(111,
             "user1_updated",
             "user1_updated@mail.ru",
             "password1_updated",
             "salt1_updated",
             "secret1_updated");
-    public static final UserDetails<UUID> USER1_UUID = new UserDetails<>(UUID.randomUUID(),
+    public static final DetailsUser<UUID> USER1_UUID = new DetailsUser<>(UUID.randomUUID(),
             "user1",
             "user1@mail.ru",
             "password1",
             "salt1",
             "secret1");
-    public static final UserDetails<Integer> USER2 = new UserDetails<>(112,
+    public static final DetailsUser<Integer> USER2 = new DetailsUser<>(112,
             "user2",
             "user2@mail.ru",
             "password2",
             "salt2",
             "secret2");
-    public static final UserDetails<UUID> USER2_UUID = new UserDetails<>(UUID.randomUUID(),
+    public static final DetailsUser<UUID> USER2_UUID = new DetailsUser<>(UUID.randomUUID(),
             "user2",
             "user2@mail.ru",
             "password2",
             "salt2",
             "secret2");
-    public static final UserDetails<Integer> USER3 = new UserDetails<>(113,
+    public static final DetailsUser<Integer> USER3 = new DetailsUser<>(113,
             "user3",
             "user3@mail.ru",
             "password3",
             "salt3",
             "secret3");
-    public static final UserDetails<UUID> USER3_UUID = new UserDetails<>(UUID.randomUUID(),
+    public static final DetailsUser<UUID> USER3_UUID = new DetailsUser<>(UUID.randomUUID(),
             "user3",
             "user3@mail.ru",
             "password3",
             "salt3",
             "secret3");
-    public static final UserDetails<Integer> USER4 = new UserDetails<>(114,
+    public static final DetailsUser<Integer> USER4 = new DetailsUser<>(114,
             "user4",
             "user4@mail.ru",
             "password4",
             "salt4",
             "secret4");
-    public static final UserDetails<UUID> USER4_UUID = new UserDetails<>(UUID.randomUUID(),
+    public static final DetailsUser<UUID> USER4_UUID = new DetailsUser<>(UUID.randomUUID(),
             "user4",
             "user4@mail.ru",
             "password4",
@@ -111,7 +111,7 @@ public class TestData {
 
 
 
-    public static final ProfileDetails<Integer> PROFILE_DETAILS1 = new ProfileDetails<>(111,
+    public static final DetailsProfile<Integer> PROFILE_DETAILS1 = new DetailsProfile<>(111,
             "name1",
             "surname1",
             "middlename1",
@@ -120,7 +120,7 @@ public class TestData {
             new Date(),
             "phone1",
             CITY1.getId());
-    public static final ProfileDetails<Integer> PROFILE_DETAILS1_UPDATED = new ProfileDetails<>(111,
+    public static final DetailsProfile<Integer> PROFILE_DETAILS1_UPDATED = new DetailsProfile<>(111,
             "name1_updated",
             "surname1_updated",
             "middlename1_updated",
@@ -129,7 +129,7 @@ public class TestData {
             new Date(),
             "phone1_updated",
             CITY2.getId());
-    public static final ProfileDetails<Integer> PROFILE_DETAILS2 = new ProfileDetails<>(112,
+    public static final DetailsProfile<Integer> PROFILE_DETAILS2 = new DetailsProfile<>(112,
             "name2",
             "surname2",
             "middlename2",
@@ -138,7 +138,7 @@ public class TestData {
             new Date(),
             "phone2",
             CITY1.getId());
-    public static final ProfileDetails<Integer> PROFILE_DETAILS3 = new ProfileDetails<>(113,
+    public static final DetailsProfile<Integer> PROFILE_DETAILS3 = new DetailsProfile<>(113,
             "name3",
             "surname3",
             "middlename3",

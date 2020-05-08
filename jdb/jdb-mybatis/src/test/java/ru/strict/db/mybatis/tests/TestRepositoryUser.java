@@ -7,7 +7,7 @@ import ru.strict.db.core.repositories.interfaces.IRepositoryUser;
 import ru.strict.db.mybatis.repositories.RepositoryUser;
 import ru.strict.db.mybatis.tests.runners.TestRunner;
 import ru.strict.models.ModelBase;
-import ru.strict.models.UserDetails;
+import ru.strict.models.DetailsUser;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,11 +18,11 @@ import static ru.strict.db.mybatis.tests.runners.TestRunner.*;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRepositoryUser {
 
-    private static UserDetails[] data;
+    private static DetailsUser[] data;
 
-    private static IRepositoryUser<Integer, UserDetails<Integer>> REPOSITORY_NOT_GENERATE_ID;
-    private static IRepositoryUser<Integer, UserDetails<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
-    private static IRepositoryUser<UUID, UserDetails<UUID>> REPOSITORY_GENERATE_UUID_ID;
+    private static IRepositoryUser<Integer, DetailsUser<Integer>> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryUser<Integer, DetailsUser<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
+    private static IRepositoryUser<UUID, DetailsUser<UUID>> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
     public static void setUpClass(){
@@ -50,13 +50,13 @@ public class TestRepositoryUser {
      * Заполнить тестовые данные
      */
     private static void fillData(){
-        data = new UserDetails[]{
-                new UserDetails<>("user",
+        data = new DetailsUser[]{
+                new DetailsUser<>("user",
                         "user@mail.ru",
                         "password",
                         "salt",
                         "secret"),
-                new UserDetails<>("user",
+                new DetailsUser<>("user",
                         "user@mail.ru",
                         "password",
                         "salt",
@@ -111,7 +111,7 @@ public class TestRepositoryUser {
      */
     @Test
     public void test005ReadByUuid(){
-        UserDetails model = REPOSITORY_GENERATE_UUID_ID.read((UUID)data[1].getId());
+        DetailsUser model = REPOSITORY_GENERATE_UUID_ID.read((UUID)data[1].getId());
         convertUUIDModel(model);
         Assert.assertEquals(data[1], model);
     }
@@ -132,7 +132,7 @@ public class TestRepositoryUser {
      */
     @Test
     public void test007ReadAllUuid(){
-        List<UserDetails<UUID>> list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
+        List<DetailsUser<UUID>> list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
         list.forEach(model -> convertUUIDModel(model));
         Assert.assertEquals(1, list.size());
         Assert.assertTrue(list.contains(data[1]));
@@ -257,7 +257,7 @@ public class TestRepositoryUser {
 
     @Test
     public void test019ReadByEmail(){
-        UserDetails model = REPOSITORY_GENERATE_NUMBER_ID.readByEmail(data[2].getEmail());
+        DetailsUser model = REPOSITORY_GENERATE_NUMBER_ID.readByEmail(data[2].getEmail());
         Assert.assertEquals(model, data[2]);
     }
 
@@ -279,7 +279,7 @@ public class TestRepositoryUser {
         Assert.assertFalse(result);
     }
 
-    private void convertUUIDModel(UserDetails model){
+    private void convertUUIDModel(DetailsUser model){
         model.setId(UUID.fromString(model.getId().toString()));
     }
 }

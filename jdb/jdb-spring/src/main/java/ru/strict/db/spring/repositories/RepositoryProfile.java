@@ -8,7 +8,7 @@ import ru.strict.db.core.repositories.DefaultColumns;
 import ru.strict.db.core.repositories.DefaultTable;
 import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.Profile;
-import ru.strict.models.UserDetails;
+import ru.strict.models.DetailsUser;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.repositories.interfaces.IRepositoryProfile;
 import ru.strict.db.spring.mappers.sql.MapperSpringProfile;
@@ -47,7 +47,7 @@ public class RepositoryProfile<ID>
 
     @Override
     protected Profile<ID> fill(Profile<ID> model){
-        IRepository<ID, UserDetails<ID>> repositoryUser = new RepositoryUser(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+        IRepository<ID, DetailsUser<ID>> repositoryUser = new RepositoryUser(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
         model.setUser(repositoryUser.read(model.getUserId()));
         return model;
     }

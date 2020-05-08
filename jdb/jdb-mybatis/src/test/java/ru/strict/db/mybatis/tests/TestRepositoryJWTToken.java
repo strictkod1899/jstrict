@@ -10,7 +10,7 @@ import ru.strict.db.mybatis.repositories.RepositoryUser;
 import ru.strict.db.mybatis.tests.runners.TestRunner;
 import ru.strict.models.JWTToken;
 import ru.strict.models.ModelBase;
-import ru.strict.models.UserDetails;
+import ru.strict.models.DetailsUser;
 
 import java.util.Date;
 import java.util.List;
@@ -55,8 +55,8 @@ public class TestRepositoryJWTToken {
      * Подготовить тестовые данные
      */
     private static void prepareData(){
-        IRepositoryNamed<Integer, UserDetails<Integer>> repositoryCountryNumberId = new RepositoryUser<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
-        IRepositoryNamed<UUID, UserDetails<UUID>> repositoryCountryUuidId = new RepositoryUser<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
+        IRepositoryNamed<Integer, DetailsUser<Integer>> repositoryCountryNumberId = new RepositoryUser<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
+        IRepositoryNamed<UUID, DetailsUser<UUID>> repositoryCountryUuidId = new RepositoryUser<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
 
         TestRunner.repositoriesForClearDb.add(repositoryCountryNumberId);
         TestRunner.repositoriesForClearDb.add(repositoryCountryUuidId);

@@ -8,8 +8,8 @@ import ru.strict.db.core.repositories.DefaultTable;
 import ru.strict.db.core.repositories.interfaces.IRepositoryProfileDetails;
 import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.City;
-import ru.strict.models.ProfileDetails;
-import ru.strict.models.UserDetails;
+import ru.strict.models.DetailsProfile;
+import ru.strict.models.DetailsUser;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.repositories.interfaces.IRepositoryProfile;
 import ru.strict.db.spring.mappers.sql.MapperSpringProfileDetails;
@@ -21,8 +21,8 @@ import java.sql.SQLType;
  * @param <ID> Тип идентификатора
  */
 public class RepositoryProfileDetails<ID>
-        extends RepositorySpringBase<ID, ProfileDetails<ID>>
-        implements IRepositoryProfileDetails<ID, ProfileDetails<ID>> {
+        extends RepositorySpringBase<ID, DetailsProfile<ID>>
+        implements IRepositoryProfileDetails<ID, DetailsProfile<ID>> {
 
     private static final String[] COLUMNS_NAME = DefaultColumns.PROFILE_DETAILS.columns();
 
@@ -38,7 +38,7 @@ public class RepositoryProfileDetails<ID>
     }
 
     @Override
-    protected SqlParameters getParameters(ProfileDetails<ID> model){
+    protected SqlParameters getParameters(DetailsProfile<ID> model){
         SqlParameters parameters = new SqlParameters();
         parameters.add(0, COLUMNS_NAME[0], model.getName());
         parameters.add(1, COLUMNS_NAME[1], model.getSurname());
@@ -52,8 +52,8 @@ public class RepositoryProfileDetails<ID>
     }
 
     @Override
-    protected ProfileDetails<ID> fill(ProfileDetails<ID> model){
-        IRepository<ID, UserDetails<ID>> repositoryUser = new RepositoryUser<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+    protected DetailsProfile<ID> fill(DetailsProfile<ID> model){
+        IRepository<ID, DetailsUser<ID>> repositoryUser = new RepositoryUser<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
         model.setUser(repositoryUser.read(model.getUserId()));
         IRepository<ID, City<ID>> repositoryCity = new RepositoryCity(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
         model.setCity(repositoryCity.read(model.getCityId()));

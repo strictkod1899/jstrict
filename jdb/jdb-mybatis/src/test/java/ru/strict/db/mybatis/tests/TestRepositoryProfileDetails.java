@@ -11,8 +11,8 @@ import ru.strict.db.mybatis.repositories.RepositoryUser;
 import ru.strict.db.mybatis.tests.runners.TestRunner;
 import ru.strict.models.City;
 import ru.strict.models.ModelBase;
-import ru.strict.models.ProfileDetails;
-import ru.strict.models.UserDetails;
+import ru.strict.models.DetailsProfile;
+import ru.strict.models.DetailsUser;
 
 import java.util.Date;
 import java.util.List;
@@ -24,11 +24,11 @@ import static ru.strict.db.mybatis.tests.runners.TestRunner.*;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRepositoryProfileDetails {
 
-    private static ProfileDetails[] data;
+    private static DetailsProfile[] data;
 
-    private static IRepositoryProfileDetails<Integer, ProfileDetails<Integer>> REPOSITORY_NOT_GENERATE_ID;
-    private static IRepositoryProfileDetails<Integer, ProfileDetails<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
-    private static IRepositoryProfileDetails<UUID, ProfileDetails<UUID>> REPOSITORY_GENERATE_UUID_ID;
+    private static IRepositoryProfileDetails<Integer, DetailsProfile<Integer>> REPOSITORY_NOT_GENERATE_ID;
+    private static IRepositoryProfileDetails<Integer, DetailsProfile<Integer>> REPOSITORY_GENERATE_NUMBER_ID;
+    private static IRepositoryProfileDetails<UUID, DetailsProfile<UUID>> REPOSITORY_GENERATE_UUID_ID;
 
     @BeforeClass
     public static void setUpClass(){
@@ -57,8 +57,8 @@ public class TestRepositoryProfileDetails {
      * Подготовить тестовые данные
      */
     private static void prepareData(){
-        IRepositoryNamed<Integer, UserDetails<Integer>> repositoryUserNumberId = new RepositoryUser<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
-        IRepositoryNamed<UUID, UserDetails<UUID>> repositoryUserUuidId = new RepositoryUser<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
+        IRepositoryNamed<Integer, DetailsUser<Integer>> repositoryUserNumberId = new RepositoryUser<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
+        IRepositoryNamed<UUID, DetailsUser<UUID>> repositoryUserUuidId = new RepositoryUser<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
         IRepositoryNamed<Integer, City<Integer>> repositoryCityNumberId = new RepositoryCity<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
         IRepositoryNamed<UUID, City<UUID>> repositoryCityUuidId = new RepositoryCity<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
 
@@ -86,8 +86,8 @@ public class TestRepositoryProfileDetails {
      * Заполнить тестовые данные
      */
     private static void fillData(){
-        data = new ProfileDetails[]{
-                new ProfileDetails<>("name",
+        data = new DetailsProfile[]{
+                new DetailsProfile<>("name",
                         "surname",
                         "middlename",
                         USER1.getId(),
@@ -95,7 +95,7 @@ public class TestRepositoryProfileDetails {
                         new Date(),
                         "phone",
                         CITY1.getId()),
-                new ProfileDetails<>("name",
+                new DetailsProfile<>("name",
                         "surname",
                         "middlename",
                         USER1_UUID.getId(),
@@ -153,7 +153,7 @@ public class TestRepositoryProfileDetails {
      */
     @Test
     public void test005ReadByUuid(){
-        ProfileDetails model = REPOSITORY_GENERATE_UUID_ID.read((UUID)data[1].getId());
+        DetailsProfile model = REPOSITORY_GENERATE_UUID_ID.read((UUID)data[1].getId());
         convertUUIDModel(model);
         Assert.assertEquals(data[1], model);
     }
@@ -174,7 +174,7 @@ public class TestRepositoryProfileDetails {
      */
     @Test
     public void test007ReadAllUuid(){
-        List<ProfileDetails<UUID>> list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
+        List<DetailsProfile<UUID>> list = REPOSITORY_GENERATE_UUID_ID.readAll(null);
         list.forEach(model -> convertUUIDModel(model));
         Assert.assertEquals(1, list.size());
         Assert.assertTrue(list.contains(data[1]));
@@ -307,7 +307,7 @@ public class TestRepositoryProfileDetails {
         Assert.assertEquals(data[2], list.get(0));
     }
 
-    private void convertUUIDModel(ProfileDetails model){
+    private void convertUUIDModel(DetailsProfile model){
         model.setId(UUID.fromString(model.getId().toString()));
         model.setCityId(UUID.fromString(model.getCityId().toString()));
         model.setUserId(UUID.fromString(model.getUserId().toString()));

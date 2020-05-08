@@ -12,7 +12,7 @@ import ru.strict.db.mybatis.tests.runners.TestRunner;
 import ru.strict.models.City;
 import ru.strict.models.ModelBase;
 import ru.strict.models.Profile;
-import ru.strict.models.UserDetails;
+import ru.strict.models.DetailsUser;
 
 import java.util.List;
 import java.util.UUID;
@@ -56,8 +56,8 @@ public class TestRepositoryProfile {
      * Подготовить тестовые данные
      */
     private static void prepareData(){
-        IRepositoryNamed<Integer, UserDetails<Integer>> repositoryUserNumberId = new RepositoryUser<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
-        IRepositoryNamed<UUID, UserDetails<UUID>> repositoryUserUuidId = new RepositoryUser<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
+        IRepositoryNamed<Integer, DetailsUser<Integer>> repositoryUserNumberId = new RepositoryUser<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
+        IRepositoryNamed<UUID, DetailsUser<UUID>> repositoryUserUuidId = new RepositoryUser<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
         IRepositoryNamed<Integer, City<Integer>> repositoryCityNumberId = new RepositoryCity<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE);
         IRepositoryNamed<UUID, City<UUID>> repositoryCityUuidId = new RepositoryCity<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE);
 

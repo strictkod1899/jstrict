@@ -9,7 +9,7 @@ import ru.strict.db.core.repositories.DefaultTable;
 import ru.strict.db.core.requests.DbTable;
 import ru.strict.models.Role;
 import ru.strict.models.User;
-import ru.strict.models.UserDetails;
+import ru.strict.models.DetailsUser;
 import ru.strict.models.UserOnRole;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.core.requests.DbRequests;
@@ -49,7 +49,7 @@ public class RepositoryRole<ID> extends RepositorySpringNamed<ID, Role<ID>> {
         DbRequests requests = new DbRequests();
         requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTable(), "role_id", model.getId(), "="));
         List<UserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
-        IRepository<ID, UserDetails<ID>> repositoryUser = new RepositoryUser<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+        IRepository<ID, DetailsUser<ID>> repositoryUser = new RepositoryUser<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
         List<User<ID>> users = new ArrayList<>();
         for (UserOnRole<ID> userOnRole : userOnRoles) {
             users.add(repositoryUser.read(userOnRole.getUserId()));

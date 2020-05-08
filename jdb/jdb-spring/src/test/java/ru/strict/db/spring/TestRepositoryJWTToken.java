@@ -11,7 +11,7 @@ import ru.strict.db.spring.repositories.RepositoryUser;
 import ru.strict.db.spring.runners.TestRunner;
 import ru.strict.models.JWTToken;
 import ru.strict.models.ModelBase;
-import ru.strict.models.UserDetails;
+import ru.strict.models.DetailsUser;
 
 import java.sql.JDBCType;
 import java.util.Date;
@@ -57,8 +57,8 @@ public class TestRepositoryJWTToken {
      * Подготовить тестовые данные
      */
     private static void prepareData(){
-        IRepositoryNamed<Long, UserDetails<Long>> repositoryCountryNumberId = new RepositoryUser<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE, JDBCType.BIGINT);
-        IRepositoryNamed<UUID, UserDetails<UUID>> repositoryCountryUuidId = new RepositoryUser<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE, JDBCType.BIGINT);
+        IRepositoryNamed<Long, DetailsUser<Long>> repositoryCountryNumberId = new RepositoryUser<>(CREATE_DB_INTEGER_CONNECTION, GenerateIdType.NONE, JDBCType.BIGINT);
+        IRepositoryNamed<UUID, DetailsUser<UUID>> repositoryCountryUuidId = new RepositoryUser<>(CREATE_DB_UUID_CONNECTION, GenerateIdType.NONE, JDBCType.BIGINT);
 
         TestRunner.repositoriesForClearDb.add(repositoryCountryNumberId);
         TestRunner.repositoriesForClearDb.add(repositoryCountryUuidId);

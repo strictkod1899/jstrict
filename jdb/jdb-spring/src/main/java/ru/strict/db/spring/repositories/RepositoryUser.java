@@ -17,8 +17,8 @@ import java.sql.SQLType;
 import java.util.*;
 
 public class RepositoryUser<ID>
-        extends RepositorySpringNamed<ID, UserDetails<ID>>
-        implements IRepositoryUser<ID, UserDetails<ID>> {
+        extends RepositorySpringNamed<ID, DetailsUser<ID>>
+        implements IRepositoryUser<ID, DetailsUser<ID>> {
 
     private static final String[] COLUMNS_NAME = DefaultColumns.USER.columns();
 
@@ -34,7 +34,7 @@ public class RepositoryUser<ID>
     }
 
     @Override
-    protected SqlParameters getParameters(UserDetails<ID> model){
+    protected SqlParameters getParameters(DetailsUser<ID> model){
         SqlParameters parameters = new SqlParameters();
         parameters.add(0, COLUMNS_NAME[0], model.getUsername());
         parameters.add(1, COLUMNS_NAME[1], model.getPasswordEncode());
@@ -48,7 +48,7 @@ public class RepositoryUser<ID>
     }
 
     @Override
-    protected UserDetails fill(UserDetails model){
+    protected DetailsUser fill(DetailsUser model){
         // Добавление ролей пользователей
         IRepository<ID, UserOnRole<ID>> repositoryUserOnRole = new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
         DbRequests requests = new DbRequests();

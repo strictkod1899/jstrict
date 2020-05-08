@@ -1,6 +1,6 @@
 package ru.strict.db.spring.security;
 
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.DetailsUser;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.strict.db.spring.repositories.RepositoryUserSecurity;
 
@@ -18,7 +18,7 @@ public class SpringUserDetailsService<ID> implements UserDetailsService {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String username){
+	public DetailsUser loadUserByUsername(String username){
 		return repositoryUser.readByName(username);
 	}
 }

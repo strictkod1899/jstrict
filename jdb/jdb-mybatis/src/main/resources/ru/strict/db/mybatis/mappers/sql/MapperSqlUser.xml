@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ru.strict.db.mybatis.mappers.sql.MapperSqlUser">
 
-    <resultMap id="user" type="ru.strict.models.UserDetails">
+    <resultMap id="user" type="ru.strict.models.DetailsUser">
         <id property="id" column="id"/>
         <result property="username" column="username"/>
         <result property="email" column="email"/>
@@ -14,7 +14,7 @@
         <result property="secret" column="secret"/>
     </resultMap>
 
-    <resultMap id="userFill" type="ru.strict.models.UserDetails" extends="user">
+    <resultMap id="userFill" type="ru.strict.models.DetailsUser" extends="user">
         <collection property="profiles"
                     column="id"
                     javaType="List"
@@ -51,7 +51,7 @@
         SELECT <include refid="userFields"/> FROM userx WHERE username = #{caption}
     </sql>
 
-    <insert id="create" parameterType="ru.strict.models.UserDetails">
+    <insert id="create" parameterType="ru.strict.models.DetailsUser">
         INSERT INTO userx (id, username, email, passwordencode, is_blocked, is_deleted, is_confirm_email, salt, secret)
         VALUES (#{id}, #{username}, #{email}, #{passwordEncode}, #{blocked}, #{deleted}, #{confirmEmail},
         #{salt}, #{secret})
@@ -75,7 +75,7 @@
         SELECT <include refid="userFields"/> FROM userx
     </select>
 
-    <update id="update" parameterType="ru.strict.models.UserDetails">
+    <update id="update" parameterType="ru.strict.models.DetailsUser">
         UPDATE userx SET username = #{username}, email = #{email}, passwordencode = #{passwordEncode},
         is_blocked = #{blocked}, is_deleted = #{deleted}, is_confirm_email = #{confirmEmail},
         salt = #{salt}, secret = #{secret}
