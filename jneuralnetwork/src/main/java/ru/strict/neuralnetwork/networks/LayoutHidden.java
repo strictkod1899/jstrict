@@ -10,7 +10,7 @@ class LayoutHidden {
     //<editor-fold defaultstate="collapsed" desc="constructors">
     LayoutHidden(int countHiddenNeurons) {
         neurons = new Neuron[countHiddenNeurons];
-        for(int i=0; i<countHiddenNeurons; i++) {
+        for (int i = 0; i < countHiddenNeurons; i++) {
             neurons[i] = new Neuron(0, NeuronType.HIDDEN);
         }
         this.bias = new Neuron(0, NeuronType.BIAS);
@@ -18,13 +18,13 @@ class LayoutHidden {
 
     LayoutHidden(int countHiddenNeurons, boolean isUseBeas) {
         neurons = new Neuron[countHiddenNeurons];
-        for(int i=0; i<countHiddenNeurons; i++) {
+        for (int i = 0; i < countHiddenNeurons; i++) {
             neurons[i] = new Neuron(0, NeuronType.HIDDEN);
         }
 
-        if(isUseBeas) {
+        if (isUseBeas) {
             this.bias = new Neuron(1, NeuronType.BIAS);
-        }else {
+        } else {
             this.bias = new Neuron(0, NeuronType.BIAS);
         }
     }
@@ -35,7 +35,7 @@ class LayoutHidden {
         return neurons;
     }
 
-    public Neuron getNeuron(int i){
+    public Neuron getNeuron(int i) {
         return neurons[i];
     }
 
@@ -49,16 +49,18 @@ class LayoutHidden {
      * <b>ВАЖНО:</b> Не использовать метод вручную. Требуемая область видимости: protected.
      * Создавать объект LayoutHidden через метод addLayout класса HiddenStructure
      * </pre>
+     *
      * @param isUseBias
      */
     public void setBias(boolean isUseBias) {
-        if(isUseBias)
+        if (isUseBias) {
             this.bias = new Neuron(1, NeuronType.BIAS);
-        else
+        } else {
             this.bias = new Neuron(0, NeuronType.BIAS);
+        }
     }
 
-    public int size(){
+    public int size() {
         return neurons.length;
     }
     //</editor-fold>

@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * Базовая структура нейронной сети
  */
-abstract class NeuralNetworkStructure implements Cloneable{
+abstract class NeuralNetworkStructure implements Cloneable {
 
     private int countInputs;
     private int countOutputs;
@@ -21,10 +21,16 @@ abstract class NeuralNetworkStructure implements Cloneable{
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
     NeuralNetworkStructure(int countInputs, int countOutputs) {
-        if(countInputs < 1)
-            throw new IllegalArgumentException("Neural Network structure do not should have input neurons count is negative. [Input neurons count < 1]");
-        if(countOutputs < 1)
-            throw new IllegalArgumentException("Neural Network structure do not should have output neurons count is negative. [Output neurons count < 1]");
+        if (countInputs < 1) {
+            throw new IllegalArgumentException(
+                    "Neural Network structure do not should have input neurons count is negative. [Input neurons " +
+                            "count < 1]");
+        }
+        if (countOutputs < 1) {
+            throw new IllegalArgumentException(
+                    "Neural Network structure do not should have output neurons count is negative. [Output neurons " +
+                            "count < 1]");
+        }
 
         this.countInputs = countInputs;
         this.countOutputs = countOutputs;
@@ -32,10 +38,10 @@ abstract class NeuralNetworkStructure implements Cloneable{
         outputNeurons = new Neuron[countOutputs];
         synapses = new ArrayList<>();
 
-        for(int i = 0; i< countInputs; i++) {
+        for (int i = 0; i < countInputs; i++) {
             inputNeurons[i] = new Neuron(0, NeuronType.INPUT);
         }
-        for(int i = 0; i< countOutputs; i++) {
+        for (int i = 0; i < countOutputs; i++) {
             outputNeurons[i] = new Neuron(0, NeuronType.OUTPUT);
         }
     }
@@ -48,50 +54,57 @@ abstract class NeuralNetworkStructure implements Cloneable{
 
     /**
      * Генерация случайного веса для синапса
+     *
      * @return вес синапса
      */
-    protected float generateWeight(){
+    protected float generateWeight() {
         float randomValue = random.nextFloat();
         return randomValue;
     }
 
     //<editor-fold defaultstate="collapsed" desc="Get/Set">
-    public boolean isSynapsesExists(){
+    public boolean isSynapsesExists() {
         return synapses != null && synapses.size() > 0;
     }
+
     /**
      * Добавить синапс - связь между двумя нейронами
+     *
      * @param synapse Скрытый слой
      */
-    protected void addSynapse(Synapse synapse){
+    protected void addSynapse(Synapse synapse) {
         synapses.add(synapse);
     }
 
-    public void setSynapseWeight(Synapse synapse, float newWeight){
+    public void setSynapseWeight(Synapse synapse, float newWeight) {
         synapses.get(findIndexSynapse(synapse)).setWeight(newWeight);
     }
 
-    public int findIndexSynapse(Synapse synapse){
-        for(int i=0; i<synapses.size(); i++){
-            if(synapses.get(i).equals(synapse))
+    public int findIndexSynapse(Synapse synapse) {
+        for (int i = 0; i < synapses.size(); i++) {
+            if (synapses.get(i).equals(synapse)) {
                 return i;
+            }
         }
         return -1;
     }
 
-    public Synapse findSynapse(Neuron sourceNeuron, Neuron targetNeuron){
-        return synapses.stream().filter((s) -> s.getSourceNeuron().equals(sourceNeuron) && s.getTargetNeuron().equals(targetNeuron)).findFirst().orElse(null);
+    public Synapse findSynapse(Neuron sourceNeuron, Neuron targetNeuron) {
+        return synapses.stream()
+                .filter((s) -> s.getSourceNeuron().equals(sourceNeuron) && s.getTargetNeuron().equals(targetNeuron))
+                .findFirst()
+                .orElse(null);
     }
 
-    public Synapse[] findSynapses(Neuron targetNeuron){
+    public Synapse[] findSynapses(Neuron targetNeuron) {
         return synapses.stream().filter((s) -> s.getTargetNeuron().equals(targetNeuron)).toArray(Synapse[]::new);
     }
 
-    public void setInputValue(int i, float value){
+    public void setInputValue(int i, float value) {
         inputNeurons[i].setValue(value);
     }
 
-    public void setOutputValue(int i, float value){
+    public void setOutputValue(int i, float value) {
         outputNeurons[i].setValue(value);
     }
 
@@ -120,7 +133,7 @@ abstract class NeuralNetworkStructure implements Cloneable{
     }
 
     public void setUseBias(boolean isUseBias) {
-        if(isUseBias) {
+        if (isUseBias) {
             bias = new Neuron(1, NeuronType.BIAS);
         } else {
             bias = new Neuron(0, NeuronType.BIAS);
@@ -132,7 +145,7 @@ abstract class NeuralNetworkStructure implements Cloneable{
     //<editor-fold defaultstate="collapsed" desc="Base override">
     @Override
     public boolean equals(Object obj) {
-        if(obj!=null && obj instanceof NeuralNetworkStructure) {
+        if (obj != null && obj instanceof NeuralNetworkStructure) {
             NeuralNetworkStructure object = (NeuralNetworkStructure) obj;
             return countInputs == object.countInputs &&
                     countOutputs == object.countOutputs &&
@@ -141,7 +154,7 @@ abstract class NeuralNetworkStructure implements Cloneable{
                     Objects.equals(bias, object.bias) &&
                     Objects.equals(synapses, object.synapses) &&
                     Objects.equals(random, object.random);
-        }else{
+        } else {
             return false;
         }
     }

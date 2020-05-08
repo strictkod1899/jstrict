@@ -1,5 +1,7 @@
 package ru.strict.neuralnetwork.networks;
 
+import ru.strict.validate.Validator;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -34,7 +36,7 @@ import java.util.Random;
  *      data.addTrainingSet(dataSet);
  * </pre></code>
  */
-class NeuralNetworkData implements Cloneable{
+class NeuralNetworkData implements Cloneable {
 
     private int countInputs;
     private int countOutputs;
@@ -44,30 +46,31 @@ class NeuralNetworkData implements Cloneable{
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
     NeuralNetworkData(int countInputs, int countOutputs) {
-        if(countInputs < 1){
-            throw new IllegalArgumentException("inputNeurons is NULL");
-        }
-        if(countOutputs < 1){
-            throw new IllegalArgumentException("outputNeurons is NULL");
-        }
+        Validator.isLess(countInputs, "countInputs", 1)
+                .reason("inputNeurons is NULL")
+                .isLess(countOutputs, "countOutputs", 1)
+                .reason("countOutputs is NULL")
+                .onThrow();
+
         this.countInputs = countInputs;
         this.countOutputs = countOutputs;
-        trainingSets = new ArrayList();
-        testSets = new ArrayList();
+        trainingSets = new ArrayList<>();
+        testSets = new ArrayList<>();
     }
     //</editor-fold>
 
     /**
      * Получить тестовые данные в случайном порядке
+     *
      * @return
      */
     public List<NeuralNetworkDataSet> getRandomTrainingSets() {
         List<NeuralNetworkDataSet> randomTrainingSets = new ArrayList<>();
         Random random = new Random();
         List<Integer> usedIndeces = new ArrayList();
-        while(randomTrainingSets.size()!=trainingSets.size()){
+        while (randomTrainingSets.size() != trainingSets.size()) {
             int i = random.nextInt(trainingSets.size());
-            if(!usedIndeces.contains(i)) {
+            if (!usedIndeces.contains(i)) {
                 usedIndeces.add(i);
                 randomTrainingSets.add(trainingSets.get(i));
             }
@@ -76,17 +79,20 @@ class NeuralNetworkData implements Cloneable{
     }
 
     //<editor-fold defaultstate="collapsed" desc="Get/Set">
-    public void addTrainingSet(NeuralNetworkDataSet set){
-        if(set.getCountInput()!= countInputs || set.getCountOutput()!= countOutputs) {
-            throw new IllegalArgumentException("number input neurons or number output neurons to trainings differenced from required data structure");
+    public void addTrainingSet(NeuralNetworkDataSet set) {
+        if (set.getCountInput() != countInputs || set.getCountOutput() != countOutputs) {
+            throw new IllegalArgumentException(
+                    "number input neurons or number output neurons to trainings differenced from required data " +
+                            "structure");
         }
 
         trainingSets.add(set);
     }
 
-    public void addTestSet(NeuralNetworkDataSet set){
-        if(set.getCountInput()!= countInputs || set.getCountOutput()!= countOutputs) {
-            throw new IllegalArgumentException("number input neurons or number output neurons to test differenced from required data structure");
+    public void addTestSet(NeuralNetworkDataSet set) {
+        if (set.getCountInput() != countInputs || set.getCountOutput() != countOutputs) {
+            throw new IllegalArgumentException(
+                    "number input neurons or number output neurons to test differenced from required data structure");
         }
 
         testSets.add(set);
@@ -120,7 +126,7 @@ class NeuralNetworkData implements Cloneable{
 
     //<editor-fold defaultstate="collapsed" desc="Base override">
     @Override
-    public NeuralNetworkData clone(){
+    public NeuralNetworkData clone() {
         NeuralNetworkData clone = new NeuralNetworkData(countInputs, countOutputs);
         clone.setTrainingSets(trainingSets);
         clone.setTestSets(testSets);
@@ -129,13 +135,13 @@ class NeuralNetworkData implements Cloneable{
 
     @Override
     public boolean equals(Object obj) {
-        if(obj!=null && obj instanceof NeuralNetworkData) {
+        if (obj != null && obj instanceof NeuralNetworkData) {
             NeuralNetworkData object = (NeuralNetworkData) obj;
             return Objects.equals(trainingSets, object.getTrainingSets()) &&
                     Objects.equals(testSets, object.getTestSets()) &&
                     Objects.equals(countInputs, object.getCountInputs()) &&
                     Objects.equals(countOutputs, object.getCountOutputs());
-        }else{
+        } else {
             return false;
         }
     }

@@ -18,7 +18,7 @@ public class AlfaSigmoid implements IActivateFunction {
 
     @Override
     public float calc(float value) {
-        return (float)((1)/(1+(Math.pow(Math.E, -alfa * (Double.parseDouble(String.valueOf(value)))))));
+        return (float) ((1) / (1 + (Math.pow(Math.E, -alfa * (Double.parseDouble(String.valueOf(value)))))));
     }
 
     public double getAlfa() {

@@ -1,5 +1,7 @@
 package ru.strict.neuralnetwork.networks;
 
+import ru.strict.validate.Validator;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +16,8 @@ import java.util.Objects;
  *      network.learn(3000, 0.2f, 0.3f);
  *      ...
  * </pre></code>
- * Если планируется использовать нейронную сеть с одним скрытым слоем, тогда возможно использовать конструктор с четырями параметрами,
+ * Если планируется использовать нейронную сеть с одним скрытым слоем, тогда возможно использовать конструктор с
+ * четырями параметрами,
  * где второй параметр определяет количество элементов в скрытом слое.
  * <p><b>Пример использования (2):</b></p>
  * <code><pre style="background-color: white; font-family: consolas">
@@ -39,9 +42,11 @@ class HiddenStructure extends NeuralNetworkStructure {
 
     HiddenStructure(int countInputs, int countHiddens, int countOutputs) {
         super(countInputs, countOutputs);
-        if(countHiddens < 1) {
-            throw new IllegalArgumentException("Neural Network structure do not should have hidden neurons count is negative. [Hidden neurons count < 1]");
-        }
+        Validator.isLess(countHiddens, "countHiddens", 1)
+                .details(
+                        "Neural Network structure do not should have hidden neurons count is negative. [Hidden " +
+                                "neurons count < 1]")
+                .onThrow();
 
         this.layoutsHidden = new ArrayList<>();
         layoutsHidden.add(new LayoutHidden(countHiddens));
@@ -51,40 +56,40 @@ class HiddenStructure extends NeuralNetworkStructure {
     @Override
     public void generateSynapses() {
         int countLayouts = layoutsHidden.size();
-        for(int i=0; i<countLayouts; i++){
+        for (int i = 0; i < countLayouts; i++) {
             Neuron[] hiddens = layoutsHidden.get(i).getNeurons();
-            for(Neuron hidden : hiddens){
-                if(i==0) {
+            for (Neuron hidden : hiddens) {
+                if (i == 0) {
                     Neuron[] inputs = getInputNeurons();
-                    for(Neuron input : inputs) {
+                    for (Neuron input : inputs) {
                         generateSynapse(input, hidden);
                     }
 
                     Neuron bias = getBias();
-                    if(bias.getValue()==1) {
+                    if (bias.getValue() == 1) {
                         generateSynapse(bias, hidden);
                     }
                 }
 
-                if(i>0){
-                    Neuron[] preHiddens = layoutsHidden.get(i-1).getNeurons();
-                    for(Neuron preHidden : preHiddens) {
+                if (i > 0) {
+                    Neuron[] preHiddens = layoutsHidden.get(i - 1).getNeurons();
+                    for (Neuron preHidden : preHiddens) {
                         generateSynapse(preHidden, hidden);
                     }
 
-                    Neuron bias = layoutsHidden.get(i-1).getBias();
-                    if(bias.getValue()==1) {
+                    Neuron bias = layoutsHidden.get(i - 1).getBias();
+                    if (bias.getValue() == 1) {
                         generateSynapse(bias, hidden);
                     }
                 }
 
-                if(i==countLayouts-1){
+                if (i == countLayouts - 1) {
                     Neuron[] outputs = getOutputNeurons();
-                    for(Neuron output : outputs) {
+                    for (Neuron output : outputs) {
                         generateSynapse(hidden, output);
 
                         Neuron bias = layoutsHidden.get(i).getBias();
-                        if(bias.getValue()==1) {
+                        if (bias.getValue() == 1) {
                             generateSynapse(bias, output);
                         }
                     }
@@ -93,9 +98,9 @@ class HiddenStructure extends NeuralNetworkStructure {
         }
     }
 
-    private void generateSynapse(Neuron sourceNeuron, Neuron targetNeuron){
+    private void generateSynapse(Neuron sourceNeuron, Neuron targetNeuron) {
         Synapse synapse = findSynapse(sourceNeuron, targetNeuron);
-        if(synapse==null) {
+        if (synapse == null) {
             addSynapse(new Synapse(sourceNeuron, targetNeuron, generateWeight()));
         } else {
             setSynapseWeight(synapse, generateWeight());
@@ -103,27 +108,31 @@ class HiddenStructure extends NeuralNetworkStructure {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Get/Set">
-    public void setHiddenValue(int indexLayout, int indexHiddenNeuron, float value){
+    public void setHiddenValue(int indexLayout, int indexHiddenNeuron, float value) {
         layoutsHidden.get(indexLayout).getNeurons()[indexHiddenNeuron].setValue(value);
     }
 
     /**
      * Добавить скрытый слой
+     *
      * @param countHiddenNeurons Количество нейронов в скрытом слое
      */
-    public void addLayoutHidden(int countHiddenNeurons){
-        if(countHiddenNeurons < 1){
-            throw new IllegalArgumentException("Neural Network structure do not should have hidden neurons count is negative. [Hidden neurons count < 1]");
-        }
+    public void addLayoutHidden(int countHiddenNeurons) {
+        Validator.isLess(countHiddenNeurons, "countHiddenNeurons", 1)
+                .details(
+                        "Neural Network structure do not should have hidden neurons count is negative. [Hidden " +
+                                "neurons count < 1]")
+                .onThrow();
+
         LayoutHidden layoutHidden = new LayoutHidden(countHiddenNeurons);
-        layoutHidden.setBias(getBias().getValue()==1 ? true: false);
+        layoutHidden.setBias(getBias().getValue() == 1 ? true : false);
         layoutsHidden.add(layoutHidden);
     }
 
     /**
      * @return Количество скрытых слоев
      */
-    public int getSizeLayoutsHidden(){
+    public int getSizeLayoutsHidden() {
         return layoutsHidden.size();
     }
 
@@ -138,19 +147,19 @@ class HiddenStructure extends NeuralNetworkStructure {
 
     //<editor-fold defaultstate="collapsed" desc="Base override">
     @Override
-    public HiddenStructure clone(){
+    public HiddenStructure clone() {
         HiddenStructure clone = new HiddenStructure(getCountInputs(), getCountOutputs());
-        clone.setUseBias(getBias().getValue()==1 ? true : false);
+        clone.setUseBias(getBias().getValue() == 1 ? true : false);
         clone.setLayoutsHidden(layoutsHidden);
         return clone;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if(obj!=null && obj instanceof HiddenStructure) {
+        if (obj != null && obj instanceof HiddenStructure) {
             HiddenStructure object = (HiddenStructure) obj;
             return super.equals(obj) && Objects.equals(layoutsHidden, object.getLayoutsHidden());
-        }else{
+        } else {
             return false;
         }
     }

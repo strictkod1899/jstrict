@@ -28,10 +28,10 @@ class NeuralNetworkDataSet {
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
     NeuralNetworkDataSet(Neuron[] inputNeurons, Neuron[] outputNeurons) {
-        if(inputNeurons == null || inputNeurons.length < 1){
+        if (inputNeurons == null || inputNeurons.length < 1) {
             throw new IllegalArgumentException("inputNeurons is NULL or empty");
         }
-        if(outputNeurons == null || outputNeurons.length < 1){
+        if (outputNeurons == null || outputNeurons.length < 1) {
             throw new IllegalArgumentException("outputNeurons is NULL or empty");
         }
         this.inputNeurons = inputNeurons;
@@ -42,17 +42,19 @@ class NeuralNetworkDataSet {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Get/Set">
-    public void setInputNeurons(Neuron...inputNeurons){
-        if(inputNeurons.length!=countInput) {
-            throw new IllegalArgumentException("number input neurons to data set differenced from required data structure");
+    public void setInputNeurons(Neuron... inputNeurons) {
+        if (inputNeurons.length != countInput) {
+            throw new IllegalArgumentException(
+                    "number input neurons to data set differenced from required data structure");
         }
 
         this.inputNeurons = inputNeurons;
     }
 
-    public void setOutputNeurons(Neuron...outputNeurons){
-        if(outputNeurons.length!=countOutput) {
-            throw new IllegalArgumentException("number output neurons to data set differenced from required data structure");
+    public void setOutputNeurons(Neuron... outputNeurons) {
+        if (outputNeurons.length != countOutput) {
+            throw new IllegalArgumentException(
+                    "number output neurons to data set differenced from required data structure");
         }
 
         this.outputNeurons = outputNeurons;
@@ -77,23 +79,27 @@ class NeuralNetworkDataSet {
 
     //<editor-fold defaultstate="collapsed" desc="Base override">
     @Override
-    public String toString(){
+    public String toString() {
         final StringBuilder inputs = new StringBuilder("");
         final StringBuilder outputs = new StringBuilder("");
         Arrays.stream(inputNeurons).forEach((i) -> inputs.append(i.getValue() + " | "));
         Arrays.stream(outputNeurons).forEach((i) -> outputs.append(i.getValue() + " | "));
-        return String.format("DataSet [%s/%s]: inputs - %s; outputs - %s", countInput, countOutput, inputs.toString(), outputs.toString());
+        return String.format("DataSet [%s/%s]: inputs - %s; outputs - %s",
+                countInput,
+                countOutput,
+                inputs.toString(),
+                outputs.toString());
     }
 
     @Override
     public boolean equals(Object obj) {
-        if(obj!=null && obj instanceof NeuralNetworkDataSet) {
+        if (obj != null && obj instanceof NeuralNetworkDataSet) {
             NeuralNetworkDataSet object = (NeuralNetworkDataSet) obj;
             return countInput == object.countInput &&
                     countOutput == object.countOutput &&
                     Arrays.equals(inputNeurons, object.inputNeurons) &&
                     Arrays.equals(outputNeurons, object.outputNeurons);
-        }else{
+        } else {
             return false;
         }
     }

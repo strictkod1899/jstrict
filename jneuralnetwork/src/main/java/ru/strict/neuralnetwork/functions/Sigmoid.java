@@ -7,6 +7,6 @@ public class Sigmoid implements IActivateFunction {
      */
     @Override
     public float calc(float value) {
-        return (float)((1)/(1+(Math.pow(Math.E, -(Double.parseDouble(String.valueOf(value)))))));
+        return (float) ((1) / (1 + (Math.pow(Math.E, -(Double.parseDouble(String.valueOf(value)))))));
     }
 }

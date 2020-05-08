@@ -1,6 +1,7 @@
 package ru.strict.neuralnetwork.networks;
 
 import ru.strict.neuralnetwork.functions.IActivateFunction;
+import ru.strict.validate.Validator;
 
 import java.util.List;
 
@@ -26,22 +27,20 @@ public abstract class NeuralNetwork<DATA extends NeuralNetworkData, STRUCT exten
     private IActivateFunction activateFunction;
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    private void ensureCreateInstance(DATA data, STRUCT structure, IActivateFunction activateFunction){
-        if(data==null) {
-            throw new IllegalArgumentException("Neural Network do not supported null value. [NeuralNetworkData is null]");
-        }
-        if(structure==null) {
-            throw new IllegalArgumentException("Neural Network do not supported null value. [NeuralNetworkStructure is null]");
-        }
-        if(activateFunction==null) {
-            throw new IllegalArgumentException("Neural Network do not supported null value. [IActivateFunction is null]");
-        }
+    private void ensureCreateInstance(DATA data, STRUCT structure, IActivateFunction activateFunction) {
+        Validator.isNull(data, "data")
+                .details("Neural Network do not supported null value. [NeuralNetworkData is null]")
+                .isNull(structure, "structure")
+                .details("Neural Network do not supported null value. [NeuralNetworkStructure is null]")
+                .isNull(activateFunction, "activateFunction")
+                .details("Neural Network do not supported null value. [IActivateFunction is null]")
+                .onThrow();
     }
 
     NeuralNetwork(DATA data, STRUCT structure, IActivateFunction activateFunction) {
-        try{
+        try {
             ensureCreateInstance(data, structure, activateFunction);
-        }catch(Exception ex) {
+        } catch (Exception ex) {
             throw ex;
         }
 
@@ -53,15 +52,15 @@ public abstract class NeuralNetwork<DATA extends NeuralNetworkData, STRUCT exten
 
     @Override
     public void learn(int epochs, float speed, float moment) {
-        if(!structure.isSynapsesExists()){
+        if (!structure.isSynapsesExists()) {
             generateSynapses();
         }
 
-        if(epochs<=0) {
-            throw new IllegalArgumentException("Learning exception: epoch count should not be is negative. [Epochs <= 0]");
-        }
+        Validator.isLessOrEquals(epochs, "epochs", 0)
+                .details("Learning exception: epoch count should not be is negative. [Epochs <= 0]")
+                .onThrow();
 
-        for(int epoch=0; epoch<epochs; epoch++) {
+        for (int epoch = 0; epoch < epochs; epoch++) {
             List<NeuralNetworkDataSet> trainingSets = getData().getRandomTrainingSets();
             for (NeuralNetworkDataSet trainingSet : trainingSets) {
                 implementLearn(trainingSet, speed, moment);
@@ -74,56 +73,56 @@ public abstract class NeuralNetwork<DATA extends NeuralNetworkData, STRUCT exten
     /**
      * Сгенерировать синапсы - связи между нейронами
      */
-    public void generateSynapses(){
+    public void generateSynapses() {
         structure.generateSynapses();
     }
 
     //<editor-fold defaultstate="collapsed" desc="Get/Set">
-    public Neuron getBias(){
+    public Neuron getBias() {
         return structure.getBias();
     }
 
-    public void setSynapseWeight(Synapse synapse, float newWeight){
+    public void setSynapseWeight(Synapse synapse, float newWeight) {
         structure.setSynapseWeight(synapse, newWeight);
     }
 
-    public int findIndexSynapse(Synapse synapse){
+    public int findIndexSynapse(Synapse synapse) {
         return structure.findIndexSynapse(synapse);
     }
 
-    public Synapse findSynapse(Neuron sourceNeuron, Neuron targetNeuron){
+    public Synapse findSynapse(Neuron sourceNeuron, Neuron targetNeuron) {
         return getStructure().findSynapse(sourceNeuron, targetNeuron);
     }
 
-    public Synapse[] findSynapses(Neuron targetNeuron){
+    public Synapse[] findSynapses(Neuron targetNeuron) {
         return getStructure().findSynapses(targetNeuron);
     }
 
-    public Neuron[] getInputNeurons(){
+    public Neuron[] getInputNeurons() {
         return getStructure().getInputNeurons();
     }
 
-    public Neuron[] getOutputNeurons(){
+    public Neuron[] getOutputNeurons() {
         return getStructure().getOutputNeurons();
     }
 
-    public void setOutputValue(int i, float value){
+    public void setOutputValue(int i, float value) {
         getStructure().setOutputValue(i, value);
     }
 
-    public void setInputValue(int i, float value){
+    public void setInputValue(int i, float value) {
         getStructure().setInputValue(i, value);
     }
 
-    public Neuron getInputNeuron(int i){
+    public Neuron getInputNeuron(int i) {
         return getStructure().getInputNeurons()[i];
     }
 
-    public Neuron getOutputNeuron(int i){
+    public Neuron getOutputNeuron(int i) {
         return getStructure().getOutputNeurons()[i];
     }
 
-    public List<Synapse> getSynapses(){
+    public List<Synapse> getSynapses() {
         return structure.getSynapses();
     }
 

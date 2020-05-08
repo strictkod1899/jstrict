@@ -19,30 +19,31 @@ public abstract class NeuralNetworkHidden<DATA extends NeuralNetworkData, STRUCT
     protected abstract Neuron[] feedforward(Neuron[] inputs);
 
     //<editor-fold defaultstate="collapsed" desc="Get/Set">
-    public LayoutHidden getLayoutHidden(int i){
+    public LayoutHidden getLayoutHidden(int i) {
         return getStructure().getLayoutsHidden().get(i);
     }
 
-    public List<LayoutHidden> getLayoutsHidden(){
+    public List<LayoutHidden> getLayoutsHidden() {
         return getStructure().getLayoutsHidden();
     }
 
-    public void setHiddenValue(int indexLayout, int indexHiddenNeuron, float value){
+    public void setHiddenValue(int indexLayout, int indexHiddenNeuron, float value) {
         getStructure().setHiddenValue(indexLayout, indexHiddenNeuron, value);
     }
 
     /**
      * Добавить скрытый слой
+     *
      * @param countHiddenNeurons Количество нейронов в скрытом слое
      */
-    public void addLayoutHidden(int countHiddenNeurons){
+    public void addLayoutHidden(int countHiddenNeurons) {
         getStructure().addLayoutHidden(countHiddenNeurons);
     }
 
     /**
      * @return Количество скрытых слоев
      */
-    public int getCountLayoutsHidden(){
+    public int getCountLayoutsHidden() {
         return getStructure().getSizeLayoutsHidden();
     }
     //</editor-fold>

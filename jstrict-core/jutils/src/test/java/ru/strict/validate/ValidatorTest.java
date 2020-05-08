@@ -6,6 +6,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import ru.strict.exceptions.ValidateException;
 
+import java.util.Collections;
+
 @RunWith(JUnit4.class)
 public class ValidatorTest {
 
@@ -151,17 +153,21 @@ public class ValidatorTest {
         Object value2 = null;
         Object value3 = null;
 
+        String expectedReason = "reason1";
         String expectedDetails = "details1";
 
         try {
             Validator.isNull(value1, "value1")
+                    .reason(expectedReason)
                     .details(expectedDetails)
                     .isNull(value2, "value2")
+                    .reason("reason2")
                     .details("details2")
                     .isNull(value3, "value3")
                     .details("details3")
                     .onThrow();
         } catch (ValidateException ex) {
+            Assert.assertEquals(Collections.singletonList(expectedReason), ex.getReasons());
             Assert.assertEquals(expectedDetails, ex.getDetails());
         }
     }

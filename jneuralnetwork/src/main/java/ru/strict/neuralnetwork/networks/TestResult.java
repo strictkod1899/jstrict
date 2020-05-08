@@ -22,13 +22,13 @@ public class TestResult {
     //</editor-fold>
 
     @Override
-    public String toString(){
+    public String toString() {
         String expected = "";
         String actually = "";
-        for(Neuron neuron : getExpectedNeurons()) {
+        for (Neuron neuron : getExpectedNeurons()) {
             expected += neuron.getValue() + " | ";
         }
-        for(Neuron neuron : getActualNeurons()) {
+        for (Neuron neuron : getActualNeurons()) {
             actually += neuron.getValue() + " | ";
         }
         String result = String.format("Expected: %s\t Actually: %s", expected, actually);

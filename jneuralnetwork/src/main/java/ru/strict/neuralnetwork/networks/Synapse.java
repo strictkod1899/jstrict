@@ -55,13 +55,13 @@ class Synapse {
 
     //<editor-fold defaultstate="collapsed" desc="Base override">
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("Synapse [weight=%s] from %s to %s", weight, sourceNeuron, targetNeuron);
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj != null && obj instanceof Synapse) {
+    public boolean equals(Object obj) {
+        if (obj != null && obj instanceof Synapse) {
             Synapse object = (Synapse) obj;
             return Objects.equals(sourceNeuron, object.getSourceNeuron())
                     && Objects.equals(targetNeuron, object.getTargetNeuron())
@@ -72,7 +72,7 @@ class Synapse {
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return Objects.hash(sourceNeuron, targetNeuron, weight);
     }
     //</editor-fold>

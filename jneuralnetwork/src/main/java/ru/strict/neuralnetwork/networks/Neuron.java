@@ -6,7 +6,7 @@ import java.util.UUID;
 /**
  * Нейрон
  */
-public class Neuron implements Cloneable{
+public class Neuron implements Cloneable {
 
     /**
      * Идентификатор нейрона
@@ -105,30 +105,34 @@ public class Neuron implements Cloneable{
 
     //<editor-fold defaultstate="collapsed" desc="Base override">
     @Override
-    public String toString(){
-        return String.format("neuron [%s]: value - %s; type - %s; caption - %s", entryId.toString(), value, type, caption);
+    public String toString() {
+        return String.format("neuron [%s]: value - %s; type - %s; caption - %s",
+                entryId.toString(),
+                value,
+                type,
+                caption);
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof Neuron) {
+    public boolean equals(Object obj) {
+        if (obj != null && obj instanceof Neuron) {
             Neuron object = (Neuron) obj;
             return Objects.equals(entryId, object.getEntryId())
                     && Objects.equals(value, object.getValue())
                     && Objects.equals(caption, object.getCaption())
                     && Objects.equals(type, object.getType());
-        }else{
+        } else {
             return false;
         }
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return Objects.hash(entryId, value, caption, type);
     }
 
     @Override
-    public Neuron clone(){
+    public Neuron clone() {
         return new Neuron(UUID.fromString(entryId.toString()), value, caption, NeuronType.values()[type.ordinal()]);
     }
     //</editor-fold>
