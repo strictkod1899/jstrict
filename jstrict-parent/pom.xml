@@ -18,6 +18,7 @@
         <plugin.dependency.version>3.1.1</plugin.dependency.version>
         <plugin.surefire.version>2.22.1</plugin.surefire.version>
         <plugin.assembly.version>3.1.1</plugin.assembly.version>
+        <plugin.source.version>3.1.0</plugin.source.version>
         <plugin.site.version>3.7.1</plugin.site.version>
         <!-- Нельзя указывать версию больше этой -->
         <plugin.info.report.version>2.9</plugin.info.report.version>
@@ -242,6 +243,20 @@
 	                        <configuration>
 	                            <outputDirectory>target/jacoco-report</outputDirectory>
 	                        </configuration>
+	                    </execution>
+	                </executions>
+	            </plugin>
+	            <plugin>
+	                <groupId>org.apache.maven.plugins</groupId>
+	                <artifactId>maven-source-plugin</artifactId>
+	                <version>${plugin.source.version}</version>
+	                <executions>
+	                    <execution>
+	                        <id>attach-sources</id>
+	                        <phase>verify</phase>
+	                        <goals>
+	                            <goal>jar</goal>
+	                        </goals>
 	                    </execution>
 	                </executions>
 	            </plugin>
