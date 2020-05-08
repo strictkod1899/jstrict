@@ -5,31 +5,18 @@ import ru.strict.exceptions.ValidateException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Builder ошибки. Позволяет динамически задавать параметры ошибки
  */
 public class ValidateError {
+    private List<DetailsError> errors;
+
     /**
-     * Наименование элементов (для отображения в ошибке валидации), которые не прошли валидацию
+     * Ошибка, которая генерируется в текущий момент
      */
-    private List<String> valuesNames;
-    /**
-     * Причины, по которым не прйодена валидация
-     */
-    private List<String> reasons;
-    /**
-     * Значения, которое не прошло валидацию
-     */
-    private List<Object> values;
-    /**
-     * Детальное сообщение об ошибке валидации
-     */
-    private String details;
-    /**
-     * Аргументы для посдтавновки в String.format при использовании {@link #details}
-     */
-    private Object[] detailsArgs;
+    private DetailsError currentError;
 
     private boolean and;
     /**
@@ -44,29 +31,39 @@ public class ValidateError {
 
     ValidateError(boolean and) {
         this.and = and;
-        valuesNames = new ArrayList<>(5);
-        reasons = new ArrayList<>(5);
-        values = new ArrayList<>(5);
+        errors = new ArrayList<>(5);
     }
 
-    public ValidateError valueName(String valueName) {
+    /*public ValidateError valueName(String valueName) {
         valuesNames.add(valueName);
         return this;
-    }
+    }*/
 
     public ValidateError reason(String reason) {
-        reasons.add(reason);
+        if (currentError == null) {
+            return this;
+        }
+
+        currentError.setReason(reason);
         return this;
     }
 
     public ValidateError value(Object value) {
-        values.add(value);
+        if (currentError == null) {
+            return this;
+        }
+
+        currentError.setValue(value);
         return this;
     }
 
     public ValidateError details(String details, Object... detailsArgs) {
-        this.details = details;
-        this.detailsArgs = detailsArgs;
+        if (currentError == null) {
+            return this;
+        }
+
+        currentError.setDetails(details);
+        currentError.setDetailsArgs(detailsArgs);
         return this;
     }
 
@@ -74,8 +71,28 @@ public class ValidateError {
      * @throws ValidateException
      */
     public void onThrow() {
-        if (!failProcess && !ValidateBaseValue.isEmptyOrNull(valuesNames)) {
-            String details = this.details == null ? null : String.format(this.details, this.detailsArgs);
+        if (currentError != null) {
+            errors.add(currentError);
+        }
+
+        if (!failProcess && !errors.isEmpty()) {
+            DetailsError lastError =  errors.get(errors.size()-1);
+            String details = lastError.getDetails();
+            Object[] detailsArgs = lastError.getDetailsArgs();
+            details = details == null ? null : String.format(details, detailsArgs);
+
+            List<String> valuesNames = new ArrayList<>(errors.size());
+            List<String> reasons = new ArrayList<>(errors.size());
+            List<Object> values = new ArrayList<>(errors.size());
+            for (DetailsError error : errors) {
+                valuesNames.add(error.getValueName());
+                reasons.add(error.getReason());
+                values.add(error.getValue());
+            }
+
+            if (values.stream().allMatch(Objects::isNull)) {
+                values = new ArrayList<>();
+            }
 
             if (!reasons.isEmpty()) {
                 if (!values.isEmpty() && details != null) {
@@ -114,9 +131,14 @@ public class ValidateError {
             return this;
         }
 
+        if (currentError != null) {
+            errors.add(currentError);
+        }
+        currentError = new DetailsError();
+
         if (value == null) {
-            valueName(caption)
-                    .reason("value is NULL");
+            currentError.setValueName(caption);
+            currentError.setReason("value is NULL");
         } else {
             checkProcess(false);
         }
@@ -129,8 +151,8 @@ public class ValidateError {
         }
 
         if (ValidateBaseValue.isEmptyOrNull(value)) {
-            valueName(caption)
-                    .reason("value is EMPTY or NULL");
+            currentError.setValueName(caption);
+            currentError.setReason("value is EMPTY or NULL");
         } else {
             checkProcess(false);
         }
@@ -143,8 +165,8 @@ public class ValidateError {
         }
 
         if (ValidateBaseValue.isEmptySpaceOrNull(value)) {
-            valueName(caption)
-                    .reason("value is EMPTY SPACE or NULL");
+            currentError.setValueName(caption);
+            currentError.setReason("value is EMPTY SPACE or NULL");
         } else {
             checkProcess(false);
         }
@@ -157,8 +179,8 @@ public class ValidateError {
         }
 
         if (ValidateBaseValue.isEmptyOrNull(collection)) {
-            valueName(caption)
-                    .reason("collection is EMPTY or NULL");
+            currentError.setValueName(caption);
+            currentError.setReason("collection is EMPTY or NULL");
         } else {
             checkProcess(false);
         }
@@ -171,8 +193,8 @@ public class ValidateError {
         }
 
         if (ValidateBaseValue.isEmptyOrNull(array)) {
-            valueName(caption)
-                    .reason("array is EMPTY or NULL");
+            currentError.setValueName(caption);
+            currentError.setReason("array is EMPTY or NULL");
         } else {
             checkProcess(false);
         }
@@ -185,8 +207,8 @@ public class ValidateError {
         }
 
         if (number < minValue) {
-            valueName(caption)
-                    .reason(String.format("number (%s) < %s", number, minValue));
+            currentError.setValueName(caption);
+            currentError.setReason(String.format("number (%s) < %s", number, minValue));
         } else {
             checkProcess(false);
         }
@@ -199,8 +221,8 @@ public class ValidateError {
         }
 
         if (number < minValue) {
-            valueName(caption)
-                    .reason(String.format("number (%s) < %s", number, minValue));
+            currentError.setValueName(caption);
+            currentError.setReason(String.format("number (%s) < %s", number, minValue));
         } else {
             checkProcess(false);
         }
@@ -213,8 +235,8 @@ public class ValidateError {
         }
 
         if (number > maxValue) {
-            valueName(caption)
-                    .reason(String.format("number (%s) > %s", number, maxValue));
+            currentError.setValueName(caption);
+            currentError.setReason(String.format("number (%s) > %s", number, maxValue));
         } else {
             checkProcess(false);
         }
@@ -227,8 +249,8 @@ public class ValidateError {
         }
 
         if (number > maxValue) {
-            valueName(caption)
-                    .reason(String.format("number (%s) > %s", number, maxValue));
+            currentError.setValueName(caption);
+            currentError.setReason(String.format("number (%s) > %s", number, maxValue));
         } else {
             checkProcess(false);
         }
@@ -241,8 +263,8 @@ public class ValidateError {
         }
 
         if (!ValidateBaseValue.isRange(number, minValue, maxValue)) {
-            valueName(caption)
-                    .reason(String.format("number (%s) < %s or > %s", number, minValue, maxValue));
+            currentError.setValueName(caption);
+            currentError.setReason(String.format("number (%s) < %s or > %s", number, minValue, maxValue));
         } else {
             checkProcess(false);
         }
@@ -253,7 +275,7 @@ public class ValidateError {
         if (failProcess) {
             return true;
         }
-        if (!valuesNames.isEmpty() && !and) {
+        if (!errors.isEmpty() && !and) {
             return true;
         }
 
@@ -261,8 +283,80 @@ public class ValidateError {
     }
 
     private void checkProcess(boolean success) {
-        if (and && !success) {
-            failProcess = true;
+        if (!success) {
+            currentError = null;
+            if (and) {
+                failProcess = true;
+            }
+        }
+
+    }
+
+    private class DetailsError {
+        /**
+         * Наименование элемента (для отображения в ошибке валидации), который не прошел валидацию
+         */
+        private String valueName;
+        /**
+         * Причина, по которой не прйодена валидация
+         */
+        private String reason;
+        /**
+         * Значение, которое не прошло валидацию
+         */
+        private Object value;
+        /**
+         * Детальное сообщение об ошибке валидации
+         */
+        private String details;
+        /**
+         * Аргументы для посдтавновки в String.format при использовании {@link #details}
+         */
+        private Object[] detailsArgs;
+
+        public String getValueName() {
+            return valueName;
+        }
+
+        public DetailsError setValueName(String valueName) {
+            this.valueName = valueName;
+            return this;
+        }
+
+        public String getReason() {
+            return reason;
+        }
+
+        public DetailsError setReason(String reason) {
+            this.reason = reason;
+            return this;
+        }
+
+        public Object getValue() {
+            return value;
+        }
+
+        public DetailsError setValue(Object value) {
+            this.value = value;
+            return this;
+        }
+
+        public String getDetails() {
+            return details;
+        }
+
+        public DetailsError setDetails(String details) {
+            this.details = details;
+            return this;
+        }
+
+        public Object[] getDetailsArgs() {
+            return detailsArgs;
+        }
+
+        public DetailsError setDetailsArgs(Object[] detailsArgs) {
+            this.detailsArgs = detailsArgs;
+            return this;
         }
     }
 }
