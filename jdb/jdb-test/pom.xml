@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>ru.strict</groupId>
+        <artifactId>jdb</artifactId>
+        <version>0.1.37</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>jdb-test</artifactId>
+    <version>0.1.37</version>
+    <packaging>jar</packaging>
+    <name>jdb-test</name>
+
+    <dependencies>
+        <!-- test -->
+        <dependency>
+            <groupId>ru.strict</groupId>
+            <artifactId>jutils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ru.strict</groupId>
+            <artifactId>jmodels</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ru.strict</groupId>
+            <artifactId>jdb-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
