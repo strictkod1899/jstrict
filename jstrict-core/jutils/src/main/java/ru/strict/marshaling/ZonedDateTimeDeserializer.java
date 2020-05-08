@@ -10,7 +10,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class CustomZonedDateTimeDeserializer extends JsonDeserializer<ZonedDateTime> {
+public class ZonedDateTimeDeserializer extends JsonDeserializer<ZonedDateTime> {
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
 

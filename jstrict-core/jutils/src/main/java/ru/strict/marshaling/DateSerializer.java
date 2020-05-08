@@ -9,7 +9,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DateTimeSerializer extends JsonSerializer<Date> {
+public class DateSerializer extends JsonSerializer<Date> {
 
 	private final DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 

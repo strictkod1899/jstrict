@@ -9,7 +9,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class CustomZonedDateTimeUTCSerializer extends JsonSerializer<ZonedDateTime> {
+public class ZonedDateTimeUTCSerializer extends JsonSerializer<ZonedDateTime> {
 
 	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
 

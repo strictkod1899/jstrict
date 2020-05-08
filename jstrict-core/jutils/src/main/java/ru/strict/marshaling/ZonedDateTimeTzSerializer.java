@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class CustomZonedDateTimeTzSerializer extends JsonSerializer<ZonedDateTime> {
+public class ZonedDateTimeTzSerializer extends JsonSerializer<ZonedDateTime> {
 
 	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss x");
 

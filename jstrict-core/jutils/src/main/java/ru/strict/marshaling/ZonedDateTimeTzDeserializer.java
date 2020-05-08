@@ -5,19 +5,16 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class CustomZonedDateTimeUTCDeserializer extends JsonDeserializer<ZonedDateTime> {
+public class ZonedDateTimeTzDeserializer extends JsonDeserializer<ZonedDateTime> {
 
-	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss x");
 
     @Override
     public ZonedDateTime deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         String date = jsonParser.getText();
-        LocalDateTime localDate = LocalDateTime.parse(date, formatter);
-        return localDate.atZone(ZoneOffset.UTC);
+        return ZonedDateTime.parse(date, formatter);
     }
 }

@@ -5,7 +5,7 @@ import org.apache.log4j.Level;
 import java.util.Objects;
 
 /**
- * Конфигурация логирования. Используется в классе Log4jWrapper
+ * Конфигурация логирования
  */
 public class LoggerConfiguration {
 
