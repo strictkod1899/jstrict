@@ -150,8 +150,8 @@ public final class CommonUtil {
     public static BigDecimal getSumWithoutVat(BigDecimal sum, double vatPercent, int scale, RoundingMode roundingMode) {
         Validator.isNull(sum, "sum").onThrow();
         Validator.isNull(roundingMode, "roundingMode").onThrow();
-        Validator.isMinValue(vatPercent, "vatPercent", 0).onThrow();
-        Validator.isMinValue(scale, "scale", 0).onThrow();
+        Validator.isLess(vatPercent, "vatPercent", 0).onThrow();
+        Validator.isLess(scale, "scale", 0).onThrow();
 
         BigDecimal dVat = BigDecimal.valueOf(vatPercent);
         BigDecimal dVatDivided = dVat.divide(HUNDRED);
@@ -204,8 +204,8 @@ public final class CommonUtil {
     public static BigDecimal getVatFromSum(BigDecimal sum, double vatPercent, int scale, RoundingMode roundingMode) {
         Validator.isNull(sum, "sum").onThrow();
         Validator.isNull(roundingMode, "roundingMode").onThrow();
-        Validator.isMinValue(vatPercent, "vatPercent", 0).onThrow();
-        Validator.isMinValue(scale, "scale", 0).onThrow();
+        Validator.isLess(vatPercent, "vatPercent", 0).onThrow();
+        Validator.isLess(scale, "scale", 0).onThrow();
 
         BigDecimal dVat = BigDecimal.valueOf(vatPercent);
         BigDecimal dVatSum = dVat.add(HUNDRED);

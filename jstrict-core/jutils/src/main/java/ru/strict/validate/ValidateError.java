@@ -34,11 +34,6 @@ public class ValidateError {
         errors = new ArrayList<>(5);
     }
 
-    /*public ValidateError valueName(String valueName) {
-        valuesNames.add(valueName);
-        return this;
-    }*/
-
     public ValidateError reason(String reason) {
         if (currentError == null) {
             return this;
@@ -127,16 +122,9 @@ public class ValidateError {
     }
 
     public ValidateError isNull(Object value, String caption) {
-        if (currentError != null) {
-            errors.add(currentError);
-            currentError = null;
-        }
-
-        if (checkReturn()) {
+        if (prepareAndCheckReturn()) {
             return this;
         }
-
-        currentError = new DetailsError();
 
         if (value == null) {
             currentError.setValueName(caption);
@@ -148,16 +136,9 @@ public class ValidateError {
     }
 
     public ValidateError isEmptyOrNull(String value, String caption) {
-        if (currentError != null) {
-            errors.add(currentError);
-            currentError = null;
-        }
-
-        if (checkReturn()) {
+        if (prepareAndCheckReturn()) {
             return this;
         }
-
-        currentError = new DetailsError();
 
         if (ValidateBaseValue.isEmptyOrNull(value)) {
             currentError.setValueName(caption);
@@ -169,16 +150,9 @@ public class ValidateError {
     }
 
     public ValidateError isEmptySpaceOrNull(String value, String caption) {
-        if (currentError != null) {
-            errors.add(currentError);
-            currentError = null;
-        }
-
-        if (checkReturn()) {
+        if (prepareAndCheckReturn()) {
             return this;
         }
-
-        currentError = new DetailsError();
 
         if (ValidateBaseValue.isEmptySpaceOrNull(value)) {
             currentError.setValueName(caption);
@@ -190,16 +164,9 @@ public class ValidateError {
     }
 
     public ValidateError isEmptyOrNull(Collection collection, String caption) {
-        if (currentError != null) {
-            errors.add(currentError);
-            currentError = null;
-        }
-
-        if (checkReturn()) {
+        if (prepareAndCheckReturn()) {
             return this;
         }
-
-        currentError = new DetailsError();
 
         if (ValidateBaseValue.isEmptyOrNull(collection)) {
             currentError.setValueName(caption);
@@ -211,16 +178,9 @@ public class ValidateError {
     }
 
     public ValidateError isEmptyOrNull(Object[] array, String caption) {
-        if (currentError != null) {
-            errors.add(currentError);
-            currentError = null;
-        }
-
-        if (checkReturn()) {
+        if (prepareAndCheckReturn()) {
             return this;
         }
-
-        currentError = new DetailsError();
 
         if (ValidateBaseValue.isEmptyOrNull(array)) {
             currentError.setValueName(caption);
@@ -231,17 +191,10 @@ public class ValidateError {
         return this;
     }
 
-    public ValidateError isMinValue(long number, String caption, long minValue) {
-        if (currentError != null) {
-            errors.add(currentError);
-            currentError = null;
-        }
-
-        if (checkReturn()) {
+    public ValidateError isLess(long number, String caption, long minValue) {
+        if (prepareAndCheckReturn()) {
             return this;
         }
-
-        currentError = new DetailsError();
 
         if (number < minValue) {
             currentError.setValueName(caption);
@@ -252,17 +205,10 @@ public class ValidateError {
         return this;
     }
 
-    public ValidateError isMinValue(double number, String caption, double minValue) {
-        if (currentError != null) {
-            errors.add(currentError);
-            currentError = null;
-        }
-
-        if (checkReturn()) {
+    public ValidateError isLess(double number, String caption, double minValue) {
+        if (prepareAndCheckReturn()) {
             return this;
         }
-
-        currentError = new DetailsError();
 
         if (number < minValue) {
             currentError.setValueName(caption);
@@ -273,17 +219,38 @@ public class ValidateError {
         return this;
     }
 
-    public ValidateError isMaxValue(long number, String caption, long maxValue) {
-        if (currentError != null) {
-            errors.add(currentError);
-            currentError = null;
-        }
-
-        if (checkReturn()) {
+    public ValidateError isLessOrEquals(long number, String caption, long minValue) {
+        if (prepareAndCheckReturn()) {
             return this;
         }
 
-        currentError = new DetailsError();
+        if (number <= minValue) {
+            currentError.setValueName(caption);
+            currentError.setReason(String.format("number (%s) <= %s", number, minValue));
+        } else {
+            checkProcess(false);
+        }
+        return this;
+    }
+
+    public ValidateError isLessOrEquals(double number, String caption, double minValue) {
+        if (prepareAndCheckReturn()) {
+            return this;
+        }
+
+        if (number <= minValue) {
+            currentError.setValueName(caption);
+            currentError.setReason(String.format("number (%s) <= %s", number, minValue));
+        } else {
+            checkProcess(false);
+        }
+        return this;
+    }
+
+    public ValidateError isMore(long number, String caption, long maxValue) {
+        if (prepareAndCheckReturn()) {
+            return this;
+        }
 
         if (number > maxValue) {
             currentError.setValueName(caption);
@@ -294,21 +261,42 @@ public class ValidateError {
         return this;
     }
 
-    public ValidateError isMaxValue(double number, String caption, double maxValue) {
-        if (currentError != null) {
-            errors.add(currentError);
-            currentError = null;
-        }
-
-        if (checkReturn()) {
+    public ValidateError isMore(double number, String caption, double maxValue) {
+        if (prepareAndCheckReturn()) {
             return this;
         }
-
-        currentError = new DetailsError();
 
         if (number > maxValue) {
             currentError.setValueName(caption);
             currentError.setReason(String.format("number (%s) > %s", number, maxValue));
+        } else {
+            checkProcess(false);
+        }
+        return this;
+    }
+
+    public ValidateError isMoreOrEquals(long number, String caption, long maxValue) {
+        if (prepareAndCheckReturn()) {
+            return this;
+        }
+
+        if (number >= maxValue) {
+            currentError.setValueName(caption);
+            currentError.setReason(String.format("number (%s) >= %s", number, maxValue));
+        } else {
+            checkProcess(false);
+        }
+        return this;
+    }
+
+    public ValidateError isMoreOrEquals(double number, String caption, double maxValue) {
+        if (prepareAndCheckReturn()) {
+            return this;
+        }
+
+        if (number >= maxValue) {
+            currentError.setValueName(caption);
+            currentError.setReason(String.format("number (%s) >= %s", number, maxValue));
         } else {
             checkProcess(false);
         }
@@ -316,16 +304,9 @@ public class ValidateError {
     }
 
     public ValidateError isNotRange(long number, String caption, long minValue, long maxValue) {
-        if (currentError != null) {
-            errors.add(currentError);
-            currentError = null;
-        }
-
-        if (checkReturn()) {
+        if (prepareAndCheckReturn()) {
             return this;
         }
-
-        currentError = new DetailsError();
 
         if (!ValidateBaseValue.isRange(number, minValue, maxValue)) {
             currentError.setValueName(caption);
@@ -334,6 +315,20 @@ public class ValidateError {
             checkProcess(false);
         }
         return this;
+    }
+
+    private boolean prepareAndCheckReturn() {
+        if (currentError != null) {
+            errors.add(currentError);
+            currentError = null;
+        }
+
+        if (checkReturn()) {
+            return true;
+        }
+
+        currentError = new DetailsError();
+        return false;
     }
 
     private boolean checkReturn() {

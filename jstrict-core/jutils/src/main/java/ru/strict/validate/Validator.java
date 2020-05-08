@@ -36,24 +36,44 @@ public final class Validator {
         return error.isEmptyOrNull(array, caption);
     }
 
-    public static ValidateError isMinValue(long number, String caption, long minValue) {
+    public static ValidateError isLess(long number, String caption, long minValue) {
         ValidateError error = new ValidateError();
-        return error.isMinValue(number, caption, minValue);
+        return error.isLess(number, caption, minValue);
     }
 
-    public static ValidateError isMinValue(double number, String caption, double minValue) {
+    public static ValidateError isLess(double number, String caption, double minValue) {
         ValidateError error = new ValidateError();
-        return error.isMinValue(number, caption, minValue);
+        return error.isLess(number, caption, minValue);
     }
 
-    public static ValidateError isMaxValue(long number, String caption, long maxValue) {
+    public static ValidateError isLessOrEquals(double number, String caption, double minValue) {
         ValidateError error = new ValidateError();
-        return error.isMaxValue(number, caption, maxValue);
+        return error.isLessOrEquals(number, caption, minValue);
     }
 
-    public static ValidateError isMaxValue(double number, String caption, double maxValue) {
+    public static ValidateError isLessOrEquals(long number, String caption, long minValue) {
         ValidateError error = new ValidateError();
-        return error.isMaxValue(number, caption, maxValue);
+        return error.isLessOrEquals(number, caption, minValue);
+    }
+
+    public static ValidateError isMore(long number, String caption, long maxValue) {
+        ValidateError error = new ValidateError();
+        return error.isMore(number, caption, maxValue);
+    }
+
+    public static ValidateError isMore(double number, String caption, double maxValue) {
+        ValidateError error = new ValidateError();
+        return error.isMore(number, caption, maxValue);
+    }
+
+    public static ValidateError isMoreOrEquals(long number, String caption, long maxValue) {
+        ValidateError error = new ValidateError();
+        return error.isMoreOrEquals(number, caption, maxValue);
+    }
+
+    public static ValidateError isMoreOrEquals(double number, String caption, double maxValue) {
+        ValidateError error = new ValidateError();
+        return error.isMoreOrEquals(number, caption, maxValue);
     }
 
     public static ValidateError isNotRange(long number, String caption, long minValue, long maxValue) {
