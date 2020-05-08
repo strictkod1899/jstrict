@@ -79,6 +79,10 @@ public final class Validator {
          * Детальное сообщение об ошибке валидации
          */
         private String details;
+        /**
+         * Аргументы для посдтавновки в String.format при использовании {@link #details}
+         */
+        private Object[] formatArgs;
 
         private ValidateError() {
         }
@@ -98,8 +102,9 @@ public final class Validator {
             return this;
         }
 
-        public ValidateError details(String details) {
+        public ValidateError details(String details, Object...formatArgs) {
             this.details = details;
+            this.formatArgs = formatArgs;
             return this;
         }
 
@@ -108,6 +113,8 @@ public final class Validator {
          */
         public void onThrow() {
             if (!ValidateBaseValue.isEmptyOrNull(valueName)) {
+                String details = this.details == null ? null : String.format(this.details, this.formatArgs);
+
                 if (reason == null && value == null && details == null) {
                     throw new ValidateException(valueName);
                 } else if (value != null && details != null) {
