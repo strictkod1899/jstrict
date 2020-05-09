@@ -57,4 +57,8 @@ public enum DefaultColumns {
     public String[] columns() {
         return columns;
     }
+
+    public String get(int index) {
+        return columns[index];
+    }
 }

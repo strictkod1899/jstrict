@@ -3,10 +3,9 @@ package ru.strict.db.core.requests;
 /**
  * Базовое определения sql-запроса
  */
-public interface IDbRequest {
+public interface IRequest {
     /**
      * Сформировать sql-конструкцию
-     * @return
      */
     String getSql();
 }

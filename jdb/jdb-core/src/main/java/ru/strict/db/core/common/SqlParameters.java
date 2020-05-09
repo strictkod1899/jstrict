@@ -8,97 +8,141 @@ import java.util.Objects;
 /**
  * Список параметров для подставновки в sql-запрос типа PreparedStatement
  */
-public class SqlParameters<VALUE> {
-
-    private List<SqlParameter<VALUE>> parameters;
+public class SqlParameters {
+    private List<SqlParameter<?>> parameters;
 
     public SqlParameters() {
         parameters = new ArrayList<>();
     }
 
-    public List<SqlParameter<VALUE>> getParameters() {
+    public SqlParameters(SqlParameter<?> parameter) {
+        this();
+        addLast(parameter);
+    }
+
+    public List<SqlParameter<?>> getParameters() {
         return parameters;
     }
 
-    public int size(){
+    public int size() {
         return parameters.size();
     }
 
-    public SqlParameter<VALUE> getByIndex(int index){
-        return parameters.stream().filter(param -> param.getIndex() == index).findFirst().get();
+    public SqlParameter<?> getByIndex(int index) {
+        return parameters.stream()
+                .filter(param -> param.getIndex() == index)
+                .findFirst()
+                .orElse(null);
     }
 
-    public SqlParameter<VALUE> getByName(String name){
-        return parameters.stream().filter(param -> param.getName().equals(name)).findFirst().get();
+    public SqlParameter<?> getByName(String name) {
+        return parameters.stream()
+                .filter(param -> param.getName().equals(name))
+                .findFirst()
+                .orElse(null);
     }
 
-    public void add(int index, String name){
+    public void set(int index, String name) {
         checkParameter(index, name);
-        parameters.add(new SqlParameter(index, name, null));
+        parameters.add(new SqlParameter<>(index, name, null));
     }
 
-    public void add(int index, String name, VALUE value){
+    public void set(int index, String name, Object value) {
         checkParameter(index, name);
-        parameters.add(new SqlParameter(index, name, value));
+        parameters.add(new SqlParameter<>(index, name, value));
     }
 
-    public void add(int index, String name, VALUE value, SQLType type){
+    public void set(int index, String name, Object value, SQLType type) {
         checkParameter(index, name);
-        parameters.add(new SqlParameter(index, name, value, type));
+        parameters.add(new SqlParameter<>(index, name, value, type));
     }
 
-    public void add(SqlParameter sqlParameter){
+    public void set(SqlParameter<?> sqlParameter) {
         checkParameter(sqlParameter.getIndex(), sqlParameter.getName());
         parameters.add(sqlParameter);
     }
 
-    public void addLast(String name){
-        checkParameter(parameters.size(), name);
-        parameters.add(new SqlParameter(parameters.size(), name, null));
+    public void addLast(SqlParameter<?> sqlParameter) {
+        checkParameter(sqlParameter.getName());
+        parameters.add(new SqlParameter<>(parameters.size(),
+                sqlParameter.getName(),
+                sqlParameter.getValue(),
+                sqlParameter.getSqlType())
+        );
     }
 
-    public void addLast(String name, VALUE value){
-        checkParameter(parameters.size(), name);
-        parameters.add(new SqlParameter(parameters.size(), name, value));
+    public void addLast(String name) {
+        checkParameter(name);
+        parameters.add(new SqlParameter<>(parameters.size(), name, null));
     }
 
-    public void addLast(String name, VALUE value, SQLType type){
-        checkParameter(parameters.size(), name);
-        parameters.add(new SqlParameter(parameters.size(), name, value, type));
+    public void addLast(String name, Object value) {
+        checkParameter(name);
+        parameters.add(new SqlParameter<>(parameters.size(), name, value));
     }
 
-    public void addAll(SqlParameters<VALUE> parameters){
-        for(SqlParameter parameter : parameters.getParameters()){
+    public void addLast(String name, Object value, SQLType type) {
+        checkParameter(name);
+        parameters.add(new SqlParameter<>(parameters.size(), name, value, type));
+    }
+
+    public void setAll(SqlParameters parameters) {
+        for (SqlParameter<?> parameter : parameters.getParameters()) {
             checkParameter(parameter.getIndex(), parameter.getName());
         }
         this.parameters.addAll(parameters.getParameters());
     }
 
-    private void checkParameter(int index, String name){
-        if(parameters.stream()
-                .anyMatch(p -> p.getIndex() == index || p.getName().equals(name))){
-            throw new IllegalArgumentException(String.format("The index [%s] or name [%s] to column already exists", index, name));
+    public void addAll(SqlParameters parameters) {
+        for (SqlParameter<?> parameter : parameters.getParameters()) {
+            checkParameter(parameter.getName());
+        }
+
+        for (SqlParameter<?> parameter : parameters.getParameters()) {
+            this.parameters.add(new SqlParameter<>(this.parameters.size(),
+                    parameter.getName(),
+                    parameter.getValue(),
+                    parameter.getSqlType())
+            );
+        }
+    }
+
+    private void checkParameter(int index, String name) {
+        if (parameters.stream()
+                .anyMatch(p -> p.getIndex() == index || p.getName().equals(name))) {
+            throw new IllegalArgumentException(String.format("The index [%s] or name [%s] to column already exists",
+                    index,
+                    name));
+        }
+    }
+
+    private void checkParameter(String name) {
+        if (parameters.stream()
+                .anyMatch(p -> p.getName().equals(name))) {
+            throw new IllegalArgumentException(String.format("The name [%s] to column already exists", name));
         }
     }
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("sql-parameters. size = %s", size());
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof SqlParameters) {
-            SqlParameters object = (SqlParameters) obj;
-            return Objects.equals(parameters, object.parameters);
-        }else {
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
+        SqlParameters that = (SqlParameters) o;
+        return Objects.equals(parameters, that.parameters);
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return Objects.hash(parameters);
     }
     //</editor-fold>

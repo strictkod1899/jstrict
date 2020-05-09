@@ -63,7 +63,7 @@ public abstract class BaseSqlMapper<ID, T extends IModel<ID>>
             throw new IllegalArgumentException("sqlType is NULL");
         }
 
-        ID value = null;
+        ID value;
         if (sqlType.equals(SqlType.UUID)) {
             value = (ID) UUID.fromString(resultSet.getString(columnName));
         } else if (sqlType.equals(SqlType.TEXT)) {

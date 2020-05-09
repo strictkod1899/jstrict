@@ -1,27 +1,34 @@
 package ru.strict.db.core.repositories.interfaces;
 
-import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.core.requests.DbSelectItem;
-import ru.strict.db.core.requests.DbWhereItem;
+import ru.strict.db.core.requests.components.SingleWhere;
+import ru.strict.db.core.requests.components.SqlItem;
+import ru.strict.db.core.requests.components.Where;
+import ru.strict.db.core.requests.components.WhereType;
 import ru.strict.models.DetailsProfile;
 
 import java.util.List;
 
 public interface IDetailsProfileRepository<ID, T extends DetailsProfile<ID>> extends IProfileRepository<ID, T> {
     default List<T> readByFio(String name, String surname, String middlename) {
-        DbRequests requests = new DbRequests();
+        Where.Builder where = Where.builder();
         if (name != null) {
-            requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "name"), name, "="));
+            String nameWhere = SingleWhere.build(new SqlItem(getTable(), "name"), "=");
+            where.addParameter("name", name);
+            where.item(nameWhere);
         }
 
         if (surname != null) {
-            requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "surname"), surname, "="));
+            String surnameWhere = SingleWhere.build(new SqlItem(getTable(), "surname"), "=");
+            where.addParameter("surname", surname);
+            where.item(WhereType.AND, surnameWhere);
         }
 
         if (middlename != null) {
-            requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "middlename"), middlename, "="));
+            String middlenameWhere = SingleWhere.build(new SqlItem(getTable(), "middlename"), "=");
+            where.addParameter("middlename", middlename);
+            where.item(WhereType.AND, middlenameWhere);
         }
 
-        return readAll(requests);
+        return readAll(where.build());
     }
 }

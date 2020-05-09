@@ -27,18 +27,20 @@ public enum GenerateIdType {
      */
     NONE;
 
-    public static SQLType getSqlType(GenerateIdType generateIdType){
-        if(generateIdType == null){
+    public static SQLType getSqlType(GenerateIdType generateIdType) {
+        if (generateIdType == null) {
             return null;
         }
 
-        switch (generateIdType){
+        switch (generateIdType) {
             case LONG:
                 return JDBCType.BIGINT;
+            case INT:
+                return JDBCType.INTEGER;
             case UUID:
-                return SqlType.UUID;
-            default:
                 return JDBCType.OTHER;
+            default:
+                return null;
         }
     }
 }

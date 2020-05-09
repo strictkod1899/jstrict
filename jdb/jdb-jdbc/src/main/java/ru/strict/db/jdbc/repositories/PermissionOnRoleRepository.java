@@ -47,8 +47,8 @@ public class PermissionOnRoleRepository<ID, PERMISSION extends IModel<Integer>>
     @Override
     protected SqlParameters getParameters(PermissionOnRole<ID, PERMISSION> model) {
         SqlParameters parameters = new SqlParameters();
-        parameters.add(0, COLUMNS_NAME[0], model.getPermissionId());
-        parameters.add(1, COLUMNS_NAME[1], model.getRoleId());
+        parameters.set(0, COLUMNS_NAME[0], model.getPermissionId());
+        parameters.set(1, COLUMNS_NAME[1], model.getRoleId());
         return parameters;
     }
 
@@ -64,9 +64,9 @@ public class PermissionOnRoleRepository<ID, PERMISSION extends IModel<Integer>>
     @Override
     protected PermissionOnRole<ID, PERMISSION> fill(PermissionOnRole<ID, PERMISSION> model) {
         // Добавление роли пользователя
-        IRepository<ID, Role<ID>> repositoryRole =
-                new RoleRepository(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
-        model.setRole(repositoryRole.read(model.getRoleId()));
+        IRepository<ID, Role<ID>> roleRepository =
+                new RoleRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+        model.setRole(roleRepository.read(model.getRoleId()));
         return model;
     }
 

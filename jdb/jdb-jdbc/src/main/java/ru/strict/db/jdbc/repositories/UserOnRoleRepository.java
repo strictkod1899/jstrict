@@ -35,22 +35,22 @@ public class UserOnRoleRepository<ID>
     @Override
     protected SqlParameters getParameters(UserOnRole<ID> model) {
         SqlParameters parameters = new SqlParameters();
-        parameters.add(0, COLUMNS_NAME[0], model.getUserId());
-        parameters.add(1, COLUMNS_NAME[1], model.getRoleId());
+        parameters.set(0, COLUMNS_NAME[0], model.getUserId());
+        parameters.set(1, COLUMNS_NAME[1], model.getRoleId());
         return parameters;
     }
 
     @Override
     protected UserOnRole<ID> fill(UserOnRole<ID> model) {
         // Добавление пользователя
-        IRepository<ID, User<ID>> repositoryUser =
+        IRepository<ID, User<ID>> userRepository =
                 new UserRepository(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
-        model.setUser(repositoryUser.read(model.getUserId()));
+        model.setUser(userRepository.read(model.getUserId()));
 
         // Добавление роли пользователя
-        IRepository<ID, Role<ID>> repositoryRole =
-                new RoleRepository(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
-        model.setRole(repositoryRole.read(model.getRoleId()));
+        IRepository<ID, Role<ID>> roleRepository =
+                new RoleRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+        model.setRole(roleRepository.read(model.getRoleId()));
         return model;
     }
 

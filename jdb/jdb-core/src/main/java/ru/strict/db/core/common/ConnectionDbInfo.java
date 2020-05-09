@@ -15,14 +15,15 @@ public enum ConnectionDbInfo {
      * Информация для подключения к базе данных my sql. <br/>
      * К url добавлятся наименование базы данных
      */
-    MYSQL("jdbc:mysql://","com.mysql.jdbc.Driver"),
+    MYSQL("jdbc:mysql://", "com.mysql.jdbc.Driver"),
 
     /**
      * Информация для подключения к базе данных ms sql. <br/>
-     * <b>Внимание: </b>После добавления наименования базы данных к url, возможно необходимо добавление следующего содержимого:
+     * <b>Внимание: </b>После добавления наименования базы данных к url, возможно необходимо добавление следующего
+     * содержимого:
      * ; integratedSecurity=true;)
      */
-    MSSQL("jdbc:sqlserver://localhost:1433; databaseName=","com.microsoft.sqlserver.jdbc.SQLServerDriver"),
+    MSSQL("jdbc:sqlserver://localhost:1433; databaseName=", "com.microsoft.sqlserver.jdbc.SQLServerDriver"),
 
     /**
      * Информация для подключения к базе данных H2. <br/>

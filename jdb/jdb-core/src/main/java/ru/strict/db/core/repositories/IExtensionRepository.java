@@ -1,12 +1,14 @@
 package ru.strict.db.core.repositories;
 
-import ru.strict.db.core.requests.DbRequests;
+import ru.strict.db.core.requests.IParameterizedRequest;
 import ru.strict.models.BaseModel;
+import ru.strict.validate.Validator;
 
 import java.util.List;
 
 /**
  * Расширенные возможности репозитория
+ *
  * @param <ID> Тип идентификатора
  * @param <T> Модель сущности базы данных
  */
@@ -26,22 +28,22 @@ public interface IExtensionRepository<ID, T extends BaseModel<ID>> extends IRepo
      * @param requests Условия выборки объектов. Если передать null, то будут считаны все объекты БД
      * @return Список объектов из базы данных
      */
-    List<T> readAllFill(DbRequests requests);
+    List<T> readAllFill(IParameterizedRequest requests);
 
     /**
-     * Создать или прочитать запись в таблице базы данных на основе объекта, переданного в параметрах метода, подгрузив в качестве объектов внешние ссылки
-     * Если в базе данных содержится запись с идентификатором переданного объекта, то метод вернет соответствующий объект, иначе пытаемся сохранить запись
+     * Создать или прочитать запись в таблице базы данных на основе объекта, переданного в параметрах метода,
+     * подгрузив в качестве объектов внешние ссылки
+     * Если в базе данных содержится запись с идентификатором переданного объекта, то метод вернет соответствующий
+     * объект, иначе пытаемся сохранить запись
      *
      * @param model Добавляемый объект
      * @return Созданный/прочитанный объект
      */
-    default T createOrReadFill(T model){
-        if(model == null){
-            throw new IllegalArgumentException("model is NULL");
-        }
+    default T createOrReadFill(T model) {
+        Validator.isNull(model, "model").onThrow();
 
         boolean rowExists = isRowExists(model.getId());
-        if(rowExists){
+        if (rowExists) {
             return readFill(model.getId());
         } else {
             ID savedId = create(model);
@@ -52,8 +54,6 @@ public interface IExtensionRepository<ID, T extends BaseModel<ID>> extends IRepo
 
     /**
      * Выполнить sql-запрос к базе данных
-     * @param sql
-     * @return
      */
     void executeSql(String sql);
 }

@@ -32,14 +32,14 @@ public class FileStorageRepository<ID>
     @Override
     protected SqlParameters getParameters(FileStorage<ID> model) {
         SqlParameters parameters = new SqlParameters();
-        parameters.add(0, COLUMNS_NAME[0], model.getFilename());
-        parameters.add(1, COLUMNS_NAME[1], model.getExtension());
-        parameters.add(2, COLUMNS_NAME[2], model.getDisplayName());
-        parameters.add(3, COLUMNS_NAME[3], model.getContent());
-        parameters.add(4, COLUMNS_NAME[4], model.getFilePath());
-        parameters.add(5, COLUMNS_NAME[5], model.getCreateDate());
-        parameters.add(6, COLUMNS_NAME[6], model.getType());
-        parameters.add(7, COLUMNS_NAME[7], model.getStatus());
+        parameters.set(0, COLUMNS_NAME[0], model.getFilename());
+        parameters.set(1, COLUMNS_NAME[1], model.getExtension());
+        parameters.set(2, COLUMNS_NAME[2], model.getDisplayName());
+        parameters.set(3, COLUMNS_NAME[3], model.getContent());
+        parameters.set(4, COLUMNS_NAME[4], model.getFilePath());
+        parameters.set(5, COLUMNS_NAME[5], model.getCreateDate());
+        parameters.set(6, COLUMNS_NAME[6], model.getType());
+        parameters.set(7, COLUMNS_NAME[7], model.getStatus());
         return parameters;
     }
 

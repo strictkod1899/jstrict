@@ -3,11 +3,15 @@ package ru.strict.db.jdbc.repositories;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.IConnectionCreator;
 import ru.strict.db.core.repositories.BaseRepository;
-import ru.strict.db.core.requests.*;
+import ru.strict.db.core.requests.IParameterizedRequest;
+import ru.strict.db.core.requests.components.Select;
+import ru.strict.db.core.requests.components.Table;
+import ru.strict.db.core.requests.components.Where;
 import ru.strict.db.jdbc.mappers.sql.BaseSqlMapper;
 import ru.strict.db.core.common.SqlParameter;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.models.BaseModel;
+import ru.strict.validate.Validator;
 
 import java.math.BigDecimal;
 import java.net.URL;
@@ -30,53 +34,51 @@ public abstract class JdbcRepository
      */
     private BaseSqlMapper<ID, T> sqlMapper;
 
+    private String sqlInsertWithoutId;
+    private String sqlInsertWithId;
+    private String sqlUpdate;
+    private String sqlDeleteById;
+    private String sqlWhereById;
+
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void init(BaseSqlMapper<ID, T> sqlMapper) {
-        if (sqlMapper == null) {
-            throw new IllegalArgumentException("sqlMapper is NULL");
-        }
+    public JdbcRepository(Table table,
+            String[] columns,
+            IConnectionCreator<Connection> connectionSource,
+            BaseSqlMapper<ID, T> sqlMapper,
+            GenerateIdType generateIdType) {
+        this(table, columns, connectionSource, sqlMapper, generateIdType, null);
+    }
+
+    /**
+     * Если используется, этот конструктор, то необходимо вручную вызвать метод setSqlMapper
+     */
+    protected JdbcRepository(Table table,
+            String[] columns,
+            IConnectionCreator<Connection> connectionSource,
+            GenerateIdType generateIdType,
+            SQLType sqlIdType) {
+        this(table, columns, connectionSource, null, generateIdType, sqlIdType);
+    }
+
+    /**
+     * Если используется, этот конструктор, то необходимо вручную вызвать метод setSqlMapper
+     */
+    protected JdbcRepository(Table table,
+            String[] columns,
+            IConnectionCreator<Connection> connectionSource,
+            GenerateIdType generateIdType) {
+        this(table, columns, connectionSource, null, generateIdType, null);
+    }
+
+    public JdbcRepository(Table table,
+            String[] columns,
+            IConnectionCreator<Connection> connectionSource,
+            BaseSqlMapper<ID, T> sqlMapper,
+            GenerateIdType generateIdType,
+            SQLType sqlIdType) {
+        super(table, columns, connectionSource, generateIdType, sqlIdType);
 
         this.sqlMapper = sqlMapper;
-    }
-
-    public JdbcRepository(DbTable table,
-            String[] columns,
-            IConnectionCreator<Connection> connectionSource,
-            BaseSqlMapper<ID, T> sqlMapper,
-            GenerateIdType generateIdType,
-            SQLType sqlIdType) {
-        super(table, columns, connectionSource, generateIdType, sqlIdType);
-        init(sqlMapper);
-    }
-
-    public JdbcRepository(DbTable table,
-            String[] columns,
-            IConnectionCreator<Connection> connectionSource,
-            BaseSqlMapper<ID, T> sqlMapper,
-            GenerateIdType generateIdType) {
-        super(table, columns, connectionSource, generateIdType);
-        init(sqlMapper);
-    }
-
-    /**
-     * Если используется, этот конструктор, то необходимо вручную вызвать метод setSqlMapper
-     */
-    protected JdbcRepository(DbTable table,
-            String[] columns,
-            IConnectionCreator<Connection> connectionSource,
-            GenerateIdType generateIdType,
-            SQLType sqlIdType) {
-        super(table, columns, connectionSource, generateIdType, sqlIdType);
-    }
-
-    /**
-     * Если используется, этот конструктор, то необходимо вручную вызвать метод setSqlMapper
-     */
-    protected JdbcRepository(DbTable table,
-            String[] columns,
-            IConnectionCreator<Connection> connectionSource,
-            GenerateIdType generateIdType) {
-        super(table, columns, connectionSource, generateIdType);
     }
     //</editor-fold>
 
@@ -85,21 +87,21 @@ public abstract class JdbcRepository
     public final ID create(T model) {
         PreparedStatement statement = null;
         SqlParameters parameters;
-        String sql = null;
+        String sql;
         Connection connection = null;
 
-        ID generatedId = null;
+        ID generatedId;
         GenerateIdType usingGenerateIdType = getGenerateIdType();
 
         switch (usingGenerateIdType) {
             case INT:
                 parameters = getParameters(model);
-                sql = createSqlInsertShort(parameters.size());
+                sql = getSqlInsertWithoutId(parameters.size());
 
                 try {
                     connection = createConnection();
                     statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                    statement = setParametersToPrepareStatement(statement, parameters);
+                    setParametersToPrepareStatement(statement, parameters);
                     statement.executeUpdate();
 
                     try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
@@ -142,12 +144,12 @@ public abstract class JdbcRepository
                 break;
             case LONG:
                 parameters = getParameters(model);
-                sql = createSqlInsertShort(parameters.size());
+                sql = getSqlInsertWithoutId(parameters.size());
 
                 try {
                     connection = createConnection();
                     statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                    statement = setParametersToPrepareStatement(statement, parameters);
+                    setParametersToPrepareStatement(statement, parameters);
                     statement.executeUpdate();
 
                     try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
@@ -191,13 +193,13 @@ public abstract class JdbcRepository
             case UUID:
                 parameters = shiftParameters(getParameters(model), 1);
                 generatedId = (ID) UUID.randomUUID();
-                parameters.add(0, getIdColumnName(), generatedId);
-                sql = createSqlInsertFull(parameters.size() - 1);
+                parameters.set(0, getIdColumnName(), generatedId);
+                sql = getSqlInsertWithId(parameters.size() - 1);
 
                 try {
                     connection = createConnection();
                     statement = connection.prepareStatement(sql);
-                    statement = setParametersToPrepareStatement(statement, parameters);
+                    setParametersToPrepareStatement(statement, parameters);
                     statement.executeUpdate();
                 } catch (SQLException ex) {
                     if (connection != null) {
@@ -232,12 +234,12 @@ public abstract class JdbcRepository
                 break;
             case NONE:
                 parameters = shiftParameters(getParameters(model), 1);
-                parameters.add(0, getIdColumnName(), model.getId());
-                sql = createSqlInsertFull(parameters.size() - 1);
+                parameters.set(0, getIdColumnName(), model.getId());
+                sql = getSqlInsertWithId(parameters.size() - 1);
                 try {
                     connection = createConnection();
                     statement = connection.prepareStatement(sql);
-                    statement = setParametersToPrepareStatement(statement, parameters);
+                    setParametersToPrepareStatement(statement, parameters);
                     statement.executeUpdate();
                     generatedId = model.getId();
                 } catch (SQLException ex) {
@@ -287,10 +289,14 @@ public abstract class JdbcRepository
         try {
             connection = createConnection();
 
-            DbSelect select = createSqlSelect();
-            select.getRequests().addWhere(new DbWhereEquals(getTable(), getIdColumnName(), id));
+            Select select = createSqlSelect(
+                    new Where(
+                            getWhereById(),
+                            new SqlParameters(new SqlParameter<ID>(0, getIdColumnName(), id, getSqlIdType()))
+                    )
+            );
 
-            statement = connection.prepareStatement(select.getParametrizedSql());
+            statement = connection.prepareStatement(select.getParameterizedSql());
 
             if (id instanceof Integer) {
                 statement.setInt(1, (Integer) id);
@@ -352,7 +358,7 @@ public abstract class JdbcRepository
     }
 
     @Override
-    protected final List<T> processReadAll(DbRequests requests) {
+    protected final List<T> processReadAll(IParameterizedRequest requests) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<T> result = new ArrayList<>();
@@ -360,12 +366,9 @@ public abstract class JdbcRepository
         try {
             connection = createConnection();
 
-            DbSelect select = createSqlSelect();
-            if (requests != null) {
-                select.setRequests(requests);
-            }
+            Select select = createSqlSelect(requests);
 
-            statement = connection.prepareStatement(select.getParametrizedSql());
+            statement = connection.prepareStatement(select.getParameterizedSql());
             if (requests != null) {
                 setParametersToPrepareStatement(statement, select.getParameters());
             }
@@ -424,7 +427,7 @@ public abstract class JdbcRepository
     public final void update(T model) {
         SqlParameters parameters = getParameters(model);
         parameters.addLast(getIdColumnName(), model.getId());
-        String sql = createSqlUpdate();
+        String sql = getSqlUpdate();
 
         PreparedStatement statement = null;
 
@@ -432,7 +435,7 @@ public abstract class JdbcRepository
         try {
             connection = createConnection();
             statement = connection.prepareStatement(sql);
-            statement = setParametersToPrepareStatement(statement, parameters);
+            setParametersToPrepareStatement(statement, parameters);
             statement.executeUpdate();
         } catch (SQLException ex) {
             if (connection != null) {
@@ -468,7 +471,7 @@ public abstract class JdbcRepository
 
     @Override
     public final void delete(ID id) {
-        String sql = createSqlDelete();
+        String sql = getSqlDelete();
         SqlParameters parameters = new SqlParameters();
         parameters.addLast(getIdColumnName(), id);
         PreparedStatement statement = null;
@@ -477,7 +480,7 @@ public abstract class JdbcRepository
         try {
             connection = createConnection();
             statement = connection.prepareStatement(sql);
-            statement = setParametersToPrepareStatement(statement, parameters);
+            setParametersToPrepareStatement(statement, parameters);
             statement.executeUpdate();
         } catch (SQLException ex) {
             if (connection != null) {
@@ -513,7 +516,7 @@ public abstract class JdbcRepository
     //</editor-fold>
 
     @Override
-    public final long readCount(DbRequests requests) {
+    public final long readCount(IParameterizedRequest request) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         int result = -1;
@@ -521,13 +524,10 @@ public abstract class JdbcRepository
         try {
             connection = createConnection();
 
-            DbSelect select = createSqlCount();
-            if (requests != null) {
-                select.setRequests(requests);
-            }
+            Select select = createSqlCount(request);
 
-            statement = connection.prepareStatement(select.getParametrizedSql());
-            if (requests != null) {
+            statement = connection.prepareStatement(select.getParameterizedSql());
+            if (request != null) {
                 setParametersToPrepareStatement(statement, select.getParameters());
             }
             resultSet = statement.executeQuery();
@@ -623,77 +623,92 @@ public abstract class JdbcRepository
     }
 
     //<editor-fold defaultState="collapsed" desc="sql generate">
-
     /**
      * Sql-запрос на создание записи в таблице (без учета ID)
-     *
-     * @return
      */
-    private String createSqlInsertShort(int parametersCount) {
-        StringBuilder sql = new StringBuilder(String.format("INSERT INTO %s (", getTable().getTableName()));
-        for (String columnName : getColumns()) {
-            sql.append(columnName);
-            sql.append(", ");
-        }
-        sql.replace(sql.length() - 2, sql.length(), "");
-        sql.append(") VALUES (");
+    private String getSqlInsertWithoutId(int parametersCount) {
+        if (sqlInsertWithoutId == null) {
+            StringBuilder sql = new StringBuilder(String.format("INSERT INTO %s (", getTable().getTableName()));
+            for (String columnName : getColumns()) {
+                sql.append(columnName);
+                sql.append(", ");
+            }
+            sql.replace(sql.length() - 2, sql.length(), "");
+            sql.append(") VALUES (");
 
-        for (int i = 0; i < parametersCount; i++) {
-            sql.append("?, ");
+            for (int i = 0; i < parametersCount; i++) {
+                sql.append("?, ");
+            }
+            sql.replace(sql.length() - 2, sql.length(), "");
+            sql.append(");");
+            sqlInsertWithoutId = sql.toString();
         }
-        sql.replace(sql.length() - 2, sql.length(), "");
-        sql.append(");");
-        return sql.toString();
+
+        return sqlInsertWithoutId;
     }
 
     /**
      * Sql-запрос на создание записи в таблице (с учетом добавления ID)
-     *
-     * @return
      */
-    private String createSqlInsertFull(int parametersCount) {
-        StringBuilder sql =
-                new StringBuilder(String.format("INSERT INTO %s (%s, ", getTable().getTableName(), getIdColumnName()));
-        for (String columnName : getColumns()) {
-            sql.append(columnName);
-            sql.append(", ");
-        }
-        sql.replace(sql.length() - 2, sql.length(), "");
-        sql.append(") VALUES (?, ");
+    private String getSqlInsertWithId(int parametersCount) {
+        if (sqlInsertWithId == null) {
+            StringBuilder sql =
+                    new StringBuilder(String.format("INSERT INTO %s (%s, ",
+                            getTable().getTableName(),
+                            getIdColumnName()));
+            for (String columnName : getColumns()) {
+                sql.append(columnName);
+                sql.append(", ");
+            }
+            sql.replace(sql.length() - 2, sql.length(), "");
+            sql.append(") VALUES (?, ");
 
-        for (int i = 0; i < parametersCount; i++) {
-            sql.append("?, ");
+            for (int i = 0; i < parametersCount; i++) {
+                sql.append("?, ");
+            }
+            sql.replace(sql.length() - 2, sql.length(), "");
+            sql.append(")");
+            sqlInsertWithId = sql.toString();
         }
-        sql.replace(sql.length() - 2, sql.length(), "");
-        sql.append(")");
-        return sql.toString();
+
+        return sqlInsertWithId;
     }
 
     /**
      * Sql-запрос на обновление записи в таблице
-     *
-     * @return
      */
-    private String createSqlUpdate() {
-        StringBuilder sql = new StringBuilder(String.format("UPDATE %s SET ", getTable().getTableName()));
-        for (int i = 0; i < getColumns().length; i++) {
-            sql.append(getColumns()[i]);
-            sql.append(" = ?, ");
+    private String getSqlUpdate() {
+        if (sqlUpdate == null) {
+            StringBuilder sql = new StringBuilder(String.format("UPDATE %s SET ", getTable().getTableName()));
+            for (int i = 0; i < getColumns().length; i++) {
+                sql.append(getColumns()[i]);
+                sql.append(" = ?, ");
+            }
+            sql.replace(sql.length() - 2, sql.length(), "");
+            sql.append(" WHERE ");
+            sql.append(getIdColumnName());
+            sql.append(" = ?");
+            sqlUpdate = sql.toString();
         }
-        sql.replace(sql.length() - 2, sql.length(), "");
-        sql.append(" WHERE ");
-        sql.append(getIdColumnName());
-        sql.append(" = ?");
-        return sql.toString();
+        return sqlUpdate;
     }
 
     /**
-     * Sql-запрос на удаление записи в таблице
-     *
-     * @return
+     * Sql-запрос на удаление записи в таблице по id
      */
-    private String createSqlDelete() {
-        return String.format("DELETE FROM %s WHERE %s = ?", getTable().getTableName(), getIdColumnName());
+    private String getSqlDelete() {
+        if (sqlDeleteById == null) {
+            sqlDeleteById = String.format("DELETE FROM %s WHERE %s = ?", getTable().getTableName(), getIdColumnName());
+        }
+        return sqlDeleteById;
+    }
+
+    private String getWhereById() {
+        if (sqlWhereById == null) {
+            sqlWhereById = String.format("%s = ?", getIdColumnName());
+        }
+
+        return sqlWhereById;
     }
     //</editor-fold>
 
@@ -714,17 +729,14 @@ public abstract class JdbcRepository
     protected abstract SqlParameters getParameters(T model);
 
     //<editor-fold defaultState="collapsed" desc="Determine statement parameters">
-
     /**
      * Установить параметры в переданный объект PreparedStatement в зависимости от нужного типа
      *
      * @param statement  Объект PreparedStatement, которому устанвливаются параметры
      * @param parameters Устанавливаемые параметры
-     * @return
      */
-    private PreparedStatement setParametersToPrepareStatement(PreparedStatement statement,
-            SqlParameters<?> parameters) {
-        for (SqlParameter parameter : parameters.getParameters()) {
+    private void setParametersToPrepareStatement(PreparedStatement statement, SqlParameters parameters) {
+        for (SqlParameter<?> parameter : parameters.getParameters()) {
             try {
                 int index = parameter.getIndex() + 1;
                 Object value = parameter.getValue();
@@ -777,8 +789,6 @@ public abstract class JdbcRepository
                 throw new RuntimeException(ex);
             }
         }
-
-        return statement;
     }
 
     /**
@@ -787,8 +797,8 @@ public abstract class JdbcRepository
      * @param parameters    Параметры
      * @param startPosition Стартовая позиция
      */
-    private SqlParameters shiftParameters(SqlParameters<?> parameters, int startPosition) {
-        for (SqlParameter parameter : parameters.getParameters()) {
+    private SqlParameters shiftParameters(SqlParameters parameters, int startPosition) {
+        for (SqlParameter<?> parameter : parameters.getParameters()) {
             parameter.setIndex(parameter.getIndex() + startPosition);
         }
 

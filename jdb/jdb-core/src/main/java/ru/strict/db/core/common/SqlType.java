@@ -30,11 +30,11 @@ public enum SqlType implements SQLType {
         return type;
     }
 
-    public static <T> T mapValue(Object value, SQLType sqlType){
-        if(sqlType == null){
+    public static <T> T mapValue(Object value, SQLType sqlType) {
+        if (sqlType == null) {
             throw new IllegalArgumentException("sqlType is NULL");
         }
-        if(value == null){
+        if (value == null) {
             return null;
         }
 

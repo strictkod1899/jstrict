@@ -5,11 +5,9 @@ import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.IConnectionCreator;
 import ru.strict.db.core.repositories.DefaultColumns;
 import ru.strict.db.core.repositories.DefaultTable;
+import ru.strict.db.core.repositories.interfaces.ICityRepository;
 import ru.strict.models.City;
 import ru.strict.models.Country;
-import ru.strict.db.core.repositories.IRepository;
-import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.jdbc.mappers.sql.CountrySqlMapper;
 
 import java.sql.Connection;
@@ -34,18 +32,15 @@ public class CountryRepository<ID> extends NamedJdbcRepository<ID, Country<ID>> 
     @Override
     protected SqlParameters getParameters(Country<ID> model) {
         SqlParameters parameters = new SqlParameters();
-        parameters.add(0, COLUMNS_NAME[0], model.getCaption());
+        parameters.set(0, COLUMNS_NAME[0], model.getCaption());
         return parameters;
     }
 
     @Override
     protected Country<ID> fill(Country<ID> model) {
-        IRepository<ID, City<ID>> repositoryCity =
-                new CityRepository(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
-        DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(repositoryCity.getTable(), DefaultColumns.CITY.columns()[1], model.getId(), "="));
-
-        List<City<ID>> cities = repositoryCity.readAll(requests);
+        ICityRepository<ID> cityRepository =
+                new CityRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+        List<City<ID>> cities = cityRepository.readByCountryId(model.getId());
         model.setCities(cities);
 
         return model;

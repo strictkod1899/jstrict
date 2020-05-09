@@ -5,10 +5,10 @@ import java.util.Objects;
 
 /**
  * Параметр для подставновки в sql-запрос типа PreparedStatement
+ *
  * @param <VALUE> Тип значения параметра
  */
 public class SqlParameter<VALUE> {
-
     private int index;
     private String name;
     private VALUE value;
@@ -16,6 +16,17 @@ public class SqlParameter<VALUE> {
      * java.sql.JDBCType
      */
     private SQLType sqlType;
+
+    public SqlParameter(String name, VALUE value) {
+        this.name = name;
+        this.value = value;
+    }
+
+    public SqlParameter(String name, VALUE value, SQLType sqlType) {
+        this.name = name;
+        this.value = value;
+        this.sqlType = sqlType;
+    }
 
     public SqlParameter(int index, String name, VALUE value) {
         this.index = index;
@@ -60,26 +71,29 @@ public class SqlParameter<VALUE> {
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("sql-parameter [%s - %s] - %s", index, name, String.valueOf(value));
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof SqlParameter) {
-            SqlParameter object = (SqlParameter) obj;
-            return Objects.equals(index, object.index)
-                    && Objects.equals(name, object.name)
-                    && Objects.equals(value, object.value)
-                    && Objects.equals(sqlType, object.sqlType);
-        }else {
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
+        SqlParameter<?> that = (SqlParameter<?>) o;
+        return index == that.index &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(value, that.value) &&
+                Objects.equals(sqlType, that.sqlType);
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return Objects.hash(index, name, value, sqlType);
     }
+
     //</editor-fold>
 }

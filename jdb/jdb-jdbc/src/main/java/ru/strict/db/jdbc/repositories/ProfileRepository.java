@@ -39,17 +39,17 @@ public class ProfileRepository<ID>
     @Override
     protected SqlParameters getParameters(Profile<ID> model) {
         SqlParameters parameters = new SqlParameters();
-        parameters.add(0, COLUMNS_NAME[0], model.getName());
-        parameters.add(1, COLUMNS_NAME[1], model.getSurname());
-        parameters.add(2, COLUMNS_NAME[2], model.getUserId());
+        parameters.set(0, COLUMNS_NAME[0], model.getName());
+        parameters.set(1, COLUMNS_NAME[1], model.getSurname());
+        parameters.set(2, COLUMNS_NAME[2], model.getUserId());
         return parameters;
     }
 
     @Override
     protected Profile<ID> fill(Profile<ID> model) {
-        IRepository<ID, User<ID>> repositoryUser =
+        IRepository<ID, User<ID>> userRepository =
                 new UserRepository(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
-        model.setUser(repositoryUser.read(model.getUserId()));
+        model.setUser(userRepository.read(model.getUserId()));
         return model;
     }
 

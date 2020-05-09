@@ -34,28 +34,28 @@ public class JWTTokenRepository<ID>
     @Override
     protected SqlParameters getParameters(JWTToken<ID> model) {
         SqlParameters parameters = new SqlParameters();
-        parameters.add(0, COLUMNS_NAME[0], model.getAccessToken());
-        parameters.add(1, COLUMNS_NAME[1], model.getRefreshToken());
-        parameters.add(2, COLUMNS_NAME[2], model.getExpireTimeAccess());
-        parameters.add(3, COLUMNS_NAME[3], model.getExpireTimeRefresh());
-        parameters.add(4, COLUMNS_NAME[4], model.getIssuedAt());
-        parameters.add(5, COLUMNS_NAME[5], model.getIssuer());
-        parameters.add(6, COLUMNS_NAME[6], model.getSubject());
-        parameters.add(7, COLUMNS_NAME[7], model.getNotBefore());
-        parameters.add(8, COLUMNS_NAME[8], model.getAudience());
-        parameters.add(9, COLUMNS_NAME[9], model.getSecret());
-        parameters.add(10, COLUMNS_NAME[10], model.getAlgorithm());
-        parameters.add(11, COLUMNS_NAME[11], model.getType());
-        parameters.add(12, COLUMNS_NAME[12], model.getUserId());
+        parameters.set(0, COLUMNS_NAME[0], model.getAccessToken());
+        parameters.set(1, COLUMNS_NAME[1], model.getRefreshToken());
+        parameters.set(2, COLUMNS_NAME[2], model.getExpireTimeAccess());
+        parameters.set(3, COLUMNS_NAME[3], model.getExpireTimeRefresh());
+        parameters.set(4, COLUMNS_NAME[4], model.getIssuedAt());
+        parameters.set(5, COLUMNS_NAME[5], model.getIssuer());
+        parameters.set(6, COLUMNS_NAME[6], model.getSubject());
+        parameters.set(7, COLUMNS_NAME[7], model.getNotBefore());
+        parameters.set(8, COLUMNS_NAME[8], model.getAudience());
+        parameters.set(9, COLUMNS_NAME[9], model.getSecret());
+        parameters.set(10, COLUMNS_NAME[10], model.getAlgorithm());
+        parameters.set(11, COLUMNS_NAME[11], model.getType());
+        parameters.set(12, COLUMNS_NAME[12], model.getUserId());
         return parameters;
     }
 
     @Override
     protected JWTToken<ID> fill(JWTToken<ID> model) {
         // Добавление пользователя
-        IRepository<ID, User<ID>> repositoryUser =
+        IRepository<ID, User<ID>> userRepository =
                 new UserRepository(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
-        model.setUser(repositoryUser.read(model.getUserId()));
+        model.setUser(userRepository.read(model.getUserId()));
         return model;
     }
 

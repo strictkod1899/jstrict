@@ -2,19 +2,27 @@ package ru.strict.db.core.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.IConnectionCreator;
-import ru.strict.db.core.requests.*;
+import ru.strict.db.core.requests.components.Select;
+import ru.strict.db.core.requests.IParameterizedRequest;
+import ru.strict.db.core.requests.components.SqlItem;
+import ru.strict.db.core.requests.components.Table;
 import ru.strict.models.BaseModel;
+import ru.strict.validate.Validator;
 
 import java.sql.SQLType;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
  * Базовый класс репозитория
+ *
  * @param <ID> Тип идентификатора
- * @param <SOURCE> Источник для получения соединения с базой данных (ConnectionCreatorByDataSource, ConnectionCreatorByConnectionInfo)
- * @param <T> Модель сущности базы данных
+ * @param <SOURCE> Источник для получения соединения с базой данных (ConnectionCreatorByDataSource,
+ * ConnectionCreatorByConnectionInfo)
+ * @param <MODEL> Модель сущности базы данных
  */
 public abstract class BaseRepository
         <ID, CONNECTION, SOURCE extends IConnectionCreator<CONNECTION>, MODEL extends BaseModel<ID>>
@@ -22,14 +30,15 @@ public abstract class BaseRepository
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
-     * является реализацией интерфейса IConnectionCreator (ConnectionCreatorByDataSource, ConnectionCreatorByConnectionInfo)
+     * является реализацией интерфейса IConnectionCreator (ConnectionCreatorByDataSource,
+     * ConnectionCreatorByConnectionInfo)
      */
     private final SOURCE connectionSource;
 
     /**
      * Наименование таблицы
      */
-    private final DbTable table;
+    private final Table table;
 
     /**
      * Наименование столбцов таблицы в базе данных, без учета ID
@@ -47,34 +56,27 @@ public abstract class BaseRepository
      */
     private final SQLType sqlIdType;
 
+    private List<SqlItem> selectItems;
+    private SqlItem countSelectItem;
+
     //<editor-fold defaultState="collapsed" desc="constructors">
-    private void validateConstructor(DbTable table,
-                                     String[] columns,
-                                     SOURCE connectionSource,
-                                     GenerateIdType generateIdType){
-        if(table == null){
-            throw new IllegalArgumentException("table is NULL");
-        }
-        if(columns == null){
-            throw new IllegalArgumentException("columns is NULL");
-        }
-        if(connectionSource == null){
-            throw new IllegalArgumentException("connectionSource is NULL");
-        }
-        if(generateIdType == null){
-            throw new IllegalArgumentException("generateIdType is NULL");
-        }
+    public BaseRepository(Table table,
+            String[] columns,
+            SOURCE connectionSource,
+            GenerateIdType generateIdType) {
+        this(table, columns, connectionSource, generateIdType, null);
     }
 
-    public BaseRepository(DbTable table,
-                          String[] columns,
-                          SOURCE connectionSource,
-                          GenerateIdType generateIdType,
-                          SQLType sqlIdType) {
-        validateConstructor(table, columns, connectionSource, generateIdType);
-        if(sqlIdType == null){
-            throw new IllegalArgumentException("idType is NULL");
-        }
+    public BaseRepository(Table table,
+            String[] columns,
+            SOURCE connectionSource,
+            GenerateIdType generateIdType,
+            SQLType sqlIdType) {
+        Validator.isNull(table, "table")
+                .isNull(columns, "columns")
+                .isNull(connectionSource, "connectionSource")
+                .isNull(generateIdType, "generateIdType")
+                .onThrow();
 
         this.table = table;
         this.columns = columns;
@@ -82,38 +84,23 @@ public abstract class BaseRepository
         this.generateIdType = generateIdType;
         this.sqlIdType = sqlIdType;
     }
-
-    public BaseRepository(DbTable table,
-                          String[] columns,
-                          SOURCE connectionSource,
-                          GenerateIdType generateIdType) {
-        validateConstructor(table, columns, connectionSource, generateIdType);
-
-        this.table = table;
-        this.columns = columns;
-        this.connectionSource = connectionSource;
-        this.generateIdType = generateIdType;
-        this.sqlIdType = null;
-    }
     //</editor-fold>
 
     /**
-     * Возвращает конечный класс репозитория, от чьего имени будет вестись логирование.
+     * Получить конечный класс репозитория, от чьего имени будет вестись логирование.
      * Возвращает текущий класс.
      * Стандартная реализация:
      * return this.getClass();
-     * @return
      */
     protected abstract Class getThisClass();
 
     //<editor-fold defaultState="collapsed" desc="CRUD">
     @Override
     public final ID createOrUpdate(MODEL model) {
-        if(model == null){
-            throw new IllegalArgumentException("model is NULL");
-        }
+        Validator.isNull(model, "model").onThrow();
+
         boolean rowExists = isRowExists(model.getId());
-        if(rowExists){
+        if (rowExists) {
             update(model);
             return model.getId();
         } else {
@@ -123,11 +110,10 @@ public abstract class BaseRepository
 
     @Override
     public final MODEL createOrRead(MODEL model) {
-        if(model == null){
-            throw new IllegalArgumentException("model is NULL");
-        }
+        Validator.isNull(model, "model").onThrow();
+
         boolean rowExists = isRowExists(model.getId());
-        if(rowExists){
+        if (rowExists) {
             return read(model.getId());
         } else {
             ID savedId = create(model);
@@ -144,7 +130,7 @@ public abstract class BaseRepository
     }
 
     @Override
-    public final List<MODEL> readAll(DbRequests requests) {
+    public final List<MODEL> readAll(IParameterizedRequest requests) {
         List<MODEL> models = processReadAll(requests);
         models = models.stream()
                 .map(this::postRead)
@@ -153,7 +139,8 @@ public abstract class BaseRepository
     }
 
     protected abstract MODEL processRead(ID id);
-    protected abstract List<MODEL> processReadAll(DbRequests requests);
+
+    protected abstract List<MODEL> processReadAll(IParameterizedRequest requests);
 
     /**
      * Выполнить преобразование объекта после его чтения. Может придти объект null
@@ -208,6 +195,7 @@ public abstract class BaseRepository
      *     model.setCountry(repositoryCountry.read((ID) model.getCountryId()));
      *     return model;
      * </pre></code>
+     *
      * @param model Сущность прочитанная из базы данных (без внешних ключей)
      * @return Сущность с внешними ключами
      */
@@ -216,16 +204,16 @@ public abstract class BaseRepository
     @Override
     public final MODEL readFill(ID id) {
         MODEL model = read(id);
-        if(model != null) {
+        if (model != null) {
             model = fill(model);
         }
         return model;
     }
 
     @Override
-    public final List<MODEL> readAllFill(DbRequests requests) {
+    public final List<MODEL> readAllFill(IParameterizedRequest requests) {
         List<MODEL> models = readAll(requests);
-        if(models != null) {
+        if (models != null) {
             models.stream().forEach((model) -> model = fill(model));
         }
         return models;
@@ -234,34 +222,39 @@ public abstract class BaseRepository
 
     //<editor-fold defaultState="collapsed" desc="sql generate">
     /**
-     * Sql-запрос на создание записи в таблице (без учета ID)
-     * @return
+     * Sql-запрос на чтение записей из таблицы
      */
-    protected DbSelect createSqlSelect(){
-        DbSelect select = new DbSelect(table, new DbSelectItem(table, getIdColumnName()));
+    protected Select createSqlSelect(IParameterizedRequest request) {
+        if (selectItems == null) {
+            selectItems = new ArrayList<>(columns.length+1);
+            selectItems.add(new SqlItem(table, getIdColumnName()));
 
-        for(String columnName : getColumns()){
-            select.addSelectItem(table, columnName);
+            for (String columnName : getColumns()) {
+                selectItems.add(new SqlItem(table, columnName));
+            }
         }
 
-        return select;
+        return new Select(table, selectItems, request);
     }
 
     /**
-     * Sql-запрос на создание записи в таблице (без учета ID)
-     * @return
+     * Sql-запрос на чтение количества элементов в таблице
      */
-    protected DbSelect createSqlCount(){
-        return new DbSelect(table, new DbSelectItem("COUNT(*)"));
+    protected Select createSqlCount(IParameterizedRequest request) {
+        if (countSelectItem == null) {
+            countSelectItem = new SqlItem("COUNT(*)");
+        }
+        return new Select(table, countSelectItem, request);
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
     /**
      * Создать соединение с базой даннных
+     *
      * @return
      */
-    protected CONNECTION createConnection(){
+    protected CONNECTION createConnection() {
         return connectionSource.createConnection();
     }
 
@@ -274,7 +267,7 @@ public abstract class BaseRepository
     }
 
     @Override
-    public DbTable getTable() {
+    public Table getTable() {
         return table;
     }
 
@@ -282,32 +275,39 @@ public abstract class BaseRepository
         return columns;
     }
 
-    protected SQLType getSqlIdType(){
+    protected SQLType getSqlIdType() {
         return sqlIdType;
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("repository [%s]. Connection: %s", getTable(), getConnectionSource().toString());
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(this == obj) return true;
-        if(obj == null || getClass() != obj.getClass()) return false;
-
-        BaseRepository object = (BaseRepository) obj;
-        return Objects.equals(connectionSource, object.getConnectionSource())
-                && Objects.equals(table, object.getTable())
-                && Objects.equals(columns, object.getColumns())
-                && Objects.equals(generateIdType, object.getGenerateIdType());
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        BaseRepository<?, ?, ?, ?> that = (BaseRepository<?, ?, ?, ?>) o;
+        return Objects.equals(connectionSource, that.connectionSource) &&
+                Objects.equals(table, that.table) &&
+                Arrays.equals(columns, that.columns) &&
+                generateIdType == that.generateIdType &&
+                Objects.equals(sqlIdType, that.sqlIdType);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(connectionSource, table, columns, generateIdType);
+    public int hashCode() {
+        int result = Objects.hash(connectionSource, table, generateIdType, sqlIdType);
+        result = 31 * result + Arrays.hashCode(columns);
+        return result;
     }
+
     //</editor-fold>
 }

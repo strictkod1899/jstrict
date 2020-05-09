@@ -5,11 +5,12 @@ import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.IConnectionCreator;
 import ru.strict.db.core.repositories.DefaultColumns;
 import ru.strict.db.core.repositories.DefaultTable;
+import ru.strict.db.core.repositories.interfaces.IJWTTokenRepository;
+import ru.strict.db.core.repositories.interfaces.IProfileRepository;
+import ru.strict.db.core.repositories.interfaces.IUserOnRoleRepository;
 import ru.strict.db.core.repositories.interfaces.IUserRepository;
 import ru.strict.models.*;
 import ru.strict.db.core.repositories.IRepository;
-import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.db.jdbc.mappers.sql.UserSqlMapper;
 
 import java.sql.Connection;
@@ -36,47 +37,41 @@ public class UserRepository<ID>
     @Override
     protected SqlParameters getParameters(DetailsUser<ID> model) {
         SqlParameters parameters = new SqlParameters();
-        parameters.add(0, COLUMNS_NAME[0], model.getUsername());
-        parameters.add(1, COLUMNS_NAME[1], model.getPasswordEncode());
-        parameters.add(2, COLUMNS_NAME[2], model.getEmail());
-        parameters.add(3, COLUMNS_NAME[3], model.isBlocked());
-        parameters.add(4, COLUMNS_NAME[4], model.isDeleted());
-        parameters.add(5, COLUMNS_NAME[5], model.isConfirmEmail());
-        parameters.add(6, COLUMNS_NAME[6], model.getSalt());
-        parameters.add(7, COLUMNS_NAME[7], model.getSecret());
+        parameters.set(0, COLUMNS_NAME[0], model.getUsername());
+        parameters.set(1, COLUMNS_NAME[1], model.getPasswordEncode());
+        parameters.set(2, COLUMNS_NAME[2], model.getEmail());
+        parameters.set(3, COLUMNS_NAME[3], model.isBlocked());
+        parameters.set(4, COLUMNS_NAME[4], model.isDeleted());
+        parameters.set(5, COLUMNS_NAME[5], model.isConfirmEmail());
+        parameters.set(6, COLUMNS_NAME[6], model.getSalt());
+        parameters.set(7, COLUMNS_NAME[7], model.getSecret());
         return parameters;
     }
 
     @Override
     protected DetailsUser<ID> fill(DetailsUser<ID> model) {
         // Добавление ролей пользователей
-        IRepository<ID, UserOnRole<ID>> repositoryUserOnRole =
+        IUserOnRoleRepository<ID> userOnRoleRepository =
                 new UserOnRoleRepository(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
-        DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTable(), "userx_id", model.getId(), "="));
-        List<UserOnRole<ID>> userOnRoles = repositoryUserOnRole.readAll(requests);
+        List<UserOnRole<ID>> userOnRoles = userOnRoleRepository.readByUserId(model.getId());
 
-        IRepository<ID, Role<ID>> repositoryRole =
+        IRepository<ID, Role<ID>> roleRepository =
                 new RoleRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
         List<Role<ID>> roles = new ArrayList<>();
         for (UserOnRole<ID> userOnRole : userOnRoles) {
-            roles.add(repositoryRole.read(userOnRole.getRoleId()));
+            roles.add(roleRepository.read(userOnRole.getRoleId()));
         }
         model.setRoles(roles);
 
         // Добавления профиля
-        IRepository<ID, Profile<ID>> repositoryProfile =
+        IProfileRepository<ID, Profile<ID>> profileRepository =
                 new ProfileRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
-        requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(repositoryProfile.getTable(), "userx_id", model.getId(), "="));
-        model.setProfiles(repositoryProfile.readAll(requests));
+        model.setProfiles(profileRepository.readByUserId(model.getId()));
 
         // Добавление токенов
-        IRepository<ID, JWTToken<ID>> repositoryToken =
+        IJWTTokenRepository<ID> tokenRepository =
                 new JWTTokenRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
-        requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(repositoryToken.getTable(), "userx_id", model.getId(), "="));
-        model.setTokens(repositoryToken.readAll(requests));
+        model.setTokens(tokenRepository.readByUserId(model.getId()));
         return model;
     }
 

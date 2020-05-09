@@ -7,6 +7,7 @@ public interface IConnectionCreator<CONNECTION> {
 
     /**
      * Создать соединение с базой данных
+     *
      * @return Соединение с базой данных
      */
     CONNECTION createConnection();

@@ -1,22 +1,22 @@
-package ru.strict.db.core.requests;
+package ru.strict.db.core.requests.components;
 
+import ru.strict.db.core.requests.IRequest;
 import ru.strict.validate.ValidateBaseValue;
+import ru.strict.validate.Validator;
 
 import java.util.Objects;
 
-public class DbTable implements IDbRequest {
-
+public class Table implements IRequest {
     private String tableName;
     private String alias;
 
-    public DbTable(String tableName) {
-        if(ValidateBaseValue.isEmptyOrNull(tableName)){
-            throw new IllegalArgumentException("tableName is NULL");
-        }
+    public Table(String tableName) {
+        Validator.isEmptyOrNull(tableName, "tableName").onThrow();
+
         this.tableName = tableName;
     }
 
-    public DbTable(String tableName, String alias) {
+    public Table(String tableName, String alias) {
         this(tableName);
         this.alias = alias;
     }
@@ -29,33 +29,37 @@ public class DbTable implements IDbRequest {
         return alias;
     }
 
-    public String getRequiredName(){
-        if(ValidateBaseValue.isEmptyOrNull(alias)){
+    public String getRequiredName() {
+        if (ValidateBaseValue.isEmptyOrNull(alias)) {
             return tableName;
-        }else{
+        } else {
             return alias;
         }
     }
 
     @Override
     public String getSql() {
-        if(ValidateBaseValue.isEmptyOrNull(alias)){
+        if (ValidateBaseValue.isEmptyOrNull(alias)) {
             return tableName;
         } else {
-            return String.format("%s as %s", getTableName(), alias);
+            return String.format("%s AS %s", getTableName(), alias);
         }
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return getSql();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DbTable dbTable = (DbTable) o;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Table dbTable = (Table) o;
         return Objects.equals(tableName, dbTable.tableName) &&
                 Objects.equals(alias, dbTable.alias);
     }

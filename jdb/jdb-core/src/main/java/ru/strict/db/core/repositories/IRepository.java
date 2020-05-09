@@ -1,8 +1,10 @@
 package ru.strict.db.core.repositories;
 
-import ru.strict.db.core.requests.DbTable;
-import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.core.requests.DbWhereItem;
+import ru.strict.db.core.common.SqlParameter;
+import ru.strict.db.core.requests.IParameterizedRequest;
+import ru.strict.db.core.requests.components.SingleWhere;
+import ru.strict.db.core.requests.components.SqlItem;
+import ru.strict.db.core.requests.components.Table;
 import ru.strict.models.IModel;
 import ru.strict.validate.Validator;
 
@@ -10,6 +12,7 @@ import java.util.List;
 
 /**
  * Базовое описание репозитория
+ *
  * @param <ID> Тип идентификатора
  * @param <T> Модель сущности базы данных
  */
@@ -37,7 +40,7 @@ public interface IRepository<ID, T extends IModel<ID>> {
      * @param requests Условия выборки объектов. Если передать null, то будут считаны все объекты БД
      * @return Список объектов из базы данных
      */
-    List<T> readAll(DbRequests requests);
+    List<T> readAll(IParameterizedRequest requests);
 
     /**
      * Обновить объект в базе данных связанный с id переданного объекта
@@ -79,32 +82,36 @@ public interface IRepository<ID, T extends IModel<ID>> {
      * @param requests Условия выборки объектов. Если передать null, то будут считаны все объекты БД
      * @return Количество записей из базы данных
      */
-    long readCount(DbRequests requests);
+    long readCount(IParameterizedRequest requests);
 
     /**
      * Проверить существование записи в базе данных с переданным идентификатором
      */
-    default boolean isRowExists(ID id){
+    default boolean isRowExists(ID id) {
         Validator.isNull(id, "id").onThrow();
 
-        DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(getTable(), getIdColumnName(), id, "="));
+        SingleWhere where = new SingleWhere(
+                new SqlItem(getTable(), getIdColumnName()),
+                "=",
+                new SqlParameter<>(getIdColumnName(), id));
 
-        long count = readCount(requests);
-        return count > 0 ? true : false;
+        long count = readCount(where);
+        return count > 0;
     }
 
     /**
      * Получить таблицу, с которой связан данный репозиторий
+     *
      * @return
      */
-    DbTable getTable();
+    Table getTable();
 
     /**
      * Получить наименование столбца, который представляет столбец с идентификатором
+     *
      * @return
      */
-    default String getIdColumnName(){
+    default String getIdColumnName() {
         return "id";
     }
 }

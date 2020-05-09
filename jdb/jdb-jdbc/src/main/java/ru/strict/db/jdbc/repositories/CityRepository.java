@@ -34,16 +34,16 @@ public class CityRepository<ID>
     @Override
     protected SqlParameters getParameters(City<ID> model) {
         SqlParameters parameters = new SqlParameters();
-        parameters.add(0, COLUMNS_NAME[0], model.getCaption());
-        parameters.add(1, COLUMNS_NAME[1], model.getCountryId());
+        parameters.set(0, COLUMNS_NAME[0], model.getCaption());
+        parameters.set(1, COLUMNS_NAME[1], model.getCountryId());
         return parameters;
     }
 
     @Override
     protected City<ID> fill(City<ID> model) {
-        IRepository<ID, Country<ID>> repositoryCountry =
-                new CountryRepository(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
-        model.setCountry(repositoryCountry.read(model.getCountryId()));
+        IRepository<ID, Country<ID>> countryRepository =
+                new CountryRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+        model.setCountry(countryRepository.read(model.getCountryId()));
         return model;
     }
 

@@ -40,26 +40,26 @@ public class DetailsProfileRepository<ID>
     @Override
     protected SqlParameters getParameters(DetailsProfile<ID> model) {
         SqlParameters parameters = new SqlParameters();
-        parameters.add(0, COLUMNS_NAME[0], model.getName());
-        parameters.add(1, COLUMNS_NAME[1], model.getSurname());
-        parameters.add(2, COLUMNS_NAME[2], model.getMiddlename());
-        parameters.add(3, COLUMNS_NAME[3], model.getUserId());
-        parameters.add(4, COLUMNS_NAME[4], model.isMan());
-        parameters.add(5, COLUMNS_NAME[5], model.getDateBirth());
-        parameters.add(6, COLUMNS_NAME[6], model.getPhone());
-        parameters.add(7, COLUMNS_NAME[7], model.getCityId());
+        parameters.set(0, COLUMNS_NAME[0], model.getName());
+        parameters.set(1, COLUMNS_NAME[1], model.getSurname());
+        parameters.set(2, COLUMNS_NAME[2], model.getMiddlename());
+        parameters.set(3, COLUMNS_NAME[3], model.getUserId());
+        parameters.set(4, COLUMNS_NAME[4], model.isMan());
+        parameters.set(5, COLUMNS_NAME[5], model.getDateBirth());
+        parameters.set(6, COLUMNS_NAME[6], model.getPhone());
+        parameters.set(7, COLUMNS_NAME[7], model.getCityId());
         return parameters;
     }
 
     @Override
     protected DetailsProfile<ID> fill(DetailsProfile<ID> model) {
-        IRepository<ID, DetailsUser<ID>> repositoryUser =
+        IRepository<ID, DetailsUser<ID>> userRepository =
                 new UserRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
-        model.setUser(repositoryUser.read(model.getUserId()));
+        model.setUser(userRepository.read(model.getUserId()));
 
-        IRepository<ID, City<ID>> repositoryCity =
-                new CityRepository(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
-        model.setCity(repositoryCity.read(model.getCityId()));
+        IRepository<ID, City<ID>> cityRepository =
+                new CityRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+        model.setCity(cityRepository.read(model.getCityId()));
 
         return model;
     }

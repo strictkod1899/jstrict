@@ -4,7 +4,7 @@ import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.connections.IConnectionCreator;
 import ru.strict.db.core.repositories.INamedRepository;
 import ru.strict.db.jdbc.mappers.sql.BaseSqlMapper;
-import ru.strict.db.core.requests.DbTable;
+import ru.strict.db.core.requests.components.Table;
 import ru.strict.models.BaseModel;
 
 import java.sql.Connection;
@@ -15,7 +15,7 @@ public abstract class NamedJdbcRepository<ID, T extends BaseModel<ID>>
         extends JdbcRepository<ID, T>
         implements INamedRepository<ID, T> {
 
-    public NamedJdbcRepository(DbTable table,
+    public NamedJdbcRepository(Table table,
             String[] columns,
             IConnectionCreator<Connection> connectionSource,
             BaseSqlMapper<ID, T> sqlMapper,
@@ -24,7 +24,7 @@ public abstract class NamedJdbcRepository<ID, T extends BaseModel<ID>>
         super(table, columns, connectionSource, sqlMapper, generateIdType, sqlIdType);
     }
 
-    public NamedJdbcRepository(DbTable table,
+    public NamedJdbcRepository(Table table,
             String[] columns,
             IConnectionCreator<Connection> connectionSource,
             BaseSqlMapper<ID, T> sqlMapper,
@@ -32,7 +32,7 @@ public abstract class NamedJdbcRepository<ID, T extends BaseModel<ID>>
         super(table, columns, connectionSource, sqlMapper, generateIdType);
     }
 
-    protected NamedJdbcRepository(DbTable table,
+    protected NamedJdbcRepository(Table table,
             String[] columns,
             IConnectionCreator<Connection> connectionSource,
             GenerateIdType generateIdType,
@@ -43,7 +43,7 @@ public abstract class NamedJdbcRepository<ID, T extends BaseModel<ID>>
     /**
      * Если используется, этот конструктор, то необходимо вручную вызвать метод setSqlMapper
      */
-    protected NamedJdbcRepository(DbTable table,
+    protected NamedJdbcRepository(Table table,
             String[] columns,
             IConnectionCreator<Connection> connectionSource,
             GenerateIdType generateIdType) {

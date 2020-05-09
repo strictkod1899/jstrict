@@ -1,15 +1,16 @@
 package ru.strict.db.core.repositories;
 
-import ru.strict.db.core.requests.DbSelectItem;
-import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.core.requests.DbWhereItem;
+import ru.strict.db.core.common.SqlParameter;
+import ru.strict.db.core.requests.components.SingleWhere;
+import ru.strict.db.core.requests.components.SqlItem;
 import ru.strict.models.BaseModel;
-import ru.strict.validate.ValidateBaseValue;
+import ru.strict.validate.Validator;
 
 import java.util.List;
 
 /**
  * Расширенные возможности репозитория для выполнения операций с записья используя ее столбец наименования
+ *
  * @param <ID> Тип идентификатора
  * @param <T> Модель сущности базы данных
  */
@@ -17,32 +18,40 @@ public interface INamedRepository<ID, T extends BaseModel<ID>> extends IExtensio
 
     /**
      * Чтение записи из базы данных по наименованию
+     *
      * @param caption Значение столбца наименования
      * @return
      */
-    default T readByName(String caption){
-        if(ValidateBaseValue.isEmptyOrNull(caption)){
-            throw new IllegalArgumentException("caption for read by name is NULL");
-        }
-        DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), getColumnWithName()), caption, "="));
+    default T readByName(String caption) {
+        Validator.isEmptyOrNull(caption, "caption")
+                .reason("caption for read by name is NULL")
+                .onThrow();
 
-        return readAll(requests).stream().findFirst().orElse(null);
+        SingleWhere where = new SingleWhere(
+                new SqlItem(getTable(), getColumnWithName()),
+                "=",
+                new SqlParameter<>(getColumnWithName(), caption));
+
+        return readAll(where).stream().findFirst().orElse(null);
     }
 
     /**
      * Чтение записей из базы данных по наименованию
+     *
      * @param caption Значение столбца наименования
      * @return
      */
-    default List<T> readAllByName(String caption){
-        if(ValidateBaseValue.isEmptyOrNull(caption)){
-            throw new IllegalArgumentException("caption for read by name is NULL");
-        }
-        DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), getColumnWithName()), caption, "="));
+    default List<T> readAllByName(String caption) {
+        Validator.isEmptyOrNull(caption, "caption")
+                .reason("caption for read all by name is NULL")
+                .onThrow();
 
-        return readAll(requests);
+        SingleWhere where = new SingleWhere(
+                new SqlItem(getTable(), getColumnWithName()),
+                "=",
+                new SqlParameter<>(getColumnWithName(), caption));
+
+        return readAll(where);
     }
 
     T readByNameFill(String caption);
@@ -51,6 +60,7 @@ public interface INamedRepository<ID, T extends BaseModel<ID>> extends IExtensio
 
     /**
      * Получить наименование столбца, который выполняет роль наименования записи
+     *
      * @return
      */
     String getColumnWithName();

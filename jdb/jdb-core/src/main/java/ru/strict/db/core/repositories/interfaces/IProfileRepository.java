@@ -1,33 +1,43 @@
 package ru.strict.db.core.repositories.interfaces;
 
-import ru.strict.db.core.requests.DbSelectItem;
+import ru.strict.db.core.common.SqlParameter;
+import ru.strict.db.core.requests.components.SingleWhere;
+import ru.strict.db.core.requests.components.SqlItem;
+import ru.strict.db.core.requests.components.Where;
+import ru.strict.db.core.requests.components.WhereType;
 import ru.strict.models.Profile;
 import ru.strict.db.core.repositories.IExtensionRepository;
-import ru.strict.db.core.requests.DbRequests;
-import ru.strict.db.core.requests.DbWhereItem;
 import ru.strict.validate.Validator;
 
 import java.util.List;
 
 public interface IProfileRepository<ID, T extends Profile<ID>> extends IExtensionRepository<ID, T> {
     default List<T> readBySurname(String name, String surname) {
-        DbRequests requests = new DbRequests();
+        Where.Builder where = Where.builder();
+
         if (name != null) {
-            requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "name"), name, "="));
+            String nameWhere = SingleWhere.build(new SqlItem(getTable(), "name"), "=");
+            where.addParameter("name", name);
+            where.item(nameWhere);
         }
 
         if (surname != null) {
-            requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "surname"), surname, "="));
+            String surnameWhere = SingleWhere.build(new SqlItem(getTable(), "surname"), "=");
+            where.addParameter("surname", surname);
+            where.item(WhereType.AND, surnameWhere);
         }
 
-        return readAll(requests);
+        return readAll(where.build());
     }
 
     default List<T> readByUserId(ID userId) {
         Validator.isNull(userId, "userId").onThrow();
-        DbRequests requests = new DbRequests();
-        requests.addWhere(new DbWhereItem(new DbSelectItem(getTable(), "userx_id"), userId, "="));
 
-        return readAll(requests);
+        SingleWhere where = new SingleWhere(
+                new SqlItem(getTable(), "userx_id"),
+                "=",
+                new SqlParameter<>("userx_id", userId));
+
+        return readAll(where);
     }
 }
