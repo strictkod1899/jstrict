@@ -1,6 +1,7 @@
 package ru.strict.file.properties;
 
 import ru.strict.validate.ValidateBaseValue;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,25 +13,25 @@ public class PropertiesFile {
     private String fileName;
     private String suffix;
 
-    private void init(String filePath, String suffix){
-        if(ValidateBaseValue.isEmptyOrNull(filePath)){
+    private void init(String filePath, String suffix) {
+        if (ValidateBaseValue.isEmptyOrNull(filePath)) {
             throw new IllegalArgumentException("properties file name is NULL");
         }
 
         String fileName = filePath;
 
-        if (fileName.endsWith(".properties")){
+        if (fileName.endsWith(".properties")) {
             fileName = fileName.substring(0, fileName.lastIndexOf(".properties"));
         }
 
-        if(fileName.contains(File.separator)){
-            fileName = fileName.substring(fileName.lastIndexOf(File.separator)+1);
+        if (fileName.contains(File.separator)) {
+            fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
         }
-        if(fileName.contains("/")){
-            fileName = fileName.substring(fileName.lastIndexOf("/")+1);
+        if (fileName.contains("/")) {
+            fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
         }
-        if(fileName.contains("\\")){
-            fileName = fileName.substring(fileName.lastIndexOf("\\")+1);
+        if (fileName.contains("\\")) {
+            fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
         }
 
         this.fileName = fileName;
@@ -47,29 +48,29 @@ public class PropertiesFile {
         init(filePath, suffix);
     }
 
-    protected void reload(){
+    protected void reload() {
         init(pathToDirectory + File.separator + fileName, suffix);
     }
 
-    public String readValue(String key){
+    public String readValue(String key) {
         return readValue(key, null, null);
     }
 
-    public String readValueToUTF8(String key){
+    public String readValueToUTF8(String key) {
         return readValue(key, null, "UTF-8");
     }
 
-    public String readValueToUTF8(String key, String encodingFile){
+    public String readValueToUTF8(String key, String encodingFile) {
         return readValue(key, encodingFile, "UTF-8");
     }
 
-    public String readValue(String key, String encodingFile, String encodingOutput){
+    public String readValue(String key, String encodingFile, String encodingOutput) {
         String result = null;
-        if(Files.exists(Paths.get(getFilePathWithSuffix()))) {
+        if (Files.exists(Paths.get(getFilePathWithSuffix()))) {
             result = PropertiesUtil.getValue(getFilePathWithSuffix(), key, encodingFile, encodingOutput);
         }
-        if(ValidateBaseValue.isEmptyOrNull(result)){
-            if(Files.exists(Paths.get(getFilePath()))) {
+        if (ValidateBaseValue.isEmptyOrNull(result)) {
+            if (Files.exists(Paths.get(getFilePath()))) {
                 result = PropertiesUtil.getValue(getFilePath(), key, encodingFile, encodingOutput);
             }
         }
@@ -80,16 +81,16 @@ public class PropertiesFile {
         return pathToDirectory;
     }
 
-    public String getFileName(){
+    public String getFileName() {
         return String.format("%s.properties", fileName);
     }
 
-    public String getFileNameWithSuffix(){
+    public String getFileNameWithSuffix() {
         String result = null;
 
-        if(!ValidateBaseValue.isEmptyOrNull(suffix)){
+        if (!ValidateBaseValue.isEmptyOrNull(suffix)) {
             result = String.format("%s_%s.properties", fileName, suffix);
-        }else{
+        } else {
             result = getFileName();
         }
         return result;
@@ -99,11 +100,11 @@ public class PropertiesFile {
         return suffix;
     }
 
-    public String getFilePath(){
+    public String getFilePath() {
         return String.format("%s%s%s", getPathToDirectory(), File.separator, getFileName());
     }
 
-    public String getFilePathWithSuffix(){
+    public String getFilePathWithSuffix() {
         return String.format("%s%s%s", getPathToDirectory(), File.separator, getFileNameWithSuffix());
     }
 
@@ -120,19 +121,19 @@ public class PropertiesFile {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof PropertiesFile){
+    public boolean equals(Object obj) {
+        if (obj != null && obj instanceof PropertiesFile) {
             PropertiesFile object = (PropertiesFile) obj;
             return Objects.equals(pathToDirectory, object.pathToDirectory)
                     && Objects.equals(fileName, object.fileName)
                     && Objects.equals(suffix, object.suffix);
-        }else{
+        } else {
             return false;
         }
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return Objects.hash(pathToDirectory, fileName, suffix);
     }
 }

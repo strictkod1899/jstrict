@@ -6,7 +6,7 @@ import java.util.Objects;
  * Файл 'startup.properties', который должен находиться в корне проекта.
  * Определяет переменную environment, для задания рабочей среды приложения
  */
-public class StartupConfig extends PropertiesResourceFile {
+public class StartupConfig extends ResourcePropertiesFile {
 
     public static final String FILE_NAME = "startup";
 
@@ -37,17 +37,17 @@ public class StartupConfig extends PropertiesResourceFile {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(obj!=null && obj instanceof StartupConfig){
+    public boolean equals(Object obj) {
+        if (obj != null && obj instanceof StartupConfig) {
             StartupConfig object = (StartupConfig) obj;
             return super.equals(obj) && Objects.equals(environment, object.getEnvironment());
-        }else{
+        } else {
             return false;
         }
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return Objects.hash(getPathToDirectory(), getFileName(), getSuffix());
     }
 }

@@ -9,25 +9,26 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public abstract class TxtFileBase<SOURCE> implements IFileReader<SOURCE>, IFileWriter<SOURCE> {
+public abstract class BaseTxtFile<SOURCE> implements IFileReader<SOURCE>, IFileWriter<SOURCE> {
 
     private String filePath;
     private String content;
 
-    public TxtFileBase(String filePath) {
-        if(ValidateBaseValue.isEmptyOrNull(filePath)){
+    public BaseTxtFile(String filePath) {
+        if (ValidateBaseValue.isEmptyOrNull(filePath)) {
             throw new IllegalArgumentException("filePath is NULL");
         }
         this.filePath = filePath;
     }
 
     protected abstract SOURCE mapToSource(String fileContent);
+
     protected abstract String mapToString(SOURCE source);
 
     @Override
     public SOURCE read() {
         SOURCE result = null;
-        if(Files.exists(Paths.get(filePath))) {
+        if (Files.exists(Paths.get(filePath))) {
             StringBuilder stringBuilder = new StringBuilder();
             try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
                 while (reader.ready()) {
@@ -44,7 +45,7 @@ public abstract class TxtFileBase<SOURCE> implements IFileReader<SOURCE>, IFileW
 
     @Override
     public void write() {
-        try{
+        try {
             FileUtil.saveFile(filePath, content);
         } catch (Exception ex) {
             throw new RuntimeException(ex);

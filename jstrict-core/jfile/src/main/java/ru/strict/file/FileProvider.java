@@ -9,6 +9,7 @@ import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.tag.TagException;
 import org.xml.sax.SAXException;
+
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +25,8 @@ public class FileProvider {
         return AudioFileIO.read(new File(filePath));
     }
 
-    public static FictionBook getFb2File(String filePath) throws IOException, ParserConfigurationException, SAXException {
+    public static FictionBook getFb2File(String filePath)
+            throws IOException, ParserConfigurationException, SAXException {
         return new FictionBook(new File(filePath));
     }
 }

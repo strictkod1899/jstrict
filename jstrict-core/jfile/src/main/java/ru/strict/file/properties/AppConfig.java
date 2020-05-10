@@ -1,6 +1,6 @@
 package ru.strict.file.properties;
 
-public class AppConfig extends PropertiesResourceFile {
+public class AppConfig extends ResourcePropertiesFile {
 
     public static final String FILE_NAME = "app";
 
@@ -25,7 +25,7 @@ public class AppConfig extends PropertiesResourceFile {
         return this.getClass();
     }
 
-    public String getEnvironmentFileName(){
+    public String getEnvironmentFileName() {
         return getFileNameWithSuffix();
     }
 

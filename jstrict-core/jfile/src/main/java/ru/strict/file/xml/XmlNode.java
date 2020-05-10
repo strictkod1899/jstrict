@@ -42,6 +42,7 @@ public class XmlNode {
 
     /**
      * Добавляемые элементы пути
+     *
      * @param elements
      */
     public XmlNode(Element... elements) {
@@ -207,25 +208,26 @@ public class XmlNode {
     /**
      * Получить код состояния
      *
-     * @return
-     * 0 - текущий элемент не инициализирован. <br/>
+     * @return 0 - текущий элемент не инициализирован. <br/>
      * 1 - доступны неиспользованные элементы. <br/>
      * -1 - элементы для дальнейшего использования отсутствуют. <br/>
      * -2 - текущий элемент является последним и он помечен маркером как пройденый.
      */
     public int getCodeState() {
-        if (currentIndex == -1)
+        if (currentIndex == -1) {
             return 0;
-        else if (hasNext())
+        } else if (hasNext()) {
             return 1;
-        else if (!hasNext() && getCurrentMark())
+        } else if (!hasNext() && getCurrentMark()) {
             return -2;
-        else
+        } else {
             return -1;
+        }
     }
 
     /**
      * Получить список вложенных элементов
+     *
      * @return
      */
     public List<Element> getElementsInner() {
@@ -234,19 +236,21 @@ public class XmlNode {
 
     /**
      * Добавить вложенный элемент
+     *
      * @param element
      */
-    public void addInner(Element element){
+    public void addInner(Element element) {
         elementsInner.add(element);
     }
 
     /**
      * Получить количество элементов помеченных true
+     *
      * @return
      */
-    public int getCountMarkTrue(){
+    public int getCountMarkTrue() {
         return (int) elementsMark.stream()
-                .filter(e->e)
+                .filter(e -> e)
                 .count();
     }
 

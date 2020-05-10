@@ -16,7 +16,8 @@ public class HtmlUtl {
         return selectByFile(filePath, selector, "UTF-8");
     }
 
-    public static Elements selectByFile(String filePath, String selector, String encoding) throws IOException, NullPointerException {
+    public static Elements selectByFile(String filePath, String selector, String encoding)
+            throws IOException, NullPointerException {
         if (ValidateBaseValue.isEmptyOrNull(filePath)) {
             throw new IllegalArgumentException("filePath is NULL");
         }
@@ -35,7 +36,7 @@ public class HtmlUtl {
         }
 
         Document page = Jsoup.parseBodyFragment(content);
-        if(page == null){
+        if (page == null) {
             throw new NullPointerException(String.format("Page by content [%s] not found", content));
         }
 
@@ -61,7 +62,7 @@ public class HtmlUtl {
         }
 
         Document page = Jsoup.connect(url).post();
-        if(page == null){
+        if (page == null) {
             throw new NullPointerException(String.format("Page by url [%s] [POST] not found", url));
         }
 
@@ -71,7 +72,8 @@ public class HtmlUtl {
     /**
      * Конвертировать html в pdf
      */
-    public static void convertToPdf(String sourceHtmlFilePath, String targetPdfFilePath) throws IOException, DocumentException {
+    public static void convertToPdf(String sourceHtmlFilePath, String targetPdfFilePath)
+            throws IOException, DocumentException {
         com.itextpdf.text.Document document = new com.itextpdf.text.Document();
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(targetPdfFilePath));
         document.open();
@@ -86,7 +88,7 @@ public class HtmlUtl {
         return selectByContent(content, "tbody > tr");
     }
 
-    private static Elements getTag(Document page, String selector){
+    private static Elements getTag(Document page, String selector) {
         Elements tags = null;
         if (ValidateBaseValue.isEmptyOrNull(selector)) {
             tags = page.getAllElements();

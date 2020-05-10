@@ -6,9 +6,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import ru.strict.file.json.JsonFile;
-import ru.strict.file.json.JsonFileBase;
-import ru.strict.file.txt.TxtFile;
-import ru.strict.file.txt.TxtFileBase;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,7 +28,7 @@ public class JsonFileTest {
     }
 
     @Test
-    public void testWriteBySource(){
+    public void testWriteBySource() {
         LinkedHashMap<String, Object> expected = new LinkedHashMap<>();
         expected.put("name", "Ronaldo");
         expected.put("age", 25);
@@ -44,7 +41,7 @@ public class JsonFileTest {
     }
 
     @Test
-    public void testWrite(){
+    public void testWrite() {
         LinkedHashMap<String, Object> expected = new LinkedHashMap<>();
         expected.put("name", "Ronaldo");
         expected.put("age", 25);
@@ -58,7 +55,7 @@ public class JsonFileTest {
     }
 
     @Test
-    public void testWriteToTargetClass(){
+    public void testWriteToTargetClass() {
         TestObject object = new TestObject();
         object.name = "Ronaldo";
         object.age = 25;
@@ -70,7 +67,7 @@ public class JsonFileTest {
         Assert.assertEquals(fileForRead.readToTargetClass(), object);
     }
 
-    private static class TestObject{
+    private static class TestObject {
         private String name;
         private int age;
         private List<Integer> lastScores;
@@ -101,8 +98,12 @@ public class JsonFileTest {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
             TestObject that = (TestObject) o;
             return age == that.age &&
                     Objects.equals(name, that.name) &&

@@ -24,7 +24,7 @@ public class TxtFileTest {
     }
 
     @Test
-    public void testWriteBySource(){
+    public void testWriteBySource() {
         TxtFile fileForWrite = new TxtFile(TEST_FILE_NAME);
         TxtFile fileForRead = new TxtFile(TEST_FILE_NAME);
         fileForWrite.write(TEST_FILE_CONTENT_1);
@@ -32,7 +32,7 @@ public class TxtFileTest {
     }
 
     @Test
-    public void testWrite(){
+    public void testWrite() {
         TxtFile fileForWrite = new TxtFile(TEST_FILE_NAME);
         TxtFile fileForRead = new TxtFile(TEST_FILE_NAME);
         fileForWrite.setContent(TEST_FILE_CONTENT_2);

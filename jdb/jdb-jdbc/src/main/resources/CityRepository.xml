@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sql>
+    <query name="readByCountryId">
+        WHERE city.country_id = ?
+    </query>
+</sql>

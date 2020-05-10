@@ -1,6 +1,6 @@
 package ru.strict.file.json;
 
-public class JsonFile<TARGET> extends JsonFileBase<TARGET> {
+public class JsonFile<TARGET> extends BaseJsonFile<TARGET> {
 
     public JsonFile(String filePath) {
         super(filePath);
@@ -11,7 +11,8 @@ public class JsonFile<TARGET> extends JsonFileBase<TARGET> {
     }
 
     @Override
-    protected void mapJsonObject(TARGET loadedObject) {}
+    protected void mapJsonObject(TARGET loadedObject) {
+    }
 
     @Override
     protected TARGET defaultInitialize() {

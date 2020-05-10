@@ -34,7 +34,7 @@ public class XmlFileTest {
         root.getChildren().add(element1);
         root.addContent("\n ");
         root.getChildren().add(element2);
-        root.addContent("\n" );
+        root.addContent("\n");
 
         Element element10 = new Element("var1");
         Element element10_1 = new Element("var1_1");

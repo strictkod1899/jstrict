@@ -1,6 +1,6 @@
 package ru.strict.file.txt;
 
-public class TxtFile extends TxtFileBase<String> {
+public class TxtFile extends BaseTxtFile<String> {
 
     public TxtFile(String filePath) {
         super(filePath);

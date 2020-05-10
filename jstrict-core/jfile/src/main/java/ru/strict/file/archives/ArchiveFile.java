@@ -17,12 +17,14 @@ public class ArchiveFile implements AutoCloseable, IFileReader<List<ISimpleInArc
     private RandomAccessFileInStream inStream;
     private List<ISimpleInArchiveItem> archiveItems;
 
-    public ArchiveFile(File archiveFile) throws FileNotFoundException, SevenZipException, SevenZipNativeInitializationException {
+    public ArchiveFile(File archiveFile)
+            throws FileNotFoundException, SevenZipException, SevenZipNativeInitializationException {
         this(archiveFile, determineArchiveFormat(archiveFile));
     }
 
-    public ArchiveFile(File archiveFile, ArchiveFormat archiveFormat) throws FileNotFoundException, SevenZipException, SevenZipNativeInitializationException{
-        if(archiveFormat == null){
+    public ArchiveFile(File archiveFile, ArchiveFormat archiveFormat)
+            throws FileNotFoundException, SevenZipException, SevenZipNativeInitializationException {
+        if (archiveFormat == null) {
             throw new IllegalArgumentException("ArchiveFormat is NULL");
         }
 
@@ -40,15 +42,16 @@ public class ArchiveFile implements AutoCloseable, IFileReader<List<ISimpleInArc
 
     /**
      * Разархивировать архив
+     *
      * @param destinationPath путь до каталога, куда необходмо разархивировать
      */
     public boolean extract(String destinationPath) throws FileNotFoundException, SevenZipException {
         boolean result = true;
-        for(ISimpleInArchiveItem item : archiveItems){
+        for (ISimpleInArchiveItem item : archiveItems) {
             File fileItem = new File(item.getPath());
             final OutputFileStream fileStream = new OutputFileStream(
                     new File(
-                                String.format("%s%s%s", destinationPath + File.separator + fileItem.getName()
+                            String.format("%s%s%s", destinationPath + File.separator + fileItem.getName()
                             )
                     )
             );
@@ -63,10 +66,10 @@ public class ArchiveFile implements AutoCloseable, IFileReader<List<ISimpleInArc
 
     @Override
     public void close() throws IOException {
-        if(inStream != null) {
+        if (inStream != null) {
             inStream.close();
         }
-        if(archive != null) {
+        if (archive != null) {
             archive.close();
         }
     }
@@ -79,13 +82,13 @@ public class ArchiveFile implements AutoCloseable, IFileReader<List<ISimpleInArc
     /**
      * Определить формат архива по расширению файла
      */
-    private static ArchiveFormat determineArchiveFormat(File archiveFile){
+    private static ArchiveFormat determineArchiveFormat(File archiveFile) {
         ArchiveFormat archiveFormat = null;
         String fileExtension = FileUtil.getFileExtension(archiveFile);
 
         ArchiveFormat[] availableFormats = ArchiveFormat.values();
-        for(ArchiveFormat format : availableFormats){
-            if(fileExtension.equalsIgnoreCase(format.getMethodName())){
+        for (ArchiveFormat format : availableFormats) {
+            if (fileExtension.equalsIgnoreCase(format.getMethodName())) {
                 archiveFormat = format;
                 break;
             }
@@ -108,11 +111,11 @@ public class ArchiveFile implements AutoCloseable, IFileReader<List<ISimpleInArc
             } catch (IOException ex) {
                 throw new SevenZipException(ex);
             } finally {
-                if(fos != null){
+                if (fos != null) {
                     try {
                         fos.flush();
                         fos.close();
-                    }catch (IOException ex){
+                    } catch (IOException ex) {
                         throw new SevenZipException(ex);
                     }
                 }

@@ -17,8 +17,8 @@ public enum Environment {
         return value;
     }
 
-    public static Environment getByString(String environment){
-        if(environment == null){
+    public static Environment getByString(String environment) {
+        if (environment == null) {
             return null;
         }
 

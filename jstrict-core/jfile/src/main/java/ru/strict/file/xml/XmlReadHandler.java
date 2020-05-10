@@ -16,7 +16,7 @@ import java.util.List;
  * Используется для SAX-парсинга.
  * </pre>
  */
-public class HandlerXmlRead extends DefaultHandler {
+public class XmlReadHandler extends DefaultHandler {
 
     /**
      * Установленный путь считывания элемента
@@ -40,13 +40,15 @@ public class HandlerXmlRead extends DefaultHandler {
      */
     private String currentContent;
     /**
-     * Список хранит последовательность элементов, значения которых считываются (Нужен для определения вложенных элементов)
+     * Список хранит последовательность элементов, значения которых считываются (Нужен для определения вложенных
+     * элементов)
      */
     private List<Element> listElements;
 
-    private HandlerXmlRead() {}
+    private XmlReadHandler() {
+    }
 
-    public HandlerXmlRead(XmlNode path) {
+    public XmlReadHandler(XmlNode path) {
         this.path = path;
         currentContent = "";
         listElements = new ArrayList<>();
@@ -58,39 +60,39 @@ public class HandlerXmlRead extends DefaultHandler {
         processElement = true;
 
         // Если все элементы указанного пути еще не пройдены
-        if(path.getCodeState()!=-2) {
+        if (path.getCodeState() != -2) {
             // Если есть неиспользованные элементы
             if (path.getCodeState() != -1) {
                 currentPathElement = getPathElement();
             }
 
             checkElement(qName, uri, attributes);
-        }else if(path.getCodeState()==-2) {
+        } else if (path.getCodeState() == -2) {
             createCurrentElement(qName, uri, attributes);
         }
     }
 
     @Override
     public void characters(char[] ch, int start, int length) {
-        if(path.getCodeState()==-2 && processElement) {
+        if (path.getCodeState() == -2 && processElement) {
             currentContent += new String(ch, start, length);
         }
     }
 
     @Override
-    public void endElement(String uri, String localName, String qName){
+    public void endElement(String uri, String localName, String qName) {
         // Если список пути был инициализирован и наименование текущего элемента равно текущему элементу пути
-        if (path.getCodeState()!=0 && qName.equals(path.getCurrent().getName())) {
+        if (path.getCodeState() != 0 && qName.equals(path.getCurrent().getName())) {
             endLastPathElement();
         }
 
         // Если пройдены все элементы пути
-        if(path.getCodeState()==-2) {
+        if (path.getCodeState() == -2) {
             endCurrentElement();
         }
 
         // Если осталься финальный (главный) элемент в списке и завершается именно он
-        if(listElements.size()==1 && qName.equals(listElements.get(0).getName())) {
+        if (listElements.size() == 1 && qName.equals(listElements.get(0).getName())) {
             endFinalElement();
         }
 
@@ -100,13 +102,14 @@ public class HandlerXmlRead extends DefaultHandler {
 
     /**
      * Получить следующий элемент пути, только при условии, что текущий маркер уже проставлен
+     *
      * @return
      */
     private Element getPathElement() {
         Element result = null;
         if (path.getCodeState() == 0 || path.getCurrentMark()) {
             result = path.next();
-        }else {
+        } else {
             result = path.getCurrent();
         }
 
@@ -115,37 +118,39 @@ public class HandlerXmlRead extends DefaultHandler {
 
     /**
      * Проверка текущего элемента пути
+     *
      * @param qName
      */
-    private void checkElement(String qName, String uri, Attributes attributes){
+    private void checkElement(String qName, String uri, Attributes attributes) {
         // Если текущий элемент равен соответствующему элементу указанного пути
         if (qName.equals(currentPathElement.getName())) {
-            if(path.isCheckAttributes()) {
+            if (path.isCheckAttributes()) {
                 checkAttributes(attributes);
-            }else {
+            } else {
                 // Говорим, что мы находимся в подходящем элементе
                 path.markCurrent();
             }
         }
 
-        if(path.getCountMarkTrue()==path.size()) {
+        if (path.getCountMarkTrue() == path.size()) {
             initFinalElement(qName, uri, attributes);
         }
     }
 
     /**
      * Проверка атрибутов текущего элемента
+     *
      * @param attributes
      */
-    private void checkAttributes(Attributes attributes){
+    private void checkAttributes(Attributes attributes) {
         boolean result;
-        if(!path.isStrongCheckAttributes()) {
+        if (!path.isStrongCheckAttributes()) {
             result = checkAttributeNoStrong(attributes);
-        }else {
+        } else {
             result = checkAttributeStrong(attributes);
         }
 
-        if(result) {
+        if (result) {
             path.markCurrent();
         }
     }
@@ -153,15 +158,16 @@ public class HandlerXmlRead extends DefaultHandler {
     /**
      * Проверка атрибутов не учитывая точного совпадения,
      * главное чтобы в текущем элементе парсинга присутствовали атрибуты текущего элемента пути
+     *
      * @param attributes
      */
-    private boolean checkAttributeNoStrong(Attributes attributes){
+    private boolean checkAttributeNoStrong(Attributes attributes) {
         boolean result = true;
         Iterator<Attribute> iterAttributesCurrentPathElement = currentPathElement.getAttributes().iterator();
-        while(iterAttributesCurrentPathElement.hasNext()){
+        while (iterAttributesCurrentPathElement.hasNext()) {
             Attribute attribute = iterAttributesCurrentPathElement.next();
-            if(attributes.getValue(attribute.getName())!=null){
-                if(!attributes.getValue(attribute.getName()).equals(attribute.getValue())) {
+            if (attributes.getValue(attribute.getName()) != null) {
+                if (!attributes.getValue(attribute.getName()).equals(attribute.getValue())) {
                     result = false;
                     break;
                 }
@@ -177,33 +183,37 @@ public class HandlerXmlRead extends DefaultHandler {
     /**
      * Проверка атрибутов учитывая точное совпадение,
      * главное чтобы в текущем элементе парсинга присутствовали атрибуты текущего элемента пути
+     *
      * @param attributes
      */
-    private boolean checkAttributeStrong(Attributes attributes){
+    private boolean checkAttributeStrong(Attributes attributes) {
         // Проверка на совпадение по количеству атрибутов
-        if(currentPathElement.getAttributes().size()!=attributes.getLength())
+        if (currentPathElement.getAttributes().size() != attributes.getLength()) {
             return false;
+        }
 
         return checkAttributeNoStrong(attributes);
     }
 
     /**
      * Создать текущий элемент
+     *
      * @param qName
      * @param attributes
      */
-    private void createCurrentElement(String qName, String uri, Attributes attributes){
-        // Если в текущем списке элементов уже хранятся элементы, тогда добавляем к последнему последние считанные значения
-        if(listElements.size()>0) {
-            if(currentContent!=null) {
+    private void createCurrentElement(String qName, String uri, Attributes attributes) {
+        // Если в текущем списке элементов уже хранятся элементы, тогда добавляем к последнему последние считанные
+        // значения
+        if (listElements.size() > 0) {
+            if (currentContent != null) {
                 listElements.get(listElements.size() - 1).addContent(currentContent);
             }
             currentContent = "";
         }
 
         currentElement = new Element(qName, uri);
-        for(int i=0; i<attributes.getLength(); i++) {
-            if(ValidateBaseRegex.isCaption(attributes.getQName(i))) {
+        for (int i = 0; i < attributes.getLength(); i++) {
+            if (ValidateBaseRegex.isCaption(attributes.getQName(i))) {
                 currentElement.setAttribute(attributes.getQName(i), attributes.getValue(i));
             }
         }
@@ -213,11 +223,11 @@ public class HandlerXmlRead extends DefaultHandler {
     /**
      * Инициализировать главный элемент
      */
-    private void initFinalElement(String qName, String uri, Attributes attributes){
+    private void initFinalElement(String qName, String uri, Attributes attributes) {
         Element elementMain = new Element(qName, uri);
 
-        for(int i=0; i<attributes.getLength(); i++) {
-            if(ValidateBaseRegex.isCaption(attributes.getQName(i))) {
+        for (int i = 0; i < attributes.getLength(); i++) {
+            if (ValidateBaseRegex.isCaption(attributes.getQName(i))) {
                 elementMain.setAttribute(attributes.getQName(i), attributes.getValue(i));
             }
         }
@@ -228,7 +238,7 @@ public class HandlerXmlRead extends DefaultHandler {
     /**
      * Завершение последнего из отмеченных элементов пути
      */
-    private void endLastPathElement(){
+    private void endLastPathElement() {
         path.unmarkCurrent();
         path.back();
     }
@@ -236,30 +246,30 @@ public class HandlerXmlRead extends DefaultHandler {
     /**
      * Завершение текущего считываемого элемнта парсинга
      */
-    private void endCurrentElement(){
-        if(currentContent!=null) {
+    private void endCurrentElement() {
+        if (currentContent != null) {
             listElements.get(listElements.size() - 1).addContent(currentContent);
             currentContent = null;
         }
 
         // Если текущий элемент является вложенным в предыдущий
-        if(listElements.size()>1) {
+        if (listElements.size() > 1) {
             // Добавляем текущий элемент к предыдущему
             listElements.get(listElements.size() - 2).addContent(listElements.get(listElements.size() - 1));
         }
-        listElements.remove(listElements.size()-1);
+        listElements.remove(listElements.size() - 1);
     }
 
     /**
      * Завершение финального элемента
      */
-    private void endFinalElement(){
+    private void endFinalElement() {
         // Сохраняем этот элемент в список результата
-        if(listElements.get(0).getText().equals("") && currentContent!=null &&
+        if (listElements.get(0).getText().equals("") && currentContent != null &&
                 !listElements.get(0).getText().equals(currentContent)) {
             listElements.get(0).addContent(currentContent);
         }
         path.addInner(listElements.get(0));
-        listElements.remove(listElements.size()-1);
+        listElements.remove(listElements.size() - 1);
     }
 }

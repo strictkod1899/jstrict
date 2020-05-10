@@ -1,6 +1,6 @@
 package ru.strict.file.xml;
 
-public class XmlReadException extends RuntimeException{
+public class XmlReadException extends RuntimeException {
 
     public XmlReadException() {
     }

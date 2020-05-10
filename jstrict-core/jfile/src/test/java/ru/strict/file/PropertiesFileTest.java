@@ -23,7 +23,7 @@ public class PropertiesFileTest {
     }
 
     @Test
-    public void test(){
+    public void test() {
         String expected1 = "hello";
         String expected2 = "2";
         ResourcesUtil.getResourceAsFile(TEST_FILE_NAME);

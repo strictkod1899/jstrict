@@ -5,7 +5,7 @@ import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
-import ru.strict.validate.ValidateBaseValue;
+import ru.strict.validate.Validator;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -14,29 +14,26 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.List;
 
-public class XmlFile implements IXmlFile{
-
+public class XmlFile implements IXmlFile {
     private File file;
-    private SAXBuilder parser;
-    private Document docXml;
+    private SAXBuilder saxParser;
+    private Document jdomDocument;
     private XMLOutputter xmlOut;
     private Format formatXmlDoc;
 
     private Element rootElement;
 
-    private void init(File xmlFile, String expectedRootElement){
-        if(xmlFile == null){
-            throw new IllegalArgumentException("xmlFile is NULL");
-        }
+    private void init(File xmlFile, String rootElement) {
+        Validator.isNull(xmlFile, "xmlFile").onThrow();
 
         this.file = xmlFile;
 
-        parser = new SAXBuilder();
+        saxParser = new SAXBuilder();
         // Формат вывода в xml-файл
         formatXmlDoc = Format.getPrettyFormat();
         xmlOut = new XMLOutputter(formatXmlDoc);
 
-        createConnection(expectedRootElement);
+        createConnection(rootElement);
     }
 
     public XmlFile(String xmlFilePath) {
@@ -59,35 +56,33 @@ public class XmlFile implements IXmlFile{
      * Соединение с xml файлом.
      * Если файл не создан, то он будет создан с заданным корневым элементом
      */
-    private void createConnection(String expectedRootElement) {
+    private void createConnection(String rootElement) {
         try {
             // Если xml-файл не создан
             if (!file.exists()) {
-                if(ValidateBaseValue.isEmptyOrNull(expectedRootElement)){
-                    throw new IllegalArgumentException("expectedRootElement is NULL");
-                }
+                Validator.isEmptyOrNull(rootElement, "rootElement").onThrow();
 
                 file.createNewFile();
 
                 // Создание документа для работы с xml-файлом
-                docXml = new Document();
+                jdomDocument = new Document();
                 // Создание корневого элемента
-                rootElement = new Element(expectedRootElement);
+                this.rootElement = new Element(rootElement);
                 // Установка корневого-элемента
-                docXml.setRootElement(rootElement);
+                jdomDocument.setRootElement(this.rootElement);
             } else {
                 read();
             }
-        } catch (Exception ex){
+        } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
     }
 
     @Override
     public void write() {
-        try(OutputStream outputStream = new FileOutputStream(file)) {
-            xmlOut.output(docXml, outputStream);
-        }catch(Exception ex){
+        try (OutputStream outputStream = new FileOutputStream(file)) {
+            xmlOut.output(jdomDocument, outputStream);
+        } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -96,7 +91,7 @@ public class XmlFile implements IXmlFile{
     public void write(Element element) {
         rootElement = element;
         // Установка корневого-элемента
-        docXml.setRootElement(element);
+        jdomDocument.setRootElement(element);
         write();
     }
 
@@ -104,31 +99,32 @@ public class XmlFile implements IXmlFile{
     public Element read() {
         try {
             // Разбираем xml-файл
-            docXml = parser.build(file);
+            jdomDocument = saxParser.build(file);
             // Получаем корневой элемент
-            rootElement = docXml.getRootElement();
+            rootElement = jdomDocument.getRootElement();
 
             return rootElement;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
     }
 
     /**
      * Считать элементы, расположенные на указанном пути
+     *
      * @param parents Установленный путь считывания элемента
      * @return
      */
     @Override
     public List<Element> read(XmlNode parents) {
         try {
-            if(parents == null){
+            if (parents == null) {
                 parents = new XmlNode(rootElement);
             }
             SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
             SAXParser saxParser = saxParserFactory.newSAXParser();
-            HandlerXmlRead defaultHandler = null;
-            defaultHandler = new HandlerXmlRead(parents);
+            XmlReadHandler defaultHandler = null;
+            defaultHandler = new XmlReadHandler(parents);
             saxParser.parse(file, defaultHandler);
             return parents.getElementsInner();
         } catch (Exception ex) {
@@ -138,16 +134,17 @@ public class XmlFile implements IXmlFile{
 
     /**
      * Сохранение элементов в xml файл корневого каталога
+     *
      * @param elements Сохраняемые элементы в корневой каталог
      */
     @Override
-    public void addElements(Element...elements) {
-        if(rootElement == null){
+    public void addElements(Element... elements) {
+        if (rootElement == null) {
             throw new NullPointerException("rootElement is NULL");
         }
 
-        if(elements!=null) {
-            for(Element element : elements) {
+        if (elements != null) {
+            for (Element element : elements) {
                 rootElement.addContent(element);
             }
         }
@@ -155,15 +152,16 @@ public class XmlFile implements IXmlFile{
 
     /**
      * Удаление элементов из корневого элемента
+     *
      * @param elements
      */
     @Override
-    public void removeElements(Element...elements){
-        if(rootElement == null){
+    public void removeElements(Element... elements) {
+        if (rootElement == null) {
             throw new NullPointerException("rootElement is NULL");
         }
 
-        if(elements != null) {
+        if (elements != null) {
             for (Element element : elements) {
                 rootElement.removeChild(element.getName());
             }

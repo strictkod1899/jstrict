@@ -5,12 +5,12 @@ import ru.strict.validate.ValidateBaseValue;
 
 import java.io.File;
 
-public abstract class PropertiesResourceFile extends PropertiesFile {
+public abstract class ResourcePropertiesFile extends PropertiesFile {
 
     private String resourcesFilePath;
 
-    private void init(String resourcesFilePath){
-        if (resourcesFilePath.endsWith(".properties")){
+    private void init(String resourcesFilePath) {
+        if (resourcesFilePath.endsWith(".properties")) {
             resourcesFilePath = resourcesFilePath.substring(0, resourcesFilePath.lastIndexOf(".properties"));
         }
 
@@ -18,17 +18,17 @@ public abstract class PropertiesResourceFile extends PropertiesFile {
         load();
     }
 
-    public PropertiesResourceFile(String resourcesFilePath) {
+    public ResourcePropertiesFile(String resourcesFilePath) {
         super(resourcesFilePath);
         init(resourcesFilePath);
     }
 
-    public PropertiesResourceFile(String resourcesFilePath, String suffix) {
+    public ResourcePropertiesFile(String resourcesFilePath, String suffix) {
         super(resourcesFilePath, suffix);
         init(resourcesFilePath);
     }
 
-    public PropertiesResourceFile(String resourcesFilePath, String suffix, String targetFilePath) {
+    public ResourcePropertiesFile(String resourcesFilePath, String suffix, String targetFilePath) {
         super(
                 ValidateBaseValue.isEmptyOrNull(targetFilePath) ? resourcesFilePath : targetFilePath,
                 suffix
@@ -48,21 +48,21 @@ public abstract class PropertiesResourceFile extends PropertiesFile {
      */
     protected abstract Class getThisClass();
 
-    private void load(){
+    private void load() {
         ResourcesUtil.getResourceAsFile(getResourcesFilePathWithSuffix(), getFilePathWithSuffix(), getThisClass());
         ResourcesUtil.getResourceAsFile(getResourcesFilePath(), getFilePath(), getThisClass());
     }
 
-    private String getResourcesFilePath(){
+    private String getResourcesFilePath() {
         return String.format("%s.properties", resourcesFilePath);
     }
 
-    private String getResourcesFilePathWithSuffix(){
+    private String getResourcesFilePathWithSuffix() {
         String result = null;
 
-        if(!ValidateBaseValue.isEmptyOrNull(getSuffix())){
+        if (!ValidateBaseValue.isEmptyOrNull(getSuffix())) {
             result = String.format("%s_%s.properties", resourcesFilePath, getSuffix());
-        }else{
+        } else {
             result = getResourcesFilePath();
         }
         return result;

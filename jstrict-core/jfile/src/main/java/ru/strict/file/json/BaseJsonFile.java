@@ -7,7 +7,7 @@ import ru.strict.validate.ValidateBaseValue;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public abstract class JsonFileBase<TARGET> implements IJsonFile<TARGET> {
+public abstract class BaseJsonFile<TARGET> implements IJsonFile<TARGET> {
 
     @JsonIgnore
     private String filePath;
@@ -16,20 +16,21 @@ public abstract class JsonFileBase<TARGET> implements IJsonFile<TARGET> {
     @JsonIgnore
     private Object content;
 
-    protected JsonFileBase() {}
+    protected BaseJsonFile() {
+    }
 
-    public JsonFileBase(String filePath) {
-        if(ValidateBaseValue.isEmptyOrNull(filePath)){
+    public BaseJsonFile(String filePath) {
+        if (ValidateBaseValue.isEmptyOrNull(filePath)) {
             throw new IllegalArgumentException("filePath is NULL");
         }
         this.filePath = filePath;
     }
 
-    public JsonFileBase(String filePath, Class<TARGET> targetClass) {
-        if(ValidateBaseValue.isEmptyOrNull(filePath)){
+    public BaseJsonFile(String filePath, Class<TARGET> targetClass) {
+        if (ValidateBaseValue.isEmptyOrNull(filePath)) {
             throw new IllegalArgumentException("filePath is NULL");
         }
-        if(targetClass == null){
+        if (targetClass == null) {
             throw new IllegalArgumentException("targetClass is NULL");
         }
         this.filePath = filePath;
@@ -37,11 +38,11 @@ public abstract class JsonFileBase<TARGET> implements IJsonFile<TARGET> {
     }
 
     @Override
-    public void loadFromFileOrInitialize(){
-        if(Files.exists(Paths.get(filePath))){
+    public void loadFromFileOrInitialize() {
+        if (Files.exists(Paths.get(filePath))) {
             TARGET loadedObject = readToTargetClass();
             mapJsonObject(loadedObject);
-        }else{
+        } else {
             write(defaultInitialize());
         }
     }
@@ -62,11 +63,12 @@ public abstract class JsonFileBase<TARGET> implements IJsonFile<TARGET> {
      * Если читаем массив, то на выходе будет объект List<Map<String, Object>>
      * Если читаем один объект, то на выходе будет объект Map<String, Object>
      * </pre>
+     *
      * @return
      */
     @Override
-    public Object read(){
-        if(!Files.exists(Paths.get(filePath))){
+    public Object read() {
+        if (!Files.exists(Paths.get(filePath))) {
             return null;
         }
         content = JsonUtil.loadFromJson(filePath, ClassUtil.castClass(Object.class));
@@ -74,23 +76,23 @@ public abstract class JsonFileBase<TARGET> implements IJsonFile<TARGET> {
     }
 
     @Override
-    public TARGET readToTargetClass(){
-        if(targetClass == null){
+    public TARGET readToTargetClass() {
+        if (targetClass == null) {
             throw new NullPointerException("targetClass is NULL");
         }
-        if(!Files.exists(Paths.get(filePath))){
+        if (!Files.exists(Paths.get(filePath))) {
             return null;
         }
         return JsonUtil.loadFromJson(filePath, targetClass);
     }
 
     @Override
-    public void write(TARGET object){
+    public void write(TARGET object) {
         JsonUtil.saveToJson(object, filePath);
     }
 
     @Override
-    public void write(){
+    public void write() {
         JsonUtil.saveToJson(content, filePath);
     }
 
