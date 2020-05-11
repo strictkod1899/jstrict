@@ -6,6 +6,7 @@ package ru.strict.patterns.interpreter;
 public interface IInterpreter<RESULT, CONTEXT> {
     /**
      * Выполнить интерпретацию
+     *
      * @param context Объект контекста
      * @return
      */

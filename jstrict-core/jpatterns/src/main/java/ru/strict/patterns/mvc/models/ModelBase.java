@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Модель представления (паттерн MVC)
  */
-public class ModelBase<STAGE> implements IStageModel<STAGE>, IResetModel{
+public class ModelBase<STAGE> implements IStageModel<STAGE>, IResetModel {
 
     private STAGE currentStage;
     private List<Error> errors;
@@ -49,14 +49,14 @@ public class ModelBase<STAGE> implements IStageModel<STAGE>, IResetModel{
 
     @Override
     public void addError(Error error) {
-        if(error != null){
+        if (error != null) {
             errors.add(error);
         }
     }
 
     @Override
     public void addErrors(Collection<Error> errors) {
-        if(errors != null){
+        if (errors != null) {
             this.errors.addAll(errors);
         }
     }
@@ -80,14 +80,14 @@ public class ModelBase<STAGE> implements IStageModel<STAGE>, IResetModel{
 
     @Override
     public void addWarning(String warning) {
-        if(warning != null){
+        if (warning != null) {
             warnings.add(warning);
         }
     }
 
     @Override
     public void addWarnings(Collection<String> warnings) {
-        if(warnings != null){
+        if (warnings != null) {
             this.warnings.addAll(warnings);
         }
     }

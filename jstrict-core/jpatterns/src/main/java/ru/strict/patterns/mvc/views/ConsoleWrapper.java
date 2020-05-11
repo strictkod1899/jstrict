@@ -19,7 +19,7 @@ public abstract class ConsoleWrapper<M> extends ViewBase<M> implements IInteract
     private String currentMessage;
     private BufferedReader cmdInput;
 
-    private void init(){
+    private void init() {
         currentMessage = "";
         defaultCancelValue = "--n";
     }
@@ -46,7 +46,7 @@ public abstract class ConsoleWrapper<M> extends ViewBase<M> implements IInteract
     }
 
     @Override
-    public void showMessage(String message){
+    public void showMessage(String message) {
         currentMessage = message;
         AnsiConsoleUtil.print(message);
     }
@@ -57,12 +57,12 @@ public abstract class ConsoleWrapper<M> extends ViewBase<M> implements IInteract
     }
 
     @Override
-    public void showError(String message){
+    public void showError(String message) {
         AnsiConsoleUtil.println(message, AnsiColor.RED_BOLD);
     }
 
     @Override
-    public Integer inputInteger(String message){
+    public Integer inputInteger(String message) {
         showMessage(message);
 
         String command = null;
@@ -73,14 +73,14 @@ public abstract class ConsoleWrapper<M> extends ViewBase<M> implements IInteract
         }
 
         Integer result = null;
-        if(ValidateBaseValue.isInteger(command)) {
+        if (ValidateBaseValue.isInteger(command)) {
             result = Integer.parseInt(command);
         }
         return result;
     }
 
     @Override
-    public String inputString(String message){
+    public String inputString(String message) {
         showMessage(message);
 
         String command = null;
@@ -91,16 +91,16 @@ public abstract class ConsoleWrapper<M> extends ViewBase<M> implements IInteract
         }
 
         String result = null;
-        if(!ValidateBaseValue.isEmptyOrNull(command)) {
+        if (!ValidateBaseValue.isEmptyOrNull(command)) {
             result = command;
         }
         return result;
     }
 
     @Override
-    public Integer inputCommand(String message, int minValue, int maxValues){
+    public Integer inputCommand(String message, int minValue, int maxValues) {
         Collection<Integer> correctValues = new ArrayList<>();
-        for (int i = minValue; i <= maxValues; i++){
+        for (int i = minValue; i <= maxValues; i++) {
             correctValues.add(i);
         }
 
@@ -108,36 +108,39 @@ public abstract class ConsoleWrapper<M> extends ViewBase<M> implements IInteract
     }
 
     @Override
-    public <RESULT> RESULT inputCommand(String message, Class<RESULT> inputType, Collection<RESULT> correctValues){
+    public <RESULT> RESULT inputCommand(String message, Class<RESULT> inputType, Collection<RESULT> correctValues) {
         return inputCommand(message, inputType, correctValues, defaultCancelValue);
     }
 
     @Override
-    public <RESULT> RESULT inputCommand(String message, Class<RESULT> inputType, Collection<RESULT> correctValues, String defaultCancelValue){
+    public <RESULT> RESULT inputCommand(String message,
+            Class<RESULT> inputType,
+            Collection<RESULT> correctValues,
+            String defaultCancelValue) {
         boolean isCorrectValue = false;
         RESULT command = null;
 
-        do{
+        do {
             Object inputtedCommand = inputString(message);
 
-            if (String.valueOf(inputtedCommand).equals(defaultCancelValue)){
+            if (String.valueOf(inputtedCommand).equals(defaultCancelValue)) {
                 command = null;
                 break;
             }
 
-            if(inputType == Integer.class) {
-                if(ValidateBaseValue.isInteger(String.valueOf(inputtedCommand))) {
+            if (inputType == Integer.class) {
+                if (ValidateBaseValue.isInteger(String.valueOf(inputtedCommand))) {
                     inputtedCommand = Integer.valueOf(String.valueOf(inputtedCommand));
                 }
             }
 
-            if(inputtedCommand != null && correctValues.contains(inputtedCommand)){
+            if (inputtedCommand != null && correctValues.contains(inputtedCommand)) {
                 command = (RESULT) inputtedCommand;
                 isCorrectValue = true;
-            } else{
+            } else {
                 showError("Ошибка: Данная команда не найдена");
             }
-        }while(!isCorrectValue);
+        } while (!isCorrectValue);
 
         return command;
     }

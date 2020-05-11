@@ -7,12 +7,15 @@ public abstract class MapperBase<S, T extends MapTarget> implements IMapper<S, T
 
     /**
      * Реализация маппинга объекта
+     *
      * @param target Объект, который необходимо преобразовать в тип источника
      * @return
      */
     protected abstract S implementMap(T target) throws Exception;
+
     /**
      * Реализация маппинга объекта
+     *
      * @param source Объект, который необходимо преобразовать в целевой тип
      * @return
      */
@@ -22,7 +25,7 @@ public abstract class MapperBase<S, T extends MapTarget> implements IMapper<S, T
     public S map(T t) {
         try {
             return t == null ? null : implementMap(t);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             throw new MappingException(ex);
         }
     }
@@ -31,7 +34,7 @@ public abstract class MapperBase<S, T extends MapTarget> implements IMapper<S, T
     public T map(S source) {
         try {
             return source == null ? null : implementMap(source);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             throw new MappingException(ex);
         }
     }

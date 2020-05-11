@@ -2,6 +2,7 @@ package ru.strict.patterns.mvc.controllers;
 
 /**
  * Model-View сервис. Разбивает логику контроллера на отдельные части
+ *
  * @param <M> Модель
  * @param <V> Представление
  */

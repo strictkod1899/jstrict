@@ -11,6 +11,7 @@ public interface IEnumNamed<ENUM> {
      *                 .findFirst()
      *                 .orElse(null);
      * </pre>
+     *
      * @param caption
      * @return
      */

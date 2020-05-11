@@ -19,10 +19,10 @@ public class InterpreterContextBase implements IInterpreterContext, AutoCloseabl
     }
 
     @Override
-    public String readLine(){
+    public String readLine() {
         String line = null;
         try {
-            if(reader.ready()) {
+            if (reader.ready()) {
                 line = reader.readLine();
             }
         } catch (IOException ex) {
@@ -33,7 +33,7 @@ public class InterpreterContextBase implements IInterpreterContext, AutoCloseabl
     }
 
     @Override
-    public boolean isReadyForRead(){
+    public boolean isReadyForRead() {
         try {
             return reader.ready();
         } catch (IOException ex) {

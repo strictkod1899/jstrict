@@ -7,7 +7,8 @@ public abstract class ControllerBase<V extends IView, M> implements IController 
     private V view;
     private M model;
 
-    public ControllerBase() {}
+    public ControllerBase() {
+    }
 
     public ControllerBase(V view, M model) {
         this.view = view;
