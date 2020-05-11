@@ -1,4 +1,4 @@
-package ru.strict.patterns.interpreter;
+package ru.strict.patterns;
 
 /**
  * Pattern 'Interpreter'. Описание базовой функциональности интерпретатора
