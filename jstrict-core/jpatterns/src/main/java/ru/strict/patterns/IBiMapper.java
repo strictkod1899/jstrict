@@ -1,11 +1,11 @@
 package ru.strict.patterns;
 
 /**
- * Базовый маппер
+ * Двухсторонний маппер
  *
  * @param <S> Источник для преобразования
  * @param <T> Цель преобразования
  */
-public interface IMapper<S, T> {
-    T map(S s);
+public interface IBiMapper<S, T extends MapTarget> extends IMapper<S, T> {
+    S map(T t);
 }
