@@ -6,18 +6,18 @@ package ru.strict.patterns.mvc.controllers;
  * @param <M> Модель
  * @param <V> Представление
  */
-public abstract class MVServiceBase<M, V> {
+public abstract class BaseMVService<M, V> {
     private M model;
     private V view;
 
-    public MVServiceBase(M model) {
+    public BaseMVService(M model) {
         if (model == null) {
             throw new IllegalArgumentException("model is NULL");
         }
         this.model = model;
     }
 
-    public MVServiceBase(M model, V view) {
+    public BaseMVService(M model, V view) {
         if (model == null) {
             throw new IllegalArgumentException("model is NULL");
         }

@@ -12,7 +12,7 @@ import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.ArrayList;
 
-public abstract class ConsoleWrapper<M> extends ViewBase<M> implements IInteractiveView {
+public abstract class ConsoleWrapper<M> extends BaseView<M> implements IInteractiveView {
 
     private String defaultCancelValue;
 

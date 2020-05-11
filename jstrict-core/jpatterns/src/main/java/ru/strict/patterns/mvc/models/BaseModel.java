@@ -9,13 +9,13 @@ import java.util.List;
 /**
  * Модель представления (паттерн MVC)
  */
-public class ModelBase<STAGE> implements IStageModel<STAGE>, IResetModel {
+public class BaseModel<STAGE> implements IStageModel<STAGE>, IResetModel {
 
     private STAGE currentStage;
     private List<Error> errors;
     private List<String> warnings;
 
-    public ModelBase() {
+    public BaseModel() {
         errors = new ArrayList<>();
         warnings = new ArrayList<>();
     }

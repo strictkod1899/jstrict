@@ -1,10 +1,10 @@
 package ru.strict.patterns.mvc.views;
 
-public abstract class ViewBase<M> implements IView {
+public abstract class BaseView<M> implements IView {
 
     private M model;
 
-    public ViewBase(M model) {
+    public BaseView(M model) {
         this.model = model;
     }
 
