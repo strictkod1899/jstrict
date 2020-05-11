@@ -1,6 +1,7 @@
 package ru.strict.db.core.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.configuration.SqlConfiguration;
 import ru.strict.db.core.connections.IConnectionCreator;
 import ru.strict.db.core.requests.components.Select;
 import ru.strict.db.core.requests.IParameterizedRequest;
@@ -26,14 +27,8 @@ import java.util.stream.Collectors;
  */
 public abstract class BaseRepository
         <ID, CONNECTION, SOURCE extends IConnectionCreator<CONNECTION>, MODEL extends BaseModel<ID>>
+        extends ConfigurableRepository<CONNECTION, SOURCE>
         implements IExtensionRepository<ID, MODEL> {
-
-    /**
-     * Источник подключения к базе данных (используется для получения объекта Connection),
-     * является реализацией интерфейса IConnectionCreator (ConnectionCreatorByDataSource,
-     * ConnectionCreatorByConnectionInfo)
-     */
-    private final SOURCE connectionSource;
 
     /**
      * Наименование таблицы
@@ -64,14 +59,26 @@ public abstract class BaseRepository
             String[] columns,
             SOURCE connectionSource,
             GenerateIdType generateIdType) {
-        this(table, columns, connectionSource, generateIdType, null);
+        this(table, columns, connectionSource, generateIdType, null, null, null);
     }
 
     public BaseRepository(Table table,
             String[] columns,
             SOURCE connectionSource,
             GenerateIdType generateIdType,
-            SQLType sqlIdType) {
+            SqlConfiguration configuration,
+            String group) {
+        this(table, columns, connectionSource, generateIdType, null, configuration, group);
+    }
+
+    public BaseRepository(Table table,
+            String[] columns,
+            SOURCE connectionSource,
+            GenerateIdType generateIdType,
+            SQLType sqlIdType,
+            SqlConfiguration configuration,
+            String group) {
+        super(connectionSource, configuration, group);
         Validator.isNull(table, "table")
                 .isNull(columns, "columns")
                 .isNull(connectionSource, "connectionSource")
@@ -80,7 +87,6 @@ public abstract class BaseRepository
 
         this.table = table;
         this.columns = columns;
-        this.connectionSource = connectionSource;
         this.generateIdType = generateIdType;
         this.sqlIdType = sqlIdType;
     }
@@ -249,19 +255,6 @@ public abstract class BaseRepository
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    /**
-     * Создать соединение с базой даннных
-     *
-     * @return
-     */
-    protected CONNECTION createConnection() {
-        return connectionSource.createConnection();
-    }
-
-    public SOURCE getConnectionSource() {
-        return connectionSource;
-    }
-
     public GenerateIdType getGenerateIdType() {
         return generateIdType;
     }
@@ -295,8 +288,7 @@ public abstract class BaseRepository
             return false;
         }
         BaseRepository<?, ?, ?, ?> that = (BaseRepository<?, ?, ?, ?>) o;
-        return Objects.equals(connectionSource, that.connectionSource) &&
-                Objects.equals(table, that.table) &&
+        return Objects.equals(table, that.table) &&
                 Arrays.equals(columns, that.columns) &&
                 generateIdType == that.generateIdType &&
                 Objects.equals(sqlIdType, that.sqlIdType);
@@ -304,10 +296,9 @@ public abstract class BaseRepository
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(connectionSource, table, generateIdType, sqlIdType);
+        int result = Objects.hash(table, generateIdType, sqlIdType);
         result = 31 * result + Arrays.hashCode(columns);
         return result;
     }
-
     //</editor-fold>
 }

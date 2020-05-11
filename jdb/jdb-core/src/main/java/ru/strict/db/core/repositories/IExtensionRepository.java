@@ -51,9 +51,4 @@ public interface IExtensionRepository<ID, T extends BaseModel<ID>> extends IRepo
             return model;
         }
     }
-
-    /**
-     * Выполнить sql-запрос к базе данных
-     */
-    void executeSql(String sql);
 }

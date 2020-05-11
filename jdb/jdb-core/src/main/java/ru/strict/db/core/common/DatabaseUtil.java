@@ -20,8 +20,7 @@ public class DatabaseUtil {
     public static DataSource createDataSource(String nameLookUp) {
         try {
             InitialContext initialContext = new InitialContext();
-            DataSource dataSource = (DataSource) initialContext.lookup(nameLookUp);
-            return dataSource;
+            return (DataSource) initialContext.lookup(nameLookUp);
         } catch (NamingException ex) {
             throw new RuntimeException(ex);
         }
@@ -37,8 +36,7 @@ public class DatabaseUtil {
         try {
             InitialContext initialContext = new InitialContext();
             DataSource dataSource = (DataSource) initialContext.lookup(nameLookUp);
-            Connection connection = dataSource.getConnection();
-            return connection;
+            return dataSource.getConnection();
         } catch (SQLException | NamingException ex) {
             throw new RuntimeException(ex);
         }

@@ -1,6 +1,8 @@
 package ru.strict.db.jdbc.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.common.SqlType;
+import ru.strict.db.core.configuration.SqlConfiguration;
 import ru.strict.db.core.connections.IConnectionCreator;
 import ru.strict.db.core.repositories.BaseRepository;
 import ru.strict.db.core.requests.IParameterizedRequest;
@@ -46,7 +48,7 @@ public abstract class JdbcRepository
             IConnectionCreator<Connection> connectionSource,
             BaseSqlMapper<ID, T> sqlMapper,
             GenerateIdType generateIdType) {
-        this(table, columns, connectionSource, sqlMapper, generateIdType, null);
+        this(table, columns, connectionSource, sqlMapper, generateIdType, null, null, null);
     }
 
     /**
@@ -57,17 +59,7 @@ public abstract class JdbcRepository
             IConnectionCreator<Connection> connectionSource,
             GenerateIdType generateIdType,
             SQLType sqlIdType) {
-        this(table, columns, connectionSource, null, generateIdType, sqlIdType);
-    }
-
-    /**
-     * Если используется, этот конструктор, то необходимо вручную вызвать метод setSqlMapper
-     */
-    protected JdbcRepository(Table table,
-            String[] columns,
-            IConnectionCreator<Connection> connectionSource,
-            GenerateIdType generateIdType) {
-        this(table, columns, connectionSource, null, generateIdType, null);
+        this(table, columns, connectionSource, null, generateIdType, sqlIdType, null, null);
     }
 
     public JdbcRepository(Table table,
@@ -75,8 +67,10 @@ public abstract class JdbcRepository
             IConnectionCreator<Connection> connectionSource,
             BaseSqlMapper<ID, T> sqlMapper,
             GenerateIdType generateIdType,
-            SQLType sqlIdType) {
-        super(table, columns, connectionSource, generateIdType, sqlIdType);
+            SQLType sqlIdType,
+            SqlConfiguration configuration,
+            String group) {
+        super(table, columns, connectionSource, generateIdType, sqlIdType, configuration, group);
 
         this.sqlMapper = sqlMapper;
     }
@@ -283,12 +277,7 @@ public abstract class JdbcRepository
 
     @Override
     protected final T processRead(ID id) {
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        Connection connection = null;
         try {
-            connection = createConnection();
-
             Select select = createSqlSelect(
                     new Where(
                             getWhereById(),
@@ -296,7 +285,7 @@ public abstract class JdbcRepository
                     )
             );
 
-            statement = connection.prepareStatement(select.getParameterizedSql());
+            //statement = connection.prepareStatement(select.getParameterizedSql());
 
             if (id instanceof Integer) {
                 statement.setInt(1, (Integer) id);
@@ -582,7 +571,7 @@ public abstract class JdbcRepository
     }
 
     @Override
-    public final void executeSql(String sql) {
+    protected final void executeSql(String sql) {
         PreparedStatement statement = null;
 
         Connection connection = null;
@@ -728,69 +717,6 @@ public abstract class JdbcRepository
      */
     protected abstract SqlParameters getParameters(T model);
 
-    //<editor-fold defaultState="collapsed" desc="Determine statement parameters">
-    /**
-     * Установить параметры в переданный объект PreparedStatement в зависимости от нужного типа
-     *
-     * @param statement  Объект PreparedStatement, которому устанвливаются параметры
-     * @param parameters Устанавливаемые параметры
-     */
-    private void setParametersToPrepareStatement(PreparedStatement statement, SqlParameters parameters) {
-        for (SqlParameter<?> parameter : parameters.getParameters()) {
-            try {
-                int index = parameter.getIndex() + 1;
-                Object value = parameter.getValue();
-                if (value == null) {
-                    statement.setNull(index, JDBCType.NULL.getVendorTypeNumber());
-                } else if (parameter.getSqlType() != null) {
-                    statement.setObject(index, value, parameter.getSqlType());
-                } else {
-                    if (value instanceof Boolean) {
-                        statement.setBoolean(index, Boolean.valueOf(value.toString()));
-                    } else if (value instanceof Byte) {
-                        statement.setByte(index, Byte.valueOf(value.toString()));
-                    } else if (value instanceof Short) {
-                        statement.setShort(index, Short.valueOf(value.toString()));
-                    } else if (value instanceof Integer) {
-                        statement.setInt(index, Integer.valueOf(value.toString()));
-                    } else if (value instanceof Long) {
-                        statement.setLong(index, Long.valueOf(value.toString()));
-                    } else if (value instanceof Float) {
-                        statement.setFloat(index, Float.valueOf(value.toString()));
-                    } else if (value instanceof Double) {
-                        statement.setDouble(index, Double.valueOf(value.toString()));
-                    } else if (value instanceof BigDecimal) {
-                        statement.setBigDecimal(index, (BigDecimal) value);
-                    } else if (value instanceof byte[]) {
-                        statement.setBytes(index, (byte[]) value);
-                    } else if (value instanceof Array) {
-                        statement.setArray(index, (Array) value);
-                    } else if (value instanceof NClob) {
-                        statement.setNClob(index, (NClob) value);
-                    } else if (value instanceof Date || value instanceof java.sql.Date) {
-                        statement.setDate(index, new java.sql.Date(((Date) value).getTime()));
-                    } else if (value instanceof Time) {
-                        statement.setTime(index, (Time) value);
-                    } else if (value instanceof Timestamp) {
-                        statement.setTimestamp(index, (Timestamp) value);
-                    } else if (value instanceof URL) {
-                        statement.setURL(index, (URL) value);
-                    } else if (value instanceof Clob) {
-                        statement.setClob(index, (Clob) value);
-                    } else if (value instanceof Blob) {
-                        statement.setBlob(index, (Blob) value);
-                    } else if (value instanceof String) {
-                        statement.setString(index, value.toString());
-                    } else {
-                        statement.setObject(index, value);
-                    }
-                }
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
-        }
-    }
-
     /**
      * Сдвинуть параметры вправа
      *
@@ -804,7 +730,6 @@ public abstract class JdbcRepository
 
         return parameters;
     }
-    //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
     protected void setSqlMapper(BaseSqlMapper<ID, T> sqlMapper) {

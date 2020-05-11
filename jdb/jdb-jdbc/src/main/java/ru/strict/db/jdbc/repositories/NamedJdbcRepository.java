@@ -1,6 +1,7 @@
 package ru.strict.db.jdbc.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
+import ru.strict.db.core.configuration.SqlConfiguration;
 import ru.strict.db.core.connections.IConnectionCreator;
 import ru.strict.db.core.repositories.INamedRepository;
 import ru.strict.db.jdbc.mappers.sql.BaseSqlMapper;
@@ -20,8 +21,10 @@ public abstract class NamedJdbcRepository<ID, T extends BaseModel<ID>>
             IConnectionCreator<Connection> connectionSource,
             BaseSqlMapper<ID, T> sqlMapper,
             GenerateIdType generateIdType,
-            SQLType sqlIdType) {
-        super(table, columns, connectionSource, sqlMapper, generateIdType, sqlIdType);
+            SQLType sqlIdType,
+            SqlConfiguration configuration,
+            String group) {
+        super(table, columns, connectionSource, sqlMapper, generateIdType, sqlIdType, configuration, group);
     }
 
     public NamedJdbcRepository(Table table,
@@ -32,22 +35,15 @@ public abstract class NamedJdbcRepository<ID, T extends BaseModel<ID>>
         super(table, columns, connectionSource, sqlMapper, generateIdType);
     }
 
-    protected NamedJdbcRepository(Table table,
-            String[] columns,
-            IConnectionCreator<Connection> connectionSource,
-            GenerateIdType generateIdType,
-            SQLType sqlIdType) {
-        super(table, columns, connectionSource, generateIdType, sqlIdType);
-    }
-
     /**
      * Если используется, этот конструктор, то необходимо вручную вызвать метод setSqlMapper
      */
     protected NamedJdbcRepository(Table table,
             String[] columns,
             IConnectionCreator<Connection> connectionSource,
-            GenerateIdType generateIdType) {
-        super(table, columns, connectionSource, generateIdType);
+            GenerateIdType generateIdType,
+            SQLType sqlIdType) {
+        super(table, columns, connectionSource, generateIdType, sqlIdType);
     }
 
     @Override

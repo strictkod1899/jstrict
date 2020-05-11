@@ -4,6 +4,7 @@ import java.sql.SQLType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * Список параметров для подставновки в sql-запрос типа PreparedStatement
@@ -105,6 +106,10 @@ public class SqlParameters {
                     parameter.getSqlType())
             );
         }
+    }
+
+    public Stream<SqlParameter<?>> stream() {
+        return parameters.stream();
     }
 
     private void checkParameter(int index, String name) {

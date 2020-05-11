@@ -2,6 +2,7 @@ package ru.strict.db.jdbc.mappers.sql;
 
 import ru.strict.db.core.common.SqlType;
 import ru.strict.models.IModel;
+import ru.strict.patterns.BaseMapper;
 import ru.strict.patterns.MapperBase;
 import ru.strict.validate.Validator;
 
@@ -16,12 +17,15 @@ import java.util.UUID;
  *
  * @param <T> Модель таблицы базы данных
  */
-public abstract class BaseSqlMapper<ID, T extends IModel<ID>>
-        extends MapperBase<ResultSet, T> {
+public abstract class BaseSqlMapper<T> extends BaseMapper<ResultSet, T> {
 
     protected final String[] columns;
     protected final SQLType idType;
     protected final String idColumnName;
+
+    public BaseSqlMapper() {
+        this(null, null, null)
+    }
 
     public BaseSqlMapper(String[] columns) {
         this(columns, null, null);
@@ -32,21 +36,9 @@ public abstract class BaseSqlMapper<ID, T extends IModel<ID>>
     }
 
     public BaseSqlMapper(String[] columns, SQLType idType, String idColumnName) {
-        Validator.isNull(columns, "columns").onThrow();
-
         this.columns = columns;
         this.idType = idType;
         this.idColumnName = idColumnName;
-    }
-
-    @Override
-    public ResultSet map(T t) {
-        return null;
-    }
-
-    @Override
-    protected ResultSet implementMap(T target) {
-        return null;
     }
 
     @Override
@@ -58,7 +50,7 @@ public abstract class BaseSqlMapper<ID, T extends IModel<ID>>
         }
     }
 
-    protected ID mapValueBySqlType(SQLType sqlType, ResultSet resultSet, String columnName) throws SQLException {
+    protected <T> T mapValueBySqlType(SQLType sqlType, ResultSet resultSet, String columnName) throws SQLException {
         if (sqlType == null) {
             throw new IllegalArgumentException("sqlType is NULL");
         }
