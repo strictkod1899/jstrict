@@ -1,4 +1,4 @@
-package ru.strict.db.jdbc.mappers.sql;
+package ru.strict.db.jdbc.exceptions;
 
 import ru.strict.patterns.MappingException;
 

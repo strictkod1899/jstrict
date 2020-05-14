@@ -1,6 +1,6 @@
 package ru.strict.db;
 
-import ru.strict.db.core.common.ConnectionDbInfo;
+import ru.strict.db.core.common.ConnectionDriver;
 import ru.strict.db.core.connections.ConnectionCreatorByConnectionInfo;
 import ru.strict.db.core.connections.ConnectionInfo;
 import ru.strict.utils.ResourcesUtil;
@@ -18,8 +18,8 @@ public class TestConnectionCreator extends ConnectionCreatorByConnectionInfo {
     private static ConnectionInfo getConnectionInfo() {
         File dbFile = ResourcesUtil.getResourceAsFileTemp(DB_INTEGER_FILE_PATH);
         return new ConnectionInfo(
-                ConnectionDbInfo.SQLITE.getDriver(),
-                ConnectionDbInfo.SQLITE.getUrl() + dbFile.getAbsolutePath(),
+                ConnectionDriver.SQLITE.getDriver(),
+                ConnectionDriver.SQLITE.getUrl() + dbFile.getAbsolutePath(),
                 "",
                 "");
     }

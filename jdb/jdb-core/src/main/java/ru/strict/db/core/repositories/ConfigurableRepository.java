@@ -3,13 +3,10 @@ package ru.strict.db.core.repositories;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.configuration.SqlConfiguration;
 import ru.strict.db.core.connections.IConnectionCreator;
-import ru.strict.db.core.requests.IParameterizedRequest;
 import ru.strict.patterns.IMapper;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
-import java.util.function.Consumer;
 
 public abstract class ConfigurableRepository
         <CONNECTION, SOURCE extends IConnectionCreator<CONNECTION>> {

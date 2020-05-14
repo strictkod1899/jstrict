@@ -3,7 +3,7 @@ package ru.strict.db.core.common;
 /**
  * Данные (driver и url) для создания соединения с базой данных в зависимости от ее производителя
  */
-public enum ConnectionDbInfo {
+public enum ConnectionDriver {
 
     /**
      * Информация для подключения к базе данных Postgresql. <br/>
@@ -53,7 +53,7 @@ public enum ConnectionDbInfo {
      */
     private String driver;
 
-    ConnectionDbInfo(String url, String driver) {
+    ConnectionDriver(String url, String driver) {
         this.url = url;
         this.driver = driver;
     }

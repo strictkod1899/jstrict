@@ -1,9 +1,8 @@
 package ru.strict.db.core.common;
 
-import java.sql.JDBCType;
+import ru.strict.validate.Validator;
+
 import java.sql.SQLType;
-import java.util.Arrays;
-import java.util.UUID;
 
 /**
  * Для получения стандартных типов, используйте java.sql.JDBCType
@@ -31,21 +30,19 @@ public enum SqlType implements SQLType {
     }
 
     public static <T> T mapValue(Object value, SQLType sqlType) {
-        if (sqlType == null) {
-            throw new IllegalArgumentException("sqlType is NULL");
-        }
+        Validator.isNull(sqlType, "sqlType").onThrow();
         if (value == null) {
             return null;
         }
 
         if (sqlType.equals(SqlType.UUID)) {
             return (T) java.util.UUID.fromString(String.valueOf(value));
-        } else if (sqlType.equals(JDBCType.BIGINT)) {
-            return (T) Long.valueOf(String.valueOf(value));
         } else if (sqlType.equals(SqlType.TEXT)) {
             return (T) String.valueOf(value);
         } else {
-            return (T) value;
+            throw new UnsupportedOperationException(
+                    String.format("Unsupported SqlType [%s]", sqlType)
+            );
         }
     }
 }
