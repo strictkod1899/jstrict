@@ -70,55 +70,66 @@ public class ValidateError {
             errors.add(currentError);
         }
 
-        if (!failProcess && !errors.isEmpty()) {
-            DetailsError lastError =  errors.get(errors.size()-1);
-            String details = lastError.getDetails();
-            Object[] detailsArgs = lastError.getDetailsArgs();
-            details = details == null ? null : String.format(details, detailsArgs);
+        if (failProcess || errors.isEmpty()) {
+            return;
+        }
 
+        String details = getDetailsMessage(errors);
+
+        if (errors.size() == 1) {
+            DetailsError error = errors.get(0);
+            if (error.getReason() == null) {
+                throw new ValidateException(error.getValueName());
+            } else {
+                if (error.getValue() != null) {
+                    if (details != null) {
+                        throw new ValidateException(error.getValueName(), error.getReason(), error.getValue(), details);
+                    } else {
+                        throw new ValidateException(error.getValueName(), error.getReason(), error.getValue());
+                    }
+                } else if (details != null) {
+                    throw new ValidateException(error.getValueName(), error.getReason(), details);
+                } else {
+                    throw new ValidateException(error.getValueName(), error.getReason(), error.getValue(), details);
+                }
+            }
+        } else {
             List<String> valuesNames = new ArrayList<>(errors.size());
             List<String> reasons = new ArrayList<>(errors.size());
             List<Object> values = new ArrayList<>(errors.size());
             for (DetailsError error : errors) {
                 valuesNames.add(error.getValueName());
-                reasons.add(error.getReason());
-                values.add(error.getValue());
+                if (error.getReason() != null) {
+                    reasons.add(error.getReason());
+                }
+                if (error.getValue() != null) {
+                    values.add(error.getValue());
+                }
             }
 
-            if (values.stream().allMatch(Objects::isNull)) {
-                values = new ArrayList<>();
-            }
-
-            if (!reasons.isEmpty()) {
-                if (!values.isEmpty() && details != null) {
-                    if (valuesNames.size() == 1) {
-                        throw new ValidateException(valuesNames.get(0), reasons.get(0), values.get(0), details);
-                    } else {
+            if (reasons.isEmpty()) {
+                throw new ValidateException(valuesNames);
+            } else {
+                if (!values.isEmpty()) {
+                    if (details != null) {
                         throw new ValidateException(valuesNames, reasons, values, details);
-                    }
-                } else if (!values.isEmpty()) {
-                    if (valuesNames.size() == 1) {
-                        throw new ValidateException(valuesNames.get(0), reasons.get(0), values.get(0));
                     } else {
                         throw new ValidateException(valuesNames, reasons, values);
                     }
                 } else if (details != null) {
-                    if (valuesNames.size() == 1) {
-                        throw new ValidateException(valuesNames.get(0), reasons.get(0), details);
-                    } else {
-                        throw new ValidateException(valuesNames, reasons, details);
-                    }
+                    throw new ValidateException(valuesNames, reasons, details);
                 } else {
                     throw new ValidateException(valuesNames, reasons, values, details);
                 }
-            } else {
-                if (valuesNames.size() == 1) {
-                    throw new ValidateException(valuesNames.get(0));
-                } else {
-                    throw new ValidateException(valuesNames);
-                }
             }
         }
+    }
+
+    private String getDetailsMessage(List<DetailsError> errors) {
+        DetailsError lastError = errors.get(errors.size() - 1);
+        String details = lastError.getDetails();
+        Object[] detailsArgs = lastError.getDetailsArgs();
+        return details == null ? null : String.format(details, detailsArgs);
     }
 
     public ValidateError isNull(Object value, String caption) {
