@@ -1,8 +1,9 @@
 package ru.strict.db.core.common;
 
-import ru.strict.db.core.connections.ConnectionInfo;
+import ru.strict.validate.Validator;
 
 import java.sql.*;
+import java.util.UUID;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -11,6 +12,26 @@ import javax.sql.DataSource;
  * Класс-утилита для операций над базой данных
  */
 public class DatabaseUtil {
+
+    public <T> T mapResultSetValue(SQLType sqlType, ResultSet resultSet, String columnName) {
+        Validator.isNull(sqlType, "sqlType").onThrow();
+
+        try {
+            if (sqlType.equals(SqlType.UUID)) {
+                return (T) UUID.fromString(resultSet.getString(columnName));
+            } else if (sqlType.equals(SqlType.TEXT)) {
+                return (T) resultSet.getString(columnName);
+            } else if (sqlType.equals(JDBCType.BIGINT)) {
+                return (T) (Object) resultSet.getLong(columnName);
+            } else if (sqlType.equals(JDBCType.INTEGER)) {
+                return (T) (Object) resultSet.getInt(columnName);
+            } else {
+                return (T) resultSet.getObject(columnName);
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 
     /**
      * Получить объект DataSource базы данных
@@ -40,38 +61,5 @@ public class DatabaseUtil {
         } catch (SQLException | NamingException ex) {
             throw new RuntimeException(ex);
         }
-    }
-
-    /**
-     * Создание подключения к базе данных
-     *
-     * @param connectionInfo Информация для подключения к базе данных
-     */
-    public static Connection createConnection(ConnectionInfo connectionInfo) {
-        Connection connection = null;
-        try {
-            Driver jdbcDriver = (Driver) Class.forName(connectionInfo.getDriver()).
-                    newInstance();
-            // Регистрация драйвера
-            DriverManager.registerDriver(jdbcDriver);
-            // Создание соединения с базой данных
-            connection = DriverManager.getConnection(connectionInfo.getUrl(),
-                    connectionInfo.getUsername(),
-                    connectionInfo.getPassword());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-        return connection;
-    }
-
-    /**
-     * Выполнить запрос на выборку данных
-     *
-     * @param connection Соединение с базой данных
-     * @param sql Sql запрос на выборку данных
-     * @return
-     */
-    public static ResultSet qSelect(Connection connection, String sql) throws SQLException {
-        return connection.createStatement().executeQuery(sql);
     }
 }

@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLType;
 
-public class JWTTokenSqlMapper<ID> extends BaseSqlMapper<ID, JWTToken<ID>> {
+import static ru.strict.db.jdbc.utils.JdbcUtil.getValueBySqlType;
+
+public class JWTTokenSqlMapper<ID> extends BaseSqlMapper<JWTToken<ID>> {
 
     public JWTTokenSqlMapper(String[] columns, SQLType idType, String idColumnName){
         super(columns, idType, idColumnName);
@@ -15,7 +17,7 @@ public class JWTTokenSqlMapper<ID> extends BaseSqlMapper<ID, JWTToken<ID>> {
     @Override
     public JWTToken<ID> implementMap(ResultSet resultSet) throws SQLException {
         JWTToken<ID> model = new JWTToken();
-        model.setId(mapValueBySqlType(idType, resultSet, idColumnName));
+        model.setId(getValueBySqlType(idType, resultSet, idColumnName));
         model.setAccessToken(resultSet.getString(columns[0]));
         model.setRefreshToken(resultSet.getString(columns[1]));
         model.setExpireTimeAccess(resultSet.getDate(columns[2]));
@@ -28,7 +30,7 @@ public class JWTTokenSqlMapper<ID> extends BaseSqlMapper<ID, JWTToken<ID>> {
         model.setSecret(resultSet.getString(columns[9]));
         model.setAlgorithm(resultSet.getString(columns[10]));
         model.setType(resultSet.getString(columns[11]));
-        model.setUserId(mapValueBySqlType(idType, resultSet, columns[12]));
+        model.setUserId(getValueBySqlType(idType, resultSet, columns[12]));
         return model;
     }
 }

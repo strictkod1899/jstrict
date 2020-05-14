@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLType;
 
-public class UserSqlMapper<ID> extends BaseSqlMapper<ID, DetailsUser<ID>> {
+import static ru.strict.db.jdbc.utils.JdbcUtil.getValueBySqlType;
+
+public class UserSqlMapper<ID> extends BaseSqlMapper<DetailsUser<ID>> {
 
     public UserSqlMapper(String[] columns, SQLType idType, String idColumnName){
         super(columns, idType, idColumnName);
@@ -15,7 +17,7 @@ public class UserSqlMapper<ID> extends BaseSqlMapper<ID, DetailsUser<ID>> {
     @Override
     public DetailsUser<ID> implementMap(ResultSet resultSet) throws SQLException {
         DetailsUser<ID> model = new DetailsUser();
-        model.setId(mapValueBySqlType(idType, resultSet, idColumnName));
+        model.setId(getValueBySqlType(idType, resultSet, idColumnName));
         model.setUsername(resultSet.getString(columns[0]));
         model.setPasswordEncode(resultSet.getString(columns[1]));
         model.setEmail(resultSet.getString(columns[2]));

@@ -19,7 +19,7 @@ public abstract class NamedJdbcRepository<ID, T extends BaseModel<ID>>
     public NamedJdbcRepository(Table table,
             String[] columns,
             IConnectionCreator<Connection> connectionSource,
-            BaseSqlMapper<ID, T> sqlMapper,
+            BaseSqlMapper<T> sqlMapper,
             GenerateIdType generateIdType,
             SQLType sqlIdType,
             SqlConfiguration configuration,
@@ -30,7 +30,7 @@ public abstract class NamedJdbcRepository<ID, T extends BaseModel<ID>>
     public NamedJdbcRepository(Table table,
             String[] columns,
             IConnectionCreator<Connection> connectionSource,
-            BaseSqlMapper<ID, T> sqlMapper,
+            BaseSqlMapper<T> sqlMapper,
             GenerateIdType generateIdType) {
         super(table, columns, connectionSource, sqlMapper, generateIdType);
     }

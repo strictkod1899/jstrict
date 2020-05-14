@@ -7,8 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLType;
 
+import static ru.strict.db.jdbc.utils.JdbcUtil.getValueBySqlType;
+
 public class PermissionOnRoleSqlMapper<ID, PERMISSION extends IModel<Integer>>
-        extends BaseSqlMapper<ID, PermissionOnRole<ID, PERMISSION>> {
+        extends BaseSqlMapper<PermissionOnRole<ID, PERMISSION>> {
 
     public PermissionOnRoleSqlMapper(String[] columns, SQLType idType, String idColumnName){
         super(columns, idType, idColumnName);
@@ -17,9 +19,9 @@ public class PermissionOnRoleSqlMapper<ID, PERMISSION extends IModel<Integer>>
     @Override
     public PermissionOnRole<ID, PERMISSION> implementMap(ResultSet resultSet) throws SQLException {
         PermissionOnRole<ID, PERMISSION> model = new PermissionOnRole<>();
-        model.setId(mapValueBySqlType(idType, resultSet, idColumnName));
+        model.setId(getValueBySqlType(idType, resultSet, idColumnName));
         model.setPermissionId(resultSet.getInt(columns[0]));
-        model.setRoleId(mapValueBySqlType(idType, resultSet, columns[1]));
+        model.setRoleId(getValueBySqlType(idType, resultSet, columns[1]));
         return model;
     }
 }

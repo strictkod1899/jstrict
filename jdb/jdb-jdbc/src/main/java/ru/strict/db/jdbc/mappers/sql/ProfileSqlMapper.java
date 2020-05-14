@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLType;
 
-public class ProfileSqlMapper<ID> extends BaseSqlMapper<ID, Profile<ID>> {
+import static ru.strict.db.jdbc.utils.JdbcUtil.getValueBySqlType;
+
+public class ProfileSqlMapper<ID> extends BaseSqlMapper<Profile<ID>> {
 
     public ProfileSqlMapper(String[] columns, SQLType idType, String idColumnName){
         super(columns, idType, idColumnName);
@@ -15,10 +17,10 @@ public class ProfileSqlMapper<ID> extends BaseSqlMapper<ID, Profile<ID>> {
     @Override
     public Profile<ID> implementMap(ResultSet resultSet) throws SQLException {
         Profile<ID> model = new Profile();
-        model.setId(mapValueBySqlType(idType, resultSet, idColumnName));
+        model.setId(getValueBySqlType(idType, resultSet, idColumnName));
         model.setName(resultSet.getString(columns[0]));
         model.setSurname(resultSet.getString(columns[1]));
-        model.setUserId(mapValueBySqlType(idType, resultSet, columns[2]));
+        model.setUserId(getValueBySqlType(idType, resultSet, columns[2]));
         return model;
     }
 }

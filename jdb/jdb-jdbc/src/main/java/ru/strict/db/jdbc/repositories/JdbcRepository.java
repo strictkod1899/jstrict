@@ -1,7 +1,6 @@
 package ru.strict.db.jdbc.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.common.SqlType;
 import ru.strict.db.core.configuration.SqlConfiguration;
 import ru.strict.db.core.connections.IConnectionCreator;
 import ru.strict.db.core.repositories.BaseRepository;
@@ -12,29 +11,31 @@ import ru.strict.db.core.requests.components.Where;
 import ru.strict.db.jdbc.mappers.sql.BaseSqlMapper;
 import ru.strict.db.core.common.SqlParameter;
 import ru.strict.db.core.common.SqlParameters;
+import ru.strict.db.jdbc.mappers.sql.CountSqlMapper;
+import ru.strict.db.jdbc.utils.JdbcUtil;
 import ru.strict.models.BaseModel;
-import ru.strict.validate.Validator;
-
-import java.math.BigDecimal;
-import java.net.URL;
+import ru.strict.patterns.IMapper;
 import java.sql.*;
 import java.util.*;
-import java.util.Date;
+
+import static ru.strict.db.jdbc.utils.JdbcUtil.shiftParameters;
 
 /**
  * Базовый класс репозитория с использованием Jdbc
  *
  * @param <ID> Тип идентификатора
- * @param <T>  Тип сущности базы данных
+ * @param <T> Тип сущности базы данных
  */
 public abstract class JdbcRepository
         <ID, T extends BaseModel<ID>>
         extends BaseRepository<ID, Connection, IConnectionCreator<Connection>, T> {
 
+    private static final CountSqlMapper COUNT_MAPPER = new CountSqlMapper();
+
     /**
      * Объект для преобразования полученных данных из sql-запроса в объект сущности базы данных (model)
      */
-    private BaseSqlMapper<ID, T> sqlMapper;
+    private BaseSqlMapper<T> sqlMapper;
 
     private String sqlInsertWithoutId;
     private String sqlInsertWithId;
@@ -46,7 +47,7 @@ public abstract class JdbcRepository
     public JdbcRepository(Table table,
             String[] columns,
             IConnectionCreator<Connection> connectionSource,
-            BaseSqlMapper<ID, T> sqlMapper,
+            BaseSqlMapper<T> sqlMapper,
             GenerateIdType generateIdType) {
         this(table, columns, connectionSource, sqlMapper, generateIdType, null, null, null);
     }
@@ -65,7 +66,7 @@ public abstract class JdbcRepository
     public JdbcRepository(Table table,
             String[] columns,
             IConnectionCreator<Connection> connectionSource,
-            BaseSqlMapper<ID, T> sqlMapper,
+            BaseSqlMapper<T> sqlMapper,
             GenerateIdType generateIdType,
             SQLType sqlIdType,
             SqlConfiguration configuration,
@@ -79,197 +80,38 @@ public abstract class JdbcRepository
     //<editor-fold defaultState="collapsed" desc="CRUD">
     @Override
     public final ID create(T model) {
-        PreparedStatement statement = null;
-        SqlParameters parameters;
+        SqlParameters parameters = getParameters(model);;
         String sql;
-        Connection connection = null;
 
         ID generatedId;
-        GenerateIdType usingGenerateIdType = getGenerateIdType();
+        GenerateIdType generateIdType = getGenerateIdType();
 
-        switch (usingGenerateIdType) {
+        switch (generateIdType) {
             case INT:
-                parameters = getParameters(model);
-                sql = getSqlInsertWithoutId(parameters.size());
-
-                try {
-                    connection = createConnection();
-                    statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                    setParametersToPrepareStatement(statement, parameters);
-                    statement.executeUpdate();
-
-                    try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                        if (generatedKeys.next()) {
-                            generatedId = (ID) (Object) generatedKeys.getInt(1);
-                        } else {
-                            throw new SQLException("Creating user failed, no ID obtained");
-                        }
-                    }
-                } catch (SQLException ex) {
-                    if (connection != null) {
-                        try {
-                            connection.rollback();
-                        } catch (SQLException e) {
-                            throw new RuntimeException(ex);
-                        }
-                    }
-                    throw new RuntimeException(ex);
-                } finally {
-                    if (statement != null) {
-                        try {
-                            if (!statement.isClosed()) {
-                                statement.close();
-                            }
-                        } catch (SQLException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                    }
-
-                    if (connection != null) {
-                        try {
-                            if (!connection.isClosed()) {
-                                connection.close();
-                            }
-                        } catch (SQLException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                    }
-                }
-                break;
             case LONG:
-                parameters = getParameters(model);
                 sql = getSqlInsertWithoutId(parameters.size());
 
-                try {
-                    connection = createConnection();
-                    statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                    setParametersToPrepareStatement(statement, parameters);
-                    statement.executeUpdate();
-
-                    try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                        if (generatedKeys.next()) {
-                            generatedId = (ID) (Object) generatedKeys.getLong(1);
-                        } else {
-                            throw new SQLException("Creating user failed, no ID obtained");
-                        }
-                    }
-                } catch (SQLException ex) {
-                    if (connection != null) {
-                        try {
-                            connection.rollback();
-                        } catch (SQLException e) {
-                            throw new RuntimeException(ex);
-                        }
-                    }
-                    throw new RuntimeException(ex);
-                } finally {
-                    if (statement != null) {
-                        try {
-                            if (!statement.isClosed()) {
-                                statement.close();
-                            }
-                        } catch (SQLException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                    }
-
-                    if (connection != null) {
-                        try {
-                            if (!connection.isClosed()) {
-                                connection.close();
-                            }
-                        } catch (SQLException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                    }
-                }
+                generatedId = executeSql(sql, parameters, true);
                 break;
             case UUID:
-                parameters = shiftParameters(getParameters(model), 1);
+                shiftParameters(parameters, 1);
                 generatedId = (ID) UUID.randomUUID();
                 parameters.set(0, getIdColumnName(), generatedId);
                 sql = getSqlInsertWithId(parameters.size() - 1);
 
-                try {
-                    connection = createConnection();
-                    statement = connection.prepareStatement(sql);
-                    setParametersToPrepareStatement(statement, parameters);
-                    statement.executeUpdate();
-                } catch (SQLException ex) {
-                    if (connection != null) {
-                        try {
-                            connection.rollback();
-                        } catch (SQLException e) {
-                            throw new RuntimeException(ex);
-                        }
-                    }
-                    throw new RuntimeException(ex);
-                } finally {
-                    if (statement != null) {
-                        try {
-                            if (!statement.isClosed()) {
-                                statement.close();
-                            }
-                        } catch (SQLException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                    }
-
-                    if (connection != null) {
-                        try {
-                            if (!connection.isClosed()) {
-                                connection.close();
-                            }
-                        } catch (SQLException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                    }
-                }
+                executeSql(sql, parameters);
                 break;
             case NONE:
-                parameters = shiftParameters(getParameters(model), 1);
+                shiftParameters(parameters, 1);
                 parameters.set(0, getIdColumnName(), model.getId());
                 sql = getSqlInsertWithId(parameters.size() - 1);
-                try {
-                    connection = createConnection();
-                    statement = connection.prepareStatement(sql);
-                    setParametersToPrepareStatement(statement, parameters);
-                    statement.executeUpdate();
-                    generatedId = model.getId();
-                } catch (SQLException ex) {
-                    if (connection != null) {
-                        try {
-                            connection.rollback();
-                        } catch (SQLException e) {
-                            throw new RuntimeException(ex);
-                        }
-                    }
-                    throw new RuntimeException(ex);
-                } finally {
-                    if (statement != null) {
-                        try {
-                            if (!statement.isClosed()) {
-                                statement.close();
-                            }
-                        } catch (SQLException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                    }
 
-                    if (connection != null) {
-                        try {
-                            if (!connection.isClosed()) {
-                                connection.close();
-                            }
-                        } catch (SQLException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                    }
-                }
+                executeSql(sql, parameters);
+                generatedId = model.getId();
                 break;
             default:
-                throw new IllegalArgumentException("Type for generate id is not determine. Entity was not created " +
-                        "into");
+                throw new UnsupportedOperationException(
+                        "Type for generate id is not determine. Entity was not created into");
         }
 
         return generatedId;
@@ -277,185 +119,32 @@ public abstract class JdbcRepository
 
     @Override
     protected final T processRead(ID id) {
-        try {
-            Select select = createSqlSelect(
-                    new Where(
-                            getWhereById(),
-                            new SqlParameters(new SqlParameter<ID>(0, getIdColumnName(), id, getSqlIdType()))
-                    )
-            );
+        Select select = createSqlSelect(
+                new Where(
+                        getWhereById(),
+                        new SqlParameters(new SqlParameter<ID>(0, getIdColumnName(), id, getSqlIdType()))
+                )
+        );
 
-            //statement = connection.prepareStatement(select.getParameterizedSql());
+        SqlParameter<ID> parameter = new SqlParameter<>(0, getIdColumnName(), id, getSqlIdType());
+        SqlParameters parameters = new SqlParameters(parameter);
 
-            if (id instanceof Integer) {
-                statement.setInt(1, (Integer) id);
-            } else if (id instanceof Long) {
-                statement.setLong(1, (Long) id);
-            } else if (id instanceof UUID) {
-                statement.setString(1, ((UUID) id).toString());
-            } else if (id instanceof String) {
-                statement.setString(1, (String) id);
-            } else {
-                throw new IllegalArgumentException("Error sql-query [read]: ID type not supported");
-            }
-
-            resultSet = statement.executeQuery();
-            if (!resultSet.isClosed()) {
-                return sqlMapper.map(resultSet);
-            }
-            return null;
-        } catch (SQLException ex) {
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException e) {
-                    throw new RuntimeException(ex);
-                }
-            }
-            throw new RuntimeException(ex);
-        } finally {
-            if (resultSet != null) {
-                try {
-                    if (!resultSet.isClosed()) {
-                        resultSet.close();
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
-            if (statement != null) {
-                try {
-                    if (!statement.isClosed()) {
-                        statement.close();
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
-            if (connection != null) {
-                try {
-                    if (!connection.isClosed()) {
-                        connection.close();
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        }
+        return executeSqlRead(select.getParameterizedSql(), parameters, sqlMapper);
     }
 
     @Override
     protected final List<T> processReadAll(IParameterizedRequest requests) {
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        List<T> result = new ArrayList<>();
-        Connection connection = null;
-        try {
-            connection = createConnection();
-
-            Select select = createSqlSelect(requests);
-
-            statement = connection.prepareStatement(select.getParameterizedSql());
-            if (requests != null) {
-                setParametersToPrepareStatement(statement, select.getParameters());
-            }
-            resultSet = statement.executeQuery();
-
-            if (!resultSet.isClosed()) {
-                while (resultSet.next()) {
-                    result.add(sqlMapper.map(resultSet));
-                }
-            }
-        } catch (SQLException ex) {
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException e) {
-                    throw new RuntimeException(ex);
-                }
-            }
-            throw new RuntimeException(ex);
-        } finally {
-            if (resultSet != null) {
-                try {
-                    if (!resultSet.isClosed()) {
-                        resultSet.close();
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
-            if (statement != null) {
-                try {
-                    if (!statement.isClosed()) {
-                        statement.close();
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
-            if (connection != null) {
-                try {
-                    if (!connection.isClosed()) {
-                        connection.close();
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        }
-
-        return result;
+        Select select = createSqlSelect(requests);
+        return executeSqlReadAll(select.getParameterizedSql(), select.getParameters(), sqlMapper);
     }
 
     @Override
     public final void update(T model) {
+        String sql = getSqlUpdate();
         SqlParameters parameters = getParameters(model);
         parameters.addLast(getIdColumnName(), model.getId());
-        String sql = getSqlUpdate();
 
-        PreparedStatement statement = null;
-
-        Connection connection = null;
-        try {
-            connection = createConnection();
-            statement = connection.prepareStatement(sql);
-            setParametersToPrepareStatement(statement, parameters);
-            statement.executeUpdate();
-        } catch (SQLException ex) {
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException e) {
-                    throw new RuntimeException(ex);
-                }
-            }
-            throw new RuntimeException(ex);
-        } finally {
-            if (statement != null) {
-                try {
-                    if (!statement.isClosed()) {
-                        statement.close();
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
-            if (connection != null) {
-                try {
-                    if (!connection.isClosed()) {
-                        connection.close();
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        }
+        executeSql(sql, parameters);
     }
 
     @Override
@@ -463,155 +152,47 @@ public abstract class JdbcRepository
         String sql = getSqlDelete();
         SqlParameters parameters = new SqlParameters();
         parameters.addLast(getIdColumnName(), id);
-        PreparedStatement statement = null;
 
-        Connection connection = null;
-        try {
-            connection = createConnection();
-            statement = connection.prepareStatement(sql);
-            setParametersToPrepareStatement(statement, parameters);
-            statement.executeUpdate();
-        } catch (SQLException ex) {
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException e) {
-                    throw new RuntimeException(ex);
-                }
-            }
-            throw new RuntimeException(ex);
-        } finally {
-            if (statement != null) {
-                try {
-                    if (!statement.isClosed()) {
-                        statement.close();
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
-            if (connection != null) {
-                try {
-                    if (!connection.isClosed()) {
-                        connection.close();
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        }
+        executeSql(sql, parameters);
     }
     //</editor-fold>
 
     @Override
     public final long readCount(IParameterizedRequest request) {
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        int result = -1;
-        Connection connection = null;
-        try {
-            connection = createConnection();
+        Select select = createSqlCount(request);
+        return executeSqlRead(select.getParameterizedSql(), select.getParameters(), COUNT_MAPPER);
+    }
 
-            Select select = createSqlCount(request);
-
-            statement = connection.prepareStatement(select.getParameterizedSql());
-            if (request != null) {
-                setParametersToPrepareStatement(statement, select.getParameters());
-            }
-            resultSet = statement.executeQuery();
-
-            if (!resultSet.isClosed()) {
-                resultSet.next();
-                result = resultSet.getInt(1);
-            }
-        } catch (SQLException ex) {
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException e) {
-                    throw new RuntimeException(ex);
-                }
-            }
-            throw new RuntimeException(ex);
-        } finally {
-            if (resultSet != null) {
-                try {
-                    if (!resultSet.isClosed()) {
-                        resultSet.close();
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
-            if (statement != null) {
-                try {
-                    if (!statement.isClosed()) {
-                        statement.close();
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
-
-            if (connection != null) {
-                try {
-                    if (!connection.isClosed()) {
-                        connection.close();
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        }
-
-        return result;
+    //<editor-fold defaultState="collapsed" desc="executeSql">
+    @Override
+    protected final <ID> ID executeSql(String sql, SqlParameters parameters) {
+        return executeSql(sql, parameters, false);
     }
 
     @Override
-    protected final void executeSql(String sql) {
-        PreparedStatement statement = null;
-
-        Connection connection = null;
-        try {
-            connection = createConnection();
-            statement = connection.prepareStatement(sql);
-            statement.executeUpdate();
-        } catch (SQLException ex) {
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException e) {
-                    throw new RuntimeException(ex);
-                }
-            }
-            throw new RuntimeException(ex);
-        } finally {
-            if (statement != null) {
-                try {
-                    if (!statement.isClosed()) {
-                        statement.close();
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
-            if (connection != null) {
-                try {
-                    if (!connection.isClosed()) {
-                        connection.close();
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        }
+    protected final <ID> ID executeSql(String sql,
+            SqlParameters parameters,
+            boolean autoGenerateKey) {
+        return JdbcUtil.<ID>executeSql(sql, parameters, this::createConnection, autoGenerateKey);
     }
 
+    @Override
+    protected final <T> T executeSqlRead(String sql,
+            SqlParameters parameters,
+            IMapper<ResultSet, T> resultMapper) {
+        return JdbcUtil.<T>executeSqlRead(sql, parameters, resultMapper, this::createConnection);
+    }
+
+    @Override
+    protected final <T> List<T> executeSqlReadAll(String sql,
+            SqlParameters parameters,
+            IMapper<ResultSet, T> resultMapper) {
+        return JdbcUtil.<T>executeSqlReadAll(sql, parameters, resultMapper, this::createConnection);
+    }
+    //</editor-fold>
+
     //<editor-fold defaultState="collapsed" desc="sql generate">
+
     /**
      * Sql-запрос на создание записи в таблице (без учета ID)
      */
@@ -717,33 +298,13 @@ public abstract class JdbcRepository
      */
     protected abstract SqlParameters getParameters(T model);
 
-    /**
-     * Сдвинуть параметры вправа
-     *
-     * @param parameters    Параметры
-     * @param startPosition Стартовая позиция
-     */
-    private SqlParameters shiftParameters(SqlParameters parameters, int startPosition) {
-        for (SqlParameter<?> parameter : parameters.getParameters()) {
-            parameter.setIndex(parameter.getIndex() + startPosition);
-        }
-
-        return parameters;
-    }
-
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    protected void setSqlMapper(BaseSqlMapper<ID, T> sqlMapper) {
+    protected void setSqlMapper(BaseSqlMapper<T> sqlMapper) {
         this.sqlMapper = sqlMapper;
     }
 
-    public BaseSqlMapper<ID, T> getSqlMapper() {
+    public BaseSqlMapper<T> getSqlMapper() {
         return sqlMapper;
     }
     //</editor-fold>
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getConnectionSource(), getTable(), getColumns(),
-                getGenerateIdType(), sqlMapper);
-    }
 }

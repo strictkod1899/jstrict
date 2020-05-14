@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLType;
 
-public class FileStorageSqlMapper<ID> extends BaseSqlMapper<ID, FileStorage<ID>> {
+import static ru.strict.db.jdbc.utils.JdbcUtil.getValueBySqlType;
+
+public class FileStorageSqlMapper<ID> extends BaseSqlMapper<FileStorage<ID>> {
 
     public FileStorageSqlMapper(String[] columns, SQLType idType, String idColumnName){
         super(columns, idType, idColumnName);
@@ -15,7 +17,7 @@ public class FileStorageSqlMapper<ID> extends BaseSqlMapper<ID, FileStorage<ID>>
     @Override
     public FileStorage<ID> implementMap(ResultSet resultSet) throws SQLException {
         FileStorage<ID> model = new FileStorage();
-        model.setId(mapValueBySqlType(idType, resultSet, idColumnName));
+        model.setId(getValueBySqlType(idType, resultSet, idColumnName));
         model.setFilename(resultSet.getString(columns[0]));
         model.setExtension(resultSet.getString(columns[1]));
         model.setDisplayName(resultSet.getString(columns[2]));

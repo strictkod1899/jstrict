@@ -62,7 +62,7 @@ public class Select extends TableRequest implements IParameterizedRequest {
 
     @Override
     public SqlParameters getParameters() {
-        return requests == null ? null : requests.getParameters();
+        return requests == null ? new SqlParameters() : requests.getParameters();
     }
 
     private String formatSelectItemsAsString() {

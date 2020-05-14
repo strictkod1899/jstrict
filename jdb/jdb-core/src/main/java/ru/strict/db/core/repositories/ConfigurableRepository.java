@@ -6,8 +6,10 @@ import ru.strict.db.core.connections.IConnectionCreator;
 import ru.strict.db.core.requests.IParameterizedRequest;
 import ru.strict.patterns.IMapper;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.function.Consumer;
 
 public abstract class ConfigurableRepository
         <CONNECTION, SOURCE extends IConnectionCreator<CONNECTION>> {
@@ -56,7 +58,14 @@ public abstract class ConfigurableRepository
     /**
      * Выполнить sql-запрос на изменение данных
      */
-    protected abstract void executeSql(String sql);
+    protected abstract <ID> ID executeSql(String sql, SqlParameters parameters);
+
+    /**
+     * Выполнить sql-запрос на изменение данных
+     */
+    protected abstract <ID> ID executeSql(String sql,
+            SqlParameters parameters,
+            boolean autoGenerateKey);
 
     /**
      * Выполнить sql-запрос на чтение
@@ -69,7 +78,6 @@ public abstract class ConfigurableRepository
      * Выполнить sql-запрос на чтение
      */
     protected abstract <T> List<T> executeSqlReadAll(String sql,
-            IParameterizedRequest request,
             SqlParameters parameters,
             IMapper<ResultSet, T> resultMapper);
 }

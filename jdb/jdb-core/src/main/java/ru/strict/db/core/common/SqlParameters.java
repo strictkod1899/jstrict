@@ -2,6 +2,7 @@ package ru.strict.db.core.common;
 
 import java.sql.SQLType;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -9,11 +10,11 @@ import java.util.stream.Stream;
 /**
  * Список параметров для подставновки в sql-запрос типа PreparedStatement
  */
-public class SqlParameters {
+public class SqlParameters implements Iterable<SqlParameter<?>> {
     private List<SqlParameter<?>> parameters;
 
     public SqlParameters() {
-        parameters = new ArrayList<>();
+        parameters = new ArrayList<>(5);
     }
 
     public SqlParameters(SqlParameter<?> parameter) {
@@ -149,6 +150,11 @@ public class SqlParameters {
     @Override
     public int hashCode() {
         return Objects.hash(parameters);
+    }
+
+    @Override
+    public Iterator<SqlParameter<?>> iterator() {
+        return parameters.iterator();
     }
     //</editor-fold>
 }

@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLType;
 
-public class CountrySqlMapper<ID> extends BaseSqlMapper<ID, Country<ID>> {
+import static ru.strict.db.jdbc.utils.JdbcUtil.getValueBySqlType;
+
+public class CountrySqlMapper<ID> extends BaseSqlMapper<Country<ID>> {
 
     public CountrySqlMapper(String[] columns, SQLType idType, String idColumnName){
         super(columns, idType, idColumnName);
@@ -15,7 +17,7 @@ public class CountrySqlMapper<ID> extends BaseSqlMapper<ID, Country<ID>> {
     @Override
     public Country<ID> implementMap(ResultSet resultSet) throws SQLException {
         Country<ID> model = new Country();
-        model.setId(mapValueBySqlType(idType, resultSet, idColumnName));
+        model.setId(getValueBySqlType(idType, resultSet, idColumnName));
         model.setCaption(resultSet.getString(columns[0]));
         return model;
     }
