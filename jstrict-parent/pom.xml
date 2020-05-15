@@ -28,6 +28,7 @@
         <plugin.sonar.version>3.7.0.1746</plugin.sonar.version>
         <plugin.google.findbugs.version>3.0.1</plugin.google.findbugs.version>
         <plugin.xml.version>1.0.2</plugin.xml.version>
+        <plugin.launch4j.version>1.7.16</plugin.launch4j.version>
 
         <app.main.class>ru.strict.app.Main</app.main.class>
 
@@ -57,6 +58,26 @@
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jmodels</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>ioc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jneuralnetwork</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jfx</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jswing</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -101,11 +122,6 @@
 	            <artifactId>hamcrest-core</artifactId>
 	            <version>1.3</version>
 	        </dependency>
-            <dependency>
-                <groupId>ru.strict</groupId>
-                <artifactId>jdb-test</artifactId>
-                <version>${project.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
