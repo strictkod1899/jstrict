@@ -31,6 +31,9 @@
         <plugin.launch4j.version>1.7.16</plugin.launch4j.version>
 
         <app.main.class>ru.strict.app.Main</app.main.class>
+        <app.name>${project.name}-${project.version}</app.name>
+        <app.icon>_sources/logo.ico</app.icon>
+        <jstrict.version>0.1.37</jstrict.version>
 
         <jacoco.coverage>0%</jacoco.coverage>
         <pmd.failure.priority>5</pmd.failure.priority>
@@ -43,72 +46,72 @@
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jutils</artifactId>
-                <version>${project.version}</version>
+                <version>${jstrict.version}</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jfile</artifactId>
-                <version>${project.version}</version>
+                <version>${jstrict.version}</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jpatterns</artifactId>
-                <version>${project.version}</version>
+                <version>${jstrict.version}</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jmodels</artifactId>
-                <version>${project.version}</version>
+                <version>${jstrict.version}</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>ioc</artifactId>
-                <version>${project.version}</version>
+                <version>${jstrict.version}</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jneuralnetwork</artifactId>
-                <version>${project.version}</version>
+                <version>${jstrict.version}</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jfx</artifactId>
-                <version>${project.version}</version>
+                <version>${jstrict.version}</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jswing</artifactId>
-                <version>${project.version}</version>
+                <version>${jstrict.version}</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jdb-core</artifactId>
-                <version>${project.version}</version>
+                <version>${jstrict.version}</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>joffice</artifactId>
-                <version>${project.version}</version>
+                <version>${jstrict.version}</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jdb-jdbc</artifactId>
-                <version>${project.version}</version>
+                <version>${jstrict.version}</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jdb-spring</artifactId>
-                <version>${project.version}</version>
+                <version>${jstrict.version}</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jdb-hibernate</artifactId>
-                <version>${project.version}</version>
+                <version>${jstrict.version}</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jdb-mybatis</artifactId>
-                <version>${project.version}</version>
+                <version>${jstrict.version}</version>
             </dependency>
 
             <!-- test -->
@@ -381,7 +384,7 @@
 	                            <headerType>console</headerType>
 	                            <outfile>target/${app.name}.exe</outfile>
 	                            <jar>target/${app.name}-jar-with-dependencies.jar</jar>
-	                            <icon>_sources/logo.ico</icon>
+	                            <icon>${app.icon}</icon>
 	                            <errTitle>encc</errTitle>
 	                            <classPath>
 	                                <mainClass>${app.main.class}</mainClass>
