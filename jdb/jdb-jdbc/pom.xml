@@ -39,6 +39,12 @@
             <artifactId>jdb-test</artifactId>
             <scope>test</scope>
         </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jdb-test</artifactId>
+                <version>${project.version}</version>
+                <scope>test<scope>
+            </dependency>
     </dependencies>
 
     <build>
