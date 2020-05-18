@@ -4,6 +4,17 @@ import ru.strict.ioc.exceptions.MatchInstanceTypeException;
 
 public interface IIoC {
     /**
+     * Добавить компонент как Singleton с классом --clazz--, для обращения к нему, как экземпляр класса --clazz--,
+     * с передачей в конструктор параметров --constructorArguments--.
+     * Если в --constructorArguments-- в качестве одного из элементов передать .class, то, по возможности, он будет
+     * внедрен как зависимость.
+     *
+     * @param clazz Класс создаваемого компонента и для обращения к компоненту
+     * @param constructorArguments Параметры передаваемые в конструктор класса --component--
+     */
+    <RESULT> void addComponent(Class<RESULT> clazz, Object... constructorArguments);
+
+    /**
      * Добавить компонент с классом --clazz--, для обращения к нему, как экземпляр класса --clazz--,
      * с передачей в конструктор параметров --constructorArguments--.
      * Если в --constructorArguments-- в качестве одного из элементов передать .class, то, по возможности, он будет

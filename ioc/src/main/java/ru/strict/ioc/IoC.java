@@ -86,6 +86,11 @@ public class IoC implements IIoC {
     }
 
     @Override
+    public <RESULT> void addComponent(Class<RESULT> clazz, Object... constructorArguments) {
+        addComponent(clazz, clazz, InstanceType.SINGLETON, constructorArguments);
+    }
+
+    @Override
     public <RESULT> void addComponent(Class<RESULT> clazz, InstanceType type, Object... constructorArguments) {
         addComponent(clazz, clazz, type, constructorArguments);
     }
