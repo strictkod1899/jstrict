@@ -1,5 +1,7 @@
 package ru.strict.models;
 
+import ru.strict.patterns.IModel;
+
 import java.util.HashMap;
 import java.util.Map;
 

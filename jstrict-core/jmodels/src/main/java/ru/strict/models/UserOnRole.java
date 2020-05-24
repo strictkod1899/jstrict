@@ -1,5 +1,7 @@
 package ru.strict.models;
 
+import ru.strict.patterns.BaseModel;
+
 import java.util.Objects;
 
 /**
