@@ -21,11 +21,12 @@
         </dependency>
         <dependency>
             <groupId>ru.strict</groupId>
-            <artifactId>jmodels</artifactId>
+            <artifactId>jdb-core</artifactId>
         </dependency>
         <dependency>
             <groupId>ru.strict</groupId>
-            <artifactId>jdb-core</artifactId>
+            <artifactId>jmodels</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!-- test -->
@@ -39,12 +40,6 @@
             <artifactId>jdb-test</artifactId>
             <scope>test</scope>
         </dependency>
-            <dependency>
-                <groupId>ru.strict</groupId>
-                <artifactId>jdb-test</artifactId>
-                <version>${project.version}</version>
-                <scope>test<scope>
-            </dependency>
     </dependencies>
 
     <build>

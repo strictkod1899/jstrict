@@ -23,11 +23,8 @@
         </dependency>
         <dependency>
             <groupId>ru.strict</groupId>
-            <artifactId>jpatterns</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ru.strict</groupId>
             <artifactId>jmodels</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!-- other -->
@@ -35,16 +32,19 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.2.2</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.23.1</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>commons-dbcp</groupId>
             <artifactId>commons-dbcp</artifactId>
             <version>1.4</version>
+            <optional>true</optional>
         </dependency>
 
         <!-- test -->
