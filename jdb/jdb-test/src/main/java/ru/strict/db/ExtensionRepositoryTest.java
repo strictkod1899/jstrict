@@ -3,7 +3,7 @@ package ru.strict.db;
 import org.junit.Assert;
 import org.junit.Test;
 import ru.strict.db.core.repositories.IExtensionRepository;
-import ru.strict.models.BaseModel;
+import ru.strict.patterns.BaseModel;
 
 public abstract class ExtensionRepositoryTest<ID, MODEL extends BaseModel<ID>, REPOSITORY extends IExtensionRepository<ID, MODEL>>
         extends RepositoryBaseTest<ID, MODEL, REPOSITORY> {

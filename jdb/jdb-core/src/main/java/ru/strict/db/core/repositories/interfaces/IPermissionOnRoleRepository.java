@@ -3,7 +3,7 @@ package ru.strict.db.core.repositories.interfaces;
 import ru.strict.db.core.common.SqlParameter;
 import ru.strict.db.core.requests.components.SingleWhere;
 import ru.strict.db.core.requests.components.SqlItem;
-import ru.strict.models.IModel;
+import ru.strict.patterns.IModel;
 import ru.strict.models.PermissionOnRole;
 import ru.strict.db.core.repositories.IExtensionRepository;
 import ru.strict.validate.Validator;

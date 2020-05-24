@@ -6,7 +6,7 @@ import ru.strict.db.core.connections.IConnectionCreator;
 import ru.strict.db.core.repositories.DefaultColumns;
 import ru.strict.db.core.repositories.DefaultTable;
 import ru.strict.db.core.repositories.interfaces.IPermissionOnRoleRepository;
-import ru.strict.models.IModel;
+import ru.strict.patterns.IModel;
 import ru.strict.models.IModelProvider;
 import ru.strict.models.Role;
 import ru.strict.models.PermissionOnRole;

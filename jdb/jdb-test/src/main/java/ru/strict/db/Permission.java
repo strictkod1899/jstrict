@@ -1,6 +1,6 @@
 package ru.strict.db;
 
-import ru.strict.models.IModel;
+import ru.strict.patterns.IModel;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -5,7 +5,7 @@ import ru.strict.db.core.requests.IParameterizedRequest;
 import ru.strict.db.core.requests.components.SingleWhere;
 import ru.strict.db.core.requests.components.SqlItem;
 import ru.strict.db.core.requests.components.Table;
-import ru.strict.models.IModel;
+import ru.strict.patterns.IModel;
 import ru.strict.validate.Validator;
 
 import java.util.List;

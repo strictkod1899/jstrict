@@ -13,7 +13,7 @@ import ru.strict.db.core.common.SqlParameter;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.jdbc.mappers.sql.CountSqlMapper;
 import ru.strict.db.jdbc.utils.JdbcUtil;
-import ru.strict.models.BaseModel;
+import ru.strict.patterns.BaseModel;
 import ru.strict.patterns.IMapper;
 import java.sql.*;
 import java.util.*;

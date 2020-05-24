@@ -1,6 +1,6 @@
 package ru.strict.db.jdbc.mappers.sql;
 
-import ru.strict.models.IModel;
+import ru.strict.patterns.IModel;
 import ru.strict.models.PermissionOnRole;
 
 import java.sql.ResultSet;
