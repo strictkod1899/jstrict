@@ -16,12 +16,6 @@
     <name>jpatterns</name>
 
     <dependencies>
-        <!-- jstrict -->
-        <dependency>
-            <groupId>ru.strict</groupId>
-            <artifactId>jutils</artifactId>
-        </dependency>
-
         <!-- test -->
         <dependency>
             <groupId>junit</groupId>
