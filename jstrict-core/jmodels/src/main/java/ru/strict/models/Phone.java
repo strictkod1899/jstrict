@@ -1,12 +1,7 @@
 package ru.strict.models;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import java.util.Objects;
 
-@JsonSerialize
-@JsonDeserialize
 public class Phone {
     /**
      * Тип телефона
