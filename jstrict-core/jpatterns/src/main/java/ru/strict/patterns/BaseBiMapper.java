@@ -9,7 +9,6 @@ public abstract class BaseBiMapper<S, T extends MapTarget> extends BaseMapper<S,
      * Реализация маппинга объекта
      *
      * @param target Объект, который необходимо преобразовать в тип источника
-     * @return
      */
     protected abstract S implementMap(T target) throws Exception;
 

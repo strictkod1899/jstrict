@@ -8,7 +8,6 @@ public interface IInterpreter<RESULT, CONTEXT> {
      * Выполнить интерпретацию
      *
      * @param context Объект контекста
-     * @return
      */
     RESULT interpret(CONTEXT context);
 }

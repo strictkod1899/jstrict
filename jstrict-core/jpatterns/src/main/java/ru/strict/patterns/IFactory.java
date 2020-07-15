@@ -4,12 +4,12 @@ package ru.strict.patterns;
  * Pattern 'Factory'. Описание базовой функцональности фабрики
  *
  * @param <RESULT> Тип создаваемого экземпляра
- * @param <PARAMETER> Тип передаваемого параметра
+ * @param <PARAM> Тип передаваемого параметра
  */
-public interface IFactory<RESULT, PARAMETER> {
+public interface IFactory<RESULT, PARAM> {
 
     /**
      * Создать экземпляр класса
      */
-    RESULT instance(PARAMETER parameter);
+    RESULT instance(PARAM parameter);
 }

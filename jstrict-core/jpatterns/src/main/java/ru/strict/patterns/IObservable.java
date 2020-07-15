@@ -3,17 +3,17 @@ package ru.strict.patterns;
 /**
  * Pattern 'Observer'. Описание базовой функциональности наблюдаемого класса (класс за которым наблюдает Observer)
  *
- * @param <O> Типы объектов, которые могут наблюдать за данным экземпляром
+ * @param <T> Типы объектов, которые могут наблюдать за данным экземпляром
  */
-public interface IObservable<O> {
+public interface IObservable<T> {
 
     /**
      * Добавить класс-наблюдатель за текущим объектом
      */
-    void addObserver(O observer);
+    void addObserver(T observer);
 
     /**
      * Удалить класс-наблюдатель
      */
-    void removeObserver(O observer);
+    void removeObserver(T observer);
 }

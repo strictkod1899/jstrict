@@ -3,20 +3,20 @@ package ru.strict.patterns.composite;
 /**
  * Pattern 'Composite'. Интерфейс расширенной реализации паттерна "Компоновщик"
  *
- * @param <COMPOSIT> Элемент композиции. Используется для указания родительского класса композии и дочерних классов
- * @param <SOURCE> Источник хранения дочерних элементов, например, массив, Collection, List и др.
+ * @param <SOURCE> Элемент композиции. Используется для указания родительского класса композии и дочерних классов
+ * @param <COLLECTION> Источник хранения дочерних элементов, например, массив, Collection, List и др.
  */
-public interface ICompositeExtension<SOURCE, COMPOSIT extends IComposite> extends IComposite<COMPOSIT> {
+public interface ICompositeExtension<COLLECTION, SOURCE extends IComposite<SOURCE>> extends IComposite<SOURCE> {
 
     /**
      * Заменить элемент на определенной позиции новым
      */
-    void set(int i, COMPOSIT component);
+    void set(int i, SOURCE component);
 
     /**
      * Получить все дочерние элементы
      */
-    SOURCE getChilds();
+    COLLECTION getChilds();
 
     /**
      * Количество хранимых элементов
@@ -31,7 +31,7 @@ public interface ICompositeExtension<SOURCE, COMPOSIT extends IComposite> extend
     /**
      * Содержит ли компонент указанный элемент
      */
-    boolean contains(COMPOSIT component);
+    boolean contains(SOURCE component);
 
     /**
      * Очистить список хранимых элементов

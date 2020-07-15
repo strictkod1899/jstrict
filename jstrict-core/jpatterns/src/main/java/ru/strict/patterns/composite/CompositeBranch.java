@@ -6,11 +6,11 @@ import java.util.List;
 /**
  * Pattern 'Composite'. Композитный элемент, который может хранить другие элементы
  *
- * @param <COMPOSIT> Элемент композиции. Используется для указания родительского класса композии и дочерних классов
+ * @param <SOURCE> Элемент композиции. Используется для указания родительского класса композии и дочерних классов
  */
-public abstract class CompositeBranch<COMPOSIT extends IComposite> extends CompositeBase<List, COMPOSIT> {
+public abstract class CompositeBranch<SOURCE extends IComposite<SOURCE>> extends CompositeBase<List<SOURCE>, SOURCE> {
 
-    private List<COMPOSIT> childs;
+    private List<SOURCE> childs;
 
     public CompositeBranch() {
         super();
@@ -18,27 +18,27 @@ public abstract class CompositeBranch<COMPOSIT extends IComposite> extends Compo
     }
 
     @Override
-    public void add(COMPOSIT component) {
+    public void add(SOURCE component) {
         childs.add(component);
     }
 
     @Override
-    public void remove(COMPOSIT component) {
+    public void remove(SOURCE component) {
         childs.remove(component);
     }
 
     @Override
-    public void set(int i, COMPOSIT component) {
+    public void set(int i, SOURCE component) {
         childs.set(i, component);
     }
 
     @Override
-    public COMPOSIT getChild(int i) {
+    public SOURCE getChild(int i) {
         return childs.get(i);
     }
 
     @Override
-    public List<COMPOSIT> getChilds() {
+    public List<SOURCE> getChilds() {
         return childs;
     }
 
@@ -53,7 +53,7 @@ public abstract class CompositeBranch<COMPOSIT extends IComposite> extends Compo
     }
 
     @Override
-    public boolean contains(COMPOSIT component) {
+    public boolean contains(SOURCE component) {
         return childs.contains(component);
     }
 

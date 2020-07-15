@@ -14,8 +14,6 @@ package ru.strict.patterns;
  *         .orElse(null);
  * }
  * </pre></code>
- *
- * @return
  */
 public interface INamedModel<ID> extends IModel<ID> {
     String getCaption();

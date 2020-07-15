@@ -1,7 +1,5 @@
 package ru.strict.patterns;
 
-import ru.strict.patterns.MapTarget;
-
 /**
  * Стандартная реализация поиска enum по id:
  * <code><pre style="background-color: white; font-family: consolas">
@@ -16,8 +14,6 @@ import ru.strict.patterns.MapTarget;
  *         .orElse(null);
  * }
  * </pre></code>
- *
- * @return
  */
 public interface IModel<ID> extends MapTarget {
     ID getId();

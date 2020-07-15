@@ -1,53 +1,53 @@
 package ru.strict.patterns.composite;
 
 /**
- * Pattern 'Composite'. Базовая реализация компзитных элементв.
- * Методы для добавлени дочерних элементов выбрасывают исключения.
+ * Pattern 'Composite'. Базовая реализация композитных элементов.
+ * Методы для добавления дочерних элементов выбрасывают исключения.
  *
- * @param <SOURCE> Источник хранения дочерних элементов, например, массив, Collection, List и др.
- * @param <COMPOSIT> Элемент композиции. Используется для указания родительского класса композии и дочерних классов
+ * @param <COLLECTION> Источник хранения дочерних элементов, например, массив, Collection, List и др.
+ * @param <SOURCE> Элемент композиции. Используется для указания родительского класса композии и дочерних классов
  */
-public abstract class CompositeBase<SOURCE, COMPOSIT extends IComposite>
-        implements ICompositeExtension<SOURCE, COMPOSIT> {
+public abstract class CompositeBase<COLLECTION, SOURCE extends IComposite<SOURCE>>
+        implements ICompositeExtension<COLLECTION, SOURCE> {
 
-    private COMPOSIT parent;
+    private SOURCE parent;
 
     public CompositeBase() {
         parent = null;
     }
 
     @Override
-    public void add(COMPOSIT component) {
+    public void add(SOURCE component) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void remove(COMPOSIT component) {
+    public void remove(SOURCE component) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void set(int i, COMPOSIT component) {
+    public void set(int i, SOURCE component) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public COMPOSIT getChild(int i) {
+    public SOURCE getChild(int i) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public COMPOSIT getParent() {
+    public SOURCE getParent() {
         return parent;
     }
 
     @Override
-    public void setParent(COMPOSIT parent) {
+    public void setParent(SOURCE parent) {
         this.parent = parent;
     }
 
     @Override
-    public SOURCE getChilds() {
+    public COLLECTION getChilds() {
         throw new UnsupportedOperationException();
     }
 
@@ -62,7 +62,7 @@ public abstract class CompositeBase<SOURCE, COMPOSIT extends IComposite>
     }
 
     @Override
-    public boolean contains(COMPOSIT component) {
+    public boolean contains(SOURCE component) {
         throw new UnsupportedOperationException();
     }
 

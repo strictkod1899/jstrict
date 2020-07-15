@@ -3,32 +3,32 @@ package ru.strict.patterns.composite;
 /**
  * Pattern 'Composite'. Интерфейс реализации паттерна "Компоновщик"*
  *
- * @param <COMPOSIT> Элемент композиции. Используется для указания родительского класса композии
+ * @param <SOURCE> Элемент композиции. Используется для указания родительского класса композии
  */
-public interface IComposite<COMPOSIT extends IComposite> {
+public interface IComposite<SOURCE extends IComposite<SOURCE>> {
 
     /**
      * Добавить элемент в структуру
      */
-    void add(COMPOSIT component);
+    void add(SOURCE component);
 
     /**
      * Удалить элемент из структуры
      */
-    void remove(COMPOSIT component);
+    void remove(SOURCE component);
 
     /**
      * Получить дочерний элемент по определенной позиции
      */
-    COMPOSIT getChild(int i);
+    SOURCE getChild(int i);
 
     /**
      * Получить родительский элемент
      */
-    COMPOSIT getParent();
+    SOURCE getParent();
 
     /**
      * Установить родительский элемент
      */
-    void setParent(COMPOSIT parent);
+    void setParent(SOURCE parent);
 }
