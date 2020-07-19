@@ -3,13 +3,11 @@ package ru.strict.validate;
 import java.util.Collection;
 
 /**
- * При валидации выбрасывается ValidateException
+ * Валидатор. При валидации выбрасывается ValidateException
  */
 public final class Validator {
 
-    public static ValidateError and() {
-        return new ValidateError(true);
-    }
+    private Validator() {}
 
     public static ValidateError isNull(Object value, String caption) {
         ValidateError error = new ValidateError();
@@ -26,7 +24,7 @@ public final class Validator {
         return error.isEmptySpaceOrNull(value, caption);
     }
 
-    public static ValidateError isEmptyOrNull(Collection collection, String caption) {
+    public static ValidateError isEmptyOrNull(Collection<?> collection, String caption) {
         ValidateError error = new ValidateError();
         return error.isEmptyOrNull(collection, caption);
     }

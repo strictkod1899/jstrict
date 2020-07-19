@@ -1,13 +1,11 @@
 package ru.strict.utils;
 
-import ru.strict.validate.ValidateBaseValue;
+import ru.strict.validate.BaseValidate;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 /**
  * Управление файлами ресурсов
@@ -53,7 +51,7 @@ public class ResourcesUtil {
      * @return
      */
     public static File getResourceAsFile(String resourcePath, String targetPath, Class classThisJarFile) {
-        targetPath = ValidateBaseValue.isEmptyOrNull(targetPath) ? resourcePath : targetPath;
+        targetPath = BaseValidate.isEmptyOrNull(targetPath) ? resourcePath : targetPath;
         File file = new File(targetPath);
 
         if (!file.exists()) {

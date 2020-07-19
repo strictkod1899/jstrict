@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 /**
  * Проверка валидности значений стандартных типов (строка, целые числа, дробные числа и т.д.)
  */
-public class ValidateBaseValue {
+public class BaseValidate {
 
     /**
      * Проверка строки, чтобы она была не пустой и не равна нулю
@@ -33,7 +33,7 @@ public class ValidateBaseValue {
         return isEmptyOrNull(str.trim());
     }
 
-    public static boolean isEmptyOrNull(Collection collection){
+    public static boolean isEmptyOrNull(Collection<?> collection){
         boolean result = false;
         if (collection == null || collection.isEmpty()) {
             result = true;
@@ -132,7 +132,6 @@ public class ValidateBaseValue {
      *
      * @param str Проверяемая строка
      * @param splitSymbol Разделяемый символ (например YYYY-MM-DD, YYYY/MM/DD)
-     * @return
      */
     public static boolean isDateStartYear(String str, char splitSymbol) {
         boolean result = false;
@@ -151,7 +150,6 @@ public class ValidateBaseValue {
      *
      * @param str Проверяемая строка
      * @param splitSymbol Разделяемый символ (например DD/MM/YYYY, DD-MM-YYYY)
-     * @return
      */
     public static boolean isDateStartDay(String str, char splitSymbol) {
         boolean result = false;
@@ -170,7 +168,6 @@ public class ValidateBaseValue {
      *
      * @param str Проверяемая строка
      * @param splitSymbol Разделяемый символ (например HH:MM:SS, HH-MM-SS)
-     * @return
      */
     public static boolean isTime(String str, char splitSymbol) {
         boolean result = false;

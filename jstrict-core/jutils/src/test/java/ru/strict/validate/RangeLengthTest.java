@@ -36,6 +36,6 @@ public class RangeLengthTest {
 
     @Test
     public void test(){
-        Assert.assertEquals(ValidateBaseValue.isRangeLength(value, minLength, maxLength), expectedResult);
+        Assert.assertEquals(BaseValidate.isRangeLength(value, minLength, maxLength), expectedResult);
     }
 }

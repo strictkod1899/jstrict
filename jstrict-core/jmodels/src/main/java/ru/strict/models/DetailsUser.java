@@ -1,6 +1,6 @@
 package ru.strict.models;
 
-import ru.strict.validate.ValidateBaseValue;
+import ru.strict.validate.BaseValidate;
 
 import java.util.Objects;
 
@@ -24,7 +24,7 @@ public class DetailsUser<ID> extends User<ID> {
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void init(String passwordEncode, String salt, String secret) {
-        if (ValidateBaseValue.isEmptyOrNull(passwordEncode)) {
+        if (BaseValidate.isEmptyOrNull(passwordEncode)) {
             throw new IllegalArgumentException("passwordEncode is NULL");
         }
 

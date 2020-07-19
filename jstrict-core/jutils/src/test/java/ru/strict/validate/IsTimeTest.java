@@ -37,6 +37,6 @@ public class IsTimeTest {
 
     @Test
     public void test(){
-        Assert.assertEquals(ValidateBaseValue.isTime(value, splitSymbol), expectedResult);
+        Assert.assertEquals(BaseValidate.isTime(value, splitSymbol), expectedResult);
     }
 }

@@ -1,7 +1,7 @@
 package ru.strict.utils;
 
 import ru.strict.components.OSType;
-import ru.strict.validate.ValidateBaseValue;
+import ru.strict.validate.BaseValidate;
 
 import java.io.*;
 import java.util.Locale;
@@ -35,7 +35,7 @@ public class SystemUtil {
     }
 
     public static void openFile(String filePath) throws IOException {
-        if (ValidateBaseValue.isEmptyOrNull(filePath)) {
+        if (BaseValidate.isEmptyOrNull(filePath)) {
             throw new IllegalArgumentException("filePath is NULL");
         }
 

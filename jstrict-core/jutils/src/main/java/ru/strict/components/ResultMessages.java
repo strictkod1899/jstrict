@@ -1,6 +1,6 @@
 package ru.strict.components;
 
-import ru.strict.validate.ValidateBaseValue;
+import ru.strict.validate.BaseValidate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +59,7 @@ public class ResultMessages implements Cloneable {
     }
 
     public void addMessage(String message) {
-        if(!ValidateBaseValue.isEmptyOrNull(message)) {
+        if(!BaseValidate.isEmptyOrNull(message)) {
             this.messages.add(message);
             this.sequenceMessages.add(message);
         }

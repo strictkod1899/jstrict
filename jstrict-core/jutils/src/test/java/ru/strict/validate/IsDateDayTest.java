@@ -36,6 +36,6 @@ public class IsDateDayTest {
 
     @Test
     public void test(){
-        Assert.assertEquals(ValidateBaseValue.isDateStartDay(value, splitSymbol), expectedResult);
+        Assert.assertEquals(BaseValidate.isDateStartDay(value, splitSymbol), expectedResult);
     }
 }

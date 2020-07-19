@@ -2,7 +2,7 @@ package ru.strict.patterns.view.console;
 
 import ru.strict.components.AnsiColor;
 import ru.strict.utils.AnsiConsoleUtil;
-import ru.strict.validate.ValidateBaseValue;
+import ru.strict.validate.BaseValidate;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -74,7 +74,7 @@ public abstract class ConsoleView<M> extends BaseView<M> implements IConsoleView
         }
 
         Integer result = null;
-        if(ValidateBaseValue.isInteger(command)) {
+        if(BaseValidate.isInteger(command)) {
             result = Integer.parseInt(command);
         }
         return result;
@@ -92,7 +92,7 @@ public abstract class ConsoleView<M> extends BaseView<M> implements IConsoleView
         }
 
         String result = null;
-        if(!ValidateBaseValue.isEmptyOrNull(command)) {
+        if(!BaseValidate.isEmptyOrNull(command)) {
             result = command;
         }
         return result;
@@ -127,7 +127,7 @@ public abstract class ConsoleView<M> extends BaseView<M> implements IConsoleView
             }
 
             if(inputType == Integer.class) {
-                if(ValidateBaseValue.isInteger(String.valueOf(inputtedCommand))) {
+                if(BaseValidate.isInteger(String.valueOf(inputtedCommand))) {
                     inputtedCommand = Integer.valueOf(String.valueOf(inputtedCommand));
                 }
             }

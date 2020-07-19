@@ -1,6 +1,6 @@
 package ru.strict.utils;
 
-import ru.strict.validate.ValidateBaseValue;
+import ru.strict.validate.BaseValidate;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,10 +9,10 @@ import java.io.StringWriter;
 public class WinRegistry {
 
     public static String readRegKey(String location, String key){
-        if(ValidateBaseValue.isEmptyOrNull(location)){
+        if(BaseValidate.isEmptyOrNull(location)){
             throw new IllegalArgumentException("location is NULL");
         }
-        if(ValidateBaseValue.isEmptyOrNull(key)){
+        if(BaseValidate.isEmptyOrNull(key)){
             throw new IllegalArgumentException("key is NULL");
         }
 
@@ -28,7 +28,7 @@ public class WinRegistry {
 
             // Output has the following format:
             // \n<Version information>\n\n<key>\t<registry type>\t<value>
-            if(ValidateBaseValue.isEmptySpaceOrNull(output)){
+            if(BaseValidate.isEmptySpaceOrNull(output)){
                 return null;
             }
 

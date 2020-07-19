@@ -1,6 +1,6 @@
 package ru.strict.utils;
 
-import ru.strict.validate.ValidateBaseValue;
+import ru.strict.validate.BaseValidate;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -18,7 +18,7 @@ public class FileUtil {
      * @throws IOException
      */
     public static void saveFile(String filepath, String fileContent) throws IOException {
-        if (ValidateBaseValue.isEmptyOrNull(filepath)){
+        if (BaseValidate.isEmptyOrNull(filepath)){
             throw new IllegalArgumentException("filepath for creating is NULL");
         }
         saveFile(new File(filepath), fileContent);
@@ -50,7 +50,7 @@ public class FileUtil {
      * @throws IOException
      */
     public static void saveFile(String filepath, byte[] fileBytes) throws IOException {
-        if (ValidateBaseValue.isEmptyOrNull(filepath)) {
+        if (BaseValidate.isEmptyOrNull(filepath)) {
             throw new IllegalArgumentException("filepath for creating is NULL");
         }
         saveFile(new File(filepath), fileBytes);
@@ -82,7 +82,7 @@ public class FileUtil {
      * @throws IOException
      */
     public static void recreateFile(String filePath) throws IOException {
-        if (ValidateBaseValue.isEmptyOrNull(filePath)) {
+        if (BaseValidate.isEmptyOrNull(filePath)) {
             throw new IllegalArgumentException("filePath for recreating is NULL");
         }
         recreateFile(new File(filePath));
@@ -109,7 +109,7 @@ public class FileUtil {
      * @throws IOException
      */
     public static void createFileIfNotExists(String filePath) throws IOException {
-        if (ValidateBaseValue.isEmptyOrNull(filePath)) {
+        if (BaseValidate.isEmptyOrNull(filePath)) {
             throw new IllegalArgumentException("filePath for recreating is NULL");
         }
         createFileIfNotExists(new File(filePath));
@@ -149,10 +149,10 @@ public class FileUtil {
      * @return
      */
     public static File getFileByPartName(String folderPath, String fileNamePart){
-        if (ValidateBaseValue.isEmptyOrNull(folderPath)) {
+        if (BaseValidate.isEmptyOrNull(folderPath)) {
             throw new IllegalArgumentException("folderPath is NULL");
         }
-        if (ValidateBaseValue.isEmptyOrNull(fileNamePart)) {
+        if (BaseValidate.isEmptyOrNull(fileNamePart)) {
             throw new IllegalArgumentException("fileNamePart is NULL");
         }
         File result = null;
@@ -182,10 +182,10 @@ public class FileUtil {
      * @return
      */
     public static Collection<File> getFilesByPartName(String folderPath, String fileNamePart){
-        if (ValidateBaseValue.isEmptyOrNull(folderPath)) {
+        if (BaseValidate.isEmptyOrNull(folderPath)) {
             throw new IllegalArgumentException("folderPath is NULL");
         }
-        if (ValidateBaseValue.isEmptyOrNull(fileNamePart)) {
+        if (BaseValidate.isEmptyOrNull(fileNamePart)) {
             throw new IllegalArgumentException("fileNamePart is NULL");
         }
         Collection<File> result = new ArrayList<>();
@@ -215,7 +215,7 @@ public class FileUtil {
     }
 
     public static String getFileExtension(String filePath){
-        if (ValidateBaseValue.isEmptyOrNull(filePath)){
+        if (BaseValidate.isEmptyOrNull(filePath)){
             throw new IllegalArgumentException("filePath is NULL");
         }
         String result = null;

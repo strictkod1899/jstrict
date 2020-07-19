@@ -1,6 +1,6 @@
 package ru.strict.components;
 
-import ru.strict.validate.ValidateBaseValue;
+import ru.strict.validate.BaseValidate;
 
 import java.util.Objects;
 
@@ -30,17 +30,17 @@ public class Url implements Cloneable {
     }
 
     private void createUrl(){
-        if(!ValidateBaseValue.isEmptyOrNull(protocol)
-                && !ValidateBaseValue.isEmptyOrNull(host)
-                && !ValidateBaseValue.isEmptyOrNull(address)) {
+        if(!BaseValidate.isEmptyOrNull(protocol)
+                && !BaseValidate.isEmptyOrNull(host)
+                && !BaseValidate.isEmptyOrNull(address)) {
             url = String.format("%s://%s/%s", protocol, host, address);
-        } else if(ValidateBaseValue.isEmptyOrNull(protocol)
-                && !ValidateBaseValue.isEmptyOrNull(host)
-                && !ValidateBaseValue.isEmptyOrNull(address)) {
+        } else if(BaseValidate.isEmptyOrNull(protocol)
+                && !BaseValidate.isEmptyOrNull(host)
+                && !BaseValidate.isEmptyOrNull(address)) {
             url = String.format("%s/%s", host, address);
-        } else if(ValidateBaseValue.isEmptyOrNull(protocol)
-                && ValidateBaseValue.isEmptyOrNull(host)
-                && !ValidateBaseValue.isEmptyOrNull(address)) {
+        } else if(BaseValidate.isEmptyOrNull(protocol)
+                && BaseValidate.isEmptyOrNull(host)
+                && !BaseValidate.isEmptyOrNull(address)) {
             url = String.format("/%s", address);
         }
     }

@@ -3,7 +3,7 @@ package ru.strict.file.txt;
 import ru.strict.file.IFileReader;
 import ru.strict.file.IFileWriter;
 import ru.strict.utils.FileUtil;
-import ru.strict.validate.ValidateBaseValue;
+import ru.strict.validate.BaseValidate;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -15,7 +15,7 @@ public abstract class BaseTxtFile<SOURCE> implements IFileReader<SOURCE>, IFileW
     private String content;
 
     public BaseTxtFile(String filePath) {
-        if (ValidateBaseValue.isEmptyOrNull(filePath)) {
+        if (BaseValidate.isEmptyOrNull(filePath)) {
             throw new IllegalArgumentException("filePath is NULL");
         }
         this.filePath = filePath;

@@ -7,7 +7,7 @@ import java.io.InputStream;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import ru.strict.utils.FileUtil;
-import ru.strict.validate.ValidateBaseValue;
+import ru.strict.validate.BaseValidate;
 
 public class JsonUtil {
 
@@ -19,7 +19,7 @@ public class JsonUtil {
         if (object == null) {
             throw new IllegalArgumentException("object for write into json is NULL");
         }
-        if (ValidateBaseValue.isEmptyOrNull(pathToJson)) {
+        if (BaseValidate.isEmptyOrNull(pathToJson)) {
             throw new IllegalArgumentException("pathToJson is NULL");
         }
         try {
@@ -39,7 +39,7 @@ public class JsonUtil {
         if (clazz == null) {
             throw new IllegalArgumentException("class for read from json is NULL");
         }
-        if (ValidateBaseValue.isEmptyOrNull(pathToJson)) {
+        if (BaseValidate.isEmptyOrNull(pathToJson)) {
             throw new IllegalArgumentException("pathToJson is NULL");
         }
         try {

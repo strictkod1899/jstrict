@@ -85,12 +85,17 @@
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
+                <artifactId>joffice</artifactId>
+                <version>${jstrict.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
                 <artifactId>jdb-core</artifactId>
                 <version>${jstrict.version}</version>
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
-                <artifactId>joffice</artifactId>
+                <artifactId>jdb-test</artifactId>
                 <version>${jstrict.version}</version>
             </dependency>
             <dependency>

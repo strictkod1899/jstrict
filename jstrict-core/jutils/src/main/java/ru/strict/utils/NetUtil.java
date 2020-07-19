@@ -8,7 +8,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import ru.strict.validate.ValidateBaseValue;
+import ru.strict.validate.BaseValidate;
 
 import java.io.*;
 import java.net.*;
@@ -74,7 +74,7 @@ public class NetUtil {
                     .toArray(String[]::new);
             String parametersLine = StringUtil.join("&", stringParameters);
 
-            if(!ValidateBaseValue.isEmptyOrNull(parametersLine)){
+            if(!BaseValidate.isEmptyOrNull(parametersLine)){
                 url += "?" + parametersLine;
             }
         }
@@ -89,7 +89,7 @@ public class NetUtil {
 
         String result = null;
         if(responseCode == 200) {
-            if(ValidateBaseValue.isEmptyOrNull(encode)){
+            if(BaseValidate.isEmptyOrNull(encode)){
                 encode = "UTF-8";
             }
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), encode));
@@ -128,7 +128,7 @@ public class NetUtil {
      * @throws IOException
      */
     public static String sendPostRequest(String url, Map<String, String> parameters, String encode) throws IOException {
-        if(ValidateBaseValue.isEmptyOrNull(encode)){
+        if(BaseValidate.isEmptyOrNull(encode)){
             encode = "UTF-8";
         }
 

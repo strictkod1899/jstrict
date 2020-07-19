@@ -6,13 +6,10 @@ import java.util.regex.Pattern;
 /**
  * Проверка валидности базовых конструкций (пароль, email и .д.)
  */
-public class ValidateBaseRegex {
+public class RegexValidate {
 
     /**
      * Проверка адреса электронной почты
-     *
-     * @param str Проверяемая строка
-     * @return
      */
     public static boolean isEmail(String str) {
         boolean result = false;
@@ -28,9 +25,6 @@ public class ValidateBaseRegex {
 
     /**
      * Проверка UUID
-     *
-     * @param str Проверяемая строка
-     * @return
      */
     public static boolean isUUID(String str) {
         boolean result = false;
@@ -46,9 +40,6 @@ public class ValidateBaseRegex {
 
     /**
      * Проверка MAC-адреса
-     *
-     * @param str Проверяемая строка
-     * @return
      */
     public static boolean isMACAddress(String str) {
         boolean result = false;
@@ -64,9 +55,6 @@ public class ValidateBaseRegex {
 
     /**
      * Проверка пароля (Строчные и прописные латинские буквы, цифры, спецсимволы. Минимум 8 символов)
-     *
-     * @param str Проверяемая строка
-     * @return
      */
     public static boolean isPassword(String str) {
         boolean result = false;
@@ -82,9 +70,6 @@ public class ValidateBaseRegex {
 
     /**
      * Проверка имени пользователя (с ограничением 2-20 символов, которыми могут быть буквы и цифры, первый символ обязательно буква)
-     *
-     * @param str Проверяемая строка
-     * @return
      */
     public static boolean isUsername(String str) {
         boolean result = false;
@@ -100,9 +85,6 @@ public class ValidateBaseRegex {
 
     /**
      * Проверка IPv4
-     *
-     * @param str Проверяемая строка
-     * @return
      */
     public static boolean isIPv4(String str) {
         boolean result = false;
@@ -118,9 +100,6 @@ public class ValidateBaseRegex {
 
     /**
      * Проверка IPv6
-     *
-     * @param str Проверяемая строка
-     * @return
      */
     public static boolean isIPv6(String str) {
         boolean result = false;
@@ -136,9 +115,6 @@ public class ValidateBaseRegex {
 
     /**
      * Проверка домена (например abcd.com)
-     *
-     * @param str Проверяемая строка
-     * @return
      */
     public static boolean isDomain(String str) {
         boolean result = false;
@@ -153,10 +129,7 @@ public class ValidateBaseRegex {
     }
 
     /**
-     * Проверка набора из букв и цифр (латиница + кириллица):
-     *
-     * @param str Проверяемая строка
-     * @return
+     * Проверка набора из букв и цифр (латиница + кириллица)
      */
     public static boolean isStringNumberEngRus(String str) {
         boolean result = false;
@@ -172,9 +145,6 @@ public class ValidateBaseRegex {
 
     /**
      * Проверка набора из букв и цифр, а также символов _ и -
-     *
-     * @param str Проверяемая строка
-     * @return
      */
     public static boolean isCaption(String str) {
         boolean result = false;
@@ -190,10 +160,7 @@ public class ValidateBaseRegex {
 
 
     /**
-     * Проверка набора из букв и цифр (латиница):
-     *
-     * @param str Проверяемая строка
-     * @return
+     * Проверка набора из букв и цифр (латиница)
      */
     public static boolean isStringNumberEng(String str) {
         boolean result = false;
@@ -209,9 +176,6 @@ public class ValidateBaseRegex {
 
     /**
      * Проверка номера крединой карты
-     *
-     * @param str Проверяемая строка
-     * @return
      */
     public static boolean isCreditCardNumber(String str) {
         boolean result = false;

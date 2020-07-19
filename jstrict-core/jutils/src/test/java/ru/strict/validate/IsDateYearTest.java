@@ -36,6 +36,6 @@ public class IsDateYearTest {
 
     @Test
     public void test(){
-        Assert.assertEquals(ValidateBaseValue.isDateStartYear(value, splitSymbol), expectedResult);
+        Assert.assertEquals(BaseValidate.isDateStartYear(value, splitSymbol), expectedResult);
     }
 }
