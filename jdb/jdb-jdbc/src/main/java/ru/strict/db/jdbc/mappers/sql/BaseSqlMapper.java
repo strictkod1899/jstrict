@@ -5,6 +5,7 @@ import ru.strict.db.jdbc.utils.JdbcUtil;
 import ru.strict.patterns.mapper.BaseMapper;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.SQLType;
 
 /**
@@ -34,5 +35,9 @@ public abstract class BaseSqlMapper<T> extends BaseMapper<ResultSet, T> {
 
     protected <V> V mapByIdType(Object sourceValue) {
         return JdbcUtil.mapValue(sourceValue, idType);
+    }
+
+    protected <V> V getByIdType(ResultSet resultSet, String columnName) throws SQLException {
+        return JdbcUtil.getValueBySqlType(idType, resultSet, columnName);
     }
 }
