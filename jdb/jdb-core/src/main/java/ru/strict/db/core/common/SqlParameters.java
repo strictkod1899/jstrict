@@ -19,7 +19,7 @@ public class SqlParameters implements Iterable<SqlParameter<?>> {
 
     public SqlParameters(SqlParameter<?> parameter) {
         this();
-        addLast(parameter);
+        add(parameter);
     }
 
     public List<SqlParameter<?>> getParameters() {
@@ -64,7 +64,7 @@ public class SqlParameters implements Iterable<SqlParameter<?>> {
         parameters.add(sqlParameter);
     }
 
-    public void addLast(SqlParameter<?> sqlParameter) {
+    public void add(SqlParameter<?> sqlParameter) {
         checkParameter(sqlParameter.getName());
         parameters.add(new SqlParameter<>(parameters.size(),
                 sqlParameter.getName(),
@@ -73,17 +73,17 @@ public class SqlParameters implements Iterable<SqlParameter<?>> {
         );
     }
 
-    public void addLast(String name) {
+    public void add(String name) {
         checkParameter(name);
         parameters.add(new SqlParameter<>(parameters.size(), name, null));
     }
 
-    public void addLast(String name, Object value) {
+    public void add(String name, Object value) {
         checkParameter(name);
         parameters.add(new SqlParameter<>(parameters.size(), name, value));
     }
 
-    public void addLast(String name, Object value, SQLType type) {
+    public void add(String name, Object value, SQLType type) {
         checkParameter(name);
         parameters.add(new SqlParameter<>(parameters.size(), name, value, type));
     }

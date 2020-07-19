@@ -1,8 +1,6 @@
 package ru.strict.db.core.requests.components;
 
-import ru.strict.db.core.common.SqlParameter;
 import ru.strict.db.core.common.SqlParameters;
-import ru.strict.db.core.requests.IRequest;
 import ru.strict.db.core.requests.ParameterizedRequest;
 
 import java.util.ArrayList;
@@ -31,7 +29,7 @@ public class Where extends ParameterizedRequest {
         }
 
         public Builder addParameter(String name, Object value) {
-            this.parameters.addLast(name, value);
+            this.parameters.add(name, value);
             return this;
         }
 

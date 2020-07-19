@@ -142,7 +142,7 @@ public abstract class JdbcRepository
     public final void update(T model) {
         String sql = getSqlUpdate();
         SqlParameters parameters = getParameters(model);
-        parameters.addLast(getIdColumnName(), model.getId());
+        parameters.add(getIdColumnName(), model.getId());
 
         executeSql(sql, parameters);
     }
@@ -151,7 +151,7 @@ public abstract class JdbcRepository
     public final void delete(ID id) {
         String sql = getSqlDelete();
         SqlParameters parameters = new SqlParameters();
-        parameters.addLast(getIdColumnName(), id);
+        parameters.add(getIdColumnName(), id);
 
         executeSql(sql, parameters);
     }
