@@ -1,6 +1,6 @@
 package ru.strict.models;
 
-import ru.strict.patterns.NamedModel;
+import ru.strict.patterns.model.NamedModel;
 
 import java.util.Objects;
 

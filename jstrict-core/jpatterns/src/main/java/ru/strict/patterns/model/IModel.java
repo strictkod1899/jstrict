@@ -1,4 +1,6 @@
-package ru.strict.patterns;
+package ru.strict.patterns.model;
+
+import ru.strict.patterns.mapper.MapTarget;
 
 /**
  * Стандартная реализация поиска enum по id:

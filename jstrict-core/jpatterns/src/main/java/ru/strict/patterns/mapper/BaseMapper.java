@@ -1,4 +1,4 @@
-package ru.strict.patterns;
+package ru.strict.patterns.mapper;
 
 /**
  * Базовая реализация маппера

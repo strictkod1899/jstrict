@@ -1,4 +1,4 @@
-package ru.strict.patterns;
+package ru.strict.patterns.model;
 
 /**
  * Стандартная реализация поиска enum по caption:

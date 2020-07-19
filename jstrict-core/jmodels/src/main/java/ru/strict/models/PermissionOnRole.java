@@ -1,7 +1,7 @@
 package ru.strict.models;
 
-import ru.strict.patterns.BaseModel;
-import ru.strict.patterns.IModel;
+import ru.strict.patterns.model.BaseModel;
+import ru.strict.patterns.model.IModel;
 import ru.strict.validate.Validator;
 
 import java.util.Objects;

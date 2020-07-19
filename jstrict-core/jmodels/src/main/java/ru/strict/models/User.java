@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ArrayList;
 
-import ru.strict.patterns.BaseModel;
+import ru.strict.patterns.model.BaseModel;
 import ru.strict.validate.Validator;
 
 /**
