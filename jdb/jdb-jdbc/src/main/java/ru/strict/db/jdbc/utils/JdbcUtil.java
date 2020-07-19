@@ -207,19 +207,18 @@ public final class JdbcUtil {
             throw new IllegalArgumentException("sqlType is NULL");
         }
 
-        T value;
         if (sqlType.equals(SqlType.UUID)) {
-            value = (T) UUID.fromString(resultSet.getString(columnName));
+            String strValue = resultSet.getString(columnName);
+            return strValue == null ? null : (T) UUID.fromString(strValue);
         } else if (sqlType.equals(SqlType.TEXT)) {
-            value = (T) resultSet.getString(columnName);
+            return (T) resultSet.getString(columnName);
         } else if (sqlType.equals(JDBCType.BIGINT)) {
-            value = (T) (Object) resultSet.getLong(columnName);
+            return (T) (Object) resultSet.getLong(columnName);
         } else if (sqlType.equals(JDBCType.INTEGER)) {
-            value = (T) (Object) resultSet.getInt(columnName);
+            return (T) (Object) resultSet.getInt(columnName);
         } else {
-            value = (T) resultSet.getObject(columnName);
+            return (T) resultSet.getObject(columnName);
         }
-        return value;
     }
 
     public static <T> T mapValue(Object sourceValue, SQLType sqlType) {
