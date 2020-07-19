@@ -122,11 +122,11 @@ public abstract class JdbcRepository
         Select select = createSqlSelect(
                 new Where(
                         getWhereById(),
-                        new SqlParameters(new SqlParameter<ID>(0, getIdColumnName(), id, getSqlIdType()))
+                        new SqlParameters(new SqlParameter<ID>(0, getIdColumnName(), id, getIdSqlType()))
                 )
         );
 
-        SqlParameter<ID> parameter = new SqlParameter<>(0, getIdColumnName(), id, getSqlIdType());
+        SqlParameter<ID> parameter = new SqlParameter<>(0, getIdColumnName(), id, getIdSqlType());
         SqlParameters parameters = new SqlParameters(parameter);
 
         return executeSqlRead(select.getParameterizedSql(), parameters, sqlMapper);

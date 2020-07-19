@@ -47,11 +47,11 @@ public class RoleRepository<ID>
     protected Role<ID> fill(Role<ID> model) {
         // Добавление пользователей
         IUserOnRoleRepository<ID> userOnRoleRepository =
-                new UserOnRoleRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+                new UserOnRoleRepository<>(getConnectionSource(), GenerateIdType.NONE, getIdSqlType());
         List<UserOnRole<ID>> userOnRoles = userOnRoleRepository.readByRoleId(model.getId());
 
         IRepository<ID, DetailsUser<ID>> userRepository =
-                new UserRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+                new UserRepository<>(getConnectionSource(), GenerateIdType.NONE, getIdSqlType());
         List<User<ID>> users = new ArrayList<>();
         for (UserOnRole<ID> userOnRole : userOnRoles) {
             users.add(userRepository.read(userOnRole.getUserId()));

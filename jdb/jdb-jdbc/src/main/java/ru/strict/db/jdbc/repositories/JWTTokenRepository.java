@@ -54,7 +54,7 @@ public class JWTTokenRepository<ID>
     protected JWTToken<ID> fill(JWTToken<ID> model) {
         // Добавление пользователя
         IRepository<ID, User<ID>> userRepository =
-                new UserRepository(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+                new UserRepository(getConnectionSource(), GenerateIdType.NONE, getIdSqlType());
         model.setUser(userRepository.read(model.getUserId()));
         return model;
     }

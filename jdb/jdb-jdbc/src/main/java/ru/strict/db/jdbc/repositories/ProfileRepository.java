@@ -48,7 +48,7 @@ public class ProfileRepository<ID>
     @Override
     protected Profile<ID> fill(Profile<ID> model) {
         IRepository<ID, User<ID>> userRepository =
-                new UserRepository(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+                new UserRepository(getConnectionSource(), GenerateIdType.NONE, getIdSqlType());
         model.setUser(userRepository.read(model.getUserId()));
         return model;
     }

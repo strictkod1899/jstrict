@@ -39,7 +39,7 @@ public class CountryRepository<ID> extends NamedJdbcRepository<ID, Country<ID>> 
     @Override
     protected Country<ID> fill(Country<ID> model) {
         ICityRepository<ID> cityRepository =
-                new CityRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+                new CityRepository<>(getConnectionSource(), GenerateIdType.NONE, getIdSqlType());
         List<City<ID>> cities = cityRepository.readByCountryId(model.getId());
         model.setCities(cities);
 

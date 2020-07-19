@@ -65,7 +65,7 @@ public class PermissionOnRoleRepository<ID, PERMISSION extends IModel<Integer>>
     protected PermissionOnRole<ID, PERMISSION> fill(PermissionOnRole<ID, PERMISSION> model) {
         // Добавление роли пользователя
         IRepository<ID, Role<ID>> roleRepository =
-                new RoleRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+                new RoleRepository<>(getConnectionSource(), GenerateIdType.NONE, getIdSqlType());
         model.setRole(roleRepository.read(model.getRoleId()));
         return model;
     }

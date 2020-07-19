@@ -42,7 +42,7 @@ public class CityRepository<ID>
     @Override
     protected City<ID> fill(City<ID> model) {
         IRepository<ID, Country<ID>> countryRepository =
-                new CountryRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+                new CountryRepository<>(getConnectionSource(), GenerateIdType.NONE, getIdSqlType());
         model.setCountry(countryRepository.read(model.getCountryId()));
         return model;
     }

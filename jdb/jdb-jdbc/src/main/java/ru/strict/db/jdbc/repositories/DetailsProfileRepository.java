@@ -54,11 +54,11 @@ public class DetailsProfileRepository<ID>
     @Override
     protected DetailsProfile<ID> fill(DetailsProfile<ID> model) {
         IRepository<ID, DetailsUser<ID>> userRepository =
-                new UserRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+                new UserRepository<>(getConnectionSource(), GenerateIdType.NONE, getIdSqlType());
         model.setUser(userRepository.read(model.getUserId()));
 
         IRepository<ID, City<ID>> cityRepository =
-                new CityRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+                new CityRepository<>(getConnectionSource(), GenerateIdType.NONE, getIdSqlType());
         model.setCity(cityRepository.read(model.getCityId()));
 
         return model;

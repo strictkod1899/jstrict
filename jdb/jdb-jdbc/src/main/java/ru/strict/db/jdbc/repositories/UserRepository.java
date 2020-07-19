@@ -52,11 +52,11 @@ public class UserRepository<ID>
     protected DetailsUser<ID> fill(DetailsUser<ID> model) {
         // Добавление ролей пользователей
         IUserOnRoleRepository<ID> userOnRoleRepository =
-                new UserOnRoleRepository(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+                new UserOnRoleRepository(getConnectionSource(), GenerateIdType.NONE, getIdSqlType());
         List<UserOnRole<ID>> userOnRoles = userOnRoleRepository.readByUserId(model.getId());
 
         IRepository<ID, Role<ID>> roleRepository =
-                new RoleRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+                new RoleRepository<>(getConnectionSource(), GenerateIdType.NONE, getIdSqlType());
         List<Role<ID>> roles = new ArrayList<>();
         for (UserOnRole<ID> userOnRole : userOnRoles) {
             roles.add(roleRepository.read(userOnRole.getRoleId()));
@@ -65,12 +65,12 @@ public class UserRepository<ID>
 
         // Добавления профиля
         IProfileRepository<ID, Profile<ID>> profileRepository =
-                new ProfileRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+                new ProfileRepository<>(getConnectionSource(), GenerateIdType.NONE, getIdSqlType());
         model.setProfiles(profileRepository.readByUserId(model.getId()));
 
         // Добавление токенов
         IJWTTokenRepository<ID> tokenRepository =
-                new JWTTokenRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+                new JWTTokenRepository<>(getConnectionSource(), GenerateIdType.NONE, getIdSqlType());
         model.setTokens(tokenRepository.readByUserId(model.getId()));
         return model;
     }

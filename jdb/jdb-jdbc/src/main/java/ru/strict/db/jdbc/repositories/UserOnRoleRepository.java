@@ -44,12 +44,12 @@ public class UserOnRoleRepository<ID>
     protected UserOnRole<ID> fill(UserOnRole<ID> model) {
         // Добавление пользователя
         IRepository<ID, User<ID>> userRepository =
-                new UserRepository(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+                new UserRepository(getConnectionSource(), GenerateIdType.NONE, getIdSqlType());
         model.setUser(userRepository.read(model.getUserId()));
 
         // Добавление роли пользователя
         IRepository<ID, Role<ID>> roleRepository =
-                new RoleRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
+                new RoleRepository<>(getConnectionSource(), GenerateIdType.NONE, getIdSqlType());
         model.setRole(roleRepository.read(model.getRoleId()));
         return model;
     }

@@ -268,7 +268,7 @@ public abstract class BaseRepository
         return columns;
     }
 
-    protected SQLType getSqlIdType() {
+    protected SQLType getIdSqlType() {
         return sqlIdType;
     }
     //</editor-fold>
