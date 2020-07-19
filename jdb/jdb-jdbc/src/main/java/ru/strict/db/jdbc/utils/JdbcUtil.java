@@ -5,6 +5,7 @@ import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.common.SqlType;
 import ru.strict.db.core.exceptions.DatabaseException;
 import ru.strict.patterns.mapper.IMapper;
+import ru.strict.validate.Validator;
 
 import java.math.BigDecimal;
 import java.net.URL;
@@ -219,5 +220,15 @@ public final class JdbcUtil {
             value = (T) resultSet.getObject(columnName);
         }
         return value;
+    }
+
+    public static <T> T mapValue(Object sourceValue, SQLType sqlType) {
+        Validator.isNull(sqlType, "sqlType").onThrow();
+
+        if (sqlType instanceof SqlType) {
+            return SqlType.mapValue(sourceValue, sqlType);
+        } else {
+            return (T) sourceValue;
+        }
     }
 }

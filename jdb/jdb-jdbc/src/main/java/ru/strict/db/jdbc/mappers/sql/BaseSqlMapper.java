@@ -1,5 +1,7 @@
 package ru.strict.db.jdbc.mappers.sql;
 
+import ru.strict.db.core.common.SqlType;
+import ru.strict.db.jdbc.utils.JdbcUtil;
 import ru.strict.patterns.mapper.BaseMapper;
 
 import java.sql.ResultSet;
@@ -28,5 +30,9 @@ public abstract class BaseSqlMapper<T> extends BaseMapper<ResultSet, T> {
         this.columns = columns;
         this.idType = idType;
         this.idColumnName = idColumnName;
+    }
+
+    protected <V> V mapByIdType(Object sourceValue) {
+        return JdbcUtil.mapValue(sourceValue, idType);
     }
 }
