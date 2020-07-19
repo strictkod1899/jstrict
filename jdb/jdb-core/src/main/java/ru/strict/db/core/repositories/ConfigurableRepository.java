@@ -48,6 +48,10 @@ public abstract class ConfigurableRepository
         return configuration;
     }
 
+    public String getQuery(String queryName) {
+        return configuration.getSql(this.group, queryName);
+    }
+
     public String getGroup() {
         return group;
     }

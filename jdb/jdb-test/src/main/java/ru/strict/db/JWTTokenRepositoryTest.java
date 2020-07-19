@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import static ru.strict.db.TestData.*;
 
 public abstract class JWTTokenRepositoryTest
-        extends ExtensionRepositoryTest<Long, JWTToken<Long>, IJWTTokenRepository<Long>> {
+        extends BaseRepositoryTest<Long, JWTToken<Long>, IJWTTokenRepository<Long>> {
 
     protected static void prepare(IRepository<Long, DetailsUser<Long>> userRepository) {
         userRepository.create(USER1);
@@ -96,15 +96,5 @@ public abstract class JWTTokenRepositoryTest
                 JWT_TOKEN2,
                 JWT_TOKEN3
         };
-    }
-
-    @Override
-    protected JWTToken<Long> getFillPrimaryModel() {
-        return FILL_JWT_TOKEN1;
-    }
-
-    @Override
-    protected JWTToken<Long> getFillUpdateModel() {
-        return UPDATED_FILL_JWT_TOKEN1;
     }
 }

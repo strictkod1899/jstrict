@@ -101,16 +101,6 @@ public abstract class UserRepositoryTest
     }
 
     @Override
-    protected DetailsUser<Long> getFillPrimaryModel() {
-        return FILL_USER1;
-    }
-
-    @Override
-    protected DetailsUser<Long> getFillUpdateModel() {
-        return UPDATED_FILL_USER1;
-    }
-
-    @Override
     protected String getPrimaryCaption() {
         return getPrimaryModel().getUsername();
     }
@@ -118,15 +108,5 @@ public abstract class UserRepositoryTest
     @Override
     protected String getUpdatedCaption() {
         return getUpdateModel().getUsername();
-    }
-
-    @Override
-    protected String getFillPrimaryCaption() {
-        return getFillPrimaryModel().getUsername();
-    }
-
-    @Override
-    protected String getFillUpdatedCaption() {
-        return getFillUpdateModel().getUsername();
     }
 }

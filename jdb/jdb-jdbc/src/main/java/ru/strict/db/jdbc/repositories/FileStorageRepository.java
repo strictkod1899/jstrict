@@ -44,11 +44,6 @@ public class FileStorageRepository<ID>
     }
 
     @Override
-    protected FileStorage<ID> fill(FileStorage<ID> model) {
-        return model;
-    }
-
-    @Override
     public String getColumnWithName() {
         return COLUMNS_NAME[0];
     }

@@ -6,12 +6,12 @@ import ru.strict.db.core.requests.components.SqlItem;
 import ru.strict.db.core.requests.components.Where;
 import ru.strict.db.core.requests.components.WhereType;
 import ru.strict.models.Profile;
-import ru.strict.db.core.repositories.IExtensionRepository;
+import ru.strict.db.core.repositories.IRepository;
 import ru.strict.validate.Validator;
 
 import java.util.List;
 
-public interface IProfileRepository<ID, T extends Profile<ID>> extends IExtensionRepository<ID, T> {
+public interface IProfileRepository<ID, T extends Profile<ID>> extends IRepository<ID, T> {
     default List<T> readBySurname(String name, String surname) {
         Where.Builder where = Where.builder();
 

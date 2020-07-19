@@ -5,7 +5,7 @@ import org.junit.Test;
 import ru.strict.db.core.repositories.IRepository;
 import ru.strict.patterns.model.BaseModel;
 
-public abstract class RepositoryBaseTest<ID, MODEL extends BaseModel<ID>, REPOSITORY extends IRepository<ID, MODEL>> {
+public abstract class BaseRepositoryTest<ID, MODEL extends BaseModel<ID>, REPOSITORY extends IRepository<ID, MODEL>> {
 
     @Test
     public void testCRUD() {

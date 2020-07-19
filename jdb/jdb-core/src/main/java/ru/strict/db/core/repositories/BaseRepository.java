@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public abstract class BaseRepository
         <ID, CONNECTION, SOURCE extends IConnectionCreator<CONNECTION>, MODEL extends BaseModel<ID>>
         extends ConfigurableRepository<CONNECTION, SOURCE>
-        implements IExtensionRepository<ID, MODEL> {
+        implements IRepository<ID, MODEL> {
 
     /**
      * Наименование таблицы
@@ -153,76 +153,6 @@ public abstract class BaseRepository
      */
     protected MODEL postRead(MODEL model) {
         return model;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultState="collapsed" desc="CRUD extension">
-    /**
-     * Добавление объектов внешних ключей к прочитанной ранее сущности из базы данных.
-     * Если сущность не имеет внешних ключей, то рекомендуется возвращать переданный объект.
-     *
-     * <p><b>Пример использования:</b></p>
-     * <p>Чтение ролей пользователя.
-     * Пользователь содержит роли. Внешний ключи хранятся в промежуточной таблице (пользовать = роль).
-     * После чтения записей промежуточной таблицы считываем все записи соответствующих ролей)</p>
-     * <code><pre style="background-color: white; font-family: consolas">
-     *      RepositoryJdbcBase<ID, SOURCE, UserOnRole> repositoryUserOnRole =
-     *                 new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
-     *      DbRequests requests = new DbRequests(true);
-     *      requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTable(), "userx_id", model.getId(), "="));
-     *      List<UserOnRole> userOnRoles = repositoryUserOnRole.readAll(requests);
-     *
-     *      IRepository<ID, Role> repositoryRole = new RepositoryRole<>(getConnectionSource(), GenerateIdType.NONE);
-     *      Collection<Role> roles = new ArrayList<>();
-     *      for(UserOnRole<ID> userOnRole : userOnRoles) {
-     *          roles.add(repositoryRole.read(userOnRole.getRoleId()));
-     *      }
-     *      model.setRoles(roleus);
-     *      return model;
-     * </pre></code>
-     * <p><b>Пример использования:</b></p>
-     * <p>К одной стране относится несколько городов и необходимо получить все города связанные со страной</p>
-     * <code><pre style="background-color: white; font-family: consolas">
-     *     RepositoryJdbcBase<ID, SOURCE, City> repositoryCity =
-     *             new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
-     *     DbRequests requests = new DbRequests(true);
-     *     requests.addWhere(new DbWhereItem(repositoryCity.getTable(), "country_id", model.getId(), "="));
-     *
-     *     List<City> cities = repositoryCity.readAll(requests);
-     *     model.setCities(cities);
-     *
-     *     return model;
-     * </pre></code>
-     * <p><b>Пример использования:</b></p>
-     * <p>Профиль относится к какому-то пользователю и содержит внешний ключ на пользователя (user)</p>
-     * <code><pre style="background-color: white; font-family: consolas">
-     *     IRepository<ID, Country> repositoryCountry =
-     *         new RepositoryCountry(getConnectionSource(), GenerateIdType.NONE);
-     *     model.setCountry(repositoryCountry.read((ID) model.getCountryId()));
-     *     return model;
-     * </pre></code>
-     *
-     * @param model Сущность прочитанная из базы данных (без внешних ключей)
-     * @return Сущность с внешними ключами
-     */
-    protected abstract MODEL fill(MODEL model);
-
-    @Override
-    public final MODEL readFill(ID id) {
-        MODEL model = read(id);
-        if (model != null) {
-            model = fill(model);
-        }
-        return model;
-    }
-
-    @Override
-    public final List<MODEL> readAllFill(IParameterizedRequest requests) {
-        List<MODEL> models = readAll(requests);
-        if (models != null) {
-            models.stream().forEach((model) -> model = fill(model));
-        }
-        return models;
     }
     //</editor-fold>
 

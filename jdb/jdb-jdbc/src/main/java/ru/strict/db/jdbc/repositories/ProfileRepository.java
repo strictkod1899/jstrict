@@ -7,8 +7,6 @@ import ru.strict.db.core.repositories.DefaultColumns;
 import ru.strict.db.core.repositories.DefaultTable;
 import ru.strict.db.core.repositories.interfaces.IProfileRepository;
 import ru.strict.models.Profile;
-import ru.strict.models.User;
-import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.jdbc.mappers.sql.ProfileSqlMapper;
 
 import java.sql.Connection;
@@ -43,14 +41,6 @@ public class ProfileRepository<ID>
         parameters.set(1, COLUMNS_NAME[1], model.getSurname());
         parameters.set(2, COLUMNS_NAME[2], model.getUserId());
         return parameters;
-    }
-
-    @Override
-    protected Profile<ID> fill(Profile<ID> model) {
-        IRepository<ID, User<ID>> userRepository =
-                new UserRepository(getConnectionSource(), GenerateIdType.NONE, getIdSqlType());
-        model.setUser(userRepository.read(model.getUserId()));
-        return model;
     }
 
     @Override

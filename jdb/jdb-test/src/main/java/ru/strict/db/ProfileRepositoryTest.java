@@ -26,14 +26,4 @@ public abstract class ProfileRepositoryTest
     protected Profile<Long> getUpdateModel() {
         return UPDATED_PROFILE1;
     }
-
-    @Override
-    protected Profile<Long> getFillPrimaryModel() {
-        return FILL_PROFILE1;
-    }
-
-    @Override
-    protected Profile<Long> getFillUpdateModel() {
-        return UPDATED_FILL_PROFILE1;
-    }
 }

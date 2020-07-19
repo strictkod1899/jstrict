@@ -49,14 +49,4 @@ public class CountryRepositoryTest extends ru.strict.db.CountryRepositoryTest {
                 COUNTRY3
         };
     }
-
-    @Override
-    protected Country<Long> getFillPrimaryModel() {
-        return FILL_COUNTRY1;
-    }
-
-    @Override
-    protected Country<Long> getFillUpdateModel() {
-        return UPDATED_FILL_COUNTRY1;
-    }
 }

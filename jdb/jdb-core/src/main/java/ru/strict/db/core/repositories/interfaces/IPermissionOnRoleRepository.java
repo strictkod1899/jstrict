@@ -5,13 +5,13 @@ import ru.strict.db.core.requests.components.SingleWhere;
 import ru.strict.db.core.requests.components.SqlItem;
 import ru.strict.patterns.model.IModel;
 import ru.strict.models.PermissionOnRole;
-import ru.strict.db.core.repositories.IExtensionRepository;
+import ru.strict.db.core.repositories.IRepository;
 import ru.strict.validate.Validator;
 
 import java.util.List;
 
 public interface IPermissionOnRoleRepository<ID, PERMISSION extends IModel<Integer>>
-        extends IExtensionRepository<ID, PermissionOnRole<ID, PERMISSION>> {
+        extends IRepository<ID, PermissionOnRole<ID, PERMISSION>> {
     default List<PermissionOnRole<ID, PERMISSION>> readByPermissionId(Integer permissionId) {
         Validator.isNull(permissionId, "permissionId").onThrow();
 

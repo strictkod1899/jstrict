@@ -7,8 +7,6 @@ import ru.strict.db.core.repositories.DefaultColumns;
 import ru.strict.db.core.repositories.DefaultTable;
 import ru.strict.db.core.repositories.interfaces.ICityRepository;
 import ru.strict.models.City;
-import ru.strict.models.Country;
-import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.jdbc.mappers.sql.CitySqlMapper;
 
 import java.sql.Connection;
@@ -37,14 +35,6 @@ public class CityRepository<ID>
         parameters.set(0, COLUMNS_NAME[0], model.getCaption());
         parameters.set(1, COLUMNS_NAME[1], model.getCountryId());
         return parameters;
-    }
-
-    @Override
-    protected City<ID> fill(City<ID> model) {
-        IRepository<ID, Country<ID>> countryRepository =
-                new CountryRepository<>(getConnectionSource(), GenerateIdType.NONE, getIdSqlType());
-        model.setCountry(countryRepository.read(model.getCountryId()));
-        return model;
     }
 
     @Override

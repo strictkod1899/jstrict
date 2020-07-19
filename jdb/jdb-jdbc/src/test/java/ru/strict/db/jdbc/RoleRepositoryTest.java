@@ -49,14 +49,4 @@ public class RoleRepositoryTest extends ru.strict.db.RoleRepositoryTest {
                 ROLE3
         };
     }
-
-    @Override
-    protected Role<Long> getFillPrimaryModel() {
-        return FILL_ROLE1;
-    }
-
-    @Override
-    protected Role<Long> getFillUpdateModel() {
-        return UPDATED_FILL_ROLE1;
-    }
 }

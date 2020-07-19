@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import static ru.strict.db.TestData.*;
 
 public abstract class ProfileRepositoryBaseTest<MODEL extends Profile<Long>, REPOSITORY extends IProfileRepository<Long, MODEL>>
-        extends ExtensionRepositoryTest<Long, MODEL, REPOSITORY> {
+        extends BaseRepositoryTest<Long, MODEL, REPOSITORY> {
 
     protected static void prepare(IRepository<Long, DetailsUser<Long>> userRepository) {
         userRepository.create(USER1);

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import static ru.strict.db.TestData.*;
 
 public abstract class PermissionOnRoleRepositoryTest
-        extends ExtensionRepositoryTest<Long, PermissionOnRole<Long, Permission>, IPermissionOnRoleRepository<Long, Permission>> {
+        extends BaseRepositoryTest<Long, PermissionOnRole<Long, Permission>, IPermissionOnRoleRepository<Long, Permission>> {
 
     protected static void prepare(IRepository<Long, Role<Long>> roleRepository) {
         roleRepository.create(ROLE1);
@@ -83,15 +83,5 @@ public abstract class PermissionOnRoleRepositoryTest
                 PERMISSION_ON_ROLE2,
                 PERMISSION_ON_ROLE3
         };
-    }
-
-    @Override
-    protected PermissionOnRole<Long, Permission> getFillPrimaryModel() {
-        return FILL_PERMISSION_ON_ROLE1;
-    }
-
-    @Override
-    protected PermissionOnRole<Long, Permission> getFillUpdateModel() {
-        return UPDATED_FILL_PERMISSION_ON_ROLE1;
     }
 }

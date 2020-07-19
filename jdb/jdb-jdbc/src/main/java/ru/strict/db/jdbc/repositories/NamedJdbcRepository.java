@@ -45,22 +45,4 @@ public abstract class NamedJdbcRepository<ID, T extends BaseModel<ID>>
             SQLType sqlIdType) {
         super(table, columns, connectionSource, generateIdType, sqlIdType);
     }
-
-    @Override
-    public T readByNameFill(String caption) {
-        T model = readByName(caption);
-        if (model != null) {
-            model = fill(model);
-        }
-        return model;
-    }
-
-    @Override
-    public List<T> readAllByNameFill(String caption) {
-        List<T> models = readAllByName(caption);
-        if (models != null) {
-            models.forEach((model) -> model = fill(model));
-        }
-        return models;
-    }
 }

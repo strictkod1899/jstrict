@@ -36,16 +36,6 @@ public abstract class CountryRepositoryTest
     }
 
     @Override
-    protected Country<Long> getFillPrimaryModel() {
-        return FILL_COUNTRY1;
-    }
-
-    @Override
-    protected Country<Long> getFillUpdateModel() {
-        return UPDATED_FILL_COUNTRY1;
-    }
-
-    @Override
     protected String getPrimaryCaption() {
         return getPrimaryModel().getCaption();
     }
@@ -53,15 +43,5 @@ public abstract class CountryRepositoryTest
     @Override
     protected String getUpdatedCaption() {
         return getUpdateModel().getCaption();
-    }
-
-    @Override
-    protected String getFillPrimaryCaption() {
-        return getFillPrimaryModel().getCaption();
-    }
-
-    @Override
-    protected String getFillUpdatedCaption() {
-        return getFillUpdateModel().getCaption();
     }
 }

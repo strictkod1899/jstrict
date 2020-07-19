@@ -14,7 +14,7 @@ import java.util.List;
  * @param <ID> Тип идентификатора
  * @param <T> Модель сущности базы данных
  */
-public interface INamedRepository<ID, T extends BaseModel<ID>> extends IExtensionRepository<ID, T> {
+public interface INamedRepository<ID, T extends BaseModel<ID>> extends IRepository<ID, T> {
 
     /**
      * Чтение записи из базы данных по наименованию
@@ -53,10 +53,6 @@ public interface INamedRepository<ID, T extends BaseModel<ID>> extends IExtensio
 
         return readAll(where);
     }
-
-    T readByNameFill(String caption);
-
-    List<T> readAllByNameFill(String caption);
 
     /**
      * Получить наименование столбца, который выполняет роль наименования записи
