@@ -40,21 +40,21 @@ public class ValidateError {
     ValidateError() {}
 
     public ValidateError reason(String reason) {
-        if (!checkFail() || currentOrdinal == failOrdinal) {
+        if (!checkFail() || (failOrdinal != null && currentOrdinal == failOrdinal)) {
             this.reason = reason;
         }
         return this;
     }
 
     public ValidateError value(Object value) {
-        if (!checkFail() || currentOrdinal == failOrdinal) {
+        if (!checkFail() || (failOrdinal != null && currentOrdinal == failOrdinal)) {
             this.value = value;
         }
         return this;
     }
 
     public ValidateError details(String detailsMessage, Object... detailsArgs) {
-        if (!checkFail() || currentOrdinal == failOrdinal) {
+        if (!checkFail() || (failOrdinal != null && currentOrdinal == failOrdinal)) {
             this.detailsMessage = detailsMessage;
             this.detailsArgs = detailsArgs;
         }
