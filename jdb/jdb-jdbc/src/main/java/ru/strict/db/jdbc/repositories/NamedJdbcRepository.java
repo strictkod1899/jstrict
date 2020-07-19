@@ -6,7 +6,7 @@ import ru.strict.db.core.connections.IConnectionCreator;
 import ru.strict.db.core.repositories.INamedRepository;
 import ru.strict.db.jdbc.mappers.sql.BaseSqlMapper;
 import ru.strict.db.core.requests.components.Table;
-import ru.strict.patterns.BaseModel;
+import ru.strict.patterns.model.BaseModel;
 
 import java.sql.Connection;
 import java.sql.SQLType;

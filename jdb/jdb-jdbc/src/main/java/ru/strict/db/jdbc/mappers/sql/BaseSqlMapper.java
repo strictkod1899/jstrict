@@ -1,6 +1,6 @@
 package ru.strict.db.jdbc.mappers.sql;
 
-import ru.strict.patterns.BaseMapper;
+import ru.strict.patterns.mapper.BaseMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLType;

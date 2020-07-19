@@ -4,7 +4,7 @@ import ru.strict.db.core.common.SqlParameter;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.common.SqlType;
 import ru.strict.db.core.exceptions.DatabaseException;
-import ru.strict.patterns.IMapper;
+import ru.strict.patterns.mapper.IMapper;
 
 import java.math.BigDecimal;
 import java.net.URL;

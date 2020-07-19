@@ -5,7 +5,7 @@ import ru.strict.db.core.configuration.SqlConfiguration;
 import ru.strict.db.core.connections.IConnectionCreator;
 import ru.strict.db.core.repositories.ConfigurableRepository;
 import ru.strict.db.jdbc.utils.JdbcUtil;
-import ru.strict.patterns.IMapper;
+import ru.strict.patterns.mapper.IMapper;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

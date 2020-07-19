@@ -1,7 +1,7 @@
 package ru.strict.db.core.repositories;
 
 import ru.strict.db.core.requests.IParameterizedRequest;
-import ru.strict.patterns.BaseModel;
+import ru.strict.patterns.model.BaseModel;
 import ru.strict.validate.Validator;
 
 import java.util.List;

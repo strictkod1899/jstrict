@@ -1,6 +1,6 @@
 package ru.strict.db.jdbc.exceptions;
 
-import ru.strict.patterns.MappingException;
+import ru.strict.patterns.mapper.MappingException;
 
 public class SqlMappingException extends MappingException {
 

@@ -3,7 +3,7 @@ package ru.strict.db.core.repositories;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.configuration.SqlConfiguration;
 import ru.strict.db.core.connections.IConnectionCreator;
-import ru.strict.patterns.IMapper;
+import ru.strict.patterns.mapper.IMapper;
 
 import java.sql.ResultSet;
 import java.util.List;

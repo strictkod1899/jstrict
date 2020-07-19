@@ -7,7 +7,7 @@ import ru.strict.db.core.requests.components.Select;
 import ru.strict.db.core.requests.IParameterizedRequest;
 import ru.strict.db.core.requests.components.SqlItem;
 import ru.strict.db.core.requests.components.Table;
-import ru.strict.patterns.BaseModel;
+import ru.strict.patterns.model.BaseModel;
 import ru.strict.validate.Validator;
 
 import java.sql.SQLType;
