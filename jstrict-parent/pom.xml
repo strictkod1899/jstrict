@@ -39,6 +39,9 @@
         <pmd.failure.priority>5</pmd.failure.priority>
         <pmd.max.alowed.violations>0</pmd.max.alowed.violations>
         <pmd.ruleset.url>/pmd-ruleset.xml</pmd.ruleset.url>
+        
+        <launch4j.copyright>jstrict</launch4j.copyright>
+        <launch4j.jdk.version>1.8.0</launch4j.jdk.version>
     </properties>
 
     <dependencyManagement>
