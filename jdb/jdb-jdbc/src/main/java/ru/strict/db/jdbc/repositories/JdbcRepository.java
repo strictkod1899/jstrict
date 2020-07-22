@@ -23,18 +23,18 @@ import static ru.strict.db.jdbc.utils.JdbcUtil.*;
  * Базовый класс репозитория с использованием Jdbc
  *
  * @param <ID> Тип идентификатора
- * @param <T> Тип сущности базы данных
+ * @param <MODEL> Тип сущности базы данных
  */
 public abstract class JdbcRepository
-        <ID, T extends BaseModel<ID>>
-        extends BaseRepository<ID, Connection, IConnectionCreator<Connection>, T> {
+        <ID, MODEL extends BaseModel<ID>>
+        extends BaseRepository<ID, Connection, IConnectionCreator<Connection>, MODEL> {
 
     private static final CountSqlMapper COUNT_MAPPER = new CountSqlMapper();
 
     /**
      * Объект для преобразования полученных данных из sql-запроса в объект сущности базы данных (model)
      */
-    private BaseSqlMapper<T> sqlMapper;
+    private BaseSqlMapper<MODEL> sqlMapper;
 
     private String sqlInsertWithoutId;
     private String sqlInsertWithId;
@@ -46,7 +46,7 @@ public abstract class JdbcRepository
     public JdbcRepository(Table table,
             String[] columns,
             IConnectionCreator<Connection> connectionSource,
-            BaseSqlMapper<T> sqlMapper,
+            BaseSqlMapper<MODEL> sqlMapper,
             GenerateIdType generateIdType) {
         this(table, columns, connectionSource, sqlMapper, generateIdType, null);
     }
@@ -65,7 +65,7 @@ public abstract class JdbcRepository
     public JdbcRepository(Table table,
             String[] columns,
             IConnectionCreator<Connection> connectionSource,
-            BaseSqlMapper<T> sqlMapper,
+            BaseSqlMapper<MODEL> sqlMapper,
             GenerateIdType generateIdType,
             SQLType sqlIdType) {
         super(table, columns, connectionSource, generateIdType, sqlIdType);
@@ -76,7 +76,7 @@ public abstract class JdbcRepository
 
     //<editor-fold defaultState="collapsed" desc="CRUD">
     @Override
-    public final ID create(T model) {
+    public final ID create(MODEL model) {
         SqlParameters parameters = getParameters(model);;
         String sql;
 
@@ -115,7 +115,7 @@ public abstract class JdbcRepository
     }
 
     @Override
-    protected final T processRead(ID id) {
+    protected final MODEL processRead(ID id) {
         Select select = createSqlSelect(
                 new Where(
                         getWhereById(),
@@ -130,13 +130,13 @@ public abstract class JdbcRepository
     }
 
     @Override
-    protected final List<T> processReadAll(IParameterizedRequest requests) {
+    protected final List<MODEL> processReadAll(IParameterizedRequest requests) {
         Select select = createSqlSelect(requests);
         return executeSqlReadAll(select.getParameterizedSql(), select.getParameters(), sqlMapper);
     }
 
     @Override
-    public final void update(T model) {
+    public final void update(MODEL model) {
         String sql = getSqlUpdate();
         SqlParameters parameters = getParameters(model);
         parameters.add(getIdColumnName(), model.getId());
@@ -292,14 +292,14 @@ public abstract class JdbcRepository
      * @param model Объект из которого берутся значения для параметров
      * @return
      */
-    protected abstract SqlParameters getParameters(T model);
+    protected abstract SqlParameters getParameters(MODEL model);
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    protected void setSqlMapper(BaseSqlMapper<T> sqlMapper) {
+    protected void setSqlMapper(BaseSqlMapper<MODEL> sqlMapper) {
         this.sqlMapper = sqlMapper;
     }
 
-    public BaseSqlMapper<T> getSqlMapper() {
+    public BaseSqlMapper<MODEL> getSqlMapper() {
         return sqlMapper;
     }
     //</editor-fold>

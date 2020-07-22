@@ -8,7 +8,10 @@ import org.junit.runners.JUnit4;
 import ru.strict.db.TestConnectionCreator;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.SqlParameters;
+import ru.strict.db.core.common.SqlType;
 import ru.strict.db.core.configuration.SqlConfiguration;
+import ru.strict.db.core.repositories.DefaultColumns;
+import ru.strict.db.jdbc.mappers.sql.CitySqlMapper;
 import ru.strict.db.jdbc.repositories.CityRepository;
 import ru.strict.models.City;
 
@@ -39,8 +42,14 @@ public class ConfigurableRepositoryTest {
         Assert.assertEquals(1, cities.size());
         Assert.assertEquals(city, cities.get(0));
 
-        cityRepository.executeQuery("deleteAll", SqlParameters.empty());
+        cities = cityRepository.readByQuery("readByCountryId",
+                new SqlParameters("country_id", 123),
+                new CitySqlMapper<Integer>(DefaultColumns.CITY.columns(), JDBCType.INTEGER, "id"));
 
+        Assert.assertEquals(1, cities.size());
+        Assert.assertEquals(city, cities.get(0));
+
+        cityRepository.executeQuery("deleteAll", SqlParameters.empty());
         List<City<Integer>> deletedCities = cityRepository.readAll(null);
         Assert.assertTrue(deletedCities.isEmpty());
     }

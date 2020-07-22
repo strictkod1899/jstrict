@@ -121,6 +121,12 @@ public abstract class BaseRepository
     }
 
     @Override
+    public <T> List<T> readByQuery(String queryName, SqlParameters parameters, IMapper<ResultSet, T> sqlMapper) {
+        String sql = getConfiguration().getQuery(getGroup(), queryName);
+        return executeSqlReadAll(sql, parameters, sqlMapper);
+    }
+
+    @Override
     public void executeQuery(String queryName, SqlParameters parameters) {
         String sql = getConfiguration().getQuery(getGroup(), queryName);
 
