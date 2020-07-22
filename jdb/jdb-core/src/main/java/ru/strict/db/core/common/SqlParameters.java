@@ -17,6 +17,11 @@ public class SqlParameters implements Iterable<SqlParameter<?>> {
         parameters = new ArrayList<>(5);
     }
 
+    public SqlParameters(String name, Object value) {
+        this();
+        add(new SqlParameter<>(name, value));
+    }
+
     public SqlParameters(SqlParameter<?> parameter) {
         this();
         add(parameter);

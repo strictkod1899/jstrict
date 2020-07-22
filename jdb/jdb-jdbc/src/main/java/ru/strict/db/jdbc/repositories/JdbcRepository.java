@@ -1,7 +1,6 @@
 package ru.strict.db.jdbc.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.configuration.SqlConfiguration;
 import ru.strict.db.core.connections.IConnectionCreator;
 import ru.strict.db.core.repositories.BaseRepository;
 import ru.strict.db.core.requests.IParameterizedRequest;
@@ -18,7 +17,7 @@ import ru.strict.patterns.mapper.IMapper;
 import java.sql.*;
 import java.util.*;
 
-import static ru.strict.db.jdbc.utils.JdbcUtil.shiftParameters;
+import static ru.strict.db.jdbc.utils.JdbcUtil.*;
 
 /**
  * Базовый класс репозитория с использованием Jdbc
@@ -49,7 +48,7 @@ public abstract class JdbcRepository
             IConnectionCreator<Connection> connectionSource,
             BaseSqlMapper<T> sqlMapper,
             GenerateIdType generateIdType) {
-        this(table, columns, connectionSource, sqlMapper, generateIdType, null, null, null);
+        this(table, columns, connectionSource, sqlMapper, generateIdType, null);
     }
 
     /**
@@ -60,7 +59,7 @@ public abstract class JdbcRepository
             IConnectionCreator<Connection> connectionSource,
             GenerateIdType generateIdType,
             SQLType sqlIdType) {
-        this(table, columns, connectionSource, null, generateIdType, sqlIdType, null, null);
+        super(table, columns, connectionSource, generateIdType, sqlIdType);
     }
 
     public JdbcRepository(Table table,
@@ -68,10 +67,8 @@ public abstract class JdbcRepository
             IConnectionCreator<Connection> connectionSource,
             BaseSqlMapper<T> sqlMapper,
             GenerateIdType generateIdType,
-            SQLType sqlIdType,
-            SqlConfiguration configuration,
-            String group) {
-        super(table, columns, connectionSource, generateIdType, sqlIdType, configuration, group);
+            SQLType sqlIdType) {
+        super(table, columns, connectionSource, generateIdType, sqlIdType);
 
         this.sqlMapper = sqlMapper;
     }
@@ -192,7 +189,6 @@ public abstract class JdbcRepository
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="sql generate">
-
     /**
      * Sql-запрос на создание записи в таблице (без учета ID)
      */

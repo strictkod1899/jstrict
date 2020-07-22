@@ -2,6 +2,7 @@ package ru.strict.db.jdbc.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.SqlParameters;
+import ru.strict.db.core.configuration.SqlConfiguration;
 import ru.strict.db.core.connections.IConnectionCreator;
 import ru.strict.db.core.repositories.DefaultColumns;
 import ru.strict.db.core.repositories.DefaultTable;

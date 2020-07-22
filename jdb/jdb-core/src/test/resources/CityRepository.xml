@@ -2,10 +2,10 @@
 
 <sql groupName="CityRepository">
     <query name="readByCountryId">
-        WHERE city.country_id = ?
+        SELECT * FROM city WHERE city.country_id = ?
     </query>
 
-    <query name="readByCountryId2">
+    <where name="readByCountryId2">
         WHERE city.country_id_2 = ?
-    </query>
+    </where>
 </sql>

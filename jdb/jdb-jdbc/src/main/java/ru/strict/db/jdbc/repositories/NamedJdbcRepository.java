@@ -1,7 +1,6 @@
 package ru.strict.db.jdbc.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.configuration.SqlConfiguration;
 import ru.strict.db.core.connections.IConnectionCreator;
 import ru.strict.db.core.repositories.INamedRepository;
 import ru.strict.db.jdbc.mappers.sql.BaseSqlMapper;
@@ -10,7 +9,6 @@ import ru.strict.patterns.model.BaseModel;
 
 import java.sql.Connection;
 import java.sql.SQLType;
-import java.util.List;
 
 public abstract class NamedJdbcRepository<ID, T extends BaseModel<ID>>
         extends JdbcRepository<ID, T>
@@ -21,10 +19,8 @@ public abstract class NamedJdbcRepository<ID, T extends BaseModel<ID>>
             IConnectionCreator<Connection> connectionSource,
             BaseSqlMapper<T> sqlMapper,
             GenerateIdType generateIdType,
-            SQLType sqlIdType,
-            SqlConfiguration configuration,
-            String group) {
-        super(table, columns, connectionSource, sqlMapper, generateIdType, sqlIdType, configuration, group);
+            SQLType sqlIdType) {
+        super(table, columns, connectionSource, sqlMapper, generateIdType, sqlIdType);
     }
 
     public NamedJdbcRepository(Table table,
