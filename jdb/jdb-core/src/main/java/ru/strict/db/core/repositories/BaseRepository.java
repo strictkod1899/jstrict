@@ -121,6 +121,13 @@ public abstract class BaseRepository
     }
 
     @Override
+    public void executeQuery(String queryName, SqlParameters parameters) {
+        String sql = getConfiguration().getQuery(getGroup(), queryName);
+
+        executeSql(sql, parameters);
+    }
+
+    @Override
     public final ID createOrUpdate(MODEL model) {
         Validator.isNull(model, "model").onThrow();
 

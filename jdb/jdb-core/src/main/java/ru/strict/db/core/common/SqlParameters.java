@@ -11,6 +11,8 @@ import java.util.stream.Stream;
  * Список параметров для подставновки в sql-запрос типа PreparedStatement
  */
 public class SqlParameters implements Iterable<SqlParameter<?>> {
+    private static final SqlParameters EMPTY_INSTANCE = new EmptySqlParameters();
+
     private List<SqlParameter<?>> parameters;
 
     public SqlParameters() {
@@ -162,4 +164,61 @@ public class SqlParameters implements Iterable<SqlParameter<?>> {
         return parameters.iterator();
     }
     //</editor-fold>
+
+    public static SqlParameters empty() {
+        return EMPTY_INSTANCE;
+    }
+
+    private static class EmptySqlParameters extends SqlParameters {
+
+        @Override
+        public void set(int index, String name) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void set(int index, String name, Object value) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void set(int index, String name, Object value, SQLType type) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void set(SqlParameter<?> sqlParameter) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void add(SqlParameter<?> sqlParameter) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void add(String name) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void add(String name, Object value) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void add(String name, Object value, SQLType type) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void setAll(SqlParameters parameters) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void addAll(SqlParameters parameters) {
+            throw new UnsupportedOperationException();
+        }
+    }
 }

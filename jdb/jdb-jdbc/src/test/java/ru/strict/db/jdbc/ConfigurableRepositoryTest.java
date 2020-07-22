@@ -38,5 +38,10 @@ public class ConfigurableRepositoryTest {
 
         Assert.assertEquals(1, cities.size());
         Assert.assertEquals(city, cities.get(0));
+
+        cityRepository.executeQuery("deleteAll", SqlParameters.empty());
+
+        List<City<Integer>> deletedCities = cityRepository.readAll(null);
+        Assert.assertTrue(deletedCities.isEmpty());
     }
 }

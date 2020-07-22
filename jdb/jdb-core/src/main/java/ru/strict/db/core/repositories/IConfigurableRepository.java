@@ -14,4 +14,6 @@ public interface IConfigurableRepository<ID, MODEL extends BaseModel<ID>> {
      * @return Список объектов из базы данных
      */
     List<MODEL> readAll(String whereName, SqlParameters parameters);
+
+    void executeQuery(String queryName, SqlParameters parameters);
 }
