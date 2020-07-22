@@ -16,13 +16,13 @@ public interface IProfileRepository<ID, T extends Profile<ID>> extends IReposito
         Where.Builder where = Where.builder();
 
         if (name != null) {
-            String nameWhere = SingleWhere.build(new SqlItem(getTable(), "name"), "=");
+            String nameWhere = SingleWhere.sql(new SqlItem(getTable(), "name"), "=");
             where.addParameter("name", name);
             where.item(nameWhere);
         }
 
         if (surname != null) {
-            String surnameWhere = SingleWhere.build(new SqlItem(getTable(), "surname"), "=");
+            String surnameWhere = SingleWhere.sql(new SqlItem(getTable(), "surname"), "=");
             where.addParameter("surname", surname);
             where.item(WhereType.AND, surnameWhere);
         }

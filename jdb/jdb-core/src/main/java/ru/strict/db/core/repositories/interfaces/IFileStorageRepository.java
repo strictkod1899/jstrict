@@ -27,9 +27,9 @@ public interface IFileStorageRepository<ID, T extends FileStorage<ID>> extends I
         Validator.isNull(extension, "extension").onThrow();
 
         Where where = Where.builder()
-                .item(SingleWhere.build(new SqlItem(getTable(), "filename"), "="))
+                .item(SingleWhere.sql(new SqlItem(getTable(), "filename"), "="))
                 .addParameter("fileName", fileName)
-                .item(SingleWhere.build(new SqlItem(getTable(), "extension"), "="))
+                .item(SingleWhere.sql(new SqlItem(getTable(), "extension"), "="))
                 .addParameter("extension", extension)
                 .build();
 
@@ -41,9 +41,9 @@ public interface IFileStorageRepository<ID, T extends FileStorage<ID>> extends I
         Validator.isNull(extension, "extension").onThrow();
 
         Where where = Where.builder()
-                .item(SingleWhere.build(new SqlItem(getTable(), "displayname"), "="))
+                .item(SingleWhere.sql(new SqlItem(getTable(), "displayname"), "="))
                 .addParameter("displayname", displayName)
-                .item(SingleWhere.build(new SqlItem(getTable(), "extension"), "="))
+                .item(SingleWhere.sql(new SqlItem(getTable(), "extension"), "="))
                 .addParameter("extension", extension)
                 .build();
 
