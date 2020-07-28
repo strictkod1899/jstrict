@@ -27,10 +27,10 @@ public class LoggingHandler implements InvocationHandler, MethodInterceptor, Cal
             Logging classAnnotation,
             Class<? extends ILogger>[] defaultLoggersClasses,
             IoC ioc) {
-        Validator.isNull(instance, "instance").onThrow();
-        Validator.isNull(classAnnotation, "classAnnotation").onThrow();
-        Validator.isNull(defaultLoggersClasses, "defaultLoggersClasses").onThrow();
-        Validator.isNull(ioc, "ioc").onThrow();
+        Validator.isNull(instance, "instance");
+        Validator.isNull(classAnnotation, "classAnnotation");
+        Validator.isNull(defaultLoggersClasses, "defaultLoggersClasses");
+        Validator.isNull(ioc, "ioc");
 
         this.instance = instance;
         this.classAnnotation = classAnnotation;

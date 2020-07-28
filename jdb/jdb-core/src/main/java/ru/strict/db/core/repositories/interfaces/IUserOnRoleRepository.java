@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface IUserOnRoleRepository<ID> extends IRepository<ID, UserOnRole<ID>> {
     default List<UserOnRole<ID>> readByUserId(ID userId) {
-        Validator.isNull(userId, "userId").onThrow();
+        Validator.isNull(userId, "userId");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), "userx_id"),
@@ -22,7 +22,7 @@ public interface IUserOnRoleRepository<ID> extends IRepository<ID, UserOnRole<ID
     }
 
     default List<UserOnRole<ID>> readByRoleId(ID roleId) {
-        Validator.isNull(roleId, "roleId").onThrow();
+        Validator.isNull(roleId, "roleId");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), "role_id"),

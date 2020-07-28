@@ -58,8 +58,8 @@ public final class CommonUtil {
      * Получить количество миллисекунд из объекта LocalDate в указанном часовом поясе
      */
     public static Long getMillisFromLocalDate(LocalDate date, ZoneId zoneId) {
-        Validator.isNull(date, "date").onThrow();
-        Validator.isNull(zoneId, "zoneId").onThrow();
+        Validator.isNull(date, "date");
+        Validator.isNull(zoneId, "zoneId");
 
         return date.atStartOfDay()
                 .atZone(zoneId)
@@ -78,8 +78,8 @@ public final class CommonUtil {
      * Получить количество миллисекунд из объекта LocalDateTime в указанном часовом поясе
      */
     public static Long getMillisFromLocalDateTime(LocalDateTime date, ZoneId zoneId) {
-        Validator.isNull(date, "date").onThrow();
-        Validator.isNull(zoneId, "zoneId").onThrow();
+        Validator.isNull(date, "date");
+        Validator.isNull(zoneId, "zoneId");
 
         return date.atZone(zoneId)
                 .toInstant()
@@ -148,10 +148,10 @@ public final class CommonUtil {
      * @param roundingMode Режим округления
      */
     public static BigDecimal getSumWithoutVat(BigDecimal sum, double vatPercent, int scale, RoundingMode roundingMode) {
-        Validator.isNull(sum, "sum").onThrow();
-        Validator.isNull(roundingMode, "roundingMode").onThrow();
-        Validator.isLess(vatPercent, "vatPercent", 0).onThrow();
-        Validator.isLess(scale, "scale", 0).onThrow();
+        Validator.isNull(sum, "sum");
+        Validator.isNull(roundingMode, "roundingMode");
+        Validator.isLess(vatPercent, "vatPercent", 0);
+        Validator.isLess(scale, "scale", 0);
 
         BigDecimal dVat = BigDecimal.valueOf(vatPercent);
         BigDecimal dVatDivided = dVat.divide(HUNDRED);
@@ -202,10 +202,10 @@ public final class CommonUtil {
      * @param roundingMode Режим округления
      */
     public static BigDecimal getVatFromSum(BigDecimal sum, double vatPercent, int scale, RoundingMode roundingMode) {
-        Validator.isNull(sum, "sum").onThrow();
-        Validator.isNull(roundingMode, "roundingMode").onThrow();
-        Validator.isLess(vatPercent, "vatPercent", 0).onThrow();
-        Validator.isLess(scale, "scale", 0).onThrow();
+        Validator.isNull(sum, "sum");
+        Validator.isNull(roundingMode, "roundingMode");
+        Validator.isLess(vatPercent, "vatPercent", 0);
+        Validator.isLess(scale, "scale", 0);
 
         BigDecimal dVat = BigDecimal.valueOf(vatPercent);
         BigDecimal dVatSum = dVat.add(HUNDRED);

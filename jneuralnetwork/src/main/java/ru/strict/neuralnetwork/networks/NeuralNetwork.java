@@ -1,5 +1,6 @@
 package ru.strict.neuralnetwork.networks;
 
+import ru.strict.exceptions.ValidateException;
 import ru.strict.neuralnetwork.functions.IActivateFunction;
 import ru.strict.validate.Validator;
 
@@ -27,22 +28,10 @@ public abstract class NeuralNetwork<DATA extends NeuralNetworkData, STRUCT exten
     private IActivateFunction activateFunction;
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
-    private void ensureCreateInstance(DATA data, STRUCT structure, IActivateFunction activateFunction) {
-        Validator.isNull(data, "data")
-                .details("Neural Network do not supported null value. [NeuralNetworkData is null]")
-                .isNull(structure, "structure")
-                .details("Neural Network do not supported null value. [NeuralNetworkStructure is null]")
-                .isNull(activateFunction, "activateFunction")
-                .details("Neural Network do not supported null value. [IActivateFunction is null]")
-                .onThrow();
-    }
-
     NeuralNetwork(DATA data, STRUCT structure, IActivateFunction activateFunction) {
-        try {
-            ensureCreateInstance(data, structure, activateFunction);
-        } catch (Exception ex) {
-            throw ex;
-        }
+        Validator.isNull(data, "data");
+        Validator.isNull(structure, "structure");
+        Validator.isNull(activateFunction, "activateFunction");
 
         this.data = data;
         this.structure = structure;
@@ -56,9 +45,9 @@ public abstract class NeuralNetwork<DATA extends NeuralNetworkData, STRUCT exten
             generateSynapses();
         }
 
-        Validator.isLessOrEquals(epochs, "epochs", 0)
-                .details("Learning exception: epoch count should not be is negative. [Epochs <= 0]")
-                .onThrow();
+        if (epochs <= 0) {
+            throw new ValidateException("epochs", "epochs <= 0", "Learning exception: epoch count cann't be is negative");
+        }
 
         for (int epoch = 0; epoch < epochs; epoch++) {
             List<NeuralNetworkDataSet> trainingSets = getData().getRandomTrainingSets();

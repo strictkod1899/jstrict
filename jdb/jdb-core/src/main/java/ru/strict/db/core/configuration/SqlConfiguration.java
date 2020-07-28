@@ -109,7 +109,7 @@ public class SqlConfiguration {
     }
 
     public static SqlConfiguration fromResources(String requiredFile, String...files) {
-        Validator.isNull(requiredFile, "file").onThrow();
+        Validator.isNull(requiredFile, "file");
         
         SqlConfiguration configuration = new SqlConfiguration();
         configuration.loadResource(requiredFile);
@@ -123,7 +123,7 @@ public class SqlConfiguration {
     }
 
     public static SqlConfiguration fromFiles(String requiredFile, String...files) {
-        Validator.isNull(requiredFile, "file").onThrow();
+        Validator.isNull(requiredFile, "file");
 
         SqlConfiguration configuration = new SqlConfiguration();
 

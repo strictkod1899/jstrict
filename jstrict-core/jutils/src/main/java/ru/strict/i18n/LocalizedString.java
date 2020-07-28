@@ -22,7 +22,7 @@ public class LocalizedString {
     }
 
     public LocalizedString(Map<String, String> strings) {
-        Validator.isNull(strings, "strings").onThrow();
+        Validator.isNull(strings, "strings");
 
         setStrings(strings);
     }
@@ -50,7 +50,7 @@ public class LocalizedString {
     }
 
     public void setStrings(Map<String, String> strings) {
-        Validator.isNull(strings, "strings").onThrow();
+        Validator.isNull(strings, "strings");
         this.strings = strings;
     }
 

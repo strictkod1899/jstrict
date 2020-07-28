@@ -9,7 +9,7 @@ import ru.strict.validate.Validator;
 
 public interface IUserRepository<ID, T extends User<ID>> extends INamedRepository<ID, T> {
     default T readByEmail(String email) {
-        Validator.isEmptyOrNull(email, "email").onThrow();
+        Validator.isEmptyOrNull(email, "email");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), "email"),
@@ -20,21 +20,21 @@ public interface IUserRepository<ID, T extends User<ID>> extends INamedRepositor
     }
 
     default boolean isDeleted(ID userId) {
-        Validator.isNull(userId, "userId").onThrow();
+        Validator.isNull(userId, "userId");
 
         T user = read(userId);
         return user.isDeleted();
     }
 
     default boolean isBlocked(ID userId) {
-        Validator.isNull(userId, "userId").onThrow();
+        Validator.isNull(userId, "userId");
 
         T user = read(userId);
         return user.isDeleted();
     }
 
     default boolean isConfirmEmail(ID userId) {
-        Validator.isNull(userId, "userId").onThrow();
+        Validator.isNull(userId, "userId");
 
         T user = read(userId);
         return user.isDeleted();

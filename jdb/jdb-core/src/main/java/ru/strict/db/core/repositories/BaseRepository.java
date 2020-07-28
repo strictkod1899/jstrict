@@ -64,11 +64,10 @@ public abstract class BaseRepository
             GenerateIdType generateIdType,
             SQLType sqlIdType) {
         super(connectionSource, null, null);
-        Validator.isNull(table, "table")
-                .isNull(columns, "columns")
-                .isNull(connectionSource, "connectionSource")
-                .isNull(generateIdType, "generateIdType")
-                .onThrow();
+        Validator.isNull(table, "table");
+        Validator.isNull(columns, "columns");
+        Validator.isNull(connectionSource, "connectionSource");
+        Validator.isNull(generateIdType, "generateIdType");
 
         this.table = table;
         this.columns = columns;
@@ -135,7 +134,7 @@ public abstract class BaseRepository
 
     @Override
     public final ID createOrUpdate(MODEL model) {
-        Validator.isNull(model, "model").onThrow();
+        Validator.isNull(model, "model");
 
         boolean rowExists = isRowExists(model.getId());
         if (rowExists) {
@@ -148,7 +147,7 @@ public abstract class BaseRepository
 
     @Override
     public final MODEL createOrRead(MODEL model) {
-        Validator.isNull(model, "model").onThrow();
+        Validator.isNull(model, "model");
 
         boolean rowExists = isRowExists(model.getId());
         if (rowExists) {

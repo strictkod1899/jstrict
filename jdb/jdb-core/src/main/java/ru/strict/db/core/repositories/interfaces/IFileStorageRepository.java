@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface IFileStorageRepository<ID, T extends FileStorage<ID>> extends INamedRepository<ID, T> {
     default List<T> readByDisplayName(String displayName) {
-        Validator.isNull(displayName, "displayName").onThrow();
+        Validator.isNull(displayName, "displayName");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), "displayname"),
@@ -23,8 +23,8 @@ public interface IFileStorageRepository<ID, T extends FileStorage<ID>> extends I
     }
 
     default List<T> readByFileNameAndExtension(String fileName, String extension) {
-        Validator.isNull(fileName, "fileName").onThrow();
-        Validator.isNull(extension, "extension").onThrow();
+        Validator.isNull(fileName, "fileName");
+        Validator.isNull(extension, "extension");
 
         Where where = Where.builder()
                 .item(SingleWhere.sql(new SqlItem(getTable(), "filename"), "="))
@@ -37,8 +37,8 @@ public interface IFileStorageRepository<ID, T extends FileStorage<ID>> extends I
     }
 
     default List<T> readByDisplayNameAndExtension(String displayName, String extension) {
-        Validator.isNull(displayName, "displayName").onThrow();
-        Validator.isNull(extension, "extension").onThrow();
+        Validator.isNull(displayName, "displayName");
+        Validator.isNull(extension, "extension");
 
         Where where = Where.builder()
                 .item(SingleWhere.sql(new SqlItem(getTable(), "displayname"), "="))
@@ -51,7 +51,7 @@ public interface IFileStorageRepository<ID, T extends FileStorage<ID>> extends I
     }
 
     default T readByFilePath(String filePath) {
-        Validator.isNull(filePath, "filePath").onThrow();
+        Validator.isNull(filePath, "filePath");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), "filepath"),

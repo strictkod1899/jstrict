@@ -31,7 +31,7 @@ public interface IProfileRepository<ID, T extends Profile<ID>> extends IReposito
     }
 
     default List<T> readByUserId(ID userId) {
-        Validator.isNull(userId, "userId").onThrow();
+        Validator.isNull(userId, "userId");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), "userx_id"),

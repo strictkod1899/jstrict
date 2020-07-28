@@ -30,7 +30,7 @@ public enum SqlType implements SQLType {
     }
 
     public static <T> T mapValue(Object value, SQLType sqlType) {
-        Validator.isNull(sqlType, "sqlType").onThrow();
+        Validator.isNull(sqlType, "sqlType");
         if (value == null) {
             return null;
         }

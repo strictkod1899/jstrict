@@ -13,7 +13,7 @@ import java.util.List;
 public interface IPermissionOnRoleRepository<ID, PERMISSION extends IModel<Integer>>
         extends IRepository<ID, PermissionOnRole<ID, PERMISSION>> {
     default List<PermissionOnRole<ID, PERMISSION>> readByPermissionId(Integer permissionId) {
-        Validator.isNull(permissionId, "permissionId").onThrow();
+        Validator.isNull(permissionId, "permissionId");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), "permission_id"),
@@ -24,7 +24,7 @@ public interface IPermissionOnRoleRepository<ID, PERMISSION extends IModel<Integ
     }
 
     default List<PermissionOnRole<ID, PERMISSION>> readByRoleId(ID roleId) {
-        Validator.isNull(roleId, "roleId").onThrow();
+        Validator.isNull(roleId, "roleId");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), "role_id"),

@@ -88,7 +88,7 @@ public interface IRepository<ID, T extends IModel<ID>> {
      * Проверить существование записи в базе данных с переданным идентификатором
      */
     default boolean isRowExists(ID id) {
-        Validator.isNull(id, "id").onThrow();
+        Validator.isNull(id, "id");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), getIdColumnName()),

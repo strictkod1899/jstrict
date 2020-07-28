@@ -11,7 +11,7 @@ public class Table implements IRequest {
     private String alias;
 
     public Table(String tableName) {
-        Validator.isEmptyOrNull(tableName, "tableName").onThrow();
+        Validator.isEmptyOrNull(tableName, "tableName");
 
         this.tableName = tableName;
     }

@@ -221,8 +221,8 @@ public class ReflectionUtil {
      * @param <A> Тип аннотации
      */
     public static <A extends Annotation> Object invokeMethodByAnnotation(Object source, Class<A> annotationClass, Object[]...args) {
-        Validator.isNull(source, "source").onThrow();
-        Validator.isNull(annotationClass, "annotationClass").onThrow();
+        Validator.isNull(source, "source");
+        Validator.isNull(annotationClass, "annotationClass");
 
         Class sourceClass = source.getClass();
         Method[] methods = sourceClass.getMethods();

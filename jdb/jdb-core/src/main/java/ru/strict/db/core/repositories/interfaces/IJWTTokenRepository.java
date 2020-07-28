@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface IJWTTokenRepository<ID> extends IRepository<ID, JWTToken<ID>> {
     default JWTToken<ID> readByAccessToken(String accessToken) {
-        Validator.isEmptyOrNull(accessToken, "accessToken").onThrow();
+        Validator.isEmptyOrNull(accessToken, "accessToken");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), "access_token"),
@@ -22,7 +22,7 @@ public interface IJWTTokenRepository<ID> extends IRepository<ID, JWTToken<ID>> {
     }
 
     default JWTToken<ID> readByRefreshToken(String refreshToken) {
-        Validator.isEmptyOrNull(refreshToken, "refreshToken").onThrow();
+        Validator.isEmptyOrNull(refreshToken, "refreshToken");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), "refresh_token"),
@@ -33,7 +33,7 @@ public interface IJWTTokenRepository<ID> extends IRepository<ID, JWTToken<ID>> {
     }
 
     default List<JWTToken<ID>> readByUserId(ID userId) {
-        Validator.isNull(userId, "userId").onThrow();
+        Validator.isNull(userId, "userId");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), "userx_id"),

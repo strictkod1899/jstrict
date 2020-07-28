@@ -24,7 +24,7 @@ public class XmlFile implements IXmlFile {
     private Element rootElement;
 
     private void init(File xmlFile, String rootElement) {
-        Validator.isNull(xmlFile, "xmlFile").onThrow();
+        Validator.isNull(xmlFile, "xmlFile");
 
         this.file = xmlFile;
 
@@ -60,7 +60,7 @@ public class XmlFile implements IXmlFile {
         try {
             // Если xml-файл не создан
             if (!file.exists()) {
-                Validator.isEmptyOrNull(rootElement, "rootElement").onThrow();
+                Validator.isEmptyOrNull(rootElement, "rootElement");
 
                 file.createNewFile();
 

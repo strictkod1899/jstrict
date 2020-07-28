@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface ICityRepository<ID> extends INamedRepository<ID, City<ID>> {
     default List<City<ID>> readByCountryId(ID countryId) {
-        Validator.isNull(countryId, "countryId").onThrow();
+        Validator.isNull(countryId, "countryId");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), DefaultColumns.CITY.get(1)),

@@ -22,7 +22,7 @@ public abstract class ConfigurableRepository
     public ConfigurableRepository(SOURCE connectionSource,
             SqlConfiguration configuration,
             String group) {
-        Validator.isNull(connectionSource, "connectionSource").onThrow();
+        Validator.isNull(connectionSource, "connectionSource");
 
         this.connectionSource = connectionSource;
         this.configuration = configuration;
@@ -49,8 +49,8 @@ public abstract class ConfigurableRepository
     }
 
     public void setConfiguration(String group, SqlConfiguration configuration) {
-        Validator.isNull(group, "group").onThrow();
-        Validator.isNull(configuration, "configuration").onThrow();
+        Validator.isNull(group, "group");
+        Validator.isNull(configuration, "configuration");
 
         this.group = group;
         this.configuration = configuration;

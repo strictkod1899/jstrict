@@ -1,5 +1,7 @@
 package ru.strict.validate;
 
+import ru.strict.exceptions.ValidateException;
+
 import java.util.Collection;
 
 /**
@@ -9,73 +11,101 @@ public final class Validator {
 
     private Validator() {}
 
-    public static ValidateError isNull(Object value, String caption) {
-        ValidateError error = new ValidateError();
-        return error.isNull(value, caption);
+    public static void isNull(Object value, String caption) {
+        if (value == null) {
+            throw new ValidateException(caption, "value is NULL");
+        }
     }
 
-    public static ValidateError isEmptyOrNull(String value, String caption) {
-        ValidateError error = new ValidateError();
-        return error.isEmptyOrNull(value, caption);
+    public static void isEmptyOrNull(String value, String caption) {
+        if (BaseValidate.isEmptyOrNull(value)) {
+            throw new ValidateException(caption, "value is EMPTY or NULL");
+        }
     }
 
-    public static ValidateError isEmptySpaceOrNull(String value, String caption) {
-        ValidateError error = new ValidateError();
-        return error.isEmptySpaceOrNull(value, caption);
+    public static void isEmptySpaceOrNull(String value, String caption) {
+        if (BaseValidate.isEmptySpaceOrNull(value)) {
+            throw new ValidateException(caption, "value is EMPTY SPACE or NULL");
+        }
     }
 
-    public static ValidateError isEmptyOrNull(Collection<?> collection, String caption) {
-        ValidateError error = new ValidateError();
-        return error.isEmptyOrNull(collection, caption);
+    public static void isEmptyOrNull(Collection<?> collection, String caption) {
+        if (BaseValidate.isEmptyOrNull(collection)) {
+            throw new ValidateException(caption, "collection is EMPTY or NULL");
+        }
     }
 
-    public static ValidateError isEmptyOrNull(Object[] array, String caption) {
-        ValidateError error = new ValidateError();
-        return error.isEmptyOrNull(array, caption);
+    public static void isEmptyOrNull(Object[] array, String caption) {
+        if (BaseValidate.isEmptyOrNull(array)) {
+            throw new ValidateException(caption, "array is EMPTY or NULL");
+        }
     }
 
-    public static ValidateError isLess(long number, String caption, long minValue) {
-        ValidateError error = new ValidateError();
-        return error.isLess(number, caption, minValue);
+    public static void isLess(long number, String caption, long minValue) {
+        if ( number < minValue) {
+            throw new ValidateException(caption, String.format("number (%s) < %s", number, minValue));
+        }
     }
 
-    public static ValidateError isLess(double number, String caption, double minValue) {
-        ValidateError error = new ValidateError();
-        return error.isLess(number, caption, minValue);
+    public static void isLess(double number, String caption, double minValue) {
+        if (number < minValue) {
+            throw new ValidateException(caption, String.format("number (%s) < %s", number, minValue));
+        }
     }
 
-    public static ValidateError isLessOrEquals(double number, String caption, double minValue) {
-        ValidateError error = new ValidateError();
-        return error.isLessOrEquals(number, caption, minValue);
+    public static void isLessOrEquals(double number, String caption, double minValue) {
+        if (number <= minValue) {
+            throw new ValidateException(caption, String.format("number (%s) <= %s", number, minValue));
+        }
     }
 
-    public static ValidateError isLessOrEquals(long number, String caption, long minValue) {
-        ValidateError error = new ValidateError();
-        return error.isLessOrEquals(number, caption, minValue);
+    public static void isLessOrEquals(long number, String caption, long minValue) {
+        if (number <= minValue) {
+            throw new ValidateException(caption, String.format("number (%s) <= %s", number, minValue));
+        }
     }
 
-    public static ValidateError isMore(long number, String caption, long maxValue) {
-        ValidateError error = new ValidateError();
-        return error.isMore(number, caption, maxValue);
+    public static void isMore(long number, String caption, long maxValue) {
+        if (number > maxValue) {
+            throw new ValidateException(caption, String.format("number (%s) > %s", number, maxValue));
+        }
     }
 
-    public static ValidateError isMore(double number, String caption, double maxValue) {
-        ValidateError error = new ValidateError();
-        return error.isMore(number, caption, maxValue);
+    public static void isMore(double number, String caption, double maxValue) {
+        if (number > maxValue) {
+            throw new ValidateException(caption, String.format("number (%s) > %s", number, maxValue));
+        }
     }
 
-    public static ValidateError isMoreOrEquals(long number, String caption, long maxValue) {
-        ValidateError error = new ValidateError();
-        return error.isMoreOrEquals(number, caption, maxValue);
+    public static void isMoreOrEquals(long number, String caption, long maxValue) {
+        if (number >= maxValue) {
+            throw new ValidateException(caption, String.format("number (%s) >= %s", number, maxValue));
+        }
     }
 
-    public static ValidateError isMoreOrEquals(double number, String caption, double maxValue) {
-        ValidateError error = new ValidateError();
-        return error.isMoreOrEquals(number, caption, maxValue);
+    public static void isMoreOrEquals(double number, String caption, double maxValue) {
+        if (number >= maxValue) {
+            throw new ValidateException(caption, String.format("number (%s) >= %s", number, maxValue));
+        }
     }
 
-    public static ValidateError isNotRange(long number, String caption, long minValue, long maxValue) {
-        ValidateError error = new ValidateError();
-        return error.isNotRange(number, caption, minValue, maxValue);
+    public static void isRange(long number, String caption, long minValue, long maxValue) {
+        if (BaseValidate.isRange(number, minValue, maxValue)) {
+            throw new ValidateException(caption, String.format("number (%s) is in range (%s...%s)",
+                    number,
+                    minValue,
+                    maxValue)
+            );
+        }
+    }
+
+    public static void isNotRange(long number, String caption, long minValue, long maxValue) {
+        if (!BaseValidate.isRange(number, minValue, maxValue)) {
+            throw new ValidateException(caption, String.format("number (%s) isn't in range (%s...%s)",
+                    number,
+                    minValue,
+                    maxValue)
+            );
+        }
     }
 }

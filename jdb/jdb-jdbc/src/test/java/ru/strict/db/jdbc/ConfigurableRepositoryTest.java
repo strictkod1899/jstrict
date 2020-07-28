@@ -8,7 +8,6 @@ import org.junit.runners.JUnit4;
 import ru.strict.db.TestConnectionCreator;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.SqlParameters;
-import ru.strict.db.core.common.SqlType;
 import ru.strict.db.core.configuration.SqlConfiguration;
 import ru.strict.db.core.repositories.DefaultColumns;
 import ru.strict.db.jdbc.mappers.sql.CitySqlMapper;

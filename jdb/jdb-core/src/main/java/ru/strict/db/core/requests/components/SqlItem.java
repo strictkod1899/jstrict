@@ -14,7 +14,7 @@ public class SqlItem implements IRequest {
     }
 
     public SqlItem(Table table, String columnName) {
-        Validator.isNull(columnName, "columnName").onThrow();
+        Validator.isNull(columnName, "columnName");
 
         this.columnName = columnName;
         this.table = table;

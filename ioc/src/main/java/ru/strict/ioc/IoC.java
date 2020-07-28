@@ -1,5 +1,6 @@
 package ru.strict.ioc;
 
+import ru.strict.exceptions.ValidateException;
 import ru.strict.ioc.annotations.ComponentHandler;
 import ru.strict.ioc.annotations.LoggerHandler;
 import ru.strict.ioc.annotations.LoggingHandler;
@@ -100,12 +101,12 @@ public class IoC implements IIoC {
             Class component,
             InstanceType type,
             Object... constructorArguments) {
-        Validator.isNull(clazz, "clazz")
-                .isNull(component, "component")
-                .details("IoC exception. Fail add component to IoC because any is null: clazz = [%s], component = [%s]",
-                        clazz,
-                        component)
-                .onThrow();
+        if (clazz == null || component == null) {
+            throw ValidateException.byDetails(
+                    "IoC exception. Fail add component to IoC because any is null: clazz = [%s], component = [%s]",
+                    clazz,
+                    component);
+        }
 
         if (isExistsComponentClass(clazz)) {
             throw new ManyMatchComponentsException(clazz);
@@ -116,12 +117,12 @@ public class IoC implements IIoC {
 
     @Override
     public void addComponent(String caption, Class component, InstanceType type, Object... constructorArguments) {
-        Validator.isNull(caption, "caption")
-                .isNull(component, "component")
-                .details("IoC exception. Fail add component to IoC because any is null: caption = [%s], component = [%s]",
-                        caption,
-                        component)
-                .onThrow();
+        if (caption == null || component == null) {
+            throw ValidateException.byDetails(
+                    "IoC exception. Fail add component to IoC because any is null: caption = [%s], component = [%s]",
+                    caption,
+                    component);
+        }
 
         if (isExistsComponentCaption(caption)) {
             throw new ManyMatchComponentsException(caption);
@@ -136,15 +137,14 @@ public class IoC implements IIoC {
             Class component,
             InstanceType type,
             Object... constructorArguments) {
-        Validator.isNull(caption, "caption")
-                .isNull(clazz, "clazz")
-                .isNull(component, "component")
-                .details("IoC exception. Fail add component to IoC because any is null: caption = [%s]," +
-                                "clazz = [%s], component = [%s]",
-                        caption,
-                        clazz,
-                        component)
-                .onThrow();
+        if (caption == null || component == null || clazz == null) {
+            throw ValidateException.byDetails(
+                    "IoC exception. Fail add component to IoC because any is null: caption = [%s]," +
+                                    "clazz = [%s], component = [%s]",
+                    caption,
+                    clazz,
+                    component);
+        }
 
         if (isExistsComponentClass(clazz)) {
             throw new ManyMatchComponentsException(clazz);
@@ -159,12 +159,12 @@ public class IoC implements IIoC {
 
     @Override
     public void addSingleton(String caption, Object component) {
-        Validator.isNull(caption, "caption")
-                .isNull(component, "component")
-                .details("IoC exception. Fail add component to IoC because any is null: caption = [%s], component = [%s]",
-                        caption,
-                        component)
-                .onThrow();
+        if (caption == null || component == null) {
+            throw ValidateException.byDetails(
+                    "IoC exception. Fail add component to IoC because any is null: caption = [%s], component = [%s]",
+                    caption,
+                    component);
+        }
 
         if (isExistsComponentCaption(caption)) {
             throw new ManyMatchComponentsException(caption);
@@ -175,12 +175,12 @@ public class IoC implements IIoC {
 
     @Override
     public <RESULT> void addSingleton(Class<RESULT> clazz, Object component) {
-        Validator.isNull(clazz, "clazz")
-                .isNull(component, "component")
-                .details("IoC exception. Fail add component to IoC because any is null: clazz = [%s], component = [%s]",
-                        clazz,
-                        component)
-                .onThrow();
+        if (clazz == null || component == null) {
+            throw ValidateException.byDetails(
+                    "IoC exception. Fail add component to IoC because any is null: clazz = [%s], component = [%s]",
+                    clazz,
+                    component);
+        }
 
         if (isExistsComponentClass(clazz)) {
             throw new ManyMatchComponentsException(clazz);
@@ -191,15 +191,14 @@ public class IoC implements IIoC {
 
     @Override
     public <RESULT> void addSingleton(Class<RESULT> clazz, String caption, Object component) {
-        Validator.isNull(caption, "caption")
-                .isNull(clazz, "clazz")
-                .isNull(component, "component")
-                .details("IoC exception. Fail add component to IoC because any is null: caption = [%s]," +
-                                "clazz = [%s], component = [%s]",
-                        caption,
-                        clazz,
-                        component)
-                .onThrow();
+        if (clazz == null || component == null || caption == null) {
+            throw ValidateException.byDetails(
+                    "IoC exception. Fail add component to IoC because any is null: caption = [%s]," +
+                                    "clazz = [%s], component = [%s]",
+                    caption,
+                    clazz,
+                    component);
+        }
 
         if (isExistsComponentClass(clazz)) {
             throw new ManyMatchComponentsException(clazz);
@@ -362,13 +361,13 @@ public class IoC implements IIoC {
     private <RESULT> RESULT createInstance(Class instanceClass,
             Object[] constructorArguments,
             boolean skipComponentHandler) {
-        Validator.isNull(instanceClass, "instanceClass")
-                .isNull(constructorArguments, "constructorArguments")
-                .details("IoC exception. Fail add component to IoC because any is null:" +
-                                "clazzInstance = [%s], constructorArguments = [%s]",
-                        instanceClass,
-                        constructorArguments)
-                .onThrow();
+        if (instanceClass == null || constructorArguments == null) {
+            throw ValidateException.byDetails(
+                    "IoC exception. Fail add component to IoC because any is null:" +
+                                    "clazzInstance = [%s], constructorArguments = [%s]",
+                    instanceClass,
+                    constructorArguments);
+        }
 
         if (!skipComponentHandler) {
             Constructor<?> mainConstructor = findConstructor(instanceClass);

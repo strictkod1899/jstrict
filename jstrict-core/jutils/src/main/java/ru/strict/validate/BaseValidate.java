@@ -46,6 +46,14 @@ public class BaseValidate {
         boolean result = false;
         if (array == null || array.length == 0) {
             result = true;
+        } else {
+            result = true;
+            for (Object item : array) {
+                if (item != null) {
+                    result = false;
+                    break;
+                }
+            }
         }
 
         return result;

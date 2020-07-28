@@ -23,9 +23,7 @@ public interface INamedRepository<ID, T extends BaseModel<ID>> extends IReposito
      * @return
      */
     default T readByName(String caption) {
-        Validator.isEmptyOrNull(caption, "caption")
-                .reason("caption for read by name is NULL")
-                .onThrow();
+        Validator.isEmptyOrNull(caption, "caption");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), getColumnWithName()),
@@ -42,9 +40,7 @@ public interface INamedRepository<ID, T extends BaseModel<ID>> extends IReposito
      * @return
      */
     default List<T> readAllByName(String caption) {
-        Validator.isEmptyOrNull(caption, "caption")
-                .reason("caption for read all by name is NULL")
-                .onThrow();
+        Validator.isEmptyOrNull(caption, "caption");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), getColumnWithName()),

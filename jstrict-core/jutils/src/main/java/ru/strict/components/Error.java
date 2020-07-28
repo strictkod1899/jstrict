@@ -24,7 +24,7 @@ public class Error implements IError, Cloneable {
     }
 
     public Error(ErrorCode code, String message) {
-        Validator.isNull(code, "code").onThrow();
+        Validator.isNull(code, "code");
         this.code = code.getErrorCode();
         this.message = message;
     }

@@ -190,7 +190,7 @@ public class MoneyFormatter {
      * @return Например, если передать число 123, то результат будет таким: 'сто двадцать три'
      */
     public String formatNumberToWords(BigInteger number) {
-        Validator.isNull(number, "number").onThrow();
+        Validator.isNull(number, "number");
 
         return RUS_NUMBER_FORMATTER.format(number);
     }
@@ -203,8 +203,8 @@ public class MoneyFormatter {
      * @return Например, если передать число 123, то результат будет таким: 'сто двадцать три'
      */
     public String formatNumberToWords(BigInteger number, Locale locale) {
-        Validator.isNull(number, "number").onThrow();
-        Validator.isNull(locale, "locale").onThrow();
+        Validator.isNull(number, "number");
+        Validator.isNull(locale, "locale");
 
         return locale.equals(RUS_LOCALE) ?
                 formatNumberToWords(number) :
@@ -219,8 +219,8 @@ public class MoneyFormatter {
      * @return Например, если передать число 123, то результат будет таким: 'сто двадцать три рубля'
      */
     public String formatMoneyToWords(BigInteger sum, Currency currency) {
-        Validator.isNull(sum, "sum").onThrow();
-        Validator.isNull(currency, "currency").onThrow();
+        Validator.isNull(sum, "sum");
+        Validator.isNull(currency, "currency");
 
         String textSum = formatNumberToWords(sum);
         String unit = getMoneyUnit(sum, currency, UnitType.INTEGER);
@@ -236,9 +236,9 @@ public class MoneyFormatter {
      * @return Например, если передать число 123, то результат будет таким: 'сто двадцать три рубля'
      */
     public String formatMoneyToWords(BigInteger sum, Currency currency, Locale locale) {
-        Validator.isNull(sum, "sum").onThrow();
-        Validator.isNull(currency, "currency").onThrow();
-        Validator.isNull(locale, "locale").onThrow();
+        Validator.isNull(sum, "sum");
+        Validator.isNull(currency, "currency");
+        Validator.isNull(locale, "locale");
 
         String textSum = formatNumberToWords(sum, locale);
         String unit = getMoneyUnit(sum, currency, UnitType.INTEGER);
@@ -281,9 +281,9 @@ public class MoneyFormatter {
      *         Если копеек нет, то в результате будет только целая часть (рубли)
      */
     public String formatMoneyToWords(BigDecimal sum, Currency currency, Locale locale) {
-        Validator.isNull(sum, "sum").onThrow();
-        Validator.isNull(currency, "currency").onThrow();
-        Validator.isNull(locale, "locale").onThrow();
+        Validator.isNull(sum, "sum");
+        Validator.isNull(currency, "currency");
+        Validator.isNull(locale, "locale");
 
         // Целая часть
         BigInteger integerSum = sum.toBigInteger();
@@ -317,9 +317,9 @@ public class MoneyFormatter {
      * Если передать 100 и определить тип единицы 'рубли', то результат будет: 'рублей'.
      */
     public String getMoneyUnit(BigInteger sum, Currency currency, UnitType unitType) {
-        Validator.isNull(sum, "sum").onThrow();
-        Validator.isNull(currency, "currency").onThrow();
-        Validator.isNull(unitType, "unitType").onThrow();
+        Validator.isNull(sum, "sum");
+        Validator.isNull(currency, "currency");
+        Validator.isNull(unitType, "unitType");
 
         String sumText = sum.toString();
         String unit = null;

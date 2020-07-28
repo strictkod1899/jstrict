@@ -14,7 +14,7 @@ final class TemplateFiller {
     private final OfficeTemplate template;
 
     TemplateFiller(OfficeTemplate template) {
-        Validator.isNull(template, "template").onThrow();
+        Validator.isNull(template, "template");
         this.template = template;
     }
 

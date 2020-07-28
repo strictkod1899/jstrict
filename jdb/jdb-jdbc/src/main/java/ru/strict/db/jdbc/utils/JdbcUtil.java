@@ -222,7 +222,7 @@ public final class JdbcUtil {
     }
 
     public static <T> T mapValue(Object sourceValue, SQLType sqlType) {
-        Validator.isNull(sqlType, "sqlType").onThrow();
+        Validator.isNull(sqlType, "sqlType");
 
         if (sqlType instanceof SqlType) {
             return SqlType.mapValue(sourceValue, sqlType);
