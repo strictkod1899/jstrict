@@ -1,11 +1,13 @@
 package ru.strict.utils;
 
+import ru.strict.exceptions.ResourceNotFoundException;
 import ru.strict.validate.BaseValidate;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 /**
  * Управление файлами ресурсов
@@ -14,40 +16,44 @@ public class ResourcesUtil {
 
     /**
      * Создание физического файла относительно проекта из файла-ресурса. Текущий файл будет перезаписан
+     *
      * @param resourcePath
      * @return
      */
-    public static File getResourceAsFile(String resourcePath){
+    public static File getResourceAsFile(String resourcePath) {
         return getResourceAsFile(resourcePath, null, null);
     }
 
     /**
      * Создание физического файла относительно проекта из файла-ресурса
+     *
      * @param resourcePath
      * @return
      */
-    public static File getResourceAsFile(String resourcePath, String targetPath){
+    public static File getResourceAsFile(String resourcePath, String targetPath) {
         return getResourceAsFile(resourcePath, targetPath, null);
     }
 
     /**
      * Создание физического файла относительно проекта из файла-ресурса. Текущий файл будет перезаписан
+     *
      * @param resourcePath
      * @param classThisJarFile Класс текущего jar(war)-файла.
-     *                         Используется для получения ресурса в нужном jar(war)-файле.
-     *                         Если передать null, тогда будет использован системный ClassLoader.
+     * Используется для получения ресурса в нужном jar(war)-файле.
+     * Если передать null, тогда будет использован системный ClassLoader.
      * @return
      */
-    public static File getResourceAsFile(String resourcePath, Class classThisJarFile){
+    public static File getResourceAsFile(String resourcePath, Class classThisJarFile) {
         return getResourceAsFile(resourcePath, null, classThisJarFile);
     }
 
     /**
      * Создание физического файла относительно проекта из файла-ресурса. Текущий файл будет перезаписан
+     *
      * @param resourcePath
      * @param classThisJarFile Класс текущего jar(war)-файла.
-     *                         Используется для получения ресурса в нужном jar(war)-файле.
-     *                         Если передать null, тогда будет использован системный ClassLoader.
+     * Используется для получения ресурса в нужном jar(war)-файле.
+     * Если передать null, тогда будет использован системный ClassLoader.
      * @return
      */
     public static File getResourceAsFile(String resourcePath, String targetPath, Class classThisJarFile) {
@@ -87,33 +93,35 @@ public class ResourcesUtil {
 
     /**
      * Создание физического временного файла относительно проекта из файла-ресурса
+     *
      * @param resourcePath
      * @return
      */
-    public static File getResourceAsFileTemp(String resourcePath){
+    public static File getResourceAsFileTemp(String resourcePath) {
         return getResourceAsFileTemp(resourcePath, null);
     }
 
     /**
      * Создание физического временного файла относительно проекта из файла-ресурса
+     *
      * @param resourcePath
      * @param classThisJarFile Класс текущего jar(war)-файла.
-     *                         Используется для получения ресурса в нужном jar(war)-файле.
-     *                         Если передать null, тогда будет использован системный ClassLoader.
+     * Используется для получения ресурса в нужном jar(war)-файле.
+     * Если передать null, тогда будет использован системный ClassLoader.
      * @return
      */
     public static File getResourceAsFileTemp(String resourcePath, Class classThisJarFile) {
         try {
             ClassLoader classLoader = null;
-            if(classThisJarFile == null) {
+            if (classThisJarFile == null) {
                 classLoader = ClassLoader.getSystemClassLoader();
-            }else{
+            } else {
                 classLoader = classThisJarFile.getClassLoader();
             }
 
             File tempFile = null;
 
-            try(InputStream in = classLoader.getResourceAsStream(resourcePath)) {
+            try (InputStream in = classLoader.getResourceAsStream(resourcePath)) {
                 if (in == null) {
                     return null;
                 }
@@ -137,62 +145,99 @@ public class ResourcesUtil {
 
     /**
      * Получить файл-ресурс
+     *
      * @param pathFile Путь к файлу-ресурсу относительно папки resources
      * @return Файл-ресурс
      */
-    public static File getResource(String pathFile){
+    public static File getResourceOrThrow(String pathFile) {
+        return getResourceOrThrow(pathFile, null);
+    }
+
+    /**
+     * Получить файл-ресурс
+     *
+     * @param pathFile Путь к файлу-ресурсу относительно папки resources
+     * @param classThisJarFile Класс текущего jar(war)-файла.
+     * Используется для получения ресурса в нужном jar(war)-файле.
+     * Если передать null, тогда будет использован системный ClassLoader.
+     * @return Файл-ресурс
+     */
+    public static File getResourceOrThrow(String pathFile, Class classThisJarFile) {
+        File file = getResource(pathFile, classThisJarFile);
+
+        if (file == null) {
+            throw new ResourceNotFoundException(pathFile);
+        }
+
+        return file;
+    }
+
+    /**
+     * Получить файл-ресурс
+     *
+     * @param pathFile Путь к файлу-ресурсу относительно папки resources
+     * @return Файл-ресурс
+     */
+    public static File getResource(String pathFile) {
         return getResource(pathFile, null);
     }
 
     /**
      * Получить файл-ресурс
+     *
      * @param pathFile Путь к файлу-ресурсу относительно папки resources
      * @param classThisJarFile Класс текущего jar(war)-файла.
-     *                         Используется для получения ресурса в нужном jar(war)-файле.
-     *                         Если передать null, тогда будет использован системный ClassLoader.
+     * Используется для получения ресурса в нужном jar(war)-файле.
+     * Если передать null, тогда будет использован системный ClassLoader.
      * @return Файл-ресурс
      */
-    public static File getResource(String pathFile, Class classThisJarFile){
+    public static File getResource(String pathFile, Class classThisJarFile) {
         ClassLoader classLoader = null;
-        if(classThisJarFile == null) {
+        if (classThisJarFile == null) {
             classLoader = ClassLoader.getSystemClassLoader();
-        }else{
+        } else {
             classLoader = classThisJarFile.getClassLoader();
         }
-        try {
-            return new File(classLoader.getResource(pathFile).getFile());
-        }catch(java.lang.NullPointerException ex){
-            throw new RuntimeException(ex);
+
+        URL fileUrl = classLoader.getResource(pathFile);
+
+        File file = null;
+        if (fileUrl != null) {
+            file = new File(fileUrl.getFile());
         }
+
+        return file;
     }
 
     /**
      * Получить файл-ресурс в качестве входного потока
+     *
      * @param pathFile Путь к файлу-ресурсу относительно папки resources
      * @return Входной поток файла-ресурса
      */
-    public static InputStream getResourceStream(String pathFile){
+    public static InputStream getResourceStream(String pathFile) {
         return getResourceStream(pathFile, null);
     }
 
     /**
      * Получить файл-ресурс в качестве входного потока
+     *
      * @param pathFile Путь к файлу-ресурсу относительно папки resources
      * @param classThisJarFile Класс текущего jar(war)-файла.
-     *                         Используется для получения ресурса в нужном jar(war)-файле.
-     *                         Если передать null, тогда будет использован системный ClassLoader.
+     * Используется для получения ресурса в нужном jar(war)-файле.
+     * Если передать null, тогда будет использован системный ClassLoader.
      * @return Входной поток файла-ресурса
      */
-    public static InputStream getResourceStream(String pathFile, Class classThisJarFile){
+    public static InputStream getResourceStream(String pathFile, Class classThisJarFile) {
         ClassLoader classLoader = null;
-        if(classThisJarFile == null) {
+        if (classThisJarFile == null) {
             classLoader = ClassLoader.getSystemClassLoader();
-        }else{
+        } else {
             classLoader = classThisJarFile.getClassLoader();
         }
-        try{
+        try {
             return classLoader.getResourceAsStream(pathFile);
-        }catch(java.lang.NullPointerException ex){
+        } catch (java.lang.NullPointerException ex) {
             throw new RuntimeException(ex);
         }
     }

@@ -1,7 +1,5 @@
 package ru.strict.logging;
 
-import org.apache.log4j.Level;
-
 import java.util.Objects;
 
 /**
@@ -9,7 +7,7 @@ import java.util.Objects;
  */
 public class LoggerConfiguration {
 
-    private Level level;
+    private LogLevel level;
     private String pattern;
     private String logDirectoryPath;
     private String logFileName;
@@ -34,11 +32,11 @@ public class LoggerConfiguration {
     private String debugMaxFileSize;
     private int debugMaxBackupIndex;
 
-    public Level getLevel() {
+    public LogLevel getLevel() {
         return level;
     }
 
-    public void setLevel(Level level) {
+    public void setLevel(LogLevel level) {
         this.level = level;
     }
 

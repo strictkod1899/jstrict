@@ -27,6 +27,7 @@ public class LoggerHandler {
                     Class<? extends ILogger> loggerClass = annotation.value() != LoggerBase.class ?
                             annotation.value() :
                             defaultLoggerClass;
+
                     Validator.isNull(loggerClass, "loggerClass");
                     ILogger logger = createLogger(loggerClass, instance.getClass(), ioc);
                     boolean isAccessible = field.isAccessible();

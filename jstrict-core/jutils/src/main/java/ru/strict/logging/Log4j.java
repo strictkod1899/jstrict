@@ -7,6 +7,8 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static ru.strict.utils.ResourcesUtil.*;
+
 /**
  * <p>Логирование с использованием Log4j.</p>
  * <p>Класс инициализирует конфигурацию по-умолчанию для консольного вывода и записи в файл 'logs/report.log'</p>
@@ -37,7 +39,7 @@ import java.util.Objects;
  * }
  * </pre></code>
  */
-public class Log4jWrapper extends LoggerBase {
+public class Log4j extends LoggerBase {
 
     private static final String DEFAULT_PATTERN = "%d{dd.MM.yyyy HH:mm:ss,SSS} [%p] %c{1}/%M:%L - %m%n";
     protected static final String DEFAULT_FOLDER_NAME = "logs";
@@ -51,195 +53,207 @@ public class Log4jWrapper extends LoggerBase {
     private static final String DEFAULT_DEBUG_MAX_LOG_FILE_SIZE = "10240KB";
     private static final int DEFAULT_DEBUG_MAX_BACKUP_INDEX = 10;
 
-    private Logger wrappedObject;
+    private Logger logger;
     private LoggerConfiguration configuration;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public void init(){
-        configuration = new LoggerConfiguration();
-        defaultConfiguration();
-    }
-
-    public Log4jWrapper(Class clazz) {
-        super(clazz);
-        this.wrappedObject = Logger.getLogger(this.clazz);
-        init();
-    }
-
-    public Log4jWrapper(String className) throws ClassNotFoundException {
+    public Log4j(String className) throws ClassNotFoundException {
         this(Class.forName(className));
+    }
+
+    public Log4j(Class clazz) {
+        super(clazz);
+        this.logger = Logger.getLogger(this.clazz);
+
+        if (getResource("log4j.xml") == null && getResource("log4j.properties") == null) {
+            configuration = new LoggerConfiguration();
+            defaultConfiguration();
+        }
     }
     //</editor-fold>
 
     /**
      * Переопределить этот метод для настройки конфигурации в наследующих классах
      */
-    protected void prepareConfiguration(LoggerConfiguration configuration){}
+    protected void prepareConfiguration(LoggerConfiguration configuration) {
+    }
 
     //<editor-fold defaultState="collapsed" desc="Log methods">
     @Override
     public void log(LogLevel logLevel, String format, Object... args) {
-        wrappedObject.log(convertLogLevel(logLevel), String.format(format, args));
+        logger.log(convertLogLevel(logLevel), String.format(format, args));
     }
 
     /**
      * Информационное сообщение логирования
+     *
      * @param message Сообщение исключения
      */
     @Override
-    public void trace(String message){
-        wrappedObject.trace(message);
+    public void trace(String message) {
+        logger.trace(message);
     }
 
     /**
      * Информационное сообщение логирования
+     *
      * @param format Сообщение для String.format
      * @param args Аргументы для String.format
      */
     @Override
-    public void trace(String format, Object...args){
-        wrappedObject.trace(String.format(format, args));
+    public void trace(String format, Object... args) {
+        logger.trace(String.format(format, args));
     }
 
     /**
      * Информационное сообщение логирования для Debug-режима
+     *
      * @param message Сообщение исключения
      */
     @Override
-    public void debug(String message){
-        wrappedObject.debug(message);
+    public void debug(String message) {
+        logger.debug(message);
     }
 
     /**
      * Информационное сообщение логирования для Debug-режима
+     *
      * @param format Сообщение для String.format
      * @param args Аргументы для String.format
      */
     @Override
-    public void debug(String format, Object...args){
-        wrappedObject.debug(String.format(format, args));
+    public void debug(String format, Object... args) {
+        logger.debug(String.format(format, args));
     }
 
     /**
      * Информационное сообщение логирования
+     *
      * @param message Сообщение исключения
      */
     @Override
-    public void info(String message){
-        wrappedObject.info(message);
+    public void info(String message) {
+        logger.info(message);
     }
 
     /**
      * Информационное сообщение логирования
+     *
      * @param format Сообщение для String.format
      * @param args Аргументы для String.format
      */
     @Override
-    public void info(String format, Object...args){
-        wrappedObject.info(String.format(format, args));
+    public void info(String format, Object... args) {
+        logger.info(String.format(format, args));
     }
 
     /**
      * Предупреждающее сообщения логирования
+     *
      * @param message Сообщение исключения
      */
     @Override
-    public void warn(String message){
-        wrappedObject.warn(message);
+    public void warn(String message) {
+        logger.warn(message);
     }
 
 
     @Override
-    public void warn(Exception ex){
-        wrappedObject.warn(String.format("%s - %s\n%s", ex.getClass().toGenericString(), ex.getMessage(),
+    public void warn(Exception ex) {
+        logger.warn(String.format("%s - %s\n%s", ex.getClass().toGenericString(), ex.getMessage(),
                 Arrays.toString(ex.getStackTrace())));
     }
 
     @Override
-    public void warn(String customMessage, Exception ex){
-        wrappedObject.warn(String.format("%s: [%s] - %s\n%s", customMessage, ex.getClass().toString(), ex.getMessage(),
+    public void warn(String customMessage, Exception ex) {
+        logger.warn(String.format("%s: [%s] - %s\n%s", customMessage, ex.getClass().toString(), ex.getMessage(),
                 Arrays.toString(ex.getStackTrace())));
     }
 
     @Override
-    public void warn(String format, Object...args){
-        wrappedObject.warn(String.format(format, args));
+    public void warn(String format, Object... args) {
+        logger.warn(String.format(format, args));
     }
 
     @Override
-    public void error(String message){
-        wrappedObject.error(message);
+    public void error(String message) {
+        logger.error(message);
     }
 
     @Override
-    public void error(Exception ex){
-        wrappedObject.error(String.format("%s - %s\n%s", ex.getClass().toGenericString(), ex.getMessage(),
+    public void error(Exception ex) {
+        logger.error(String.format("%s - %s\n%s", ex.getClass().toGenericString(), ex.getMessage(),
                 Arrays.toString(ex.getStackTrace())));
     }
 
     @Override
-    public void error(String customMessage, Exception ex){
-        wrappedObject.error(String.format("%s: [%s] - %s\n%s", customMessage, ex.getClass().toString(), ex.getMessage(),
+    public void error(String customMessage, Exception ex) {
+        logger.error(String.format("%s: [%s] - %s\n%s", customMessage, ex.getClass().toString(), ex.getMessage(),
                 Arrays.toString(ex.getStackTrace())));
     }
 
     /**
      * Сообщение исключения
+     *
      * @param format Сообщение для String.format
      * @param args Аргументы для String.format
      */
     @Override
-    public void error(String format, Object...args){
-        wrappedObject.error(String.format(format, args));
+    public void error(String format, Object... args) {
+        logger.error(String.format(format, args));
     }
 
     /**
      * Логирование исключения
+     *
      * @param message Сообщение исключения
      */
     @Override
-    public void fatal(String message){
-        wrappedObject.fatal(message);
+    public void fatal(String message) {
+        logger.fatal(message);
     }
 
     @Override
-    public void fatal(Exception ex){
-        wrappedObject.fatal(String.format("%s - %s\n%s", ex.getClass().toString(), ex.getMessage(),
+    public void fatal(Exception ex) {
+        logger.fatal(String.format("%s - %s\n%s", ex.getClass().toString(), ex.getMessage(),
                 Arrays.toString(ex.getStackTrace())));
     }
 
     @Override
-    public void fatal(String customMessage, Exception ex){
-        wrappedObject.fatal(String.format("%s: [%s] - %s\n%s", customMessage, ex.getClass().toString(), ex.getMessage(),
+    public void fatal(String customMessage, Exception ex) {
+        logger.fatal(String.format("%s: [%s] - %s\n%s", customMessage, ex.getClass().toString(), ex.getMessage(),
                 Arrays.toString(ex.getStackTrace())));
     }
 
     /**
      * Сообщение исключения
+     *
      * @param format Сообщение для String.format
      * @param args Аргументы для String.format
      */
     @Override
-    public void fatal(String format, Object...args){
-        wrappedObject.fatal(String.format(format, args));
+    public void fatal(String format, Object... args) {
+        logger.fatal(String.format(format, args));
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    public Logger getWrappedObject() {
-        return wrappedObject;
+    public Logger getLogger() {
+        return logger;
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Configuration">
+
     /**
      * Конфигурация логирования по-умолчанию
      */
-    private void defaultConfiguration(){
-        if(configuration != null) {
-            configuration.setLevel(Level.DEBUG);
+    private void defaultConfiguration() {
+        if (configuration != null) {
+            configuration.setLevel(LogLevel.DEBUG);
             configuration.setPattern(DEFAULT_PATTERN);
-            configuration.setLogDirectoryPath(ClassUtil.getPathByClass(this.getClass()) + File.separator + DEFAULT_FOLDER_NAME);
+            configuration.setLogDirectoryPath(
+                    ClassUtil.getPathByClass(this.getClass()) + File.separator + DEFAULT_FOLDER_NAME);
             configuration.setLogFileName(DEFAULT_LOG_FILE_NAME);
             configuration.setMaxFileSize(DEFAULT_MAX_LOG_FILE_SIZE);
             configuration.setMaxBackupIndex(DEFAULT_MAX_BACKUP_INDEX);
@@ -265,53 +279,56 @@ public class Log4jWrapper extends LoggerBase {
     /**
      * Выполнить конфигурацию логирования, с установленными ранее значениями
      */
-    private void configuration(){
-        if(configuration != null) {
+    private void configuration() {
+        if (configuration != null) {
             PatternLayout layout = new PatternLayout();
             layout.setConversionPattern(configuration.getPattern());
 
-            wrappedObject.removeAllAppenders();
+            logger.removeAllAppenders();
 
-            wrappedObject.setLevel(configuration.getLevel());
+            logger.setLevel(convertLogLevel(configuration.getLevel()));
 
             if (configuration.isLogToConsole()) {
                 ConsoleAppender consoleAppender = new ConsoleAppender();
                 consoleAppender.setLayout(layout);
                 consoleAppender.activateOptions();
-                wrappedObject.addAppender(consoleAppender);
+                logger.addAppender(consoleAppender);
             }
 
             if (configuration.isLogToFile()) {
                 RollingFileAppender fileAppender = new RollingFileAppender();
-                fileAppender.setThreshold(configuration.isLogDebugToSeparateFile() ? Level.INFO :  Level.DEBUG);
-                fileAppender.setFile(configuration.getLogDirectoryPath() + File.separator + configuration.getLogFileName());
+                fileAppender.setThreshold(configuration.isLogDebugToSeparateFile() ? Level.INFO : Level.DEBUG);
+                fileAppender.setFile(
+                        configuration.getLogDirectoryPath() + File.separator + configuration.getLogFileName());
                 fileAppender.setMaxFileSize(configuration.getMaxFileSize());
                 fileAppender.setMaxBackupIndex(configuration.getMaxBackupIndex());
                 fileAppender.setLayout(layout);
                 fileAppender.activateOptions();
-                wrappedObject.addAppender(fileAppender);
+                logger.addAppender(fileAppender);
             }
 
             if (configuration.isLogErrorsToAdditionalFile()) {
                 RollingFileAppender errorFileAppender = new RollingFileAppender();
                 errorFileAppender.setThreshold(Level.ERROR);
-                errorFileAppender.setFile(configuration.getLogDirectoryPath() + File.separator + configuration.getErrorLogFileName());
+                errorFileAppender.setFile(
+                        configuration.getLogDirectoryPath() + File.separator + configuration.getErrorLogFileName());
                 errorFileAppender.setMaxFileSize(configuration.getErrorMaxFileSize());
                 errorFileAppender.setMaxBackupIndex(configuration.getErrorMaxBackupIndex());
                 errorFileAppender.setLayout(layout);
                 errorFileAppender.activateOptions();
-                wrappedObject.addAppender(errorFileAppender);
+                logger.addAppender(errorFileAppender);
             }
 
             if (configuration.isLogDebugToSeparateFile()) {
                 RollingFileAppender debugFileAppender = new RollingFileAppender();
                 debugFileAppender.setThreshold(Level.DEBUG);
-                debugFileAppender.setFile(configuration.getLogDirectoryPath() + File.separator + configuration.getDebugLogFileName());
+                debugFileAppender.setFile(
+                        configuration.getLogDirectoryPath() + File.separator + configuration.getDebugLogFileName());
                 debugFileAppender.setMaxFileSize(configuration.getDebugMaxFileSize());
                 debugFileAppender.setMaxBackupIndex(configuration.getDebugMaxBackupIndex());
                 debugFileAppender.setLayout(layout);
                 debugFileAppender.activateOptions();
-                wrappedObject.addAppender(debugFileAppender);
+                logger.addAppender(debugFileAppender);
             }
         }
     }
@@ -338,22 +355,26 @@ public class Log4jWrapper extends LoggerBase {
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
-    public String toString(){
-        return String.format("Logger: %s", wrappedObject.getName());
+    public String toString() {
+        return String.format("Logger: %s", logger.getName());
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Log4jWrapper object = (Log4jWrapper) o;
-        return Objects.equals(wrappedObject, object.wrappedObject) &&
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Log4j object = (Log4j) o;
+        return Objects.equals(logger, object.logger) &&
                 Objects.equals(configuration, object.configuration);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(wrappedObject, configuration);
+        return Objects.hash(logger, configuration);
     }
     //</editor-fold>
 }

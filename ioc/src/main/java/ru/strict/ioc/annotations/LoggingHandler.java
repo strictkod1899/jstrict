@@ -117,6 +117,7 @@ public class LoggingHandler implements InvocationHandler, MethodInterceptor, Cal
                 LogLevel methodLogLevel = methodAnnotation.logLevel();
                 methodLoggersInstances.forEach(logger -> loggersMap.put(logger, methodLogLevel));
             }
+
             try {
                 loggersMap.forEach((logger, level) -> logger.log(level,
                         "Run method [%s] in class [%s]",
