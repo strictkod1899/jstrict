@@ -2,8 +2,8 @@ package ru.strict.i18n;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import ru.strict.marshaling.LocalizedStringDeserializer;
-import ru.strict.marshaling.LocalizedStringSerializer;
+import ru.strict.json.LocalizedStringDeserializer;
+import ru.strict.json.LocalizedStringSerializer;
 import ru.strict.validate.Validator;
 
 import java.util.HashMap;

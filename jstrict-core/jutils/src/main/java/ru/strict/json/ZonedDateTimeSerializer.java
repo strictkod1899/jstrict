@@ -1,4 +1,4 @@
-package ru.strict.marshaling;
+package ru.strict.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -8,9 +8,10 @@ import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class ZonedDateTimeTzSerializer extends JsonSerializer<ZonedDateTime> {
 
-	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss x");
+public class ZonedDateTimeSerializer extends JsonSerializer<ZonedDateTime> {
+
+	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
 
 	@Override
 	public void serialize(ZonedDateTime value, JsonGenerator gen, SerializerProvider provider) throws IOException {

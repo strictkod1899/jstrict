@@ -1,4 +1,4 @@
-package ru.strict.marshaling;
+package ru.strict.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
