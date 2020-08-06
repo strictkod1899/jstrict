@@ -6,7 +6,6 @@ import ru.strict.ioc.annotations.LoggerHandler;
 import ru.strict.ioc.annotations.LoggingHandler;
 import ru.strict.ioc.annotations.PostConstructHandler;
 import ru.strict.ioc.exceptions.ManyMatchComponentsException;
-import ru.strict.ioc.exceptions.ManyMatchConstructorsException;
 import ru.strict.ioc.exceptions.MatchInstanceTypeException;
 import ru.strict.logging.LoggerBase;
 import ru.strict.utils.ReflectionUtil;
@@ -16,6 +15,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+
+import static ru.strict.ioc.IoCUtils.*;
 
 /**
  * Чтобы при использовании метода addComponent передать string-переменную как значение параметра конструктору,
@@ -266,38 +267,6 @@ public class IoC implements IIoC {
                 closeSessionInstanceProcess(key);
             }
         }
-    }
-
-    public static <T> Constructor<T> findConstructor(Class<T> instanceClass) {
-        return findConstructor(instanceClass, false);
-    }
-
-    public static <T> Constructor<T> findConstructor(Class<T> instanceClass, boolean onlyPublic) {
-        Constructor[] constructors =
-                onlyPublic ? instanceClass.getConstructors() : instanceClass.getDeclaredConstructors();
-        Constructor mainConstructor = ComponentHandler.getMainConstructor(constructors);
-        if (mainConstructor == null) {
-            if (constructors.length == 1) {
-                mainConstructor = constructors[0];
-            } else {
-                throw new ManyMatchConstructorsException(instanceClass);
-            }
-        }
-
-        return mainConstructor;
-    }
-
-    /**
-     * Создать объекты для аргументов указанного конструктора
-     */
-    public Object[] createConstructorArguments(Constructor<?> constructor) {
-        Class<?>[] argumentTypes = constructor.getParameterTypes();
-        Object[] arguments = new Object[argumentTypes.length];
-        for (int i = 0; i < arguments.length; i++) {
-            arguments[i] = getComponent(argumentTypes[i]);
-        }
-
-        return arguments;
     }
 
     /**

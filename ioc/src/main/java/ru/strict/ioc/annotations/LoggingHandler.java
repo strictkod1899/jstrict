@@ -15,6 +15,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.*;
 
+import static ru.strict.ioc.IoCUtils.*;
+
 public class LoggingHandler implements InvocationHandler, MethodInterceptor, Callback {
 
     private Object instance;
@@ -63,8 +65,8 @@ public class LoggingHandler implements InvocationHandler, MethodInterceptor, Cal
             // Если класс или какой-либо метод помечен аннотацией, то создадим прокси объект
             LoggingHandler handler = new LoggingHandler(instance, (Logging) annotation, defaultLoggersClasses, ioc);
 
-            Constructor<?> constructor = IoC.findConstructor(instance.getClass());
-            Object[] arguments = ioc.createConstructorArguments(constructor);
+            Constructor<?> constructor = findConstructor(instance.getClass());
+            Object[] arguments = createConstructorArguments(constructor, ioc);
             instance = ReflectionUtil.createCglibProxy(instance.getClass(), handler, constructor, arguments);
         }
         return instance;
