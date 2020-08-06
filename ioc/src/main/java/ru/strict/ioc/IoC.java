@@ -4,12 +4,12 @@ import ru.strict.exceptions.ValidateException;
 import ru.strict.ioc.annotations.ComponentHandler;
 import ru.strict.ioc.annotations.LoggerHandler;
 import ru.strict.ioc.annotations.LoggingHandler;
+import ru.strict.ioc.annotations.PostConstructHandler;
 import ru.strict.ioc.exceptions.ManyMatchComponentsException;
 import ru.strict.ioc.exceptions.ManyMatchConstructorsException;
 import ru.strict.ioc.exceptions.MatchInstanceTypeException;
 import ru.strict.logging.LoggerBase;
 import ru.strict.utils.ReflectionUtil;
-import ru.strict.validate.Validator;
 
 import java.lang.reflect.Constructor;
 import java.util.Collection;
@@ -386,8 +386,9 @@ public class IoC implements IIoC {
 
     private <RESULT> RESULT postCreateProcess(RESULT instance) {
         LoggerHandler.injectLogger(instance, this, defaultLogger);
-        instance =
-                (RESULT) LoggingHandler.getLoggedInstance(instance, this, defaultLoggingClasses.toArray(new Class[0]));
+        PostConstructHandler.invokePostConstructMethod(instance);
+        instance = (RESULT)
+                LoggingHandler.wrapToLoggedInstance(instance, this, defaultLoggingClasses.toArray(new Class[0]));
         return instance;
     }
 
