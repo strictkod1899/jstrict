@@ -1,5 +1,6 @@
 package ru.strict.validate;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -116,5 +117,30 @@ public class ValidatorTest {
         array [0] = "123";
 
         Validator.isEmptyOrNull(array, "value");
+    }
+
+    @Test
+    public void test016_byDetails() {
+        String details = "Details message";
+        try {
+            Validator.byDetails(details).isNull(null, "value");
+        } catch (ValidateException ex) {
+            Assert.assertEquals(details, ex.getDetails());
+        }
+    }
+
+    @Test
+    public void test017_byDetails() {
+        String details = "Details %s";
+        Object[] args = new Object[] {
+                "message"
+        };
+        String expectedDetails = String.format(details, args);
+
+        try {
+            Validator.byDetails(details, args).isNull(null, "value");
+        } catch (ValidateException ex) {
+            Assert.assertEquals(expectedDetails, ex.getDetails());
+        }
     }
 }

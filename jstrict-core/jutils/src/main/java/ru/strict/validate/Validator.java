@@ -11,6 +11,10 @@ public final class Validator {
 
     private Validator() {}
 
+    public static DetailsValidator byDetails(String details, Object...args) {
+        return new DetailsValidator(details, args);
+    }
+
     public static void isNull(Object value, String caption) {
         if (value == null) {
             throw new ValidateException(caption, "value is NULL");
