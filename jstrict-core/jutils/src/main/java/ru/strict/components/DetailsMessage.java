@@ -2,21 +2,21 @@ package ru.strict.components;
 
 import java.util.Objects;
 
-public class ErrorDetails extends Error {
+public class DetailsMessage extends Message {
 
     private String details;
 
-    public ErrorDetails(String message, String details) {
+    public DetailsMessage(String message, String details) {
         super(message);
         this.details = details;
     }
 
-    public ErrorDetails(String code, String message, String details) {
+    public DetailsMessage(String code, String message, String details) {
         super(code, message);
         this.details = details;
     }
 
-    public ErrorDetails(ErrorCode code, String message, String details) {
+    public DetailsMessage(MessageType code, String message, String details) {
         super(code, message);
         this.details = details;
     }
@@ -36,7 +36,7 @@ public class ErrorDetails extends Error {
         if (!super.equals(o)) {
             return false;
         }
-        ErrorDetails that = (ErrorDetails) o;
+        DetailsMessage that = (DetailsMessage) o;
         return Objects.equals(details, that.details);
     }
 

@@ -1,5 +1,5 @@
 package ru.strict.components;
 
-public interface IFieldError extends IError {
+public interface IFieldMessage extends IMessage {
     String getField();
 }

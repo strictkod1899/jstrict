@@ -1,6 +1,6 @@
 package ru.strict.patterns.view.console;
 
-import ru.strict.components.Error;
+import ru.strict.components.Message;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,11 +14,11 @@ import java.util.List;
 public class BaseUIModel<STAGE> implements IConsoleModel<STAGE>{
 
     private STAGE currentStage;
-    private List<Error> errors;
+    private List<Message> alerts;
     private List<String> warnings;
 
     public BaseUIModel() {
-        errors = new ArrayList<>();
+        alerts = new ArrayList<>();
         warnings = new ArrayList<>();
     }
 
@@ -38,34 +38,34 @@ public class BaseUIModel<STAGE> implements IConsoleModel<STAGE>{
     }
 
     @Override
-    public List<Error> getErrors() {
-        return errors;
+    public List<Message> getAlerts() {
+        return alerts;
     }
 
     @Override
-    public List<Error> popErrors() {
-        List<Error> result = new ArrayList<>(errors);
+    public List<Message> popErrors() {
+        List<Message> result = new ArrayList<>(alerts);
         cleanErrors();
         return result;
     }
 
     @Override
-    public void addError(Error error) {
-        if(error != null){
-            errors.add(error);
+    public void addError(Message alert) {
+        if(alert != null){
+            alerts.add(alert);
         }
     }
 
     @Override
-    public void addErrors(Collection<Error> errors) {
-        if(errors != null){
-            this.errors.addAll(errors);
+    public void addErrors(Collection<Message> alerts) {
+        if(alerts != null){
+            this.alerts.addAll(alerts);
         }
     }
 
     @Override
     public void cleanErrors() {
-        errors.clear();
+        alerts.clear();
     }
 
     @Override

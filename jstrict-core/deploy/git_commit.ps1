@@ -36,7 +36,7 @@ try{
     git checkout $branch
     $current_branch = git rev-parse --abbrev-ref HEAD
     if($current_branch -ne $branch){
-        throw "error branch checkout"
+        throw "alert branch checkout"
     }
 
     git add *

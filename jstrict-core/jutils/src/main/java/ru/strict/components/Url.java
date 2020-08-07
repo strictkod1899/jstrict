@@ -5,44 +5,42 @@ import ru.strict.validate.BaseValidate;
 import java.util.Objects;
 
 public class Url implements Cloneable {
-
-    private String protocol;
-    private String host;
-    private String address;
-    private String url;
+    private final String protocol;
+    private final String host;
+    private final String address;
+    private final String url;
 
     public Url(String address) {
-        this.address = address;
-        createUrl();
+        this(null, null, address);
     }
 
     public Url(String host, String address) {
-        this.host = host;
-        this.address = address;
-        createUrl();
+        this(null, host, address);
     }
 
     public Url(String protocol, String host, String address) {
         this.protocol = protocol;
         this.host = host;
         this.address = address;
-        createUrl();
+        this.url = createUrl();
     }
 
-    private void createUrl(){
-        if(!BaseValidate.isEmptyOrNull(protocol)
+    private String createUrl() {
+        if (!BaseValidate.isEmptyOrNull(protocol)
                 && !BaseValidate.isEmptyOrNull(host)
                 && !BaseValidate.isEmptyOrNull(address)) {
-            url = String.format("%s://%s/%s", protocol, host, address);
-        } else if(BaseValidate.isEmptyOrNull(protocol)
+            return String.format("%s://%s/%s", protocol, host, address);
+        } else if (BaseValidate.isEmptyOrNull(protocol)
                 && !BaseValidate.isEmptyOrNull(host)
                 && !BaseValidate.isEmptyOrNull(address)) {
-            url = String.format("%s/%s", host, address);
-        } else if(BaseValidate.isEmptyOrNull(protocol)
+            return String.format("%s/%s", host, address);
+        } else if (BaseValidate.isEmptyOrNull(protocol)
                 && BaseValidate.isEmptyOrNull(host)
                 && !BaseValidate.isEmptyOrNull(address)) {
-            url = String.format("/%s", address);
+            return String.format("/%s", address);
         }
+
+        throw new IllegalArgumentException("Fail url creating");
     }
 
     public String getProtocol() {
@@ -62,14 +60,18 @@ public class Url implements Cloneable {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return getUrl();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Url object = (Url) o;
         return Objects.equals(protocol, object.protocol) &&
                 Objects.equals(host, object.host) &&
@@ -85,7 +87,7 @@ public class Url implements Cloneable {
     @Override
     public Url clone() {
         try {
-            return (Url)super.clone();
+            return (Url) super.clone();
         } catch (CloneNotSupportedException ex) {
             throw new RuntimeException(ex);
         }

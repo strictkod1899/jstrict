@@ -3,19 +3,24 @@ package ru.strict.components;
 import java.util.Objects;
 
 /**
- * Ошибка поля ввода данных
+ * Сообщение поля ввода данных
  */
-public class FieldError extends Error implements IFieldError{
+public class FieldMessage extends Message implements IFieldMessage {
 
     private String field;
 
-    public FieldError(String field, String errorMessage) {
-        super(errorMessage);
+    public FieldMessage(String field, String message) {
+        super(message);
         this.field = field;
     }
 
-    public FieldError(String field, String code, String errorMessage) {
-        super(code, errorMessage);
+    public FieldMessage(String field, String code, String message) {
+        super(code, message);
+        this.field = field;
+    }
+
+    public FieldMessage(String field, MessageType code, String message) {
+        super(code, message);
         this.field = field;
     }
 
@@ -33,7 +38,7 @@ public class FieldError extends Error implements IFieldError{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        FieldError object = (FieldError) o;
+        FieldMessage object = (FieldMessage) o;
         return Objects.equals(field, object.field);
     }
 
@@ -43,7 +48,7 @@ public class FieldError extends Error implements IFieldError{
     }
 
     @Override
-    public FieldError clone() {
-        return (FieldError) super.clone();
+    public FieldMessage clone() {
+        return (FieldMessage) super.clone();
     }
 }

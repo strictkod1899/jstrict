@@ -1,6 +1,6 @@
 package ru.strict.components;
 
-public interface IError {
+public interface IMessage {
     String getCode();
     String getMessage();
 }

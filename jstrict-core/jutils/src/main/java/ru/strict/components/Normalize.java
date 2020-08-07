@@ -5,17 +5,27 @@ import java.util.Objects;
 /**
  * Функция нормализации значений
  */
-public class Normalize implements Cloneable{
+public class Normalize implements Cloneable {
 
     private float min;
     private float max;
     private float targetMin;
     private float targetMax;
 
+    /**
+     * Нормализация значений в пределах от 0 до 1
+     * @param min минимальное значение исходной метрики
+     * @param max максимальное значение исходной метрики
+     */
     public Normalize(float min, float max) {
         this(min, max, 0, 1);
     }
 
+    /**
+     * Нормализация значений в пределах от {@param targetMin} до {@param targetMax}
+     * @param min минимальное значение исходной метрики
+     * @param max максимальное значение исходной метрики
+     */
     public Normalize(float min, float max, float targetMin, float targetMax) {
         this.min = min;
         this.max = max;
@@ -24,13 +34,17 @@ public class Normalize implements Cloneable{
     }
 
     public float calc(float value) {
-        return (((value - min)*(targetMax-targetMin))/(max-min))+targetMin;
+        return (((value - min) * (targetMax - targetMin)) / (max - min)) + targetMin;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Normalize object = (Normalize) o;
         return Float.compare(object.min, min) == 0 &&
                 Float.compare(object.max, max) == 0 &&
@@ -46,7 +60,7 @@ public class Normalize implements Cloneable{
     @Override
     public Normalize clone() {
         try {
-            return (Normalize)super.clone();
+            return (Normalize) super.clone();
         } catch (CloneNotSupportedException ex) {
             throw new RuntimeException(ex);
         }

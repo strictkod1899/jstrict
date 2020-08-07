@@ -24,9 +24,15 @@ public class ResultObject<OBJECT> extends ResultMessages {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
         ResultObject<OBJECT> object = (ResultObject<OBJECT>) o;
         return Objects.equals(this.object, object.object);
     }
