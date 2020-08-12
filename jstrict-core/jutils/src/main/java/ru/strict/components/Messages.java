@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Messages implements Cloneable {
     /**
@@ -33,8 +34,20 @@ public class Messages implements Cloneable {
         return actionMessages;
     }
 
+    public List<String> getActionMessagesAsString() {
+        return actionMessages.stream()
+                .map(Message::toString)
+                .collect(Collectors.toList());
+    }
+
     public Collection<FieldMessage> getFieldMessages() {
         return fieldMessages;
+    }
+
+    public List<String> getFieldMessagesAsString() {
+        return fieldMessages.stream()
+                .map(Message::toString)
+                .collect(Collectors.toList());
     }
 
     @Override
