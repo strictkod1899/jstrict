@@ -1,6 +1,8 @@
 package ru.strict.components;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,15 +10,15 @@ public class Messages implements Cloneable {
     /**
      * Обобщенный сообщения
      */
-    private List<Message> actionMessages;
+    private Collection<Message> actionMessages;
     /**
      * Сообщения по ошибке в указанном поле
      */
-    private List<FieldMessage> fieldMessages;
+    private Collection<FieldMessage> fieldMessages;
 
-    public Messages() {
-        actionMessages = new ArrayList<>();
-        fieldMessages = new ArrayList<>();
+    public Messages(Collection<Message> actionMessages, Collection<FieldMessage> fieldMessages) {
+        this.actionMessages = actionMessages;
+        this.fieldMessages = fieldMessages;
     }
 
     public void addActionMessage(Message message){
@@ -27,11 +29,11 @@ public class Messages implements Cloneable {
         fieldMessages.add(message);
     }
 
-    public List<Message> getActionMessages() {
+    public Collection<Message> getActionMessages() {
         return actionMessages;
     }
 
-    public List<FieldMessage> getFieldMessages() {
+    public Collection<FieldMessage> getFieldMessages() {
         return fieldMessages;
     }
 
@@ -69,5 +71,13 @@ public class Messages implements Cloneable {
         } catch (CloneNotSupportedException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    public static Messages asList() {
+        return new Messages(new ArrayList<>(), new ArrayList<>());
+    }
+
+    public static Messages asSet() {
+        return new Messages(new LinkedHashSet<>(), new LinkedHashSet<>());
     }
 }
