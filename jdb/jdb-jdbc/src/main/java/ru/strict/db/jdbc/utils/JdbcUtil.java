@@ -22,6 +22,10 @@ import java.sql.SQLType;
 import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -168,12 +172,20 @@ public final class JdbcUtil {
                         statement.setArray(index, (Array) value);
                     } else if (value instanceof NClob) {
                         statement.setNClob(index, (NClob) value);
-                    } else if (value instanceof Date || value instanceof java.sql.Date) {
-                        statement.setDate(index, new java.sql.Date(((Date) value).getTime()));
                     } else if (value instanceof Time) {
                         statement.setTime(index, (Time) value);
                     } else if (value instanceof Timestamp) {
                         statement.setTimestamp(index, (Timestamp) value);
+                    } else if (value instanceof Date) {
+                        statement.setDate(index, new java.sql.Date(((Date) value).getTime()));
+                    } else if (value instanceof LocalDate) {
+                        statement.setDate(index, java.sql.Date.valueOf((LocalDate) value));
+                    } else if (value instanceof LocalDateTime) {
+                        statement.setTimestamp(index, Timestamp.valueOf((LocalDateTime) value));
+                    } else if (value instanceof ZonedDateTime) {
+                        statement.setTimestamp(index, Timestamp.valueOf(((ZonedDateTime) value).toLocalDateTime()));
+                    } else if (value instanceof LocalTime) {
+                        statement.setTime(index, Time.valueOf((LocalTime) value));
                     } else if (value instanceof URL) {
                         statement.setURL(index, (URL) value);
                     } else if (value instanceof Clob) {
