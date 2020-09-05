@@ -1,4 +1,4 @@
-package ru.strict.db;
+package ru.strict.db.jdbc.components;
 
 import ru.strict.db.core.common.ConnectionDriver;
 import ru.strict.db.core.connections.ConnectionCreatorByConnectionInfo;

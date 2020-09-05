@@ -4,12 +4,20 @@ import ru.strict.exceptions.AlertException;
 
 import static ru.strict.validate.Validator.*;
 
-public class ExceptionBuilder implements IExceptionBuilder {
+public class ExceptionProvider implements IExceptionProvider {
 
     private final IMessageProvider messageProvider;
 
-    public ExceptionBuilder(IMessageProvider messageProvider) {
+    public ExceptionProvider(IMessageProvider messageProvider) {
         this.messageProvider = messageProvider;
+    }
+
+    /**
+     * @throws AlertException
+     */
+    @Override
+    public void onThrow(IMessageCode messageCode, Object[] args) {
+        onThrow(messageCode.getCode(), args);
     }
 
     /**
