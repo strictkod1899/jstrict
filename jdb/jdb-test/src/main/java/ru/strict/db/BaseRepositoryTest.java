@@ -96,15 +96,7 @@ public abstract class BaseRepositoryTest<ID, MODEL extends BaseModel<ID>, REPOSI
 
         long count = repository.readCount(null);
         Assert.assertEquals(0L, count);
-        for (MODEL model : models) {
-            ID id = repository.create(model);
-            Assert.assertNotNull(id);
-            MODEL readModel = repository.read(id);
-            Assert.assertEquals(model, readModel);
-            model.setId(id);
-        }
-        count = repository.readCount(null);
-        Assert.assertEquals(models.length, count);
+        createModels(models);
 
         updateModel.setId(models[0].getId());
         repository.update(updateModel);
@@ -119,10 +111,30 @@ public abstract class BaseRepositoryTest<ID, MODEL extends BaseModel<ID>, REPOSI
         count = repository.readCount(null);
         Assert.assertEquals(models.length-1, count);
 
+        deleteModels(models);
+    }
+
+    protected void createModels(MODEL[] models) {
+        REPOSITORY repository = getRepository();
+
+        for (MODEL model : models) {
+            ID id = repository.create(model);
+            Assert.assertNotNull(id);
+            MODEL readModel = repository.read(id);
+            Assert.assertEquals(model, readModel);
+            model.setId(id);
+        }
+        long count = repository.readCount(null);
+        Assert.assertEquals(models.length, count);
+    }
+
+    protected void deleteModels(MODEL[] models) {
+        REPOSITORY repository = getRepository();
+
         for (MODEL model : models) {
             repository.delete(model.getId());
         }
-        count = repository.readCount(null);
+        long count = repository.readCount(null);
         Assert.assertEquals(0L, count);
     }
 
