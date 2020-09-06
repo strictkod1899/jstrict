@@ -80,9 +80,10 @@ public class SqlParameters implements Iterable<SqlParameter<?>> {
         );
     }
 
-    public void add(String name) {
+    public void add(Object value) {
+        String name = String.format("param_%s", parameters.size());
         checkParameter(name);
-        parameters.add(new SqlParameter<>(parameters.size(), name, null));
+        parameters.add(new SqlParameter<>(parameters.size(), name, value));
     }
 
     public void add(String name, Object value) {
@@ -197,7 +198,7 @@ public class SqlParameters implements Iterable<SqlParameter<?>> {
         }
 
         @Override
-        public void add(String name) {
+        public void add(Object value) {
             throw new UnsupportedOperationException();
         }
 
