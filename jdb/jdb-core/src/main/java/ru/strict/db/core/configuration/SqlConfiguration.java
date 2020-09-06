@@ -2,6 +2,8 @@ package ru.strict.db.core.configuration;
 
 import ru.strict.db.core.configuration.models.Query;
 import ru.strict.db.core.configuration.models.Sql;
+import ru.strict.db.core.exceptions.ConfigurationQueryNotFoundException;
+import ru.strict.db.core.exceptions.ConfigurationWhereNotFoundException;
 import ru.strict.db.core.exceptions.UncorrectedQueryFormatException;
 import ru.strict.validate.Validator;
 
@@ -67,10 +69,30 @@ public class SqlConfiguration {
                 .orElse(null);
     }
 
+    public String getQueryOrThrow(String groupName, String queryName) {
+        String query = getQuery(groupName, queryName);
+
+        if (query == null) {
+            throw new ConfigurationQueryNotFoundException(groupName, queryName);
+        }
+
+        return query;
+    }
+
     public String getWhere(String groupName, String whereName) {
         return Optional.ofNullable(groups.get(groupName))
                 .map(group -> group.getWhere(whereName))
                 .orElse(null);
+    }
+
+    public String getWhereOrThrow(String groupName, String whereName) {
+        String where = getWhere(groupName, whereName);
+
+        if (where == null) {
+            throw new ConfigurationWhereNotFoundException(groupName, whereName);
+        }
+
+        return where;
     }
 
     private SqlGroup createOrGetGroup(String groupName) {
