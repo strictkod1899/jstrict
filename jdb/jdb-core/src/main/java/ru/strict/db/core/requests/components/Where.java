@@ -52,7 +52,7 @@ public class Where extends ParameterizedRequest {
             StringBuilder sql = new StringBuilder();
             items.forEach(item -> {
                 if (sql.length() > 0) {
-                    sql.append(String.format("(%s %s)",
+                    sql.append(String.format(" %s (%s) ",
                             Optional.ofNullable(item.type)
                                     .map(WhereType::getSql)
                                     .orElse(""),
