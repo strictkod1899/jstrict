@@ -23,6 +23,10 @@ public enum GenerateIdType {
      */
     UUID,
     /**
+     * Генерация значений UUID, если в модели не установлен id
+     */
+    UUID_IF_NOT_EXISTS,
+    /**
      * Не генерировать значение
      */
     NONE;

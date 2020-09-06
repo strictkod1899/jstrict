@@ -90,20 +90,19 @@ public abstract class JdbcRepository
 
                 generatedId = executeSql(sql, parameters, true);
                 break;
+            case UUID_IF_NOT_EXISTS:
+                if (model.getId() == null) {
+                    generatedId = createWithUUIDGenerate(parameters);
+                } else {
+                    createWithoutGenerateId(parameters, model.getId());
+                    generatedId = model.getId();
+                }
+                break;
             case UUID:
-                shiftParameters(parameters, 1);
-                generatedId = (ID) UUID.randomUUID();
-                parameters.set(0, getIdColumnName(), generatedId);
-                sql = getSqlInsertWithId(parameters.size() - 1);
-
-                executeSql(sql, parameters);
+                generatedId = createWithUUIDGenerate(parameters);
                 break;
             case NONE:
-                shiftParameters(parameters, 1);
-                parameters.set(0, getIdColumnName(), model.getId());
-                sql = getSqlInsertWithId(parameters.size() - 1);
-
-                executeSql(sql, parameters);
+                createWithoutGenerateId(parameters, model.getId());
                 generatedId = model.getId();
                 break;
             default:
@@ -112,6 +111,24 @@ public abstract class JdbcRepository
         }
 
         return generatedId;
+    }
+
+    private ID createWithUUIDGenerate(SqlParameters parameters) {
+        shiftParameters(parameters, 1);
+        ID generatedId = (ID) UUID.randomUUID();
+        parameters.set(0, getIdColumnName(), generatedId);
+        String sql = getSqlInsertWithId(parameters.size() - 1);
+
+        executeSql(sql, parameters);
+        return generatedId;
+    }
+
+    private void createWithoutGenerateId(SqlParameters parameters, ID id) {
+        shiftParameters(parameters, 1);
+        parameters.set(0, getIdColumnName(), id);
+        String sql = getSqlInsertWithId(parameters.size() - 1);
+
+        executeSql(sql, parameters);
     }
 
     @Override
