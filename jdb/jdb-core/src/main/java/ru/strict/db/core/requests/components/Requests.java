@@ -54,9 +54,15 @@ public class Requests implements IParameterizedRequest {
     @Override
     public SqlParameters getParameters() {
         SqlParameters parameters = new SqlParameters();
-        parameters.addAll(join.getParameters());
-        parameters.addAll(where.getParameters());
-        parameters.addAll(groupBy.getParameters());
+        if (join != null) {
+            parameters.addAll(join.getParameters());
+        }
+        if (where != null) {
+            parameters.addAll(where.getParameters());
+        }
+        if (groupBy != null) {
+            parameters.addAll(groupBy.getParameters());
+        }
 
         return parameters;
     }
