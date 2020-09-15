@@ -67,7 +67,7 @@ public class City<ID> extends NamedModel<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString() {
-        return String.format("city [%s]: %s, country - %s", String.valueOf(getId()), getCaption(), countryId);
+        return String.format("city [%s]: %s, country - %s", String.valueOf(getId()), getName(), countryId);
     }
 
     @Override

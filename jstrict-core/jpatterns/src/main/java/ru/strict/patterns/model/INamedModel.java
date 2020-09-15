@@ -16,5 +16,5 @@ package ru.strict.patterns.model;
  * </pre></code>
  */
 public interface INamedModel<ID> extends IModel<ID> {
-    String getCaption();
+    String getName();
 }

@@ -10,40 +10,40 @@ public abstract class NamedModel<ID> extends BaseModel<ID> implements INamedMode
     /**
      * Наименование записи
      */
-    private String caption;
+    private String name;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public NamedModel() {
         super();
-        caption = null;
+        name = null;
     }
 
-    public NamedModel(String caption) {
+    public NamedModel(String name) {
         super();
-        this.caption = caption;
+        this.name = name;
     }
 
-    public NamedModel(ID id, String caption) {
+    public NamedModel(ID id, String name) {
         super(id);
-        this.caption = caption;
+        this.name = name;
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
     @Override
-    public String getCaption() {
-        return caption;
+    public String getName() {
+        return name;
     }
 
-    public void setCaption(String caption) {
-        this.caption = caption;
+    public void setName(String name) {
+        this.name = name;
     }
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString() {
-        return String.format("[%s]: %s", String.valueOf(getId()), caption);
+        return String.format("[%s]: %s", String.valueOf(getId()), name);
     }
 
     @Override
@@ -55,12 +55,12 @@ public abstract class NamedModel<ID> extends BaseModel<ID> implements INamedMode
             return false;
         }
         NamedModel<ID> model = (NamedModel<ID>) o;
-        return Objects.equals(caption, model.caption);
+        return Objects.equals(name, model.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(caption);
+        return Objects.hash(name);
     }
     //</editor-fold>
 }
