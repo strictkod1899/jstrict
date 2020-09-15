@@ -34,16 +34,11 @@ public class CommonValidate {
     }
 
     public static boolean isEmptyOrNull(Collection<?> collection) {
-        boolean result = false;
-        if (collection == null || collection.isEmpty()) {
-            result = true;
-        }
-
-        return result;
+        return collection == null || collection.isEmpty();
     }
 
     public static boolean isEmptyOrNull(Object[] array) {
-        boolean result = false;
+        boolean result;
         if (array == null || array.length == 0) {
             result = true;
         } else {
@@ -60,43 +55,23 @@ public class CommonValidate {
     }
 
     public static boolean isMinLength(String str, int minLength) {
-        boolean result = false;
-        if (str != null && str.length() >= minLength) {
-            result = true;
-        }
-        return result;
+        return str != null && str.length() >= minLength;
     }
 
     public static boolean isMaxLength(String str, int maxLength) {
-        boolean result = false;
-        if (str != null && str.length() <= maxLength) {
-            result = true;
-        }
-        return result;
+        return str != null && str.length() <= maxLength;
     }
 
     public static boolean isRangeLength(String str, int minLength, int maxLength) {
-        boolean result = false;
-        if (str != null && str.length() >= minLength && str.length() <= maxLength) {
-            result = true;
-        }
-        return result;
+        return str != null && str.length() >= minLength && str.length() <= maxLength;
     }
 
     public static boolean isRange(int number, int minValue, int maxValue) {
-        boolean result = true;
-        if (number < minValue || number > maxValue) {
-            result = false;
-        }
-        return result;
+        return number > minValue && number < maxValue;
     }
 
     public static boolean isRange(long number, long minValue, long maxValue) {
-        boolean result = true;
-        if (number < minValue || number > maxValue) {
-            result = false;
-        }
-        return result;
+        return number > minValue && number < maxValue;
     }
 
     /**
@@ -106,15 +81,13 @@ public class CommonValidate {
      * @return Если текстовое поле содержит корректные данные, то возвращается true, иначе false
      */
     public static boolean isInteger(String str) {
-        boolean result = false;
-
-        if (str != null) {
-            Pattern pattern = Pattern.compile("[+-]?\\d+");
-            Matcher match = pattern.matcher(str);
-            result = match.matches();
+        if (str == null) {
+            return false;
         }
 
-        return result;
+        Pattern pattern = Pattern.compile("[+-]?\\d+");
+        Matcher match = pattern.matcher(str);
+        return match.matches();
     }
 
     /**
@@ -124,15 +97,13 @@ public class CommonValidate {
      * @return Если текстовое поле содержит корректные данные, то возвращается true, иначе false
      */
     public static boolean isDouble(String str) {
-        boolean result = false;
-
-        if (str != null) {
-            Pattern pattern = Pattern.compile("([+-]?\\d+\\.?\\d*)");
-            Matcher match = pattern.matcher(str);
-            result = match.matches();
+        if (str == null) {
+            return false;
         }
 
-        return result;
+        Pattern pattern = Pattern.compile("([+-]?\\d+\\.?\\d*)");
+        Matcher match = pattern.matcher(str);
+        return match.matches();
     }
 
     /**
@@ -142,16 +113,14 @@ public class CommonValidate {
      * @param splitSymbol Разделяемый символ (например YYYY-MM-DD, YYYY/MM/DD)
      */
     public static boolean isDateStartYear(String str, char splitSymbol) {
-        boolean result = false;
-
-        if (str != null) {
-            Pattern pattern = Pattern.compile(
-                    "[0-9]{4}[" + splitSymbol + "](0[1-9]|1[012])[" + splitSymbol + "](0[1-9]|[12][0-9]|3[01])");
-            Matcher match = pattern.matcher(str);
-            result = match.matches();
+        if (str == null) {
+            return false;
         }
 
-        return result;
+        Pattern pattern = Pattern.compile(
+                "[0-9]{4}[" + splitSymbol + "](0[1-9]|1[012])[" + splitSymbol + "](0[1-9]|[12][0-9]|3[01])");
+        Matcher match = pattern.matcher(str);
+        return match.matches();
     }
 
     /**
@@ -161,16 +130,14 @@ public class CommonValidate {
      * @param splitSymbol Разделяемый символ (например DD/MM/YYYY, DD-MM-YYYY)
      */
     public static boolean isDateStartDay(String str, char splitSymbol) {
-        boolean result = false;
-
-        if (str != null) {
-            Pattern pattern = Pattern.compile(
-                    "(0[1-9]|[12][0-9]|3[01])[" + splitSymbol + "](0[1-9]|1[012])[" + splitSymbol + "][0-9]{4}");
-            Matcher match = pattern.matcher(str);
-            result = match.matches();
+        if (str == null) {
+            return false;
         }
 
-        return result;
+        Pattern pattern = Pattern.compile(
+                "(0[1-9]|[12][0-9]|3[01])[" + splitSymbol + "](0[1-9]|1[012])[" + splitSymbol + "][0-9]{4}");
+        Matcher match = pattern.matcher(str);
+        return match.matches();
     }
 
     /**
@@ -180,14 +147,12 @@ public class CommonValidate {
      * @param splitSymbol Разделяемый символ (например HH:MM:SS, HH-MM-SS)
      */
     public static boolean isTime(String str, char splitSymbol) {
-        boolean result = false;
-
-        if (str != null) {
-            Pattern pattern = Pattern.compile("^([0-1]\\d|2[0-3])(" + splitSymbol + "[0-5]\\d){2}$");
-            Matcher match = pattern.matcher(str);
-            result = match.matches();
+        if (str == null) {
+            return false;
         }
 
-        return result;
+        Pattern pattern = Pattern.compile("^([0-1]\\d|2[0-3])(" + splitSymbol + "[0-5]\\d){2}$");
+        Matcher match = pattern.matcher(str);
+        return match.matches();
     }
 }
