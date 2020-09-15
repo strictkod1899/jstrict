@@ -35,6 +35,6 @@ public class MaxLengthTest {
 
     @Test
     public void test(){
-        Assert.assertEquals(BaseValidate.isMaxLength(value, maxLength), expectedResult);
+        Assert.assertEquals(CommonValidate.isMaxLength(value, maxLength), expectedResult);
     }
 }

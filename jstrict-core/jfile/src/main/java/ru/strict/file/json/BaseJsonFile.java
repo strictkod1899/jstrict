@@ -2,7 +2,7 @@ package ru.strict.file.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ru.strict.utils.ClassUtil;
-import ru.strict.validate.BaseValidate;
+import ru.strict.validate.CommonValidate;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -20,14 +20,14 @@ public abstract class BaseJsonFile<TARGET> implements IJsonFile<TARGET> {
     }
 
     public BaseJsonFile(String filePath) {
-        if (BaseValidate.isEmptyOrNull(filePath)) {
+        if (CommonValidate.isEmptyOrNull(filePath)) {
             throw new IllegalArgumentException("filePath is NULL");
         }
         this.filePath = filePath;
     }
 
     public BaseJsonFile(String filePath, Class<TARGET> targetClass) {
-        if (BaseValidate.isEmptyOrNull(filePath)) {
+        if (CommonValidate.isEmptyOrNull(filePath)) {
             throw new IllegalArgumentException("filePath is NULL");
         }
         if (targetClass == null) {

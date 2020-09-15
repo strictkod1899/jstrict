@@ -6,7 +6,7 @@ import com.itextpdf.tool.xml.XMLWorkerHelper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import ru.strict.validate.BaseValidate;
+import ru.strict.validate.CommonValidate;
 
 import java.io.*;
 
@@ -18,7 +18,7 @@ public class HtmlUtl {
 
     public static Elements selectByFile(String filePath, String selector, String encoding)
             throws IOException, NullPointerException {
-        if (BaseValidate.isEmptyOrNull(filePath)) {
+        if (CommonValidate.isEmptyOrNull(filePath)) {
             throw new IllegalArgumentException("filePath is NULL");
         }
 
@@ -31,7 +31,7 @@ public class HtmlUtl {
     }
 
     public static Elements selectByContent(String content, String selector) throws NullPointerException {
-        if (BaseValidate.isEmptyOrNull(content)) {
+        if (CommonValidate.isEmptyOrNull(content)) {
             throw new IllegalArgumentException("content is NULL");
         }
 
@@ -44,7 +44,7 @@ public class HtmlUtl {
     }
 
     public static Elements selectByGet(String url, String selector) throws IOException, NullPointerException {
-        if (BaseValidate.isEmptyOrNull(url)) {
+        if (CommonValidate.isEmptyOrNull(url)) {
             throw new IllegalArgumentException("url is NULL");
         }
 
@@ -57,7 +57,7 @@ public class HtmlUtl {
     }
 
     public static Elements selectByPost(String url, String selector) throws IOException, NullPointerException {
-        if (BaseValidate.isEmptyOrNull(url)) {
+        if (CommonValidate.isEmptyOrNull(url)) {
             throw new IllegalArgumentException("url is NULL");
         }
 
@@ -90,7 +90,7 @@ public class HtmlUtl {
 
     private static Elements getTag(Document page, String selector) {
         Elements tags = null;
-        if (BaseValidate.isEmptyOrNull(selector)) {
+        if (CommonValidate.isEmptyOrNull(selector)) {
             tags = page.getAllElements();
         } else {
             tags = page.select(selector);

@@ -1,7 +1,7 @@
 package ru.strict.file.properties;
 
 import ru.strict.utils.ResourcesUtil;
-import ru.strict.validate.BaseValidate;
+import ru.strict.validate.CommonValidate;
 
 public abstract class ResourcePropertiesFile extends PropertiesFile {
 
@@ -28,7 +28,7 @@ public abstract class ResourcePropertiesFile extends PropertiesFile {
 
     public ResourcePropertiesFile(String resourcesFilePath, String suffix, String targetFilePath) {
         super(
-                BaseValidate.isEmptyOrNull(targetFilePath) ? resourcesFilePath : targetFilePath,
+                CommonValidate.isEmptyOrNull(targetFilePath) ? resourcesFilePath : targetFilePath,
                 suffix
         );
         init(resourcesFilePath);
@@ -58,7 +58,7 @@ public abstract class ResourcePropertiesFile extends PropertiesFile {
     private String getResourcesFilePathWithSuffix() {
         String result = null;
 
-        if (!BaseValidate.isEmptyOrNull(getSuffix())) {
+        if (!CommonValidate.isEmptyOrNull(getSuffix())) {
             result = String.format("%s_%s.properties", resourcesFilePath, getSuffix());
         } else {
             result = getResourcesFilePath();

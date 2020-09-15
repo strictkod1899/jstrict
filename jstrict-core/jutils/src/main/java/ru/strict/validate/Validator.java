@@ -22,25 +22,25 @@ public final class Validator {
     }
 
     public static void isEmptyOrNull(String value, String caption) {
-        if (BaseValidate.isEmptyOrNull(value)) {
+        if (CommonValidate.isEmptyOrNull(value)) {
             throw new ValidateException(caption, "value is EMPTY or NULL");
         }
     }
 
     public static void isEmptySpaceOrNull(String value, String caption) {
-        if (BaseValidate.isEmptySpaceOrNull(value)) {
+        if (CommonValidate.isEmptySpaceOrNull(value)) {
             throw new ValidateException(caption, "value is EMPTY SPACE or NULL");
         }
     }
 
     public static void isEmptyOrNull(Collection<?> collection, String caption) {
-        if (BaseValidate.isEmptyOrNull(collection)) {
+        if (CommonValidate.isEmptyOrNull(collection)) {
             throw new ValidateException(caption, "collection is EMPTY or NULL");
         }
     }
 
     public static void isEmptyOrNull(Object[] array, String caption) {
-        if (BaseValidate.isEmptyOrNull(array)) {
+        if (CommonValidate.isEmptyOrNull(array)) {
             throw new ValidateException(caption, "array is EMPTY or NULL");
         }
     }
@@ -94,7 +94,7 @@ public final class Validator {
     }
 
     public static void isRange(long number, String caption, long minValue, long maxValue) {
-        if (BaseValidate.isRange(number, minValue, maxValue)) {
+        if (CommonValidate.isRange(number, minValue, maxValue)) {
             throw new ValidateException(caption, String.format("number (%s) is in range (%s...%s)",
                     number,
                     minValue,
@@ -104,7 +104,7 @@ public final class Validator {
     }
 
     public static void isNotRange(long number, String caption, long minValue, long maxValue) {
-        if (!BaseValidate.isRange(number, minValue, maxValue)) {
+        if (!CommonValidate.isRange(number, minValue, maxValue)) {
             throw new ValidateException(caption, String.format("number (%s) isn't in range (%s...%s)",
                     number,
                     minValue,

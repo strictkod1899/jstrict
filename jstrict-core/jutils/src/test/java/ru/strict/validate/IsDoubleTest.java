@@ -33,6 +33,6 @@ public class IsDoubleTest {
 
     @Test
     public void test(){
-        Assert.assertEquals(BaseValidate.isDouble(value), expectedResult);
+        Assert.assertEquals(CommonValidate.isDouble(value), expectedResult);
     }
 }

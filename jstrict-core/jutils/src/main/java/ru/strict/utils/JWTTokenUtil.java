@@ -3,7 +3,7 @@ package ru.strict.utils;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import ru.strict.components.Token;
-import ru.strict.validate.BaseValidate;
+import ru.strict.validate.CommonValidate;
 
 import java.security.Key;
 import java.util.Date;
@@ -33,16 +33,16 @@ public class JWTTokenUtil {
         if (issuedAt != null) {
             builder.setIssuedAt(issuedAt);
         }
-        if (!BaseValidate.isEmptyOrNull(issuer)) {
+        if (!CommonValidate.isEmptyOrNull(issuer)) {
             builder.setIssuer(issuer);
         }
-        if (!BaseValidate.isEmptyOrNull(subject)) {
+        if (!CommonValidate.isEmptyOrNull(subject)) {
             builder.setSubject(subject);
         }
         if (notBefore != null) {
             builder.setNotBefore(notBefore);
         }
-        if (!BaseValidate.isEmptyOrNull(audience)) {
+        if (!CommonValidate.isEmptyOrNull(audience)) {
             builder.setAudience(audience);
         }
 

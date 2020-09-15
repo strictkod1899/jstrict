@@ -1,6 +1,6 @@
 package ru.strict.file.properties;
 
-import ru.strict.validate.BaseValidate;
+import ru.strict.validate.CommonValidate;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -14,7 +14,7 @@ public class PropertiesFile {
     private String suffix;
 
     private void init(String filePath, String suffix) {
-        if (BaseValidate.isEmptyOrNull(filePath)) {
+        if (CommonValidate.isEmptyOrNull(filePath)) {
             throw new IllegalArgumentException("properties file name is NULL");
         }
 
@@ -69,7 +69,7 @@ public class PropertiesFile {
         if (Files.exists(Paths.get(getFilePathWithSuffix()))) {
             result = PropertiesUtil.getValue(getFilePathWithSuffix(), key, encodingFile, encodingOutput);
         }
-        if (BaseValidate.isEmptyOrNull(result)) {
+        if (CommonValidate.isEmptyOrNull(result)) {
             if (Files.exists(Paths.get(getFilePath()))) {
                 result = PropertiesUtil.getValue(getFilePath(), key, encodingFile, encodingOutput);
             }
@@ -88,7 +88,7 @@ public class PropertiesFile {
     public String getFileNameWithSuffix() {
         String result = null;
 
-        if (!BaseValidate.isEmptyOrNull(suffix)) {
+        if (!CommonValidate.isEmptyOrNull(suffix)) {
             result = String.format("%s_%s.properties", fileName, suffix);
         } else {
             result = getFileName();

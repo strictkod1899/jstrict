@@ -1,7 +1,7 @@
 package ru.strict.utils;
 
 import ru.strict.exceptions.ResourceNotFoundException;
-import ru.strict.validate.BaseValidate;
+import ru.strict.validate.CommonValidate;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -57,7 +57,7 @@ public class ResourcesUtil {
      * @return
      */
     public static File getResourceAsFile(String resourcePath, String targetPath, Class classThisJarFile) {
-        targetPath = BaseValidate.isEmptyOrNull(targetPath) ? resourcePath : targetPath;
+        targetPath = CommonValidate.isEmptyOrNull(targetPath) ? resourcePath : targetPath;
         File file = new File(targetPath);
 
         if (!file.exists()) {

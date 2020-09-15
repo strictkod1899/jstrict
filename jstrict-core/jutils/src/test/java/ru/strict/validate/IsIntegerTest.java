@@ -33,6 +33,6 @@ public class IsIntegerTest {
 
     @Test
     public void test(){
-        Assert.assertEquals(BaseValidate.isInteger(value), expectedResult);
+        Assert.assertEquals(CommonValidate.isInteger(value), expectedResult);
     }
 }

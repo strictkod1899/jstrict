@@ -1,6 +1,6 @@
 package ru.strict.components;
 
-import ru.strict.validate.BaseValidate;
+import ru.strict.validate.CommonValidate;
 
 import java.util.Objects;
 
@@ -26,17 +26,17 @@ public class Url implements Cloneable {
     }
 
     private String createUrl() {
-        if (!BaseValidate.isEmptyOrNull(protocol)
-                && !BaseValidate.isEmptyOrNull(host)
-                && !BaseValidate.isEmptyOrNull(address)) {
+        if (!CommonValidate.isEmptyOrNull(protocol)
+                && !CommonValidate.isEmptyOrNull(host)
+                && !CommonValidate.isEmptyOrNull(address)) {
             return String.format("%s://%s/%s", protocol, host, address);
-        } else if (BaseValidate.isEmptyOrNull(protocol)
-                && !BaseValidate.isEmptyOrNull(host)
-                && !BaseValidate.isEmptyOrNull(address)) {
+        } else if (CommonValidate.isEmptyOrNull(protocol)
+                && !CommonValidate.isEmptyOrNull(host)
+                && !CommonValidate.isEmptyOrNull(address)) {
             return String.format("%s/%s", host, address);
-        } else if (BaseValidate.isEmptyOrNull(protocol)
-                && BaseValidate.isEmptyOrNull(host)
-                && !BaseValidate.isEmptyOrNull(address)) {
+        } else if (CommonValidate.isEmptyOrNull(protocol)
+                && CommonValidate.isEmptyOrNull(host)
+                && !CommonValidate.isEmptyOrNull(address)) {
             return String.format("/%s", address);
         }
 

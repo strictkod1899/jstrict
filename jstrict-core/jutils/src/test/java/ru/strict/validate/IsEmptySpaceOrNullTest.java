@@ -31,6 +31,6 @@ public class IsEmptySpaceOrNullTest {
 
     @Test
     public void test(){
-        Assert.assertEquals(BaseValidate.isEmptySpaceOrNull(value), expectedResult);
+        Assert.assertEquals(CommonValidate.isEmptySpaceOrNull(value), expectedResult);
     }
 }

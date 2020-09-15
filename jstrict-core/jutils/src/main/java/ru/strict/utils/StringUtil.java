@@ -1,6 +1,6 @@
 package ru.strict.utils;
 
-import ru.strict.validate.BaseValidate;
+import ru.strict.validate.CommonValidate;
 import ru.strict.validate.Validator;
 
 import java.io.UnsupportedEncodingException;
@@ -28,10 +28,10 @@ public final class StringUtil {
 
         String result;
         try {
-            if (BaseValidate.isEmptyOrNull(encodingOutput)) {
+            if (CommonValidate.isEmptyOrNull(encodingOutput)) {
                 result = value;
             } else {
-                if (!BaseValidate.isEmptyOrNull(defaultEncoding)) {
+                if (!CommonValidate.isEmptyOrNull(defaultEncoding)) {
                     result = new String(value.getBytes(defaultEncoding), encodingOutput);
                 } else {
                     result = new String(value.getBytes(), encodingOutput);
@@ -72,7 +72,7 @@ public final class StringUtil {
 
         StringBuilder result = new StringBuilder();
         strings.forEach(item -> {
-            if (!BaseValidate.isEmptyOrNull(item)) {
+            if (!CommonValidate.isEmptyOrNull(item)) {
                 if (result.length() > 0) {
                     result.append(separator);
                 }
@@ -94,7 +94,7 @@ public final class StringUtil {
 
         StringBuilder result = new StringBuilder();
         for (String item : strings) {
-            if (!BaseValidate.isEmptyOrNull(item)) {
+            if (!CommonValidate.isEmptyOrNull(item)) {
                 if (result.length() > 0) {
                     result.append(separator);
                 }
@@ -107,7 +107,7 @@ public final class StringUtil {
     }
 
     public static boolean isEmptyOrNull(String str) {
-        return BaseValidate.isEmptyOrNull(str);
+        return CommonValidate.isEmptyOrNull(str);
     }
 
     /**
@@ -125,7 +125,7 @@ public final class StringUtil {
      * @return
      */
     public static String emptyToNull(String str){
-        return BaseValidate.isEmptyOrNull(str) ? null : str;
+        return CommonValidate.isEmptyOrNull(str) ? null : str;
     }
 
     /**

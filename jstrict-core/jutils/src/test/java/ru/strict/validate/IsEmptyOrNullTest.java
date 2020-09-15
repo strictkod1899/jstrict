@@ -31,6 +31,6 @@ public class IsEmptyOrNullTest {
 
     @Test
     public void test(){
-        Assert.assertEquals(BaseValidate.isEmptyOrNull(value), expectedResult);
+        Assert.assertEquals(CommonValidate.isEmptyOrNull(value), expectedResult);
     }
 }

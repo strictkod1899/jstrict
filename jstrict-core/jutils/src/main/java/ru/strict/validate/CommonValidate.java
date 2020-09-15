@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 /**
  * Проверка валидности значений стандартных типов (строка, целые числа, дробные числа и т.д.)
  */
-public class BaseValidate {
+public class CommonValidate {
 
     /**
      * Проверка строки, чтобы она была не пустой и не равна нулю
@@ -26,14 +26,14 @@ public class BaseValidate {
      * @return Если строка не содержит пустых символов и является корректной, то возвращается true, иначе false
      */
     public static boolean isEmptySpaceOrNull(String str) {
-        if(str == null){
+        if (str == null) {
             return true;
         }
 
         return isEmptyOrNull(str.trim());
     }
 
-    public static boolean isEmptyOrNull(Collection<?> collection){
+    public static boolean isEmptyOrNull(Collection<?> collection) {
         boolean result = false;
         if (collection == null || collection.isEmpty()) {
             result = true;
@@ -42,7 +42,7 @@ public class BaseValidate {
         return result;
     }
 
-    public static boolean isEmptyOrNull(Object[] array){
+    public static boolean isEmptyOrNull(Object[] array) {
         boolean result = false;
         if (array == null || array.length == 0) {
             result = true;
@@ -59,41 +59,41 @@ public class BaseValidate {
         return result;
     }
 
-    public static boolean isMinLength(String str, int minLength){
+    public static boolean isMinLength(String str, int minLength) {
         boolean result = false;
-        if(str != null && str.length() >= minLength){
+        if (str != null && str.length() >= minLength) {
             result = true;
         }
         return result;
     }
 
-    public static boolean isMaxLength(String str, int maxLength){
+    public static boolean isMaxLength(String str, int maxLength) {
         boolean result = false;
-        if(str != null && str.length() <= maxLength){
+        if (str != null && str.length() <= maxLength) {
             result = true;
         }
         return result;
     }
 
-    public static boolean isRangeLength(String str, int minLength, int maxLength){
+    public static boolean isRangeLength(String str, int minLength, int maxLength) {
         boolean result = false;
-        if(str != null && str.length() >= minLength && str.length() <= maxLength){
+        if (str != null && str.length() >= minLength && str.length() <= maxLength) {
             result = true;
         }
         return result;
     }
 
-    public static boolean isRange(int number, int minValue, int maxValue){
+    public static boolean isRange(int number, int minValue, int maxValue) {
         boolean result = true;
-        if(number < minValue || number > maxValue){
+        if (number < minValue || number > maxValue) {
             result = false;
         }
         return result;
     }
 
-    public static boolean isRange(long number, long minValue, long maxValue){
+    public static boolean isRange(long number, long minValue, long maxValue) {
         boolean result = true;
-        if(number < minValue || number > maxValue){
+        if (number < minValue || number > maxValue) {
             result = false;
         }
         return result;
@@ -145,7 +145,8 @@ public class BaseValidate {
         boolean result = false;
 
         if (str != null) {
-            Pattern pattern = Pattern.compile("[0-9]{4}["+splitSymbol+"](0[1-9]|1[012])["+splitSymbol+"](0[1-9]|[12][0-9]|3[01])");
+            Pattern pattern = Pattern.compile(
+                    "[0-9]{4}[" + splitSymbol + "](0[1-9]|1[012])[" + splitSymbol + "](0[1-9]|[12][0-9]|3[01])");
             Matcher match = pattern.matcher(str);
             result = match.matches();
         }
@@ -163,7 +164,8 @@ public class BaseValidate {
         boolean result = false;
 
         if (str != null) {
-            Pattern pattern = Pattern.compile("(0[1-9]|[12][0-9]|3[01])["+splitSymbol+"](0[1-9]|1[012])["+splitSymbol+"][0-9]{4}");
+            Pattern pattern = Pattern.compile(
+                    "(0[1-9]|[12][0-9]|3[01])[" + splitSymbol + "](0[1-9]|1[012])[" + splitSymbol + "][0-9]{4}");
             Matcher match = pattern.matcher(str);
             result = match.matches();
         }
@@ -181,7 +183,7 @@ public class BaseValidate {
         boolean result = false;
 
         if (str != null) {
-            Pattern pattern = Pattern.compile("^([0-1]\\d|2[0-3])("+splitSymbol+"[0-5]\\d){2}$");
+            Pattern pattern = Pattern.compile("^([0-1]\\d|2[0-3])(" + splitSymbol + "[0-5]\\d){2}$");
             Matcher match = pattern.matcher(str);
             result = match.matches();
         }
