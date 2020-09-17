@@ -1,7 +1,7 @@
 package ru.strict.db.core.requests.components;
 
 import ru.strict.db.core.requests.IRequest;
-import ru.strict.validate.BaseValidate;
+import ru.strict.validate.CommonValidate;
 import ru.strict.validate.Validator;
 
 import java.util.Objects;
@@ -30,7 +30,7 @@ public class Table implements IRequest {
     }
 
     public String getRequiredName() {
-        if (BaseValidate.isEmptyOrNull(alias)) {
+        if (CommonValidate.isEmptyOrNull(alias)) {
             return tableName;
         } else {
             return alias;
@@ -39,7 +39,7 @@ public class Table implements IRequest {
 
     @Override
     public String getSql() {
-        if (BaseValidate.isEmptyOrNull(alias)) {
+        if (CommonValidate.isEmptyOrNull(alias)) {
             return tableName;
         } else {
             return String.format("%s AS %s", getTableName(), alias);

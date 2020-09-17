@@ -18,7 +18,7 @@ public class CountrySqlMapper<ID> extends BaseSqlMapper<Country<ID>> {
     public Country<ID> implementMap(ResultSet resultSet) throws SQLException {
         Country<ID> model = new Country();
         model.setId(getValueBySqlType(idType, resultSet, idColumnName));
-        model.setCaption(resultSet.getString(columns[0]));
+        model.setName(resultSet.getString(columns[0]));
         return model;
     }
 }

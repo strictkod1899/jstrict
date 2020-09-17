@@ -33,7 +33,7 @@ public class CityRepository<ID>
     @Override
     protected SqlParameters getParameters(City<ID> model) {
         SqlParameters parameters = new SqlParameters();
-        parameters.set(0, COLUMNS_NAME[0], model.getCaption());
+        parameters.set(0, COLUMNS_NAME[0], model.getName());
         parameters.set(1, COLUMNS_NAME[1], model.getCountryId());
         return parameters;
     }

@@ -63,11 +63,11 @@ public abstract class CityRepositoryTest extends NamedRepositoryTest<Long, City<
 
     @Override
     protected String getPrimaryCaption() {
-        return getPrimaryModel().getCaption();
+        return getPrimaryModel().getName();
     }
 
     @Override
     protected String getUpdatedCaption() {
-        return getUpdateModel().getCaption();
+        return getUpdateModel().getName();
     }
 }

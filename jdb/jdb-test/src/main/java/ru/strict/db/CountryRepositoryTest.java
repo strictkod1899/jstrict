@@ -37,11 +37,11 @@ public abstract class CountryRepositoryTest
 
     @Override
     protected String getPrimaryCaption() {
-        return getPrimaryModel().getCaption();
+        return getPrimaryModel().getName();
     }
 
     @Override
     protected String getUpdatedCaption() {
-        return getUpdateModel().getCaption();
+        return getUpdateModel().getName();
     }
 }

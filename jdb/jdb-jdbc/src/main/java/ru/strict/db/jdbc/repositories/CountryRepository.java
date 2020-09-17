@@ -29,7 +29,7 @@ public class CountryRepository<ID> extends NamedJdbcRepository<ID, Country<ID>> 
     @Override
     protected SqlParameters getParameters(Country<ID> model) {
         SqlParameters parameters = new SqlParameters();
-        parameters.set(0, COLUMNS_NAME[0], model.getCaption());
+        parameters.set(0, COLUMNS_NAME[0], model.getName());
         return parameters;
     }
 
