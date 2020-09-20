@@ -47,7 +47,7 @@ public final class DetailsValidator {
     }
 
     public void isLess(long number, String caption, long minValue) {
-        if ( number < minValue) {
+        if (number < minValue) {
             throw new ValidateException(caption, String.format("number (%s) < %s", number, minValue, details));
         }
     }

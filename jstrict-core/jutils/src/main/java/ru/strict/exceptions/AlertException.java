@@ -6,7 +6,7 @@ package ru.strict.exceptions;
  */
 public class AlertException extends RuntimeException {
 
-    public AlertException(String message, Object...args) {
+    public AlertException(String message, Object... args) {
         super(String.format(message, args));
     }
 }

@@ -29,13 +29,13 @@ public class ResultMessages implements Cloneable {
     }
 
     public void addAlert(Message alert) {
-        if(alert != null) {
+        if (alert != null) {
             this.alerts.add(alert);
         }
     }
 
     public void addAlert(String alert) {
-        if(alert != null) {
+        if (alert != null) {
             this.alerts.add(new Message(alert));
         }
     }
@@ -55,23 +55,27 @@ public class ResultMessages implements Cloneable {
     }
 
     public void addMessage(Message message) {
-        if(message != null) {
+        if (message != null) {
             this.messages.add(message);
         }
     }
 
-    public boolean hasMessages(){
+    public boolean hasMessages() {
         return !messages.isEmpty();
     }
 
-    public boolean hasAlerts(){
+    public boolean hasAlerts() {
         return !alerts.isEmpty();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         ResultMessages object = (ResultMessages) o;
         return Objects.equals(alerts, object.alerts) &&
                 Objects.equals(messages, object.messages);
@@ -85,10 +89,10 @@ public class ResultMessages implements Cloneable {
     @Override
     public ResultMessages clone() {
         try {
-            ResultMessages clone = (ResultMessages)super.clone();
+            ResultMessages clone = (ResultMessages) super.clone();
 
             List<Message> alerts = new ArrayList<>(this.alerts.size());
-            for(Message alert : this.alerts){
+            for (Message alert : this.alerts) {
                 alerts.add(alert.clone());
             }
 

@@ -11,9 +11,10 @@ import java.util.Locale;
  */
 public class SystemUtil {
 
-    public static final String AUTORUN_WINDOWS_USER_REG_LOCATION = "HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
+    public static final String AUTORUN_WINDOWS_USER_REG_LOCATION =
+            "HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
 
-    public static Process executeCommand(String command){
+    public static Process executeCommand(String command) {
         try {
             Process proc = Runtime.getRuntime().exec(command);
             return proc;
@@ -22,7 +23,7 @@ public class SystemUtil {
         }
     }
 
-    public static Process executeCommand(Process proc, String command){
+    public static Process executeCommand(Process proc, String command) {
         try {
             OutputStream out = proc.getOutputStream();
             out.write(command.getBytes());
@@ -70,47 +71,57 @@ public class SystemUtil {
 
     /**
      * Получить значение из реестра windows по ключу
+     *
      * @param location Путь в реестре
      * @param key Ключ реестра
      * @return
      */
-    public static String getWindowsRegKey(String location, String key){
+    public static String getWindowsRegKey(String location, String key) {
         return WinRegistry.readRegKey(location, key);
     }
 
-    public static void removeFromAutorun(String key){
+    public static void removeFromAutorun(String key) {
         setAutorunProgram(null, false, key);
     }
 
     /**
      * Установить файл для автозапуска
+     *
      * @param file Файл, коорый должен автоматически запускаться
      * @param isEnableAutorun Установить/удалить файл в/из автозапуска
      */
-    public static void setAutorunProgram(File file, boolean isEnableAutorun){
+    public static void setAutorunProgram(File file, boolean isEnableAutorun) {
         setAutorunProgram(file, isEnableAutorun, null);
     }
 
     /**
      * Установить файл для автозапуска
+     *
      * @param file Файл, коорый должен автоматически запускаться
      * @param isEnableAutorun Установить/удалить файл в/из автозапуска
      * @param key Ключ для добавления файла в автозапуск
      */
-    public static void setAutorunProgram(File file, boolean isEnableAutorun, String key){
+    public static void setAutorunProgram(File file, boolean isEnableAutorun, String key) {
         key = key != null ? key : (file == null ? null : file.getName());
 
-        if(key == null){
+        if (key == null) {
             throw new IllegalArgumentException("key is NULL");
         }
 
-        switch (getOperatingSystemType()){
+        switch (getOperatingSystemType()) {
             case WINDOWS:
                 try {
-                    if(isEnableAutorun){
-                        Runtime.getRuntime().exec(String.format("cmd /C reg add %s /v %s /t REG_SZ /d \"%s\" /f", AUTORUN_WINDOWS_USER_REG_LOCATION, key, file.getAbsolutePath()));
-                    }else{
-                        Runtime.getRuntime().exec(String.format("cmd /C reg delete %s /v %s /f\r\n", AUTORUN_WINDOWS_USER_REG_LOCATION, key));
+                    if (isEnableAutorun) {
+                        Runtime.getRuntime()
+                                .exec(String.format("cmd /C reg add %s /v %s /t REG_SZ /d \"%s\" /f",
+                                        AUTORUN_WINDOWS_USER_REG_LOCATION,
+                                        key,
+                                        file.getAbsolutePath()));
+                    } else {
+                        Runtime.getRuntime()
+                                .exec(String.format("cmd /C reg delete %s /v %s /f\r\n",
+                                        AUTORUN_WINDOWS_USER_REG_LOCATION,
+                                        key));
                     }
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
@@ -118,7 +129,9 @@ public class SystemUtil {
                 break;
             case MAC_OS:
                 StringBuilder macCommand = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-                macCommand.append("<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDsPropertyList-1.0.dtd\">\n");
+                macCommand.append(
+                        "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple" +
+                                ".com/DTDsPropertyList-1.0.dtd\">\n");
                 macCommand.append("<plist version=\"1.0\">\n");
                 macCommand.append("	<dict>\n");
                 macCommand.append("		<key>Label</key>\n");
@@ -158,7 +171,9 @@ public class SystemUtil {
                 }
                 break;
             default:
-                throw new UnsupportedOperationException(String.format("curren OS type not supported for settings autorun program [%s]", file.getAbsolutePath()));
+                throw new UnsupportedOperationException(String.format(
+                        "curren OS type not supported for settings autorun program [%s]",
+                        file.getAbsolutePath()));
         }
     }
 }

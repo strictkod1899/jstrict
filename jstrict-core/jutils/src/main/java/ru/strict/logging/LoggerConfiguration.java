@@ -162,8 +162,12 @@ public class LoggerConfiguration {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         LoggerConfiguration that = (LoggerConfiguration) o;
         return level == that.level &&
                 maxBackupIndex == that.maxBackupIndex &&
@@ -181,6 +185,17 @@ public class LoggerConfiguration {
 
     @Override
     public int hashCode() {
-        return Objects.hash(level, pattern, logDirectoryPath, logFileName, maxFileSize, maxBackupIndex, isLogToConsole, isLogToFile, logErrorsToAdditionalFile, errorLogFileName, errorMaxFileSize, errorMaxBackupIndex);
+        return Objects.hash(level,
+                pattern,
+                logDirectoryPath,
+                logFileName,
+                maxFileSize,
+                maxBackupIndex,
+                isLogToConsole,
+                isLogToFile,
+                logErrorsToAdditionalFile,
+                errorLogFileName,
+                errorMaxFileSize,
+                errorMaxBackupIndex);
     }
 }

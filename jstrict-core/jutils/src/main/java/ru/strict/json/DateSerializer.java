@@ -11,15 +11,15 @@ import java.util.Date;
 
 public class DateSerializer extends JsonSerializer<Date> {
 
-	private final DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+    private final DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
-	public void serialize(Date value, JsonGenerator generator, SerializerProvider provider) throws IOException {
-		String dateString = null;
-		if (value != null) {
-			dateString = this.dateFormat.format(value);
-		}
+    public void serialize(Date value, JsonGenerator generator, SerializerProvider provider) throws IOException {
+        String dateString = null;
+        if (value != null) {
+            dateString = this.dateFormat.format(value);
+        }
 
-		generator.writeString(dateString);
-	}
+        generator.writeString(dateString);
+    }
 
 }

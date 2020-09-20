@@ -9,9 +9,10 @@ import java.util.Collection;
  */
 public final class Validator {
 
-    private Validator() {}
+    private Validator() {
+    }
 
-    public static DetailsValidator byDetails(String details, Object...args) {
+    public static DetailsValidator byDetails(String details, Object... args) {
         return new DetailsValidator(details, args);
     }
 
@@ -46,7 +47,7 @@ public final class Validator {
     }
 
     public static void isLess(long number, String caption, long minValue) {
-        if ( number < minValue) {
+        if (number < minValue) {
             throw new ValidateException(caption, String.format("number (%s) < %s", number, minValue));
         }
     }

@@ -12,12 +12,12 @@ import java.util.UUID;
 public class JWTTokenUtil {
 
     public static Token createToken(UUID id,
-                                        Date expireTimeAccess,
-                                        Date issuedAt,
-                                        String issuer,
-                                        String subject,
-                                        Date notBefore,
-                                        String audience) {
+            Date expireTimeAccess,
+            Date issuedAt,
+            String issuer,
+            String subject,
+            Date notBefore,
+            String audience) {
 
         SignatureAlgorithm algorithm = SignatureAlgorithm.HS256;
         Key key = Keys.secretKeyFor(algorithm);
@@ -52,7 +52,7 @@ public class JWTTokenUtil {
         return new Token(token, secret, algorithm.name());
     }
 
-    public static Jws<Claims> decodeToken(String key, String token){
+    public static Jws<Claims> decodeToken(String key, String token) {
         Jws<Claims> result;
         try {
             result = Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(key.getBytes())).parseClaimsJws(token);

@@ -10,20 +10,22 @@ import java.util.Optional;
 
 public final class StringUtil {
 
-    private StringUtil() {}
+    private StringUtil() {
+    }
 
-    public static String convertStringToUTF8(String value){
+    public static String convertStringToUTF8(String value) {
         return convertStringToEncode(value, null, "UTF-8");
     }
 
-    public static String convertStringFromISOToUTF8(String value){
+    public static String convertStringFromISOToUTF8(String value) {
         return convertStringToEncode(value, "iso-8859-1", "UTF-8");
     }
-    public static String convertStringFromEncodeToUTF8(String value, String defaultEncode){
+
+    public static String convertStringFromEncodeToUTF8(String value, String defaultEncode) {
         return convertStringToEncode(value, defaultEncode, "UTF-8");
     }
 
-    public static String convertStringToEncode(String value, String defaultEncoding, String encodingOutput){
+    public static String convertStringToEncode(String value, String defaultEncoding, String encodingOutput) {
         Validator.isNull(value, "value");
 
         String result;
@@ -49,7 +51,7 @@ public final class StringUtil {
      * Пустые или нулевые строки будут пропущены
      * strings может быть null
      */
-    public static String safeJoin(String separator, String...strings) {
+    public static String safeJoin(String separator, String... strings) {
         return join(separator, Optional.ofNullable(strings).orElse(new String[0]));
     }
 
@@ -88,7 +90,7 @@ public final class StringUtil {
      * Объединить строки с использованием общего разделителя.
      * Пустые или нулевые строки будут пропущены
      */
-    public static String join(String separator, String...strings) {
+    public static String join(String separator, String... strings) {
         Validator.isNull(separator, "separator");
         Validator.isNull(strings, "strings elements for join");
 
@@ -112,19 +114,21 @@ public final class StringUtil {
 
     /**
      * Если строка равна null, тогда вернется пустая строка
+     *
      * @param str
      * @return
      */
-    public static String nullToEmpty(String str){
+    public static String nullToEmpty(String str) {
         return str == null ? "" : str;
     }
 
     /**
      * Если строка пустая, тогда вернется null
+     *
      * @param str
      * @return
      */
-    public static String emptyToNull(String str){
+    public static String emptyToNull(String str) {
         return CommonValidate.isEmptyOrNull(str) ? null : str;
     }
 

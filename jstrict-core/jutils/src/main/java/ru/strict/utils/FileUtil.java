@@ -13,12 +13,13 @@ public class FileUtil {
 
     /**
      * Создать файл в файловой системе. Если файл существует, то он будет удален
+     *
      * @param filepath Путь до файла
      * @param fileContent Стркоове содержимое файла
      * @throws IOException
      */
     public static void saveFile(String filepath, String fileContent) throws IOException {
-        if (CommonValidate.isEmptyOrNull(filepath)){
+        if (CommonValidate.isEmptyOrNull(filepath)) {
             throw new IllegalArgumentException("filepath for creating is NULL");
         }
         saveFile(new File(filepath), fileContent);
@@ -26,15 +27,16 @@ public class FileUtil {
 
     /**
      * Создать файл в файловой системе. Если файл существует, то он будет удален
+     *
      * @param file Файл, который будет создан
      * @param fileContent Стркоове содержимое файла
      * @throws IOException
      */
     public static void saveFile(File file, String fileContent) throws IOException {
-        if (file == null){
+        if (file == null) {
             throw new IllegalArgumentException("file for creating is NULL");
         }
-        if (fileContent == null){
+        if (fileContent == null) {
             throw new IllegalArgumentException("fileContent for creating is NULL");
         }
         recreateFile(file);
@@ -45,6 +47,7 @@ public class FileUtil {
 
     /**
      * Создать файл в файловой системе. Если файл существует, то он будет удален
+     *
      * @param filepath Путь до файла
      * @param fileBytes Байты, которые записываются в файл
      * @throws IOException
@@ -58,6 +61,7 @@ public class FileUtil {
 
     /**
      * Создать файл в файловой системе. Если файл существует, то он будет удален
+     *
      * @param file Файл, который будет создан
      * @param fileBytes Байты, которые записываются в файл
      * @throws IOException
@@ -78,6 +82,7 @@ public class FileUtil {
 
     /**
      * Создать файл. Если файл существует, то он будет перезаписан
+     *
      * @param filePath
      * @throws IOException
      */
@@ -90,6 +95,7 @@ public class FileUtil {
 
     /**
      * Создать файл. Если файл существует, то он будет перезаписан
+     *
      * @param file
      * @throws IOException
      */
@@ -105,6 +111,7 @@ public class FileUtil {
 
     /**
      * Создать файл, если он не существует
+     *
      * @param filePath
      * @throws IOException
      */
@@ -117,6 +124,7 @@ public class FileUtil {
 
     /**
      * Создать файл, если он не существует
+     *
      * @param file
      * @throws IOException
      */
@@ -126,7 +134,7 @@ public class FileUtil {
         }
         int lastSeparator = file.getAbsolutePath().lastIndexOf(File.separator);
 
-        if(lastSeparator < 0) {
+        if (lastSeparator < 0) {
             lastSeparator = file.getAbsolutePath().lastIndexOf('/');
         }
 
@@ -144,11 +152,12 @@ public class FileUtil {
 
     /**
      * Найти любой файл в папке по части наименования
+     *
      * @param folderPath
      * @param fileNamePart
      * @return
      */
-    public static File getFileByPartName(String folderPath, String fileNamePart){
+    public static File getFileByPartName(String folderPath, String fileNamePart) {
         if (CommonValidate.isEmptyOrNull(folderPath)) {
             throw new IllegalArgumentException("folderPath is NULL");
         }
@@ -159,11 +168,12 @@ public class FileUtil {
         File folder = new File(folderPath);
         File[] folderFiles = folder.listFiles();
 
-        if(folderFiles != null) {
+        if (folderFiles != null) {
             for (File folderItem : folderFiles) {
                 if (folderItem.isFile()) {
                     String filePath = folderItem.getAbsolutePath();
-                    String fileName = filePath.substring(filePath.lastIndexOf(File.separator) + File.separator.length());
+                    String fileName =
+                            filePath.substring(filePath.lastIndexOf(File.separator) + File.separator.length());
                     if (fileName.contains(fileNamePart)) {
                         result = folderItem;
                         break;
@@ -177,11 +187,12 @@ public class FileUtil {
 
     /**
      * Найти все файлы в папке по части наименования
+     *
      * @param folderPath
      * @param fileNamePart
      * @return
      */
-    public static Collection<File> getFilesByPartName(String folderPath, String fileNamePart){
+    public static Collection<File> getFilesByPartName(String folderPath, String fileNamePart) {
         if (CommonValidate.isEmptyOrNull(folderPath)) {
             throw new IllegalArgumentException("folderPath is NULL");
         }
@@ -192,11 +203,12 @@ public class FileUtil {
         File folder = new File(folderPath);
         File[] folderFiles = folder.listFiles();
 
-        if(folderFiles != null) {
+        if (folderFiles != null) {
             for (File folderItem : folderFiles) {
                 if (folderItem.isFile()) {
                     String filePath = folderItem.getAbsolutePath();
-                    String fileName = filePath.substring(filePath.lastIndexOf(File.separator) + File.separator.length());
+                    String fileName =
+                            filePath.substring(filePath.lastIndexOf(File.separator) + File.separator.length());
                     if (fileName.contains(fileNamePart)) {
                         result.add(folderItem);
                     }
@@ -207,21 +219,21 @@ public class FileUtil {
         return result;
     }
 
-    public static String getFileExtension(File file){
+    public static String getFileExtension(File file) {
         if (file == null) {
             throw new IllegalArgumentException("file is NULL");
         }
         return getFileExtension(file.getAbsolutePath());
     }
 
-    public static String getFileExtension(String filePath){
-        if (CommonValidate.isEmptyOrNull(filePath)){
+    public static String getFileExtension(String filePath) {
+        if (CommonValidate.isEmptyOrNull(filePath)) {
             throw new IllegalArgumentException("filePath is NULL");
         }
         String result = null;
         int startExtensionsPosition = filePath.lastIndexOf('.');
-        if(startExtensionsPosition >= 0) {
-            result =  filePath.substring(startExtensionsPosition+1);
+        if (startExtensionsPosition >= 0) {
+            result = filePath.substring(startExtensionsPosition + 1);
         }
 
         return result;

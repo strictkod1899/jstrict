@@ -14,6 +14,7 @@ public class Normalize implements Cloneable {
 
     /**
      * Нормализация значений в пределах от 0 до 1
+     *
      * @param min минимальное значение исходной метрики
      * @param max максимальное значение исходной метрики
      */
@@ -23,6 +24,7 @@ public class Normalize implements Cloneable {
 
     /**
      * Нормализация значений в пределах от {@param targetMin} до {@param targetMax}
+     *
      * @param min минимальное значение исходной метрики
      * @param max максимальное значение исходной метрики
      */

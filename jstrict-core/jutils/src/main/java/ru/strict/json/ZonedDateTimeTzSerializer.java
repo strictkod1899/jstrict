@@ -10,11 +10,11 @@ import java.time.format.DateTimeFormatter;
 
 public class ZonedDateTimeTzSerializer extends JsonSerializer<ZonedDateTime> {
 
-	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss x");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss x");
 
-	@Override
-	public void serialize(ZonedDateTime value, JsonGenerator gen, SerializerProvider provider) throws IOException {
-		gen.writeString(value.format(formatter));
-	}
+    @Override
+    public void serialize(ZonedDateTime value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+        gen.writeString(value.format(formatter));
+    }
 
 }

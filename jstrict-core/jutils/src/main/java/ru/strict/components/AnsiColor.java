@@ -81,8 +81,8 @@ public enum AnsiColor {
         return colorCode;
     }
 
-    public static AnsiColor getByCode(String colorCode){
-        if(colorCode == null){
+    public static AnsiColor getByCode(String colorCode) {
+        if (colorCode == null) {
             return null;
         }
 

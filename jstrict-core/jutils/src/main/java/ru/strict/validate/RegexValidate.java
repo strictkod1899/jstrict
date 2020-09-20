@@ -30,7 +30,8 @@ public class RegexValidate {
         boolean result = false;
 
         if (str != null) {
-            Pattern pattern = Pattern.compile("^[0-9A-Fa-f]{8}\\-[0-9A-Fa-f]{4}\\-[0-9A-Fa-f]{4}\\-[0-9A-Fa-f]{4}\\-[0-9A-Fa-f]{12}$");
+            Pattern pattern = Pattern.compile(
+                    "^[0-9A-Fa-f]{8}\\-[0-9A-Fa-f]{4}\\-[0-9A-Fa-f]{4}\\-[0-9A-Fa-f]{4}\\-[0-9A-Fa-f]{12}$");
             Matcher match = pattern.matcher(str);
             result = match.matches();
         }
@@ -69,7 +70,8 @@ public class RegexValidate {
     }
 
     /**
-     * Проверка имени пользователя (с ограничением 2-20 символов, которыми могут быть буквы и цифры, первый символ обязательно буква)
+     * Проверка имени пользователя (с ограничением 2-20 символов, которыми могут быть буквы и цифры, первый символ
+     * обязательно буква)
      */
     public static boolean isUsername(String str) {
         boolean result = false;
@@ -90,7 +92,8 @@ public class RegexValidate {
         boolean result = false;
 
         if (str != null) {
-            Pattern pattern = Pattern.compile("((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(25[0-5]|2[0-4]\\d|[01]?\\d\\d?)");
+            Pattern pattern =
+                    Pattern.compile("((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(25[0-5]|2[0-4]\\d|[01]?\\d\\d?)");
             Matcher match = pattern.matcher(str);
             result = match.matches();
         }

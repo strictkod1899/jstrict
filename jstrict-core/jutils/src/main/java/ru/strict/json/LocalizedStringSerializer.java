@@ -10,8 +10,8 @@ import java.io.IOException;
 public final class LocalizedStringSerializer extends JsonSerializer<LocalizedString> {
 
     public void serialize(LocalizedString localizedString,
-                          JsonGenerator jsonGenerator,
-                          SerializerProvider serializerProvider)
+            JsonGenerator jsonGenerator,
+            SerializerProvider serializerProvider)
             throws IOException {
         jsonGenerator.writeObject(localizedString.getStrings());
     }

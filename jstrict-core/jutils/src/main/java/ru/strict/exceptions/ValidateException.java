@@ -5,7 +5,7 @@ public class ValidateException extends RuntimeException {
     private String reason;
     private String details;
 
-    private ValidateException(String details, Object...args) {
+    private ValidateException(String details, Object... args) {
         super(String.format(details, args));
         this.details = details;
     }
@@ -35,7 +35,7 @@ public class ValidateException extends RuntimeException {
         return details;
     }
 
-    public static ValidateException byDetails(String details, Object...args) {
+    public static ValidateException byDetails(String details, Object... args) {
         return new ValidateException(details, args);
     }
 }

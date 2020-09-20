@@ -24,7 +24,7 @@ public class ExceptionProvider implements IExceptionProvider {
      * @throws AlertException
      */
     @Override
-    public void onThrow(String messageCode, Object...args) {
+    public void onThrow(String messageCode, Object... args) {
         String message = messageProvider.getMessage(messageCode);
         isNull(message, "message");
 

@@ -13,7 +13,9 @@ public class LocalDateTimeSerializer extends JsonSerializer<LocalDateTime> {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
 
     @Override
-    public void serialize(LocalDateTime localDateTime, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+    public void serialize(LocalDateTime localDateTime,
+            JsonGenerator jsonGenerator,
+            SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeString(localDateTime.format(formatter));
     }
 }

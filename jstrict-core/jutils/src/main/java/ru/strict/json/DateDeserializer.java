@@ -11,16 +11,16 @@ import java.util.Date;
 
 public class DateDeserializer extends JsonDeserializer<Date> {
 
-	private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
-	public Date deserialize(JsonParser parser, DeserializationContext ignore) throws IOException {
-		String dateString = parser.getText();
+    public Date deserialize(JsonParser parser, DeserializationContext ignore) throws IOException {
+        String dateString = parser.getText();
 
-		try {
-			return this.dateFormat.parse(dateString);
-		} catch (ParseException var5) {
-			return null;
-		}
-	}
+        try {
+            return this.dateFormat.parse(dateString);
+        } catch (ParseException var5) {
+            return null;
+        }
+    }
 
 }

@@ -10,7 +10,8 @@ import static java.time.temporal.ChronoField.*;
 
 public final class DateFormatters {
 
-    private DateFormatters() {}
+    private DateFormatters() {
+    }
 
     /**
      * Месяцы в родительном падеже для форматирования даты

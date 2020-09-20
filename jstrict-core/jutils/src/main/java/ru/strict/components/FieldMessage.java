@@ -35,9 +35,15 @@ public class FieldMessage extends Message implements IFieldMessage {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
         FieldMessage object = (FieldMessage) o;
         return Objects.equals(field, object.field);
     }

@@ -13,7 +13,8 @@ public final class LocalizedStringDeserializer extends JsonDeserializer<Localize
 
     public LocalizedString deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
             throws IOException {
-        TypeReference<Map<String, String>> typeRef = new TypeReference<Map<String, String>>() {};
-        return new LocalizedString((Map)jsonParser.readValueAs(typeRef));
+        TypeReference<Map<String, String>> typeRef = new TypeReference<Map<String, String>>() {
+        };
+        return new LocalizedString((Map) jsonParser.readValueAs(typeRef));
     }
 }

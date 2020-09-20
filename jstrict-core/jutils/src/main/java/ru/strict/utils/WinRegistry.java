@@ -8,11 +8,11 @@ import java.io.StringWriter;
 
 public class WinRegistry {
 
-    public static String readRegKey(String location, String key){
-        if(CommonValidate.isEmptyOrNull(location)){
+    public static String readRegKey(String location, String key) {
+        if (CommonValidate.isEmptyOrNull(location)) {
             throw new IllegalArgumentException("location is NULL");
         }
-        if(CommonValidate.isEmptyOrNull(key)){
+        if (CommonValidate.isEmptyOrNull(key)) {
             throw new IllegalArgumentException("key is NULL");
         }
 
@@ -28,13 +28,13 @@ public class WinRegistry {
 
             // Output has the following format:
             // \n<Version information>\n\n<key>\t<registry type>\t<value>
-            if(CommonValidate.isEmptySpaceOrNull(output)){
+            if (CommonValidate.isEmptySpaceOrNull(output)) {
                 return null;
             }
 
             // Parse out the value
             String[] parsed = output.split(" ");
-            return parsed[parsed.length-1].trim();
+            return parsed[parsed.length - 1].trim();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -42,7 +42,7 @@ public class WinRegistry {
 
     private static class StreamReader extends Thread {
         private InputStream is;
-        private StringWriter sw= new StringWriter();
+        private StringWriter sw = new StringWriter();
 
         public StreamReader(InputStream is) {
             this.is = is;
@@ -53,8 +53,7 @@ public class WinRegistry {
                 int c;
                 while ((c = is.read()) != -1)
                     sw.write(c);
-            }
-            catch (IOException ex) {
+            } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
         }

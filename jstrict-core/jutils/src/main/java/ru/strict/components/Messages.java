@@ -22,11 +22,11 @@ public class Messages implements Cloneable {
         this.fieldMessages = fieldMessages;
     }
 
-    public void addActionMessage(Message message){
+    public void addActionMessage(Message message) {
         actionMessages.add(message);
     }
 
-    public void addFieldMessage(FieldMessage message){
+    public void addFieldMessage(FieldMessage message) {
         fieldMessages.add(message);
     }
 
@@ -52,8 +52,12 @@ public class Messages implements Cloneable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Messages object = (Messages) o;
         return Objects.equals(actionMessages, object.actionMessages) &&
                 Objects.equals(fieldMessages, object.fieldMessages);
@@ -71,10 +75,10 @@ public class Messages implements Cloneable {
 
             List<Message> actionMessages = new ArrayList<>();
             List<FieldMessage> fieldMessages = new ArrayList<>();
-            for(Message message : this.actionMessages){
+            for (Message message : this.actionMessages) {
                 actionMessages.add(message.clone());
             }
-            for(FieldMessage message : this.fieldMessages){
+            for (FieldMessage message : this.fieldMessages) {
                 fieldMessages.add(message.clone());
             }
 
