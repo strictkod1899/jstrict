@@ -307,4 +307,33 @@ public class ReflectionUtil {
 
         return fields;
     }
+
+    public static <T> T getField(Object object, String fieldName) {
+        try {
+            Field targetField = object.getClass().getDeclaredField(fieldName);
+            boolean isAccessible = targetField.isAccessible();
+            targetField.setAccessible(true);
+
+            T result = (T) targetField.get(object);
+
+            targetField.setAccessible(isAccessible);
+            return result;
+        } catch (NoSuchFieldException | IllegalAccessException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public static void setField(Object object, String fieldName, Object field) {
+        try {
+            Field targetField = object.getClass().getDeclaredField(fieldName);
+            boolean isAccessible = targetField.isAccessible();
+            targetField.setAccessible(true);
+
+            targetField.set(object, field);
+
+            targetField.setAccessible(isAccessible);
+        } catch (NoSuchFieldException | IllegalAccessException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 }
