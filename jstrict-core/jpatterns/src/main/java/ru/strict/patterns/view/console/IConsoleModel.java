@@ -8,7 +8,7 @@ import java.util.List;
 public interface IConsoleModel<T> {
     T getStage();
     void setStage(T stage);
-    List<Message> getAlerts();
+    List<Message> getErrors();
     List<Message> popErrors();
     void addError(Message alert);
     void addErrors(Collection<Message> alerts);

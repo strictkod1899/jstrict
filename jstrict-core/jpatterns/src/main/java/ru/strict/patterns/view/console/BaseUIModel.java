@@ -14,11 +14,11 @@ import java.util.List;
 public class BaseUIModel<STAGE> implements IConsoleModel<STAGE>{
 
     private STAGE currentStage;
-    private List<Message> alerts;
+    private List<Message> errors;
     private List<String> warnings;
 
     public BaseUIModel() {
-        alerts = new ArrayList<>();
+        errors = new ArrayList<>();
         warnings = new ArrayList<>();
     }
 
@@ -38,13 +38,13 @@ public class BaseUIModel<STAGE> implements IConsoleModel<STAGE>{
     }
 
     @Override
-    public List<Message> getAlerts() {
-        return alerts;
+    public List<Message> getErrors() {
+        return errors;
     }
 
     @Override
     public List<Message> popErrors() {
-        List<Message> result = new ArrayList<>(alerts);
+        List<Message> result = new ArrayList<>(errors);
         cleanErrors();
         return result;
     }
@@ -52,20 +52,20 @@ public class BaseUIModel<STAGE> implements IConsoleModel<STAGE>{
     @Override
     public void addError(Message alert) {
         if(alert != null){
-            alerts.add(alert);
+            errors.add(alert);
         }
     }
 
     @Override
     public void addErrors(Collection<Message> alerts) {
         if(alerts != null){
-            this.alerts.addAll(alerts);
+            this.errors.addAll(alerts);
         }
     }
 
     @Override
     public void cleanErrors() {
-        alerts.clear();
+        errors.clear();
     }
 
     @Override
