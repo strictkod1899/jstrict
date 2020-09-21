@@ -4,11 +4,11 @@ import ru.strict.exceptions.AlertException;
 
 import static ru.strict.validate.Validator.*;
 
-public class ExceptionProvider implements IExceptionProvider {
+public class ExceptionThrower implements IExceptionProvider {
 
     private final IMessageProvider messageProvider;
 
-    public ExceptionProvider(IMessageProvider messageProvider) {
+    public ExceptionThrower(IMessageProvider messageProvider) {
         this.messageProvider = messageProvider;
     }
 
