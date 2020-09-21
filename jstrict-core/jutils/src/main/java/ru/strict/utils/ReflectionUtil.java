@@ -240,7 +240,7 @@ public class ReflectionUtil {
         Validator.isNull(annotationClass, "annotationClass");
 
         Class sourceClass = source.getClass();
-        Method[] methods = sourceClass.getMethods();
+        Method[] methods = sourceClass.getDeclaredMethods();
 
         Method foundedMethod = null;
         for (Method method : methods) {
