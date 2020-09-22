@@ -135,107 +135,84 @@ public class DateUtil {
 
     /**
      * Получить текущее число месяца
-     *
-     * @return
      */
     public static int getCurrentDay() {
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault(),
                 Locale.getDefault());
         calendar.setTime(new Date());
-        int result = calendar.get(Calendar.DAY_OF_MONTH);
-        return result;
+        return calendar.get(Calendar.DAY_OF_MONTH);
     }
 
     /**
      * Получить текущий месяц
-     *
-     * @return
      */
     public static int getCurrentMonth() {
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault(),
                 Locale.getDefault());
         calendar.setTime(new Date());
-        int result = calendar.get(Calendar.MONTH);
-        return result;
+        return calendar.get(Calendar.MONTH);
     }
 
     /**
      * Получить текущеий год
-     *
-     * @return
      */
     public static int getCurrentYear() {
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault(),
                 Locale.getDefault());
         calendar.setTime(new Date());
-        int result = calendar.get(Calendar.YEAR);
-        return result;
+        return calendar.get(Calendar.YEAR);
     }
 
     /**
      * Метод возвращает разницу в годах между двумя датами
-     *
-     * @return
      */
-    public static long diffByYear(Date d1, Date d2) {
+    public static long diffByYears(Date d1, Date d2) {
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.setTimeInMillis(d1.getTime() - d2.getTime());
 
         long millis = cal.getTimeInMillis();
-        long days = millis / 1000 / 60 / 60 / 24 / 30 / 12;
-        return days;
+        return convertMillisToYears(millis);
     }
 
     /**
      * Метод возвращает разницу в месяцах между двумя датами
-     *
-     * @return
      */
-    public static long diffByMonth(Date d1, Date d2) {
+    public static long diffByMonths(Date d1, Date d2) {
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.setTimeInMillis(d1.getTime() - d2.getTime());
 
         long millis = cal.getTimeInMillis();
-        long days = millis / 1000 / 60 / 60 / 24 / 30;
-        return days;
+        return convertMillisToMonths(millis);
     }
 
     /**
      * Метод возвращает разницу в днях между двумя датами
-     *
-     * @return
      */
-    public static long diffByDay(Date d1, Date d2) {
+    public static long diffByDays(Date d1, Date d2) {
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.setTimeInMillis(d1.getTime() - d2.getTime());
 
         long millis = cal.getTimeInMillis();
-        long days = millis / 1000 / 60 / 60 / 24;
-        return days;
+        return convertMillisToDays(millis);
     }
 
     /**
      * Метод возвращает разницу в часах между двумя датами
-     *
-     * @return
      */
-    public static long diffByHour(Date d1, Date d2) {
+    public static long diffByHours(Date d1, Date d2) {
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.setTimeInMillis(d1.getTime() - d2.getTime());
 
         long millis = cal.getTimeInMillis();
-        long hours = millis / 1000 / 60 / 60;
-        return hours;
+        return convertMillisToHours(millis);
     }
 
     /**
      * Метод возвращает разницу в минутах между двумя датами
-     *
-     * @return
      */
     public static long diffByMinutes(Date d1, Date d2) {
         Calendar cal = Calendar.getInstance();
@@ -243,8 +220,27 @@ public class DateUtil {
         cal.setTimeInMillis(d1.getTime() - d2.getTime());
 
         long millis = cal.getTimeInMillis();
-        long hours = millis / 1000 / 60;
-        return hours;
+        return convertMillisToMinutes(millis);
+    }
+
+    public static long convertMillisToYears(long millis) {
+        return millis / 1000 / 60 / 60 / 24 / 30 / 12;
+    }
+
+    public static long convertMillisToMonths(long millis) {
+        return millis / 1000 / 60 / 60 / 24 / 30;
+    }
+
+    public static long convertMillisToDays(long millis) {
+        return millis / 1000 / 60 / 60 / 24;
+    }
+
+    public static long convertMillisToHours(long millis) {
+        return millis / 1000 / 60 / 60;
+    }
+
+    public static long convertMillisToMinutes(long millis) {
+        return millis / 1000 / 60;
     }
 
     public static Date addDaysToDate(Date date, int countDaysToAdd) {

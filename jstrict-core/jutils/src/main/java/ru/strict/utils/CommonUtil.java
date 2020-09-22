@@ -91,10 +91,6 @@ public final class CommonUtil {
 
     /**
      * Получить процентное соотношение значения от общей суммы
-     *
-     * @param totalSum
-     * @param partValue
-     * @return
      */
     public static int convertValueToPercent(double totalSum, double partValue) {
         int result;

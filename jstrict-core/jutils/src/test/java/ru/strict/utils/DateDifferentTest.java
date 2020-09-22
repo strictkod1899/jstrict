@@ -39,22 +39,22 @@ public class DateDifferentTest {
 
     @Test
     public void testCountYear(){
-        Assert.assertEquals(resultYear, DateUtil.diffByYear(date1, date2));
+        Assert.assertEquals(resultYear, DateUtil.diffByYears(date1, date2));
     }
 
     @Test
     public void testCountMonth(){
-        Assert.assertEquals(resultMonth, DateUtil.diffByMonth(date1, date2));
+        Assert.assertEquals(resultMonth, DateUtil.diffByMonths(date1, date2));
     }
 
     @Test
     public void testCountDay(){
-        Assert.assertEquals(resultDay, DateUtil.diffByDay(date1, date2));
+        Assert.assertEquals(resultDay, DateUtil.diffByDays(date1, date2));
     }
 
     @Test
     public void testCountHour(){
-        Assert.assertEquals(resultHour, DateUtil.diffByHour(date1, date2));
+        Assert.assertEquals(resultHour, DateUtil.diffByHours(date1, date2));
     }
 
     @Test
