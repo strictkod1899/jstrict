@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import static ru.strict.ioc.IoCUtils.*;
 
@@ -30,18 +31,19 @@ import static ru.strict.ioc.IoCUtils.*;
  *
  *      public IoC() {
  *          super();
+ *          configure();
  *          init();
  *     }
  *
- *     public static IoC instance(){
- *         if(instance == null){
+ *     public static IoC instance() {
+ *         if (instance == null) {
  *             instance = new IoC();
  *         }
  *
  *         return instance;
  *     }
  *
- *     private void init(){
+ *     private void configure() {
  *         addComponent(A.class, A.class, InstanceType.REQUEST);
  *         addComponent(B.class, B.class, InstanceType.REQUEST, "comp1", "@param2", new Param3());
  *         addSingleton(C.class, new C());
@@ -69,6 +71,17 @@ public class IoC implements IIoC {
         }
     }
 
+    public void init() {
+        Set<IoCKeys> keys = components.keySet();
+
+        for (IoCKeys key : keys) {
+            IoCData data = components.get(key);
+            if (data.getType() == InstanceType.SINGLETON && data.getSingletonInstance() == null) {
+                getInstance(key);
+            }
+        }
+    }
+
     /**
      * Объединить несколько IoC-контейнеров в один
      *
@@ -81,7 +94,7 @@ public class IoC implements IIoC {
                     IoCData joinData = join.components.get(key);
                     addComponent(key.getClazz(),
                             key.getCaption(),
-                            joinData.getClazzInstance(),
+                            joinData.getInstanceClass(),
                             joinData.getType(),
                             joinData.getConstructorArguments()
                     );
@@ -301,13 +314,13 @@ public class IoC implements IIoC {
         IoCData instanceData = components.get(key);
         switch (instanceData.getType()) {
             case REQUEST:
-                result = createInstance(instanceData.getClazzInstance(), instanceData.getConstructorArguments());
+                result = createInstance(instanceData.getInstanceClass(), instanceData.getConstructorArguments());
                 break;
             case SESSION:
                 if (instanceData.getSessionInstance() != null) {
                     result = instanceData.getSessionInstance();
                 } else {
-                    result = createInstance(instanceData.getClazzInstance(), instanceData.getConstructorArguments());
+                    result = createInstance(instanceData.getInstanceClass(), instanceData.getConstructorArguments());
                     instanceData.setSessionInstance(result);
                 }
                 break;
@@ -315,7 +328,7 @@ public class IoC implements IIoC {
                 if (instanceData.getSingletonInstance() != null) {
                     result = instanceData.getSingletonInstance();
                 } else {
-                    result = createInstance(instanceData.getClazzInstance(), instanceData.getConstructorArguments());
+                    result = createInstance(instanceData.getInstanceClass(), instanceData.getConstructorArguments());
                     instanceData.setSingletonInstance(result);
                 }
                 break;
