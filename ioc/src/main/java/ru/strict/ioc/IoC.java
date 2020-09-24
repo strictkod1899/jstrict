@@ -71,6 +71,22 @@ public abstract class IoC implements IIoC {
     private void init() {
         configure();
 
+        initConfigurations();
+        initSingletons();
+    }
+
+    private void initConfigurations() {
+        Set<IoCKeys> keys = components.keySet();
+
+        for (IoCKeys key : keys) {
+            IoCData data = components.get(key);
+            if (data.getType() == InstanceType.CONFIGURATION) {
+                getInstance(key);
+            }
+        }
+    }
+
+    private void initSingletons() {
         Set<IoCKeys> keys = components.keySet();
 
         for (IoCKeys key : keys) {
