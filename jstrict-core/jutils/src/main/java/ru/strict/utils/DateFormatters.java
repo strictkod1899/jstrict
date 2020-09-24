@@ -53,4 +53,8 @@ public final class DateFormatters {
      * Форматирование даты в формате '01/02/2019'
      */
     public static final DateTimeFormatter DATE_FORMATTER_2 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    /**
+     * Форматирование даты в формате '01_02_2019'
+     */
+    public static final DateTimeFormatter DATE_FORMATTER_3 = DateTimeFormatter.ofPattern("dd_MM_yyyy");
 }
