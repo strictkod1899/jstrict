@@ -2,6 +2,7 @@ package ru.strict.ioc;
 
 import ru.strict.exceptions.ValidateException;
 import ru.strict.ioc.annotations.ComponentHandler;
+import ru.strict.ioc.annotations.ConfigurationHandler;
 import ru.strict.ioc.annotations.LoggerHandler;
 import ru.strict.ioc.annotations.LoggingHandler;
 import ru.strict.ioc.annotations.PostConstructHandler;
@@ -356,8 +357,9 @@ public class IoC implements IIoC {
     private <RESULT> RESULT postCreateProcess(RESULT instance) {
         LoggerHandler.injectLogger(instance, this, defaultLogger);
         PostConstructHandler.invokePostConstructMethod(instance);
+        ConfigurationHandler.invokeConfigurationMethods(instance);
         instance = (RESULT)
-                LoggingHandler.wrapToLoggedInstance(instance, this, defaultLoggingClasses.toArray(new Class[0]));
+                LoggingHandler.wrapLoggingProxy(instance, this, defaultLoggingClasses.toArray(new Class[0]));
         return instance;
     }
 

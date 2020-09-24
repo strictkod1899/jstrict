@@ -40,7 +40,7 @@ public class LoggingHandler implements InvocationHandler, MethodInterceptor, Cal
         this.ioc = ioc;
     }
 
-    public static <T> T wrapToLoggedInstance(T instance,
+    public static <T> T wrapLoggingProxy(T instance,
             IoC ioc,
             Class<? extends ILogger>[] defaultLoggersClasses) {
         if (instance == null) {
