@@ -148,6 +148,11 @@ public abstract class IoC implements IIoC {
     }
 
     @Override
+    public void addComponent(String caption, Class component, Object... constructorArguments) {
+        addComponent(caption, component, InstanceType.SINGLETON, constructorArguments);
+    }
+
+    @Override
     public void addComponent(String caption, Class component, InstanceType type, Object... constructorArguments) {
         if (caption == null || component == null) {
             throw ValidateException.byDetails(
