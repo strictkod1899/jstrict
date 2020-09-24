@@ -9,6 +9,7 @@ import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -262,6 +263,40 @@ public class ReflectionUtil {
             }
         } else {
             return null;
+        }
+    }
+
+
+    /**
+     * Вызвать методы, которые помечены указанной аннотацией
+     *
+     * @param source Объект, у которого будет вызван метод
+     * @param annotationClass Класс аннотации
+     * @param <A> Тип аннотации
+     */
+    public static <A extends Annotation> void invokeVoidMethodsByAnnotation(Object source,
+            Class<A> annotationClass,
+            Object[]... args) {
+        Validator.isNull(source, "source");
+        Validator.isNull(annotationClass, "annotationClass");
+
+        Class sourceClass = source.getClass();
+        Method[] methods = sourceClass.getDeclaredMethods();
+
+        List<Method> foundedMethods = new LinkedList<>();
+        for (Method method : methods) {
+            A annotation = method.getAnnotation(annotationClass);
+            if (annotation != null) {
+                foundedMethods.add(method);
+            }
+        }
+
+        for (Method foundedMethod : foundedMethods) {
+            try {
+                foundedMethod.invoke(source, args);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
