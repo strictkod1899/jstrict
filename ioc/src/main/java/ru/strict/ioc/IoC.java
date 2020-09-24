@@ -6,6 +6,8 @@ import ru.strict.ioc.annotations.ConfigurationHandler;
 import ru.strict.ioc.annotations.LoggerHandler;
 import ru.strict.ioc.annotations.LoggingHandler;
 import ru.strict.ioc.annotations.PostConstructHandler;
+import ru.strict.ioc.exceptions.ConstructorNotFoundException;
+import ru.strict.ioc.exceptions.CreateComponentException;
 import ru.strict.ioc.exceptions.ManyMatchComponentsException;
 import ru.strict.ioc.exceptions.MatchInstanceTypeException;
 import ru.strict.logging.LoggerBase;
@@ -311,26 +313,33 @@ public abstract class IoC implements IIoC {
         RESULT result = null;
 
         IoCData instanceData = components.get(key);
-        switch (instanceData.getType()) {
-            case REQUEST:
-                result = createInstance(instanceData.getInstanceClass(), instanceData.getConstructorArguments());
-                break;
-            case SESSION:
-                if (instanceData.getSessionInstance() != null) {
-                    result = instanceData.getSessionInstance();
-                } else {
+
+        try {
+            switch (instanceData.getType()) {
+                case REQUEST:
                     result = createInstance(instanceData.getInstanceClass(), instanceData.getConstructorArguments());
-                    instanceData.setSessionInstance(result);
-                }
-                break;
-            case SINGLETON:
-                if (instanceData.getSingletonInstance() != null) {
-                    result = instanceData.getSingletonInstance();
-                } else {
-                    result = createInstance(instanceData.getInstanceClass(), instanceData.getConstructorArguments());
-                    instanceData.setSingletonInstance(result);
-                }
-                break;
+                    break;
+                case SESSION:
+                    if (instanceData.getSessionInstance() != null) {
+                        result = instanceData.getSessionInstance();
+                    } else {
+                        result =
+                                createInstance(instanceData.getInstanceClass(), instanceData.getConstructorArguments());
+                        instanceData.setSessionInstance(result);
+                    }
+                    break;
+                case SINGLETON:
+                    if (instanceData.getSingletonInstance() != null) {
+                        result = instanceData.getSingletonInstance();
+                    } else {
+                        result =
+                                createInstance(instanceData.getInstanceClass(), instanceData.getConstructorArguments());
+                        instanceData.setSingletonInstance(result);
+                    }
+                    break;
+            }
+        } catch (Exception ex) {
+            throw new CreateComponentException(key.getClazz(), key.getCaption(), ex);
         }
 
         return result;
@@ -375,9 +384,9 @@ public abstract class IoC implements IIoC {
         return instance;
     }
 
-    private <RESULT> RESULT createInstanceByArguments(Class clazzInstance, Object[] constructorArguments) {
+    private <RESULT> RESULT createInstanceByArguments(Class instanceClass, Object[] constructorArguments) {
         Object[] instanceArguments = createInstanceArguments(constructorArguments);
-        return (RESULT) ReflectionUtil.createDeclaredInstance(clazzInstance, false, instanceArguments);
+        return (RESULT) ReflectionUtil.createDeclaredInstance(instanceClass, false, instanceArguments);
     }
 
     private Object[] createInstanceArguments(Object[] createArguments) {

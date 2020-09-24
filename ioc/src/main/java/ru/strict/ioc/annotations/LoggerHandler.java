@@ -1,7 +1,7 @@
 package ru.strict.ioc.annotations;
 
 import ru.strict.ioc.IoC;
-import ru.strict.ioc.exceptions.ConstructorNotFound;
+import ru.strict.ioc.exceptions.ConstructorNotFoundException;
 import ru.strict.ioc.exceptions.ManyMatchConstructorsException;
 import ru.strict.logging.ILogger;
 import ru.strict.logging.LoggerBase;
@@ -76,7 +76,7 @@ public class LoggerHandler {
 
             ILogger logger = ReflectionUtil.createInstance(loggerClass, arguments);
             if (logger == null) {
-                throw new ConstructorNotFound(loggerClass, Class.class);
+                throw new ConstructorNotFoundException(loggerClass, Class.class);
             }
 
             loggers.add(logger);
