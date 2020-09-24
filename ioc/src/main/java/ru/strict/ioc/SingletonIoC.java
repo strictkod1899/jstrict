@@ -4,25 +4,20 @@ package ru.strict.ioc;
  * Пример использования:
  * public class IoC extends ru.strict.ioc.SingletonIoC {
  * <p>
- * public IoC() {
- * super();
- * init();
+ * public static IoC instance() {
+ *     if(getInstance() == null || !(getInstance() instanceof IoC)) {
+ *         setInstance(new IoC());
+ *     }
+ * <p>
+ *     return getInstance();
  * }
  * <p>
- * public static IoC instance(){
- * if(getInstance() == null || !(getInstance() instanceof IoC)){
- * setInstance(new IoC());
- * }
- * <p>
- * return getInstance();
- * }
- * <p>
- * private void init(){
- * ...
- * }
+ *     protected void configure() {
+ *     ...
+ *     }
  * }
  */
-public class SingletonIoC extends IoC {
+public abstract class SingletonIoC extends IoC {
 
     private static IoC instance;
 

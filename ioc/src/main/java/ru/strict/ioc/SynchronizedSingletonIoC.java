@@ -4,25 +4,20 @@ package ru.strict.ioc;
  * Пример использования:
  * public class IoC extends ru.strict.ioc.SynchronizedSingletonIoC {
  * <p>
- * public IoC() {
- * super();
- * init();
- * }
- * <p>
  * public static IoC instance(){
- * if(getInstance() == null || !(getInstance() instanceof IoC)){
- * setInstance(new IoC());
+ *     if(getInstance() == null || !(getInstance() instanceof IoC)){
+ *         setInstance(new IoC());
+ *     }
+ * <p>
+ *     return getInstance();
  * }
  * <p>
- * return getInstance();
- * }
- * <p>
- * private void init(){
- * ...
- * }
+ *     protected void configure(){
+ *     ...
+ *     }
  * }
  */
-public class SynchronizedSingletonIoC extends SynchronizedIoC {
+public abstract class SynchronizedSingletonIoC extends SynchronizedIoC {
 
     private static SynchronizedIoC instance;
 

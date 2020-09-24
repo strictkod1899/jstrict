@@ -27,13 +27,7 @@ import static ru.strict.ioc.IoCUtils.*;
  * <code><pre style="background-color: white; font-family: consolas">
  * public class IoC extends ru.strict.ioc.IoC {
  *
- *      private static IoC instance;
- *
- *      public IoC() {
- *          super();
- *          configure();
- *          init();
- *     }
+ *     private static IoC instance;
  *
  *     public static IoC instance() {
  *         if (instance == null) {
@@ -43,7 +37,7 @@ import static ru.strict.ioc.IoCUtils.*;
  *         return instance;
  *     }
  *
- *     private void configure() {
+ *     protected void configure() {
  *         addComponent(A.class, A.class, InstanceType.REQUEST);
  *         addComponent(B.class, B.class, InstanceType.REQUEST, "comp1", "@param2", new Param3());
  *         addSingleton(C.class, new C());
@@ -53,16 +47,11 @@ import static ru.strict.ioc.IoCUtils.*;
  * }
  * </pre></code>
  */
-public class IoC implements IIoC {
+public abstract class IoC implements IIoC {
 
     private Map<IoCKeys, IoCData> components;
     private Collection<Class<? extends LoggerBase>> defaultLoggingClasses;
     private Class<? extends LoggerBase> defaultLogger;
-
-    public IoC() {
-        components = new HashMap<>();
-        defaultLoggingClasses = new HashSet<>();
-    }
 
     public IoC(IoC... joins) {
         this();
@@ -71,7 +60,15 @@ public class IoC implements IIoC {
         }
     }
 
-    public void init() {
+    public IoC() {
+        components = new HashMap<>();
+        defaultLoggingClasses = new HashSet<>();
+        init();
+    }
+
+    private void init() {
+        configure();
+
         Set<IoCKeys> keys = components.keySet();
 
         for (IoCKeys key : keys) {
@@ -81,6 +78,8 @@ public class IoC implements IIoC {
             }
         }
     }
+
+    protected abstract void configure();
 
     /**
      * Объединить несколько IoC-контейнеров в один
