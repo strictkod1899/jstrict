@@ -191,6 +191,10 @@ public class ReflectionUtil {
 
         Class[] interfaces = startClass.getInterfaces();
         for (Class interfaceItem : interfaces) {
+            if (result) {
+                return true;
+            }
+
             if (interfaceItem != Object.class) {
                 if (checkClass == interfaceItem) {
                     result = true;
@@ -265,7 +269,6 @@ public class ReflectionUtil {
             return null;
         }
     }
-
 
     /**
      * Вызвать методы, которые помечены указанной аннотацией
@@ -343,30 +346,49 @@ public class ReflectionUtil {
         return fields;
     }
 
-    public static <T> T getField(Object object, String fieldName) {
+    public static Field getField(Class objectClass, String fieldName) {
+        Collection<Field> fields = getAllFields(objectClass);
+
+        return fields.stream()
+                .filter(field -> field.getName().equals(fieldName))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public static <T> T getFieldValue(Object object, String fieldName) {
         try {
-            Field targetField = object.getClass().getDeclaredField(fieldName);
-            boolean isAccessible = targetField.isAccessible();
-            targetField.setAccessible(true);
+            Field targetField = getField(object.getClass(), fieldName);
 
-            T result = (T) targetField.get(object);
+            T result = null;
+            if (targetField != null) {
+                boolean isAccessible = targetField.isAccessible();
+                targetField.setAccessible(true);
 
-            targetField.setAccessible(isAccessible);
+                result = (T) targetField.get(object);
+
+                targetField.setAccessible(isAccessible);
+            }
+
             return result;
-        } catch (NoSuchFieldException | IllegalAccessException ex) {
+        } catch (IllegalAccessException ex) {
             throw new RuntimeException(ex);
         }
     }
 
     public static void setField(Object object, String fieldName, Object field) {
         try {
-            Field targetField = object.getClass().getDeclaredField(fieldName);
-            boolean isAccessible = targetField.isAccessible();
-            targetField.setAccessible(true);
+            Field targetField = getField(object.getClass(), fieldName);
 
-            targetField.set(object, field);
+            if (targetField == null) {
+                throw new NoSuchFieldException(String.format("No such field [%s] into [%s]", fieldName, object.getClass()));
+            } else {
+                boolean isAccessible = targetField.isAccessible();
+                targetField.setAccessible(true);
 
-            targetField.setAccessible(isAccessible);
+                targetField.set(object, field);
+
+                targetField.setAccessible(isAccessible);
+            }
         } catch (NoSuchFieldException | IllegalAccessException ex) {
             throw new RuntimeException(ex);
         }
