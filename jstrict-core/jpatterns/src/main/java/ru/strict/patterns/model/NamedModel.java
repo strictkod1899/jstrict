@@ -43,7 +43,9 @@ public abstract class NamedModel<ID> extends BaseModel<ID> implements INamedMode
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString() {
-        return String.format("[%s]: %s", String.valueOf(getId()), name);
+        return "NamedModel{" +
+                "name='" + name + '\'' +
+                "} " + super.toString();
     }
 
     @Override

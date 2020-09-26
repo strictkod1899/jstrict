@@ -39,7 +39,9 @@ public abstract class BaseModel<ID> implements IModel<ID>,
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString() {
-        return id.toString();
+        return "BaseModel{" +
+                "id=" + id +
+                '}';
     }
 
     @Override
