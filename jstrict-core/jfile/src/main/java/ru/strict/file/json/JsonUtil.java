@@ -4,64 +4,50 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import ru.strict.utils.FileUtil;
-import ru.strict.validate.CommonValidate;
 
-public class JsonUtil {
+import static ru.strict.validate.Validator.*;
 
-    /**
-     * Пример использования:
-     * UtilJson.saveToJson(this, pathToFile);
-     */
-    public static <O extends Object> void saveToJson(O object, String pathToJson) {
-        if (object == null) {
-            throw new IllegalArgumentException("object for write into json is NULL");
-        }
-        if (CommonValidate.isEmptyOrNull(pathToJson)) {
-            throw new IllegalArgumentException("pathToJson is NULL");
-        }
+public final class JsonUtil {
+
+    private static final JacksonObjectMapper OBJECT_MAPPER = new JacksonObjectMapper();
+
+    private JsonUtil() {}
+
+    public static <O> void saveToJson(O object, String pathToJson) {
+        isNull(object, "object");
+        isEmptyOrNull(pathToJson, "pathToJson");
+
         try {
             if (object instanceof String) {
                 FileUtil.saveFile(pathToJson, object.toString());
             } else {
-                ObjectMapper mapper = new ObjectMapper();
-                mapper.enable(SerializationFeature.INDENT_OUTPUT);
-                mapper.writeValue(new File(pathToJson), object);
+                OBJECT_MAPPER.writeValue(new File(pathToJson), object);
             }
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            throw new JsonException(ex);
         }
     }
 
     public static <O> O loadFromJson(String pathToJson, Class<O> clazz) {
-        if (clazz == null) {
-            throw new IllegalArgumentException("class for read from json is NULL");
-        }
-        if (CommonValidate.isEmptyOrNull(pathToJson)) {
-            throw new IllegalArgumentException("pathToJson is NULL");
-        }
+        isNull(clazz, "clazz");
+        isEmptyOrNull(pathToJson, "pathToJson");
+
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(new File(pathToJson), clazz);
+            return OBJECT_MAPPER.readValue(new File(pathToJson), clazz);
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            throw new JsonException(ex);
         }
     }
 
     public static <O> O loadFromJson(InputStream stream, Class<O> clazz) {
-        if (clazz == null) {
-            throw new IllegalArgumentException("class for read from json is NULL");
-        }
-        if (stream == null) {
-            throw new IllegalArgumentException("stream for read from json is NULL");
-        }
+        isNull(clazz, "clazz");
+        isNull(stream, "stream");
+
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(stream, clazz);
+            return OBJECT_MAPPER.readValue(stream, clazz);
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            throw new JsonException(ex);
         }
     }
 }

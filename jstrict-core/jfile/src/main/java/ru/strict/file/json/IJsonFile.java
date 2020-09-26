@@ -9,6 +9,5 @@ import java.util.Map;
 
 public interface IJsonFile<TARGET> extends IFileReader<Object>, IFileWriter<TARGET> {
     void loadFromFileOrInitialize();
-
     TARGET readToTargetClass();
 }
