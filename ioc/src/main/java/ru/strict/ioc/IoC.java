@@ -6,7 +6,6 @@ import ru.strict.ioc.annotations.ConfigurationHandler;
 import ru.strict.ioc.annotations.LoggerHandler;
 import ru.strict.ioc.annotations.LoggingHandler;
 import ru.strict.ioc.annotations.PostConstructHandler;
-import ru.strict.ioc.exceptions.ConstructorNotFoundException;
 import ru.strict.ioc.exceptions.CreateComponentException;
 import ru.strict.ioc.exceptions.ManyMatchComponentsException;
 import ru.strict.ioc.exceptions.MatchInstanceTypeException;
@@ -350,6 +349,7 @@ public abstract class IoC implements IIoC {
                     }
                     break;
                 case SINGLETON:
+                case CONFIGURATION:
                     if (instanceData.getSingletonInstance() != null) {
                         result = instanceData.getSingletonInstance();
                     } else {
@@ -384,8 +384,8 @@ public abstract class IoC implements IIoC {
         if (!skipComponentHandler) {
             Constructor<?> mainConstructor = findConstructor(instanceClass);
             if (constructorArguments.length == 0 && mainConstructor != null) {
-                Object[] instanceArguments = ComponentHandler.getConstructorArguments(mainConstructor);
-                return createInstance(instanceClass, instanceArguments, true);
+                Object[] argumentsInstances = ComponentHandler.getConstructorArguments(mainConstructor);
+                return createInstance(instanceClass, argumentsInstances, true);
             } else {
                 RESULT result = createInstanceByArguments(instanceClass, constructorArguments);
                 return postCreateProcess(result);
