@@ -5,6 +5,8 @@ import ru.strict.utils.ClassUtil;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 
 import static ru.strict.utils.ResourcesUtil.*;
@@ -55,15 +57,22 @@ public class Log4j extends LoggerBase {
 
     private Logger logger;
     private LoggerConfiguration configuration;
+    
+    private Map<String, Object> userParams;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     public Log4j(String className) throws ClassNotFoundException {
-        this(Class.forName(className));
+        this(Class.forName(className), Collections.emptyMap());
     }
 
     public Log4j(Class clazz) {
+        this(clazz, Collections.emptyMap());
+    }
+
+    public Log4j(Class clazz, Map<String, Object> userParams) {
         super(clazz);
         this.logger = Logger.getLogger(this.clazz);
+        this.userParams = userParams;
 
         if (getResource("log4j.xml") == null && getResource("log4j.properties") == null) {
             configuration = new LoggerConfiguration();
@@ -75,7 +84,7 @@ public class Log4j extends LoggerBase {
     /**
      * Переопределить этот метод для настройки конфигурации в наследующих классах
      */
-    protected void prepareConfiguration(LoggerConfiguration configuration) {
+    protected void prepareConfiguration(LoggerConfiguration configuration, Map<String, Object> userParams) {
     }
 
     //<editor-fold defaultState="collapsed" desc="Log methods">
@@ -271,7 +280,7 @@ public class Log4j extends LoggerBase {
             configuration.setLogErrorsToAdditionalFile(true);
             configuration.setLogDebugToSeparateFile(true);
 
-            prepareConfiguration(configuration);
+            prepareConfiguration(configuration, userParams);
             configuration();
         }
     }
