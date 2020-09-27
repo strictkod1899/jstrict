@@ -135,7 +135,7 @@ public class LoggingHandler implements InvocationHandler, MethodInterceptor, Cal
                         "An error occurred in method [%s] in class [%s]",
                         method.getName(),
                         instance.getClass().getName()),
-                        ex
+                        ex.getCause()
                 ));
                 method.setAccessible(methodAccessible);
                 throw ex.getCause();
