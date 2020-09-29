@@ -73,6 +73,11 @@ public class LoggingHandler implements InvocationHandler, MethodInterceptor, Cal
     }
 
     @Override
+    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+        return invoke(obj, method, args);
+    }
+
+    @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         boolean methodAccessible = method.isAccessible();
         method.setAccessible(true);
@@ -146,10 +151,5 @@ public class LoggingHandler implements InvocationHandler, MethodInterceptor, Cal
         method.setAccessible(methodAccessible);
 
         return result;
-    }
-
-    @Override
-    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        return invoke(obj, method, args);
     }
 }

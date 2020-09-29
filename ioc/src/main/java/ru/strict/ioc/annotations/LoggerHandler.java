@@ -43,11 +43,7 @@ public class LoggerHandler {
 
     private static ILogger createLogger(Class<? extends ILogger> loggerClass, Class<?> objectClass, IoC ioc) {
         List<ILogger> loggers = createLoggers(new Class[]{ loggerClass }, objectClass, ioc);
-        if (loggers.isEmpty()) {
-            return null;
-        } else {
-            return loggers.get(0);
-        }
+        return loggers.isEmpty() ? null : loggers.get(0);
     }
 
     static List<ILogger> createLoggers(Class<? extends ILogger>[] loggersClasses, Class<?> objectClass, IoC ioc) {
@@ -55,8 +51,9 @@ public class LoggerHandler {
         for (Class<? extends ILogger> loggerClass : loggersClasses) {
             Constructor<?>[] constructors = loggerClass.getConstructors();
             if (constructors.length == 0) {
-                throw new NullPointerException(String.format("Constructor for create logger not found [%s]",
-                        loggersClasses));
+                throw new NullPointerException(
+                        String.format("Constructor for create logger not found [%s]", loggersClasses)
+                );
             } else if (constructors.length > 1) {
                 throw new ManyMatchConstructorsException(loggerClass);
             }

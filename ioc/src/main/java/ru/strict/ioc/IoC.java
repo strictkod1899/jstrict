@@ -52,7 +52,7 @@ public abstract class IoC implements IIoC {
 
     private Map<IoCKeys, IoCData> components;
     private Collection<Class<? extends LoggerBase>> defaultLoggingClasses;
-    private Class<? extends LoggerBase> defaultLogger;
+    private Class<? extends LoggerBase> defaultLoggerClass;
 
     public IoC(IoC... joins) {
         this();
@@ -308,7 +308,7 @@ public abstract class IoC implements IIoC {
      * Установить класс логирования, который будет использоваться по-умолчнию с аннотацией @Logger
      */
     public void setDefaultLogger(Class<? extends LoggerBase> loggerClass) {
-        this.defaultLogger = loggerClass;
+        this.defaultLoggerClass = loggerClass;
     }
 
     /**
@@ -338,6 +338,7 @@ public abstract class IoC implements IIoC {
             switch (instanceData.getType()) {
                 case REQUEST:
                     result = createInstance(instanceData.getInstanceClass(), instanceData.getConstructorArguments());
+                    result = postCreateProcess(result);
                     break;
                 case SESSION:
                     if (instanceData.getSessionInstance() != null) {
@@ -345,6 +346,9 @@ public abstract class IoC implements IIoC {
                     } else {
                         result =
                                 createInstance(instanceData.getInstanceClass(), instanceData.getConstructorArguments());
+                        instanceData.setSourceInstance(result);
+
+                        result = postCreateProcess(result);
                         instanceData.setSessionInstance(result);
                     }
                     break;
@@ -355,6 +359,9 @@ public abstract class IoC implements IIoC {
                     } else {
                         result =
                                 createInstance(instanceData.getInstanceClass(), instanceData.getConstructorArguments());
+                        instanceData.setSourceInstance(result);
+
+                        result = postCreateProcess(result);
                         instanceData.setSingletonInstance(result);
                     }
                     break;
@@ -387,17 +394,15 @@ public abstract class IoC implements IIoC {
                 Object[] argumentsInstances = ComponentHandler.getConstructorArguments(mainConstructor);
                 return createInstance(instanceClass, argumentsInstances, true);
             } else {
-                RESULT result = createInstanceByArguments(instanceClass, constructorArguments);
-                return postCreateProcess(result);
+                return createInstanceByArguments(instanceClass, constructorArguments);
             }
         } else {
-            RESULT result = createInstanceByArguments(instanceClass, constructorArguments);
-            return postCreateProcess(result);
+            return createInstanceByArguments(instanceClass, constructorArguments);
         }
     }
 
     private <RESULT> RESULT postCreateProcess(RESULT instance) {
-        LoggerHandler.injectLogger(instance, this, defaultLogger);
+        LoggerHandler.injectLogger(instance, this, defaultLoggerClass);
         PostConstructHandler.invokePostConstructMethod(instance);
         ConfigurationHandler.invokeConfigurationMethods(instance);
         instance = (RESULT)

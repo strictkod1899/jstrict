@@ -11,6 +11,7 @@ class IoCData {
     private Class instanceClass;
     private Object[] constructorArguments;
     private InstanceType type;
+    private Object sourceInstance;
     private Object singletonInstance;
     private Object sessionInstance;
 
@@ -25,6 +26,7 @@ class IoCData {
      */
     public IoCData(Object singletonInstance) {
         this.singletonInstance = singletonInstance;
+        this.sourceInstance = singletonInstance;
         type = InstanceType.SINGLETON;
     }
 
@@ -38,6 +40,14 @@ class IoCData {
 
     public InstanceType getType() {
         return type;
+    }
+
+    public <T> T getSourceInstance() {
+        return (T) sourceInstance;
+    }
+
+    public void setSourceInstance(Object sourceInstance) {
+        this.sourceInstance = sourceInstance;
     }
 
     public <T> T getSingletonInstance() {
