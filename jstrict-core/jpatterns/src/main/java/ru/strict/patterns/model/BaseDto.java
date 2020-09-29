@@ -3,7 +3,9 @@ package ru.strict.patterns.model;
 import java.util.Objects;
 
 public abstract class BaseDto<ID, T extends IModel<ID>> {
-    private final T model;
+    private T model;
+
+    public BaseDto() {}
 
     public BaseDto(T model) {
         this.model = model;
@@ -11,6 +13,10 @@ public abstract class BaseDto<ID, T extends IModel<ID>> {
 
     public T getModel() {
         return model;
+    }
+
+    public void setModel(T model) {
+        this.model = model;
     }
 
     public ID getId() {
