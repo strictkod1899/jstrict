@@ -24,7 +24,7 @@ public class BaseUIModel<STAGE> implements IConsoleModel<STAGE>{
 
     @Override
     public void reset() {
-        cleanErrors();
+        clearErrors();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class BaseUIModel<STAGE> implements IConsoleModel<STAGE>{
     @Override
     public List<Message> popErrors() {
         List<Message> result = new ArrayList<>(errors);
-        cleanErrors();
+        clearErrors();
         return result;
     }
 
@@ -64,7 +64,7 @@ public class BaseUIModel<STAGE> implements IConsoleModel<STAGE>{
     }
 
     @Override
-    public void cleanErrors() {
+    public void clearErrors() {
         errors.clear();
     }
 
@@ -76,7 +76,7 @@ public class BaseUIModel<STAGE> implements IConsoleModel<STAGE>{
     @Override
     public List<String> popWarnings() {
         List<String> result = new ArrayList<>(warnings);
-        cleanWarnings();
+        clearWarnings();
         return result;
     }
 
@@ -95,7 +95,7 @@ public class BaseUIModel<STAGE> implements IConsoleModel<STAGE>{
     }
 
     @Override
-    public void cleanWarnings() {
+    public void clearWarnings() {
         warnings.clear();
     }
 }

@@ -12,12 +12,12 @@ public interface IConsoleModel<T> {
     List<Message> popErrors();
     void addError(Message alert);
     void addErrors(Collection<Message> alerts);
-    void cleanErrors();
+    void clearErrors();
     List<String> getWarnings();
     List<String> popWarnings();
     void addWarning(String warning);
     void addWarnings(Collection<String> warnings);
-    void cleanWarnings();
+    void clearWarnings();
     /**
      * Сбросить состояние модели
      */
