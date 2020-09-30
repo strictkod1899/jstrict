@@ -169,14 +169,12 @@ public class Log4j extends LoggerBase {
 
     @Override
     public void warn(Exception ex) {
-        logger.warn(String.format("%s - %s\n%s", ex.getClass().toGenericString(), ex.getMessage(),
-                Arrays.toString(ex.getStackTrace())));
+        logger.warn(processFormatExceptionMessage(ex));
     }
 
     @Override
     public void warn(String customMessage, Exception ex) {
-        logger.warn(String.format("%s: [%s] - %s\n%s", customMessage, ex.getClass().toString(), ex.getMessage(),
-                Arrays.toString(ex.getStackTrace())));
+        logger.warn(processFormatExceptionMessage(customMessage, ex));
     }
 
     @Override
@@ -191,14 +189,12 @@ public class Log4j extends LoggerBase {
 
     @Override
     public void error(Exception ex) {
-        logger.error(String.format("%s - %s\n%s", ex.getClass().toGenericString(), ex.getMessage(),
-                Arrays.toString(ex.getStackTrace())));
+        logger.error(processFormatExceptionMessage(ex));
     }
 
     @Override
     public void error(String customMessage, Exception ex) {
-        logger.error(String.format("%s: [%s] - %s\n%s", customMessage, ex.getClass().toString(), ex.getMessage(),
-                Arrays.toString(ex.getStackTrace())));
+        logger.error(processFormatExceptionMessage(customMessage, ex));
     }
 
     /**
@@ -224,14 +220,12 @@ public class Log4j extends LoggerBase {
 
     @Override
     public void fatal(Exception ex) {
-        logger.fatal(String.format("%s - %s\n%s", ex.getClass().toString(), ex.getMessage(),
-                Arrays.toString(ex.getStackTrace())));
+        logger.fatal(processFormatExceptionMessage(ex));
     }
 
     @Override
     public void fatal(String customMessage, Exception ex) {
-        logger.fatal(String.format("%s: [%s] - %s\n%s", customMessage, ex.getClass().toString(), ex.getMessage(),
-                Arrays.toString(ex.getStackTrace())));
+        logger.fatal(processFormatExceptionMessage(customMessage, ex));
     }
 
     /**
@@ -243,6 +237,34 @@ public class Log4j extends LoggerBase {
     @Override
     public void fatal(String format, Object... args) {
         logger.fatal(String.format(format, args));
+    }
+
+    private String processFormatExceptionMessage(Throwable ex) {
+        String logMessage = String.format("[%s] - %s \n%s", ex.getClass().toGenericString(),
+                ex.getMessage(),
+                Arrays.toString(ex.getStackTrace()));
+
+        StringBuilder stringBuilder = new StringBuilder(logMessage);
+        while (ex.getCause() != null) {
+            stringBuilder.append(formatExceptionMessage(ex.getCause()));
+        }
+        return stringBuilder.toString();
+    }
+
+    private String processFormatExceptionMessage(String customMessage, Throwable ex) {
+        String logMessage = String.format("%s: %s", customMessage, formatExceptionMessage(ex));
+
+        StringBuilder stringBuilder = new StringBuilder(logMessage);
+        if (ex.getCause() != null) {
+            stringBuilder.append("\n")
+                    .append(formatExceptionMessage(ex.getCause()));
+        }
+        return stringBuilder.toString();
+    }
+    private String formatExceptionMessage(Throwable ex) {
+        return String.format("[%s] - %s\n%s", ex.getClass().toGenericString(),
+                ex.getMessage(),
+                Arrays.toString(ex.getStackTrace()));
     }
     //</editor-fold>
 
