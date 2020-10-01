@@ -3,6 +3,7 @@ package ru.strict.components;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -11,31 +12,31 @@ public class Messages implements Cloneable {
     /**
      * Обобщенный сообщения
      */
-    private Collection<Message> actionMessages;
+    private Collection<Message> messages;
     /**
      * Сообщения по ошибке в указанном поле
      */
     private Collection<FieldMessage> fieldMessages;
 
-    public Messages(Collection<Message> actionMessages, Collection<FieldMessage> fieldMessages) {
-        this.actionMessages = actionMessages;
+    public Messages(Collection<Message> messages, Collection<FieldMessage> fieldMessages) {
+        this.messages = messages;
         this.fieldMessages = fieldMessages;
     }
 
-    public void addActionMessage(Message message) {
-        actionMessages.add(message);
+    public void addMessage(Message message) {
+        messages.add(message);
     }
 
     public void addFieldMessage(FieldMessage message) {
         fieldMessages.add(message);
     }
 
-    public Collection<Message> getActionMessages() {
-        return actionMessages;
+    public Collection<Message> getMessages() {
+        return messages;
     }
 
-    public List<String> getActionMessagesAsString() {
-        return actionMessages.stream()
+    public List<String> getMessagesAsString() {
+        return messages.stream()
                 .map(Message::toString)
                 .collect(Collectors.toList());
     }
@@ -59,13 +60,13 @@ public class Messages implements Cloneable {
             return false;
         }
         Messages object = (Messages) o;
-        return Objects.equals(actionMessages, object.actionMessages) &&
+        return Objects.equals(messages, object.messages) &&
                 Objects.equals(fieldMessages, object.fieldMessages);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(actionMessages, fieldMessages);
+        return Objects.hash(messages, fieldMessages);
     }
 
     @Override
@@ -73,16 +74,16 @@ public class Messages implements Cloneable {
         try {
             Messages clone = (Messages) super.clone();
 
-            List<Message> actionMessages = new ArrayList<>();
-            List<FieldMessage> fieldMessages = new ArrayList<>();
-            for (Message message : this.actionMessages) {
+            List<Message> actionMessages = new LinkedList<>();
+            List<FieldMessage> fieldMessages = new LinkedList<>();
+            for (Message message : this.messages) {
                 actionMessages.add(message.clone());
             }
             for (FieldMessage message : this.fieldMessages) {
                 fieldMessages.add(message.clone());
             }
 
-            clone.actionMessages = actionMessages;
+            clone.messages = actionMessages;
             clone.fieldMessages = fieldMessages;
             return clone;
         } catch (CloneNotSupportedException ex) {
@@ -91,7 +92,7 @@ public class Messages implements Cloneable {
     }
 
     public static Messages asList() {
-        return new Messages(new ArrayList<>(), new ArrayList<>());
+        return new Messages(new LinkedList<>(), new LinkedList<>());
     }
 
     public static Messages asSet() {
