@@ -235,9 +235,9 @@ public final class JdbcUtil {
         } else if (sqlType.equals(JDBCType.INTEGER)) {
             return (T) Integer.valueOf(String.valueOf(sourceValue));
         } else if (sqlType.equals(JDBCType.BOOLEAN)) {
-            if (sourceValue.equals("1")) {
+            if (sourceValue.equals(1)) {
                 return (T) Boolean.TRUE;
-            } else if (sourceValue.equals("0")) {
+            } else if (sourceValue.equals(0)) {
                 return (T) Boolean.FALSE;
             } else {
                 return (T) Boolean.valueOf((String)sourceValue);
