@@ -4,6 +4,7 @@ import java.util.Objects;
 
 /**
  * Значение по ключу
+ *
  * @param <KEY> тип ключа
  * @param <VALUE> тип значения
  */
@@ -26,8 +27,12 @@ public class KeyValue<KEY, VALUE> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         KeyValue<KEY, VALUE> object = (KeyValue<KEY, VALUE>) o;
         return Objects.equals(key, object.key) &&
                 Objects.equals(value, object.value);

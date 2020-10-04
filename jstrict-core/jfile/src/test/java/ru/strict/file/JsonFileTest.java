@@ -1,10 +1,12 @@
 package ru.strict.file;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import ru.strict.file.json.JacksonObjectMapper;
 import ru.strict.file.json.JsonFile;
 
 import java.io.IOException;
@@ -14,6 +16,8 @@ import java.util.*;
 
 @RunWith(JUnit4.class)
 public class JsonFileTest {
+
+    private static final ObjectMapper OBJECT_MAPPER = new JacksonObjectMapper();
 
     private static final String TEST_FILE_NAME = "test.json";
     private static final String FILE_CONTENT = "{\n" +
@@ -34,9 +38,9 @@ public class JsonFileTest {
         expected.put("age", 25);
         expected.put("lastScores", new ArrayList<>(Arrays.asList(2, 1, 3, 5, 0, 0, 1, 1)));
 
-        JsonFile fileForWrite = new JsonFile(TEST_FILE_NAME);
+        JsonFile fileForWrite = new JsonFile(TEST_FILE_NAME, OBJECT_MAPPER);
         fileForWrite.write(FILE_CONTENT);
-        JsonFile fileForRead = new JsonFile(TEST_FILE_NAME);
+        JsonFile fileForRead = new JsonFile(TEST_FILE_NAME, OBJECT_MAPPER);
         Assert.assertEquals(fileForRead.read(), expected);
     }
 
@@ -47,10 +51,10 @@ public class JsonFileTest {
         expected.put("age", 25);
         expected.put("lastScores", new ArrayList<>(Arrays.asList(2, 1, 3, 5, 0, 0, 1, 1)));
 
-        JsonFile fileForWrite = new JsonFile(TEST_FILE_NAME);
+        JsonFile fileForWrite = new JsonFile(TEST_FILE_NAME, OBJECT_MAPPER);
         fileForWrite.setContent(expected);
         fileForWrite.write();
-        JsonFile fileForRead = new JsonFile(TEST_FILE_NAME);
+        JsonFile fileForRead = new JsonFile(TEST_FILE_NAME, OBJECT_MAPPER);
         Assert.assertEquals(fileForRead.read(), expected);
     }
 
@@ -61,9 +65,9 @@ public class JsonFileTest {
         object.age = 25;
         object.lastScores = new ArrayList<>(Arrays.asList(2, 1, 3, 5, 0, 0, 1, 1));
 
-        JsonFile fileForWrite = new JsonFile(TEST_FILE_NAME);
+        JsonFile fileForWrite = new JsonFile(TEST_FILE_NAME, OBJECT_MAPPER);
         fileForWrite.write(object);
-        JsonFile<TestObject> fileForRead = new JsonFile<>(TEST_FILE_NAME, TestObject.class);
+        JsonFile<TestObject> fileForRead = new JsonFile<>(TEST_FILE_NAME, TestObject.class, OBJECT_MAPPER);
         Assert.assertEquals(fileForRead.readToTargetClass(), object);
     }
 

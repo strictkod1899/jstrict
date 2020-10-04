@@ -15,6 +15,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.*;
 
+import static ru.strict.ioc.IoCUtils.*;
+
 public class LoggingHandler implements InvocationHandler, MethodInterceptor, Callback {
 
     private Object instance;
@@ -27,10 +29,10 @@ public class LoggingHandler implements InvocationHandler, MethodInterceptor, Cal
             Logging classAnnotation,
             Class<? extends ILogger>[] defaultLoggersClasses,
             IoC ioc) {
-        Validator.isNull(instance, "instance").onThrow();
-        Validator.isNull(classAnnotation, "classAnnotation").onThrow();
-        Validator.isNull(defaultLoggersClasses, "defaultLoggersClasses").onThrow();
-        Validator.isNull(ioc, "ioc").onThrow();
+        Validator.isNull(instance, "instance");
+        Validator.isNull(classAnnotation, "classAnnotation");
+        Validator.isNull(defaultLoggersClasses, "defaultLoggersClasses");
+        Validator.isNull(ioc, "ioc");
 
         this.instance = instance;
         this.classAnnotation = classAnnotation;
@@ -38,7 +40,7 @@ public class LoggingHandler implements InvocationHandler, MethodInterceptor, Cal
         this.ioc = ioc;
     }
 
-    public static <T> T getLoggedInstance(T instance,
+    public static <T> T wrapLoggingProxy(T instance,
             IoC ioc,
             Class<? extends ILogger>[] defaultLoggersClasses) {
         if (instance == null) {
@@ -63,11 +65,16 @@ public class LoggingHandler implements InvocationHandler, MethodInterceptor, Cal
             // Если класс или какой-либо метод помечен аннотацией, то создадим прокси объект
             LoggingHandler handler = new LoggingHandler(instance, (Logging) annotation, defaultLoggersClasses, ioc);
 
-            Constructor<?> constructor = IoC.findConstructor(instance.getClass());
-            Object[] arguments = ioc.createConstructorArguments(constructor);
+            Constructor<?> constructor = findConstructor(instance.getClass());
+            Object[] arguments = createConstructorArguments(constructor, ioc);
             instance = ReflectionUtil.createCglibProxy(instance.getClass(), handler, constructor, arguments);
         }
         return instance;
+    }
+
+    @Override
+    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+        return invoke(obj, method, args);
     }
 
     @Override
@@ -117,6 +124,7 @@ public class LoggingHandler implements InvocationHandler, MethodInterceptor, Cal
                 LogLevel methodLogLevel = methodAnnotation.logLevel();
                 methodLoggersInstances.forEach(logger -> loggersMap.put(logger, methodLogLevel));
             }
+
             try {
                 loggersMap.forEach((logger, level) -> logger.log(level,
                         "Run method [%s] in class [%s]",
@@ -132,7 +140,7 @@ public class LoggingHandler implements InvocationHandler, MethodInterceptor, Cal
                         "An error occurred in method [%s] in class [%s]",
                         method.getName(),
                         instance.getClass().getName()),
-                        ex
+                        ex.getCause()
                 ));
                 method.setAccessible(methodAccessible);
                 throw ex.getCause();
@@ -143,10 +151,5 @@ public class LoggingHandler implements InvocationHandler, MethodInterceptor, Cal
         method.setAccessible(methodAccessible);
 
         return result;
-    }
-
-    @Override
-    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        return invoke(obj, method, args);
     }
 }

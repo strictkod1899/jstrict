@@ -11,10 +11,11 @@ public class EncryptionUtil {
 
     /**
      * Выполнить хеширование текста методом MD5
+     *
      * @param str Строка, которую требуется захешировать
      * @return
      */
-    public static String hashMd5(String str){
+    public static String hashMd5(String str) {
         MessageDigest md = null;
         try {
             md = MessageDigest.getInstance("MD5");
@@ -28,7 +29,9 @@ public class EncryptionUtil {
         StringBuffer hexString = new StringBuffer();
         for (byte aByteData : byteData) {
             String hex = Integer.toHexString(0xff & aByteData);
-            if (hex.length() == 1) hexString.append('0');
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
             hexString.append(hex);
         }
         return hexString.toString();
@@ -36,13 +39,14 @@ public class EncryptionUtil {
 
     /**
      * Выполнить шифрование текста методом MD5 от Apache
+     *
      * @param str Строка, которую требуется зашифровать
      * @return
      */
-    public static String hashMd5Apache(String str){
+    public static String hashMd5Apache(String str) {
         return DigestUtils.md5Hex(str);
     }
-    
+
     /**
      * Хэширование sha1
      *
@@ -75,7 +79,7 @@ public class EncryptionUtil {
      * @return String
      */
     private static String bytesToHexStr(byte[] raw) {
-        char[] kDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+        char[] kDigits = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
         int length = raw.length;
         char[] hex = new char[length * 2];
         for (int i = 0; i < length; i++) {

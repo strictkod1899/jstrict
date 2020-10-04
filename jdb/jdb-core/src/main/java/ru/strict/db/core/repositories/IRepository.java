@@ -5,7 +5,7 @@ import ru.strict.db.core.requests.IParameterizedRequest;
 import ru.strict.db.core.requests.components.SingleWhere;
 import ru.strict.db.core.requests.components.SqlItem;
 import ru.strict.db.core.requests.components.Table;
-import ru.strict.patterns.IModel;
+import ru.strict.patterns.model.IModel;
 import ru.strict.validate.Validator;
 
 import java.util.List;
@@ -88,7 +88,7 @@ public interface IRepository<ID, T extends IModel<ID>> {
      * Проверить существование записи в базе данных с переданным идентификатором
      */
     default boolean isRowExists(ID id) {
-        Validator.isNull(id, "id").onThrow();
+        Validator.isNull(id, "id");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), getIdColumnName()),

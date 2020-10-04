@@ -1,7 +1,7 @@
 package ru.strict.models;
 
-import ru.strict.patterns.BaseModel;
-import ru.strict.patterns.IModel;
+import ru.strict.patterns.model.BaseModel;
+import ru.strict.patterns.model.IModel;
 import ru.strict.validate.Validator;
 
 import java.util.Objects;
@@ -32,8 +32,8 @@ public class PermissionOnRole<ID, PERMISSION extends IModel<Integer>> extends Ba
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void init(Integer permissionId, ID roleId) {
-        Validator.isNull(permissionId, "permissionId").onThrow();
-        Validator.isNull(roleId, "roleId").onThrow();
+        Validator.isNull(permissionId, "permissionId");
+        Validator.isNull(roleId, "roleId");
 
         this.permissionId = permissionId;
         this.roleId = roleId;

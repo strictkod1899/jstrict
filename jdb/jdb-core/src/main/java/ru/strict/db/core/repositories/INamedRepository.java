@@ -3,7 +3,7 @@ package ru.strict.db.core.repositories;
 import ru.strict.db.core.common.SqlParameter;
 import ru.strict.db.core.requests.components.SingleWhere;
 import ru.strict.db.core.requests.components.SqlItem;
-import ru.strict.patterns.BaseModel;
+import ru.strict.patterns.model.BaseModel;
 import ru.strict.validate.Validator;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  * @param <ID> Тип идентификатора
  * @param <T> Модель сущности базы данных
  */
-public interface INamedRepository<ID, T extends BaseModel<ID>> extends IExtensionRepository<ID, T> {
+public interface INamedRepository<ID, T extends BaseModel<ID>> extends IRepository<ID, T> {
 
     /**
      * Чтение записи из базы данных по наименованию
@@ -23,9 +23,7 @@ public interface INamedRepository<ID, T extends BaseModel<ID>> extends IExtensio
      * @return
      */
     default T readByName(String caption) {
-        Validator.isEmptyOrNull(caption, "caption")
-                .reason("caption for read by name is NULL")
-                .onThrow();
+        Validator.isEmptyOrNull(caption, "caption");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), getColumnWithName()),
@@ -42,9 +40,7 @@ public interface INamedRepository<ID, T extends BaseModel<ID>> extends IExtensio
      * @return
      */
     default List<T> readAllByName(String caption) {
-        Validator.isEmptyOrNull(caption, "caption")
-                .reason("caption for read all by name is NULL")
-                .onThrow();
+        Validator.isEmptyOrNull(caption, "caption");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), getColumnWithName()),
@@ -53,10 +49,6 @@ public interface INamedRepository<ID, T extends BaseModel<ID>> extends IExtensio
 
         return readAll(where);
     }
-
-    T readByNameFill(String caption);
-
-    List<T> readAllByNameFill(String caption);
 
     /**
      * Получить наименование столбца, который выполняет роль наименования записи

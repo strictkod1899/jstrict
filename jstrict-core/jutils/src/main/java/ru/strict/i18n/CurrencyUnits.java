@@ -16,9 +16,9 @@ public final class CurrencyUnits {
     private final String[] fractionalUnits;
 
     private CurrencyUnits(Currency currency, String[] integerUnits, String[] fractionalUnits) {
-        Validator.isNull(currency, "currency").onThrow();
-        Validator.isNull(integerUnits, "integerUnits").onThrow();
-        Validator.isNull(fractionalUnits, "fractionalUnits").onThrow();
+        Validator.isNull(currency, "currency");
+        Validator.isNull(integerUnits, "integerUnits");
+        Validator.isNull(fractionalUnits, "fractionalUnits");
         if (integerUnits.length != 10) {
             throw new IllegalArgumentException("Count of Integer units not equals 10");
         }

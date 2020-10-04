@@ -3,7 +3,7 @@ package ru.strict.utils;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import ru.strict.components.Token;
-import ru.strict.validate.ValidateBaseValue;
+import ru.strict.validate.CommonValidate;
 
 import java.security.Key;
 import java.util.Date;
@@ -12,12 +12,12 @@ import java.util.UUID;
 public class JWTTokenUtil {
 
     public static Token createToken(UUID id,
-                                        Date expireTimeAccess,
-                                        Date issuedAt,
-                                        String issuer,
-                                        String subject,
-                                        Date notBefore,
-                                        String audience) {
+            Date expireTimeAccess,
+            Date issuedAt,
+            String issuer,
+            String subject,
+            Date notBefore,
+            String audience) {
 
         SignatureAlgorithm algorithm = SignatureAlgorithm.HS256;
         Key key = Keys.secretKeyFor(algorithm);
@@ -33,16 +33,16 @@ public class JWTTokenUtil {
         if (issuedAt != null) {
             builder.setIssuedAt(issuedAt);
         }
-        if (!ValidateBaseValue.isEmptyOrNull(issuer)) {
+        if (!CommonValidate.isEmptyOrNull(issuer)) {
             builder.setIssuer(issuer);
         }
-        if (!ValidateBaseValue.isEmptyOrNull(subject)) {
+        if (!CommonValidate.isEmptyOrNull(subject)) {
             builder.setSubject(subject);
         }
         if (notBefore != null) {
             builder.setNotBefore(notBefore);
         }
-        if (!ValidateBaseValue.isEmptyOrNull(audience)) {
+        if (!CommonValidate.isEmptyOrNull(audience)) {
             builder.setAudience(audience);
         }
 
@@ -52,7 +52,7 @@ public class JWTTokenUtil {
         return new Token(token, secret, algorithm.name());
     }
 
-    public static Jws<Claims> decodeToken(String key, String token){
+    public static Jws<Claims> decodeToken(String key, String token) {
         Jws<Claims> result;
         try {
             result = Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(key.getBytes())).parseClaimsJws(token);

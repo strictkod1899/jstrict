@@ -1,13 +1,21 @@
 package ru.strict.file.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.strict.utils.ClassUtil;
-import ru.strict.validate.ValidateBaseValue;
+import ru.strict.utils.FileUtil;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import static ru.strict.validate.Validator.*;
+
 public abstract class BaseJsonFile<TARGET> implements IJsonFile<TARGET> {
+
+    @JsonIgnore
+    private ObjectMapper objectMapper;
 
     @JsonIgnore
     private String filePath;
@@ -16,25 +24,25 @@ public abstract class BaseJsonFile<TARGET> implements IJsonFile<TARGET> {
     @JsonIgnore
     private Object content;
 
-    protected BaseJsonFile() {
-    }
+    /**
+     * Конструктор для десериализации
+     */
+    protected BaseJsonFile() {}
 
-    public BaseJsonFile(String filePath) {
-        if (ValidateBaseValue.isEmptyOrNull(filePath)) {
-            throw new IllegalArgumentException("filePath is NULL");
-        }
+    public BaseJsonFile(String filePath, ObjectMapper objectMapper) {
+        isEmptyOrNull(filePath, "filePath");
+
         this.filePath = filePath;
+        this.objectMapper = objectMapper;
     }
 
-    public BaseJsonFile(String filePath, Class<TARGET> targetClass) {
-        if (ValidateBaseValue.isEmptyOrNull(filePath)) {
-            throw new IllegalArgumentException("filePath is NULL");
-        }
-        if (targetClass == null) {
-            throw new IllegalArgumentException("targetClass is NULL");
-        }
+    public BaseJsonFile(String filePath, Class<TARGET> targetClass, ObjectMapper objectMapper) {
+        isEmptyOrNull(filePath, "filePath");
+        isNull(targetClass, "targetClass");
+
         this.filePath = filePath;
         this.targetClass = targetClass;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -43,7 +51,8 @@ public abstract class BaseJsonFile<TARGET> implements IJsonFile<TARGET> {
             TARGET loadedObject = readToTargetClass();
             mapJsonObject(loadedObject);
         } else {
-            write(defaultInitialize());
+            TARGET defaultObject = defaultInitialize();
+            write(defaultObject);
         }
     }
 
@@ -63,37 +72,52 @@ public abstract class BaseJsonFile<TARGET> implements IJsonFile<TARGET> {
      * Если читаем массив, то на выходе будет объект List<Map<String, Object>>
      * Если читаем один объект, то на выходе будет объект Map<String, Object>
      * </pre>
-     *
-     * @return
      */
     @Override
     public Object read() {
         if (!Files.exists(Paths.get(filePath))) {
             return null;
         }
-        content = JsonUtil.loadFromJson(filePath, ClassUtil.castClass(Object.class));
+        try {
+            content = objectMapper.readValue(new File(filePath), ClassUtil.castClass(Object.class));
+        } catch (IOException ex) {
+            throw new JsonException(ex);
+        }
         return content;
     }
 
     @Override
     public TARGET readToTargetClass() {
-        if (targetClass == null) {
-            throw new NullPointerException("targetClass is NULL");
-        }
+        isNull(targetClass, "targetClass");
+
         if (!Files.exists(Paths.get(filePath))) {
             return null;
         }
-        return JsonUtil.loadFromJson(filePath, targetClass);
+
+        try {
+            return objectMapper.readValue(new File(filePath), targetClass);
+        } catch (IOException ex) {
+            throw new JsonException(ex);
+        }
     }
 
     @Override
     public void write(TARGET object) {
+        try {
+            objectMapper.writeValue(new File(filePath), object);
+        } catch (IOException ex) {
+            throw new JsonException(ex);
+        }
         JsonUtil.saveToJson(object, filePath);
     }
 
     @Override
     public void write() {
-        JsonUtil.saveToJson(content, filePath);
+        try {
+            FileUtil.saveFile(filePath, content.toString());
+        } catch (IOException ex) {
+            throw new JsonException(ex);
+        }
     }
 
     public String getFilePath() {

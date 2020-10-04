@@ -40,8 +40,12 @@ public class Token implements Cloneable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Token object = (Token) o;
         return Objects.equals(token, object.token) &&
                 Objects.equals(secret, object.secret) &&

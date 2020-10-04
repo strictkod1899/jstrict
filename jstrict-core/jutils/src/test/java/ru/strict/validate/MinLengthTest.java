@@ -34,6 +34,6 @@ public class MinLengthTest {
 
     @Test
     public void test(){
-        Assert.assertEquals(ValidateBaseValue.isMinLength(value, minLength), expectedResult);
+        Assert.assertEquals(CommonValidate.isMinLength(value, minLength), expectedResult);
     }
 }

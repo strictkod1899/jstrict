@@ -1,5 +1,6 @@
 package ru.strict.neuralnetwork.networks;
 
+import ru.strict.exceptions.ValidateException;
 import ru.strict.validate.Validator;
 
 import java.util.ArrayList;
@@ -42,11 +43,11 @@ class HiddenStructure extends NeuralNetworkStructure {
 
     HiddenStructure(int countInputs, int countHiddens, int countOutputs) {
         super(countInputs, countOutputs);
-        Validator.isLess(countHiddens, "countHiddens", 1)
-                .details(
-                        "Neural Network structure do not should have hidden neurons count is negative. [Hidden " +
-                                "neurons count < 1]")
-                .onThrow();
+
+        if (countHiddens < 1) {
+            throw ValidateException.byDetails("Neural Network structure do not should have hidden neurons count" +
+                    "is negative. [Hidden neurons count < 1]");
+        }
 
         this.layoutsHidden = new ArrayList<>();
         layoutsHidden.add(new LayoutHidden(countHiddens));
@@ -118,14 +119,13 @@ class HiddenStructure extends NeuralNetworkStructure {
      * @param countHiddenNeurons Количество нейронов в скрытом слое
      */
     public void addLayoutHidden(int countHiddenNeurons) {
-        Validator.isLess(countHiddenNeurons, "countHiddenNeurons", 1)
-                .details(
-                        "Neural Network structure do not should have hidden neurons count is negative. [Hidden " +
-                                "neurons count < 1]")
-                .onThrow();
+        if (countHiddenNeurons < 1) {
+            throw ValidateException.byDetails("Neural Network structure do not should have hidden neurons count is " +
+                    "negative. [Hidden neurons count < 1]");
+        }
 
         LayoutHidden layoutHidden = new LayoutHidden(countHiddenNeurons);
-        layoutHidden.setBias(getBias().getValue() == 1 ? true : false);
+        layoutHidden.setBias(getBias().getValue() == 1);
         layoutsHidden.add(layoutHidden);
     }
 

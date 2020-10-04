@@ -1,7 +1,7 @@
 package ru.strict.ioc.annotations;
 
 import ru.strict.ioc.IoC;
-import ru.strict.ioc.exceptions.ConstructorNotFound;
+import ru.strict.ioc.exceptions.ConstructorNotFoundException;
 import ru.strict.ioc.exceptions.ManyMatchConstructorsException;
 import ru.strict.logging.ILogger;
 import ru.strict.logging.LoggerBase;
@@ -27,7 +27,8 @@ public class LoggerHandler {
                     Class<? extends ILogger> loggerClass = annotation.value() != LoggerBase.class ?
                             annotation.value() :
                             defaultLoggerClass;
-                    Validator.isNull(loggerClass, "loggerClass").onThrow();
+
+                    Validator.isNull(loggerClass, "loggerClass");
                     ILogger logger = createLogger(loggerClass, instance.getClass(), ioc);
                     boolean isAccessible = field.isAccessible();
                     field.setAccessible(true);
@@ -42,11 +43,7 @@ public class LoggerHandler {
 
     private static ILogger createLogger(Class<? extends ILogger> loggerClass, Class<?> objectClass, IoC ioc) {
         List<ILogger> loggers = createLoggers(new Class[]{ loggerClass }, objectClass, ioc);
-        if (loggers.isEmpty()) {
-            return null;
-        } else {
-            return loggers.get(0);
-        }
+        return loggers.isEmpty() ? null : loggers.get(0);
     }
 
     static List<ILogger> createLoggers(Class<? extends ILogger>[] loggersClasses, Class<?> objectClass, IoC ioc) {
@@ -54,8 +51,9 @@ public class LoggerHandler {
         for (Class<? extends ILogger> loggerClass : loggersClasses) {
             Constructor<?>[] constructors = loggerClass.getConstructors();
             if (constructors.length == 0) {
-                throw new NullPointerException(String.format("Constructor for create logger not found [%s]",
-                        loggersClasses));
+                throw new NullPointerException(
+                        String.format("Constructor for create logger not found [%s]", loggersClasses)
+                );
             } else if (constructors.length > 1) {
                 throw new ManyMatchConstructorsException(loggerClass);
             }
@@ -75,7 +73,7 @@ public class LoggerHandler {
 
             ILogger logger = ReflectionUtil.createInstance(loggerClass, arguments);
             if (logger == null) {
-                throw new ConstructorNotFound(loggerClass, Class.class);
+                throw new ConstructorNotFoundException(loggerClass, Class.class);
             }
 
             loggers.add(logger);

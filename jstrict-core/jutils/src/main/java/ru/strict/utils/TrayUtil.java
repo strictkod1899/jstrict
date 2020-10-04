@@ -23,10 +23,10 @@ public class TrayUtil {
      * @param items Элементы всплывающего меню
      */
     public static void setTray(String tooltip,
-                               String pathIcon,
-                               ActionListener eventDoubleClick,
-                               boolean isExitVisible,
-                               JMenuItem...items) throws UnsupportedOperationException{
+            String pathIcon,
+            ActionListener eventDoubleClick,
+            boolean isExitVisible,
+            JMenuItem... items) throws UnsupportedOperationException {
         final TrayIcon trayIcon;
 
         if (SystemTray.isSupported()) {
@@ -34,17 +34,18 @@ public class TrayUtil {
 
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+                    UnsupportedLookAndFeelException ex) {
             }
-            catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
-                    UnsupportedLookAndFeelException ex) {}
 
             final JPopupMenu popup = new JPopupMenu();
 
             // Добавление элементов всплывающего меню
-            Arrays.asList(items).forEach(i->popup.add(i));
+            Arrays.asList(items).forEach(i -> popup.add(i));
 
-            if(isExitVisible)
-             popup.add(getItemExit());
+            if (isExitVisible) {
+                popup.add(getItemExit());
+            }
 
             Image image = Toolkit.getDefaultToolkit().getImage(pathIcon);
             // Устанавливаем изображение в трее и всплывающую подсказку
@@ -66,7 +67,7 @@ public class TrayUtil {
         }
     }
 
-    private static JMenuItem getItemExit(){
+    private static JMenuItem getItemExit() {
         JMenuItem itemExit = new JMenuItem("Выход");
         itemExit.addActionListener(new ActionExit());
         return itemExit;
@@ -75,11 +76,11 @@ public class TrayUtil {
     /**
      * События выхова всплывающего меню
      */
-    private static class ActionPopup extends MouseAdapter{
+    private static class ActionPopup extends MouseAdapter {
 
         private final JPopupMenu popup;
 
-        ActionPopup(JPopupMenu popup){
+        ActionPopup(JPopupMenu popup) {
             this.popup = popup;
         }
 
@@ -96,7 +97,7 @@ public class TrayUtil {
     /**
      * Событие закрытия программы
      */
-    private static class ActionExit implements ActionListener{
+    private static class ActionExit implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.exit(0);

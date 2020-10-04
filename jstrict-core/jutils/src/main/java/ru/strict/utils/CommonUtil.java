@@ -12,7 +12,8 @@ public final class CommonUtil {
 
     private static final BigDecimal HUNDRED = new BigDecimal(100);
 
-    private CommonUtil() {}
+    private CommonUtil() {
+    }
 
     public static <T> int compareTo(T source, T compareValue) throws UnsupportedOperationException {
         if (source == null && compareValue == null) {
@@ -24,12 +25,14 @@ public final class CommonUtil {
         if (compareValue instanceof Comparable) {
             return ((Comparable) source).compareTo(compareValue);
         } else {
-            throw new UnsupportedOperationException(String.format("This type [%s] for comparable not supported", source.getClass().toString()));
+            throw new UnsupportedOperationException(String.format("This type [%s] for comparable not supported",
+                    source.getClass().toString()));
         }
     }
 
     /**
      * Округлить число, до определнного количества знаков после запятой
+     *
      * @param number Исходное число
      * @param scale Количество знаков после запятой
      * @return
@@ -58,8 +61,8 @@ public final class CommonUtil {
      * Получить количество миллисекунд из объекта LocalDate в указанном часовом поясе
      */
     public static Long getMillisFromLocalDate(LocalDate date, ZoneId zoneId) {
-        Validator.isNull(date, "date").onThrow();
-        Validator.isNull(zoneId, "zoneId").onThrow();
+        Validator.isNull(date, "date");
+        Validator.isNull(zoneId, "zoneId");
 
         return date.atStartOfDay()
                 .atZone(zoneId)
@@ -78,8 +81,8 @@ public final class CommonUtil {
      * Получить количество миллисекунд из объекта LocalDateTime в указанном часовом поясе
      */
     public static Long getMillisFromLocalDateTime(LocalDateTime date, ZoneId zoneId) {
-        Validator.isNull(date, "date").onThrow();
-        Validator.isNull(zoneId, "zoneId").onThrow();
+        Validator.isNull(date, "date");
+        Validator.isNull(zoneId, "zoneId");
 
         return date.atZone(zoneId)
                 .toInstant()
@@ -88,9 +91,6 @@ public final class CommonUtil {
 
     /**
      * Получить процентное соотношение значения от общей суммы
-     * @param totalSum
-     * @param partValue
-     * @return
      */
     public static int convertValueToPercent(double totalSum, double partValue) {
         int result;
@@ -140,7 +140,8 @@ public final class CommonUtil {
 
     /**
      * Получить сумму без НДС.
-     * Будет произведено округление до {@param scale} знаков в дробной части указанным способом округления {@param roundingMode}
+     * Будет произведено округление до {@param scale} знаков в дробной части указанным способом округления
+     * {@param roundingMode}
      *
      * @param sum Сумма с НДС
      * @param vatPercent Процент НДС (5%, 10% и т.д.)
@@ -148,10 +149,10 @@ public final class CommonUtil {
      * @param roundingMode Режим округления
      */
     public static BigDecimal getSumWithoutVat(BigDecimal sum, double vatPercent, int scale, RoundingMode roundingMode) {
-        Validator.isNull(sum, "sum").onThrow();
-        Validator.isNull(roundingMode, "roundingMode").onThrow();
-        Validator.isLess(vatPercent, "vatPercent", 0).onThrow();
-        Validator.isLess(scale, "scale", 0).onThrow();
+        Validator.isNull(sum, "sum");
+        Validator.isNull(roundingMode, "roundingMode");
+        Validator.isLess(vatPercent, "vatPercent", 0);
+        Validator.isLess(scale, "scale", 0);
 
         BigDecimal dVat = BigDecimal.valueOf(vatPercent);
         BigDecimal dVatDivided = dVat.divide(HUNDRED);
@@ -194,7 +195,8 @@ public final class CommonUtil {
 
     /**
      * Получить сумму НДС из переданной суммы {@param sum}
-     * Будет произведено округление до {@param scale} знаков в дробной части указанным способом округления {@param roundingMode}
+     * Будет произведено округление до {@param scale} знаков в дробной части указанным способом округления
+     * {@param roundingMode}
      *
      * @param sum Сумма из которой определяется НДС
      * @param vatPercent процент НДС (5%, 10% и т.д.)
@@ -202,10 +204,10 @@ public final class CommonUtil {
      * @param roundingMode Режим округления
      */
     public static BigDecimal getVatFromSum(BigDecimal sum, double vatPercent, int scale, RoundingMode roundingMode) {
-        Validator.isNull(sum, "sum").onThrow();
-        Validator.isNull(roundingMode, "roundingMode").onThrow();
-        Validator.isLess(vatPercent, "vatPercent", 0).onThrow();
-        Validator.isLess(scale, "scale", 0).onThrow();
+        Validator.isNull(sum, "sum");
+        Validator.isNull(roundingMode, "roundingMode");
+        Validator.isLess(vatPercent, "vatPercent", 0);
+        Validator.isLess(scale, "scale", 0);
 
         BigDecimal dVat = BigDecimal.valueOf(vatPercent);
         BigDecimal dVatSum = dVat.add(HUNDRED);

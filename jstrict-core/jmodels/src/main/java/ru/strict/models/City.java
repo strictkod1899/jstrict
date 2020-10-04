@@ -1,6 +1,6 @@
 package ru.strict.models;
 
-import ru.strict.patterns.NamedModel;
+import ru.strict.patterns.model.NamedModel;
 
 import java.util.Objects;
 
@@ -67,7 +67,7 @@ public class City<ID> extends NamedModel<ID> {
     //<editor-fold defaultState="collapsed" desc="Base override">
     @Override
     public String toString() {
-        return String.format("city [%s]: %s, country - %s", String.valueOf(getId()), getCaption(), countryId);
+        return String.format("city [%s]: %s, country - %s", String.valueOf(getId()), getName(), countryId);
     }
 
     @Override

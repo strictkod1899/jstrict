@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import static ru.strict.db.TestData.*;
 
 public abstract class UserOnRoleRepositoryTest
-        extends ExtensionRepositoryTest<Long, UserOnRole<Long>, IUserOnRoleRepository<Long>> {
+        extends BaseRepositoryTest<Long, UserOnRole<Long>, IUserOnRoleRepository<Long>> {
 
     protected static void prepare(IRepository<Long, Role<Long>> roleRepository,
             IRepository<Long, DetailsUser<Long>> userRepository) {
@@ -87,15 +87,5 @@ public abstract class UserOnRoleRepositoryTest
                 USER_ON_ROLE2,
                 USER_ON_ROLE3
         };
-    }
-
-    @Override
-    protected UserOnRole<Long> getFillPrimaryModel() {
-        return FILL_USER_ON_ROLE1;
-    }
-
-    @Override
-    protected UserOnRole<Long> getFillUpdateModel() {
-        return UPDATED_FILL_USER_ON_ROLE1;
     }
 }

@@ -35,16 +35,6 @@ public abstract class RoleRepositoryTest extends NamedRepositoryTest<Long, Role<
     }
 
     @Override
-    protected Role<Long> getFillPrimaryModel() {
-        return FILL_ROLE1;
-    }
-
-    @Override
-    protected Role<Long> getFillUpdateModel() {
-        return UPDATED_FILL_ROLE1;
-    }
-
-    @Override
     protected String getPrimaryCaption() {
         return getPrimaryModel().getCode();
     }
@@ -52,15 +42,5 @@ public abstract class RoleRepositoryTest extends NamedRepositoryTest<Long, Role<
     @Override
     protected String getUpdatedCaption() {
         return getUpdateModel().getCode();
-    }
-
-    @Override
-    protected String getFillPrimaryCaption() {
-        return getFillPrimaryModel().getCode();
-    }
-
-    @Override
-    protected String getFillUpdatedCaption() {
-        return getFillUpdateModel().getCode();
     }
 }

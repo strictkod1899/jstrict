@@ -7,9 +7,10 @@ public class ClassUtil {
 
     /**
      * Получить класс по имени
+     *
      * @return Если класс не наден, тогда вернется null
      */
-    public static Class getClassByName(String className){
+    public static Class getClassByName(String className) {
         try {
             return Class.forName(className);
         } catch (ClassNotFoundException e) {
@@ -20,16 +21,17 @@ public class ClassUtil {
 
     /**
      * Получить путь до директории класса
+     *
      * @param appClass
      * @throws RuntimeException (URISyntaxException)
      */
     public static String getPathByClass(Class appClass) {
         String result = null;
 
-        if(appClass != null) {
+        if (appClass != null) {
             try {
                 File file = new File(appClass.getProtectionDomain().getCodeSource().getLocation().toURI());
-                if(file.isDirectory()) {
+                if (file.isDirectory()) {
                     result = file.getPath();
                 } else {
                     result = file.getParentFile().getPath();
@@ -45,22 +47,24 @@ public class ClassUtil {
     /**
      * Пример использования:
      * Class<List<Object>> clazz = UtilClass.<List<Object>>castClass(List.class);
+     *
      * @param aClass
      * @param <T>
      * @return
      */
     @SuppressWarnings("unchecked")
     public static <T> Class<T> castClass(Class<?> aClass) {
-        return (Class<T>)aClass;
+        return (Class<T>) aClass;
     }
 
     /**
      * Проверить равенство двух классов
+     *
      * @param checkClass (Неизвестный класс) Проверяемый класс
      * @param startClass (Требуемый класс) Класс, относительно которого проверяем принадлежность к экземпляру
      * @return
      */
-    public static boolean isEquals(Class checkClass, Class startClass){
+    public static boolean isEquals(Class checkClass, Class startClass) {
         return checkClass == startClass;
     }
 

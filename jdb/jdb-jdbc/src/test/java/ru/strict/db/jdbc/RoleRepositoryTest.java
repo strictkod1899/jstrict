@@ -3,7 +3,7 @@ package ru.strict.db.jdbc;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import ru.strict.db.TestConnectionCreator;
+import ru.strict.db.jdbc.components.TestConnectionCreator;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.repositories.INamedRepository;
 import ru.strict.db.jdbc.repositories.UserRepository;
@@ -48,15 +48,5 @@ public class RoleRepositoryTest extends ru.strict.db.RoleRepositoryTest {
                 ROLE2,
                 ROLE3
         };
-    }
-
-    @Override
-    protected Role<Long> getFillPrimaryModel() {
-        return FILL_ROLE1;
-    }
-
-    @Override
-    protected Role<Long> getFillUpdateModel() {
-        return UPDATED_FILL_ROLE1;
     }
 }

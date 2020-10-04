@@ -66,14 +66,4 @@ public abstract class DetailsProfileRepositoryTest
     protected DetailsProfile<Long> getUpdateModel() {
         return UPDATED_DETAILS_PROFILE1;
     }
-
-    @Override
-    protected DetailsProfile<Long> getFillPrimaryModel() {
-        return FILL_DETAILS_PROFILE1;
-    }
-
-    @Override
-    protected DetailsProfile<Long> getFillUpdateModel() {
-        return UPDATED_FILL_DETAILS_PROFILE1;
-    }
 }

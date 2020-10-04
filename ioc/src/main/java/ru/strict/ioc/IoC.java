@@ -1,20 +1,25 @@
 package ru.strict.ioc;
 
+import ru.strict.exceptions.ValidateException;
 import ru.strict.ioc.annotations.ComponentHandler;
+import ru.strict.ioc.annotations.ConfigurationHandler;
 import ru.strict.ioc.annotations.LoggerHandler;
 import ru.strict.ioc.annotations.LoggingHandler;
+import ru.strict.ioc.annotations.PostConstructHandler;
+import ru.strict.ioc.exceptions.CreateComponentException;
 import ru.strict.ioc.exceptions.ManyMatchComponentsException;
-import ru.strict.ioc.exceptions.ManyMatchConstructorsException;
 import ru.strict.ioc.exceptions.MatchInstanceTypeException;
 import ru.strict.logging.LoggerBase;
 import ru.strict.utils.ReflectionUtil;
-import ru.strict.validate.Validator;
 
 import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+
+import static ru.strict.ioc.IoCUtils.*;
 
 /**
  * Чтобы при использовании метода addComponent передать string-переменную как значение параметра конструктору,
@@ -23,22 +28,17 @@ import java.util.Map;
  * <code><pre style="background-color: white; font-family: consolas">
  * public class IoC extends ru.strict.ioc.IoC {
  *
- *      private static IoC instance;
+ *     private static IoC instance;
  *
- *      public IoC() {
- *          super();
- *          init();
- *     }
- *
- *     public static IoC instance(){
- *         if(instance == null){
+ *     public static IoC instance() {
+ *         if (instance == null) {
  *             instance = new IoC();
  *         }
  *
  *         return instance;
  *     }
  *
- *     private void init(){
+ *     protected void configure() {
  *         addComponent(A.class, A.class, InstanceType.REQUEST);
  *         addComponent(B.class, B.class, InstanceType.REQUEST, "comp1", "@param2", new Param3());
  *         addSingleton(C.class, new C());
@@ -48,16 +48,11 @@ import java.util.Map;
  * }
  * </pre></code>
  */
-public class IoC implements IIoC {
+public abstract class IoC implements IIoC {
 
     private Map<IoCKeys, IoCData> components;
     private Collection<Class<? extends LoggerBase>> defaultLoggingClasses;
-    private Class<? extends LoggerBase> defaultLogger;
-
-    public IoC() {
-        components = new HashMap<>();
-        defaultLoggingClasses = new HashSet<>();
-    }
+    private Class<? extends LoggerBase> defaultLoggerClass;
 
     public IoC(IoC... joins) {
         this();
@@ -65,6 +60,43 @@ public class IoC implements IIoC {
             joinIoC(join);
         }
     }
+
+    public IoC() {
+        components = new HashMap<>();
+        defaultLoggingClasses = new HashSet<>();
+        init();
+    }
+
+    private void init() {
+        configure();
+
+        initConfigurations();
+        initSingletons();
+    }
+
+    private void initConfigurations() {
+        Set<IoCKeys> keys = components.keySet();
+
+        for (IoCKeys key : keys) {
+            IoCData data = components.get(key);
+            if (data.getType() == InstanceType.CONFIGURATION) {
+                getInstance(key);
+            }
+        }
+    }
+
+    private void initSingletons() {
+        Set<IoCKeys> keys = components.keySet();
+
+        for (IoCKeys key : keys) {
+            IoCData data = components.get(key);
+            if (data.getType() == InstanceType.SINGLETON && data.getSingletonInstance() == null) {
+                getInstance(key);
+            }
+        }
+    }
+
+    protected abstract void configure();
 
     /**
      * Объединить несколько IoC-контейнеров в один
@@ -78,7 +110,7 @@ public class IoC implements IIoC {
                     IoCData joinData = join.components.get(key);
                     addComponent(key.getClazz(),
                             key.getCaption(),
-                            joinData.getClazzInstance(),
+                            joinData.getInstanceClass(),
                             joinData.getType(),
                             joinData.getConstructorArguments()
                     );
@@ -100,12 +132,12 @@ public class IoC implements IIoC {
             Class component,
             InstanceType type,
             Object... constructorArguments) {
-        Validator.isNull(clazz, "clazz")
-                .isNull(component, "component")
-                .details("IoC exception. Fail add component to IoC because any is null: clazz = [%s], component = [%s]",
-                        clazz,
-                        component)
-                .onThrow();
+        if (clazz == null || component == null) {
+            throw ValidateException.byDetails(
+                    "IoC exception. Fail add component to IoC because any is null: clazz = [%s], component = [%s]",
+                    clazz,
+                    component);
+        }
 
         if (isExistsComponentClass(clazz)) {
             throw new ManyMatchComponentsException(clazz);
@@ -115,13 +147,18 @@ public class IoC implements IIoC {
     }
 
     @Override
+    public void addComponent(String caption, Class component, Object... constructorArguments) {
+        addComponent(caption, component, InstanceType.SINGLETON, constructorArguments);
+    }
+
+    @Override
     public void addComponent(String caption, Class component, InstanceType type, Object... constructorArguments) {
-        Validator.isNull(caption, "caption")
-                .isNull(component, "component")
-                .details("IoC exception. Fail add component to IoC because any is null: caption = [%s], component = [%s]",
-                        caption,
-                        component)
-                .onThrow();
+        if (caption == null || component == null) {
+            throw ValidateException.byDetails(
+                    "IoC exception. Fail add component to IoC because any is null: caption = [%s], component = [%s]",
+                    caption,
+                    component);
+        }
 
         if (isExistsComponentCaption(caption)) {
             throw new ManyMatchComponentsException(caption);
@@ -136,15 +173,14 @@ public class IoC implements IIoC {
             Class component,
             InstanceType type,
             Object... constructorArguments) {
-        Validator.isNull(caption, "caption")
-                .isNull(clazz, "clazz")
-                .isNull(component, "component")
-                .details("IoC exception. Fail add component to IoC because any is null: caption = [%s]," +
-                                "clazz = [%s], component = [%s]",
-                        caption,
-                        clazz,
-                        component)
-                .onThrow();
+        if (caption == null || component == null || clazz == null) {
+            throw ValidateException.byDetails(
+                    "IoC exception. Fail add component to IoC because any is null: caption = [%s]," +
+                                    "clazz = [%s], component = [%s]",
+                    caption,
+                    clazz,
+                    component);
+        }
 
         if (isExistsComponentClass(clazz)) {
             throw new ManyMatchComponentsException(clazz);
@@ -159,12 +195,12 @@ public class IoC implements IIoC {
 
     @Override
     public void addSingleton(String caption, Object component) {
-        Validator.isNull(caption, "caption")
-                .isNull(component, "component")
-                .details("IoC exception. Fail add component to IoC because any is null: caption = [%s], component = [%s]",
-                        caption,
-                        component)
-                .onThrow();
+        if (caption == null || component == null) {
+            throw ValidateException.byDetails(
+                    "IoC exception. Fail add component to IoC because any is null: caption = [%s], component = [%s]",
+                    caption,
+                    component);
+        }
 
         if (isExistsComponentCaption(caption)) {
             throw new ManyMatchComponentsException(caption);
@@ -175,12 +211,12 @@ public class IoC implements IIoC {
 
     @Override
     public <RESULT> void addSingleton(Class<RESULT> clazz, Object component) {
-        Validator.isNull(clazz, "clazz")
-                .isNull(component, "component")
-                .details("IoC exception. Fail add component to IoC because any is null: clazz = [%s], component = [%s]",
-                        clazz,
-                        component)
-                .onThrow();
+        if (clazz == null || component == null) {
+            throw ValidateException.byDetails(
+                    "IoC exception. Fail add component to IoC because any is null: clazz = [%s], component = [%s]",
+                    clazz,
+                    component);
+        }
 
         if (isExistsComponentClass(clazz)) {
             throw new ManyMatchComponentsException(clazz);
@@ -191,15 +227,14 @@ public class IoC implements IIoC {
 
     @Override
     public <RESULT> void addSingleton(Class<RESULT> clazz, String caption, Object component) {
-        Validator.isNull(caption, "caption")
-                .isNull(clazz, "clazz")
-                .isNull(component, "component")
-                .details("IoC exception. Fail add component to IoC because any is null: caption = [%s]," +
-                                "clazz = [%s], component = [%s]",
-                        caption,
-                        clazz,
-                        component)
-                .onThrow();
+        if (clazz == null || component == null || caption == null) {
+            throw ValidateException.byDetails(
+                    "IoC exception. Fail add component to IoC because any is null: caption = [%s]," +
+                                    "clazz = [%s], component = [%s]",
+                    caption,
+                    clazz,
+                    component);
+        }
 
         if (isExistsComponentClass(clazz)) {
             throw new ManyMatchComponentsException(clazz);
@@ -269,43 +304,11 @@ public class IoC implements IIoC {
         }
     }
 
-    public static <T> Constructor<T> findConstructor(Class<T> instanceClass) {
-        return findConstructor(instanceClass, false);
-    }
-
-    public static <T> Constructor<T> findConstructor(Class<T> instanceClass, boolean onlyPublic) {
-        Constructor[] constructors =
-                onlyPublic ? instanceClass.getConstructors() : instanceClass.getDeclaredConstructors();
-        Constructor mainConstructor = ComponentHandler.getMainConstructor(constructors);
-        if (mainConstructor == null) {
-            if (constructors.length == 1) {
-                mainConstructor = constructors[0];
-            } else {
-                throw new ManyMatchConstructorsException(instanceClass);
-            }
-        }
-
-        return mainConstructor;
-    }
-
-    /**
-     * Создать объекты для аргументов указанного конструктора
-     */
-    public Object[] createConstructorArguments(Constructor<?> constructor) {
-        Class<?>[] argumentTypes = constructor.getParameterTypes();
-        Object[] arguments = new Object[argumentTypes.length];
-        for (int i = 0; i < arguments.length; i++) {
-            arguments[i] = getComponent(argumentTypes[i]);
-        }
-
-        return arguments;
-    }
-
     /**
      * Установить класс логирования, который будет использоваться по-умолчнию с аннотацией @Logger
      */
     public void setDefaultLogger(Class<? extends LoggerBase> loggerClass) {
-        this.defaultLogger = loggerClass;
+        this.defaultLoggerClass = loggerClass;
     }
 
     /**
@@ -330,26 +333,41 @@ public class IoC implements IIoC {
         RESULT result = null;
 
         IoCData instanceData = components.get(key);
-        switch (instanceData.getType()) {
-            case REQUEST:
-                result = createInstance(instanceData.getClazzInstance(), instanceData.getConstructorArguments());
-                break;
-            case SESSION:
-                if (instanceData.getSessionInstance() != null) {
-                    result = instanceData.getSessionInstance();
-                } else {
-                    result = createInstance(instanceData.getClazzInstance(), instanceData.getConstructorArguments());
-                    instanceData.setSessionInstance(result);
-                }
-                break;
-            case SINGLETON:
-                if (instanceData.getSingletonInstance() != null) {
-                    result = instanceData.getSingletonInstance();
-                } else {
-                    result = createInstance(instanceData.getClazzInstance(), instanceData.getConstructorArguments());
-                    instanceData.setSingletonInstance(result);
-                }
-                break;
+
+        try {
+            switch (instanceData.getType()) {
+                case REQUEST:
+                    result = createInstance(instanceData.getInstanceClass(), instanceData.getConstructorArguments());
+                    result = postCreateProcess(result);
+                    break;
+                case SESSION:
+                    if (instanceData.getSessionInstance() != null) {
+                        result = instanceData.getSessionInstance();
+                    } else {
+                        result =
+                                createInstance(instanceData.getInstanceClass(), instanceData.getConstructorArguments());
+                        instanceData.setSourceInstance(result);
+
+                        result = postCreateProcess(result);
+                        instanceData.setSessionInstance(result);
+                    }
+                    break;
+                case SINGLETON:
+                case CONFIGURATION:
+                    if (instanceData.getSingletonInstance() != null) {
+                        result = instanceData.getSingletonInstance();
+                    } else {
+                        result =
+                                createInstance(instanceData.getInstanceClass(), instanceData.getConstructorArguments());
+                        instanceData.setSourceInstance(result);
+
+                        result = postCreateProcess(result);
+                        instanceData.setSingletonInstance(result);
+                    }
+                    break;
+            }
+        } catch (Exception ex) {
+            throw new CreateComponentException(key.getClazz(), key.getCaption(), ex);
         }
 
         return result;
@@ -362,39 +380,39 @@ public class IoC implements IIoC {
     private <RESULT> RESULT createInstance(Class instanceClass,
             Object[] constructorArguments,
             boolean skipComponentHandler) {
-        Validator.isNull(instanceClass, "instanceClass")
-                .isNull(constructorArguments, "constructorArguments")
-                .details("IoC exception. Fail add component to IoC because any is null:" +
-                                "clazzInstance = [%s], constructorArguments = [%s]",
-                        instanceClass,
-                        constructorArguments)
-                .onThrow();
+        if (instanceClass == null || constructorArguments == null) {
+            throw ValidateException.byDetails(
+                    "IoC exception. Fail add component to IoC because any is null:" +
+                                    "clazzInstance = [%s], constructorArguments = [%s]",
+                    instanceClass,
+                    constructorArguments);
+        }
 
         if (!skipComponentHandler) {
             Constructor<?> mainConstructor = findConstructor(instanceClass);
             if (constructorArguments.length == 0 && mainConstructor != null) {
-                Object[] instanceArguments = ComponentHandler.getConstructorArguments(mainConstructor);
-                return createInstance(instanceClass, instanceArguments, true);
+                Object[] argumentsInstances = ComponentHandler.getConstructorArguments(mainConstructor);
+                return createInstance(instanceClass, argumentsInstances, true);
             } else {
-                RESULT result = createInstanceByArguments(instanceClass, constructorArguments);
-                return postCreateProcess(result);
+                return createInstanceByArguments(instanceClass, constructorArguments);
             }
         } else {
-            RESULT result = createInstanceByArguments(instanceClass, constructorArguments);
-            return postCreateProcess(result);
+            return createInstanceByArguments(instanceClass, constructorArguments);
         }
     }
 
     private <RESULT> RESULT postCreateProcess(RESULT instance) {
-        LoggerHandler.injectLogger(instance, this, defaultLogger);
-        instance =
-                (RESULT) LoggingHandler.getLoggedInstance(instance, this, defaultLoggingClasses.toArray(new Class[0]));
+        LoggerHandler.injectLogger(instance, this, defaultLoggerClass);
+        PostConstructHandler.invokePostConstructMethod(instance);
+        ConfigurationHandler.invokeConfigurationMethods(instance);
+        instance = (RESULT)
+                LoggingHandler.wrapLoggingProxy(instance, this, defaultLoggingClasses.toArray(new Class[0]));
         return instance;
     }
 
-    private <RESULT> RESULT createInstanceByArguments(Class clazzInstance, Object[] constructorArguments) {
+    private <RESULT> RESULT createInstanceByArguments(Class instanceClass, Object[] constructorArguments) {
         Object[] instanceArguments = createInstanceArguments(constructorArguments);
-        return (RESULT) ReflectionUtil.createDeclaredInstance(clazzInstance, false, instanceArguments);
+        return (RESULT) ReflectionUtil.createDeclaredInstance(instanceClass, false, instanceArguments);
     }
 
     private Object[] createInstanceArguments(Object[] createArguments) {

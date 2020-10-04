@@ -46,11 +46,8 @@ class NeuralNetworkData implements Cloneable {
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
     NeuralNetworkData(int countInputs, int countOutputs) {
-        Validator.isLess(countInputs, "countInputs", 1)
-                .reason("inputNeurons is NULL")
-                .isLess(countOutputs, "countOutputs", 1)
-                .reason("countOutputs is NULL")
-                .onThrow();
+        Validator.isLess(countInputs, "inputNeurons", 1);
+        Validator.isLess(countOutputs, "outputNeurons", 1);
 
         this.countInputs = countInputs;
         this.countOutputs = countOutputs;

@@ -4,14 +4,14 @@ import ru.strict.db.core.common.SqlParameter;
 import ru.strict.db.core.requests.components.SingleWhere;
 import ru.strict.db.core.requests.components.SqlItem;
 import ru.strict.models.UserOnRole;
-import ru.strict.db.core.repositories.IExtensionRepository;
+import ru.strict.db.core.repositories.IRepository;
 import ru.strict.validate.Validator;
 
 import java.util.List;
 
-public interface IUserOnRoleRepository<ID> extends IExtensionRepository<ID, UserOnRole<ID>> {
+public interface IUserOnRoleRepository<ID> extends IRepository<ID, UserOnRole<ID>> {
     default List<UserOnRole<ID>> readByUserId(ID userId) {
-        Validator.isNull(userId, "userId").onThrow();
+        Validator.isNull(userId, "userId");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), "userx_id"),
@@ -22,7 +22,7 @@ public interface IUserOnRoleRepository<ID> extends IExtensionRepository<ID, User
     }
 
     default List<UserOnRole<ID>> readByRoleId(ID roleId) {
-        Validator.isNull(roleId, "roleId").onThrow();
+        Validator.isNull(roleId, "roleId");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), "role_id"),

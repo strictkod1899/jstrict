@@ -9,7 +9,7 @@ public class Limit implements IRequest {
     private int limit;
 
     public Limit(int limit) {
-        Validator.isLess(limit, "limit", 0).onThrow();
+        Validator.isLess(limit, "limit", 0);
 
         this.limit = limit;
     }

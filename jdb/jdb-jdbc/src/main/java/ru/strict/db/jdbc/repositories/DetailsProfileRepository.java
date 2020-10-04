@@ -6,11 +6,8 @@ import ru.strict.db.core.connections.IConnectionCreator;
 import ru.strict.db.core.repositories.DefaultColumns;
 import ru.strict.db.core.repositories.DefaultTable;
 import ru.strict.db.core.repositories.interfaces.IDetailsProfileRepository;
-import ru.strict.models.City;
 import ru.strict.models.DetailsProfile;
-import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.jdbc.mappers.sql.ProfileDetailsSqlMapper;
-import ru.strict.models.DetailsUser;
 
 import java.sql.Connection;
 import java.sql.SQLType;
@@ -49,19 +46,6 @@ public class DetailsProfileRepository<ID>
         parameters.set(6, COLUMNS_NAME[6], model.getPhone());
         parameters.set(7, COLUMNS_NAME[7], model.getCityId());
         return parameters;
-    }
-
-    @Override
-    protected DetailsProfile<ID> fill(DetailsProfile<ID> model) {
-        IRepository<ID, DetailsUser<ID>> userRepository =
-                new UserRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
-        model.setUser(userRepository.read(model.getUserId()));
-
-        IRepository<ID, City<ID>> cityRepository =
-                new CityRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
-        model.setCity(cityRepository.read(model.getCityId()));
-
-        return model;
     }
 
     @Override

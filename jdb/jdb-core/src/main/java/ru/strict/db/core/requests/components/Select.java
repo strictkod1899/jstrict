@@ -29,7 +29,7 @@ public class Select extends TableRequest implements IParameterizedRequest {
 
     public Select(Table table, List<SqlItem> selectItems, IParameterizedRequest requests) {
         super(table);
-        Validator.isNull(selectItems, "selectItems").onThrow();
+        Validator.isNull(selectItems, "selectItems");
 
         this.selectItems = selectItems;
         this.requests = requests;

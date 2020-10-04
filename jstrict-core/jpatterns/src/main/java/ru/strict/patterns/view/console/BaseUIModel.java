@@ -1,6 +1,6 @@
 package ru.strict.patterns.view.console;
 
-import ru.strict.components.Error;
+import ru.strict.components.Message;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,7 +14,7 @@ import java.util.List;
 public class BaseUIModel<STAGE> implements IConsoleModel<STAGE>{
 
     private STAGE currentStage;
-    private List<Error> errors;
+    private List<Message> errors;
     private List<String> warnings;
 
     public BaseUIModel() {
@@ -24,7 +24,7 @@ public class BaseUIModel<STAGE> implements IConsoleModel<STAGE>{
 
     @Override
     public void reset() {
-        cleanErrors();
+        clearErrors();
     }
 
     @Override
@@ -38,33 +38,33 @@ public class BaseUIModel<STAGE> implements IConsoleModel<STAGE>{
     }
 
     @Override
-    public List<Error> getErrors() {
+    public List<Message> getErrors() {
         return errors;
     }
 
     @Override
-    public List<Error> popErrors() {
-        List<Error> result = new ArrayList<>(errors);
-        cleanErrors();
+    public List<Message> popErrors() {
+        List<Message> result = new ArrayList<>(errors);
+        clearErrors();
         return result;
     }
 
     @Override
-    public void addError(Error error) {
-        if(error != null){
-            errors.add(error);
+    public void addError(Message alert) {
+        if(alert != null){
+            errors.add(alert);
         }
     }
 
     @Override
-    public void addErrors(Collection<Error> errors) {
-        if(errors != null){
-            this.errors.addAll(errors);
+    public void addErrors(Collection<Message> alerts) {
+        if(alerts != null){
+            this.errors.addAll(alerts);
         }
     }
 
     @Override
-    public void cleanErrors() {
+    public void clearErrors() {
         errors.clear();
     }
 
@@ -76,7 +76,7 @@ public class BaseUIModel<STAGE> implements IConsoleModel<STAGE>{
     @Override
     public List<String> popWarnings() {
         List<String> result = new ArrayList<>(warnings);
-        cleanWarnings();
+        clearWarnings();
         return result;
     }
 
@@ -95,7 +95,7 @@ public class BaseUIModel<STAGE> implements IConsoleModel<STAGE>{
     }
 
     @Override
-    public void cleanWarnings() {
+    public void clearWarnings() {
         warnings.clear();
     }
 }

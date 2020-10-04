@@ -1,15 +1,18 @@
 package ru.strict.db.core.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.configuration.SqlConfiguration;
+import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.IConnectionCreator;
+import ru.strict.db.core.requests.ParameterizedRequest;
 import ru.strict.db.core.requests.components.Select;
 import ru.strict.db.core.requests.IParameterizedRequest;
 import ru.strict.db.core.requests.components.SqlItem;
 import ru.strict.db.core.requests.components.Table;
-import ru.strict.patterns.BaseModel;
+import ru.strict.patterns.mapper.IMapper;
+import ru.strict.patterns.model.BaseModel;
 import ru.strict.validate.Validator;
 
+import java.sql.ResultSet;
 import java.sql.SQLType;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,8 +30,8 @@ import java.util.stream.Collectors;
  */
 public abstract class BaseRepository
         <ID, CONNECTION, SOURCE extends IConnectionCreator<CONNECTION>, MODEL extends BaseModel<ID>>
-        extends ConfigurableRepository<CONNECTION, SOURCE>
-        implements IExtensionRepository<ID, MODEL> {
+        extends ConfigurableRepository<ID, CONNECTION, SOURCE, MODEL>
+        implements IRepository<ID, MODEL> {
 
     /**
      * Наименование таблицы
@@ -58,32 +61,13 @@ public abstract class BaseRepository
     public BaseRepository(Table table,
             String[] columns,
             SOURCE connectionSource,
-            GenerateIdType generateIdType) {
-        this(table, columns, connectionSource, generateIdType, null, null, null);
-    }
-
-    public BaseRepository(Table table,
-            String[] columns,
-            SOURCE connectionSource,
             GenerateIdType generateIdType,
-            SqlConfiguration configuration,
-            String group) {
-        this(table, columns, connectionSource, generateIdType, null, configuration, group);
-    }
-
-    public BaseRepository(Table table,
-            String[] columns,
-            SOURCE connectionSource,
-            GenerateIdType generateIdType,
-            SQLType sqlIdType,
-            SqlConfiguration configuration,
-            String group) {
-        super(connectionSource, configuration, group);
-        Validator.isNull(table, "table")
-                .isNull(columns, "columns")
-                .isNull(connectionSource, "connectionSource")
-                .isNull(generateIdType, "generateIdType")
-                .onThrow();
+            SQLType sqlIdType) {
+        super(connectionSource, null, null);
+        Validator.isNull(table, "table");
+        Validator.isNull(columns, "columns");
+        Validator.isNull(connectionSource, "connectionSource");
+        Validator.isNull(generateIdType, "generateIdType");
 
         this.table = table;
         this.columns = columns;
@@ -100,10 +84,57 @@ public abstract class BaseRepository
      */
     protected abstract Class getThisClass();
 
+    /**
+     * Выполнить sql-запрос на изменение данных
+     */
+    protected abstract <ID> ID executeSql(String sql, SqlParameters parameters);
+
+    /**
+     * Выполнить sql-запрос на изменение данных
+     */
+    protected abstract <ID> ID executeSql(String sql,
+            SqlParameters parameters,
+            boolean autoGenerateKey);
+
+    /**
+     * Выполнить sql-запрос на чтение
+     */
+    protected abstract <T> T executeSqlRead(String sql,
+            SqlParameters parameters,
+            IMapper<ResultSet, T> resultMapper);
+
+    /**
+     * Выполнить sql-запрос на чтение
+     */
+    protected abstract <T> List<T> executeSqlReadAll(String sql,
+            SqlParameters parameters,
+            IMapper<ResultSet, T> resultMapper);
+
     //<editor-fold defaultState="collapsed" desc="CRUD">
     @Override
+    public List<MODEL> readAll(String whereName, SqlParameters parameters) {
+        String where = getConfiguration().getWhereOrThrow(getGroup(), whereName);
+
+        ParameterizedRequest request = new ParameterizedRequest(where, parameters);
+        return readAll(request);
+    }
+
+    @Override
+    public <T> List<T> readByQuery(String queryName, SqlParameters parameters, IMapper<ResultSet, T> sqlMapper) {
+        String sql = getConfiguration().getQueryOrThrow(getGroup(), queryName);
+        return executeSqlReadAll(sql, parameters, sqlMapper);
+    }
+
+    @Override
+    public void executeQuery(String queryName, SqlParameters parameters) {
+        String sql = getConfiguration().getQueryOrThrow(getGroup(), queryName);
+
+        executeSql(sql, parameters);
+    }
+
+    @Override
     public final ID createOrUpdate(MODEL model) {
-        Validator.isNull(model, "model").onThrow();
+        Validator.isNull(model, "model");
 
         boolean rowExists = isRowExists(model.getId());
         if (rowExists) {
@@ -116,7 +147,7 @@ public abstract class BaseRepository
 
     @Override
     public final MODEL createOrRead(MODEL model) {
-        Validator.isNull(model, "model").onThrow();
+        Validator.isNull(model, "model");
 
         boolean rowExists = isRowExists(model.getId());
         if (rowExists) {
@@ -153,76 +184,6 @@ public abstract class BaseRepository
      */
     protected MODEL postRead(MODEL model) {
         return model;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultState="collapsed" desc="CRUD extension">
-    /**
-     * Добавление объектов внешних ключей к прочитанной ранее сущности из базы данных.
-     * Если сущность не имеет внешних ключей, то рекомендуется возвращать переданный объект.
-     *
-     * <p><b>Пример использования:</b></p>
-     * <p>Чтение ролей пользователя.
-     * Пользователь содержит роли. Внешний ключи хранятся в промежуточной таблице (пользовать = роль).
-     * После чтения записей промежуточной таблицы считываем все записи соответствующих ролей)</p>
-     * <code><pre style="background-color: white; font-family: consolas">
-     *      RepositoryJdbcBase<ID, SOURCE, UserOnRole> repositoryUserOnRole =
-     *                 new RepositoryUserOnRole(getConnectionSource(), GenerateIdType.NONE);
-     *      DbRequests requests = new DbRequests(true);
-     *      requests.addWhere(new DbWhereItem(repositoryUserOnRole.getTable(), "userx_id", model.getId(), "="));
-     *      List<UserOnRole> userOnRoles = repositoryUserOnRole.readAll(requests);
-     *
-     *      IRepository<ID, Role> repositoryRole = new RepositoryRole<>(getConnectionSource(), GenerateIdType.NONE);
-     *      Collection<Role> roles = new ArrayList<>();
-     *      for(UserOnRole<ID> userOnRole : userOnRoles) {
-     *          roles.add(repositoryRole.read(userOnRole.getRoleId()));
-     *      }
-     *      model.setRoles(roleus);
-     *      return model;
-     * </pre></code>
-     * <p><b>Пример использования:</b></p>
-     * <p>К одной стране относится несколько городов и необходимо получить все города связанные со страной</p>
-     * <code><pre style="background-color: white; font-family: consolas">
-     *     RepositoryJdbcBase<ID, SOURCE, City> repositoryCity =
-     *             new RepositoryCity(getConnectionSource(), GenerateIdType.NONE);
-     *     DbRequests requests = new DbRequests(true);
-     *     requests.addWhere(new DbWhereItem(repositoryCity.getTable(), "country_id", model.getId(), "="));
-     *
-     *     List<City> cities = repositoryCity.readAll(requests);
-     *     model.setCities(cities);
-     *
-     *     return model;
-     * </pre></code>
-     * <p><b>Пример использования:</b></p>
-     * <p>Профиль относится к какому-то пользователю и содержит внешний ключ на пользователя (user)</p>
-     * <code><pre style="background-color: white; font-family: consolas">
-     *     IRepository<ID, Country> repositoryCountry =
-     *         new RepositoryCountry(getConnectionSource(), GenerateIdType.NONE);
-     *     model.setCountry(repositoryCountry.read((ID) model.getCountryId()));
-     *     return model;
-     * </pre></code>
-     *
-     * @param model Сущность прочитанная из базы данных (без внешних ключей)
-     * @return Сущность с внешними ключами
-     */
-    protected abstract MODEL fill(MODEL model);
-
-    @Override
-    public final MODEL readFill(ID id) {
-        MODEL model = read(id);
-        if (model != null) {
-            model = fill(model);
-        }
-        return model;
-    }
-
-    @Override
-    public final List<MODEL> readAllFill(IParameterizedRequest requests) {
-        List<MODEL> models = readAll(requests);
-        if (models != null) {
-            models.stream().forEach((model) -> model = fill(model));
-        }
-        return models;
     }
     //</editor-fold>
 
@@ -268,7 +229,7 @@ public abstract class BaseRepository
         return columns;
     }
 
-    protected SQLType getSqlIdType() {
+    protected SQLType getIdSqlType() {
         return sqlIdType;
     }
     //</editor-fold>

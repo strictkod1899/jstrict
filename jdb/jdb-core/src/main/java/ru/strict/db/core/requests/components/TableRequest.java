@@ -14,7 +14,7 @@ public abstract class TableRequest {
     private Table table;
 
     public TableRequest(Table table) {
-        Validator.isNull(table, "table").onThrow();
+        Validator.isNull(table, "table");
 
         this.table = table;
     }

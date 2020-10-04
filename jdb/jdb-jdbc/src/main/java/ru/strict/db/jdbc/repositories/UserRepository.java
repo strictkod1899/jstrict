@@ -5,17 +5,12 @@ import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.connections.IConnectionCreator;
 import ru.strict.db.core.repositories.DefaultColumns;
 import ru.strict.db.core.repositories.DefaultTable;
-import ru.strict.db.core.repositories.interfaces.IJWTTokenRepository;
-import ru.strict.db.core.repositories.interfaces.IProfileRepository;
-import ru.strict.db.core.repositories.interfaces.IUserOnRoleRepository;
 import ru.strict.db.core.repositories.interfaces.IUserRepository;
 import ru.strict.models.*;
-import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.jdbc.mappers.sql.UserSqlMapper;
 
 import java.sql.Connection;
 import java.sql.SQLType;
-import java.util.*;
 
 public class UserRepository<ID>
         extends NamedJdbcRepository<ID, DetailsUser<ID>>
@@ -46,33 +41,6 @@ public class UserRepository<ID>
         parameters.set(6, COLUMNS_NAME[6], model.getSalt());
         parameters.set(7, COLUMNS_NAME[7], model.getSecret());
         return parameters;
-    }
-
-    @Override
-    protected DetailsUser<ID> fill(DetailsUser<ID> model) {
-        // Добавление ролей пользователей
-        IUserOnRoleRepository<ID> userOnRoleRepository =
-                new UserOnRoleRepository(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
-        List<UserOnRole<ID>> userOnRoles = userOnRoleRepository.readByUserId(model.getId());
-
-        IRepository<ID, Role<ID>> roleRepository =
-                new RoleRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
-        List<Role<ID>> roles = new ArrayList<>();
-        for (UserOnRole<ID> userOnRole : userOnRoles) {
-            roles.add(roleRepository.read(userOnRole.getRoleId()));
-        }
-        model.setRoles(roles);
-
-        // Добавления профиля
-        IProfileRepository<ID, Profile<ID>> profileRepository =
-                new ProfileRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
-        model.setProfiles(profileRepository.readByUserId(model.getId()));
-
-        // Добавление токенов
-        IJWTTokenRepository<ID> tokenRepository =
-                new JWTTokenRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
-        model.setTokens(tokenRepository.readByUserId(model.getId()));
-        return model;
     }
 
     @Override

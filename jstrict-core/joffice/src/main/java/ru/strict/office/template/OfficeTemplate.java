@@ -42,8 +42,8 @@ public class OfficeTemplate implements ITemplate {
     private TemplateConfiguration configuration;
 
     public OfficeTemplate(String templatePath, String outputTemplatePath, boolean resourceTemplate) {
-        Validator.isEmptyOrNull(templatePath, "templatePath").onThrow();
-        Validator.isEmptyOrNull(outputTemplatePath, "outputPath").onThrow();
+        Validator.isEmptyOrNull(templatePath, "templatePath");
+        Validator.isEmptyOrNull(outputTemplatePath, "outputPath");
 
         this.templatePath = templatePath;
         this.templateExtension = TemplateFormat.getByCaption(FilenameUtils.getExtension(templatePath));

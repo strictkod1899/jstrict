@@ -2,7 +2,7 @@ package ru.strict.ioc;
 
 import ru.strict.ioc.exceptions.MatchInstanceTypeException;
 
-public class SynchronizedIoC extends IoC {
+public abstract class SynchronizedIoC extends IoC {
 
     public SynchronizedIoC() {
         super();

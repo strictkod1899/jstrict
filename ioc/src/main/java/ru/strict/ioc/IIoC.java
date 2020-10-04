@@ -35,6 +35,19 @@ public interface IIoC {
      *
      * @param caption Название компонента для получения из IoC
      * @param component Класс создаваемого компонента
+     * @param constructorArguments Параметры передаваемые в конструктор класса --component--
+     */
+    void addComponent(String caption, Class component, Object... constructorArguments);
+
+    /**
+     * Добавить компонент с названием --caption-- как экземпляр класса --component--,
+     * спередачей в конструктор параметров --constructorArguments--.
+     * Если в --constructorArguments-- в качестве одного из элементов передать .class, то, по возможности, он будет
+     * внедрен как зависимость.
+     * При использовании данного метода, компонент также можно получить используя класс --component--
+     *
+     * @param caption Название компонента для получения из IoC
+     * @param component Класс создаваемого компонента
      * @param type Тип компонента: singleton или при каждом обращении создавать новый экземпляр
      * @param constructorArguments Параметры передаваемые в конструктор класса --component--
      */

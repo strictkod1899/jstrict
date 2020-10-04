@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ArrayList;
 
-import ru.strict.patterns.BaseModel;
+import ru.strict.patterns.model.BaseModel;
 import ru.strict.validate.Validator;
 
 /**
@@ -47,8 +47,8 @@ public class User<ID> extends BaseModel<ID> {
 
     //<editor-fold defaultState="collapsed" desc="constructors">
     private void init(String username, String email) {
-        Validator.isEmptyOrNull(username, "username").onThrow();
-        Validator.isEmptyOrNull(username, "email").onThrow();
+        Validator.isEmptyOrNull(username, "username");
+        Validator.isEmptyOrNull(username, "email");
 
         this.username = username;
         this.email = email;

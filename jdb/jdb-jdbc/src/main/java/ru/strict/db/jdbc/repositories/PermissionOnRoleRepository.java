@@ -6,11 +6,9 @@ import ru.strict.db.core.connections.IConnectionCreator;
 import ru.strict.db.core.repositories.DefaultColumns;
 import ru.strict.db.core.repositories.DefaultTable;
 import ru.strict.db.core.repositories.interfaces.IPermissionOnRoleRepository;
-import ru.strict.patterns.IModel;
+import ru.strict.patterns.model.IModel;
 import ru.strict.models.IModelProvider;
-import ru.strict.models.Role;
 import ru.strict.models.PermissionOnRole;
-import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.jdbc.mappers.sql.PermissionOnRoleSqlMapper;
 
 import java.sql.Connection;
@@ -58,15 +56,6 @@ public class PermissionOnRoleRepository<ID, PERMISSION extends IModel<Integer>>
             return null;
         }
         model.setPermissionProvider(permissionProvider);
-        return model;
-    }
-
-    @Override
-    protected PermissionOnRole<ID, PERMISSION> fill(PermissionOnRole<ID, PERMISSION> model) {
-        // Добавление роли пользователя
-        IRepository<ID, Role<ID>> roleRepository =
-                new RoleRepository<>(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
-        model.setRole(roleRepository.read(model.getRoleId()));
         return model;
     }
 

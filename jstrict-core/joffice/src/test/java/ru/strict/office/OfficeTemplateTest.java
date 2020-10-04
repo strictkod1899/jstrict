@@ -3,7 +3,6 @@ package ru.strict.office;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import ru.strict.components.ErrorDetails;
 import ru.strict.office.template.OfficeTemplate;
 import ru.strict.office.template.TemplateConfiguration;
 import ru.strict.utils.ClassUtil;

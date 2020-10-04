@@ -8,14 +8,15 @@ import java.util.Optional;
 
 class IoCData {
 
-    private Class clazzInstance;
+    private Class instanceClass;
     private Object[] constructorArguments;
     private InstanceType type;
+    private Object sourceInstance;
     private Object singletonInstance;
     private Object sessionInstance;
 
-    public IoCData(Class clazzInstance, Object[] constructorArguments, InstanceType type) {
-        this.clazzInstance = clazzInstance;
+    public IoCData(Class instanceClass, Object[] constructorArguments, InstanceType type) {
+        this.instanceClass = instanceClass;
         this.constructorArguments = constructorArguments;
         this.type = type;
     }
@@ -25,11 +26,12 @@ class IoCData {
      */
     public IoCData(Object singletonInstance) {
         this.singletonInstance = singletonInstance;
+        this.sourceInstance = singletonInstance;
         type = InstanceType.SINGLETON;
     }
 
-    public Class getClazzInstance() {
-        return clazzInstance;
+    public Class getInstanceClass() {
+        return instanceClass;
     }
 
     public Object[] getConstructorArguments() {
@@ -38,6 +40,14 @@ class IoCData {
 
     public InstanceType getType() {
         return type;
+    }
+
+    public <T> T getSourceInstance() {
+        return (T) sourceInstance;
+    }
+
+    public void setSourceInstance(Object sourceInstance) {
+        this.sourceInstance = sourceInstance;
     }
 
     public <T> T getSingletonInstance() {
@@ -69,7 +79,7 @@ class IoCData {
     @Override
     public String toString() {
         return StringUtil.join(", ", type.name(),
-                Optional.ofNullable(clazzInstance).map(o -> o.toString()).orElse(null),
+                Optional.ofNullable(instanceClass).map(o -> o.toString()).orElse(null),
                 Optional.ofNullable(singletonInstance).map(o -> o.toString()).orElse(null));
     }
 }

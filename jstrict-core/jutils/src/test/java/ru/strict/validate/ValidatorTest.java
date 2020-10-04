@@ -6,189 +6,139 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import ru.strict.exceptions.ValidateException;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
 @RunWith(JUnit4.class)
 public class ValidatorTest {
 
     @Test(expected = ValidateException.class)
-    public void testOr1() {
-        Object value1 = "";
-        Object value2 = null;
+    public void test001_isNull() {
+        Object value = null;
 
-        Validator.isNull(value1, "value1")
-                .isNull(value2, "value2")
-                .onThrow();
+        Validator.isNull(value, "value");
+    }
+
+    @Test
+    public void test002_isNull() {
+        Object value = "";
+
+        Validator.isNull(value, "value");
     }
 
     @Test(expected = ValidateException.class)
-    public void testOr2() {
-        Object value1 = null;
-        Object value2 = "";
+    public void test003_isEmptyOrNull() {
+        String value = null;
 
-        Validator.isNull(value1, "value1")
-                .isNull(value2, "value2")
-                .onThrow();
-    }
-
-    @Test
-    public void testOr3() {
-        Object value1 = "";
-        Object value2 = "";
-
-        Validator.isNull(value1, "value1")
-                .isNull(value2, "value2")
-                .onThrow();
+        Validator.isEmptyOrNull(value, "value");
     }
 
     @Test(expected = ValidateException.class)
-    public void testOr4() {
-        Object value1 = null;
-        Object value2 = null;
+    public void test004_isEmptyOrNull() {
+        String value = "";
 
-        Validator.isNull(value1, "value1")
-                .isNull(value2, "value2")
-                .onThrow();
+        Validator.isEmptyOrNull(value, "value");
     }
 
     @Test
-    public void testAnd1() {
-        Object value1 = "";
-        Object value2 = null;
+    public void test005_isEmptyOrNull() {
+        String value = "123";
 
-        Validator.and()
-                .isNull(value1, "value1")
-                .isNull(value2, "value2")
-                .onThrow();
-    }
-
-    @Test
-    public void testAnd2() {
-        Object value1 = null;
-        Object value2 = "";
-
-        Validator.and()
-                .isNull(value1, "value1")
-                .isNull(value2, "value2")
-                .onThrow();
-    }
-
-    @Test
-    public void testAnd3() {
-        Object value1 = "";
-        Object value2 = "";
-
-        Validator.and()
-                .isNull(value1, "value1")
-                .isNull(value2, "value2")
-                .onThrow();
+        Validator.isEmptyOrNull(value, "value");
     }
 
     @Test(expected = ValidateException.class)
-    public void testAnd4() {
-        Object value1 = null;
-        Object value2 = null;
+    public void test006_isEmptySpaceOrNull() {
+        String value = null;
 
-        Validator.and()
-                .isNull(value1, "value1")
-                .isNull(value2, "value2")
-                .onThrow();
+        Validator.isEmptySpaceOrNull(value, "value");
     }
 
     @Test(expected = ValidateException.class)
-    public void testAnd5() {
-        Object value1 = null;
-        Object value2 = null;
-        Object value3 = null;
+    public void test007_isEmptySpaceOrNull() {
+        String value = "";
 
-        Validator.and()
-                .isNull(value1, "value1")
-                .isNull(value2, "value2")
-                .isNull(value3, "value3")
-                .onThrow();
+        Validator.isEmptySpaceOrNull(value, "value");
+    }
+
+    @Test(expected = ValidateException.class)
+    public void test008_isEmptySpaceOrNull() {
+        String value = "     ";
+
+        Validator.isEmptySpaceOrNull(value, "value");
     }
 
     @Test
-    public void testAnd6() {
-        Object value1 = "";
-        Object value2 = null;
-        Object value3 = null;
+    public void test009_isEmptySpaceOrNull() {
+        String value = "123";
 
-        Validator.and()
-                .isNull(value1, "value1")
-                .isNull(value2, "value2")
-                .isNull(value3, "value3")
-                .onThrow();
+        Validator.isEmptySpaceOrNull(value, "value");
+    }
+
+    @Test(expected = ValidateException.class)
+    public void test010_isEmptyOrNullCollection() {
+        List<?> collection = null;
+
+        Validator.isEmptyOrNull(collection, "value");
+    }
+
+    @Test(expected = ValidateException.class)
+    public void test011_isEmptyOrNullCollection() {
+        List<?> collection = new ArrayList<>(1);
+
+        Validator.isEmptyOrNull(collection, "value");
     }
 
     @Test
-    public void testAnd7() {
-        Object value1 = null;
-        Object value2 = "";
-        Object value3 = null;
+    public void test012_isEmptyOrNullCollection() {
+        List<Object> collection = new ArrayList<>(1);
+        collection.add("123");
 
-        Validator.and()
-                .isNull(value1, "value1")
-                .isNull(value2, "value2")
-                .isNull(value3, "value3")
-                .onThrow();
+        Validator.isEmptyOrNull(collection, "value");
+    }
+
+    @Test(expected = ValidateException.class)
+    public void test013_isEmptyOrNullArray() {
+        Object[] array = null;
+
+        Validator.isEmptyOrNull(array, "value");
+    }
+
+    @Test(expected = ValidateException.class)
+    public void test014_isEmptyOrNullArray() {
+        Object[] array = new Object[1];
+
+        Validator.isEmptyOrNull(array, "value");
     }
 
     @Test
-    public void testAnd8() {
-        Object value1 = null;
-        Object value2 = null;
-        Object value3 = "";
+    public void test015_isEmptyOrNullArray() {
+        Object[] array = new Object[1];
+        array [0] = "123";
 
-        Validator.and()
-                .isNull(value1, "value1")
-                .isNull(value2, "value2")
-                .isNull(value3, "value3")
-                .onThrow();
+        Validator.isEmptyOrNull(array, "value");
     }
 
     @Test
-    public void test1() {
-        Object value1 = null;
-        Object value2 = null;
-        Object value3 = null;
-
-        String expectedReason = "reason1";
-        String expectedDetails = "details1";
-
+    public void test016_byDetails() {
+        String details = "Details message";
         try {
-            Validator.isNull(value1, "value1")
-                    .reason(expectedReason)
-                    .details(expectedDetails)
-                    .isNull(value2, "value2")
-                    .reason("reason2")
-                    .details("details2")
-                    .isNull(value3, "value3")
-                    .details("details3")
-                    .onThrow();
+            Validator.byDetails(details).isNull(null, "value");
         } catch (ValidateException ex) {
-            Assert.assertEquals(Collections.singletonList(expectedReason), ex.getReasons());
-            Assert.assertEquals(expectedDetails, ex.getDetails());
+            Assert.assertEquals(details, ex.getDetails());
         }
     }
 
     @Test
-    public void test2() {
-        Object value1 = null;
-        Object value2 = null;
-        Object value3 = null;
-
-        String expectedDetails = "details3";
+    public void test017_byDetails() {
+        String details = "Details %s";
+        Object[] args = new Object[] {
+                "message"
+        };
+        String expectedDetails = String.format(details, args);
 
         try {
-            Validator.and()
-                    .isNull(value1, "value1")
-                    .details(expectedDetails)
-                    .isNull(value2, "value2")
-                    .details("details2")
-                    .isNull(value3, "value3")
-                    .details("details3")
-                    .onThrow();
+            Validator.byDetails(details, args).isNull(null, "value");
         } catch (ValidateException ex) {
             Assert.assertEquals(expectedDetails, ex.getDetails());
         }

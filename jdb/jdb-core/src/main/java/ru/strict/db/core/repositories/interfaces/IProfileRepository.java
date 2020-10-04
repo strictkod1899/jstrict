@@ -6,23 +6,23 @@ import ru.strict.db.core.requests.components.SqlItem;
 import ru.strict.db.core.requests.components.Where;
 import ru.strict.db.core.requests.components.WhereType;
 import ru.strict.models.Profile;
-import ru.strict.db.core.repositories.IExtensionRepository;
+import ru.strict.db.core.repositories.IRepository;
 import ru.strict.validate.Validator;
 
 import java.util.List;
 
-public interface IProfileRepository<ID, T extends Profile<ID>> extends IExtensionRepository<ID, T> {
+public interface IProfileRepository<ID, T extends Profile<ID>> extends IRepository<ID, T> {
     default List<T> readBySurname(String name, String surname) {
         Where.Builder where = Where.builder();
 
         if (name != null) {
-            String nameWhere = SingleWhere.build(new SqlItem(getTable(), "name"), "=");
+            String nameWhere = SingleWhere.sql(new SqlItem(getTable(), "name"), "=");
             where.addParameter("name", name);
             where.item(nameWhere);
         }
 
         if (surname != null) {
-            String surnameWhere = SingleWhere.build(new SqlItem(getTable(), "surname"), "=");
+            String surnameWhere = SingleWhere.sql(new SqlItem(getTable(), "surname"), "=");
             where.addParameter("surname", surname);
             where.item(WhereType.AND, surnameWhere);
         }
@@ -31,7 +31,7 @@ public interface IProfileRepository<ID, T extends Profile<ID>> extends IExtensio
     }
 
     default List<T> readByUserId(ID userId) {
-        Validator.isNull(userId, "userId").onThrow();
+        Validator.isNull(userId, "userId");
 
         SingleWhere where = new SingleWhere(
                 new SqlItem(getTable(), "userx_id"),

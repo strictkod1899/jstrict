@@ -30,7 +30,7 @@ final class PdfConverter {
     private final BaseFont baseFont;
 
     PdfConverter(OfficeTemplate template) {
-        Validator.isNull(template, "template").onThrow();
+        Validator.isNull(template, "template");
         this.template = template;
         try {
             baseFont = BaseFont.createFont(
@@ -378,7 +378,7 @@ final class PdfConverter {
     }
 
     private org.apache.poi.ss.usermodel.Font getPoiFont(org.apache.poi.ss.usermodel.Cell cell) {
-        Validator.isNull(cell, "cell").onThrow();
+        Validator.isNull(cell, "cell");
 
         if (cell instanceof HSSFCell) {
             HSSFCell hssfCell = (HSSFCell) cell;
@@ -405,7 +405,7 @@ final class PdfConverter {
     }
 
     private BaseColor getPdfColor(org.apache.poi.ss.usermodel.Cell cell, short poiColorCode) {
-        Validator.isNull(cell, "cell").onThrow();
+        Validator.isNull(cell, "cell");
 
         if (cell instanceof HSSFCell) {
             HSSFWorkbook workbook = ((HSSFCell) cell).getRow().getSheet().getWorkbook();
@@ -424,7 +424,7 @@ final class PdfConverter {
     }
 
     private BaseColor getPdfColor(org.apache.poi.ss.usermodel.Cell cell, Color poiColor) {
-        Validator.isNull(cell, "cell").onThrow();
+        Validator.isNull(cell, "cell");
         if (poiColor == null) {
             return BaseColor.BLACK;
         }

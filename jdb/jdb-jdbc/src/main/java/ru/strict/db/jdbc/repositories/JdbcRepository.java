@@ -1,7 +1,6 @@
 package ru.strict.db.jdbc.repositories;
 
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.configuration.SqlConfiguration;
 import ru.strict.db.core.connections.IConnectionCreator;
 import ru.strict.db.core.repositories.BaseRepository;
 import ru.strict.db.core.requests.IParameterizedRequest;
@@ -13,29 +12,29 @@ import ru.strict.db.core.common.SqlParameter;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.jdbc.mappers.sql.CountSqlMapper;
 import ru.strict.db.jdbc.utils.JdbcUtil;
-import ru.strict.patterns.BaseModel;
-import ru.strict.patterns.IMapper;
+import ru.strict.patterns.model.BaseModel;
+import ru.strict.patterns.mapper.IMapper;
 import java.sql.*;
 import java.util.*;
 
-import static ru.strict.db.jdbc.utils.JdbcUtil.shiftParameters;
+import static ru.strict.db.jdbc.utils.JdbcUtil.*;
 
 /**
  * Базовый класс репозитория с использованием Jdbc
  *
  * @param <ID> Тип идентификатора
- * @param <T> Тип сущности базы данных
+ * @param <MODEL> Тип сущности базы данных
  */
 public abstract class JdbcRepository
-        <ID, T extends BaseModel<ID>>
-        extends BaseRepository<ID, Connection, IConnectionCreator<Connection>, T> {
+        <ID, MODEL extends BaseModel<ID>>
+        extends BaseRepository<ID, Connection, IConnectionCreator<Connection>, MODEL> {
 
     private static final CountSqlMapper COUNT_MAPPER = new CountSqlMapper();
 
     /**
      * Объект для преобразования полученных данных из sql-запроса в объект сущности базы данных (model)
      */
-    private BaseSqlMapper<T> sqlMapper;
+    private BaseSqlMapper<MODEL> sqlMapper;
 
     private String sqlInsertWithoutId;
     private String sqlInsertWithId;
@@ -47,9 +46,9 @@ public abstract class JdbcRepository
     public JdbcRepository(Table table,
             String[] columns,
             IConnectionCreator<Connection> connectionSource,
-            BaseSqlMapper<T> sqlMapper,
+            BaseSqlMapper<MODEL> sqlMapper,
             GenerateIdType generateIdType) {
-        this(table, columns, connectionSource, sqlMapper, generateIdType, null, null, null);
+        this(table, columns, connectionSource, sqlMapper, generateIdType, null);
     }
 
     /**
@@ -60,18 +59,16 @@ public abstract class JdbcRepository
             IConnectionCreator<Connection> connectionSource,
             GenerateIdType generateIdType,
             SQLType sqlIdType) {
-        this(table, columns, connectionSource, null, generateIdType, sqlIdType, null, null);
+        super(table, columns, connectionSource, generateIdType, sqlIdType);
     }
 
     public JdbcRepository(Table table,
             String[] columns,
             IConnectionCreator<Connection> connectionSource,
-            BaseSqlMapper<T> sqlMapper,
+            BaseSqlMapper<MODEL> sqlMapper,
             GenerateIdType generateIdType,
-            SQLType sqlIdType,
-            SqlConfiguration configuration,
-            String group) {
-        super(table, columns, connectionSource, generateIdType, sqlIdType, configuration, group);
+            SQLType sqlIdType) {
+        super(table, columns, connectionSource, generateIdType, sqlIdType);
 
         this.sqlMapper = sqlMapper;
     }
@@ -79,7 +76,7 @@ public abstract class JdbcRepository
 
     //<editor-fold defaultState="collapsed" desc="CRUD">
     @Override
-    public final ID create(T model) {
+    public final ID create(MODEL model) {
         SqlParameters parameters = getParameters(model);;
         String sql;
 
@@ -93,20 +90,19 @@ public abstract class JdbcRepository
 
                 generatedId = executeSql(sql, parameters, true);
                 break;
+            case UUID_IF_NOT_EXISTS:
+                if (model.getId() == null) {
+                    generatedId = createWithUUIDGenerate(parameters);
+                } else {
+                    createWithoutGenerateId(parameters, model.getId());
+                    generatedId = model.getId();
+                }
+                break;
             case UUID:
-                shiftParameters(parameters, 1);
-                generatedId = (ID) UUID.randomUUID();
-                parameters.set(0, getIdColumnName(), generatedId);
-                sql = getSqlInsertWithId(parameters.size() - 1);
-
-                executeSql(sql, parameters);
+                generatedId = createWithUUIDGenerate(parameters);
                 break;
             case NONE:
-                shiftParameters(parameters, 1);
-                parameters.set(0, getIdColumnName(), model.getId());
-                sql = getSqlInsertWithId(parameters.size() - 1);
-
-                executeSql(sql, parameters);
+                createWithoutGenerateId(parameters, model.getId());
                 generatedId = model.getId();
                 break;
             default:
@@ -117,32 +113,50 @@ public abstract class JdbcRepository
         return generatedId;
     }
 
+    private ID createWithUUIDGenerate(SqlParameters parameters) {
+        shiftParameters(parameters, 1);
+        ID generatedId = (ID) UUID.randomUUID();
+        parameters.set(0, getIdColumnName(), generatedId);
+        String sql = getSqlInsertWithId(parameters.size() - 1);
+
+        executeSql(sql, parameters);
+        return generatedId;
+    }
+
+    private void createWithoutGenerateId(SqlParameters parameters, ID id) {
+        shiftParameters(parameters, 1);
+        parameters.set(0, getIdColumnName(), id);
+        String sql = getSqlInsertWithId(parameters.size() - 1);
+
+        executeSql(sql, parameters);
+    }
+
     @Override
-    protected final T processRead(ID id) {
+    protected final MODEL processRead(ID id) {
         Select select = createSqlSelect(
                 new Where(
                         getWhereById(),
-                        new SqlParameters(new SqlParameter<ID>(0, getIdColumnName(), id, getSqlIdType()))
+                        new SqlParameters(new SqlParameter<ID>(0, getIdColumnName(), id, getIdSqlType()))
                 )
         );
 
-        SqlParameter<ID> parameter = new SqlParameter<>(0, getIdColumnName(), id, getSqlIdType());
+        SqlParameter<ID> parameter = new SqlParameter<>(0, getIdColumnName(), id, getIdSqlType());
         SqlParameters parameters = new SqlParameters(parameter);
 
         return executeSqlRead(select.getParameterizedSql(), parameters, sqlMapper);
     }
 
     @Override
-    protected final List<T> processReadAll(IParameterizedRequest requests) {
+    protected final List<MODEL> processReadAll(IParameterizedRequest requests) {
         Select select = createSqlSelect(requests);
         return executeSqlReadAll(select.getParameterizedSql(), select.getParameters(), sqlMapper);
     }
 
     @Override
-    public final void update(T model) {
+    public final void update(MODEL model) {
         String sql = getSqlUpdate();
         SqlParameters parameters = getParameters(model);
-        parameters.addLast(getIdColumnName(), model.getId());
+        parameters.add(getIdColumnName(), model.getId());
 
         executeSql(sql, parameters);
     }
@@ -151,7 +165,7 @@ public abstract class JdbcRepository
     public final void delete(ID id) {
         String sql = getSqlDelete();
         SqlParameters parameters = new SqlParameters();
-        parameters.addLast(getIdColumnName(), id);
+        parameters.add(getIdColumnName(), id);
 
         executeSql(sql, parameters);
     }
@@ -192,7 +206,6 @@ public abstract class JdbcRepository
     //</editor-fold>
 
     //<editor-fold defaultState="collapsed" desc="sql generate">
-
     /**
      * Sql-запрос на создание записи в таблице (без учета ID)
      */
@@ -296,14 +309,14 @@ public abstract class JdbcRepository
      * @param model Объект из которого берутся значения для параметров
      * @return
      */
-    protected abstract SqlParameters getParameters(T model);
+    protected abstract SqlParameters getParameters(MODEL model);
 
     //<editor-fold defaultState="collapsed" desc="Get/Set">
-    protected void setSqlMapper(BaseSqlMapper<T> sqlMapper) {
+    protected void setSqlMapper(BaseSqlMapper<MODEL> sqlMapper) {
         this.sqlMapper = sqlMapper;
     }
 
-    public BaseSqlMapper<T> getSqlMapper() {
+    public BaseSqlMapper<MODEL> getSqlMapper() {
         return sqlMapper;
     }
     //</editor-fold>

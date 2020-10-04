@@ -7,8 +7,6 @@ import ru.strict.db.core.repositories.DefaultColumns;
 import ru.strict.db.core.repositories.DefaultTable;
 import ru.strict.db.core.repositories.interfaces.IJWTTokenRepository;
 import ru.strict.models.JWTToken;
-import ru.strict.models.User;
-import ru.strict.db.core.repositories.IRepository;
 import ru.strict.db.jdbc.mappers.sql.JWTTokenSqlMapper;
 
 import java.sql.Connection;
@@ -48,15 +46,6 @@ public class JWTTokenRepository<ID>
         parameters.set(11, COLUMNS_NAME[11], model.getType());
         parameters.set(12, COLUMNS_NAME[12], model.getUserId());
         return parameters;
-    }
-
-    @Override
-    protected JWTToken<ID> fill(JWTToken<ID> model) {
-        // Добавление пользователя
-        IRepository<ID, User<ID>> userRepository =
-                new UserRepository(getConnectionSource(), GenerateIdType.NONE, getSqlIdType());
-        model.setUser(userRepository.read(model.getUserId()));
-        return model;
     }
 
     @Override

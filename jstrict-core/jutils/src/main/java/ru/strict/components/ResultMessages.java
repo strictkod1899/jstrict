@@ -1,114 +1,103 @@
 package ru.strict.components;
 
-import ru.strict.validate.ValidateBaseValue;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ResultMessages implements Cloneable {
-
-    /**
-     * Сообщение в порядке добавления. Содержит и ошибки и др.
-     */
-    private List<Object> sequenceMessages;
-    private List<Error> errors;
-    private List<String> messages;
+    private List<Message> alerts;
+    private List<Message> messages;
 
     public ResultMessages() {
-        errors = new ArrayList<>();
+        alerts = new ArrayList<>();
         messages = new ArrayList<>();
-        sequenceMessages = new ArrayList<>();
     }
 
-    public List<Error> getErrors() {
-        return errors;
+    public List<Message> getAlerts() {
+        return alerts;
     }
 
-    public List<String> getStringErrors() {
-        return errors.stream().map(error -> error.toString()).collect(Collectors.toList());
+    public List<String> getAlertsAsString() {
+        return alerts.stream()
+                .map(Message::toString)
+                .collect(Collectors.toList());
     }
 
-    public void setErrors(List<Error> errors) {
-        this.errors = errors;
-        this.sequenceMessages.addAll(errors);
+    public void setAlerts(List<Message> alerts) {
+        this.alerts = alerts;
     }
 
-    public void addError(Error error) {
-        if(error != null) {
-            this.errors.add(error);
-            this.sequenceMessages.add(error);
+    public void addAlert(Message alert) {
+        if (alert != null) {
+            this.alerts.add(alert);
         }
     }
 
-    public void addError(String error) {
-        if(error != null) {
-            this.errors.add(new Error(error));
-            this.sequenceMessages.add(error);
+    public void addAlert(String alert) {
+        if (alert != null) {
+            this.alerts.add(new Message(alert));
         }
     }
 
-    public List<String> getMessages() {
+    public List<Message> getMessages() {
         return messages;
     }
 
-    public void setMessages(List<String> messages) {
-        this.messages = messages;
-        this.sequenceMessages.addAll(messages);
+    public List<String> getMessagesAsString() {
+        return messages.stream()
+                .map(Message::toString)
+                .collect(Collectors.toList());
     }
 
-    public void addMessage(String message) {
-        if(!ValidateBaseValue.isEmptyOrNull(message)) {
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public void addMessage(Message message) {
+        if (message != null) {
             this.messages.add(message);
-            this.sequenceMessages.add(message);
         }
     }
 
-    public List<Object> getSequenceMessages() {
-        return sequenceMessages;
-    }
-
-    public List<String> getSequenceStringMessages() {
-        return sequenceMessages.stream().map(message -> message.toString()).collect(Collectors.toList());
-    }
-
-    public boolean hasMessages(){
+    public boolean hasMessages() {
         return !messages.isEmpty();
     }
 
-    public boolean hasErrors(){
-        return !errors.isEmpty();
+    public boolean hasAlerts() {
+        return !alerts.isEmpty();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         ResultMessages object = (ResultMessages) o;
-        return Objects.equals(sequenceMessages, object.sequenceMessages) &&
-                Objects.equals(errors, object.errors) &&
+        return Objects.equals(alerts, object.alerts) &&
                 Objects.equals(messages, object.messages);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sequenceMessages, errors, messages);
+        return Objects.hash(alerts, messages);
     }
 
     @Override
     public ResultMessages clone() {
         try {
-            ResultMessages clone = (ResultMessages)super.clone();
+            ResultMessages clone = (ResultMessages) super.clone();
 
-            List<Error> errors = new ArrayList<>(this.errors.size());
-            for(Error error : this.errors){
-                errors.add(error.clone());
+            List<Message> alerts = new ArrayList<>(this.alerts.size());
+            for (Message alert : this.alerts) {
+                alerts.add(alert.clone());
             }
 
             clone.messages = new ArrayList<>(this.messages);
-            clone.sequenceMessages = new ArrayList<>(this.sequenceMessages);
-            clone.errors = errors;
+            clone.alerts = alerts;
             return clone;
         } catch (CloneNotSupportedException ex) {
             throw new RuntimeException(ex);

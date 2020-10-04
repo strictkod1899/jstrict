@@ -1,15 +1,13 @@
 package ru.strict.db.core.repositories;
 
-import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.configuration.SqlConfiguration;
 import ru.strict.db.core.connections.IConnectionCreator;
-import ru.strict.patterns.IMapper;
-
-import java.sql.ResultSet;
-import java.util.List;
+import ru.strict.patterns.model.BaseModel;
+import ru.strict.validate.Validator;
 
 public abstract class ConfigurableRepository
-        <CONNECTION, SOURCE extends IConnectionCreator<CONNECTION>> {
+        <ID, CONNECTION, SOURCE extends IConnectionCreator<CONNECTION>, MODEL extends BaseModel<ID>>
+        implements IConfigurableRepository<ID, MODEL>{
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
@@ -18,15 +16,21 @@ public abstract class ConfigurableRepository
      */
     private final SOURCE connectionSource;
 
-    private final SqlConfiguration configuration;
-    private final String group;
+    private SqlConfiguration configuration;
+    private String group;
 
     public ConfigurableRepository(SOURCE connectionSource,
             SqlConfiguration configuration,
             String group) {
+        Validator.isNull(connectionSource, "connectionSource");
+
         this.connectionSource = connectionSource;
         this.configuration = configuration;
         this.group = group;
+    }
+
+    public SqlConfiguration getConfiguration() {
+        return configuration;
     }
 
     /**
@@ -36,45 +40,19 @@ public abstract class ConfigurableRepository
         return connectionSource.createConnection();
     }
 
-    protected String getConfigurationQuery(String queryName) {
-        return configuration.getSql(group, queryName);
-    }
-
-    public SOURCE getConnectionSource() {
+    protected SOURCE getConnectionSource() {
         return connectionSource;
     }
 
-    public SqlConfiguration getConfiguration() {
-        return configuration;
-    }
-
-    public String getGroup() {
+    protected String getGroup() {
         return group;
     }
 
-    /**
-     * Выполнить sql-запрос на изменение данных
-     */
-    protected abstract <ID> ID executeSql(String sql, SqlParameters parameters);
+    public void setConfiguration(String group, SqlConfiguration configuration) {
+        Validator.isNull(group, "group");
+        Validator.isNull(configuration, "configuration");
 
-    /**
-     * Выполнить sql-запрос на изменение данных
-     */
-    protected abstract <ID> ID executeSql(String sql,
-            SqlParameters parameters,
-            boolean autoGenerateKey);
-
-    /**
-     * Выполнить sql-запрос на чтение
-     */
-    protected abstract <T> T executeSqlRead(String sql,
-            SqlParameters parameters,
-            IMapper<ResultSet, T> resultMapper);
-
-    /**
-     * Выполнить sql-запрос на чтение
-     */
-    protected abstract <T> List<T> executeSqlReadAll(String sql,
-            SqlParameters parameters,
-            IMapper<ResultSet, T> resultMapper);
+        this.group = group;
+        this.configuration = configuration;
+    }
 }

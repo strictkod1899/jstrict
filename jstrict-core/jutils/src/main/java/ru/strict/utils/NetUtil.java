@@ -8,7 +8,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import ru.strict.validate.ValidateBaseValue;
+import ru.strict.validate.CommonValidate;
 
 import java.io.*;
 import java.net.*;
@@ -30,7 +30,7 @@ public class NetUtil {
      * Проверить соединение с сайтом
      */
     public static boolean checkConnect(String url, int timeout) {
-        try{
+        try {
             URL myUrl = new URL(url);
             URLConnection connection = myUrl.openConnection();
             connection.setConnectTimeout(timeout);
@@ -43,38 +43,41 @@ public class NetUtil {
 
     /**
      * Получить html страницу по url в кодировке UTF-8
+     *
      * @param url
      * @return
      * @throws IOException
      */
     public static String sendGetRequestUTF8(String url) throws IOException {
-        return sendGetRequest(url, null,"UTF-8");
+        return sendGetRequest(url, null, "UTF-8");
     }
 
     /**
      * Получить html страницу по url в кодировке UTF-8
+     *
      * @param url
      * @return
      * @throws IOException
      */
     public static String sendGetRequestUTF8(String url, Map<String, String> parameters) throws IOException {
-        return sendGetRequest(url, parameters,"UTF-8");
+        return sendGetRequest(url, parameters, "UTF-8");
     }
 
     /**
      * Получить html страницу по url
+     *
      * @param url
      * @return
      * @throws IOException
      */
     public static String sendGetRequest(String url, Map<String, String> parameters, String encode) throws IOException {
-        if(parameters != null && parameters.size() > 0) {
+        if (parameters != null && parameters.size() > 0) {
             String[] stringParameters = parameters.keySet().stream()
                     .map(key -> key + "=" + parameters.get(key))
                     .toArray(String[]::new);
             String parametersLine = StringUtil.join("&", stringParameters);
 
-            if(!ValidateBaseValue.isEmptyOrNull(parametersLine)){
+            if (!CommonValidate.isEmptyOrNull(parametersLine)) {
                 url += "?" + parametersLine;
             }
         }
@@ -88,8 +91,8 @@ public class NetUtil {
         int responseCode = connection.getResponseCode();
 
         String result = null;
-        if(responseCode == 200) {
-            if(ValidateBaseValue.isEmptyOrNull(encode)){
+        if (responseCode == 200) {
+            if (CommonValidate.isEmptyOrNull(encode)) {
                 encode = "UTF-8";
             }
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), encode));
@@ -106,6 +109,7 @@ public class NetUtil {
 
     /**
      * Отправить post-запрос на указанный адрес используя кодировку UTF-8
+     *
      * @return Возвращается строкове представление ответа на запрос
      * @throws IOException
      */
@@ -115,6 +119,7 @@ public class NetUtil {
 
     /**
      * Отправить post-запрос на указанный адрес используя кодировку UTF-8
+     *
      * @return Возвращается строкове представление ответа на запрос
      * @throws IOException
      */
@@ -124,11 +129,12 @@ public class NetUtil {
 
     /**
      * Отправить post-запрос на указанный адрес.
+     *
      * @return Возвращается строкове представление ответа на запрос
      * @throws IOException
      */
     public static String sendPostRequest(String url, Map<String, String> parameters, String encode) throws IOException {
-        if(ValidateBaseValue.isEmptyOrNull(encode)){
+        if (CommonValidate.isEmptyOrNull(encode)) {
             encode = "UTF-8";
         }
 

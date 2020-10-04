@@ -5,12 +5,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import ru.strict.db.Permission;
 import ru.strict.db.PermissionProvider;
-import ru.strict.db.TestConnectionCreator;
+import ru.strict.db.jdbc.components.TestConnectionCreator;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.repositories.interfaces.IPermissionOnRoleRepository;
 import ru.strict.db.jdbc.repositories.RoleRepository;
 import ru.strict.db.jdbc.repositories.PermissionOnRoleRepository;
-import ru.strict.db.jdbc.repositories.UserRepository;
 
 import java.sql.JDBCType;
 

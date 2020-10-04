@@ -4,7 +4,7 @@ import org.jdom2.Attribute;
 import org.jdom2.Element;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
-import ru.strict.validate.ValidateBaseRegex;
+import ru.strict.validate.RegexValidate;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -213,7 +213,7 @@ public class XmlReadHandler extends DefaultHandler {
 
         currentElement = new Element(qName, uri);
         for (int i = 0; i < attributes.getLength(); i++) {
-            if (ValidateBaseRegex.isCaption(attributes.getQName(i))) {
+            if (RegexValidate.isCaption(attributes.getQName(i))) {
                 currentElement.setAttribute(attributes.getQName(i), attributes.getValue(i));
             }
         }
@@ -227,7 +227,7 @@ public class XmlReadHandler extends DefaultHandler {
         Element elementMain = new Element(qName, uri);
 
         for (int i = 0; i < attributes.getLength(); i++) {
-            if (ValidateBaseRegex.isCaption(attributes.getQName(i))) {
+            if (RegexValidate.isCaption(attributes.getQName(i))) {
                 elementMain.setAttribute(attributes.getQName(i), attributes.getValue(i));
             }
         }

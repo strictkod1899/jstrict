@@ -62,32 +62,12 @@ public abstract class CityRepositoryTest extends NamedRepositoryTest<Long, City<
     }
 
     @Override
-    protected City<Long> getFillPrimaryModel() {
-        return FILL_CITY1;
-    }
-
-    @Override
-    protected City<Long> getFillUpdateModel() {
-        return UPDATED_FILL_CITY1;
-    }
-
-    @Override
     protected String getPrimaryCaption() {
-        return getPrimaryModel().getCaption();
+        return getPrimaryModel().getName();
     }
 
     @Override
     protected String getUpdatedCaption() {
-        return getUpdateModel().getCaption();
-    }
-
-    @Override
-    protected String getFillPrimaryCaption() {
-        return getFillPrimaryModel().getCaption();
-    }
-
-    @Override
-    protected String getFillUpdatedCaption() {
-        return getFillUpdateModel().getCaption();
+        return getUpdateModel().getName();
     }
 }

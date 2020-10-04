@@ -2,8 +2,8 @@ package ru.strict.i18n;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import ru.strict.marshaling.LocalizedStringDeserializer;
-import ru.strict.marshaling.LocalizedStringSerializer;
+import ru.strict.json.LocalizedStringDeserializer;
+import ru.strict.json.LocalizedStringSerializer;
 import ru.strict.validate.Validator;
 
 import java.util.HashMap;
@@ -22,7 +22,7 @@ public class LocalizedString {
     }
 
     public LocalizedString(Map<String, String> strings) {
-        Validator.isNull(strings, "strings").onThrow();
+        Validator.isNull(strings, "strings");
 
         setStrings(strings);
     }
@@ -50,7 +50,7 @@ public class LocalizedString {
     }
 
     public void setStrings(Map<String, String> strings) {
-        Validator.isNull(strings, "strings").onThrow();
+        Validator.isNull(strings, "strings");
         this.strings = strings;
     }
 

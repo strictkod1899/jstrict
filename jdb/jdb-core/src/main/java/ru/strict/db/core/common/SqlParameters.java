@@ -11,15 +11,22 @@ import java.util.stream.Stream;
  * Список параметров для подставновки в sql-запрос типа PreparedStatement
  */
 public class SqlParameters implements Iterable<SqlParameter<?>> {
+    private static final SqlParameters EMPTY_INSTANCE = new EmptySqlParameters();
+
     private List<SqlParameter<?>> parameters;
 
     public SqlParameters() {
         parameters = new ArrayList<>(5);
     }
 
+    public SqlParameters(String name, Object value) {
+        this();
+        add(new SqlParameter<>(name, value));
+    }
+
     public SqlParameters(SqlParameter<?> parameter) {
         this();
-        addLast(parameter);
+        add(parameter);
     }
 
     public List<SqlParameter<?>> getParameters() {
@@ -64,7 +71,7 @@ public class SqlParameters implements Iterable<SqlParameter<?>> {
         parameters.add(sqlParameter);
     }
 
-    public void addLast(SqlParameter<?> sqlParameter) {
+    public void add(SqlParameter<?> sqlParameter) {
         checkParameter(sqlParameter.getName());
         parameters.add(new SqlParameter<>(parameters.size(),
                 sqlParameter.getName(),
@@ -73,17 +80,18 @@ public class SqlParameters implements Iterable<SqlParameter<?>> {
         );
     }
 
-    public void addLast(String name) {
-        checkParameter(name);
-        parameters.add(new SqlParameter<>(parameters.size(), name, null));
-    }
-
-    public void addLast(String name, Object value) {
+    public void add(Object value) {
+        String name = String.format("param_%s", parameters.size());
         checkParameter(name);
         parameters.add(new SqlParameter<>(parameters.size(), name, value));
     }
 
-    public void addLast(String name, Object value, SQLType type) {
+    public void add(String name, Object value) {
+        checkParameter(name);
+        parameters.add(new SqlParameter<>(parameters.size(), name, value));
+    }
+
+    public void add(String name, Object value, SQLType type) {
         checkParameter(name);
         parameters.add(new SqlParameter<>(parameters.size(), name, value, type));
     }
@@ -157,4 +165,61 @@ public class SqlParameters implements Iterable<SqlParameter<?>> {
         return parameters.iterator();
     }
     //</editor-fold>
+
+    public static SqlParameters empty() {
+        return EMPTY_INSTANCE;
+    }
+
+    private static class EmptySqlParameters extends SqlParameters {
+
+        @Override
+        public void set(int index, String name) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void set(int index, String name, Object value) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void set(int index, String name, Object value, SQLType type) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void set(SqlParameter<?> sqlParameter) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void add(SqlParameter<?> sqlParameter) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void add(Object value) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void add(String name, Object value) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void add(String name, Object value, SQLType type) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void setAll(SqlParameters parameters) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void addAll(SqlParameters parameters) {
+            throw new UnsupportedOperationException();
+        }
+    }
 }

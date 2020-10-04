@@ -4,7 +4,8 @@ import ru.strict.db.core.common.SqlParameter;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.common.SqlType;
 import ru.strict.db.core.exceptions.DatabaseException;
-import ru.strict.patterns.IMapper;
+import ru.strict.patterns.mapper.IMapper;
+import ru.strict.validate.Validator;
 
 import java.math.BigDecimal;
 import java.net.URL;
@@ -21,6 +22,10 @@ import java.sql.SQLType;
 import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -167,12 +172,20 @@ public final class JdbcUtil {
                         statement.setArray(index, (Array) value);
                     } else if (value instanceof NClob) {
                         statement.setNClob(index, (NClob) value);
-                    } else if (value instanceof Date || value instanceof java.sql.Date) {
-                        statement.setDate(index, new java.sql.Date(((Date) value).getTime()));
                     } else if (value instanceof Time) {
                         statement.setTime(index, (Time) value);
                     } else if (value instanceof Timestamp) {
                         statement.setTimestamp(index, (Timestamp) value);
+                    } else if (value instanceof Date) {
+                        statement.setDate(index, new java.sql.Date(((Date) value).getTime()));
+                    } else if (value instanceof LocalDate) {
+                        statement.setDate(index, java.sql.Date.valueOf((LocalDate) value));
+                    } else if (value instanceof LocalDateTime) {
+                        statement.setTimestamp(index, Timestamp.valueOf((LocalDateTime) value));
+                    } else if (value instanceof ZonedDateTime) {
+                        statement.setTimestamp(index, Timestamp.valueOf(((ZonedDateTime) value).toLocalDateTime()));
+                    } else if (value instanceof LocalTime) {
+                        statement.setTime(index, Time.valueOf((LocalTime) value));
                     } else if (value instanceof URL) {
                         statement.setURL(index, (URL) value);
                     } else if (value instanceof Clob) {
@@ -206,18 +219,31 @@ public final class JdbcUtil {
             throw new IllegalArgumentException("sqlType is NULL");
         }
 
-        T value;
-        if (sqlType.equals(SqlType.UUID)) {
-            value = (T) UUID.fromString(resultSet.getString(columnName));
-        } else if (sqlType.equals(SqlType.TEXT)) {
-            value = (T) resultSet.getString(columnName);
-        } else if (sqlType.equals(JDBCType.BIGINT)) {
-            value = (T) (Object) resultSet.getLong(columnName);
-        } else if (sqlType.equals(JDBCType.INTEGER)) {
-            value = (T) (Object) resultSet.getInt(columnName);
-        } else {
-            value = (T) resultSet.getObject(columnName);
+        Object value = resultSet.getObject(columnName);
+        return mapValue(value, sqlType);
+    }
+
+    public static <T> T mapValue(Object sourceValue, SQLType sqlType) {
+        if (sourceValue == null) {
+            return null;
         }
-        return value;
+
+        if (sqlType instanceof SqlType) {
+            return SqlType.mapValue(sourceValue, sqlType);
+        } else if (sqlType.equals(JDBCType.BIGINT)) {
+            return (T) Long.valueOf(String.valueOf(sourceValue));
+        } else if (sqlType.equals(JDBCType.INTEGER)) {
+            return (T) Integer.valueOf(String.valueOf(sourceValue));
+        } else if (sqlType.equals(JDBCType.BOOLEAN)) {
+            if (sourceValue.equals("1")) {
+                return (T) Boolean.TRUE;
+            } else if (sourceValue.equals("0")) {
+                return (T) Boolean.FALSE;
+            } else {
+                return (T) Boolean.valueOf((String)sourceValue);
+            }
+        } else {
+            return (T) sourceValue;
+        }
     }
 }
