@@ -219,25 +219,29 @@ public final class JdbcUtil {
             throw new IllegalArgumentException("sqlType is NULL");
         }
 
-        if (sqlType.equals(SqlType.UUID)) {
-            String strValue = resultSet.getString(columnName);
-            return strValue == null ? null : (T) UUID.fromString(strValue);
-        } else if (sqlType.equals(SqlType.TEXT)) {
-            return (T) resultSet.getString(columnName);
-        } else if (sqlType.equals(JDBCType.BIGINT)) {
-            return (T) (Object) resultSet.getLong(columnName);
-        } else if (sqlType.equals(JDBCType.INTEGER)) {
-            return (T) (Object) resultSet.getInt(columnName);
-        } else {
-            return (T) resultSet.getObject(columnName);
-        }
+        Object value = resultSet.getObject(columnName);
+        return mapValue(value, sqlType);
     }
 
     public static <T> T mapValue(Object sourceValue, SQLType sqlType) {
-        Validator.isNull(sqlType, "sqlType");
+        if (sourceValue == null) {
+            return null;
+        }
 
         if (sqlType instanceof SqlType) {
             return SqlType.mapValue(sourceValue, sqlType);
+        } else if (sqlType.equals(JDBCType.BIGINT)) {
+            return (T) Long.valueOf(String.valueOf(sourceValue));
+        } else if (sqlType.equals(JDBCType.INTEGER)) {
+            return (T) Integer.valueOf(String.valueOf(sourceValue));
+        } else if (sqlType.equals(JDBCType.BOOLEAN)) {
+            if (sourceValue.equals("1")) {
+                return (T) Boolean.TRUE;
+            } else if (sourceValue.equals("0")) {
+                return (T) Boolean.FALSE;
+            } else {
+                return (T) Boolean.valueOf((String)sourceValue);
+            }
         } else {
             return (T) sourceValue;
         }

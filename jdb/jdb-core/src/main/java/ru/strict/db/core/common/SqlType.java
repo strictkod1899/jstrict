@@ -30,10 +30,10 @@ public enum SqlType implements SQLType {
     }
 
     public static <T> T mapValue(Object value, SQLType sqlType) {
-        Validator.isNull(sqlType, "sqlType");
         if (value == null) {
             return null;
         }
+        Validator.isNull(sqlType, "sqlType");
 
         if (sqlType.equals(SqlType.UUID)) {
             return (T) java.util.UUID.fromString(String.valueOf(value));
