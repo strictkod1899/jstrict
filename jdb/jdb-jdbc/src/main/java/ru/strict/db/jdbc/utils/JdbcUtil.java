@@ -214,7 +214,7 @@ public final class JdbcUtil {
         parameters.forEach(parameter -> parameter.setIndex(parameter.getIndex() + startPosition));
     }
 
-    public static <T> T getValueBySqlType(SQLType sqlType, ResultSet resultSet, String columnName) throws SQLException {
+    public static <T> T getValueBySqlType(ResultSet resultSet, String columnName, SQLType sqlType) throws SQLException {
         if (sqlType == null) {
             throw new IllegalArgumentException("sqlType is NULL");
         }

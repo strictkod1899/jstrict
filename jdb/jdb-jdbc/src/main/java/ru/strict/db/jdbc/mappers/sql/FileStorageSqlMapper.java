@@ -17,7 +17,7 @@ public class FileStorageSqlMapper<ID> extends BaseSqlMapper<FileStorage<ID>> {
     @Override
     public FileStorage<ID> implementMap(ResultSet resultSet) throws SQLException {
         FileStorage<ID> model = new FileStorage();
-        model.setId(getValueBySqlType(idType, resultSet, idColumnName));
+        model.setId(getValueBySqlType(resultSet, idColumnName, idType));
         model.setFilename(resultSet.getString(columns[0]));
         model.setExtension(resultSet.getString(columns[1]));
         model.setDisplayName(resultSet.getString(columns[2]));

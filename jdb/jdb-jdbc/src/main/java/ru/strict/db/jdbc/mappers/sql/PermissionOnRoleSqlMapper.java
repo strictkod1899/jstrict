@@ -19,9 +19,9 @@ public class PermissionOnRoleSqlMapper<ID, PERMISSION extends IModel<Integer>>
     @Override
     public PermissionOnRole<ID, PERMISSION> implementMap(ResultSet resultSet) throws SQLException {
         PermissionOnRole<ID, PERMISSION> model = new PermissionOnRole<>();
-        model.setId(getValueBySqlType(idType, resultSet, idColumnName));
+        model.setId(getValueBySqlType(resultSet, idColumnName, idType));
         model.setPermissionId(resultSet.getInt(columns[0]));
-        model.setRoleId(getValueBySqlType(idType, resultSet, columns[1]));
+        model.setRoleId(getValueBySqlType(resultSet, columns[1], idType));
         return model;
     }
 }

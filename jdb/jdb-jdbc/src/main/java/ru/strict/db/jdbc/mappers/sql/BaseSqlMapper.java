@@ -38,6 +38,6 @@ public abstract class BaseSqlMapper<T> extends BaseMapper<ResultSet, T> {
     }
 
     protected <V> V getByIdType(ResultSet resultSet, String columnName) throws SQLException {
-        return JdbcUtil.getValueBySqlType(idType, resultSet, columnName);
+        return JdbcUtil.getValueBySqlType(resultSet, columnName, idType);
     }
 }

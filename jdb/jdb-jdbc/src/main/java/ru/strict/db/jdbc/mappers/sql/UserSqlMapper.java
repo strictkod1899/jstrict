@@ -17,7 +17,7 @@ public class UserSqlMapper<ID> extends BaseSqlMapper<DetailsUser<ID>> {
     @Override
     public DetailsUser<ID> implementMap(ResultSet resultSet) throws SQLException {
         DetailsUser<ID> model = new DetailsUser();
-        model.setId(getValueBySqlType(idType, resultSet, idColumnName));
+        model.setId(getValueBySqlType(resultSet, idColumnName, idType));
         model.setUsername(resultSet.getString(columns[0]));
         model.setPasswordEncode(resultSet.getString(columns[1]));
         model.setEmail(resultSet.getString(columns[2]));

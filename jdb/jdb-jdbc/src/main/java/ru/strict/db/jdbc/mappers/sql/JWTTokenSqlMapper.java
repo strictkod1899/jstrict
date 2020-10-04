@@ -17,7 +17,7 @@ public class JWTTokenSqlMapper<ID> extends BaseSqlMapper<JWTToken<ID>> {
     @Override
     public JWTToken<ID> implementMap(ResultSet resultSet) throws SQLException {
         JWTToken<ID> model = new JWTToken();
-        model.setId(getValueBySqlType(idType, resultSet, idColumnName));
+        model.setId(getValueBySqlType(resultSet, idColumnName, idType));
         model.setAccessToken(resultSet.getString(columns[0]));
         model.setRefreshToken(resultSet.getString(columns[1]));
         model.setExpireTimeAccess(resultSet.getDate(columns[2]));
@@ -30,7 +30,7 @@ public class JWTTokenSqlMapper<ID> extends BaseSqlMapper<JWTToken<ID>> {
         model.setSecret(resultSet.getString(columns[9]));
         model.setAlgorithm(resultSet.getString(columns[10]));
         model.setType(resultSet.getString(columns[11]));
-        model.setUserId(getValueBySqlType(idType, resultSet, columns[12]));
+        model.setUserId(getValueBySqlType(resultSet, columns[12], idType));
         return model;
     }
 }

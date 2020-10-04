@@ -17,10 +17,10 @@ public class ProfileSqlMapper<ID> extends BaseSqlMapper<Profile<ID>> {
     @Override
     public Profile<ID> implementMap(ResultSet resultSet) throws SQLException {
         Profile<ID> model = new Profile();
-        model.setId(getValueBySqlType(idType, resultSet, idColumnName));
+        model.setId(getValueBySqlType(resultSet, idColumnName, idType));
         model.setName(resultSet.getString(columns[0]));
         model.setSurname(resultSet.getString(columns[1]));
-        model.setUserId(getValueBySqlType(idType, resultSet, columns[2]));
+        model.setUserId(getValueBySqlType(resultSet, columns[2], idType));
         return model;
     }
 }

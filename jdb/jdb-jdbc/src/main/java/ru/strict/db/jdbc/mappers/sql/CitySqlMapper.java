@@ -17,9 +17,9 @@ public class CitySqlMapper<ID> extends BaseSqlMapper<City<ID>> {
     @Override
     public City<ID> implementMap(ResultSet resultSet) throws SQLException {
         City<ID> model = new City();
-        model.setId(getValueBySqlType(idType, resultSet, idColumnName));
+        model.setId(getValueBySqlType(resultSet, idColumnName, idType));
         model.setName(resultSet.getString(columns[0]));
-        model.setCountryId(getValueBySqlType(idType, resultSet, columns[1]));
+        model.setCountryId(getValueBySqlType(resultSet, columns[1], idType));
         return model;
     }
 }

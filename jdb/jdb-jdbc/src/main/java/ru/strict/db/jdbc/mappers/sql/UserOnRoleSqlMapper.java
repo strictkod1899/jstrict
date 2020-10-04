@@ -17,9 +17,9 @@ public class UserOnRoleSqlMapper<ID> extends BaseSqlMapper<UserOnRole<ID>> {
     @Override
     public UserOnRole<ID> implementMap(ResultSet resultSet) throws SQLException {
         UserOnRole<ID> model = new UserOnRole();
-        model.setId(getValueBySqlType(idType, resultSet, idColumnName));
-        model.setUserId(getValueBySqlType(idType, resultSet, columns[0]));
-        model.setRoleId(getValueBySqlType(idType, resultSet, columns[1]));
+        model.setId(getValueBySqlType(resultSet, idColumnName, idType));
+        model.setUserId(getValueBySqlType(resultSet, columns[0], idType));
+        model.setRoleId(getValueBySqlType(resultSet, columns[1], idType));
         return model;
     }
 }

@@ -17,7 +17,7 @@ public class RoleSqlMapper<ID> extends BaseSqlMapper<Role<ID>> {
     @Override
     public Role<ID> implementMap(ResultSet resultSet) throws SQLException {
         Role<ID> model = new Role();
-        model.setId(getValueBySqlType(idType, resultSet, idColumnName));
+        model.setId(getValueBySqlType(resultSet, idColumnName, idType));
         model.setCode(resultSet.getString(columns[0]));
         model.setDescription(resultSet.getString(columns[1]));
         return model;
