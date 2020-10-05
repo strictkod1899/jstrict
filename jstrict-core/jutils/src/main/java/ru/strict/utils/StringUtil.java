@@ -51,7 +51,7 @@ public final class StringUtil {
      * Пустые или нулевые строки будут пропущены
      * strings может быть null
      */
-    public static String safeJoin(String separator, String... strings) {
+    public static String safeJoin(String separator, Object... strings) {
         return join(separator, Optional.ofNullable(strings).orElse(new String[0]));
     }
 
@@ -60,7 +60,7 @@ public final class StringUtil {
      * Пустые или нулевые строки будут пропущены
      * strings может быть null
      */
-    public static String safeJoin(String separator, Collection<String> strings) {
+    public static String safeJoin(String separator, Collection<Object> strings) {
         return join(separator, Optional.ofNullable(strings).orElse(Collections.EMPTY_LIST));
     }
 
@@ -68,13 +68,13 @@ public final class StringUtil {
      * Объединить строки с использованием общего разделителя.
      * Пустые или нулевые строки будут пропущены
      */
-    public static String join(String separator, Collection<String> strings) {
+    public static String join(String separator, Collection<Object> strings) {
         Validator.isNull(separator, "separator");
         Validator.isNull(strings, "strings elements for join");
 
         StringBuilder result = new StringBuilder();
         strings.forEach(item -> {
-            if (!CommonValidate.isEmptyOrNull(item)) {
+            if (item != null && item.toString().length() > 0) {
                 if (result.length() > 0) {
                     result.append(separator);
                 }
@@ -90,13 +90,13 @@ public final class StringUtil {
      * Объединить строки с использованием общего разделителя.
      * Пустые или нулевые строки будут пропущены
      */
-    public static String join(String separator, String... strings) {
+    public static String join(String separator, Object... strings) {
         Validator.isNull(separator, "separator");
         Validator.isNull(strings, "strings elements for join");
 
         StringBuilder result = new StringBuilder();
-        for (String item : strings) {
-            if (!CommonValidate.isEmptyOrNull(item)) {
+        for (Object item : strings) {
+            if (item != null && item.toString().length() > 0) {
                 if (result.length() > 0) {
                     result.append(separator);
                 }
