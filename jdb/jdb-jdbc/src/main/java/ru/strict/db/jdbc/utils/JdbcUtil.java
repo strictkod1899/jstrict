@@ -27,6 +27,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -146,6 +147,9 @@ public final class JdbcUtil {
                         statement.setByte(index, (Byte) value);
                     } else if (sqlType.equals(JDBCType.SMALLINT)) {
                         statement.setShort(index, (Short) value);
+                    } else if (sqlType.equals(JDBCType.ARRAY)) {
+                        Array sqlArray = getSqlArray(value, statement.getConnection());
+                        statement.setArray(index, sqlArray);
                     } else {
                         statement.setObject(index, value, parameter.getSqlType());
                     }
@@ -168,8 +172,9 @@ public final class JdbcUtil {
                         statement.setBigDecimal(index, (BigDecimal) value);
                     } else if (value instanceof byte[]) {
                         statement.setBytes(index, (byte[]) value);
-                    } else if (value instanceof Array) {
-                        statement.setArray(index, (Array) value);
+                    } else if (value instanceof Collection || value.getClass().isArray()) {
+                        Array sqlArray = getSqlArray(value, statement.getConnection());
+                        statement.setArray(index, sqlArray);
                     } else if (value instanceof NClob) {
                         statement.setNClob(index, (NClob) value);
                     } else if (value instanceof Time) {
@@ -245,5 +250,21 @@ public final class JdbcUtil {
         } else {
             return (T) sourceValue;
         }
+    }
+
+    private static Array getSqlArray(Object value, Connection connection) throws SQLException {
+        Object[] array;
+        if (value instanceof Collection) {
+            Collection<Object> collection = (Collection<Object>) value;
+            array = collection.toArray();
+        } else if (value.getClass().isArray()) {
+            array = (Object[]) value;
+        } else {
+            throw new UnsupportedOperationException(
+                    String.format("Unsupported object type [%s] for set as SqlArray",
+                            value.getClass())
+            );
+        }
+        return connection.createArrayOf("TEXT", array);
     }
 }

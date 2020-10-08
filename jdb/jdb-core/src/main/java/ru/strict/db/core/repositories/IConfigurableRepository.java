@@ -16,6 +16,7 @@ public interface IConfigurableRepository<ID, MODEL extends BaseModel<ID>> {
      * @return Список объектов из базы данных
      */
     List<MODEL> readAll(String whereName, SqlParameters parameters);
+    long readCount(String whereName, SqlParameters parameters);
 
     <T> List<T> readByQuery(String queryName, SqlParameters parameters, IMapper<ResultSet, T> sqlMapper);
 

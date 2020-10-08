@@ -120,6 +120,14 @@ public abstract class BaseRepository
     }
 
     @Override
+    public long readCount(String whereName, SqlParameters parameters) {
+        String where = getConfiguration().getWhereOrThrow(getGroup(), whereName);
+
+        ParameterizedRequest request = new ParameterizedRequest(where, parameters);
+        return readCount(request);
+    }
+
+    @Override
     public <T> List<T> readByQuery(String queryName, SqlParameters parameters, IMapper<ResultSet, T> sqlMapper) {
         String sql = getConfiguration().getQueryOrThrow(getGroup(), queryName);
         return executeSqlReadAll(sql, parameters, sqlMapper);
