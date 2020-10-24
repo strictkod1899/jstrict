@@ -1,6 +1,6 @@
 package ru.strict.exceptions;
 
-public class ItemNotFoundException extends Exception {
+public class ItemNotFoundException extends RuntimeException {
 
     public ItemNotFoundException(String itemName) {
         super(String.format("Item not found [%s]", itemName));

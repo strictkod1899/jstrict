@@ -1,6 +1,6 @@
 package ru.strict.exceptions;
 
-public class InvalidItemException extends Exception {
+public class InvalidItemException extends RuntimeException {
 
     public InvalidItemException(String itemName) {
         super(String.format("Invalid item [%s]", itemName));
