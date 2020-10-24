@@ -10,6 +10,11 @@ import java.util.Optional;
 
 public final class StringUtil {
 
+    private static final Escaper FILE_NAME_ESCAPER = Escaper.builder()
+            .addEscape("", '*', '|', '\\', ':', '"', '<', '>', '?', '/')
+            .addEscape("_", ' ')
+            .build();
+
     private StringUtil() {
     }
 
@@ -145,5 +150,12 @@ public final class StringUtil {
         }
 
         return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
+    /**
+     * Привести имя файла к виду для записи в файловой системе (заменить запрещенные символы)
+     */
+    public static String escapeFileName(String filename) {
+        return FILE_NAME_ESCAPER.escape(filename);
     }
 }
