@@ -49,46 +49,6 @@ public final class CommonUtil {
         return number;
     }
 
-
-    /**
-     * Получить количество миллисекунд из объекта LocalDate с системным часовым поясом
-     */
-    public static Long getMillisFromLocalDate(LocalDate date) {
-        return getMillisFromLocalDate(date, ZoneId.systemDefault());
-    }
-
-    /**
-     * Получить количество миллисекунд из объекта LocalDate в указанном часовом поясе
-     */
-    public static Long getMillisFromLocalDate(LocalDate date, ZoneId zoneId) {
-        Validator.isNull(date, "date");
-        Validator.isNull(zoneId, "zoneId");
-
-        return date.atStartOfDay()
-                .atZone(zoneId)
-                .toInstant()
-                .toEpochMilli();
-    }
-
-    /**
-     * Получить количество миллисекунд из объекта LocalDateTime с системным часовым поясом
-     */
-    public static Long getMillisFromLocalDateTime(LocalDateTime date) {
-        return getMillisFromLocalDateTime(date, ZoneId.systemDefault());
-    }
-
-    /**
-     * Получить количество миллисекунд из объекта LocalDateTime в указанном часовом поясе
-     */
-    public static Long getMillisFromLocalDateTime(LocalDateTime date, ZoneId zoneId) {
-        Validator.isNull(date, "date");
-        Validator.isNull(zoneId, "zoneId");
-
-        return date.atZone(zoneId)
-                .toInstant()
-                .toEpochMilli();
-    }
-
     /**
      * Получить процентное соотношение значения от общей суммы
      */
