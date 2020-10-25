@@ -45,7 +45,7 @@ final class PdfConverter {
 
     void toPdf() {
         try {
-            FileUtil.recreateFile(template.OUTPUT_PDF);
+            FileUtil.recreateFile(template.outputPdf);
 
             switch (template.templateExtension) {
                 case XLS:
@@ -79,8 +79,8 @@ final class PdfConverter {
                 throw new UnsupportedOperationException(String.format("Unsupported templateExtension [%s]", template.templateExtension));
         }
 
-        try (InputStream templateInput = new FileInputStream(template.OUTPUT_TEMPLATE);
-             OutputStream output = new FileOutputStream(new File(template.OUTPUT_PDF))) {
+        try (InputStream templateInput = new FileInputStream(template.outputTemplate);
+             OutputStream output = new FileOutputStream(new File(template.outputPdf))) {
 
             IXDocReport report = XDocReportRegistry.getRegistry().loadReport(templateInput, TemplateEngineKind.Velocity, false);
             IContext context = report.createContext();
@@ -94,8 +94,8 @@ final class PdfConverter {
 
     private void excelToPdf() throws Exception {
         Document document = null;
-        try (FileInputStream templateInput = new FileInputStream(template.OUTPUT_TEMPLATE);
-             FileOutputStream pdfOutput = new FileOutputStream(new File(template.OUTPUT_PDF))) {
+        try (FileInputStream templateInput = new FileInputStream(template.outputTemplate);
+             FileOutputStream pdfOutput = new FileOutputStream(new File(template.outputPdf))) {
             document = new Document(PageSize.ARCH_E,
                     template.getConfiguration().getMarginLeft(),
                     template.getConfiguration().getMarginRight(),

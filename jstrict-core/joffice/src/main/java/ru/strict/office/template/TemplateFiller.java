@@ -5,7 +5,6 @@ import net.sf.jooreports.templates.DocumentTemplateFactory;
 import org.jxls.util.JxlsHelper;
 import ru.strict.utils.FileUtil;
 import ru.strict.utils.ResourcesUtil;
-import ru.strict.validate.Validator;
 
 import java.io.*;
 
@@ -14,13 +13,12 @@ final class TemplateFiller {
     private final OfficeTemplate template;
 
     TemplateFiller(OfficeTemplate template) {
-        Validator.isNull(template, "template");
         this.template = template;
     }
 
     void fillTemplate() {
         try {
-            FileUtil.recreateFile(template.OUTPUT_TEMPLATE);
+            FileUtil.recreateFile(template.outputTemplate);
 
             switch (template.templateExtension) {
                 case XLS:
@@ -47,7 +45,7 @@ final class TemplateFiller {
         try (InputStream templateInput = template.resourceTemplate ?
                 ResourcesUtil.getResourceStream(template.templatePath) :
                 new FileInputStream(template.templatePath);
-             OutputStream templateOutput = new FileOutputStream(new File(template.OUTPUT_TEMPLATE))) {
+             OutputStream templateOutput = new FileOutputStream(new File(template.outputTemplate))) {
             JxlsHelper.getInstance().processTemplate(templateInput, templateOutput, template.getContext());
         }
     }
@@ -56,7 +54,7 @@ final class TemplateFiller {
         try (InputStream templateInput = template.resourceTemplate ?
                 ResourcesUtil.getResourceStream(template.templatePath) :
                 new FileInputStream(template.templatePath);
-             OutputStream templateOutput = new FileOutputStream(new File(template.OUTPUT_TEMPLATE))) {
+             OutputStream templateOutput = new FileOutputStream(new File(template.outputTemplate))) {
 
         }
     }
@@ -66,7 +64,7 @@ final class TemplateFiller {
         try (InputStream templateInput = template.resourceTemplate ?
                 ResourcesUtil.getResourceStream(template.templatePath) :
                 new FileInputStream(template.templatePath);
-             OutputStream templateOutput = new FileOutputStream(new File(template.OUTPUT_TEMPLATE))) {
+             OutputStream templateOutput = new FileOutputStream(new File(template.outputTemplate))) {
 
             DocumentTemplate documentTemplate = documentTemplateFactory.getTemplate(templateInput);
             documentTemplate.createDocument(template.getItems(), templateOutput);

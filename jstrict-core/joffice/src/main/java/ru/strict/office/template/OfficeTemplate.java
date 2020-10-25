@@ -36,10 +36,14 @@ public class OfficeTemplate implements ITemplate {
     protected final boolean resourceTemplate;
     private final Context context;
 
-    protected final String OUTPUT_TEMPLATE;
-    protected final String OUTPUT_PDF;
+    protected final String outputTemplate;
+    protected final String outputPdf;
 
     private TemplateConfiguration configuration;
+
+    public OfficeTemplate(String templatePath, String outputTemplatePath) {
+        this(templatePath, outputTemplatePath, true);
+    }
 
     public OfficeTemplate(String templatePath, String outputTemplatePath, boolean resourceTemplate) {
         Validator.isEmptyOrNull(templatePath, "templatePath");
@@ -58,8 +62,8 @@ public class OfficeTemplate implements ITemplate {
         this.context = new Context();
         this.configuration = createDefaultConfiguration();
 
-        this.OUTPUT_TEMPLATE = outputDirectoryPath + File.separator + outputTemplateName + "." + outputTemplateExtension.getCaption();
-        this.OUTPUT_PDF = outputDirectoryPath + File.separator + outputTemplateName + ".pdf";
+        this.outputTemplate = outputDirectoryPath + File.separator + outputTemplateName + "." + outputTemplateExtension.getCaption();
+        this.outputPdf = outputDirectoryPath + File.separator + outputTemplateName + ".pdf";
     }
 
     private TemplateConfiguration createDefaultConfiguration() {
