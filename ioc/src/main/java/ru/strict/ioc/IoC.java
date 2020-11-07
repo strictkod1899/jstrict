@@ -6,6 +6,7 @@ import ru.strict.ioc.annotations.ConfigurationHandler;
 import ru.strict.ioc.annotations.LoggerHandler;
 import ru.strict.ioc.annotations.LoggingHandler;
 import ru.strict.ioc.annotations.PostConstructHandler;
+import ru.strict.ioc.exceptions.ComponentNotFoundException;
 import ru.strict.ioc.exceptions.CreateComponentException;
 import ru.strict.ioc.exceptions.ManyMatchComponentsException;
 import ru.strict.ioc.exceptions.MatchInstanceTypeException;
@@ -272,14 +273,14 @@ public abstract class IoC implements IIoC {
                     .findFirst()
                     .orElse(null);
             if (key != null) {
-                result = getInstance(key);
+                return getInstance(key);
             }
         }
         return result;
     }
 
     @Override
-    public <RESULT> void closeSessionInstance(Class<RESULT> clazz) throws MatchInstanceTypeException {
+    public <RESULT> void closeSessionInstance(Class<RESULT> clazz) {
         if (clazz != null) {
             IoCKeys key = components.keySet().stream()
                     .filter((k) -> k.getClazz() != null && ReflectionUtil.isInstanceOf(clazz, k.getClazz()))
@@ -292,7 +293,7 @@ public abstract class IoC implements IIoC {
     }
 
     @Override
-    public void closeSessionInstance(String caption) throws MatchInstanceTypeException {
+    public void closeSessionInstance(String caption) {
         if (caption != null) {
             IoCKeys key = components.keySet().stream()
                     .filter((k) -> caption.equals(k.getCaption()))
@@ -318,7 +319,7 @@ public abstract class IoC implements IIoC {
         this.defaultLoggingClasses.add(loggerClass);
     }
 
-    private void closeSessionInstanceProcess(IoCKeys key) throws MatchInstanceTypeException {
+    private void closeSessionInstanceProcess(IoCKeys key) {
         if (key != null) {
             IoCData instanceData = components.get(key);
             if (instanceData.getType() == InstanceType.SESSION) {
@@ -423,12 +424,9 @@ public abstract class IoC implements IIoC {
             Object instanceArgument = null;
             Object createArgument = createArguments[i];
             if (createArgument instanceof String && !((String) createArgument).startsWith("@")) {
-                instanceArgument = getComponent((String) createArgument);
+                instanceArgument = getComponentOrThrow((String) createArgument);
             } else if (createArgument instanceof Class) {
-                instanceArgument = getComponent((Class) createArgument);
-                if (instanceArgument == null) {
-                    instanceArgument = createArgument;
-                }
+                instanceArgument = getComponentOrThrow((Class) createArgument);
             } else {
                 if (createArgument instanceof String && ((String) createArgument).startsWith("@")) {
                     instanceArgument = ((String) createArgument).substring(1, ((String) createArgument).length());
@@ -441,6 +439,24 @@ public abstract class IoC implements IIoC {
         }
 
         return instanceArguments;
+    }
+
+    private <RESULT> RESULT getComponentOrThrow(Class<RESULT> clazz) {
+        RESULT component = getComponent(clazz);
+        if (component == null) {
+            throw new ComponentNotFoundException(clazz);
+        }
+
+        return component;
+    }
+
+    private <RESULT> RESULT getComponentOrThrow(String componentName) {
+        RESULT component = getComponent(componentName);
+        if (component == null) {
+            throw new ComponentNotFoundException(componentName);
+        }
+
+        return component;
     }
 
     private boolean isExistsComponentCaption(String componentCaption) {

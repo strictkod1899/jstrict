@@ -132,7 +132,7 @@ public interface IIoC {
      * @param <RESULT>
      * @throws MatchInstanceTypeException
      */
-    <RESULT> void closeSessionInstance(Class<RESULT> clazz) throws MatchInstanceTypeException;
+    <RESULT> void closeSessionInstance(Class<RESULT> clazz);
 
     /**
      * Удалить session-компонент
@@ -140,5 +140,5 @@ public interface IIoC {
      * @param caption Название, используемое в качестве ключа для доступа к компоненту
      * @throws MatchInstanceTypeException
      */
-    void closeSessionInstance(String caption) throws MatchInstanceTypeException;
+    void closeSessionInstance(String caption);
 }
