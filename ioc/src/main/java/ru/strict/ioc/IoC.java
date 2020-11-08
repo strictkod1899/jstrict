@@ -7,6 +7,7 @@ import ru.strict.ioc.annotations.LoggerHandler;
 import ru.strict.ioc.annotations.LoggingHandler;
 import ru.strict.ioc.annotations.PostConstructHandler;
 import ru.strict.ioc.exceptions.ComponentNotFoundException;
+import ru.strict.ioc.exceptions.ConstructorNotFoundException;
 import ru.strict.ioc.exceptions.CreateComponentException;
 import ru.strict.ioc.exceptions.ManyMatchComponentsException;
 import ru.strict.ioc.exceptions.MatchInstanceTypeException;
@@ -177,7 +178,7 @@ public abstract class IoC implements IIoC {
         if (caption == null || component == null || clazz == null) {
             throw ValidateException.byDetails(
                     "IoC exception. Fail add component to IoC because any is null: caption = [%s]," +
-                                    "clazz = [%s], component = [%s]",
+                            "clazz = [%s], component = [%s]",
                     caption,
                     clazz,
                     component);
@@ -231,7 +232,7 @@ public abstract class IoC implements IIoC {
         if (clazz == null || component == null || caption == null) {
             throw ValidateException.byDetails(
                     "IoC exception. Fail add component to IoC because any is null: caption = [%s]," +
-                                    "clazz = [%s], component = [%s]",
+                            "clazz = [%s], component = [%s]",
                     caption,
                     clazz,
                     component);
@@ -367,7 +368,9 @@ public abstract class IoC implements IIoC {
                     }
                     break;
             }
-        } catch (Exception ex) {
+        } catch (ComponentNotFoundException | ConstructorNotFoundException ex) {
+            throw ex;
+        }catch (Exception ex) {
             throw new CreateComponentException(key.getClazz(), key.getCaption(), ex);
         }
 
@@ -384,7 +387,7 @@ public abstract class IoC implements IIoC {
         if (instanceClass == null || constructorArguments == null) {
             throw ValidateException.byDetails(
                     "IoC exception. Fail add component to IoC because any is null:" +
-                                    "clazzInstance = [%s], constructorArguments = [%s]",
+                            "clazzInstance = [%s], constructorArguments = [%s]",
                     instanceClass,
                     constructorArguments);
         }
