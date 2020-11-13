@@ -2,11 +2,13 @@ package ru.strict.db.core.requests.components;
 
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.requests.IParameterizedRequest;
+import ru.strict.utils.StringUtil;
 import ru.strict.validate.Validator;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Select extends TableRequest implements IParameterizedRequest {
 
@@ -66,10 +68,7 @@ public class Select extends TableRequest implements IParameterizedRequest {
     }
 
     private String formatSelectItemsAsString() {
-        return selectItems.stream()
-                .map(SqlItem::getSql)
-                .reduce((i1, i2) -> String.format("%s, %s", i1, i2))
-                .orElse("");
+        return StringUtil.join(",", selectItems.stream().map(SqlItem::getSql).collect(Collectors.toList()));
     }
 
     //<editor-fold defaultState="collapsed" desc="Base override">
