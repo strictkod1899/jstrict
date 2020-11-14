@@ -153,6 +153,21 @@ public final class StringUtil {
     }
 
     /**
+     * Сделать первый символ строки прописным
+     */
+    public static String toLowerFirstSymbol(String str) {
+        if (str == null) {
+            return null;
+        }
+
+        if (str.length() == 0) {
+            return "";
+        }
+
+        return str.substring(0, 1).toLowerCase() + str.substring(1);
+    }
+
+    /**
      * Привести имя файла к виду для записи в файловой системе (заменить запрещенные символы)
      */
     public static String escapeFileName(String filename) {
