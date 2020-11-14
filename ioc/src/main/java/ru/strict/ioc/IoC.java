@@ -13,6 +13,7 @@ import ru.strict.ioc.exceptions.ManyMatchComponentsException;
 import ru.strict.ioc.exceptions.MatchInstanceTypeException;
 import ru.strict.logging.LoggerBase;
 import ru.strict.utils.ReflectionUtil;
+import ru.strict.utils.StringUtil;
 
 import java.lang.reflect.Constructor;
 import java.util.Collection;
@@ -145,7 +146,7 @@ public abstract class IoC implements IIoC {
             throw new ManyMatchComponentsException(clazz);
         }
 
-        components.put(new IoCKeys(clazz.getSimpleName(), clazz), new IoCData(component, constructorArguments, type));
+        components.put(new IoCKeys(getComponentName(clazz), clazz), new IoCData(component, constructorArguments, type));
     }
 
     @Override
@@ -224,7 +225,7 @@ public abstract class IoC implements IIoC {
             throw new ManyMatchComponentsException(clazz);
         }
 
-        components.put(new IoCKeys(clazz.getSimpleName(), clazz), new IoCData(component));
+        components.put(new IoCKeys(getComponentName(clazz), clazz), new IoCData(component));
     }
 
     @Override
@@ -468,5 +469,9 @@ public abstract class IoC implements IIoC {
 
     private boolean isExistsComponentClass(Class componentClass) {
         return components.keySet().stream().anyMatch((k) -> componentClass.equals(k.getClazz()));
+    }
+
+    private String getComponentName(Class<?> clazz) {
+        return StringUtil.toLowerFirstSymbol(clazz.getSimpleName());
     }
 }
