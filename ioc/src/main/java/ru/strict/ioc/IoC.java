@@ -93,7 +93,7 @@ public abstract class IoC implements IIoC {
 
         for (IoCKeys key : keys) {
             IoCData data = components.get(key);
-            if (data.getType() == InstanceType.SINGLETON && data.getSingletonInstance() == null) {
+            if (data.getType() == InstanceType.SINGLETON && data.getComponentInstance() == null) {
                 getInstance(key);
             }
         }
@@ -333,49 +333,39 @@ public abstract class IoC implements IIoC {
     }
 
     private <RESULT> RESULT getInstance(IoCKeys key) {
-        RESULT result = null;
+        RESULT componentInstance = null;
 
         IoCData instanceData = components.get(key);
 
         try {
             switch (instanceData.getType()) {
                 case REQUEST:
-                    result = createInstance(instanceData.getInstanceClass(), instanceData.getConstructorArguments());
-                    result = postCreateProcess(result);
+                    componentInstance =
+                            createInstance(instanceData.getInstanceClass(), instanceData.getConstructorArguments());
+                    componentInstance = postCreateProcess(componentInstance);
                     break;
                 case SESSION:
-                    if (instanceData.getSessionInstance() != null) {
-                        result = instanceData.getSessionInstance();
-                    } else {
-                        result =
-                                createInstance(instanceData.getInstanceClass(), instanceData.getConstructorArguments());
-                        instanceData.setSourceInstance(result);
-
-                        result = postCreateProcess(result);
-                        instanceData.setSessionInstance(result);
-                    }
-                    break;
                 case SINGLETON:
                 case CONFIGURATION:
-                    if (instanceData.getSingletonInstance() != null) {
-                        result = instanceData.getSingletonInstance();
+                    if (instanceData.getComponentInstance() != null) {
+                        componentInstance = instanceData.getComponentInstance();
                     } else {
-                        result =
+                        componentInstance =
                                 createInstance(instanceData.getInstanceClass(), instanceData.getConstructorArguments());
-                        instanceData.setSourceInstance(result);
+                        instanceData.setSourceInstance(componentInstance);
 
-                        result = postCreateProcess(result);
-                        instanceData.setSingletonInstance(result);
+                        componentInstance = postCreateProcess(componentInstance);
+                        instanceData.setComponentInstance(componentInstance);
                     }
                     break;
             }
         } catch (ComponentNotFoundException | ConstructorNotFoundException ex) {
             throw ex;
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             throw new CreateComponentException(key.getClazz(), key.getCaption(), ex);
         }
 
-        return result;
+        return componentInstance;
     }
 
     private <RESULT> RESULT createInstance(Class clazzInstance, Object[] constructorArguments) {

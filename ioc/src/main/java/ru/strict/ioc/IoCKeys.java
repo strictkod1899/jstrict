@@ -6,9 +6,9 @@ import java.util.Objects;
 
 class IoCKeys {
     private String caption;
-    private Class clazz;
+    private Class<?> clazz;
 
-    public IoCKeys(String caption, Class clazz) {
+    public IoCKeys(String caption, Class<?> clazz) {
         this.caption = caption;
         this.clazz = clazz;
     }
@@ -17,7 +17,7 @@ class IoCKeys {
         return caption;
     }
 
-    public Class getClazz() {
+    public Class<?> getClazz() {
         return clazz;
     }
 
