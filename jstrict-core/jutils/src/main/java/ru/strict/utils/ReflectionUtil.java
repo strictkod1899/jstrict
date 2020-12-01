@@ -393,4 +393,14 @@ public class ReflectionUtil {
             throw new RuntimeException(ex);
         }
     }
+
+    public static <T> Class<T> getGenericType(Class<T> classWithGeneric) {
+        return getGenericType(classWithGeneric, 0);
+    }
+
+    public static <T> Class<T> getGenericType(Class<?> classWithGeneric, int genericNumber) {
+        return (Class<T>)
+                ((ParameterizedType)classWithGeneric.getGenericSuperclass())
+                        .getActualTypeArguments()[genericNumber];
+    }
 }
