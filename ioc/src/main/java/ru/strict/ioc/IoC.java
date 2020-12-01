@@ -16,11 +16,15 @@ import ru.strict.utils.ReflectionUtil;
 import ru.strict.utils.StringUtil;
 
 import java.lang.reflect.Constructor;
+import java.util.AbstractList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static ru.strict.ioc.IoCUtils.*;
 
@@ -268,17 +272,85 @@ public abstract class IoC implements IIoC {
 
     @Override
     public <RESULT> RESULT getComponent(Class<RESULT> clazz) {
-        RESULT result = null;
         if (clazz != null) {
-            IoCKeys key = components.keySet().stream()
-                    .filter((k) -> k.getClazz() != null && ReflectionUtil.isInstanceOf(clazz, k.getClazz()))
-                    .findFirst()
-                    .orElse(null);
-            if (key != null) {
-                return getInstance(key);
+            Class<?> instanceClass;
+
+            if (ReflectionUtil.isInstanceOf(Collection.class, clazz)) {
+                RESULT collection;
+                if (ReflectionUtil.isInterface(clazz, AbstractList.class)) {
+                    collection = (RESULT) new LinkedList<>();
+                } else {
+                    collection = ReflectionUtil.createInstance(clazz);
+                }
+
+                instanceClass = ReflectionUtil.getGenericType(clazz);
+            } else {
+                instanceClass = clazz;
+            }
+
+            List<IoCKeys> keys = components.keySet().stream()
+                    .filter((k) -> k.getClazz() != null && ReflectionUtil.isInstanceOf(instanceClass, k.getClazz()))
+                    .collect(Collectors.toList());
+            if (!keys.isEmpty()) {
+                if (ReflectionUtil.isInstanceOf(clazz, Collection.class)) {
+                    RESULT collection = ReflectionUtil.createInstance(clazz);
+                    keys.forEach(key -> {
+                        Object instance = getInstance(key);
+                        ((Collection)collection).add(instance);
+                    });
+
+                    return collection;
+                } else {
+                    if (keys.size() > 1) {
+                        throw new ManyMatchComponentsException(instanceClass);
+                    }
+
+                    return getInstance(keys.get(0));
+                }
             }
         }
-        return result;
+        return null;
+    }
+
+    private <RESULT> Collection<RESULT> getComponents(Class<Collection<RESULT>> clazz, Class<RESULT> genericClass) {
+        if (clazz != null) {
+            Class<?> instanceClass;
+
+            if (ReflectionUtil.isInstanceOf(Collection.class, clazz)) {
+                RESULT collection;
+                if (ReflectionUtil.isInterface(clazz, AbstractList.class)) {
+                    collection = (RESULT) new LinkedList<>();
+                } else {
+                    collection = ReflectionUtil.createInstance(clazz);
+                }
+
+                instanceClass = ReflectionUtil.getGenericType(clazz);
+            } else {
+                instanceClass = clazz;
+            }
+
+            List<IoCKeys> keys = components.keySet().stream()
+                    .filter((k) -> k.getClazz() != null && ReflectionUtil.isInstanceOf(instanceClass, k.getClazz()))
+                    .collect(Collectors.toList());
+            if (!keys.isEmpty()) {
+                if (ReflectionUtil.isInstanceOf(clazz, Collection.class)) {
+                    RESULT collection = ReflectionUtil.createInstance(clazz);
+                    keys.forEach(key -> {
+                        Object instance = getInstance(key);
+                        ((Collection)collection).add(instance);
+                    });
+
+                    return collection;
+                } else {
+                    if (keys.size() > 1) {
+                        throw new ManyMatchComponentsException(instanceClass);
+                    }
+
+                    return getInstance(keys.get(0));
+                }
+            }
+        }
+        return null;
     }
 
     @Override
@@ -396,7 +468,7 @@ public abstract class IoC implements IIoC {
         if (!skipComponentHandler) {
             Constructor<?> mainConstructor = findConstructor(instanceClass);
             if (constructorArguments.length == 0 && mainConstructor != null) {
-                Object[] argumentsInstances = ComponentHandler.getConstructorArguments(mainConstructor);
+                ConstructorArgument[] argumentsInstances = ComponentHandler.getConstructorArguments(mainConstructor);
                 return createInstance(instanceClass, argumentsInstances, true);
             } else {
                 return createInstanceByArguments(instanceClass, constructorArguments);
@@ -406,36 +478,43 @@ public abstract class IoC implements IIoC {
         }
     }
 
-    private <RESULT> RESULT postCreateProcess(RESULT instance) {
-        LoggerHandler.injectLogger(instance, this, defaultLoggerClass);
-        PostConstructHandler.invokePostConstructMethod(instance);
-        ConfigurationHandler.invokeConfigurationMethods(instance);
-        instance = (RESULT)
-                LoggingHandler.wrapLoggingProxy(instance, this, defaultLoggingClasses.toArray(new Class[0]));
-        return instance;
-    }
-
     private <RESULT> RESULT createInstanceByArguments(Class instanceClass, Object[] constructorArguments) {
         Object[] instanceArguments = createInstanceArguments(constructorArguments);
         return (RESULT) ReflectionUtil.createDeclaredInstance(instanceClass, false, instanceArguments);
     }
 
-    private Object[] createInstanceArguments(Object[] createArguments) {
-        int countArguments = createArguments.length;
-        Object[] instanceArguments = new Object[countArguments];
+    private Object[] createInstanceArguments(Object[] arguments) {
+        int argumentsCount = arguments.length;
+        Object[] instanceArguments = new Object[argumentsCount];
 
-        for (int i = 0; i < countArguments; i++) {
-            Object instanceArgument = null;
-            Object createArgument = createArguments[i];
-            if (createArgument instanceof String && !((String) createArgument).startsWith("@")) {
-                instanceArgument = getComponentOrThrow((String) createArgument);
-            } else if (createArgument instanceof Class) {
-                instanceArgument = getComponentOrThrow((Class) createArgument);
+        for (int i = 0; i < argumentsCount; i++) {
+            Object instanceArgument;
+            ConstructorArgument constructorArgument;
+            if (arguments[i] instanceof ConstructorArgument) {
+                constructorArgument = (ConstructorArgument) arguments[i];
             } else {
-                if (createArgument instanceof String && ((String) createArgument).startsWith("@")) {
-                    instanceArgument = ((String) createArgument).substring(1, ((String) createArgument).length());
+                constructorArgument = new ConstructorArgument(arguments[i]);
+            }
+            Object argument = constructorArgument.getValue();
+
+            if (argument instanceof String && !((String) argument).startsWith("@")) {
+                instanceArgument = getComponentOrThrow((String) argument);
+            } else if (argument instanceof Class) {
+                if (constructorArgument.isCollection()) {
+                    if (((Class) argument).isInterface()) {
+                        argument = new LinkedList<>();
+                    } else {
+                        argument = ReflectionUtil.createInstance((Class)argument);
+                    }
+
                 } else {
-                    instanceArgument = createArgument;
+                    instanceArgument = getComponentOrThrow((Class) argument);
+                }
+            } else {
+                if (argument instanceof String && ((String) argument).startsWith("@")) {
+                    instanceArgument = ((String) argument).substring(1, ((String) argument).length());
+                } else {
+                    instanceArgument = constructorArgument;
                 }
             }
 
@@ -461,6 +540,15 @@ public abstract class IoC implements IIoC {
         }
 
         return component;
+    }
+
+    private <RESULT> RESULT postCreateProcess(RESULT instance) {
+        LoggerHandler.injectLogger(instance, this, defaultLoggerClass);
+        PostConstructHandler.invokePostConstructMethod(instance);
+        ConfigurationHandler.invokeConfigurationMethods(instance);
+        instance = (RESULT)
+                LoggingHandler.wrapLoggingProxy(instance, this, defaultLoggingClasses.toArray(new Class[0]));
+        return instance;
     }
 
     private boolean isExistsComponentCaption(String componentCaption) {
