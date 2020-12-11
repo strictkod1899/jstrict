@@ -52,7 +52,7 @@ public final class CommonUtil {
     /**
      * Получить процентное соотношение значения от общей суммы
      */
-    public static int convertValueToPercent(double totalSum, double partValue) {
+    public static int calcPercent(double totalSum, double partValue) {
         int result;
         double doubleResult = partValue / (totalSum / 100);
         if ((doubleResult - ((int) doubleResult)) > 0.5) {
