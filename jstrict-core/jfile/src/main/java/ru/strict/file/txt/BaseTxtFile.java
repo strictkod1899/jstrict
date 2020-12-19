@@ -46,7 +46,7 @@ public abstract class BaseTxtFile<SOURCE> implements IFileReader<SOURCE>, IFileW
     @Override
     public void write() {
         try {
-            FileUtil.saveFile(filePath, content);
+            FileUtil.writeFile(filePath, content);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }

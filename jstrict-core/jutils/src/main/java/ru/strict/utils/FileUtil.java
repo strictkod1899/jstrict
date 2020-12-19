@@ -1,6 +1,6 @@
 package ru.strict.utils;
 
-import ru.strict.validate.CommonValidate;
+import ru.strict.validate.Validator;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -11,159 +11,156 @@ import java.util.Collection;
 
 public class FileUtil {
 
-    /**
-     * Создать файл в файловой системе. Если файл существует, то он будет удален
-     *
-     * @param filepath Путь до файла
-     * @param fileContent Стркоове содержимое файла
-     * @throws IOException
-     */
-    public static void saveFile(String filepath, String fileContent) throws IOException {
-        if (CommonValidate.isEmptyOrNull(filepath)) {
-            throw new IllegalArgumentException("filepath for creating is NULL");
-        }
-        saveFile(new File(filepath), fileContent);
+    public static void writeFile(String filepath, String fileContent) {
+        Validator.isEmptyOrNull(filepath, "filepath");
+
+        writeFile(new File(filepath), fileContent);
     }
 
     /**
-     * Создать файл в файловой системе. Если файл существует, то он будет удален
+     * Создать файл в файловой системе. Если файл существует, то он будет перезаписан
      *
      * @param file Файл, который будет создан
      * @param fileContent Стркоове содержимое файла
-     * @throws IOException
      */
-    public static void saveFile(File file, String fileContent) throws IOException {
-        if (file == null) {
-            throw new IllegalArgumentException("file for creating is NULL");
-        }
-        if (fileContent == null) {
-            throw new IllegalArgumentException("fileContent for creating is NULL");
-        }
+    public static void writeFile(File file, String fileContent) {
+        Validator.isNull(file, "file");
+        Validator.isNull(fileContent, "fileContent");
+
         recreateFile(file);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(fileContent);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
-    /**
-     * Создать файл в файловой системе. Если файл существует, то он будет удален
-     *
-     * @param filepath Путь до файла
-     * @param fileBytes Байты, которые записываются в файл
-     * @throws IOException
-     */
-    public static void saveFile(String filepath, byte[] fileBytes) throws IOException {
-        if (CommonValidate.isEmptyOrNull(filepath)) {
-            throw new IllegalArgumentException("filepath for creating is NULL");
-        }
-        saveFile(new File(filepath), fileBytes);
+    public static void writeFile(String filepath, byte[] fileBytes) throws IOException {
+        Validator.isEmptyOrNull(filepath, "filepath");
+
+        writeFile(new File(filepath), fileBytes);
     }
 
     /**
-     * Создать файл в файловой системе. Если файл существует, то он будет удален
+     * Создать файл в файловой системе. Если файл существует, то он будет перезаписан
      *
      * @param file Файл, который будет создан
      * @param fileBytes Байты, которые записываются в файл
-     * @throws IOException
      */
-    public static void saveFile(File file, byte[] fileBytes) throws IOException {
-        if (file == null) {
-            throw new IllegalArgumentException("file for creating is NULL");
-        }
-        if (fileBytes == null) {
-            throw new IllegalArgumentException("fileBytes for creating is NULL");
-        }
+    public static void writeFile(File file, byte[] fileBytes) throws IOException {
+        Validator.isNull(file, "file");
+        Validator.isNull(fileBytes, "fileBytes");
+
         recreateFile(file);
-        FileOutputStream output = new FileOutputStream(file);
-        output.write(fileBytes);
-        output.flush();
-        output.close();
+        try (FileOutputStream output = new FileOutputStream(file)) {
+            output.write(fileBytes);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
-    /**
-     * Создать файл. Если файл существует, то он будет перезаписан
-     *
-     * @param filePath
-     * @throws IOException
-     */
-    public static void recreateFile(String filePath) throws IOException {
-        if (CommonValidate.isEmptyOrNull(filePath)) {
-            throw new IllegalArgumentException("filePath for recreating is NULL");
+    public static void writeFile(File file, InputStream in) {
+        Validator.isNull(file, "file");
+        Validator.isNull(in, "in");
+
+        recreateFile(file);
+
+        try (FileOutputStream out = new FileOutputStream(file)) {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
+    }
+
+    public static void recreateFile(String filePath) {
+        Validator.isEmptyOrNull(filePath, "filePath");
+
         recreateFile(new File(filePath));
     }
 
     /**
      * Создать файл. Если файл существует, то он будет перезаписан
-     *
-     * @param file
-     * @throws IOException
      */
-    public static void recreateFile(File file) throws IOException {
-        if (file == null) {
-            throw new IllegalArgumentException("file for recreating is NULL");
-        }
+    public static void recreateFile(File file) {
+        Validator.isNull(file, "file");
+
         if (file.exists()) {
             file.delete();
         }
         createFileIfNotExists(file);
     }
 
-    /**
-     * Создать файл, если он не существует
-     *
-     * @param filePath
-     * @throws IOException
-     */
-    public static void createFileIfNotExists(String filePath) throws IOException {
-        if (CommonValidate.isEmptyOrNull(filePath)) {
-            throw new IllegalArgumentException("filePath for recreating is NULL");
-        }
+    public static void createFileIfNotExists(String filePath) {
+        Validator.isEmptyOrNull(filePath, "filePath");
+
         createFileIfNotExists(new File(filePath));
     }
 
     /**
      * Создать файл, если он не существует
-     *
-     * @param file
-     * @throws IOException
      */
-    public static void createFileIfNotExists(File file) throws IOException {
-        if (file == null) {
-            throw new IllegalArgumentException("file for creating is NULL");
-        }
-        int lastSeparator = file.getAbsolutePath().lastIndexOf(File.separator);
+    public static void createFileIfNotExists(File file) {
+        Validator.isNull(file, "file");
 
-        if (lastSeparator < 0) {
-            lastSeparator = file.getAbsolutePath().lastIndexOf('/');
-        }
+        try {
+            createDirectory(file.getAbsolutePath());
 
-        if (lastSeparator > 0) {
-            String dirs = file.getAbsolutePath().substring(0, lastSeparator);
-            if (!new File(dirs).exists()) {
-                new File(dirs).mkdirs();
+            if (!file.exists()) {
+                file.createNewFile();
             }
-        }
-
-        if (!file.exists()) {
-            file.createNewFile();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
+    public static void createDirectory(String filePath) {
+        Validator.isNull(filePath, "filePath");
+
+        String directoryPath = getDirectoryPath(filePath);
+        File directoryFile = new File(directoryPath);
+        if (!directoryFile.exists()) {
+            directoryFile.mkdirs();
+        }
+    }
+
+    public static String getDirectoryPath(String filePath) {
+        Validator.isNull(filePath, "filePath");
+
+        int lastSeparator = getLastSeparatorIndex(filePath);
+
+        String dirs;
+        if (lastSeparator > 0) {
+            dirs = filePath.substring(0, lastSeparator);
+        } else {
+            dirs = filePath;
+        }
+
+        return dirs;
+    }
+
+    public static int getLastSeparatorIndex(String filePath) {
+        Validator.isNull(filePath, "filePath");
+
+        int lastSeparator = filePath.lastIndexOf(File.separator);
+
+        if (lastSeparator < 0) {
+            lastSeparator = filePath.lastIndexOf('/');
+        }
+
+        return lastSeparator;
+    }
+
     /**
-     * Найти любой файл в папке по части наименования
-     *
-     * @param folderPath
-     * @param fileNamePart
-     * @return
+     * Найти любой файл в папке по указанной части наименования
      */
     public static File getFileByPartName(String folderPath, String fileNamePart) {
-        if (CommonValidate.isEmptyOrNull(folderPath)) {
-            throw new IllegalArgumentException("folderPath is NULL");
-        }
-        if (CommonValidate.isEmptyOrNull(fileNamePart)) {
-            throw new IllegalArgumentException("fileNamePart is NULL");
-        }
+        Validator.isEmptyOrNull(folderPath, "folderPath");
+        Validator.isNull(fileNamePart, "fileNamePart");
+
         File result = null;
         File folder = new File(folderPath);
         File[] folderFiles = folder.listFiles();
@@ -186,19 +183,12 @@ public class FileUtil {
     }
 
     /**
-     * Найти все файлы в папке по части наименования
-     *
-     * @param folderPath
-     * @param fileNamePart
-     * @return
+     * Найти все файлы в папке по указанной части наименования
      */
     public static Collection<File> getFilesByPartName(String folderPath, String fileNamePart) {
-        if (CommonValidate.isEmptyOrNull(folderPath)) {
-            throw new IllegalArgumentException("folderPath is NULL");
-        }
-        if (CommonValidate.isEmptyOrNull(fileNamePart)) {
-            throw new IllegalArgumentException("fileNamePart is NULL");
-        }
+        Validator.isEmptyOrNull(folderPath, "folderPath");
+        Validator.isNull(fileNamePart, "fileNamePart");
+
         Collection<File> result = new ArrayList<>();
         File folder = new File(folderPath);
         File[] folderFiles = folder.listFiles();
@@ -220,16 +210,14 @@ public class FileUtil {
     }
 
     public static String getFileExtension(File file) {
-        if (file == null) {
-            throw new IllegalArgumentException("file is NULL");
-        }
+        Validator.isNull(file, "file");
+
         return getFileExtension(file.getAbsolutePath());
     }
 
     public static String getFileExtension(String filePath) {
-        if (CommonValidate.isEmptyOrNull(filePath)) {
-            throw new IllegalArgumentException("filePath is NULL");
-        }
+        Validator.isNull(filePath, "filePath");
+
         String result = null;
         int startExtensionsPosition = filePath.lastIndexOf('.');
         if (startExtensionsPosition >= 0) {
@@ -240,11 +228,11 @@ public class FileUtil {
     }
 
     public static void removeIfExists(String filePath) {
+        Validator.isNull(filePath, "filePath");
+
         try {
-            Path outputExcelPath = Paths.get(filePath);
-            if (Files.exists(outputExcelPath)) {
-                Files.deleteIfExists(outputExcelPath);
-            }
+            Path targetFilePath = Paths.get(filePath);
+            Files.deleteIfExists(targetFilePath);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }

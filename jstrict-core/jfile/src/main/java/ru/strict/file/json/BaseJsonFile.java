@@ -114,7 +114,7 @@ public abstract class BaseJsonFile<TARGET> implements IJsonFile<TARGET> {
     @Override
     public void write() {
         try {
-            FileUtil.saveFile(filePath, content.toString());
+            FileUtil.writeFile(filePath, content.toString());
         } catch (IOException ex) {
             throw new JsonException(ex);
         }
