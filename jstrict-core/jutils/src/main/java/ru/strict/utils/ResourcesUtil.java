@@ -53,7 +53,7 @@ public class ResourcesUtil {
 
                 FileUtil.createFileIfNotExists(file);
 
-                FileUtil.writeFile(in, file);
+                FileUtil.writeFile(file, in);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -81,7 +81,7 @@ public class ResourcesUtil {
             File tempFile = File.createTempFile(String.valueOf(resourcePath.hashCode()), ".tmp");
             tempFile.deleteOnExit();
 
-            FileUtil.writeFile(in, tempFile);
+            FileUtil.writeFile(tempFile, in);
 
             return tempFile;
         } catch (IOException ex) {
