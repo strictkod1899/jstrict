@@ -1,30 +1,35 @@
 package ru.strict.components;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ResultMessages implements Cloneable {
-    private List<Message> alerts;
-    private List<Message> messages;
+    private Collection<Message> alerts;
+    private Collection<Message> messages;
 
     public ResultMessages() {
-        alerts = new ArrayList<>();
-        messages = new ArrayList<>();
+        this(new LinkedHashSet<>(), new LinkedHashSet<>());
     }
 
-    public List<Message> getAlerts() {
+    public ResultMessages(Collection<Message> emptyAlerts, Collection<Message> emptyMessages) {
+        this.alerts = emptyAlerts;
+        this.messages = emptyMessages;
+    }
+
+    public Collection<Message> getAlerts() {
         return alerts;
     }
 
-    public List<String> getAlertsAsString() {
+    public Collection<String> getAlertsAsString() {
         return alerts.stream()
                 .map(Message::toString)
                 .collect(Collectors.toList());
     }
 
-    public void setAlerts(List<Message> alerts) {
+    public void setAlerts(Collection<Message> alerts) {
         this.alerts = alerts;
     }
 
@@ -40,17 +45,17 @@ public class ResultMessages implements Cloneable {
         }
     }
 
-    public List<Message> getMessages() {
+    public Collection<Message> getMessages() {
         return messages;
     }
 
-    public List<String> getMessagesAsString() {
+    public Collection<String> getMessagesAsString() {
         return messages.stream()
                 .map(Message::toString)
                 .collect(Collectors.toList());
     }
 
-    public void setMessages(List<Message> messages) {
+    public void setMessages(Collection<Message> messages) {
         this.messages = messages;
     }
 
@@ -91,7 +96,7 @@ public class ResultMessages implements Cloneable {
         try {
             ResultMessages clone = (ResultMessages) super.clone();
 
-            List<Message> alerts = new ArrayList<>(this.alerts.size());
+            Collection<Message> alerts = new ArrayList<>(this.alerts.size());
             for (Message alert : this.alerts) {
                 alerts.add(alert.clone());
             }
