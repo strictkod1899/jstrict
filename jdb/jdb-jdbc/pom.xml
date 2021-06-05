@@ -6,12 +6,12 @@
     <parent>
         <groupId>ru.strict</groupId>
         <artifactId>jdb</artifactId>
-        <version>0.1.37</version>
+        <version>0.1.38</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>jdb-jdbc</artifactId>
-    <version>0.1.37</version>
+    <version>0.1.38</version>
     <packaging>jar</packaging>
     <name>jdb-jdbc</name>
 

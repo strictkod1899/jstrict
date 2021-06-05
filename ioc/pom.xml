@@ -6,12 +6,12 @@
     <parent>
         <groupId>ru.strict</groupId>
         <artifactId>jstrict-parent</artifactId>
-        <version>0.1.37</version>
+        <version>0.1.38</version>
         <relativePath/>
     </parent>
 
     <artifactId>ioc</artifactId>
-    <version>0.1.37</version>
+    <version>0.1.38</version>
     <packaging>jar</packaging>
     <name>ioc</name>
 
@@ -27,6 +27,11 @@
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
             <version>3.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
         </dependency>
 
         <!-- test -->
