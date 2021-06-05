@@ -20,7 +20,7 @@ public final class JsonUtil {
 
         try {
             if (object instanceof String) {
-                FileUtil.saveFile(pathToJson, object.toString());
+                FileUtil.writeFile(pathToJson, object.toString());
             } else {
                 OBJECT_MAPPER.writeValue(new File(pathToJson), object);
             }

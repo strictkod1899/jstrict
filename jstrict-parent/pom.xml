@@ -5,35 +5,18 @@
     
     <groupId>ru.strict</groupId>
     <artifactId>jstrict-parent</artifactId>
-    <version>0.1.37</version>
+    <version>0.1.38</version>
     <packaging>pom</packaging>
     <name>jstrict-parent</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jdk.version>1.8</jdk.version>
-
-        <plugin.compiler.version>3.8.0</plugin.compiler.version>
-        <plugin.jar.version>3.1.1</plugin.jar.version>
-        <plugin.dependency.version>3.1.1</plugin.dependency.version>
-        <plugin.surefire.version>2.22.1</plugin.surefire.version>
-        <plugin.assembly.version>3.1.1</plugin.assembly.version>
-        <plugin.source.version>3.1.0</plugin.source.version>
-        <plugin.site.version>3.7.1</plugin.site.version>
-        <!-- Нельзя указывать версию больше этой -->
-        <plugin.info.report.version>2.9</plugin.info.report.version>
-        <plugin.jacoco.version>0.8.3</plugin.jacoco.version>
-        <plugin.spotbugs.version>3.1.11</plugin.spotbugs.version>
-        <plugin.pmd.version>3.12.0</plugin.pmd.version>
-        <plugin.sonar.version>3.7.0.1746</plugin.sonar.version>
-        <plugin.google.findbugs.version>3.0.1</plugin.google.findbugs.version>
-        <plugin.xml.version>1.0.2</plugin.xml.version>
-        <plugin.launch4j.version>1.7.16</plugin.launch4j.version>
+        <jdk.version>11</jdk.version>
 
         <app.main.class>ru.strict.app.Main</app.main.class>
         <app.name>${project.name}-${project.version}</app.name>
         <app.icon>_sources/logo.ico</app.icon>
-        <jstrict.version>0.1.37</jstrict.version>
+        <jstrict.version>0.1.38</jstrict.version>
 
         <jacoco.coverage>0%</jacoco.coverage>
         <pmd.failure.priority>5</pmd.failure.priority>
@@ -41,7 +24,7 @@
         <pmd.ruleset.url>/pmd-ruleset.xml</pmd.ruleset.url>
         
         <launch4j.copyright>jstrict</launch4j.copyright>
-        <launch4j.jdk.version>1.8.0</launch4j.jdk.version>
+        <launch4j.jdk.version>11</launch4j.jdk.version>
     </properties>
 
     <dependencyManagement>
@@ -124,10 +107,17 @@
 
             <!-- test -->
             <dependency>
+            	<!-- deprecated -->
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.12</version>
             </dependency>
+            <dependency>
+			    <groupId>org.junit.jupiter</groupId>
+			    <artifactId>junit-jupiter-engine</artifactId>
+			    <version>5.7.2</version>
+			    <scope>test</scope>
+			</dependency>
 	        <dependency>
 	            <groupId>org.hamcrest</groupId>
 	            <artifactId>hamcrest-core</artifactId>
@@ -148,7 +138,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>${plugin.compiler.version}</version>
+					<version>3.8.0</version>
 					<configuration>
 	                    <encoding>${project.build.sourceEncoding}</encoding>
 						<source>${jdk.version}</source>
@@ -158,7 +148,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>
-					<version>${plugin.dependency.version}</version>
+					<version>3.1.1</version>
 					<configuration>
 						<outputDirectory>${project.build.directory}/libs/</outputDirectory>
 						<overWriteReleases>false</overWriteReleases>
@@ -178,7 +168,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-jar-plugin</artifactId>
-					<version>${plugin.jar.version}</version>
+					<version>3.1.1</version>
 					<configuration>
 						<archive>
 							<addMavenDescriptor>false</addMavenDescriptor>
@@ -194,7 +184,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-assembly-plugin</artifactId>
-					<version>${plugin.assembly.version}</version>
+					<version>3.1.1</version>
 					<executions>
 						<execution>
 							<phase>package</phase>
@@ -219,7 +209,7 @@
 	            <plugin>
 	                <groupId>org.apache.maven.plugins</groupId>
 	                <artifactId>maven-surefire-plugin</artifactId>
-	                <version>${plugin.surefire.version}</version>
+	                <version>2.22.1</version>
 	                <executions>
 	                    <execution>
 	                        <id>unit-tests</id>
@@ -240,7 +230,7 @@
 	            <plugin>
 	                <groupId>org.jacoco</groupId>
 	                <artifactId>jacoco-maven-plugin</artifactId>
-	                <version>${plugin.jacoco.version}</version>
+	                <version>0.8.3</version>
 	                <executions>
 	                    <execution>
 	                        <goals>
@@ -282,7 +272,7 @@
 	            <plugin>
 	                <groupId>org.apache.maven.plugins</groupId>
 	                <artifactId>maven-source-plugin</artifactId>
-	                <version>${plugin.source.version}</version>
+	                <version>3.1.0</version>
 	                <executions>
 	                    <execution>
 	                        <id>attach-sources</id>
@@ -296,17 +286,17 @@
 	            <plugin>
 	                <groupId>org.apache.maven.plugins</groupId>
 	                <artifactId>maven-site-plugin</artifactId>
-	                <version>${plugin.site.version}</version>
+	                <version>3.7.1</version>
 	            </plugin>
                 <plugin>
                 	<groupId>org.sonarsource.scanner.maven</groupId>
                     <artifactId>sonar-maven-plugin</artifactId>
-                    <version>${plugin.sonar.version}</version>
+                    <version>3.7.0.1746</version>
                 </plugin>
 	            <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-pmd-plugin</artifactId>
-                    <version>${plugin.pmd.version}</version>
+                    <version>3.12.0</version>
                     <configuration>
                         <failOnViolation>true</failOnViolation>
                         <printFailingErrors>true</printFailingErrors>
@@ -329,7 +319,7 @@
 	            <plugin>
 	                <groupId>com.github.spotbugs</groupId>
 	                <artifactId>spotbugs-maven-plugin</artifactId>
-	                <version>${plugin.spotbugs.version}</version>
+	                <version>3.1.11</version>
 	                <configuration>
 	                    <effort>Max</effort>
 	                    <failOnError>false</failOnError>
@@ -350,7 +340,7 @@
 	            <plugin>
 	                <groupId>org.codehaus.mojo</groupId>
 	                <artifactId>xml-maven-plugin</artifactId>
-	                <version>${plugin.xml.version}</version>
+	                <version>1.0.2</version>
 	                <configuration>
 	                    <transformationSets>
 	                        <transformationSet>
@@ -379,14 +369,14 @@
 	                    <dependency>
 	                        <groupId>com.google.code.findbugs</groupId>
 	                        <artifactId>findbugs</artifactId>
-	                        <version>${plugin.google.findbugs.version}</version>
+	                        <version>3.0.1</version>
 	                    </dependency>
 	                </dependencies>
 	            </plugin>
 	            <plugin>
 	                <groupId>com.akathist.maven.plugins.launch4j</groupId>
 	                <artifactId>launch4j-maven-plugin</artifactId>
-	                <version>${plugin.launch4j.version}</version>
+	                <version>1.7.16</version>
 	                <executions>
 	                    <execution>
 	                        <id>launch4j-install</id>
@@ -429,7 +419,8 @@
 	            <plugin>
 	                <groupId>org.apache.maven.plugins</groupId>
 	                <artifactId>maven-project-info-reports-plugin</artifactId>
-	                <version>${plugin.info.report.version}</version>
+					<!-- Нельзя указывать версию больше этой -->
+					<version>2.9</version>
 	                <configuration>
 	                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
 	                </configuration>

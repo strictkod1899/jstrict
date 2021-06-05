@@ -7,12 +7,12 @@ public class TxtFile extends BaseTxtFile<String> {
     }
 
     @Override
-    protected String mapToSource(String fileContent) {
-        return fileContent;
+    protected String mapToSource(StringBuilder fileContent) {
+        return fileContent == null ? "" : fileContent.toString();
     }
 
     @Override
-    protected String mapToString(String source) {
-        return source;
+    protected StringBuilder mapToString(String source) {
+        return source == null ? new StringBuilder() : new StringBuilder(source);
     }
 }

@@ -1,6 +1,0 @@
-include 'jutils'
-include 'jpatterns'
-include 'jmodels'
-include 'jdb-core'
-include 'jfile'
-include 'joffice'

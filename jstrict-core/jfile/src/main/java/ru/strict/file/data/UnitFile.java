@@ -1,65 +1,37 @@
 package ru.strict.file.data;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
-import ru.strict.utils.FileUtil;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Base64;
 
+// TODO: сделать builder
 public class UnitFile {
     private String filePath;
     private String extension;
     private byte[] content;
 
-    public UnitFile() {
-    }
-
-    public UnitFile(String filePath) throws IOException {
-        this(filePath, false);
-    }
-
-    public UnitFile(String filePath, boolean isReadFile) throws IOException {
-        this.filePath = filePath;
-        this.extension = FileUtil.getFileExtension(filePath);
-        if (isReadFile) {
-            this.content = Files.readAllBytes(Paths.get(filePath));
-        }
-    }
-
-    public UnitFile(byte[] content, String extension) {
-        this.content = content;
-        this.extension = extension;
-    }
-
-    public byte[] getContent() throws IOException {
-        if (content == null) {
-            content = Files.readAllBytes(Paths.get(filePath));
-        }
-        return content;
-    }
-
-    public void setContent(byte[] content) {
-        this.content = content;
+    public String getFilePath() {
+        return filePath;
     }
 
     public String getExtension() {
         return extension;
     }
 
-    public void setExtension(String extension) {
-        this.extension = extension;
+    public byte[] getContent() throws IOException {
+        return content;
     }
 
-    public String getContentBase64() {
+    public String getBase64Content() {
         if (content == null) {
             return null;
         }
-        return Base64.encode(content);
+        return Base64.getEncoder().encodeToString(content);
     }
 
-    public String getContentUTF8() {
+    public String getUTF8Content() {
         return getContentByEncoding("UTF-8");
     }
 
@@ -74,11 +46,11 @@ public class UnitFile {
         }
     }
 
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void readContent() {
+        try {
+            content = Files.readAllBytes(Paths.get(filePath));
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }

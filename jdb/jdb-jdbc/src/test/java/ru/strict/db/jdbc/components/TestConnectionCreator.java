@@ -16,7 +16,7 @@ public class TestConnectionCreator extends ConnectionCreatorByConnectionInfo {
     }
 
     private static ConnectionInfo getConnectionInfo() {
-        File dbFile = ResourcesUtil.getResourceAsFileTemp(DB_INTEGER_FILE_PATH);
+        File dbFile = ResourcesUtil.getResourceAsTempFile(DB_INTEGER_FILE_PATH);
         return new ConnectionInfo(
                 ConnectionDriver.SQLITE.getDriver(),
                 ConnectionDriver.SQLITE.getUrl() + dbFile.getAbsolutePath(),

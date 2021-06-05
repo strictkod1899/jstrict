@@ -3,27 +3,28 @@ package ru.strict.file.txt;
 import ru.strict.file.IFileReader;
 import ru.strict.file.IFileWriter;
 import ru.strict.utils.FileUtil;
-import ru.strict.validate.CommonValidate;
+import ru.strict.validate.Validator;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 public abstract class BaseTxtFile<SOURCE> implements IFileReader<SOURCE>, IFileWriter<SOURCE> {
 
     private String filePath;
-    private String content;
+    private StringBuilder content;
 
     public BaseTxtFile(String filePath) {
-        if (CommonValidate.isEmptyOrNull(filePath)) {
-            throw new IllegalArgumentException("filePath is NULL");
-        }
+        Validator.isEmptyOrNull(filePath, "filePath");
+
         this.filePath = filePath;
+        this.content = new StringBuilder();
     }
 
-    protected abstract SOURCE mapToSource(String fileContent);
+    protected abstract SOURCE mapToSource(StringBuilder fileContent);
 
-    protected abstract String mapToString(SOURCE source);
+    protected abstract StringBuilder mapToString(SOURCE source);
 
     @Override
     public SOURCE read() {
@@ -37,19 +38,14 @@ public abstract class BaseTxtFile<SOURCE> implements IFileReader<SOURCE>, IFileW
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
-            result = mapToSource(stringBuilder.toString());
-            content = stringBuilder.toString();
+            result = mapToSource(stringBuilder);
         }
         return result;
     }
 
     @Override
     public void write() {
-        try {
-            FileUtil.saveFile(filePath, content);
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        FileUtil.writeFile(filePath, content.toString());
     }
 
     @Override
@@ -58,8 +54,13 @@ public abstract class BaseTxtFile<SOURCE> implements IFileReader<SOURCE>, IFileW
         write();
     }
 
-    protected BufferedReader createReader() throws FileNotFoundException {
-        return new BufferedReader(new FileReader(filePath));
+    public void writeToLastFile() {
+        try {
+            FileUtil.createFileIfNotExists(filePath);
+            Files.write(Paths.get(filePath), content.toString().getBytes(), StandardOpenOption.APPEND);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     public String getFilePath() {
@@ -67,10 +68,14 @@ public abstract class BaseTxtFile<SOURCE> implements IFileReader<SOURCE>, IFileW
     }
 
     public String getContent() {
-        return content;
+        return content.toString();
+    }
+
+    public void addContent(String text) {
+        content.append(text);
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.content = new StringBuilder(content);
     }
 }
