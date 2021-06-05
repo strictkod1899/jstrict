@@ -1,22 +1,22 @@
-package ru.strict.db.core.repositories;
+package ru.strict.db.core.dao;
 
 import ru.strict.db.core.common.SqlParameter;
-import ru.strict.db.core.requests.IParameterizedRequest;
-import ru.strict.db.core.requests.components.SingleWhere;
-import ru.strict.db.core.requests.components.SqlItem;
-import ru.strict.db.core.requests.components.Table;
+import ru.strict.db.core.query.IParameterizedQuery;
+import ru.strict.db.core.query.components.SingleWhere;
+import ru.strict.db.core.query.components.SqlItem;
+import ru.strict.db.core.query.components.Table;
 import ru.strict.patterns.model.IModel;
 import ru.strict.validate.Validator;
 
 import java.util.List;
 
 /**
- * Базовое описание репозитория
+ * Базовое описание DAO
  *
  * @param <ID> Тип идентификатора
  * @param <T> Модель сущности базы данных
  */
-public interface IRepository<ID, T extends IModel<ID>> {
+public interface IDao<ID, T extends IModel<ID>> {
 
     /**
      * Добавить в базу данных новый объект, переданный в качестве параметра
@@ -40,7 +40,7 @@ public interface IRepository<ID, T extends IModel<ID>> {
      * @param requests Условия выборки объектов. Если передать null, то будут считаны все объекты БД
      * @return Список объектов из базы данных
      */
-    List<T> readAll(IParameterizedRequest requests);
+    List<T> readAll(IParameterizedQuery requests);
 
     /**
      * Обновить объект в базе данных связанный с id переданного объекта
@@ -82,7 +82,7 @@ public interface IRepository<ID, T extends IModel<ID>> {
      * @param requests Условия выборки объектов. Если передать null, то будут считаны все объекты БД
      * @return Количество записей из базы данных
      */
-    long readCount(IParameterizedRequest requests);
+    long readCount(IParameterizedQuery requests);
 
     /**
      * Проверить существование записи в базе данных с переданным идентификатором

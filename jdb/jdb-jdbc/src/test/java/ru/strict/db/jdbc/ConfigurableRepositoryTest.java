@@ -1,55 +1,52 @@
 package ru.strict.db.jdbc;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import ru.strict.db.jdbc.components.City;
+import ru.strict.db.jdbc.components.CityDao;
 import ru.strict.db.jdbc.components.TestConnectionCreator;
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.core.configuration.SqlConfiguration;
-import ru.strict.db.core.repositories.DefaultColumns;
-import ru.strict.db.jdbc.mappers.sql.CitySqlMapper;
-import ru.strict.db.jdbc.repositories.CityRepository;
-import ru.strict.models.City;
+import ru.strict.db.jdbc.components.DefaultColumns;
+import ru.strict.db.jdbc.components.CitySqlMapper;
 
 import java.sql.JDBCType;
 import java.util.List;
 
-@RunWith(JUnit4.class)
 public class ConfigurableRepositoryTest {
 
-    private CityRepository<Integer> cityRepository;
+    private CityDao<Integer> cityDao;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        SqlConfiguration sqlConfiguration = SqlConfiguration.fromResources("CityRepository.xml");
+        SqlConfiguration sqlConfiguration = SqlConfiguration.fromResources("CityDao.xml");
 
-        cityRepository = new CityRepository<>(new TestConnectionCreator(), GenerateIdType.NONE, JDBCType.INTEGER);
-        cityRepository.setConfiguration("CityRepository", sqlConfiguration);
+        cityDao = new CityDao<>(new TestConnectionCreator(), GenerateIdType.NONE, JDBCType.INTEGER);
+        cityDao.setConfiguration("CityDao", sqlConfiguration);
     }
 
     @Test
     public void test() {
         City<Integer> city = new City<>(1, "City1", 123);
-        cityRepository.create(city);
+        cityDao.create(city);
 
         List<City<Integer>> cities =
-                cityRepository.readAll("readByCountryId", new SqlParameters("country_id", 123));
+                cityDao.readAll("readByCountryId", new SqlParameters("country_id", 123));
 
-        Assert.assertEquals(1, cities.size());
-        Assert.assertEquals(city, cities.get(0));
+        Assertions.assertEquals(1, cities.size());
+        Assertions.assertEquals(city, cities.get(0));
 
-        cities = cityRepository.readByQuery("readByCountryId",
+        cities = cityDao.readByQuery("readByCountryId",
                 new SqlParameters("country_id", 123),
                 new CitySqlMapper<Integer>(DefaultColumns.CITY.columns(), JDBCType.INTEGER, "id"));
 
-        Assert.assertEquals(1, cities.size());
-        Assert.assertEquals(city, cities.get(0));
+        Assertions.assertEquals(1, cities.size());
+        Assertions.assertEquals(city, cities.get(0));
 
-        cityRepository.executeQuery("deleteAll", SqlParameters.empty());
-        List<City<Integer>> deletedCities = cityRepository.readAll(null);
-        Assert.assertTrue(deletedCities.isEmpty());
+        cityDao.executeQuery("deleteAll", SqlParameters.empty());
+        List<City<Integer>> deletedCities = cityDao.readAll(null);
+        Assertions.assertTrue(deletedCities.isEmpty());
     }
 }

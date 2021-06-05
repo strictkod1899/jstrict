@@ -1,12 +1,9 @@
 package ru.strict.db.core.configuration;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import ru.strict.db.core.exceptions.UncorrectedQueryFormatException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import ru.strict.db.core.exception.UncorrectedQueryFormatException;
 
-@RunWith(JUnit4.class)
 public class SqlConfigurationTest {
 
     @Test
@@ -17,14 +14,16 @@ public class SqlConfigurationTest {
         SqlConfiguration configuration = new SqlConfiguration();
         configuration.loadResource("CityRepository.xml");
         String readSql1 = configuration.getQuery("CityRepository", "readByCountryId");
-        Assert.assertEquals(expectedSql1, readSql1);
+        Assertions.assertEquals(expectedSql1, readSql1);
         String readSql2 = configuration.getWhere("CityRepository", "readByCountryId2");
-        Assert.assertEquals(expectedSql2, readSql2);
+        Assertions.assertEquals(expectedSql2, readSql2);
     }
 
-    @Test(expected = UncorrectedQueryFormatException.class)
+    @Test
     public void testFail() {
         SqlConfiguration configuration = new SqlConfiguration();
-        configuration.loadResource("UncorrectedRepository.xml");
+
+        Assertions.assertThrows(UncorrectedQueryFormatException.class, () ->
+                configuration.loadResource("UncorrectedRepository.xml"));
     }
 }

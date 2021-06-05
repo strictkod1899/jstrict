@@ -1,20 +1,20 @@
-package ru.strict.db.core.repositories;
+package ru.strict.db.core.dao;
 
 import ru.strict.db.core.common.SqlParameter;
-import ru.strict.db.core.requests.components.SingleWhere;
-import ru.strict.db.core.requests.components.SqlItem;
+import ru.strict.db.core.query.components.SingleWhere;
+import ru.strict.db.core.query.components.SqlItem;
 import ru.strict.patterns.model.BaseModel;
 import ru.strict.validate.Validator;
 
 import java.util.List;
 
 /**
- * Расширенные возможности репозитория для выполнения операций с записья используя ее столбец наименования
+ * Расширенные возможности DAO для выполнения операций с записья используя ее столбец наименования
  *
  * @param <ID> Тип идентификатора
  * @param <T> Модель сущности базы данных
  */
-public interface INamedRepository<ID, T extends BaseModel<ID>> extends IRepository<ID, T> {
+public interface INamedDao<ID, T extends BaseModel<ID>> extends IDao<ID, T> {
 
     /**
      * Чтение записи из базы данных по наименованию

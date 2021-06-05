@@ -6,12 +6,12 @@
     <parent>
         <groupId>ru.strict</groupId>
         <artifactId>jstrict-parent</artifactId>
-        <version>0.1.38</version>
+        <version>0.2.0</version>
         <relativePath/>
     </parent>
 
     <artifactId>jdb</artifactId>
-    <version>0.1.38</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
     <name>jdb</name>
 
@@ -19,8 +19,20 @@
         <module>jdb-core</module>
         <module>jdb-test</module>
         <module>jdb-jdbc</module>
-        <!--<module>jdb-spring</module>
-        <module>jdb-mybatis</module>
-        <module>jdb-hibernate</module>-->
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jdb-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jdb-test</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

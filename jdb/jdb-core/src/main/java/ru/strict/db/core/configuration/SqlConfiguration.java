@@ -2,16 +2,15 @@ package ru.strict.db.core.configuration;
 
 import ru.strict.db.core.configuration.models.Query;
 import ru.strict.db.core.configuration.models.Sql;
-import ru.strict.db.core.exceptions.ConfigurationQueryNotFoundException;
-import ru.strict.db.core.exceptions.ConfigurationWhereNotFoundException;
-import ru.strict.db.core.exceptions.UncorrectedQueryFormatException;
+import ru.strict.db.core.exception.ConfigurationQueryNotFoundException;
+import ru.strict.db.core.exception.ConfigurationWhereNotFoundException;
+import ru.strict.db.core.exception.UncorrectedQueryFormatException;
 import ru.strict.validate.Validator;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;

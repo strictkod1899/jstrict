@@ -6,12 +6,11 @@
     <parent>
         <groupId>ru.strict</groupId>
         <artifactId>jdb</artifactId>
-        <version>0.1.38</version>
+        <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>jdb-core</artifactId>
-    <version>0.1.38</version>
     <packaging>jar</packaging>
     <name>jdb-core</name>
 
@@ -23,12 +22,7 @@
         </dependency>
         <dependency>
             <groupId>ru.strict</groupId>
-            <artifactId>jpatterns</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ru.strict</groupId>
-            <artifactId>jmodels</artifactId>
-            <optional>true</optional>
+            <artifactId>jtemplate</artifactId>
         </dependency>
 
         <!-- other -->
@@ -49,16 +43,27 @@
             <version>1.4</version>
             <optional>true</optional>
         </dependency>
+        <!-- TODO: jaxb is deprecated-->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
             <version>2.3.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>2.3.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.1</version>
+        </dependency>
 
         <!-- test -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -1,0 +1,41 @@
+package ru.strict.db.core.connection;
+
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+/**
+ * Конструктор соединения с базой данных, на основе информации переданной в объекте класса ConnectionInfo
+ * <p><b>Пример использования:</b></p>
+ * <code><pre style="background-color: white; font-family: consolas">
+ *     ...
+ *     IConnectionCreator connectionCreater = new ConnectionCreatorByConnectionInfo(connectionInfo);
+ *     Connection connection = connectionCreater.createConnection();
+ * </pre></code>
+ */
+public class ConnectionCreatorByConnectionInfo extends BaseConnectionCreator<ConnectionInfo, Connection> {
+
+    public ConnectionCreatorByConnectionInfo(ConnectionInfo connectionSource) {
+        super(connectionSource);
+    }
+
+    @Override
+    public Connection createConnection() {
+        try {
+            // Путь к базе данных
+            String connectUrl = getConnectionSource().getUrl();
+            Driver jdbcDriver = (Driver) Class.forName(getConnectionSource().getDriver()).
+                    newInstance();
+            // Регистрация данного драйвера
+            DriverManager.registerDriver(jdbcDriver);
+            // Соединение с Базой Данных
+            Connection connection = DriverManager.getConnection(connectUrl,
+                    getConnectionSource().getUsername(),
+                    getConnectionSource().getPassword());
+            return connection;
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+}

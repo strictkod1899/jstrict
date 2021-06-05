@@ -1,20 +1,13 @@
-package ru.strict.db.core.repositories;
+package ru.strict.db.jdbc.components;
 
-import ru.strict.db.core.requests.components.Table;
+import ru.strict.db.core.query.components.Table;
 
 /**
  * Стандартное название таблицы
  */
 public enum DefaultTable {
     CITY(new Table("city", "ci")),
-    COUNTRY(new Table("country", "co")),
-    FILE_STORAGE(new Table("file_storage", "fs")),
-    JWT_TOKEN(new Table("token", "t")),
-    PERMISSION_ON_ROLE(new Table("permission_on_role", "pr")),
-    PROFILE(new Table("profile", "p")),
-    ROLE(new Table("role", "r")),
-    USER(new Table("userx", "u")),
-    USER_ON_ROLE(new Table("user_on_role", "ur"));
+    COUNTRY(new Table("country", "co"));
 
     private Table table;
 

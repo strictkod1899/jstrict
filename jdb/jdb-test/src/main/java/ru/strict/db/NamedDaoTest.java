@@ -5,26 +5,26 @@ import org.junit.jupiter.api.Test;
 import ru.strict.db.core.dao.INamedDao;
 import ru.strict.patterns.model.BaseModel;
 
-public abstract class NamedRepositoryTest<ID, MODEL extends BaseModel<ID>, REPOSITORY extends INamedDao<ID, MODEL>>
+public abstract class NamedDaoTest<ID, MODEL extends BaseModel<ID>, REPOSITORY extends INamedDao<ID, MODEL>>
         extends BaseDaoTest<ID, MODEL, REPOSITORY> {
 
     @Test
     public void testReadByName() {
-        REPOSITORY repository = getRepository();
+        REPOSITORY dao = getDao();
         MODEL model = getPrimaryModel();
         MODEL updateModel = getUpdateModel();
 
-        ID id = repository.create(model);
-        MODEL readModel = repository.readByName(getPrimaryCaption());
+        ID id = dao.create(model);
+        MODEL readModel = dao.readByName(getPrimaryCaption());
         Assertions.assertEquals(model, readModel);
-        Assertions.assertTrue(repository.isRowExists(id));
+        Assertions.assertTrue(dao.isRowExists(id));
 
         updateModel.setId(id);
-        repository.update(updateModel);
-        MODEL readUpdateModel = repository.readByName(getUpdatedCaption());
+        dao.update(updateModel);
+        MODEL readUpdateModel = dao.readByName(getUpdatedCaption());
         Assertions.assertEquals(updateModel, readUpdateModel);
 
-        repository.delete(id);
+        dao.delete(id);
     }
 
     protected abstract String getPrimaryCaption();

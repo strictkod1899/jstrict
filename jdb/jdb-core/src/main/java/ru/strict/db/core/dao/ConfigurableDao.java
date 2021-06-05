@@ -1,13 +1,13 @@
-package ru.strict.db.core.repositories;
+package ru.strict.db.core.dao;
 
 import ru.strict.db.core.configuration.SqlConfiguration;
-import ru.strict.db.core.connections.IConnectionCreator;
+import ru.strict.db.core.connection.IConnectionCreator;
 import ru.strict.patterns.model.BaseModel;
 import ru.strict.validate.Validator;
 
-public abstract class ConfigurableRepository
+public abstract class ConfigurableDao
         <ID, CONNECTION, SOURCE extends IConnectionCreator<CONNECTION>, MODEL extends BaseModel<ID>>
-        implements IConfigurableRepository<ID, MODEL>{
+        implements IConfigurableDao<ID, MODEL> {
 
     /**
      * Источник подключения к базе данных (используется для получения объекта Connection),
@@ -19,7 +19,7 @@ public abstract class ConfigurableRepository
     private SqlConfiguration configuration;
     private String group;
 
-    public ConfigurableRepository(SOURCE connectionSource,
+    public ConfigurableDao(SOURCE connectionSource,
             SqlConfiguration configuration,
             String group) {
         Validator.isNull(connectionSource, "connectionSource");

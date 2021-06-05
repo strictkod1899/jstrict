@@ -1,8 +1,8 @@
 package ru.strict.db.jdbc.components;
 
 import ru.strict.db.core.common.ConnectionDriver;
-import ru.strict.db.core.connections.ConnectionCreatorByConnectionInfo;
-import ru.strict.db.core.connections.ConnectionInfo;
+import ru.strict.db.core.connection.ConnectionCreatorByConnectionInfo;
+import ru.strict.db.core.connection.ConnectionInfo;
 import ru.strict.utils.ResourcesUtil;
 
 import java.io.File;

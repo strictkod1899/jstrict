@@ -1,12 +1,12 @@
-package ru.strict.db.jdbc.mappers.sql;
+package ru.strict.db.jdbc.components;
 
-import ru.strict.models.Country;
+import ru.strict.db.jdbc.mapper.sql.BaseSqlMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLType;
 
-import static ru.strict.db.jdbc.utils.JdbcUtil.getValueBySqlType;
+import static ru.strict.db.jdbc.util.JdbcUtil.getValueBySqlType;
 
 public class CountrySqlMapper<ID> extends BaseSqlMapper<Country<ID>> {
 

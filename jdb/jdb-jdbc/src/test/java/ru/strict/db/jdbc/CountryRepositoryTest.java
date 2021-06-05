@@ -1,34 +1,34 @@
 package ru.strict.db.jdbc;
 
-import org.junit.BeforeClass;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.BeforeAll;
+import ru.strict.db.NamedDaoTest;
+import ru.strict.db.jdbc.components.CityDao;
+import ru.strict.db.jdbc.components.Country;
+import ru.strict.db.jdbc.components.CountryDao;
 import ru.strict.db.jdbc.components.TestConnectionCreator;
 import ru.strict.db.core.common.GenerateIdType;
-import ru.strict.db.core.repositories.INamedRepository;
-import ru.strict.db.jdbc.repositories.CityRepository;
-import ru.strict.db.jdbc.repositories.CountryRepository;
-import ru.strict.models.Country;
 
 import java.sql.JDBCType;
 
-import static ru.strict.db.TestData.*;
+import static ru.strict.db.jdbc.components.TestData.*;
 
-@RunWith(JUnit4.class)
-public class CountryRepositoryTest extends ru.strict.db.CountryRepositoryTest {
+public class CountryRepositoryTest extends NamedDaoTest<Long, Country<Long>, CountryDao<Long>> {
 
     private static TestConnectionCreator connectionCreator;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpClass() {
         connectionCreator = new TestConnectionCreator();
-        CityRepository<Long> cityRepository = new CityRepository<>(connectionCreator, GenerateIdType.NONE, JDBCType.BIGINT);
-        prepare(cityRepository);
+        CityDao<Long> cityDao = new CityDao<>(connectionCreator, GenerateIdType.NONE, JDBCType.BIGINT);
+
+        cityDao.create(CITY1);
+        cityDao.create(CITY2);
+        cityDao.create(CITY3);
     }
 
     @Override
-    protected INamedRepository<Long, Country<Long>> getRepository() {
-        return new CountryRepository(connectionCreator, GenerateIdType.NONE, JDBCType.BIGINT);
+    protected CountryDao<Long> getDao() {
+        return new CountryDao<>(connectionCreator, GenerateIdType.NONE, JDBCType.BIGINT);
     }
 
     @Override
@@ -43,10 +43,20 @@ public class CountryRepositoryTest extends ru.strict.db.CountryRepositoryTest {
 
     @Override
     protected Country<Long>[] getModels() {
-        return new Country[] {
+        return new Country[]{
                 COUNTRY1,
                 COUNTRY2,
                 COUNTRY3
         };
+    }
+
+    @Override
+    protected String getPrimaryCaption() {
+        return getPrimaryModel().getName();
+    }
+
+    @Override
+    protected String getUpdatedCaption() {
+        return getUpdateModel().getName();
     }
 }

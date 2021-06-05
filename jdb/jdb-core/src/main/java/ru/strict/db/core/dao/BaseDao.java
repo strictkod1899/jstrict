@@ -1,13 +1,13 @@
-package ru.strict.db.core.repositories;
+package ru.strict.db.core.dao;
 
 import ru.strict.db.core.common.GenerateIdType;
 import ru.strict.db.core.common.SqlParameters;
-import ru.strict.db.core.connections.IConnectionCreator;
-import ru.strict.db.core.requests.ParameterizedRequest;
-import ru.strict.db.core.requests.components.Select;
-import ru.strict.db.core.requests.IParameterizedRequest;
-import ru.strict.db.core.requests.components.SqlItem;
-import ru.strict.db.core.requests.components.Table;
+import ru.strict.db.core.connection.IConnectionCreator;
+import ru.strict.db.core.query.ParameterizedQuery;
+import ru.strict.db.core.query.components.Select;
+import ru.strict.db.core.query.IParameterizedQuery;
+import ru.strict.db.core.query.components.SqlItem;
+import ru.strict.db.core.query.components.Table;
 import ru.strict.patterns.mapper.IMapper;
 import ru.strict.patterns.model.BaseModel;
 import ru.strict.validate.Validator;
@@ -21,17 +21,17 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * Базовый класс репозитория
+ * Базовый класс DAO
  *
  * @param <ID> Тип идентификатора
  * @param <SOURCE> Источник для получения соединения с базой данных (ConnectionCreatorByDataSource,
  * ConnectionCreatorByConnectionInfo)
  * @param <MODEL> Модель сущности базы данных
  */
-public abstract class BaseRepository
+public abstract class BaseDao
         <ID, CONNECTION, SOURCE extends IConnectionCreator<CONNECTION>, MODEL extends BaseModel<ID>>
-        extends ConfigurableRepository<ID, CONNECTION, SOURCE, MODEL>
-        implements IRepository<ID, MODEL> {
+        extends ConfigurableDao<ID, CONNECTION, SOURCE, MODEL>
+        implements IDao<ID, MODEL> {
 
     /**
      * Наименование таблицы
@@ -58,7 +58,7 @@ public abstract class BaseRepository
     private SqlItem countSelectItem;
 
     //<editor-fold defaultState="collapsed" desc="constructors">
-    public BaseRepository(Table table,
+    public BaseDao(Table table,
             String[] columns,
             SOURCE connectionSource,
             GenerateIdType generateIdType,
@@ -115,7 +115,7 @@ public abstract class BaseRepository
     public List<MODEL> readAll(String whereName, SqlParameters parameters) {
         String where = getConfiguration().getWhereOrThrow(getGroup(), whereName);
 
-        ParameterizedRequest request = new ParameterizedRequest(where, parameters);
+        ParameterizedQuery request = new ParameterizedQuery(where, parameters);
         return readAll(request);
     }
 
@@ -123,7 +123,7 @@ public abstract class BaseRepository
     public long readCount(String whereName, SqlParameters parameters) {
         String where = getConfiguration().getWhereOrThrow(getGroup(), whereName);
 
-        ParameterizedRequest request = new ParameterizedRequest(where, parameters);
+        ParameterizedQuery request = new ParameterizedQuery(where, parameters);
         return readCount(request);
     }
 
@@ -175,7 +175,7 @@ public abstract class BaseRepository
     }
 
     @Override
-    public final List<MODEL> readAll(IParameterizedRequest requests) {
+    public final List<MODEL> readAll(IParameterizedQuery requests) {
         List<MODEL> models = processReadAll(requests);
         models = models.stream()
                 .map(this::postRead)
@@ -185,7 +185,7 @@ public abstract class BaseRepository
 
     protected abstract MODEL processRead(ID id);
 
-    protected abstract List<MODEL> processReadAll(IParameterizedRequest requests);
+    protected abstract List<MODEL> processReadAll(IParameterizedQuery requests);
 
     /**
      * Выполнить преобразование объекта после его чтения. Может придти объект null
@@ -199,7 +199,7 @@ public abstract class BaseRepository
     /**
      * Sql-запрос на чтение записей из таблицы
      */
-    protected Select createSqlSelect(IParameterizedRequest request) {
+    protected Select createSqlSelect(IParameterizedQuery request) {
         if (selectItems == null) {
             selectItems = new ArrayList<>(columns.length+1);
             selectItems.add(new SqlItem(table, getIdColumnName()));
@@ -215,7 +215,7 @@ public abstract class BaseRepository
     /**
      * Sql-запрос на чтение количества элементов в таблице
      */
-    protected Select createSqlCount(IParameterizedRequest request) {
+    protected Select createSqlCount(IParameterizedQuery request) {
         if (countSelectItem == null) {
             countSelectItem = new SqlItem("COUNT(*)");
         }
@@ -256,7 +256,7 @@ public abstract class BaseRepository
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        BaseRepository<?, ?, ?, ?> that = (BaseRepository<?, ?, ?, ?>) o;
+        BaseDao<?, ?, ?, ?> that = (BaseDao<?, ?, ?, ?>) o;
         return Objects.equals(table, that.table) &&
                 Arrays.equals(columns, that.columns) &&
                 generateIdType == that.generateIdType &&

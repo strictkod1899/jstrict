@@ -6,12 +6,11 @@
     <parent>
         <groupId>ru.strict</groupId>
         <artifactId>jdb</artifactId>
-        <version>0.1.38</version>
+        <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>jdb-jdbc</artifactId>
-    <version>0.1.38</version>
     <packaging>jar</packaging>
     <name>jdb-jdbc</name>
 
@@ -25,16 +24,11 @@
             <groupId>ru.strict</groupId>
             <artifactId>jdb-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>ru.strict</groupId>
-            <artifactId>jmodels</artifactId>
-            <optional>true</optional>
-        </dependency>
 
         <!-- test -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

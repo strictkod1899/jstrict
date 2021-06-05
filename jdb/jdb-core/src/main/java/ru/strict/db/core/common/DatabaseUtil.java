@@ -1,6 +1,6 @@
 package ru.strict.db.core.common;
 
-import ru.strict.db.core.exceptions.DatabaseException;
+import ru.strict.db.core.exception.DatabaseException;
 
 import java.sql.*;
 import javax.naming.InitialContext;
