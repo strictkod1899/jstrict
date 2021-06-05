@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>jstrict-core</artifactId>
-    <version>0.1.38</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
 
     <modules>

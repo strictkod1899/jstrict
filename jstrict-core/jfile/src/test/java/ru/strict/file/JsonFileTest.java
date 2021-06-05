@@ -3,6 +3,7 @@ package ru.strict.file;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -44,6 +45,7 @@ public class JsonFileTest {
         Assert.assertEquals(fileForRead.read(), expected);
     }
 
+    @Ignore
     @Test
     public void testWrite() {
         LinkedHashMap<String, Object> expected = new LinkedHashMap<>();
