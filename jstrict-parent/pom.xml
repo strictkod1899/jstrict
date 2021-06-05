@@ -5,7 +5,7 @@
     
     <groupId>ru.strict</groupId>
     <artifactId>jstrict-parent</artifactId>
-    <version>0.1.38</version>
+    <version>0.2.0</version>
     <packaging>pom</packaging>
     <name>jstrict-parent</name>
 
@@ -16,7 +16,7 @@
         <app.main.class>ru.strict.app.Main</app.main.class>
         <app.name>${project.name}-${project.version}</app.name>
         <app.icon>_sources/logo.ico</app.icon>
-        <jstrict.version>0.1.38</jstrict.version>
+        <jstrict.version>0.2.0</jstrict.version>
 
         <jacoco.coverage>0%</jacoco.coverage>
         <pmd.failure.priority>5</pmd.failure.priority>
@@ -41,12 +41,7 @@
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
-                <artifactId>jpatterns</artifactId>
-                <version>${jstrict.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ru.strict</groupId>
-                <artifactId>jmodels</artifactId>
+                <artifactId>jtemplate</artifactId>
                 <version>${jstrict.version}</version>
             </dependency>
             <dependency>
@@ -57,16 +52,6 @@
             <dependency>
                 <groupId>ru.strict</groupId>
                 <artifactId>jneuralnetwork</artifactId>
-                <version>${jstrict.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ru.strict</groupId>
-                <artifactId>jfx</artifactId>
-                <version>${jstrict.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ru.strict</groupId>
-                <artifactId>jswing</artifactId>
                 <version>${jstrict.version}</version>
             </dependency>
             <dependency>
@@ -89,45 +74,22 @@
                 <artifactId>jdb-jdbc</artifactId>
                 <version>${jstrict.version}</version>
             </dependency>
-            <dependency>
-                <groupId>ru.strict</groupId>
-                <artifactId>jdb-spring</artifactId>
-                <version>${jstrict.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ru.strict</groupId>
-                <artifactId>jdb-hibernate</artifactId>
-                <version>${jstrict.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ru.strict</groupId>
-                <artifactId>jdb-mybatis</artifactId>
-                <version>${jstrict.version}</version>
-            </dependency>
 
             <!-- test -->
-            <dependency>
-            	<!-- deprecated -->
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.12</version>
-            </dependency>
             <dependency>
 			    <groupId>org.junit.jupiter</groupId>
 			    <artifactId>junit-jupiter-engine</artifactId>
 			    <version>5.7.2</version>
-			    <scope>test</scope>
 			</dependency>
-	        <dependency>
-	            <groupId>org.hamcrest</groupId>
-	            <artifactId>hamcrest-core</artifactId>
-	            <version>1.3</version>
-	        </dependency>
+			<dependency>
+			    <groupId>org.junit.jupiter</groupId>
+			    <artifactId>junit-jupiter-params</artifactId>
+			    <version>5.7.0</version>
+			</dependency>
 	        <dependency>
 			    <groupId>org.mockito</groupId>
 			    <artifactId>mockito-core</artifactId>
-			    <version>3.5.9</version>
-			    <scope>test</scope>
+			    <version>3.11.0</version>
 			</dependency>
         </dependencies>
     </dependencyManagement>
