@@ -1,7 +1,7 @@
 package com.cdek.cfdocs.dto;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Базовый класс для тестирования модели на equals и hashCode
@@ -25,18 +25,18 @@ public abstract class ModelBaseTest<T> {
         T object2 = createObject2();
         T object3 = createObject3();
 
-        Assert.assertEquals(object1, object1);
-        Assert.assertEquals(object1, object2);
+        Assertions.assertEquals(object1, object1);
+        Assertions.assertEquals(object1, object2);
 
-        Assert.assertNotEquals(object1, null);
-        Assert.assertNotEquals(object1, object3);
-        Assert.assertNotEquals(object2, object3);
+        Assertions.assertNotEquals(object1, null);
+        Assertions.assertNotEquals(object1, object3);
+        Assertions.assertNotEquals(object2, object3);
 
-        Assert.assertEquals(object1.hashCode(), object1.hashCode());
-        Assert.assertEquals(object1.hashCode(), object2.hashCode());
+        Assertions.assertEquals(object1.hashCode(), object1.hashCode());
+        Assertions.assertEquals(object1.hashCode(), object2.hashCode());
 
-        Assert.assertNotEquals(object1.hashCode(), object3.hashCode());
-        Assert.assertNotEquals(object2.hashCode(), object3.hashCode());
+        Assertions.assertNotEquals(object1.hashCode(), object3.hashCode());
+        Assertions.assertNotEquals(object2.hashCode(), object3.hashCode());
     }
 
     protected abstract T createObject1();

@@ -1,36 +1,27 @@
 package ru.strict.validate;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.Collection;
-
-@RunWith(Parameterized.class)
 public class IsEmptySpaceOrNullTest {
 
-    private String value;
-    private boolean expectedResult;
-
-    public IsEmptySpaceOrNullTest(String value, boolean expectedResult) {
-        this.value = value;
-        this.expectedResult = expectedResult;
-    }
-
-    @Parameterized.Parameters
-    public static Collection setUp(){
-        return Arrays.asList(new Object[][]{
-                {"", true},
-                {null, true},
-                {" ", true},
-                {"not empty", false}
-        });
+    @Test
+    public void testIsEmptySpaceOrNull_empty_success() {
+        Assertions.assertTrue(CommonValidate.isEmptySpaceOrNull(""));
     }
 
     @Test
-    public void test(){
-        Assert.assertEquals(CommonValidate.isEmptySpaceOrNull(value), expectedResult);
+    public void testIsEmptySpaceOrNull_null_success() {
+        Assertions.assertTrue(CommonValidate.isEmptySpaceOrNull(null));
+    }
+
+    @Test
+    public void testIsEmptySpaceOrNull_space_success() {
+        Assertions.assertTrue(CommonValidate.isEmptySpaceOrNull(" "));
+    }
+
+    @Test
+    public void testIsEmptySpaceOrNull_notEmpty_false() {
+        Assertions.assertFalse(CommonValidate.isEmptySpaceOrNull("not empty"));
     }
 }

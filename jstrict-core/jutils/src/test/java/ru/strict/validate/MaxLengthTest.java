@@ -1,40 +1,37 @@
 package ru.strict.validate;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.Collection;
-
-@RunWith(Parameterized.class)
 public class MaxLengthTest {
 
-    private String value;
-    private int maxLength;
-    private boolean expectedResult;
-
-    public MaxLengthTest(String value, int maxLength, boolean expectedResult) {
-        this.value = value;
-        this.maxLength = maxLength;
-        this.expectedResult = expectedResult;
-    }
-
-    @Parameterized.Parameters
-    public static Collection setUp(){
-        return Arrays.asList(new Object[][]{
-                {"123456", 6, true},
-                {"123456", 7, true},
-                {"", 0, true},
-                {" ", 1, true},
-                {"123456", 2, false},
-                {null, 0, false}
-        });
+    @Test
+    public void testIsMaxLength_edge_success() {
+        Assertions.assertTrue(CommonValidate.isMaxLength("123456", 6));
     }
 
     @Test
-    public void test(){
-        Assert.assertEquals(CommonValidate.isMaxLength(value, maxLength), expectedResult);
+    public void testIsMaxLength_moreEdge_success() {
+        Assertions.assertTrue(CommonValidate.isMaxLength("123456", 7));
+    }
+
+    @Test
+    public void testIsMaxLength_empty_success() {
+        Assertions.assertTrue(CommonValidate.isMaxLength("", 0));
+    }
+
+    @Test
+    public void testIsMaxLength_space_success() {
+        Assertions.assertTrue(CommonValidate.isMaxLength(" ", 1));
+    }
+
+    @Test
+    public void testIsMaxLength_lessThenMax_fail() {
+        Assertions.assertFalse(CommonValidate.isMaxLength("123456", 2));
+    }
+
+    @Test
+    public void testIsMaxLength_null_fail() {
+        Assertions.assertFalse(CommonValidate.isMaxLength(null, 0));
     }
 }

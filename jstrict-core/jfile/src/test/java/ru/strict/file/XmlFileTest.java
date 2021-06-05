@@ -1,13 +1,8 @@
 package ru.strict.file;
 
 import org.jdom2.Element;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import ru.strict.file.txt.TxtFile;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import ru.strict.file.xml.XmlFile;
 import ru.strict.file.xml.XmlNode;
 
@@ -19,7 +14,7 @@ public class XmlFileTest {
 
     private static final String TEST_FILE_NAME = "test.xml";
 
-    @After
+    @AfterEach
     public void post() throws IOException {
         Files.deleteIfExists(Paths.get(TEST_FILE_NAME));
     }
@@ -45,6 +40,6 @@ public class XmlFileTest {
         fileForWrite.addElements(element10, element20);
         fileForWrite.write();
         XmlFile fileForRead = new XmlFile(TEST_FILE_NAME);
-        Assert.assertEquals(fileForRead.read(new XmlNode(new Element("root"))), root);
+        Assertions.assertEquals(fileForRead.read(new XmlNode(new Element("root"))), root);
     }
 }

@@ -1,9 +1,7 @@
 package ru.strict.utils;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import ru.strict.exceptions.ResourceNotFoundException;
 
 import java.io.File;
@@ -13,7 +11,6 @@ import java.nio.file.Paths;
 
 import static ru.strict.utils.ResourcesUtil.*;
 
-@RunWith(JUnit4.class)
 public class ResourcesUtilTest {
 
     @Test
@@ -22,32 +19,32 @@ public class ResourcesUtilTest {
         String targetFilePath = appPath + File.separator + "empty.txt";
         getResourceAsFile("sources/empty.txt", targetFilePath);
 
-        Assert.assertTrue(Files.exists(Paths.get(targetFilePath)));
+        Assertions.assertTrue(Files.exists(Paths.get(targetFilePath)));
     }
 
     @Test
     public void testGetResourceAsTempFile() {
         File file = getResourceAsTempFile("sources/empty.txt");
 
-        Assert.assertTrue(file.exists());
+        Assertions.assertTrue(file.exists());
     }
 
     @Test
     public void testGetResourceOrThrow() {
         File file = getResourceOrThrow("sources/empty.txt");
 
-        Assert.assertNotNull(file);
+        Assertions.assertNotNull(file);
     }
 
-    @Test(expected = ResourceNotFoundException.class)
+    @Test
     public void testGetResourceOrThrow_fail() {
-        getResourceOrThrow("not_exists.txt");
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> getResourceOrThrow("not_exists.txt"));
     }
 
     @Test
     public void testGetResourceStream() {
         InputStream in = getResourceStream("sources/empty.txt");
 
-        Assert.assertNotNull(in);
+        Assertions.assertNotNull(in);
     }
 }

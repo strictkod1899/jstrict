@@ -1,13 +1,10 @@
 package ru.strict.models;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 
-@RunWith(JUnit4.class)
 public class EqualsAndHashCodeTest {
 
     @Test
@@ -31,33 +28,33 @@ public class EqualsAndHashCodeTest {
          * Country tests
          * -------------------------------
          */
-        Assert.assertEquals(country1, country3);
-        Assert.assertEquals(country1.hashCode(), country3.hashCode());
-        Assert.assertEquals(country1.clone(), country3.clone());
-        Assert.assertEquals(country1, country1.clone());
-        Assert.assertEquals(country1.hashCode(), country1.clone().hashCode());
+        Assertions.assertEquals(country1, country3);
+        Assertions.assertEquals(country1.hashCode(), country3.hashCode());
+        Assertions.assertEquals(country1.clone(), country3.clone());
+        Assertions.assertEquals(country1, country1.clone());
+        Assertions.assertEquals(country1.hashCode(), country1.clone().hashCode());
 
-        Assert.assertNotEquals(country1, country2);
-        Assert.assertNotEquals(country3, country2);
-        Assert.assertNotEquals(country1.hashCode(), country2.hashCode());
-        Assert.assertNotEquals(country1.clone(), country2);
-        Assert.assertNotEquals(country1.clone(), country2.clone());
+        Assertions.assertNotEquals(country1, country2);
+        Assertions.assertNotEquals(country3, country2);
+        Assertions.assertNotEquals(country1.hashCode(), country2.hashCode());
+        Assertions.assertNotEquals(country1.clone(), country2);
+        Assertions.assertNotEquals(country1.clone(), country2.clone());
 
         /* -------------------------------
          * City tests
          * -------------------------------
          */
-        Assert.assertEquals(city1, city4);
-        Assert.assertEquals(city1.hashCode(), city4.hashCode());
-        Assert.assertEquals(city1.clone(), city4.clone());
-        Assert.assertEquals(city1, city1.clone());
-        Assert.assertEquals(city1.hashCode(), city1.clone().hashCode());
+        Assertions.assertEquals(city1, city4);
+        Assertions.assertEquals(city1.hashCode(), city4.hashCode());
+        Assertions.assertEquals(city1.clone(), city4.clone());
+        Assertions.assertEquals(city1, city1.clone());
+        Assertions.assertEquals(city1.hashCode(), city1.clone().hashCode());
 
-        Assert.assertNotEquals(city1, city3);
-        Assert.assertNotEquals(city4, city3);
-        Assert.assertNotEquals(city1.hashCode(), city3.hashCode());
-        Assert.assertNotEquals(city1.clone(), city3);
-        Assert.assertNotEquals(city1.clone(), city3.clone());
+        Assertions.assertNotEquals(city1, city3);
+        Assertions.assertNotEquals(city4, city3);
+        Assertions.assertNotEquals(city1.hashCode(), city3.hashCode());
+        Assertions.assertNotEquals(city1.clone(), city3);
+        Assertions.assertNotEquals(city1.clone(), city3.clone());
     }
 
     @Test
@@ -71,17 +68,17 @@ public class EqualsAndHashCodeTest {
         FileStorage fileStorage3 = new FileStorage(3, "filename", "extension", "displayName", date1, 1, 1, "filePath",
                 new byte[]{ 1, 2, 3 });
 
-        Assert.assertEquals(fileStorage1, fileStorage3);
-        Assert.assertEquals(fileStorage1.hashCode(), fileStorage3.hashCode());
-        Assert.assertEquals(fileStorage1.clone(), fileStorage3.clone());
-        Assert.assertEquals(fileStorage1, fileStorage1.clone());
-        Assert.assertEquals(fileStorage1.hashCode(), fileStorage1.clone().hashCode());
+        Assertions.assertEquals(fileStorage1, fileStorage3);
+        Assertions.assertEquals(fileStorage1.hashCode(), fileStorage3.hashCode());
+        Assertions.assertEquals(fileStorage1.clone(), fileStorage3.clone());
+        Assertions.assertEquals(fileStorage1, fileStorage1.clone());
+        Assertions.assertEquals(fileStorage1.hashCode(), fileStorage1.clone().hashCode());
 
-        Assert.assertNotEquals(fileStorage1, fileStorage2);
-        Assert.assertNotEquals(fileStorage3, fileStorage2);
-        Assert.assertNotEquals(fileStorage1.hashCode(), fileStorage2.hashCode());
-        Assert.assertNotEquals(fileStorage1.clone(), fileStorage2);
-        Assert.assertNotEquals(fileStorage1.clone(), fileStorage2.clone());
+        Assertions.assertNotEquals(fileStorage1, fileStorage2);
+        Assertions.assertNotEquals(fileStorage3, fileStorage2);
+        Assertions.assertNotEquals(fileStorage1.hashCode(), fileStorage2.hashCode());
+        Assertions.assertNotEquals(fileStorage1.clone(), fileStorage2);
+        Assertions.assertNotEquals(fileStorage1.clone(), fileStorage2.clone());
     }
 
     @Test
@@ -97,17 +94,17 @@ public class EqualsAndHashCodeTest {
         JWTToken jwtToken3 = new JWTToken(3, "accessToken", "refreshToken", date1, date1, date1, 1);
         jwtToken3.setUser(user);
 
-        Assert.assertEquals(jwtToken1, jwtToken3);
-        Assert.assertEquals(jwtToken1.hashCode(), jwtToken3.hashCode());
-        Assert.assertEquals(jwtToken1.clone(), jwtToken3.clone());
-        Assert.assertEquals(jwtToken1, jwtToken1.clone());
-        Assert.assertEquals(jwtToken1.hashCode(), jwtToken1.clone().hashCode());
+        Assertions.assertEquals(jwtToken1, jwtToken3);
+        Assertions.assertEquals(jwtToken1.hashCode(), jwtToken3.hashCode());
+        Assertions.assertEquals(jwtToken1.clone(), jwtToken3.clone());
+        Assertions.assertEquals(jwtToken1, jwtToken1.clone());
+        Assertions.assertEquals(jwtToken1.hashCode(), jwtToken1.clone().hashCode());
 
-        Assert.assertNotEquals(jwtToken1, jwtToken2);
-        Assert.assertNotEquals(jwtToken3, jwtToken2);
-        Assert.assertNotEquals(jwtToken1.hashCode(), jwtToken2.hashCode());
-        Assert.assertNotEquals(jwtToken1.clone(), jwtToken2);
-        Assert.assertNotEquals(jwtToken1.clone(), jwtToken2.clone());
+        Assertions.assertNotEquals(jwtToken1, jwtToken2);
+        Assertions.assertNotEquals(jwtToken3, jwtToken2);
+        Assertions.assertNotEquals(jwtToken1.hashCode(), jwtToken2.hashCode());
+        Assertions.assertNotEquals(jwtToken1.clone(), jwtToken2);
+        Assertions.assertNotEquals(jwtToken1.clone(), jwtToken2.clone());
     }
 
     @Test
@@ -118,17 +115,17 @@ public class EqualsAndHashCodeTest {
         Token token2 = new Token(2, "accessToken2", "refreshToken2", date1, date1, date1);
         Token token3 = new Token(3, "accessToken", "refreshToken", date1, date1, date1);
 
-        Assert.assertEquals(token1, token3);
-        Assert.assertEquals(token1.hashCode(), token3.hashCode());
-        Assert.assertEquals(token1.clone(), token3.clone());
-        Assert.assertEquals(token1, token1.clone());
-        Assert.assertEquals(token1.hashCode(), token1.clone().hashCode());
+        Assertions.assertEquals(token1, token3);
+        Assertions.assertEquals(token1.hashCode(), token3.hashCode());
+        Assertions.assertEquals(token1.clone(), token3.clone());
+        Assertions.assertEquals(token1, token1.clone());
+        Assertions.assertEquals(token1.hashCode(), token1.clone().hashCode());
 
-        Assert.assertNotEquals(token1, token2);
-        Assert.assertNotEquals(token3, token2);
-        Assert.assertNotEquals(token1.hashCode(), token2.hashCode());
-        Assert.assertNotEquals(token1.clone(), token2);
-        Assert.assertNotEquals(token1.clone(), token2.clone());
+        Assertions.assertNotEquals(token1, token2);
+        Assertions.assertNotEquals(token3, token2);
+        Assertions.assertNotEquals(token1.hashCode(), token2.hashCode());
+        Assertions.assertNotEquals(token1.clone(), token2);
+        Assertions.assertNotEquals(token1.clone(), token2.clone());
     }
 
     @Test
@@ -143,17 +140,17 @@ public class EqualsAndHashCodeTest {
         Profile profile3 = new Profile(3, "name", "surname", 1);
         profile3.setUser(user);
 
-        Assert.assertEquals(profile1, profile3);
-        Assert.assertEquals(profile1.hashCode(), profile3.hashCode());
-        Assert.assertEquals(profile1.clone(), profile3.clone());
-        Assert.assertEquals(profile1, profile1.clone());
-        Assert.assertEquals(profile1.hashCode(), profile1.clone().hashCode());
+        Assertions.assertEquals(profile1, profile3);
+        Assertions.assertEquals(profile1.hashCode(), profile3.hashCode());
+        Assertions.assertEquals(profile1.clone(), profile3.clone());
+        Assertions.assertEquals(profile1, profile1.clone());
+        Assertions.assertEquals(profile1.hashCode(), profile1.clone().hashCode());
 
-        Assert.assertNotEquals(profile1, profile2);
-        Assert.assertNotEquals(profile3, profile2);
-        Assert.assertNotEquals(profile1.hashCode(), profile2.hashCode());
-        Assert.assertNotEquals(profile1.clone(), profile2);
-        Assert.assertNotEquals(profile1.clone(), profile2.clone());
+        Assertions.assertNotEquals(profile1, profile2);
+        Assertions.assertNotEquals(profile3, profile2);
+        Assertions.assertNotEquals(profile1.hashCode(), profile2.hashCode());
+        Assertions.assertNotEquals(profile1.clone(), profile2);
+        Assertions.assertNotEquals(profile1.clone(), profile2.clone());
     }
 
     @Test
@@ -177,17 +174,17 @@ public class EqualsAndHashCodeTest {
         detailsProfile3.setUser(user);
         detailsProfile3.setCity(city);
 
-        Assert.assertEquals(detailsProfile1, detailsProfile3);
-        Assert.assertEquals(detailsProfile1.hashCode(), detailsProfile3.hashCode());
-        Assert.assertEquals(detailsProfile1.clone(), detailsProfile3.clone());
-        Assert.assertEquals(detailsProfile1, detailsProfile1.clone());
-        Assert.assertEquals(detailsProfile1.hashCode(), detailsProfile1.clone().hashCode());
+        Assertions.assertEquals(detailsProfile1, detailsProfile3);
+        Assertions.assertEquals(detailsProfile1.hashCode(), detailsProfile3.hashCode());
+        Assertions.assertEquals(detailsProfile1.clone(), detailsProfile3.clone());
+        Assertions.assertEquals(detailsProfile1, detailsProfile1.clone());
+        Assertions.assertEquals(detailsProfile1.hashCode(), detailsProfile1.clone().hashCode());
 
-        Assert.assertNotEquals(detailsProfile1, detailsProfile2);
-        Assert.assertNotEquals(detailsProfile3, detailsProfile2);
-        Assert.assertNotEquals(detailsProfile1.hashCode(), detailsProfile2.hashCode());
-        Assert.assertNotEquals(detailsProfile1.clone(), detailsProfile2);
-        Assert.assertNotEquals(detailsProfile1.clone(), detailsProfile2.clone());
+        Assertions.assertNotEquals(detailsProfile1, detailsProfile2);
+        Assertions.assertNotEquals(detailsProfile3, detailsProfile2);
+        Assertions.assertNotEquals(detailsProfile1.hashCode(), detailsProfile2.hashCode());
+        Assertions.assertNotEquals(detailsProfile1.clone(), detailsProfile2);
+        Assertions.assertNotEquals(detailsProfile1.clone(), detailsProfile2.clone());
     }
 
     @Test
@@ -202,17 +199,17 @@ public class EqualsAndHashCodeTest {
         Role role3 = new Role(3, "code", "description");
         role3.addUser(user);
 
-        Assert.assertEquals(role1, role3);
-        Assert.assertEquals(role1.hashCode(), role3.hashCode());
-        Assert.assertEquals(role1.clone(), role3.clone());
-        Assert.assertEquals(role1, role1.clone());
-        Assert.assertEquals(role1.hashCode(), role1.clone().hashCode());
+        Assertions.assertEquals(role1, role3);
+        Assertions.assertEquals(role1.hashCode(), role3.hashCode());
+        Assertions.assertEquals(role1.clone(), role3.clone());
+        Assertions.assertEquals(role1, role1.clone());
+        Assertions.assertEquals(role1.hashCode(), role1.clone().hashCode());
 
-        Assert.assertNotEquals(role1, role2);
-        Assert.assertNotEquals(role3, role2);
-        Assert.assertNotEquals(role1.hashCode(), role2.hashCode());
-        Assert.assertNotEquals(role1.clone(), role2);
-        Assert.assertNotEquals(role1.clone(), role2.clone());
+        Assertions.assertNotEquals(role1, role2);
+        Assertions.assertNotEquals(role3, role2);
+        Assertions.assertNotEquals(role1.hashCode(), role2.hashCode());
+        Assertions.assertNotEquals(role1.clone(), role2);
+        Assertions.assertNotEquals(role1.clone(), role2.clone());
     }
 
     @Test
@@ -235,17 +232,17 @@ public class EqualsAndHashCodeTest {
         user3.addRole(role1);
         user3.addToken(jwtToken1);
 
-        Assert.assertEquals(user1, user3);
-        Assert.assertEquals(user1.hashCode(), user3.hashCode());
-        Assert.assertEquals(user1.clone(), user3.clone());
-        Assert.assertEquals(user1, user1.clone());
-        Assert.assertEquals(user1.hashCode(), user1.clone().hashCode());
+        Assertions.assertEquals(user1, user3);
+        Assertions.assertEquals(user1.hashCode(), user3.hashCode());
+        Assertions.assertEquals(user1.clone(), user3.clone());
+        Assertions.assertEquals(user1, user1.clone());
+        Assertions.assertEquals(user1.hashCode(), user1.clone().hashCode());
 
-        Assert.assertNotEquals(user1, user2);
-        Assert.assertNotEquals(user3, user2);
-        Assert.assertNotEquals(user1.hashCode(), user2.hashCode());
-        Assert.assertNotEquals(user1.clone(), user2);
-        Assert.assertNotEquals(user1.clone(), user2.clone());
+        Assertions.assertNotEquals(user1, user2);
+        Assertions.assertNotEquals(user3, user2);
+        Assertions.assertNotEquals(user1.hashCode(), user2.hashCode());
+        Assertions.assertNotEquals(user1.clone(), user2);
+        Assertions.assertNotEquals(user1.clone(), user2.clone());
     }
 
     @Test
@@ -259,17 +256,17 @@ public class EqualsAndHashCodeTest {
         PermissionOnRole permissionOnRole3 = new PermissionOnRole(3, 1, 1);
         permissionOnRole3.setRole(role);
 
-        Assert.assertEquals(permissionOnRole1, permissionOnRole3);
-        Assert.assertEquals(permissionOnRole1.hashCode(), permissionOnRole3.hashCode());
-        Assert.assertEquals(permissionOnRole1.clone(), permissionOnRole3.clone());
-        Assert.assertEquals(permissionOnRole1, permissionOnRole1.clone());
-        Assert.assertEquals(permissionOnRole1.hashCode(), permissionOnRole1.clone().hashCode());
+        Assertions.assertEquals(permissionOnRole1, permissionOnRole3);
+        Assertions.assertEquals(permissionOnRole1.hashCode(), permissionOnRole3.hashCode());
+        Assertions.assertEquals(permissionOnRole1.clone(), permissionOnRole3.clone());
+        Assertions.assertEquals(permissionOnRole1, permissionOnRole1.clone());
+        Assertions.assertEquals(permissionOnRole1.hashCode(), permissionOnRole1.clone().hashCode());
 
-        Assert.assertNotEquals(permissionOnRole1, permissionOnRole2);
-        Assert.assertNotEquals(permissionOnRole3, permissionOnRole2);
-        Assert.assertNotEquals(permissionOnRole1.hashCode(), permissionOnRole2.hashCode());
-        Assert.assertNotEquals(permissionOnRole1.clone(), permissionOnRole2);
-        Assert.assertNotEquals(permissionOnRole1.clone(), permissionOnRole2.clone());
+        Assertions.assertNotEquals(permissionOnRole1, permissionOnRole2);
+        Assertions.assertNotEquals(permissionOnRole3, permissionOnRole2);
+        Assertions.assertNotEquals(permissionOnRole1.hashCode(), permissionOnRole2.hashCode());
+        Assertions.assertNotEquals(permissionOnRole1.clone(), permissionOnRole2);
+        Assertions.assertNotEquals(permissionOnRole1.clone(), permissionOnRole2.clone());
     }
 
     @Test
@@ -287,16 +284,16 @@ public class EqualsAndHashCodeTest {
         userOnRole3.setRole(role);
         userOnRole3.setUser(user);
 
-        Assert.assertEquals(userOnRole1, userOnRole3);
-        Assert.assertEquals(userOnRole1.hashCode(), userOnRole3.hashCode());
-        Assert.assertEquals(userOnRole1.clone(), userOnRole3.clone());
-        Assert.assertEquals(userOnRole1, userOnRole1.clone());
-        Assert.assertEquals(userOnRole1.hashCode(), userOnRole1.clone().hashCode());
+        Assertions.assertEquals(userOnRole1, userOnRole3);
+        Assertions.assertEquals(userOnRole1.hashCode(), userOnRole3.hashCode());
+        Assertions.assertEquals(userOnRole1.clone(), userOnRole3.clone());
+        Assertions.assertEquals(userOnRole1, userOnRole1.clone());
+        Assertions.assertEquals(userOnRole1.hashCode(), userOnRole1.clone().hashCode());
 
-        Assert.assertNotEquals(userOnRole1, userOnRole2);
-        Assert.assertNotEquals(userOnRole3, userOnRole2);
-        Assert.assertNotEquals(userOnRole1.hashCode(), userOnRole2.hashCode());
-        Assert.assertNotEquals(userOnRole1.clone(), userOnRole2);
-        Assert.assertNotEquals(userOnRole1.clone(), userOnRole2.clone());
+        Assertions.assertNotEquals(userOnRole1, userOnRole2);
+        Assertions.assertNotEquals(userOnRole3, userOnRole2);
+        Assertions.assertNotEquals(userOnRole1.hashCode(), userOnRole2.hashCode());
+        Assertions.assertNotEquals(userOnRole1.clone(), userOnRole2);
+        Assertions.assertNotEquals(userOnRole1.clone(), userOnRole2.clone());
     }
 }

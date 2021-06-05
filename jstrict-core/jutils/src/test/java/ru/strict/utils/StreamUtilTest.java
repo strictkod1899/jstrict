@@ -1,22 +1,19 @@
 package ru.strict.utils;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
 import static ru.strict.utils.StreamUtil.*;
 
-@RunWith(JUnit4.class)
 public class StreamUtilTest {
 
     @Test
     public void testIsNull_bySupplier() {
         TestData model = new TestData();
 
-        Assert.assertTrue(isNull(model::getId));
+        Assertions.assertTrue(isNull(model::getId));
     }
 
     @Test
@@ -24,21 +21,21 @@ public class StreamUtilTest {
         TestData testData = new TestData();
         testData.setSuccess(true);
 
-        Assert.assertFalse(not(testData::isSuccess));
+        Assertions.assertFalse(not(testData::isSuccess));
     }
 
     @Test
     public void testNot() {
         TestData model = new TestData();
 
-        Assert.assertFalse(not(isNull(model::getId)));
+        Assertions.assertFalse(not(isNull(model::getId)));
     }
 
     @Test
     public void testIsNull() {
         TestData model = new TestData();
 
-        Assert.assertTrue(isNull(model.getId()));
+        Assertions.assertTrue(isNull(model.getId()));
     }
 
     private static class TestData {

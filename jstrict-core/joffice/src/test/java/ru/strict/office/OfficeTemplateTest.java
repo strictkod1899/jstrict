@@ -1,8 +1,6 @@
 package ru.strict.office;
 
-import org.junit.Assert;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Assertions;
 import ru.strict.office.template.OfficeTemplate;
 import ru.strict.office.template.TemplateConfiguration;
 import ru.strict.utils.ClassUtil;
@@ -13,10 +11,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-@RunWith(JUnit4.class)
 public class OfficeTemplateTest {
 
-    @org.junit.Test
+    @org.junit.jupiter.api.Test
     public void test() {
         String templateXlsName = "template.xls";
         String templateXlsxName = "template.xlsx";
@@ -48,9 +45,9 @@ public class OfficeTemplateTest {
         templateXls.toPdf();
         templateXlsx.toPdf();
 
-        Assert.assertTrue(Files.exists(Paths.get(outputTemplateXlsPath)));
-        Assert.assertTrue(Files.exists(Paths.get(outputXlsPdfPath)));
-        Assert.assertTrue(Files.exists(Paths.get(outputTemplateXlsxPath)));
-        Assert.assertTrue(Files.exists(Paths.get(outputXlsxPdfPath)));
+        Assertions.assertTrue(Files.exists(Paths.get(outputTemplateXlsPath)));
+        Assertions.assertTrue(Files.exists(Paths.get(outputXlsPdfPath)));
+        Assertions.assertTrue(Files.exists(Paths.get(outputTemplateXlsxPath)));
+        Assertions.assertTrue(Files.exists(Paths.get(outputXlsxPdfPath)));
     }
 }

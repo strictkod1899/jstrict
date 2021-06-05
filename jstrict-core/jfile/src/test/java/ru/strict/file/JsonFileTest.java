@@ -1,12 +1,10 @@
 package ru.strict.file;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import ru.strict.file.json.JacksonObjectMapper;
 import ru.strict.file.json.JsonFile;
 
@@ -15,7 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-@RunWith(JUnit4.class)
 public class JsonFileTest {
 
     private static final ObjectMapper OBJECT_MAPPER = new JacksonObjectMapper();
@@ -27,7 +24,7 @@ public class JsonFileTest {
             "  \"lastScores\" : [ 2, 1, 3, 5, 0, 0, 1, 1 ]\n" +
             "}";
 
-    @After
+    @AfterEach
     public void post() throws IOException {
         Files.deleteIfExists(Paths.get(TEST_FILE_NAME));
     }
@@ -42,10 +39,10 @@ public class JsonFileTest {
         JsonFile fileForWrite = new JsonFile(TEST_FILE_NAME, OBJECT_MAPPER);
         fileForWrite.write(FILE_CONTENT);
         JsonFile fileForRead = new JsonFile(TEST_FILE_NAME, OBJECT_MAPPER);
-        Assert.assertEquals(fileForRead.read(), expected);
+        Assertions.assertEquals(fileForRead.read(), expected);
     }
 
-    @Ignore
+    @Disabled
     @Test
     public void testWrite() {
         LinkedHashMap<String, Object> expected = new LinkedHashMap<>();
@@ -57,7 +54,7 @@ public class JsonFileTest {
         fileForWrite.setContent(expected);
         fileForWrite.write();
         JsonFile fileForRead = new JsonFile(TEST_FILE_NAME, OBJECT_MAPPER);
-        Assert.assertEquals(fileForRead.read(), expected);
+        Assertions.assertEquals(fileForRead.read(), expected);
     }
 
     @Test
@@ -70,7 +67,7 @@ public class JsonFileTest {
         JsonFile fileForWrite = new JsonFile(TEST_FILE_NAME, OBJECT_MAPPER);
         fileForWrite.write(object);
         JsonFile<TestObject> fileForRead = new JsonFile<>(TEST_FILE_NAME, TestObject.class, OBJECT_MAPPER);
-        Assert.assertEquals(fileForRead.readToTargetClass(), object);
+        Assertions.assertEquals(fileForRead.readToTargetClass(), object);
     }
 
     private static class TestObject {

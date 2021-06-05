@@ -1,39 +1,32 @@
 package ru.strict.validate;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.Collection;
-
-@RunWith(Parameterized.class)
 public class MinLengthTest {
 
-    private String value;
-    private int minLength;
-    private boolean expectedResult;
-
-    public MinLengthTest(String value, int minLength, boolean expectedResult) {
-        this.value = value;
-        this.minLength = minLength;
-        this.expectedResult = expectedResult;
-    }
-
-    @Parameterized.Parameters
-    public static Collection setUp(){
-        return Arrays.asList(new Object[][]{
-                {"123456", 6, true},
-                {"", 0, true},
-                {" ", 1, true},
-                {"123456", 7, false},
-                {null, 0, false}
-        });
+    @Test
+    public void testIsMinLength_common_success() {
+        Assertions.assertTrue(CommonValidate.isMinLength("123456", 6));
     }
 
     @Test
-    public void test(){
-        Assert.assertEquals(CommonValidate.isMinLength(value, minLength), expectedResult);
+    public void testIsMinLength_common_false() {
+        Assertions.assertFalse(CommonValidate.isMinLength("123456", 7));
+    }
+
+    @Test
+    public void testIsMinLength_empty_false() {
+        Assertions.assertFalse(CommonValidate.isMinLength("", 1));
+    }
+
+    @Test
+    public void testIsMinLength_space_success() {
+        Assertions.assertTrue(CommonValidate.isMinLength(" ", 0));
+    }
+
+    @Test
+    public void testIsMinLength_null_false() {
+        Assertions.assertFalse(CommonValidate.isMinLength(null, 0));
     }
 }
