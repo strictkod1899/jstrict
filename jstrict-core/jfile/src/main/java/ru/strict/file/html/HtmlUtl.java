@@ -12,25 +12,28 @@ import java.io.*;
 
 public class HtmlUtl {
 
-    public static Elements selectByFileUTF8(String filePath, String selector) throws IOException, NullPointerException {
+    public static Elements selectByFileUTF8(String filePath, String selector) {
         return selectByFile(filePath, selector, "UTF-8");
     }
 
-    public static Elements selectByFile(String filePath, String selector, String encoding)
-            throws IOException, NullPointerException {
+    public static Elements selectByFile(String filePath, String selector, String encoding) {
         if (CommonValidate.isEmptyOrNull(filePath)) {
             throw new IllegalArgumentException("filePath is NULL");
         }
 
-        Document page = Jsoup.parse(new File(filePath), encoding);
-        if (page == null) {
-            throw new NullPointerException(String.format("Page by content [%s] not found", filePath));
-        }
+        try {
+            Document page = Jsoup.parse(new File(filePath), encoding);
+            if (page == null) {
+                throw new NullPointerException(String.format("Page by content [%s] not found", filePath));
+            }
 
-        return getTag(page, selector);
+            return getTag(page, selector);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
-    public static Elements selectByContent(String content, String selector) throws NullPointerException {
+    public static Elements selectByContent(String content, String selector) {
         if (CommonValidate.isEmptyOrNull(content)) {
             throw new IllegalArgumentException("content is NULL");
         }
@@ -43,42 +46,54 @@ public class HtmlUtl {
         return getTag(page, selector);
     }
 
-    public static Elements selectByGet(String url, String selector) throws IOException, NullPointerException {
+    public static Elements selectByGet(String url, String selector) {
         if (CommonValidate.isEmptyOrNull(url)) {
             throw new IllegalArgumentException("url is NULL");
         }
 
-        Document page = Jsoup.connect(url).get();
-        if (page == null) {
-            throw new NullPointerException(String.format("Page by url [%s] [GET] not found", url));
-        }
+        try {
+            Document page = Jsoup.connect(url).get();
+            if (page == null) {
+                throw new NullPointerException(String.format("Page by url [%s] [GET] not found", url));
+            }
 
-        return getTag(page, selector);
+            return getTag(page, selector);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
-    public static Elements selectByPost(String url, String selector) throws IOException, NullPointerException {
+    public static Elements selectByPost(String url, String selector) {
         if (CommonValidate.isEmptyOrNull(url)) {
             throw new IllegalArgumentException("url is NULL");
         }
 
-        Document page = Jsoup.connect(url).post();
-        if (page == null) {
-            throw new NullPointerException(String.format("Page by url [%s] [POST] not found", url));
-        }
+        try {
+            Document page = Jsoup.connect(url).post();
+            if (page == null) {
+                throw new NullPointerException(String.format("Page by url [%s] [POST] not found", url));
+            }
 
-        return getTag(page, selector);
+            return getTag(page, selector);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     /**
      * Конвертировать html в pdf
      */
-    public static void convertToPdf(String sourceHtmlFilePath, String targetPdfFilePath)
-            throws IOException, DocumentException {
+    public static void convertToPdf(String sourceHtmlFilePath, String targetPdfFilePath) {
         com.itextpdf.text.Document document = new com.itextpdf.text.Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(targetPdfFilePath));
-        document.open();
-        XMLWorkerHelper.getInstance().parseXHtml(writer, document, new FileInputStream(sourceHtmlFilePath));
-        document.close();
+
+        try {
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(targetPdfFilePath));
+            document.open();
+            XMLWorkerHelper.getInstance().parseXHtml(writer, document, new FileInputStream(sourceHtmlFilePath));
+            document.close();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     /**
