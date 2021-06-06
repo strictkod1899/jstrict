@@ -1,0 +1,111 @@
+package ru.strict.components;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+public class ResultMessages implements Cloneable {
+    private Collection<Message> alerts;
+    private Collection<Message> messages;
+
+    public ResultMessages() {
+        this(new LinkedHashSet<>(), new LinkedHashSet<>());
+    }
+
+    public ResultMessages(Collection<Message> emptyAlerts, Collection<Message> emptyMessages) {
+        this.alerts = emptyAlerts;
+        this.messages = emptyMessages;
+    }
+
+    public Collection<Message> getAlerts() {
+        return alerts;
+    }
+
+    public Collection<String> getAlertsAsString() {
+        return alerts.stream()
+                .map(Message::toString)
+                .collect(Collectors.toList());
+    }
+
+    public void setAlerts(Collection<Message> alerts) {
+        this.alerts = alerts;
+    }
+
+    public void addAlert(Message alert) {
+        if (alert != null) {
+            this.alerts.add(alert);
+        }
+    }
+
+    public void addAlert(String alert) {
+        if (alert != null) {
+            this.alerts.add(new Message(alert));
+        }
+    }
+
+    public Collection<Message> getMessages() {
+        return messages;
+    }
+
+    public Collection<String> getMessagesAsString() {
+        return messages.stream()
+                .map(Message::toString)
+                .collect(Collectors.toList());
+    }
+
+    public void setMessages(Collection<Message> messages) {
+        this.messages = messages;
+    }
+
+    public void addMessage(Message message) {
+        if (message != null) {
+            this.messages.add(message);
+        }
+    }
+
+    public boolean hasMessages() {
+        return !messages.isEmpty();
+    }
+
+    public boolean hasAlerts() {
+        return !alerts.isEmpty();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ResultMessages object = (ResultMessages) o;
+        return Objects.equals(alerts, object.alerts) &&
+                Objects.equals(messages, object.messages);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(alerts, messages);
+    }
+
+    @Override
+    public ResultMessages clone() {
+        try {
+            ResultMessages clone = (ResultMessages) super.clone();
+
+            Collection<Message> alerts = new ArrayList<>(this.alerts.size());
+            for (Message alert : this.alerts) {
+                alerts.add(alert.clone());
+            }
+
+            clone.messages = new ArrayList<>(this.messages);
+            clone.alerts = alerts;
+            return clone;
+        } catch (CloneNotSupportedException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+}

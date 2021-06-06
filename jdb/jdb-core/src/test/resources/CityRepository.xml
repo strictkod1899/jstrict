@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sql groupName="CityRepository">
+    <query name="readByCountryId">
+        SELECT * FROM city WHERE city.country_id = ?
+    </query>
+
+    <where name="readByCountryId2">
+        WHERE city.country_id_2 = ?
+    </where>
+</sql>
