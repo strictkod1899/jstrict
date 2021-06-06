@@ -13,6 +13,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jdk.version>11</jdk.version>
 
+        <lombok.version>1.18.20</lombok.version>
+
         <app.main.class>ru.strict.app.Main</app.main.class>
         <app.name>${project.name}-${project.version}</app.name>
         <app.icon>_sources/logo.ico</app.icon>
@@ -75,6 +77,14 @@
                 <version>${jstrict.version}</version>
             </dependency>
 
+            <!-- other -->
+	        <dependency>
+	            <groupId>org.projectlombok</groupId>
+	            <artifactId>lombok</artifactId>
+	            <version>${lombok.version}</version>
+	        </dependency>
+
+
             <!-- test -->
             <dependency>
 			    <groupId>org.junit.jupiter</groupId>
@@ -105,6 +115,13 @@
 	                    <encoding>${project.build.sourceEncoding}</encoding>
 						<source>${jdk.version}</source>
 						<target>${jdk.version}</target>
+						<annotationProcessorPaths>
+							<path>
+								<groupId>org.projectlombok</groupId>
+								<artifactId>lombok</artifactId>
+								<version>${lombok.version}</version>
+							</path>
+						</annotationProcessorPaths>
 					</configuration>
 				</plugin>
 				<plugin>
