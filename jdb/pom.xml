@@ -20,19 +20,4 @@
         <module>jdb-test</module>
         <module>jdb-jdbc</module>
     </modules>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>ru.strict</groupId>
-                <artifactId>jdb-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ru.strict</groupId>
-                <artifactId>jdb-test</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 </project>
