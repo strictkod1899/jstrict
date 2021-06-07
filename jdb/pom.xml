@@ -13,7 +13,6 @@
     <artifactId>jdb</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
-    <name>jdb</name>
 
     <modules>
         <module>jdb-core</module>

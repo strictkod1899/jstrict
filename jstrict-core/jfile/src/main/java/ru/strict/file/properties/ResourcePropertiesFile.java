@@ -6,19 +6,14 @@ import ru.strict.validate.CommonValidate;
 public abstract class ResourcePropertiesFile extends PropertiesFile {
 
     private String resourcesFilePath;
-
-    private void init(String resourcesFilePath) {
-        if (resourcesFilePath.endsWith(".properties")) {
-            resourcesFilePath = resourcesFilePath.substring(0, resourcesFilePath.lastIndexOf(".properties"));
-        }
-
-        this.resourcesFilePath = resourcesFilePath;
-        load();
-    }
+    private String resourcesFilePathWithSuffix;
 
     public ResourcePropertiesFile(String resourcesFilePath) {
-        super(resourcesFilePath);
-        init(resourcesFilePath);
+        this(resourcesFilePath, null);
+    }
+
+    public ResourcePropertiesFile(String resourcesFilePath, String suffix, String targetFilePath) {
+        this(getTargetFilePath(resourcesFilePath, targetFilePath), suffix);
     }
 
     public ResourcePropertiesFile(String resourcesFilePath, String suffix) {
@@ -26,12 +21,9 @@ public abstract class ResourcePropertiesFile extends PropertiesFile {
         init(resourcesFilePath);
     }
 
-    public ResourcePropertiesFile(String resourcesFilePath, String suffix, String targetFilePath) {
-        super(
-                CommonValidate.isEmptyOrNull(targetFilePath) ? resourcesFilePath : targetFilePath,
-                suffix
-        );
-        init(resourcesFilePath);
+    public void load() {
+        ResourcesUtil.getResourceAsFile(resourcesFilePathWithSuffix, getFilePathWithSuffix(), getThisClass());
+        ResourcesUtil.getResourceAsFile(resourcesFilePath, getFilePath(), getThisClass());
     }
 
     @Override
@@ -40,29 +32,36 @@ public abstract class ResourcePropertiesFile extends PropertiesFile {
         load();
     }
 
+    private void init(String resourcesFilePath) {
+        String resourcesFilePathWithoutExtension = resourcesFilePath;
+        if (resourcesFilePath.endsWith(".properties")) {
+            resourcesFilePathWithoutExtension =
+                    resourcesFilePath.substring(0, resourcesFilePath.lastIndexOf(".properties"));
+        }
+
+        this.resourcesFilePath = createResourcesFilePath(resourcesFilePathWithoutExtension);
+        this.resourcesFilePathWithSuffix = createResourcesFilePathWithSuffix(resourcesFilePathWithoutExtension);
+    }
+
+    private String createResourcesFilePathWithSuffix(String resourcesFilePathWithoutExtension) {
+        if (CommonValidate.isEmptyOrNull(getSuffix())) {
+            return createResourcesFilePath(resourcesFilePathWithoutExtension);
+        } else {
+            return String.format("%s_%s.properties", resourcesFilePathWithoutExtension, getSuffix());
+        }
+    }
+
+    private String createResourcesFilePath(String resourcesFilePathWithoutExtension) {
+        return String.format("%s.properties", resourcesFilePathWithoutExtension);
+    }
+
+    private static String getTargetFilePath(String resourcesFilePath, String targetFilePath) {
+        return CommonValidate.isEmptyOrNull(targetFilePath) ? resourcesFilePath : targetFilePath;
+    }
+
     /**
      * Стандартная реализация: this.getClass();
      * Необходимо для получения ресурса из jar-файла, с этим классом
      */
     protected abstract Class getThisClass();
-
-    private void load() {
-        ResourcesUtil.getResourceAsFile(getResourcesFilePathWithSuffix(), getFilePathWithSuffix(), getThisClass());
-        ResourcesUtil.getResourceAsFile(getResourcesFilePath(), getFilePath(), getThisClass());
-    }
-
-    private String getResourcesFilePath() {
-        return String.format("%s.properties", resourcesFilePath);
-    }
-
-    private String getResourcesFilePathWithSuffix() {
-        String result = null;
-
-        if (!CommonValidate.isEmptyOrNull(getSuffix())) {
-            result = String.format("%s_%s.properties", resourcesFilePath, getSuffix());
-        } else {
-            result = getResourcesFilePath();
-        }
-        return result;
-    }
 }
