@@ -4,8 +4,6 @@ import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 import ru.strict.ioc.IoC;
-import ru.strict.logging.ILogger;
-import ru.strict.logging.LogLevel;
 import ru.strict.utils.ReflectionUtil;
 import ru.strict.validate.Validator;
 
@@ -19,7 +17,7 @@ import static ru.strict.ioc.IoCUtils.*;
 
 public class LoggingHandler implements InvocationHandler, MethodInterceptor, Callback {
 
-    private Object instance;
+    /*private Object instance;
     private Logging classAnnotation;
     private Class<? extends ILogger>[] defaultLoggersClasses;
 
@@ -70,7 +68,7 @@ public class LoggingHandler implements InvocationHandler, MethodInterceptor, Cal
             instance = ReflectionUtil.createCglibProxy(instance.getClass(), handler, constructor, arguments);
         }
         return instance;
-    }
+    }*/
 
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
@@ -79,7 +77,7 @@ public class LoggingHandler implements InvocationHandler, MethodInterceptor, Cal
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        boolean methodAccessible = method.isAccessible();
+        /*boolean methodAccessible = method.isAccessible();
         method.setAccessible(true);
         Object result = null;
 
@@ -150,6 +148,7 @@ public class LoggingHandler implements InvocationHandler, MethodInterceptor, Cal
         }
         method.setAccessible(methodAccessible);
 
-        return result;
+        return result;*/
+        return null;
     }
 }
