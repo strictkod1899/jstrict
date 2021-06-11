@@ -13,6 +13,8 @@ class IoCData {
     private Object sourceInstance;
     private Object componentInstance;
 
+    private ComponentSupplier<?> singletonSupplier;
+
     public IoCData(Class<?> instanceClass, Object[] constructorArguments, InstanceType type) {
         this.instanceClass = instanceClass;
         this.constructorArguments = constructorArguments;
@@ -23,8 +25,12 @@ class IoCData {
      * Связь данных для создания объекта типа singleton
      */
     public IoCData(Object componentInstance) {
-        this.componentInstance = componentInstance;
-        this.sourceInstance = componentInstance;
+        if (componentInstance instanceof ComponentSupplier) {
+            this.singletonSupplier = (ComponentSupplier) componentInstance;
+        } else {
+            this.componentInstance = componentInstance;
+            this.sourceInstance = componentInstance;
+        }
         type = InstanceType.SINGLETON;
     }
 
@@ -49,6 +55,9 @@ class IoCData {
     }
 
     public <T> T getComponentInstance() {
+        if (componentInstance == null && singletonSupplier != null) {
+            return (T) getFromSupplier();
+        }
         return (T) componentInstance;
     }
 
@@ -69,6 +78,15 @@ class IoCData {
                     String.format("Unsupported operation [closeSessionInstance] for type = %s", type));
         }
         this.componentInstance = null;
+    }
+
+    private Object getFromSupplier() {
+        Object singletonInstance = singletonSupplier.get();
+
+        this.componentInstance = singletonInstance;
+        this.sourceInstance = singletonInstance;
+
+        return singletonInstance;
     }
 
     @Override

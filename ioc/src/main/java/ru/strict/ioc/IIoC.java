@@ -81,6 +81,9 @@ public interface IIoC {
     <RESULT> void addComponent(Class<RESULT> clazz, String caption, Class component, InstanceType type,
             Object... constructorArguments);
 
+    void addSingleton(Class<?> clazz, ComponentSupplier<?> componentSupplier);
+    void addSingleton(String caption, Class<?> clazz, ComponentSupplier<?> componentSupplier);
+
     /**
      * Добавить компонент с названием --caption-- как экземпляр класса --component-- типа singleton.
      * При использовании данного метода, компонент также можно получить используя класс --component--
