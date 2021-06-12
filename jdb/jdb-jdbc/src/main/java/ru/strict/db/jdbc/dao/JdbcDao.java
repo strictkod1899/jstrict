@@ -12,8 +12,8 @@ import ru.strict.db.core.common.SqlParameter;
 import ru.strict.db.core.common.SqlParameters;
 import ru.strict.db.jdbc.mapper.sql.CountSqlMapper;
 import ru.strict.db.jdbc.util.JdbcUtil;
-import ru.strict.patterns.model.BaseModel;
-import ru.strict.patterns.mapper.IMapper;
+import ru.strict.template.model.BaseModel;
+import ru.strict.template.mapper.IMapper;
 import java.sql.*;
 import java.util.*;
 

@@ -1,6 +1,6 @@
 package ru.strict.db.jdbc.components;
 
-import ru.strict.patterns.model.NamedModel;
+import ru.strict.template.model.NamedModel;
 
 import java.util.Objects;
 

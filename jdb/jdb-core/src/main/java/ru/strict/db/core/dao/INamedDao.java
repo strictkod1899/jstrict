@@ -3,7 +3,7 @@ package ru.strict.db.core.dao;
 import ru.strict.db.core.common.SqlParameter;
 import ru.strict.db.core.query.components.SingleWhere;
 import ru.strict.db.core.query.components.SqlItem;
-import ru.strict.patterns.model.BaseModel;
+import ru.strict.template.model.BaseModel;
 import ru.strict.validate.Validator;
 
 import java.util.List;

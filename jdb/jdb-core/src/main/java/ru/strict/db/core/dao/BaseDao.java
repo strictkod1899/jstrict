@@ -8,8 +8,8 @@ import ru.strict.db.core.query.components.Select;
 import ru.strict.db.core.query.IParameterizedQuery;
 import ru.strict.db.core.query.components.SqlItem;
 import ru.strict.db.core.query.components.Table;
-import ru.strict.patterns.mapper.IMapper;
-import ru.strict.patterns.model.BaseModel;
+import ru.strict.template.mapper.IMapper;
+import ru.strict.template.model.BaseModel;
 import ru.strict.validate.Validator;
 
 import java.sql.ResultSet;
