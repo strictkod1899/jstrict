@@ -12,12 +12,12 @@ public abstract class ResourcePropertiesFile extends PropertiesFile {
         this(resourcesFilePath, null);
     }
 
-    public ResourcePropertiesFile(String resourcesFilePath, String suffix, String targetFilePath) {
-        this(getTargetFilePath(resourcesFilePath, targetFilePath), suffix);
+    public ResourcePropertiesFile(String resourcesFilePath, String suffix) {
+        this(resourcesFilePath, suffix, null);
     }
 
-    public ResourcePropertiesFile(String resourcesFilePath, String suffix) {
-        super(resourcesFilePath, suffix);
+    public ResourcePropertiesFile(String resourcesFilePath, String suffix, String targetFilePath) {
+        super(getTargetFilePath(resourcesFilePath, targetFilePath), suffix);
         init(resourcesFilePath);
     }
 
