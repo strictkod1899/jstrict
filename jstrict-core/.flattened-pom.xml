@@ -10,7 +10,7 @@
   </parent>
   <groupId>ru.strict</groupId>
   <artifactId>jstrict-core</artifactId>
-  <version>0.2.5</version>
+  <version>0.2.6</version>
   <packaging>pom</packaging>
   <modules>
     <module>jutils</module>

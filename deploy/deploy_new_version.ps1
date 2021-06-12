@@ -1,4 +1,7 @@
-cd ./jstrict-core
+cd ./jstrict-parent
+mvn clean install
+
+cd ../jstrict-core
 ./deploy/deploy_new_version.ps1
 
 cd ../jneuralnetwork
