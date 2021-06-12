@@ -18,7 +18,7 @@ $PROD_MODE = "prod"
 $DEV_MODE = "dev"
 $FEATURE_MODE = "feature"
 
-$VERSIONS_FILE = "./deploy/versions.properties"
+$VERSIONS_FILE = "./jstrict-core/deploy/versions.properties"
 
 # commit new version
 $mode = &"./deploy/other/get_deploy_mode_by_git_branch.ps1" | Select-Object -Last 1

@@ -5,11 +5,11 @@
   <parent>
     <groupId>ru.strict</groupId>
     <artifactId>jstrict-core</artifactId>
-    <version>0.2.4</version>
+    <version>0.2.5</version>
   </parent>
   <groupId>ru.strict</groupId>
   <artifactId>joffice</artifactId>
-  <version>0.2.4</version>
+  <version>0.2.5</version>
   <name>joffice</name>
   <dependencies>
     <dependency>
