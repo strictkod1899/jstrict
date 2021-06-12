@@ -5,7 +5,7 @@ import ru.strict.db.core.connection.IConnectionCreator;
 import ru.strict.db.core.dao.INamedDao;
 import ru.strict.db.jdbc.mapper.sql.BaseSqlMapper;
 import ru.strict.db.core.query.components.Table;
-import ru.strict.patterns.model.BaseModel;
+import ru.strict.template.model.BaseModel;
 
 import java.sql.Connection;
 import java.sql.SQLType;

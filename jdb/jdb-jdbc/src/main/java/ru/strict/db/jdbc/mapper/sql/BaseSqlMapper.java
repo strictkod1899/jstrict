@@ -1,7 +1,7 @@
 package ru.strict.db.jdbc.mapper.sql;
 
 import ru.strict.db.jdbc.util.JdbcUtil;
-import ru.strict.patterns.mapper.BaseMapper;
+import ru.strict.template.mapper.BaseMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -1,8 +1,8 @@
 package ru.strict.db.core.dao;
 
 import ru.strict.db.core.common.SqlParameters;
-import ru.strict.patterns.mapper.IMapper;
-import ru.strict.patterns.model.BaseModel;
+import ru.strict.template.mapper.IMapper;
+import ru.strict.template.model.BaseModel;
 
 import java.sql.ResultSet;
 import java.util.List;

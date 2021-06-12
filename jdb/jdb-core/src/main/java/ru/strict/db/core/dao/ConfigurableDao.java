@@ -2,7 +2,7 @@ package ru.strict.db.core.dao;
 
 import ru.strict.db.core.configuration.SqlConfiguration;
 import ru.strict.db.core.connection.IConnectionCreator;
-import ru.strict.patterns.model.BaseModel;
+import ru.strict.template.model.BaseModel;
 import ru.strict.validate.Validator;
 
 public abstract class ConfigurableDao

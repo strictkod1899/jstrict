@@ -3,7 +3,7 @@ package ru.strict.db;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.strict.db.core.dao.IDao;
-import ru.strict.patterns.model.BaseModel;
+import ru.strict.template.model.BaseModel;
 
 public abstract class BaseDaoTest<ID, MODEL extends BaseModel<ID>, REPOSITORY extends IDao<ID, MODEL>> {
 

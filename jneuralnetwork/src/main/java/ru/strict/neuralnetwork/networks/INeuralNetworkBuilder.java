@@ -1,6 +1,6 @@
 package ru.strict.neuralnetwork.networks;
 
-import ru.strict.patterns.IBuilder;
+import ru.strict.template.IBuilder;
 
 public interface INeuralNetworkBuilder<RESULT extends NeuralNetworkHidden> extends IBuilder<RESULT> {
     INeuralNetworkBuilder addLayout(int countHiddenNeurons);
