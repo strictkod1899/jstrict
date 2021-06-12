@@ -3,24 +3,21 @@ package ru.strict.ioc;
 import ru.strict.exceptions.ValidateException;
 import ru.strict.ioc.annotations.ComponentHandler;
 import ru.strict.ioc.annotations.ConfigurationHandler;
-import ru.strict.ioc.annotations.LoggerHandler;
-import ru.strict.ioc.annotations.LoggingHandler;
 import ru.strict.ioc.annotations.PostConstructHandler;
 import ru.strict.ioc.exceptions.ComponentNotFoundException;
 import ru.strict.ioc.exceptions.ConstructorNotFoundException;
 import ru.strict.ioc.exceptions.CreateComponentException;
 import ru.strict.ioc.exceptions.ManyMatchComponentsException;
 import ru.strict.ioc.exceptions.MatchInstanceTypeException;
-import ru.strict.logging.LoggerBase;
 import ru.strict.utils.ReflectionUtil;
 import ru.strict.utils.StringUtil;
 
 import java.lang.reflect.Constructor;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static ru.strict.ioc.IoCUtils.*;
 
@@ -54,8 +51,8 @@ import static ru.strict.ioc.IoCUtils.*;
 public abstract class IoC implements IIoC {
 
     private Map<IoCKeys, IoCData> components;
-    private Collection<Class<? extends LoggerBase>> defaultLoggingClasses;
-    private Class<? extends LoggerBase> defaultLoggerClass;
+    //private Collection<Class<? extends LoggerBase>> defaultLoggingClasses;
+    //private Class<? extends LoggerBase> defaultLoggerClass;
 
     public IoC(IoC... joins) {
         this();
@@ -66,7 +63,7 @@ public abstract class IoC implements IIoC {
 
     public IoC() {
         components = new HashMap<>();
-        defaultLoggingClasses = new HashSet<>();
+        //defaultLoggingClasses = new HashSet<>();
         init();
     }
 
@@ -185,15 +182,21 @@ public abstract class IoC implements IIoC {
                     component);
         }
 
-        if (isExistsComponentClass(clazz)) {
-            throw new ManyMatchComponentsException(clazz);
-        }
-
         if (isExistsComponentCaption(caption)) {
             throw new ManyMatchComponentsException(caption);
         }
 
         components.put(new IoCKeys(caption, clazz), new IoCData(component, constructorArguments, type));
+    }
+
+    @Override
+    public void addSingleton(Class<?> clazz, ComponentSupplier<?> componentSupplier) {
+        addSingleton(clazz, (Object) componentSupplier);
+    }
+
+    @Override
+    public void addSingleton(String caption, Class<?> clazz, ComponentSupplier<?> componentSupplier) {
+        addSingleton(clazz, caption, (Object) componentSupplier);
     }
 
     @Override
@@ -239,10 +242,6 @@ public abstract class IoC implements IIoC {
                     component);
         }
 
-        if (isExistsComponentClass(clazz)) {
-            throw new ManyMatchComponentsException(clazz);
-        }
-
         if (isExistsComponentCaption(caption)) {
             throw new ManyMatchComponentsException(caption);
         }
@@ -254,11 +253,15 @@ public abstract class IoC implements IIoC {
     public <RESULT> RESULT getComponent(String caption) {
         RESULT result = null;
         if (caption != null) {
-            IoCKeys key = components.keySet().stream()
+            List<IoCKeys> foundKeys = components.keySet().stream()
                     .filter((k) -> caption.equals(k.getCaption()))
-                    .findFirst()
-                    .orElse(null);
-            if (key != null) {
+                    .collect(Collectors.toList());
+            if (foundKeys.size() > 1) {
+                throw new ManyMatchComponentsException(caption);
+            }
+
+            if (!foundKeys.isEmpty()) {
+                IoCKeys key = foundKeys.get(0);
                 result = getInstance(key);
             }
         }
@@ -270,38 +273,50 @@ public abstract class IoC implements IIoC {
     public <RESULT> RESULT getComponent(Class<RESULT> clazz) {
         RESULT result = null;
         if (clazz != null) {
-            IoCKeys key = components.keySet().stream()
+            List<IoCKeys> foundKeys = components.keySet().stream()
                     .filter((k) -> k.getClazz() != null && ReflectionUtil.isInstanceOf(clazz, k.getClazz()))
-                    .findFirst()
-                    .orElse(null);
-            if (key != null) {
-                return getInstance(key);
+                    .collect(Collectors.toList());
+            if (foundKeys.size() > 1) {
+                throw new ManyMatchComponentsException(clazz);
+            }
+
+            if (!foundKeys.isEmpty()) {
+                IoCKeys key = foundKeys.get(0);
+                result = getInstance(key);
             }
         }
         return result;
     }
 
     @Override
-    public <RESULT> void closeSessionInstance(Class<RESULT> clazz) {
-        if (clazz != null) {
-            IoCKeys key = components.keySet().stream()
-                    .filter((k) -> k.getClazz() != null && ReflectionUtil.isInstanceOf(clazz, k.getClazz()))
-                    .findFirst()
-                    .orElse(null);
-            if (key != null) {
+    public void closeSessionInstance(String caption) {
+        if (caption != null) {
+            List<IoCKeys> foundKeys = components.keySet().stream()
+                    .filter((k) -> caption.equals(k.getCaption()))
+                    .collect(Collectors.toList());
+            if (foundKeys.size() > 1) {
+                throw new ManyMatchComponentsException(caption);
+            }
+
+            if (!foundKeys.isEmpty()) {
+                IoCKeys key = foundKeys.get(0);
                 closeSessionInstanceProcess(key);
             }
         }
     }
 
     @Override
-    public void closeSessionInstance(String caption) {
-        if (caption != null) {
-            IoCKeys key = components.keySet().stream()
-                    .filter((k) -> caption.equals(k.getCaption()))
-                    .findFirst()
-                    .orElse(null);
-            if (key != null) {
+    public <RESULT> void closeSessionInstance(Class<RESULT> clazz) {
+        if (clazz != null) {
+            List<IoCKeys> foundKeys = components.keySet().stream()
+                    .filter((k) -> k.getClazz() != null && ReflectionUtil.isInstanceOf(clazz, k.getClazz()))
+                    .collect(Collectors.toList());
+            if (foundKeys.size() > 1) {
+                throw new ManyMatchComponentsException(clazz);
+            }
+
+            if (!foundKeys.isEmpty()) {
+                IoCKeys key = foundKeys.get(0);
                 closeSessionInstanceProcess(key);
             }
         }
@@ -310,16 +325,16 @@ public abstract class IoC implements IIoC {
     /**
      * Установить класс логирования, который будет использоваться по-умолчнию с аннотацией @Logger
      */
-    public void setDefaultLogger(Class<? extends LoggerBase> loggerClass) {
+    /*public void setDefaultLogger(Class<? extends LoggerBase> loggerClass) {
         this.defaultLoggerClass = loggerClass;
-    }
+    }*/
 
     /**
      * Добавить класс логирования, который будет использоваться по-умолчнию с аннотацией @Loggin
      */
-    public void addDefaultLogging(Class<? extends LoggerBase> loggerClass) {
+    /*public void addDefaultLogging(Class<? extends LoggerBase> loggerClass) {
         this.defaultLoggingClasses.add(loggerClass);
-    }
+    }*/
 
     private void closeSessionInstanceProcess(IoCKeys key) {
         if (key != null) {
@@ -397,11 +412,11 @@ public abstract class IoC implements IIoC {
     }
 
     private <RESULT> RESULT postCreateProcess(RESULT instance) {
-        LoggerHandler.injectLogger(instance, this, defaultLoggerClass);
+        //LoggerHandler.injectLogger(instance, this, defaultLoggerClass);
         PostConstructHandler.invokePostConstructMethod(instance);
         ConfigurationHandler.invokeConfigurationMethods(instance);
-        instance = (RESULT)
-                LoggingHandler.wrapLoggingProxy(instance, this, defaultLoggingClasses.toArray(new Class[0]));
+        //instance = (RESULT)
+        //        LoggingHandler.wrapLoggingProxy(instance, this, defaultLoggingClasses.toArray(new Class[0]));
         return instance;
     }
 
@@ -415,7 +430,7 @@ public abstract class IoC implements IIoC {
         Object[] instanceArguments = new Object[countArguments];
 
         for (int i = 0; i < countArguments; i++) {
-            Object instanceArgument = null;
+            Object instanceArgument;
             Object createArgument = createArguments[i];
             if (createArgument instanceof String && !((String) createArgument).startsWith("@")) {
                 instanceArgument = getComponentOrThrow((String) createArgument);

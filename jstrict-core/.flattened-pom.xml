@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>ru.strict</groupId>
+    <artifactId>jstrict-parent</artifactId>
+    <version>0.2.0</version>
+    <relativePath></relativePath>
+  </parent>
+  <groupId>ru.strict</groupId>
+  <artifactId>jstrict-core</artifactId>
+  <version>0.2.5</version>
+  <packaging>pom</packaging>
+  <modules>
+    <module>jutils</module>
+    <module>jfile</module>
+    <module>jtemplate</module>
+    <module>joffice</module>
+  </modules>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>

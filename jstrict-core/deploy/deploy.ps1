@@ -82,18 +82,17 @@ if ($skipTests -eq $True) {
 try {
 	if ($skipGit -eq $True) {
 		Write-Warning ""
-		Write-Warning "[WARN]: GIT SKIP"
+		Write-Warning "[WARN]: GIT COMMIT SKIP"
 		Write-Warning ""
 	} else {
-		./deploy/git/git_commit.ps1 -branch "${branch}" -message "update version"
-
+		./deploy/git/git_commit.ps1 -message "chore (deploy): update version - ${buildVersion}"
+	
 		if ($mode -eq $PROD_MODE) {
-			git tag $buildVersion
-			git push origin $buildVersion
+			./deploy/git/git_create_or_update_tag.ps1 -tag "${buildVersion}"
 		}
 	}
 } catch {
-	Write-Error "[ERROR]: GIT COMMIT ERROR - $($_.Exception)"
+	Write-Error "[ERROR]: GIT ERROR - $($_.Exception)"
 	exit 1
 }
 

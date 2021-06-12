@@ -30,7 +30,7 @@ if ($isIncrement -eq $null -Or $isIncrement -eq 0) {
     $isIncrement = 1
 }
 
-Write-Host "[INFO]: version = ${version}"
+Write-Host "[INFO]: currentVersion = ${version}"
 Write-Host "[INFO]: isIncrement = ${isIncrement}"
 
 $indexLastPoint = $version.LastIndexOf('.');
@@ -51,6 +51,8 @@ if ($isIncrement -eq 1) {
     $versionForUpdate--
 }
 $newVersionValue = "${leftPartVersion}${versionForUpdate}"
+
+Write-Host "[INFO]: newVersion = ${newVersionValue}"
 
 Write-Host ""
 Write-Host "            - [FINISH] - INCREMENT VERSION ${version}"

@@ -1,6 +1,7 @@
 package ru.strict.file.properties;
 
 import ru.strict.validate.CommonValidate;
+import ru.strict.validate.Validator;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -9,36 +10,12 @@ import java.util.Objects;
 
 public class PropertiesFile {
 
-    private String pathToDirectory;
+    private String filePath;
     private String fileName;
+    private String pathToDirectory;
+    private String filePathWithSuffix;
+    private String fileNameWithSuffix;
     private String suffix;
-
-    private void init(String filePath, String suffix) {
-        if (CommonValidate.isEmptyOrNull(filePath)) {
-            throw new IllegalArgumentException("properties file name is NULL");
-        }
-
-        String fileName = filePath;
-
-        if (fileName.endsWith(".properties")) {
-            fileName = fileName.substring(0, fileName.lastIndexOf(".properties"));
-        }
-
-        if (fileName.contains(File.separator)) {
-            fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
-        }
-        if (fileName.contains("/")) {
-            fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
-        }
-        if (fileName.contains("\\")) {
-            fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
-        }
-
-        this.fileName = fileName;
-        this.suffix = suffix;
-        String absoluteFilePath = new File(filePath).getAbsolutePath();
-        this.pathToDirectory = absoluteFilePath.substring(0, absoluteFilePath.lastIndexOf(File.separator));
-    }
 
     public PropertiesFile(String filePath) {
         this(filePath, null);
@@ -46,10 +23,6 @@ public class PropertiesFile {
 
     public PropertiesFile(String filePath, String suffix) {
         init(filePath, suffix);
-    }
-
-    protected void reload() {
-        init(pathToDirectory + File.separator + fileName, suffix);
     }
 
     public String readValue(String key) {
@@ -77,47 +50,79 @@ public class PropertiesFile {
         return result;
     }
 
+    public String getFilePath() {
+        return filePath;
+    }
+
     public String getPathToDirectory() {
         return pathToDirectory;
     }
 
     public String getFileName() {
-        return String.format("%s.properties", fileName);
+        return fileName;
     }
 
     public String getFileNameWithSuffix() {
-        String result = null;
+        return fileNameWithSuffix;
+    }
 
-        if (!CommonValidate.isEmptyOrNull(suffix)) {
-            result = String.format("%s_%s.properties", fileName, suffix);
-        } else {
-            result = getFileName();
-        }
-        return result;
+    public String getFilePathWithSuffix() {
+        return filePathWithSuffix;
     }
 
     public String getSuffix() {
         return suffix;
     }
 
-    public String getFilePath() {
-        return String.format("%s%s%s", getPathToDirectory(), File.separator, getFileName());
+    protected void reload() {
+        init(filePath, suffix);
     }
 
-    public String getFilePathWithSuffix() {
-        return String.format("%s%s%s", getPathToDirectory(), File.separator, getFileNameWithSuffix());
-    }
+    private void init(String filePath, String suffix) {
+        Validator.isEmptyOrNull(filePath, "filePath");
 
-    protected void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
+        String absoluteFilePath = new File(filePath).getAbsolutePath();
+        String fileName = filePath;
+        if (fileName.endsWith(".properties")) {
+            fileName = fileName.substring(0, fileName.lastIndexOf(".properties"));
+        }
 
-    protected void setSuffix(String suffix) {
+        if (fileName.contains(File.separator)) {
+            fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
+        }
+        if (fileName.contains("/")) {
+            fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
+        }
+        if (fileName.contains("\\")) {
+            fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
+        }
+
         this.suffix = suffix;
+        this.fileName = createFileName(fileName);
+        this.fileNameWithSuffix = createFileNameWithSuffix(fileName, suffix);
+        this.pathToDirectory = absoluteFilePath.substring(0, absoluteFilePath.lastIndexOf(File.separator));
+        this.filePath = createFilePath(pathToDirectory, fileName);
+        this.filePathWithSuffix = createFilePathWithSuffix(pathToDirectory, fileName, suffix);
     }
 
-    protected void setPathToDirectory(String pathToDirectory) {
-        this.pathToDirectory = pathToDirectory;
+    private String createFileNameWithSuffix(String fileName, String suffix) {
+        return CommonValidate.isEmptyOrNull(suffix)
+                ? createFileName(fileName)
+                : String.format("%s_%s.properties", fileName, suffix);
+    }
+
+    private String createFileName(String fileName) {
+        return String.format("%s.properties", fileName);
+    }
+
+    private String createFilePathWithSuffix(String pathToDirectory, String fileName, String suffix) {
+        return CommonValidate.isEmptyOrNull(suffix)
+                ? createFilePath(pathToDirectory, fileName)
+                : String.format("%s%s%s", pathToDirectory, File.separator, createFileNameWithSuffix(fileName, suffix));
+    }
+
+    private String createFilePath(String pathToDirectory, String fileName) {
+        return String.format("%s%s%s", pathToDirectory, File.separator, createFileName(fileName));
     }
 
     @Override
