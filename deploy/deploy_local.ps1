@@ -12,3 +12,5 @@ cd ../ioc
 
 cd ../jdb
 ./deploy/deploy_local.ps1
+
+cd ..

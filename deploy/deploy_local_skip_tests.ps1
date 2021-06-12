@@ -12,3 +12,5 @@ cd ../ioc
 
 cd ../jdb
 ./deploy/deploy_local_skip_tests.ps1
+
+cd ..
