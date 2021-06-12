@@ -4,17 +4,31 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>ru.strict</groupId>
-    <artifactId>jstrict-core</artifactId>
+    <artifactId>jdb</artifactId>
     <version>0.2.2</version>
   </parent>
   <groupId>ru.strict</groupId>
-  <artifactId>jtemplate</artifactId>
+  <artifactId>jdb-jdbc</artifactId>
   <version>0.2.2</version>
-  <name>jtemplate</name>
+  <name>jdb-jdbc</name>
   <dependencies>
     <dependency>
       <groupId>ru.strict</groupId>
       <artifactId>jutils</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ru.strict</groupId>
+      <artifactId>jdb-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>ru.strict</groupId>
+      <artifactId>jdb-test</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
