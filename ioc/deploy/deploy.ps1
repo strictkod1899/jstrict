@@ -85,7 +85,7 @@ try {
 		Write-Warning "[WARN]: GIT COMMIT SKIP"
 		Write-Warning ""
 	} else {
-		./deploy/git/git_commit.ps1 -message "chore (deploy): update version - ${buildVersion}"
+		./deploy/git/git_commit.ps1 -message "chore (deploy): update version ${buildVersion}"
 	
 		if ($mode -eq $PROD_MODE) {
 			./deploy/git/git_create_or_update_tag.ps1 -tag "${buildVersion}"
