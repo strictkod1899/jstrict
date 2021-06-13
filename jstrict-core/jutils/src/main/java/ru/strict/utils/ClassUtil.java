@@ -18,14 +18,16 @@ public class ClassUtil {
         }
     }
 
+    public static String getFilePathByClass(Class<?> appClass, String fileName) {
+        return String.format("%s%s%s", getPathByClass(appClass), File.separator, fileName);
+    }
 
     /**
      * Получить путь до директории класса
      *
-     * @param appClass
      * @throws RuntimeException (URISyntaxException)
      */
-    public static String getPathByClass(Class appClass) {
+    public static String getPathByClass(Class<?> appClass) {
         String result = null;
 
         if (appClass != null) {
@@ -47,10 +49,6 @@ public class ClassUtil {
     /**
      * Пример использования:
      * Class<List<Object>> clazz = UtilClass.<List<Object>>castClass(List.class);
-     *
-     * @param aClass
-     * @param <T>
-     * @return
      */
     @SuppressWarnings("unchecked")
     public static <T> Class<T> castClass(Class<?> aClass) {
@@ -62,7 +60,6 @@ public class ClassUtil {
      *
      * @param checkClass (Неизвестный класс) Проверяемый класс
      * @param startClass (Требуемый класс) Класс, относительно которого проверяем принадлежность к экземпляру
-     * @return
      */
     public static boolean isEquals(Class checkClass, Class startClass) {
         return checkClass == startClass;
