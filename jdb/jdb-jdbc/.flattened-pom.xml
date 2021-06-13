@@ -5,11 +5,11 @@
   <parent>
     <groupId>ru.strict</groupId>
     <artifactId>jdb</artifactId>
-    <version>0.2.7</version>
+    <version>0.2.8</version>
   </parent>
   <groupId>ru.strict</groupId>
   <artifactId>jdb-jdbc</artifactId>
-  <version>0.2.7</version>
+  <version>0.2.8</version>
   <name>jdb-jdbc</name>
   <dependencies>
     <dependency>

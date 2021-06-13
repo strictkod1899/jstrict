@@ -9,13 +9,14 @@
     <relativePath></relativePath>
   </parent>
   <groupId>ru.strict</groupId>
-  <artifactId>jdb</artifactId>
+  <artifactId>jstrict-core</artifactId>
   <version>0.2.8</version>
   <packaging>pom</packaging>
   <modules>
-    <module>jdb-core</module>
-    <module>jdb-test</module>
-    <module>jdb-jdbc</module>
+    <module>jutils</module>
+    <module>jfile</module>
+    <module>jtemplate</module>
+    <module>joffice</module>
   </modules>
   <build>
     <plugins>
