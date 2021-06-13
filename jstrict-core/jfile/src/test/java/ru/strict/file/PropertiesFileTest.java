@@ -23,9 +23,11 @@ public class PropertiesFileTest {
     public void test() {
         String expected1 = "hello";
         String expected2 = "2";
+
         ResourcesUtil.getResourceAsFile(TEST_FILE_NAME);
         PropertiesFile file = new PropertiesFile(TEST_FILE_NAME);
-        Assertions.assertEquals(file.readValue("var1"), expected1);
-        Assertions.assertEquals(file.readValue("var2"), expected2);
+
+        Assertions.assertEquals(expected1, file.readValue("var1"));
+        Assertions.assertEquals(expected2, file.readValue("var2"));
     }
 }

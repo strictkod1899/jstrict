@@ -4,24 +4,27 @@ import ru.strict.utils.ResourcesUtil;
 import ru.strict.validate.CommonValidate;
 
 public abstract class ResourcePropertiesFile extends PropertiesFile {
-
     private String resourcesFilePath;
     private String resourcesFilePathWithSuffix;
-
-    public ResourcePropertiesFile(String resourcesFilePath) {
-        this(resourcesFilePath, null);
-    }
-
-    public ResourcePropertiesFile(String resourcesFilePath, String suffix) {
-        this(resourcesFilePath, suffix, null);
-    }
+    private boolean allowExtract;
 
     public ResourcePropertiesFile(String resourcesFilePath, String suffix, String targetFilePath) {
         super(getTargetFilePath(resourcesFilePath, targetFilePath), suffix);
-        init(resourcesFilePath);
+        initByFilePath(resourcesFilePath);
+    }
+
+    public ResourcePropertiesFile(String resourcesFilePath) {
+        super(ResourcesUtil.getResourceStream(resourcesFilePath));
+        this.allowExtract = false;
     }
 
     public void load() {
+        if (!allowExtract) {
+            throw new IllegalArgumentException(
+                    String.format("Properties file [%s] not allowed to extract", resourcesFilePath)
+            );
+        }
+
         ResourcesUtil.getResourceAsFile(resourcesFilePathWithSuffix, getFilePathWithSuffix(), getThisClass());
         ResourcesUtil.getResourceAsFile(resourcesFilePath, getFilePath(), getThisClass());
     }
@@ -29,10 +32,14 @@ public abstract class ResourcePropertiesFile extends PropertiesFile {
     @Override
     protected void reload() {
         super.reload();
-        load();
+        if (allowExtract) {
+            load();
+        }
     }
 
-    private void init(String resourcesFilePath) {
+    private void initByFilePath(String resourcesFilePath) {
+        this.allowExtract = true;
+
         String resourcesFilePathWithoutExtension = resourcesFilePath;
         if (resourcesFilePath.endsWith(".properties")) {
             resourcesFilePathWithoutExtension =

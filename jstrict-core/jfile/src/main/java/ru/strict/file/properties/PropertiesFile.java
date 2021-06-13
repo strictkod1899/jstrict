@@ -1,21 +1,25 @@
 package ru.strict.file.properties;
 
+import lombok.Getter;
 import ru.strict.validate.CommonValidate;
 import ru.strict.validate.Validator;
 
 import java.io.File;
+import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Objects;
+import java.util.stream.Stream;
 
+@Getter
 public class PropertiesFile {
-
     private String filePath;
-    private String fileName;
-    private String pathToDirectory;
     private String filePathWithSuffix;
-    private String fileNameWithSuffix;
+    private Path path;
+    private Path pathWithSuffix;
     private String suffix;
+
+    private InputStream inputStream;
 
     public PropertiesFile(String filePath) {
         this(filePath, null);
@@ -23,6 +27,10 @@ public class PropertiesFile {
 
     public PropertiesFile(String filePath, String suffix) {
         init(filePath, suffix);
+    }
+
+    public PropertiesFile(InputStream inputStream) {
+        this.inputStream = inputStream;
     }
 
     public String readValue(String key) {
@@ -33,76 +41,55 @@ public class PropertiesFile {
         return readValue(key, null, "UTF-8");
     }
 
-    public String readValueToUTF8(String key, String encodingFile) {
-        return readValue(key, encodingFile, "UTF-8");
+    public String readValueToUTF8(String key, String fileEncoding) {
+        return readValue(key, fileEncoding, "UTF-8");
     }
 
-    public String readValue(String key, String encodingFile, String encodingOutput) {
-        String result = null;
-        if (Files.exists(Paths.get(getFilePathWithSuffix()))) {
-            result = PropertiesUtil.getValue(getFilePathWithSuffix(), key, encodingFile, encodingOutput);
-        }
-        if (CommonValidate.isEmptyOrNull(result)) {
-            if (Files.exists(Paths.get(getFilePath()))) {
-                result = PropertiesUtil.getValue(getFilePath(), key, encodingFile, encodingOutput);
+    public String readValue(String key, String fileEncoding, String targetEncoding) {
+        String value = null;
+
+        if (inputStream != null) {
+            value = PropertiesUtil.getValue(inputStream, key, fileEncoding, targetEncoding);
+        } else {
+            if (Files.exists(pathWithSuffix)) {
+                value = PropertiesUtil.getValue(getFilePathWithSuffix(), key, fileEncoding, targetEncoding);
+            }
+            if (CommonValidate.isEmptyOrNull(value) && Files.exists(path)) {
+                value = PropertiesUtil.getValue(getFilePath(), key, fileEncoding, targetEncoding);
             }
         }
-        return result;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public String getPathToDirectory() {
-        return pathToDirectory;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public String getFileNameWithSuffix() {
-        return fileNameWithSuffix;
-    }
-
-    public String getFilePathWithSuffix() {
-        return filePathWithSuffix;
-    }
-
-    public String getSuffix() {
-        return suffix;
+        return value;
     }
 
     protected void reload() {
         init(filePath, suffix);
     }
 
-    private void init(String filePath, String suffix) {
-        Validator.isEmptyOrNull(filePath, "filePath");
+    private void init(String propertiesFile, String suffix) {
+        Validator.isEmptyOrNull(propertiesFile, "propertiesFile");
 
-        String absoluteFilePath = new File(filePath).getAbsolutePath();
-        String fileName = filePath;
-        if (fileName.endsWith(".properties")) {
-            fileName = fileName.substring(0, fileName.lastIndexOf(".properties"));
-        }
-
-        if (fileName.contains(File.separator)) {
-            fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
-        }
-        if (fileName.contains("/")) {
-            fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
-        }
-        if (fileName.contains("\\")) {
-            fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
-        }
+        String absoluteFilePath = new File(propertiesFile).getAbsolutePath();
+        int separateLastIndex = getSeparateLastIndexOf(absoluteFilePath);
+        String pathToDirectory = absoluteFilePath.substring(0, separateLastIndex);
+        String fileName;
+        fileName = absoluteFilePath.substring(separateLastIndex + 1);
+        fileName = fileName.substring(0, fileName.lastIndexOf(".properties"));
 
         this.suffix = suffix;
-        this.fileName = createFileName(fileName);
-        this.fileNameWithSuffix = createFileNameWithSuffix(fileName, suffix);
-        this.pathToDirectory = absoluteFilePath.substring(0, absoluteFilePath.lastIndexOf(File.separator));
         this.filePath = createFilePath(pathToDirectory, fileName);
         this.filePathWithSuffix = createFilePathWithSuffix(pathToDirectory, fileName, suffix);
+        this.path = Paths.get(this.filePath);
+        this.pathWithSuffix = Paths.get(this.filePathWithSuffix);
+    }
+
+    private int getSeparateLastIndexOf(String filePath) {
+        int systemLastIndexOf = filePath.lastIndexOf(File.separator);
+        int separate1LastIndexOf = filePath.lastIndexOf("/");
+        int separate2LastIndexOf = filePath.lastIndexOf("\\");
+
+        return Stream.of(systemLastIndexOf, separate1LastIndexOf, separate2LastIndexOf)
+                .max(Integer::compareTo)
+                .get();
     }
 
     private String createFileNameWithSuffix(String fileName, String suffix) {
@@ -123,22 +110,5 @@ public class PropertiesFile {
 
     private String createFilePath(String pathToDirectory, String fileName) {
         return String.format("%s%s%s", pathToDirectory, File.separator, createFileName(fileName));
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj != null && obj instanceof PropertiesFile) {
-            PropertiesFile object = (PropertiesFile) obj;
-            return Objects.equals(pathToDirectory, object.pathToDirectory)
-                    && Objects.equals(fileName, object.fileName)
-                    && Objects.equals(suffix, object.suffix);
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(pathToDirectory, fileName, suffix);
     }
 }
