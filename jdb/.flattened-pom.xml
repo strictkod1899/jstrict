@@ -5,12 +5,12 @@
   <parent>
     <groupId>ru.strict</groupId>
     <artifactId>jstrict-parent</artifactId>
-    <version>0.2.9</version>
+    <version>0.2.10</version>
     <relativePath></relativePath>
   </parent>
   <groupId>ru.strict</groupId>
   <artifactId>jdb</artifactId>
-  <version>0.2.9</version>
+  <version>0.2.10</version>
   <packaging>pom</packaging>
   <modules>
     <module>jdb-core</module>
