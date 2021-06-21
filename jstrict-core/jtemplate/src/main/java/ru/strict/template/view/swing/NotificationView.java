@@ -24,7 +24,7 @@ public class NotificationView {
     private JFrame frame;
 
     public NotificationView(String message) {
-        this(message, true);
+        this(message, false);
     }
 
     public NotificationView(String message, boolean dialog) {
