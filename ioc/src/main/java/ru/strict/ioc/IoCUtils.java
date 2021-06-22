@@ -31,7 +31,7 @@ public final class IoCUtils {
     /**
      * Создать объекты для аргументов указанного конструктора
      */
-    public static Object[] createConstructorArguments(Constructor<?> constructor, IIoC ioc) {
+    public static Object[] createConstructorArguments(Constructor<?> constructor, IoC ioc) {
         Class<?>[] argumentTypes = constructor.getParameterTypes();
         Object[] arguments = new Object[argumentTypes.length];
         for (int i = 0; i < arguments.length; i++) {

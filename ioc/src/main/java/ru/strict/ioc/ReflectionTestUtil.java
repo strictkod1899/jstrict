@@ -6,8 +6,8 @@ import java.util.Map;
 
 public class ReflectionTestUtil {
 
-    public static void setField(IoC ioc, Object component, String fieldName, Object field) {
-        Map<IoCKeys, IoCData> components = ReflectionUtil.getFieldValue(ioc, "components");
+    public static void setField(BaseIoC ioc, Object component, String fieldName, Object field) {
+        Map<IoCKey, IoCData> components = ReflectionUtil.getFieldValue(ioc, "components");
 
         Object sourceComponent = components.values().stream()
                 .filter(data -> data.getComponentInstance() == component)

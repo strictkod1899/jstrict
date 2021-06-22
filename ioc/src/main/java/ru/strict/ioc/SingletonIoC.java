@@ -17,15 +17,15 @@ package ru.strict.ioc;
  *     }
  * }
  */
-public abstract class SingletonIoC extends IoC {
+public abstract class SingletonIoC extends BaseIoC {
 
-    private static IoC instance;
+    private static BaseIoC instance;
 
     public SingletonIoC() {
         super();
     }
 
-    protected static void setInstance(IoC instance) {
+    protected static void setInstance(BaseIoC instance) {
         SingletonIoC.instance = instance;
     }
 
