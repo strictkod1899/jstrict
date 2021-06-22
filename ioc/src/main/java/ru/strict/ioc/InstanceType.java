@@ -4,5 +4,6 @@ public enum InstanceType {
     REQUEST,
     SESSION,
     SINGLETON,
-    CONFIGURATION
+    CONFIGURATION,
+    FACTORY
 }

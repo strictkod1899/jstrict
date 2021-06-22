@@ -1,5 +1,7 @@
 package ru.strict.ioc;
 
+import lombok.Getter;
+import lombok.Setter;
 import ru.strict.ioc.exceptions.SessionInstanceExistsException;
 import ru.strict.ioc.exceptions.SingletonInstanceExistsException;
 
@@ -7,9 +9,14 @@ import java.util.Arrays;
 import java.util.Objects;
 
 class IoCData {
+    @Getter
     private Class<?> instanceClass;
+    @Getter
     private Object[] constructorArguments;
+    @Getter
     private InstanceType type;
+    @Getter
+    @Setter
     private Object sourceInstance;
     private Object componentInstance;
 
@@ -22,36 +29,20 @@ class IoCData {
     }
 
     /**
-     * Связь данных для создания объекта типа singleton
+     * Связь данных для создания объекта типа singleton с использованием supplier
      */
-    public IoCData(Object componentInstance) {
-        if (componentInstance instanceof ComponentSupplier) {
-            this.singletonSupplier = (ComponentSupplier) componentInstance;
-        } else {
-            this.componentInstance = componentInstance;
-            this.sourceInstance = componentInstance;
-        }
+    public IoCData(ComponentSupplier<?> componentSupplier) {
+        this.singletonSupplier = componentSupplier;
         type = InstanceType.SINGLETON;
     }
 
-    public Class getInstanceClass() {
-        return instanceClass;
-    }
-
-    public Object[] getConstructorArguments() {
-        return constructorArguments;
-    }
-
-    public InstanceType getType() {
-        return type;
-    }
-
-    public <T> T getSourceInstance() {
-        return (T) sourceInstance;
-    }
-
-    public void setSourceInstance(Object sourceInstance) {
-        this.sourceInstance = sourceInstance;
+    /**
+     * Связь данных для создания объекта типа singleton
+     */
+    public IoCData(Object componentInstance) {
+        this.componentInstance = componentInstance;
+        this.sourceInstance = componentInstance;
+        type = InstanceType.SINGLETON;
     }
 
     public <T> T getComponentInstance() {
@@ -87,39 +78,5 @@ class IoCData {
         this.sourceInstance = singletonInstance;
 
         return singletonInstance;
-    }
-
-    @Override
-    public String toString() {
-        return "IoCData{" +
-                "instanceClass=" + instanceClass +
-                ", constructorArguments=" + Arrays.toString(constructorArguments) +
-                ", type=" + type +
-                ", sourceInstance=" + sourceInstance +
-                ", componentInstance=" + componentInstance +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        IoCData ioCData = (IoCData) o;
-        return Objects.equals(instanceClass, ioCData.instanceClass) &&
-                Arrays.equals(constructorArguments, ioCData.constructorArguments) &&
-                type == ioCData.type &&
-                Objects.equals(sourceInstance, ioCData.sourceInstance) &&
-                Objects.equals(componentInstance, ioCData.componentInstance);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(instanceClass, type, sourceInstance, componentInstance);
-        result = 31 * result + Arrays.hashCode(constructorArguments);
-        return result;
     }
 }
