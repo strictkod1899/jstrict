@@ -196,13 +196,12 @@ public abstract class BaseIoC implements IoC {
     }
 
     private void addSingleton(String caption, Class<?> keyClass, IoCData ioCData) {
-        if (ioCData.getComponentInstance() == null || caption == null || keyClass == null) {
+        if (caption == null || keyClass == null) {
             throw ValidateException.byDetails(
                     "IoC exception. Fail add component to IoC because any is null: caption = %s," +
-                            "keyClass = %s, component = %s",
+                            "keyClass = %s",
                     caption,
-                    keyClass,
-                    Optional.ofNullable(ioCData.getComponentInstance()).map(Object::getClass).orElse(null));
+                    keyClass);
         }
 
         if (isExistsComponentCaption(caption)) {
