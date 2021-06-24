@@ -1,35 +1,14 @@
 package ru.strict.template.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BaseModel<ID> implements IModel<ID> {
+    @EqualsAndHashCode.Exclude
     private ID id;
-
-    //<editor-fold defaultState="collapsed" desc="constructors">
-    public BaseModel() {
-        id = null;
-    }
-
-    public BaseModel(ID id) {
-        this.id = id;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultState="collapsed" desc="Get/Set">
-    @Override
-    public ID getId() {
-        return id;
-    }
-
-    public void setId(ID id) {
-        this.id = id;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultState="collapsed" desc="Base override">
-    @Override
-    public String toString() {
-        return "BaseModel{" +
-                "id=" + id +
-                '}';
-    }
-    //</editor-fold>
 }
