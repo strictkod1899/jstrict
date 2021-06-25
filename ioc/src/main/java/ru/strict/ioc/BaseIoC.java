@@ -169,32 +169,40 @@ public abstract class BaseIoC implements IoC {
 
     private void init() {
         configure();
+        fillByConfigurations();
 
         initConfigurations();
         initSingletons();
     }
 
+    private void fillByConfigurations() {
+        Set<IoCKey> keys = components.keySet();
+
+        keys.stream()
+                .filter(key -> components.get(key).getType() == InstanceType.CONFIGURATION)
+                .collect(Collectors.toList())
+                .forEach(key -> ConfigurationHandler.fillIoCByConfiguration(key.getClazz(), this));
+    }
+
     private void initConfigurations() {
         Set<IoCKey> keys = components.keySet();
 
-        for (IoCKey key : keys) {
-            IoCData data = components.get(key);
-            if (data.getType() == InstanceType.CONFIGURATION) {
-                getInstance(key);
-            }
-        }
+        keys.stream()
+                .filter(key -> components.get(key).getType() == InstanceType.CONFIGURATION)
+                .collect(Collectors.toList())
+                .forEach(this::getInstance);
     }
 
     private void initSingletons() {
         Set<IoCKey> keys = components.keySet();
 
-        for (IoCKey key : keys) {
-            IoCData data = components.get(key);
-            if ((data.getType() == InstanceType.SINGLETON)
-                    && data.getComponentInstance() == null) {
-                getInstance(key);
-            }
-        }
+        keys.stream()
+                .filter(key -> {
+                    IoCData data = components.get(key);
+                    return data.getType() == InstanceType.SINGLETON && data.getComponentInstance() == null;
+                })
+                .collect(Collectors.toList())
+                .forEach(this::getInstance);
     }
 
     private void addSingleton(String caption, Class<?> keyClass, IoCData ioCData) {
@@ -304,7 +312,7 @@ public abstract class BaseIoC implements IoC {
     private <T> T postCreateProcess(T instance) {
         //LoggerHandler.injectLogger(instance, this, defaultLoggerClass);
         PostConstructHandler.invokePostConstructMethod(instance);
-        ConfigurationHandler.invokeConfigurationMethods(instance);
+        ConfigurationHandler.invokeVoidConfigurationMethods(instance);
         //instance = (RESULT)
         //        LoggingHandler.wrapLoggingProxy(instance, this, defaultLoggingClasses.toArray(new Class[0]));
         return instance;
