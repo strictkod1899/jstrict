@@ -22,7 +22,7 @@ public class ComponentHandler {
             if (componentAnnotation != null) {
                 constructorArguments[i] = componentAnnotation.value();
             } else {
-                constructorArguments[i] = ComponentFactoryProcessor.getConstructorArgument(constructorParameter);
+                constructorArguments[i] = constructorParameter.getParameterizedType();
             }
         }
         return constructorArguments;
