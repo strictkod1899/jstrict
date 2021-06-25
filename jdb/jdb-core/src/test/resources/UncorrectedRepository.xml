@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<sql groupName="UncorrectedRepository">
-    <where name="failWhere">
-        SELECT * FROM city WHERE city.country_id_2 = ?
-    </where>
-</sql>

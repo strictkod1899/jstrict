@@ -10,7 +10,4 @@ cd ../jneuralnetwork
 cd ../ioc
 ./deploy/deploy_local.ps1
 
-cd ../jdb
-./deploy/deploy_local.ps1
-
 cd ..
