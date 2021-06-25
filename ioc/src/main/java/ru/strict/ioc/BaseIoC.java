@@ -298,7 +298,7 @@ public abstract class BaseIoC implements IoC {
         if (!skipComponentHandler) {
             Constructor<?> mainConstructor = findConstructor(instanceClass);
             if (constructorArguments.length == 0 && mainConstructor != null) {
-                Object[] argumentsInstances = ComponentHandler.getConstructorArguments(mainConstructor);
+                Object[] argumentsInstances = ComponentHandler.getConstructorArguments(mainConstructor, instanceClass);
                 return createInstance(instanceClass, argumentsInstances, true);
             } else {
                 return createInstanceByArguments(instanceClass, constructorArguments);
