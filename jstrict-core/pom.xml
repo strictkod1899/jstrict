@@ -6,7 +6,7 @@
     <parent>
         <groupId>ru.strict</groupId>
         <artifactId>jstrict-parent</artifactId>
-        <version>0.2.14</version>
+        <version>0.2.15</version>
         <relativePath/>
     </parent>
 
