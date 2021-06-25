@@ -2,11 +2,9 @@ package ru.strict.ioc;
 
 import lombok.Getter;
 import lombok.Setter;
+import ru.strict.ioc.box.ComponentSupplier;
 import ru.strict.ioc.exceptions.SessionInstanceExistsException;
 import ru.strict.ioc.exceptions.SingletonInstanceExistsException;
-
-import java.util.Arrays;
-import java.util.Objects;
 
 class IoCData {
     @Getter

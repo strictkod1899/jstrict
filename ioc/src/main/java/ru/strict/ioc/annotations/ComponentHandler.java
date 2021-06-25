@@ -1,11 +1,10 @@
 package ru.strict.ioc.annotations;
 
+import ru.strict.ioc.box.ComponentFactoryProcessor;
 import ru.strict.ioc.exceptions.ManyMatchComponentAnnotationException;
 import ru.strict.ioc.exceptions.ManyMatchConstructorFieldsException;
-import ru.strict.ioc.exceptions.ManyMatchConstructorsException;
 import ru.strict.utils.ReflectionUtil;
 
-import java.awt.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
@@ -23,7 +22,7 @@ public class ComponentHandler {
             if (componentAnnotation != null) {
                 constructorArguments[i] = componentAnnotation.value();
             } else {
-                constructorArguments[i] = constructorParameter.getType();
+                constructorArguments[i] = ComponentFactoryProcessor.getConstructorArgument(constructorParameter);
             }
         }
         return constructorArguments;

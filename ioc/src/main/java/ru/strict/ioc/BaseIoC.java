@@ -3,11 +3,14 @@ package ru.strict.ioc;
 import lombok.RequiredArgsConstructor;
 import ru.strict.exceptions.ValidateException;
 import ru.strict.ioc.annotations.*;
+import ru.strict.ioc.box.ComponentFactoryProcessor;
+import ru.strict.ioc.box.ComponentSupplier;
 import ru.strict.ioc.exceptions.*;
 import ru.strict.utils.ReflectionUtil;
 import ru.strict.utils.StringUtil;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.ParameterizedType;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -86,9 +89,7 @@ public abstract class BaseIoC implements IoC {
             throw new ManyMatchComponentsException(name);
         }
 
-        Class<?> keyClass = type == InstanceType.FACTORY ? ComponentFactory.class : componentClass;
-
-        components.put(new IoCKey(name, keyClass), new IoCData(componentClass, constructorArguments, type));
+        components.put(new IoCKey(name, componentClass), new IoCData(componentClass, constructorArguments, type));
     }
 
     @Override
@@ -128,6 +129,7 @@ public abstract class BaseIoC implements IoC {
         if (componentClass != null) {
             IoCKey key = getKey(new FilterKeyByClass(componentClass),
                     () -> new ManyMatchComponentsException(componentClass));
+
             component = getInstance(key);
         }
 
@@ -188,7 +190,7 @@ public abstract class BaseIoC implements IoC {
 
         for (IoCKey key : keys) {
             IoCData data = components.get(key);
-            if ((data.getType() == InstanceType.SINGLETON || data.getType() == InstanceType.FACTORY)
+            if ((data.getType() == InstanceType.SINGLETON)
                     && data.getComponentInstance() == null) {
                 getInstance(key);
             }
@@ -261,15 +263,6 @@ public abstract class BaseIoC implements IoC {
                         instanceData.setComponentInstance(componentInstance);
                     }
                     break;
-                case FACTORY:
-                    if (instanceData.getComponentInstance() != null) {
-                        componentInstance = instanceData.getComponentInstance();
-                    } else {
-                        componentInstance = (T) new ComponentFactory<>(instanceData.getInstanceClass(), this);
-                        instanceData.setSourceInstance(componentInstance);
-                        instanceData.setComponentInstance(componentInstance);
-                    }
-                    break;
             }
         } catch (ComponentNotFoundException | ConstructorNotFoundException ex) {
             throw ex;
@@ -332,7 +325,9 @@ public abstract class BaseIoC implements IoC {
             if (createArgument instanceof String && !((String) createArgument).startsWith("@")) {
                 instanceArgument = getComponentOrThrow((String) createArgument);
             } else if (createArgument instanceof Class) {
-                instanceArgument = getComponentOrThrow((Class) createArgument);
+                instanceArgument = getComponentOrThrow((Class<?>) createArgument);
+            } else if (createArgument instanceof ParameterizedType) {
+                instanceArgument = getComponentOrThrow((ParameterizedType) createArgument);
             } else {
                 if (createArgument instanceof String && ((String) createArgument).startsWith("@")) {
                     instanceArgument = ((String) createArgument).substring(1, ((String) createArgument).length());
@@ -347,10 +342,20 @@ public abstract class BaseIoC implements IoC {
         return instanceArguments;
     }
 
-    private <T> T getComponentOrThrow(Class<T> clazz) {
-        T component = getComponent(clazz);
+    private <T> T getComponentOrThrow(Object objectSearch) {
+        T component;
+        if (objectSearch instanceof Class) {
+            component = getComponent((Class<T>) objectSearch);
+        } else if (objectSearch instanceof ParameterizedType) {
+            var parameterizedType = (ParameterizedType) objectSearch;
+            component = ComponentFactoryProcessor.getComponent(parameterizedType, this);
+        } else {
+            throw new UnsupportedOperationException(
+                    String.format("Unsupported component search by type = %s", objectSearch.getClass()));
+        }
+
         if (component == null) {
-            throw new ComponentNotFoundException(clazz);
+            throw new ComponentNotFoundException(objectSearch);
         }
 
         return component;

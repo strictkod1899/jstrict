@@ -1,5 +1,7 @@
 package ru.strict.ioc;
 
+import ru.strict.ioc.box.ComponentSupplier;
+
 public interface IoC {
     void addComponent(Class<?> componentClass, Object... constructorArguments);
 
