@@ -2,7 +2,7 @@ package ru.strict.ioc.exceptions;
 
 public class ComponentNotFoundException extends RuntimeException {
 
-    public ComponentNotFoundException(Class componentClass) {
+    public ComponentNotFoundException(Class<?> componentClass) {
         super(String.format("Component by class [%s] not found", componentClass));
     }
 
