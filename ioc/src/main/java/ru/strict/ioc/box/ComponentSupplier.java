@@ -1,4 +1,4 @@
-package ru.strict.ioc;
+package ru.strict.ioc.box;
 
 import java.util.function.Supplier;
 

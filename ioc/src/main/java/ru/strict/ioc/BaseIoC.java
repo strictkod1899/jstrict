@@ -3,11 +3,14 @@ package ru.strict.ioc;
 import lombok.RequiredArgsConstructor;
 import ru.strict.exceptions.ValidateException;
 import ru.strict.ioc.annotations.*;
+import ru.strict.ioc.box.ComponentFactoryProcessor;
+import ru.strict.ioc.box.ComponentSupplier;
 import ru.strict.ioc.exceptions.*;
 import ru.strict.utils.ReflectionUtil;
 import ru.strict.utils.StringUtil;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.ParameterizedType;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -86,9 +89,7 @@ public abstract class BaseIoC implements IoC {
             throw new ManyMatchComponentsException(name);
         }
 
-        Class<?> keyClass = type == InstanceType.FACTORY ? ComponentFactory.class : componentClass;
-
-        components.put(new IoCKey(name, keyClass), new IoCData(componentClass, constructorArguments, type));
+        components.put(new IoCKey(name, componentClass), new IoCData(componentClass, constructorArguments, type));
     }
 
     @Override
@@ -128,6 +129,7 @@ public abstract class BaseIoC implements IoC {
         if (componentClass != null) {
             IoCKey key = getKey(new FilterKeyByClass(componentClass),
                     () -> new ManyMatchComponentsException(componentClass));
+
             component = getInstance(key);
         }
 
@@ -188,7 +190,7 @@ public abstract class BaseIoC implements IoC {
 
         for (IoCKey key : keys) {
             IoCData data = components.get(key);
-            if ((data.getType() == InstanceType.SINGLETON || data.getType() == InstanceType.FACTORY)
+            if ((data.getType() == InstanceType.SINGLETON)
                     && data.getComponentInstance() == null) {
                 getInstance(key);
             }
@@ -261,15 +263,6 @@ public abstract class BaseIoC implements IoC {
                         instanceData.setComponentInstance(componentInstance);
                     }
                     break;
-                case FACTORY:
-                    if (instanceData.getComponentInstance() != null) {
-                        componentInstance = instanceData.getComponentInstance();
-                    } else {
-                        componentInstance = (T) new ComponentFactory<>(instanceData.getInstanceClass(), this);
-                        instanceData.setSourceInstance(componentInstance);
-                        instanceData.setComponentInstance(componentInstance);
-                    }
-                    break;
             }
         } catch (ComponentNotFoundException | ConstructorNotFoundException ex) {
             throw ex;
@@ -298,7 +291,7 @@ public abstract class BaseIoC implements IoC {
         if (!skipComponentHandler) {
             Constructor<?> mainConstructor = findConstructor(instanceClass);
             if (constructorArguments.length == 0 && mainConstructor != null) {
-                Object[] argumentsInstances = ComponentHandler.getConstructorArguments(mainConstructor);
+                Object[] argumentsInstances = ComponentHandler.getConstructorArguments(mainConstructor, instanceClass);
                 return createInstance(instanceClass, argumentsInstances, true);
             } else {
                 return createInstanceByArguments(instanceClass, constructorArguments);
@@ -318,39 +311,50 @@ public abstract class BaseIoC implements IoC {
     }
 
     private <T> T createInstanceByArguments(Class<?> instanceClass, Object[] constructorArguments) {
-        Object[] instanceArguments = createInstanceArguments(constructorArguments);
-        return (T) ReflectionUtil.createDeclaredInstance(instanceClass, false, instanceArguments);
+        Object[] argumentsInstances = createArgumentsInstances(constructorArguments);
+        return (T) ReflectionUtil.createDeclaredInstance(instanceClass, false, argumentsInstances);
     }
 
-    private Object[] createInstanceArguments(Object[] createArguments) {
-        int countArguments = createArguments.length;
-        Object[] instanceArguments = new Object[countArguments];
+    private Object[] createArgumentsInstances(Object[] originalArguments) {
+        int argumentsCount = originalArguments.length;
+        Object[] argumentsInstances = new Object[argumentsCount];
 
-        for (int i = 0; i < countArguments; i++) {
-            Object instanceArgument;
-            Object createArgument = createArguments[i];
-            if (createArgument instanceof String && !((String) createArgument).startsWith("@")) {
-                instanceArgument = getComponentOrThrow((String) createArgument);
-            } else if (createArgument instanceof Class) {
-                instanceArgument = getComponentOrThrow((Class) createArgument);
+        for (int i = 0; i < argumentsCount; i++) {
+            Object argumentInstance;
+            Object originalArgument = originalArguments[i];
+            if (originalArgument instanceof String && !((String) originalArgument).startsWith("@")) {
+                argumentInstance = getComponentOrThrow((String) originalArgument);
+            } else if (originalArgument instanceof ParameterizedType) {
+                var parameterizedType = (ParameterizedType) originalArgument;
+
+                argumentInstance = getPreventiveComponent(parameterizedType);
+                if (argumentInstance == null) {
+                    argumentInstance = getComponentOrThrow((Class<?>) parameterizedType.getRawType());
+                }
+            } else if (originalArgument instanceof Class) {
+                argumentInstance = getComponentOrThrow((Class<?>) originalArgument);
             } else {
-                if (createArgument instanceof String && ((String) createArgument).startsWith("@")) {
-                    instanceArgument = ((String) createArgument).substring(1, ((String) createArgument).length());
+                if (originalArgument instanceof String && ((String) originalArgument).startsWith("@")) {
+                    argumentInstance = ((String) originalArgument).substring(1, ((String) originalArgument).length());
                 } else {
-                    instanceArgument = createArgument;
+                    argumentInstance = originalArgument;
                 }
             }
 
-            instanceArguments[i] = instanceArgument;
+            argumentsInstances[i] = argumentInstance;
         }
 
-        return instanceArguments;
+        return argumentsInstances;
     }
 
-    private <T> T getComponentOrThrow(Class<T> clazz) {
-        T component = getComponent(clazz);
+    private <T> T getPreventiveComponent(ParameterizedType componentType) {
+        return (T) ComponentFactoryProcessor.getComponent(componentType, this);
+    }
+
+    private <T> T getComponentOrThrow(Class<T> componentClass) {
+        T component = getComponent(componentClass);
         if (component == null) {
-            throw new ComponentNotFoundException(clazz);
+            throw new ComponentNotFoundException(componentClass);
         }
 
         return component;

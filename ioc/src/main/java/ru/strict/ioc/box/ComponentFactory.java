@@ -1,6 +1,7 @@
-package ru.strict.ioc;
+package ru.strict.ioc.box;
 
 import lombok.RequiredArgsConstructor;
+import ru.strict.ioc.IoC;
 
 @RequiredArgsConstructor
 public class ComponentFactory<T> implements IComponentFactory<T> {

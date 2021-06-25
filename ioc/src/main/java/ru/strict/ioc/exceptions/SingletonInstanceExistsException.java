@@ -2,8 +2,10 @@ package ru.strict.ioc.exceptions;
 
 public class SingletonInstanceExistsException extends RuntimeException {
 
-    public SingletonInstanceExistsException(Object createdInstance, Object newInstance) {
-        super(String.format("IoC exception. Fail set singleton-instance because singleton-instance already exists." +
-                "Created instance = [%s], new instance = [%s]", createdInstance, newInstance));
+    private static final String MESSAGE_TEMPLATE = "An error occurred at set singleton-instance because" +
+            "singleton-instance already exists. ExistsInstance = %s. NewInstance = %s";
+
+    public SingletonInstanceExistsException(Object existsInstance, Object newInstance) {
+        super(String.format(MESSAGE_TEMPLATE, existsInstance, newInstance));
     }
 }
