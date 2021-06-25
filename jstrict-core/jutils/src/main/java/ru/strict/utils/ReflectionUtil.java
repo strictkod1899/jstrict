@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Управление Reflection API
@@ -240,11 +241,15 @@ public class ReflectionUtil {
      */
     public static <A extends Annotation> Object invokeMethodByAnnotation(Object source,
             Class<A> annotationClass,
-            Object[]... args) {
+            Object... args) {
         Validator.isNull(source, "source");
         Validator.isNull(annotationClass, "annotationClass");
 
-        Class sourceClass = source.getClass();
+        int argsCount = Optional.ofNullable(args)
+                .map(a -> a.length)
+                .orElse(0);
+
+        Class<?> sourceClass = source.getClass();
         Method[] methods = sourceClass.getDeclaredMethods();
 
         Method foundedMethod = null;
@@ -261,7 +266,11 @@ public class ReflectionUtil {
 
         if (foundedMethod != null) {
             try {
-                return foundedMethod.invoke(source, args);
+                if (foundedMethod.getParameterCount() == argsCount) {
+                    return foundedMethod.invoke(source, args);
+                } else {
+                    return null;
+                }
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -279,11 +288,15 @@ public class ReflectionUtil {
      */
     public static <A extends Annotation> void invokeVoidMethodsByAnnotation(Object source,
             Class<A> annotationClass,
-            Object[]... args) {
+            Object... args) {
         Validator.isNull(source, "source");
         Validator.isNull(annotationClass, "annotationClass");
 
-        Class sourceClass = source.getClass();
+        int argsCount = Optional.ofNullable(args)
+                .map(a -> a.length)
+                .orElse(0);
+
+        Class<?> sourceClass = source.getClass();
         Method[] methods = sourceClass.getDeclaredMethods();
 
         List<Method> foundedMethods = new LinkedList<>();
@@ -296,7 +309,9 @@ public class ReflectionUtil {
 
         for (Method foundedMethod : foundedMethods) {
             try {
-                foundedMethod.invoke(source, args);
+                if (foundedMethod.getParameterCount() == argsCount) {
+                    foundedMethod.invoke(source, args);
+                }
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -306,7 +321,7 @@ public class ReflectionUtil {
     /**
      * Создать прокси, если есть интерфейсы (используется обычный java proxy)
      */
-    public static <T> T createInterfaceProxy(Class instanceClass, InvocationHandler handler) {
+    public static <T> T createInterfaceProxy(Class<?> instanceClass, InvocationHandler handler) {
         Class<?>[] instanceInterfaces = ReflectionUtil.getInterfaces(instanceClass);
 
         return (T) Proxy.newProxyInstance(
@@ -318,7 +333,7 @@ public class ReflectionUtil {
     /**
      * Создать прокси, с помощью библиотеки cglib
      */
-    public static <T> T createCglibProxy(Class instanceClass,
+    public static <T> T createCglibProxy(Class<?> instanceClass,
             MethodInterceptor handler,
             Constructor<?> instanceConstructor,
             Object... constructorArgs) {
