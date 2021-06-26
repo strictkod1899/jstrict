@@ -1,9 +1,11 @@
 package ru.strict.ioc.annotations;
 
+import lombok.experimental.UtilityClass;
 import ru.strict.utils.ReflectionUtil;
 
 import javax.annotation.PostConstruct;
 
+@UtilityClass
 public class PostConstructHandler {
 
     public static void invokePostConstructMethod(Object instance) {
