@@ -169,19 +169,19 @@ public abstract class BaseIoC implements IoC {
 
     private void init() {
         configure();
-        fillByConfigurations();
+        fillFromConfigurations();
 
         initConfigurations();
         initSingletons();
     }
 
-    private void fillByConfigurations() {
+    private void fillFromConfigurations() {
         Set<IoCKey> keys = components.keySet();
 
         keys.stream()
                 .filter(key -> components.get(key).getType() == InstanceType.CONFIGURATION)
                 .collect(Collectors.toList())
-                .forEach(key -> ConfigurationHandler.fillIoCByConfiguration(key.getClazz(), this));
+                .forEach(key -> ComponentHandler.fillIoCByConfiguration(key.getClazz(), this));
     }
 
     private void initConfigurations() {
