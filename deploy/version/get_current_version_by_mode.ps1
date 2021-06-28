@@ -1,7 +1,7 @@
 # Получить текущую версию сборки из файла versions, по переданному режиму (mode).
 # Если парамметр mode не передать, тогда будет использована версия по-умолчанию.
 # Пример использования скрипта:
-#    | $buildVersion = &"./get_current_version_by_mode.ps1" -versionsFile "versions.properties" -prodMode "prod"
+#    | $buildVersion = &"./get_current_version_by_mode.ps1" -versionsFile "version.properties" -prodMode "prod"
 #   -devMode "dev" -featureMode "feature" -mode "dev" | Select-Object -Last 1
 
 param(

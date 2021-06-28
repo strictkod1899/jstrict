@@ -26,7 +26,7 @@ $PROD_MODE = "prod"
 $DEV_MODE = "dev"
 $FEATURE_MODE = "feature"
 
-$VERSIONS_FILE = "./deploy/versions.properties"
+$VERSIONS_FILE = "./deploy/version.properties"
 
 # declare
 $currentVersion
