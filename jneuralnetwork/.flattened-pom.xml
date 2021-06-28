@@ -4,27 +4,26 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>ru.strict</groupId>
-    <artifactId>jstrict-core</artifactId>
+    <artifactId>jstrict</artifactId>
     <version>0.2.19-SNAPSHOT-1</version>
   </parent>
   <groupId>ru.strict</groupId>
-  <artifactId>jtemplate</artifactId>
+  <artifactId>jneuralnetwork</artifactId>
   <version>0.2.19-SNAPSHOT-1</version>
-  <name>jtemplate</name>
+  <name>jneuralnetwork</name>
   <dependencies>
     <dependency>
       <groupId>ru.strict</groupId>
       <artifactId>jutils</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <optional>true</optional>
+      <groupId>ru.strict</groupId>
+      <artifactId>jtemplate</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>jsr305</artifactId>
-      <optional>true</optional>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>

@@ -1,5 +1,6 @@
 package ru.strict.ioc.annotations;
 
+import lombok.experimental.UtilityClass;
 import ru.strict.ioc.IoC;
 import ru.strict.ioc.exceptions.ManyMatchComponentAnnotationException;
 import ru.strict.ioc.exceptions.ManyMatchConstructorFieldsException;
@@ -15,6 +16,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@UtilityClass
 public class ComponentHandler {
 
     public static Object[] getConstructorArguments(Constructor<?> constructor, Class<?> instanceClass) {
