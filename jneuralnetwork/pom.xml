@@ -5,13 +5,12 @@
 
     <parent>
         <groupId>ru.strict</groupId>
-        <artifactId>jstrict-parent</artifactId>
-        <version>0.2.19</version>
-        <relativePath/>
+        <artifactId>jstrict</artifactId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>jneuralnetwork</artifactId>
-    <version>${revision}</version>
     <packaging>jar</packaging>
     <name>jneuralnetwork</name>
 

@@ -5,19 +5,19 @@
 
     <parent>
         <groupId>ru.strict</groupId>
-        <artifactId>jstrict</artifactId>
-        <version>${revision}</version>
-        <relativePath>../pom.xml</relativePath>
+        <artifactId>jstrict-parent</artifactId>
+        <version>0.2.19</version>
+        <relativePath/>
     </parent>
 
-    <artifactId>jstrict-core</artifactId>
+    <artifactId>jstrict</artifactId>
+    <version>${revision}</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>jutils</module>
-        <module>jfile</module>
-        <module>jtemplate</module>
-        <module>joffice</module>
+        <module>jstrict-core</module>
+        <module>jneuralnetwork</module>
+        <module>ioc</module>
     </modules>
 
     <build>

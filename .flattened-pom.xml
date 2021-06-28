@@ -4,18 +4,18 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>ru.strict</groupId>
-    <artifactId>jstrict</artifactId>
-    <version>0.2.19-SNAPSHOT-1</version>
+    <artifactId>jstrict-parent</artifactId>
+    <version>0.2.19</version>
+    <relativePath></relativePath>
   </parent>
   <groupId>ru.strict</groupId>
-  <artifactId>jstrict-core</artifactId>
+  <artifactId>jstrict</artifactId>
   <version>0.2.19-SNAPSHOT-1</version>
   <packaging>pom</packaging>
   <modules>
-    <module>jutils</module>
-    <module>jfile</module>
-    <module>jtemplate</module>
-    <module>joffice</module>
+    <module>jstrict-core</module>
+    <module>jneuralnetwork</module>
+    <module>ioc</module>
   </modules>
   <build>
     <plugins>
