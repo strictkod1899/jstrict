@@ -21,6 +21,16 @@ param(
 	[Boolean] $skipUpdateVersion
 )
 
+cd ./jstrict-parent
+mvn clean install
+cd ..
+
+
+
+
+
+
+
 # constants
 $PROD_MODE = "prod"
 $DEV_MODE = "dev"
