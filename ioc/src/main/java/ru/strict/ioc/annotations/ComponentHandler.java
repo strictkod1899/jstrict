@@ -67,7 +67,15 @@ public class ComponentHandler {
             ioc.addSingleton(componentName, returnClass, () -> {
                 Object configurationInstance = ioc.getComponent(configurationClass);
                 try {
-                    return method.invoke(configurationInstance);
+                    var parameterClasses = method.getParameterTypes();
+                    var args = new Object[parameterClasses.length];
+
+                    for (int i = 0; i < parameterClasses.length; i++) {
+                        var parameterClass = parameterClasses[i];
+                        var parameterInstance = ioc.getComponent(parameterClass);
+                        args[i] = parameterInstance;
+                    }
+                    return method.invoke(configurationInstance, args);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
