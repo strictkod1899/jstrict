@@ -5,11 +5,11 @@
   <parent>
     <groupId>ru.strict</groupId>
     <artifactId>jstrict-core</artifactId>
-    <version>0.2.20</version>
+    <version>0.2.20-SNAPSHOT-1</version>
   </parent>
   <groupId>ru.strict</groupId>
   <artifactId>jutils</artifactId>
-  <version>0.2.20</version>
+  <version>0.2.20-SNAPSHOT-1</version>
   <name>jutils</name>
   <dependencies>
     <dependency>
@@ -79,6 +79,10 @@
       <artifactId>jansi</artifactId>
       <version>1.18</version>
       <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
