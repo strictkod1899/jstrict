@@ -5,12 +5,12 @@
   <parent>
     <groupId>ru.strict</groupId>
     <artifactId>jstrict-parent</artifactId>
-    <version>0.2.20</version>
+    <version>0.2.22</version>
     <relativePath></relativePath>
   </parent>
   <groupId>ru.strict</groupId>
   <artifactId>jstrict</artifactId>
-  <version>0.2.21</version>
+  <version>0.2.22</version>
   <packaging>pom</packaging>
   <modules>
     <module>jstrict-core</module>
