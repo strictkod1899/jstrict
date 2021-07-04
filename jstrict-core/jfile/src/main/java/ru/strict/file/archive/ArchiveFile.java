@@ -1,4 +1,4 @@
-package ru.strict.file.archives;
+package ru.strict.file.archive;
 
 import net.sf.sevenzipjbinding.*;
 import net.sf.sevenzipjbinding.impl.RandomAccessFileInStream;

@@ -1,5 +1,5 @@
 package ru.strict.file;
 
-public interface IFileReader<SOURCE> {
-    SOURCE read();
+public interface IFileReader<T> {
+    T read();
 }

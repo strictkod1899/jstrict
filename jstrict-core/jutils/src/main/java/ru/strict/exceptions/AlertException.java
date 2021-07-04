@@ -1,11 +1,13 @@
 package ru.strict.exceptions;
 
+import lombok.Getter;
 import ru.strict.components.IMessageCode;
 
 /**
  * Ошибка, которая содержит сообщения для отображения пользователю.
  * Такую ошибку стоит выкидывать, когда ее нужно перехватить и отобразить внутреннее сообщение
  */
+@Getter
 public class AlertException extends RuntimeException {
     private IMessageCode messageCode;
     private Object[] messageArgs;

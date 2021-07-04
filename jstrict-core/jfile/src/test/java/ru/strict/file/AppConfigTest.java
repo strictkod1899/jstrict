@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.strict.file.properties.AppConfig;
 
-public class AooConfigTest {
+public class AppConfigTest {
 
     @Test
     public void test() {
