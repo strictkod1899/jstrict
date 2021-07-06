@@ -1,10 +1,17 @@
 package ru.strict.file.properties;
 
+import lombok.Getter;
+import lombok.Setter;
 import ru.strict.components.IMessageCode;
 
+@Getter
+@Setter
 public class MessageFile extends ResourcePropertiesFile {
 
     public static final String FILE_PATH = "message/message.properties";
+
+    private String fileEncoding;
+    private String targetEncoding;
 
     public MessageFile() {
         super(FILE_PATH);
@@ -19,7 +26,7 @@ public class MessageFile extends ResourcePropertiesFile {
     }
 
     public String getMessage(IMessageCode messageCode) {
-        return readValueToUTF8(messageCode.getCode());
+        return readValue(messageCode.getCode(), fileEncoding, targetEncoding);
     }
 
     @Override
