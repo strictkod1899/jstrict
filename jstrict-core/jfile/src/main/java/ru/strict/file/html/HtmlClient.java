@@ -13,10 +13,10 @@ public class HtmlClient {
     }
 
     public Elements selectByGet(String source, String selector) {
-        return HtmlUtl.selectByGet(source, selector);
+        return HtmlUtil.selectByGet(source, selector);
     }
 
     public Elements selectByFileUTF8(String source, String selector) {
-        return HtmlUtl.selectByFileUTF8(source, selector);
+        return HtmlUtil.selectByFileUTF8(source, selector);
     }
 }
