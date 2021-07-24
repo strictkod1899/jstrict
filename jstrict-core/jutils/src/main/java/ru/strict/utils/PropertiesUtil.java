@@ -1,4 +1,4 @@
-package ru.strict.file.properties;
+package ru.strict.utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;

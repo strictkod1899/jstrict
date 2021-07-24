@@ -1,6 +1,5 @@
 package ru.strict.file.html;
 
-import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 import org.jsoup.Jsoup;
@@ -10,7 +9,7 @@ import ru.strict.validate.CommonValidate;
 
 import java.io.*;
 
-public class HtmlUtl {
+public class HtmlUtil {
 
     public static Elements selectByFileUTF8(String filePath, String selector) {
         return selectByFile(filePath, selector, "UTF-8");

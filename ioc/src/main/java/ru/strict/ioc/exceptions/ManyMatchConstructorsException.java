@@ -1,6 +1,6 @@
 package ru.strict.ioc.exceptions;
 
-public class ManyMatchConstructorsException extends RuntimeException {
+public class ManyMatchConstructorsException extends IoCException {
 
     private static final String MESSAGE_TEMPLATE =
             "An error occurred at component creation because was found many constructors. ComponentClass = %s";

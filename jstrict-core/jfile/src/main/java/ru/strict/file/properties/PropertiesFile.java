@@ -1,6 +1,7 @@
 package ru.strict.file.properties;
 
 import lombok.Getter;
+import ru.strict.utils.PropertiesUtil;
 import ru.strict.validate.CommonValidate;
 import ru.strict.validate.Validator;
 

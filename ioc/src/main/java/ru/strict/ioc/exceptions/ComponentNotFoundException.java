@@ -2,7 +2,7 @@ package ru.strict.ioc.exceptions;
 
 import java.lang.reflect.ParameterizedType;
 
-public class ComponentNotFoundException extends RuntimeException {
+public class ComponentNotFoundException extends IoCException {
 
     public ComponentNotFoundException(Object objectSearch) {
         super(getMessage(objectSearch));
