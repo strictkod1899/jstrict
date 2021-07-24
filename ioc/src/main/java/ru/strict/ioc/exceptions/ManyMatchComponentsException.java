@@ -1,6 +1,6 @@
 package ru.strict.ioc.exceptions;
 
-public class ManyMatchComponentsException extends RuntimeException {
+public class ManyMatchComponentsException extends IoCException {
 
     private static final String MESSAGE_TEMPLATE_BY_COMPONENT =
             "An error occurred at get component because was found many component with class = %s";

@@ -311,6 +311,7 @@ public abstract class BaseIoC implements IoC {
 
     private <T> T postCreateProcess(T instance) {
         //LoggerHandler.injectLogger(instance, this, defaultLoggerClass);
+        FromPropertyHandler.fillFromProperty(instance);
         PostConstructHandler.invokePostConstructMethod(instance);
         ConfigurationHandler.invokeVoidConfigurationMethods(instance);
         //instance = (RESULT)
@@ -335,7 +336,7 @@ public abstract class BaseIoC implements IoC {
             } else if (originalArgument instanceof ParameterizedType) {
                 var parameterizedType = (ParameterizedType) originalArgument;
 
-                argumentInstance = getPreventiveComponent(parameterizedType);
+                argumentInstance = getBoxComponent(parameterizedType);
                 if (argumentInstance == null) {
                     argumentInstance = getComponentOrThrow((Class<?>) parameterizedType.getRawType());
                 }
@@ -355,7 +356,7 @@ public abstract class BaseIoC implements IoC {
         return argumentsInstances;
     }
 
-    private <T> T getPreventiveComponent(ParameterizedType componentType) {
+    private <T> T getBoxComponent(ParameterizedType componentType) {
         return (T) ComponentFactoryProcessor.getComponent(componentType, this);
     }
 

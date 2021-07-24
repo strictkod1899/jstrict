@@ -1,6 +1,6 @@
 package ru.strict.ioc.exceptions;
 
-public class ManyMatchComponentAnnotationException extends RuntimeException {
+public class ManyMatchComponentAnnotationException extends IoCException {
 
     private static String MESSAGE_TEMPLATE = "An error occurred at component creation because was found many " +
             "constructors with @Component-annotation. ComponentCLass = %s";
