@@ -1,13 +1,14 @@
-package ru.strict.ioc.annotations;
+package ru.strict.ioc.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Выполняет помеченные методы после @PostConstruct
+ */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface FromProperty {
-    String prefix() default "";
-    String file() default "";
+@Target({ ElementType.METHOD })
+public @interface Configuration {
 }

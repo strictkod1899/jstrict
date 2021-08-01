@@ -1,4 +1,4 @@
-package ru.strict.ioc.annotations;
+package ru.strict.ioc.annotation;
 
 import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.MethodInterceptor;

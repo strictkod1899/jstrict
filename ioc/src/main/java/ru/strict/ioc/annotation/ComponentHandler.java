@@ -1,9 +1,9 @@
-package ru.strict.ioc.annotations;
+package ru.strict.ioc.annotation;
 
 import lombok.experimental.UtilityClass;
 import ru.strict.ioc.IoC;
-import ru.strict.ioc.exceptions.ManyMatchComponentAnnotationException;
-import ru.strict.ioc.exceptions.ManyMatchConstructorFieldsException;
+import ru.strict.ioc.exception.ManyMatchComponentAnnotationException;
+import ru.strict.ioc.exception.ManyMatchConstructorFieldsException;
 import ru.strict.utils.ReflectionUtil;
 import ru.strict.validate.CommonValidate;
 
@@ -64,23 +64,39 @@ public class ComponentHandler {
                 componentName = componentAnnotation.value();
             }
 
-            ioc.addSingleton(componentName, returnClass, () -> {
-                Object configurationInstance = ioc.getComponent(configurationClass);
-                try {
-                    var parameterClasses = method.getParameterTypes();
-                    var args = new Object[parameterClasses.length];
-
-                    for (int i = 0; i < parameterClasses.length; i++) {
-                        var parameterClass = parameterClasses[i];
-                        var parameterInstance = ioc.getComponent(parameterClass);
-                        args[i] = parameterInstance;
-                    }
-                    return method.invoke(configurationInstance, args);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-            });
+            ioc.addSingleton(componentName,
+                    returnClass,
+                    () -> createComponentFromMethod(configurationClass, ioc, method));
         }
+    }
+
+    private static Object createComponentFromMethod(Class<?> configurationClass, IoC ioc, Method method) {
+        Object configurationInstance = ioc.getComponent(configurationClass);
+        try {
+            var parameterClasses = method.getParameterTypes();
+            var args = new Object[parameterClasses.length];
+
+            for (int i = 0; i < parameterClasses.length; i++) {
+                var parameterClass = parameterClasses[i];
+                var parameterInstance = ioc.getComponent(parameterClass);
+                args[i] = parameterInstance;
+            }
+
+            Object instance = method.invoke(configurationInstance, args);
+            fillInstanceFromProperty(instance, method.getAnnotation(FromProperties.class));
+
+            return instance;
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private static void fillInstanceFromProperty(Object instance, FromProperties fromProperties) {
+        if (fromProperties == null) {
+            return;
+        }
+
+        FromPropertyHandler.fillFromProperties(instance, fromProperties);
     }
 
     private static List<Method> getReturnedComponentMethods(Class<?> configurationClass) {

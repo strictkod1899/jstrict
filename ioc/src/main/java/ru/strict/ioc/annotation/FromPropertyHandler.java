@@ -1,8 +1,8 @@
-package ru.strict.ioc.annotations;
+package ru.strict.ioc.annotation;
 
 import lombok.experimental.UtilityClass;
-import ru.strict.ioc.exceptions.ComponentNotFoundException;
-import ru.strict.ioc.exceptions.IoCException;
+import ru.strict.ioc.exception.ComponentNotFoundException;
+import ru.strict.ioc.exception.IoCException;
 import ru.strict.utils.PropertiesUtil;
 import ru.strict.utils.ReflectionUtil;
 import ru.strict.utils.ResourcesUtil;
@@ -17,19 +17,24 @@ public class FromPropertyHandler {
 
     private static final String APP_FILE_NAME = "app.properties";
 
-    public static void fillFromProperty(Object instance) {
-        var fromPropertyAnnotation = instance.getClass().getAnnotation(FromProperty.class);
+    public static void fillFromProperties(Object instance) {
+        var fromPropertyAnnotation = instance.getClass().getAnnotation(FromProperties.class);
         if (fromPropertyAnnotation == null) {
             return;
         }
 
-        var prefix = fromPropertyAnnotation.prefix();
-        var configValues = getConfigValues(fromPropertyAnnotation);
+        fillFromProperties(instance, fromPropertyAnnotation);
+    }
+
+    public static void fillFromProperties(Object instance, FromProperties fromPropertiesAnnotation) {
+        var prefix = fromPropertiesAnnotation.prefix();
+        var configValues = getConfigValues(fromPropertiesAnnotation);
+
         fillInstance(instance, prefix, configValues);
     }
 
-    private static Properties getConfigValues(FromProperty fromPropertyAnnotation) {
-        var fileName = fromPropertyAnnotation.file();
+    private static Properties getConfigValues(FromProperties fromPropertiesAnnotation) {
+        var fileName = fromPropertiesAnnotation.file();
         fileName = CommonValidate.isEmptyOrNull(fileName) ? APP_FILE_NAME : fileName;
 
         var propertiesInputStream = ResourcesUtil.getResourceStream(fileName);

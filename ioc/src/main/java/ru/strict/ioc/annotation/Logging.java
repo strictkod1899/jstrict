@@ -1,4 +1,4 @@
-package ru.strict.ioc.annotations;
+package ru.strict.ioc.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
