@@ -1,4 +1,4 @@
-package ru.strict.ioc.exceptions;
+package ru.strict.ioc.exception;
 
 public class SingletonInstanceExistsException extends IoCException {
 

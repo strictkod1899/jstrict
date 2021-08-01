@@ -3,8 +3,8 @@ package ru.strict.ioc;
 import lombok.Getter;
 import lombok.Setter;
 import ru.strict.ioc.box.ComponentSupplier;
-import ru.strict.ioc.exceptions.SessionInstanceExistsException;
-import ru.strict.ioc.exceptions.SingletonInstanceExistsException;
+import ru.strict.ioc.exception.SessionInstanceExistsException;
+import ru.strict.ioc.exception.SingletonInstanceExistsException;
 
 class IoCData {
     @Getter
