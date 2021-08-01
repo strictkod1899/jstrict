@@ -5,11 +5,11 @@
   <parent>
     <groupId>ru.strict</groupId>
     <artifactId>jstrict</artifactId>
-    <version>0.2.25</version>
+    <version>0.2.26</version>
   </parent>
   <groupId>ru.strict</groupId>
   <artifactId>ioc</artifactId>
-  <version>0.2.25</version>
+  <version>0.2.26</version>
   <name>ioc</name>
   <dependencies>
     <dependency>
