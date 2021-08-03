@@ -2,10 +2,10 @@ package ru.strict.ioc;
 
 import lombok.RequiredArgsConstructor;
 import ru.strict.exceptions.ValidateException;
-import ru.strict.ioc.annotations.*;
+import ru.strict.ioc.annotation.*;
 import ru.strict.ioc.box.ComponentFactoryProcessor;
 import ru.strict.ioc.box.ComponentSupplier;
-import ru.strict.ioc.exceptions.*;
+import ru.strict.ioc.exception.*;
 import ru.strict.utils.ReflectionUtil;
 import ru.strict.utils.StringUtil;
 
@@ -311,7 +311,7 @@ public abstract class BaseIoC implements IoC {
 
     private <T> T postCreateProcess(T instance) {
         //LoggerHandler.injectLogger(instance, this, defaultLoggerClass);
-        FromPropertyHandler.fillFromProperty(instance);
+        FromPropertyHandler.fillFromProperties(instance);
         PostConstructHandler.invokePostConstructMethod(instance);
         ConfigurationHandler.invokeVoidConfigurationMethods(instance);
         //instance = (RESULT)

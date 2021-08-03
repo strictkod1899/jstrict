@@ -1,4 +1,4 @@
-package ru.strict.ioc.annotations;
+package ru.strict.ioc.annotation;
 
 import lombok.experimental.UtilityClass;
 import ru.strict.utils.ReflectionUtil;

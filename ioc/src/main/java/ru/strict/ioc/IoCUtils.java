@@ -1,7 +1,7 @@
 package ru.strict.ioc;
 
-import ru.strict.ioc.annotations.ComponentHandler;
-import ru.strict.ioc.exceptions.ManyMatchConstructorsException;
+import ru.strict.ioc.annotation.ComponentHandler;
+import ru.strict.ioc.exception.ManyMatchConstructorsException;
 
 import java.lang.reflect.Constructor;
 
