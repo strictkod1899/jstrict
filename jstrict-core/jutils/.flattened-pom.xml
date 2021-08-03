@@ -5,11 +5,11 @@
   <parent>
     <groupId>ru.strict</groupId>
     <artifactId>jstrict-core</artifactId>
-    <version>0.2.28</version>
+    <version>0.2.29</version>
   </parent>
   <groupId>ru.strict</groupId>
   <artifactId>jutils</artifactId>
-  <version>0.2.28</version>
+  <version>0.2.29</version>
   <name>jutils</name>
   <dependencies>
     <dependency>
