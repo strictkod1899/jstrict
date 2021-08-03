@@ -5,11 +5,11 @@
   <parent>
     <groupId>ru.strict</groupId>
     <artifactId>jstrict</artifactId>
-    <version>0.2.27</version>
+    <version>0.2.28</version>
   </parent>
   <groupId>ru.strict</groupId>
   <artifactId>jneuralnetwork</artifactId>
-  <version>0.2.27</version>
+  <version>0.2.28</version>
   <name>jneuralnetwork</name>
   <dependencies>
     <dependency>
