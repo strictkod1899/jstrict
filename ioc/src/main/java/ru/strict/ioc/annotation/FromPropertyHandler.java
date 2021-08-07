@@ -115,7 +115,7 @@ public class FromPropertyHandler {
     }
 
     private String cropPrefix(String propertyName, String prefix) {
-        return propertyName.substring(prefix.length() + 1);
+        return CommonValidate.isEmptyOrNull(prefix) ? propertyName : propertyName.substring(prefix.length() + 1);
     }
 
     private Object convertValueToTargetType(String value, Class<?> type) {
