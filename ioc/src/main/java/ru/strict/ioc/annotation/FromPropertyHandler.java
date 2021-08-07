@@ -9,7 +9,8 @@ import ru.strict.utils.ResourcesUtil;
 import ru.strict.utils.StringUtil;
 import ru.strict.validate.CommonValidate;
 
-import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Properties;
 
 @UtilityClass
@@ -55,29 +56,21 @@ public class FromPropertyHandler {
                     continue;
                 }
 
-                var croppedPropertyName = propertyName.substring(prefix.length() + 1);
+                var croppedPropertyName = cropPrefix(propertyName, prefix);
 
                 var targetFieldName = getFieldName(croppedPropertyName);
                 if (targetFieldName == null) {
                     continue;
                 }
 
-                var field = ReflectionUtil.getField(instance.getClass(), targetFieldName);
-                if (field == null) {
-                    throw new IoCException(String.format(
-                            "Not found field '%s' in class '%s' for fill component from properties",
-                            targetFieldName,
-                            instance.getClass()));
-                }
-
-                var fieldSetterName = getFieldSetter(field);
-                var fieldSetter = instance.getClass().getMethod(fieldSetterName, field.getType());
+                var fieldSetterName = getFieldSetter(targetFieldName);
+                var fieldSetter = getFirstSetter(instance.getClass(), fieldSetterName);
                 if (fieldSetter == null) {
-                    throw new IoCException(String.format("Not found setter '%s' for fill component from properties",
-                            fieldSetterName));
+                    continue;
                 }
 
-                Object targetValue = convertValueToTargetType(value, field);
+                var fieldType = fieldSetter.getParameterTypes()[0];
+                Object targetValue = convertValueToTargetType(value, fieldType);
                 fieldSetter.invoke(instance, targetValue);
             }
         } catch (Exception ex) {
@@ -87,8 +80,15 @@ public class FromPropertyHandler {
         }
     }
 
+    private Method getFirstSetter(Class<?> instanceClass, String setterName) {
+        return Arrays.stream(instanceClass.getMethods())
+                .filter(method -> method.getName().equals(setterName) && method.getParameterCount() == 1)
+                .findFirst()
+                .orElse(null);
+    }
+
     private String getFieldName(String propertyName) {
-        if (propertyName.contains(".")) {
+        if (isInnerProperty(propertyName)) {
             return null;
         }
 
@@ -105,24 +105,29 @@ public class FromPropertyHandler {
         return fieldName;
     }
 
-    private String getFieldSetter(Field field) {
-        var fieldName = field.getName();
+    private boolean isInnerProperty(String propertyName) {
+        return propertyName.contains(".");
+    }
+
+    private String getFieldSetter(String fieldName) {
         var formattedFieldName = StringUtil.toUpperFirstSymbol(fieldName);
         return String.format("set%s", formattedFieldName);
     }
 
-    private Object convertValueToTargetType(String value, Field field) {
-        Class<?> fieldType = field.getType();
+    private String cropPrefix(String propertyName, String prefix) {
+        return CommonValidate.isEmptyOrNull(prefix) ? propertyName : propertyName.substring(prefix.length() + 1);
+    }
 
-        if (ReflectionUtil.isInstanceOf(Boolean.class, fieldType)) {
+    private Object convertValueToTargetType(String value, Class<?> type) {
+        if (ReflectionUtil.isInstanceOf(Boolean.class, type)) {
             return value.equals("true");
-        } else if (ReflectionUtil.isInstanceOf(Integer.class, fieldType)) {
+        } else if (ReflectionUtil.isInstanceOf(Integer.class, type)) {
             return Integer.valueOf(value);
-        } else if (ReflectionUtil.isInstanceOf(Long.class, fieldType)) {
+        } else if (ReflectionUtil.isInstanceOf(Long.class, type)) {
             return Long.valueOf(value);
-        } else if (ReflectionUtil.isInstanceOf(Float.class, fieldType)) {
+        } else if (ReflectionUtil.isInstanceOf(Float.class, type)) {
             return Float.valueOf(value);
-        } else if (ReflectionUtil.isInstanceOf(Double.class, fieldType)) {
+        } else if (ReflectionUtil.isInstanceOf(Double.class, type)) {
             return Double.valueOf(value);
         } else {
             return value;
