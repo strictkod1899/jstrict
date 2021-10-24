@@ -1,39 +1,42 @@
 package ru.strict.file;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.strict.file.txt.TxtFile;
+import ru.strict.util.ClassUtil;
+import ru.strict.util.ResourcesUtil;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TxtFileTest {
+class TxtFileTest {
 
-    private static final String TEST_FILE_NAME = "test.txt";
-    private static final String TEST_FILE_CONTENT_1 = "mytest_mytest1";
-    private static final String TEST_FILE_CONTENT_2 = "mytest_mytest2";
+    @Test
+    void testWriteAndRead_success() {
+        var fileName = "test1.txt";
+        var filePath = ClassUtil.getFilePathByClass(this.getClass(), fileName);
+        var expectedReadContent = "mytest1";
 
-    @AfterEach
-    public void post() throws IOException {
-        Files.deleteIfExists(Paths.get(TEST_FILE_NAME));
+        var txtFile = new TxtFile(filePath);
+        txtFile.write(expectedReadContent);
+        assertEquals(txtFile.read(), expectedReadContent);
     }
 
     @Test
-    public void testWriteBySource() {
-        TxtFile fileForWrite = new TxtFile(TEST_FILE_NAME);
-        TxtFile fileForRead = new TxtFile(TEST_FILE_NAME);
-        fileForWrite.write(TEST_FILE_CONTENT_1);
-        Assertions.assertEquals(fileForRead.read(), TEST_FILE_CONTENT_1);
+    void testWriteAndRead_manyProcessors_success() {
+        var fileName = "test2.txt";
+        var filePath = ClassUtil.getFilePathByClass(this.getClass(), fileName);
+        var expectedReadContent = "mytest2";
+
+        var fileForWrite = new TxtFile(filePath);
+        var fileForRead = new TxtFile(filePath);
+        fileForWrite.write(expectedReadContent);
+        assertEquals(fileForRead.read(), expectedReadContent);
     }
 
     @Test
-    public void testWrite() {
-        TxtFile fileForWrite = new TxtFile(TEST_FILE_NAME);
-        TxtFile fileForRead = new TxtFile(TEST_FILE_NAME);
-        fileForWrite.setContent(TEST_FILE_CONTENT_2);
-        fileForWrite.write();
-        Assertions.assertEquals(fileForRead.read(), TEST_FILE_CONTENT_2);
+    void testRead_byInputStream_success() {
+        var file = new TxtFile(() -> ResourcesUtil.getResourceStream("test.txt"));
+        var actualContent = file.read();
+
+        assertEquals("Hello", actualContent);
     }
 }

@@ -1,5 +1,6 @@
 package ru.strict.util;
 
+import lombok.experimental.UtilityClass;
 import ru.strict.validate.Validator;
 
 import java.io.*;
@@ -9,9 +10,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 
+@UtilityClass
 public class FileUtil {
 
-    public static void writeFile(String filepath, String fileContent) {
+    public void writeFile(String filepath, String fileContent) {
         Validator.isEmptyOrNull(filepath, "filepath");
 
         writeFile(new File(filepath), fileContent);
@@ -23,7 +25,7 @@ public class FileUtil {
      * @param file Файл, который будет создан
      * @param fileContent Стркоове содержимое файла
      */
-    public static void writeFile(File file, String fileContent) {
+    public void writeFile(File file, String fileContent) {
         Validator.isNull(file, "file");
         Validator.isNull(fileContent, "fileContent");
 
@@ -35,7 +37,7 @@ public class FileUtil {
         }
     }
 
-    public static void writeFile(String filepath, byte[] fileBytes) throws IOException {
+    public void writeFile(String filepath, byte[] fileBytes) throws IOException {
         Validator.isEmptyOrNull(filepath, "filepath");
 
         writeFile(new File(filepath), fileBytes);
@@ -47,7 +49,7 @@ public class FileUtil {
      * @param file Файл, который будет создан
      * @param fileBytes Байты, которые записываются в файл
      */
-    public static void writeFile(File file, byte[] fileBytes) throws IOException {
+    public void writeFile(File file, byte[] fileBytes) throws IOException {
         Validator.isNull(file, "file");
         Validator.isNull(fileBytes, "fileBytes");
 
@@ -59,7 +61,7 @@ public class FileUtil {
         }
     }
 
-    public static void writeFile(File file, InputStream in) {
+    public void writeFile(File file, InputStream in) {
         Validator.isNull(file, "file");
         Validator.isNull(in, "in");
 
@@ -76,7 +78,7 @@ public class FileUtil {
         }
     }
 
-    public static void recreateFile(String filePath) {
+    public void recreateFile(String filePath) {
         Validator.isEmptyOrNull(filePath, "filePath");
 
         recreateFile(new File(filePath));
@@ -85,7 +87,7 @@ public class FileUtil {
     /**
      * Создать файл. Если файл существует, то он будет перезаписан
      */
-    public static void recreateFile(File file) {
+    public void recreateFile(File file) {
         Validator.isNull(file, "file");
 
         if (file.exists()) {
@@ -94,7 +96,7 @@ public class FileUtil {
         createFileIfNotExists(file);
     }
 
-    public static void createFileIfNotExists(String filePath) {
+    public void createFileIfNotExists(String filePath) {
         Validator.isEmptyOrNull(filePath, "filePath");
 
         createFileIfNotExists(new File(filePath));
@@ -103,11 +105,11 @@ public class FileUtil {
     /**
      * Создать файл, если он не существует
      */
-    public static void createFileIfNotExists(File file) {
+    public void createFileIfNotExists(File file) {
         Validator.isNull(file, "file");
 
         try {
-            createDirectory(file.getAbsolutePath());
+            createDirectoryByFile(file.getAbsolutePath());
 
             if (!file.exists()) {
                 file.createNewFile();
@@ -117,17 +119,21 @@ public class FileUtil {
         }
     }
 
-    public static void createDirectory(String filePath) {
+    public void createDirectoryByFile(String filePath) {
         Validator.isNull(filePath, "filePath");
 
-        String directoryPath = getDirectoryPath(filePath);
-        File directoryFile = new File(directoryPath);
+        var directoryPath = getDirectoryPath(filePath);
+        createDirectoryIfNotExists(directoryPath);
+    }
+
+    public void createDirectoryIfNotExists(String directoryPath) {
+        var directoryFile = new File(directoryPath);
         if (!directoryFile.exists()) {
             directoryFile.mkdirs();
         }
     }
 
-    public static String getDirectoryPath(String filePath) {
+    public String getDirectoryPath(String filePath) {
         Validator.isNull(filePath, "filePath");
 
         int lastSeparator = getLastSeparatorIndex(filePath);
@@ -142,7 +148,7 @@ public class FileUtil {
         return dirs;
     }
 
-    public static int getLastSeparatorIndex(String filePath) {
+    public int getLastSeparatorIndex(String filePath) {
         Validator.isNull(filePath, "filePath");
 
         int lastSeparator = filePath.lastIndexOf(File.separator);
@@ -157,7 +163,7 @@ public class FileUtil {
     /**
      * Найти любой файл в папке по указанной части наименования
      */
-    public static File getFileByPartName(String folderPath, String fileNamePart) {
+    public File getFileByPartName(String folderPath, String fileNamePart) {
         Validator.isEmptyOrNull(folderPath, "folderPath");
         Validator.isNull(fileNamePart, "fileNamePart");
 
@@ -185,7 +191,7 @@ public class FileUtil {
     /**
      * Найти все файлы в папке по указанной части наименования
      */
-    public static Collection<File> getFilesByPartName(String folderPath, String fileNamePart) {
+    public Collection<File> getFilesByPartName(String folderPath, String fileNamePart) {
         Validator.isEmptyOrNull(folderPath, "folderPath");
         Validator.isNull(fileNamePart, "fileNamePart");
 
@@ -209,13 +215,13 @@ public class FileUtil {
         return result;
     }
 
-    public static String getFileExtension(File file) {
+    public String getFileExtension(File file) {
         Validator.isNull(file, "file");
 
         return getFileExtension(file.getAbsolutePath());
     }
 
-    public static String getFileExtension(String filePath) {
+    public String getFileExtension(String filePath) {
         Validator.isNull(filePath, "filePath");
 
         String result = null;
@@ -227,7 +233,7 @@ public class FileUtil {
         return result;
     }
 
-    public static void removeIfExists(String filePath) {
+    public void removeIfExists(String filePath) {
         Validator.isNull(filePath, "filePath");
 
         try {

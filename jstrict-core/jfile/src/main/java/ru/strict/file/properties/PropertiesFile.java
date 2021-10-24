@@ -1,7 +1,8 @@
 package ru.strict.file.properties;
 
-import lombok.Getter;
+import ru.strict.file.FileProcessingException;
 import ru.strict.util.PropertiesUtil;
+import ru.strict.util.ResourcesUtil;
 import ru.strict.validate.CommonValidate;
 import ru.strict.validate.Validator;
 
@@ -10,28 +11,52 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-@Getter
 public class PropertiesFile {
-    private String filePath;
-    private String filePathWithSuffix;
-    private Path path;
-    private Path pathWithSuffix;
-    private String suffix;
-
-    private InputStream inputStream;
+    private final File file;
+    private final Path path;
+    private final File fileWithSuffix;
+    private final Path pathWithSuffix;
+    private final Supplier<InputStream> inputStreamSupplier;
+    private final Supplier<InputStream> inputStreamWithSuffixSupplier;
 
     public PropertiesFile(String filePath) {
         this(filePath, null);
     }
 
     public PropertiesFile(String filePath, String suffix) {
-        init(filePath, suffix);
+        this.inputStreamSupplier = null;
+        this.inputStreamWithSuffixSupplier = null;
+
+        Validator.isEmptyOrNull(filePath, "filePath");
+
+        this.file = new File(filePath);
+        this.path = Paths.get(file.getAbsolutePath());
+
+        if (suffix == null) {
+            this.fileWithSuffix = null;
+            this.pathWithSuffix = null;
+        } else {
+            var filePathWithSuffix = PropertiesNameUtil.getFilePathWithSuffix(file.getAbsolutePath(), suffix);
+            this.fileWithSuffix = new File(filePathWithSuffix);
+            this.pathWithSuffix = Paths.get(fileWithSuffix.getAbsolutePath());
+        }
     }
 
-    public PropertiesFile(InputStream inputStream) {
-        this.inputStream = inputStream;
+    public PropertiesFile(Supplier<InputStream> inputStreamSupplier) {
+        this(inputStreamSupplier, null);
+    }
+
+    protected PropertiesFile(Supplier<InputStream> inputStreamSupplier,
+            Supplier<InputStream> inputStreamWithSuffixSupplier) {
+        this.file = null;
+        this.path = null;
+        this.fileWithSuffix = null;
+        this.pathWithSuffix = null;
+        this.inputStreamSupplier = inputStreamSupplier;
+        this.inputStreamWithSuffixSupplier = inputStreamWithSuffixSupplier;
     }
 
     public String readValue(String key) {
@@ -47,69 +72,50 @@ public class PropertiesFile {
     }
 
     public String readValue(String key, String fileEncoding, String targetEncoding) {
-        String value = null;
+        return file == null
+                ? readValueByInputStream(key, fileEncoding, targetEncoding)
+                : readValueByFile(key, fileEncoding, targetEncoding);
+    }
 
-        if (inputStream != null) {
-            value = PropertiesUtil.getValue(inputStream, key, fileEncoding, targetEncoding);
-        } else {
-            if (Files.exists(pathWithSuffix)) {
-                value = PropertiesUtil.getValue(getFilePathWithSuffix(), key, fileEncoding, targetEncoding);
-            }
-            if (CommonValidate.isEmptyOrNull(value) && Files.exists(path)) {
-                value = PropertiesUtil.getValue(getFilePath(), key, fileEncoding, targetEncoding);
-            }
+    private String readValueByInputStream(String key, String fileEncoding, String targetEncoding) {
+        String value = null;
+        if (inputStreamWithSuffixSupplier != null) {
+            value = readValueByInputStream(inputStreamWithSuffixSupplier, key, fileEncoding, targetEncoding);
         }
+        if (CommonValidate.isEmptyOrNull(value)) {
+            value = readValueByInputStream(inputStreamSupplier, key, fileEncoding, targetEncoding);
+        }
+
         return value;
     }
 
-    protected void reload() {
-        init(filePath, suffix);
+    private String readValueByInputStream(Supplier<InputStream> inputStreamSupplier,
+            String key,
+            String fileEncoding,
+            String targetEncoding) {
+        try (var inputStream = inputStreamSupplier.get()) {
+            return PropertiesUtil.getValue(inputStream, key, fileEncoding, targetEncoding);
+        } catch (Exception ex) {
+            throw new FileProcessingException(ex);
+        }
     }
 
-    private void init(String propertiesFile, String suffix) {
-        Validator.isEmptyOrNull(propertiesFile, "propertiesFile");
+    private String readValueByFile(String key, String fileEncoding, String targetEncoding) {
+        String value = null;
+        if (fileWithSuffix != null && Files.exists(pathWithSuffix)) {
+            value = PropertiesUtil.getValue(fileWithSuffix.getAbsolutePath(), key, fileEncoding, targetEncoding);
+        }
+        if (CommonValidate.isEmptyOrNull(value) && Files.exists(path)) {
+            value = PropertiesUtil.getValue(file.getAbsolutePath(), key, fileEncoding, targetEncoding);
+        }
 
-        String absoluteFilePath = new File(propertiesFile).getAbsolutePath();
-        int separateLastIndex = getSeparateLastIndexOf(absoluteFilePath);
-        String pathToDirectory = absoluteFilePath.substring(0, separateLastIndex);
-        String fileName;
-        fileName = absoluteFilePath.substring(separateLastIndex + 1);
-        fileName = fileName.substring(0, fileName.lastIndexOf(".properties"));
-
-        this.suffix = suffix;
-        this.filePath = createFilePath(pathToDirectory, fileName);
-        this.filePathWithSuffix = createFilePathWithSuffix(pathToDirectory, fileName, suffix);
-        this.path = Paths.get(this.filePath);
-        this.pathWithSuffix = Paths.get(this.filePathWithSuffix);
+        return value;
     }
 
-    private int getSeparateLastIndexOf(String filePath) {
-        int systemLastIndexOf = filePath.lastIndexOf(File.separator);
-        int separate1LastIndexOf = filePath.lastIndexOf("/");
-        int separate2LastIndexOf = filePath.lastIndexOf("\\");
+    public static PropertiesFile fromResource(String resourceFilePath, String suffix) {
+        var filePathWithSuffix = PropertiesNameUtil.getFilePathWithSuffix(resourceFilePath, suffix);
 
-        return Stream.of(systemLastIndexOf, separate1LastIndexOf, separate2LastIndexOf)
-                .max(Integer::compareTo)
-                .get();
-    }
-
-    private String createFileNameWithSuffix(String fileName, String suffix) {
-        return CommonValidate.isEmptyOrNull(suffix)
-                ? createFileName(fileName)
-                : String.format("%s_%s.properties", fileName, suffix);
-    }
-
-    private String createFileName(String fileName) {
-        return String.format("%s.properties", fileName);
-    }
-
-    private String createFilePathWithSuffix(String pathToDirectory, String fileName, String suffix) {
-        return CommonValidate.isEmptyOrNull(suffix)
-                ? createFilePath(pathToDirectory, fileName)
-                : String.format("%s%s%s", pathToDirectory, File.separator, createFileNameWithSuffix(fileName, suffix));
-    }
-
-    private String createFilePath(String pathToDirectory, String fileName) {
-        return String.format("%s%s%s", pathToDirectory, File.separator, createFileName(fileName));
+        return new PropertiesFile(() -> ResourcesUtil.getResourceStream(resourceFilePath),
+                () -> ResourcesUtil.getResourceStream(filePathWithSuffix));
     }
 }
