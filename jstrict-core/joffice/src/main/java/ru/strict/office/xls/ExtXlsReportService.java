@@ -1,4 +1,4 @@
-package ru.strict.file.xls;
+package ru.strict.office.xls;
 
 import java.util.List;
 import java.util.Map;

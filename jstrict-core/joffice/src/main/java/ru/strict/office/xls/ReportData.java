@@ -1,4 +1,4 @@
-package ru.strict.file.xls;
+package ru.strict.office.xls;
 
 import lombok.Getter;
 import lombok.NonNull;

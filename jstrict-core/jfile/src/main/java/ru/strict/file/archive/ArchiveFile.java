@@ -4,39 +4,38 @@ import net.sf.sevenzipjbinding.*;
 import net.sf.sevenzipjbinding.impl.RandomAccessFileInStream;
 import net.sf.sevenzipjbinding.simple.ISimpleInArchive;
 import net.sf.sevenzipjbinding.simple.ISimpleInArchiveItem;
-import ru.strict.file.IFileReader;
+import ru.strict.file.FileProcessingException;
 import ru.strict.util.FileUtil;
+import ru.strict.validate.Validator;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class ArchiveFile implements AutoCloseable, IFileReader<List<ISimpleInArchiveItem>> {
-
+public class ArchiveFile implements AutoCloseable {
     private ISimpleInArchive archive;
     private RandomAccessFileInStream inStream;
     private List<ISimpleInArchiveItem> archiveItems;
 
-    public ArchiveFile(File archiveFile)
-            throws FileNotFoundException, SevenZipException, SevenZipNativeInitializationException {
+    public ArchiveFile(File archiveFile) {
         this(archiveFile, determineArchiveFormat(archiveFile));
     }
 
-    public ArchiveFile(File archiveFile, ArchiveFormat archiveFormat)
-            throws FileNotFoundException, SevenZipException, SevenZipNativeInitializationException {
-        if (archiveFormat == null) {
-            throw new IllegalArgumentException("ArchiveFormat is NULL");
-        }
+    public ArchiveFile(File archiveFile, ArchiveFormat archiveFormat) {
+        Validator.isNull(archiveFormat, "archiveFormat");
 
-        SevenZip.initSevenZipFromPlatformJAR();
-        final RandomAccessFile randomAccessFile = new RandomAccessFile(archiveFile, "r");
-        inStream = new RandomAccessFileInStream(randomAccessFile);
-        archive = SevenZip.openInArchive(archiveFormat, inStream).getSimpleInterface();
+        try {
+            SevenZip.initSevenZipFromPlatformJAR();
+            var randomAccessFile = new RandomAccessFile(archiveFile, "r");
+            inStream = new RandomAccessFileInStream(randomAccessFile);
+            archive = SevenZip.openInArchive(archiveFormat, inStream).getSimpleInterface();
 
-        archiveItems = new ArrayList<>(archive.getNumberOfItems());
+            archiveItems = new ArrayList<>(archive.getNumberOfItems());
 
-        for (ISimpleInArchiveItem item : archive.getArchiveItems()) {
-            archiveItems.add(item);
+            Collections.addAll(archiveItems, archive.getArchiveItems());
+        } catch (Exception ex) {
+            throw new FileProcessingException(archiveFile.getAbsolutePath(), ex);
         }
     }
 
@@ -48,13 +47,9 @@ public class ArchiveFile implements AutoCloseable, IFileReader<List<ISimpleInArc
     public boolean extract(String destinationPath) throws FileNotFoundException, SevenZipException {
         boolean result = true;
         for (ISimpleInArchiveItem item : archiveItems) {
-            File fileItem = new File(item.getPath());
-            final OutputFileStream fileStream = new OutputFileStream(
-                    new File(
-                            String.format("%s%s%s", destinationPath + File.separator + fileItem.getName()
-                            )
-                    )
-            );
+            var fileItem = new File(item.getPath());
+            var filePath = destinationPath + File.separator + fileItem.getName();
+            var fileStream = new OutputFileStream(new File(filePath));
             ExtractOperationResult extractionResult = item.extractSlow(fileStream);
             if (extractionResult != ExtractOperationResult.OK) {
                 result = false;
@@ -74,7 +69,6 @@ public class ArchiveFile implements AutoCloseable, IFileReader<List<ISimpleInArc
         }
     }
 
-    @Override
     public List<ISimpleInArchiveItem> read() {
         return archiveItems;
     }
@@ -97,7 +91,7 @@ public class ArchiveFile implements AutoCloseable, IFileReader<List<ISimpleInArc
         return archiveFormat;
     }
 
-    private class OutputFileStream implements ISequentialOutStream {
+    private static class OutputFileStream implements ISequentialOutStream {
         private FileOutputStream fos;
 
         public OutputFileStream(File file) throws FileNotFoundException {

@@ -2,13 +2,16 @@ package ru.strict.file.html;
 
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
+import lombok.experimental.UtilityClass;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import ru.strict.validate.CommonValidate;
+import ru.strict.validate.Validator;
 
 import java.io.*;
 
+@UtilityClass
 public class HtmlUtil {
 
     public static Elements selectByFileUTF8(String filePath, String selector) {
@@ -16,12 +19,10 @@ public class HtmlUtil {
     }
 
     public static Elements selectByFile(String filePath, String selector, String encoding) {
-        if (CommonValidate.isEmptyOrNull(filePath)) {
-            throw new IllegalArgumentException("filePath is NULL");
-        }
+        Validator.isEmptyOrNull(filePath, "filePath");
 
         try {
-            Document page = Jsoup.parse(new File(filePath), encoding);
+            var page = Jsoup.parse(new File(filePath), encoding);
             if (page == null) {
                 throw new NullPointerException(String.format("Page by content [%s] not found", filePath));
             }
@@ -33,11 +34,9 @@ public class HtmlUtil {
     }
 
     public static Elements selectByContent(String content, String selector) {
-        if (CommonValidate.isEmptyOrNull(content)) {
-            throw new IllegalArgumentException("content is NULL");
-        }
+        Validator.isEmptyOrNull(content, "content");
 
-        Document page = Jsoup.parseBodyFragment(content);
+        var page = Jsoup.parseBodyFragment(content);
         if (page == null) {
             throw new NullPointerException(String.format("Page by content [%s] not found", content));
         }
@@ -46,12 +45,10 @@ public class HtmlUtil {
     }
 
     public static Elements selectByGet(String url, String selector) {
-        if (CommonValidate.isEmptyOrNull(url)) {
-            throw new IllegalArgumentException("url is NULL");
-        }
+        Validator.isEmptyOrNull(url, "url");
 
         try {
-            Document page = Jsoup.connect(url).get();
+            var page = Jsoup.connect(url).get();
             if (page == null) {
                 throw new NullPointerException(String.format("Page by url [%s] [GET] not found", url));
             }
@@ -63,12 +60,10 @@ public class HtmlUtil {
     }
 
     public static Elements selectByPost(String url, String selector) {
-        if (CommonValidate.isEmptyOrNull(url)) {
-            throw new IllegalArgumentException("url is NULL");
-        }
+        Validator.isEmptyOrNull(url, "url");
 
         try {
-            Document page = Jsoup.connect(url).post();
+            var page = Jsoup.connect(url).post();
             if (page == null) {
                 throw new NullPointerException(String.format("Page by url [%s] [POST] not found", url));
             }
@@ -83,10 +78,10 @@ public class HtmlUtil {
      * Конвертировать html в pdf
      */
     public static void convertToPdf(String sourceHtmlFilePath, String targetPdfFilePath) {
-        com.itextpdf.text.Document document = new com.itextpdf.text.Document();
+        var document = new com.itextpdf.text.Document();
 
         try {
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(targetPdfFilePath));
+            var writer = PdfWriter.getInstance(document, new FileOutputStream(targetPdfFilePath));
             document.open();
             XMLWorkerHelper.getInstance().parseXHtml(writer, document, new FileInputStream(sourceHtmlFilePath));
             document.close();
@@ -103,7 +98,7 @@ public class HtmlUtil {
     }
 
     private static Elements getTag(Document page, String selector) {
-        Elements tags = null;
+        Elements tags;
         if (CommonValidate.isEmptyOrNull(selector)) {
             tags = page.getAllElements();
         } else {

@@ -4,15 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import lombok.experimental.UtilityClass;
 import ru.strict.util.FileUtil;
 
 import static ru.strict.validate.Validator.*;
 
-public final class JsonUtil {
+@UtilityClass
+public class JsonUtil {
 
     private static final JacksonObjectMapper OBJECT_MAPPER = new JacksonObjectMapper();
-
-    private JsonUtil() {}
 
     public static <O> void saveToJson(O object, String pathToJson) {
         isNull(object, "object");
