@@ -12,7 +12,8 @@ import java.nio.file.Paths;
 
 import static ru.strict.validate.Validator.*;
 
-public abstract class BaseJsonFile<TARGET> implements IJsonFile<TARGET> {
+@Deprecated
+public abstract class BaseJsonFile<T> {
 
     @JsonIgnore
     private ObjectMapper objectMapper;
@@ -20,7 +21,7 @@ public abstract class BaseJsonFile<TARGET> implements IJsonFile<TARGET> {
     @JsonIgnore
     private String filePath;
     @JsonIgnore
-    private Class<TARGET> targetClass;
+    private Class<T> targetClass;
     @JsonIgnore
     private Object content;
 
@@ -36,7 +37,7 @@ public abstract class BaseJsonFile<TARGET> implements IJsonFile<TARGET> {
         this.objectMapper = objectMapper;
     }
 
-    public BaseJsonFile(String filePath, Class<TARGET> targetClass, ObjectMapper objectMapper) {
+    public BaseJsonFile(String filePath, Class<T> targetClass, ObjectMapper objectMapper) {
         isEmptyOrNull(filePath, "filePath");
         isNull(targetClass, "targetClass");
 
@@ -45,13 +46,12 @@ public abstract class BaseJsonFile<TARGET> implements IJsonFile<TARGET> {
         this.objectMapper = objectMapper;
     }
 
-    @Override
     public void loadFromFileOrInitialize() {
         if (Files.exists(Paths.get(filePath))) {
-            TARGET loadedObject = readToTargetClass();
+            T loadedObject = readToTargetClass();
             mapJsonObject(loadedObject);
         } else {
-            TARGET defaultObject = defaultInitialize();
+            T defaultObject = defaultInitialize();
             write(defaultObject);
         }
     }
@@ -59,12 +59,12 @@ public abstract class BaseJsonFile<TARGET> implements IJsonFile<TARGET> {
     /**
      * Сопоставление объекта загруженного из json-файла к текущему объекту
      */
-    protected abstract void mapJsonObject(TARGET loadedObject);
+    protected abstract void mapJsonObject(T loadedObject);
 
     /**
      * Инциализация объекта, если json-файл не существует
      */
-    protected abstract TARGET defaultInitialize();
+    protected abstract T defaultInitialize();
 
     /**
      * <pre>
@@ -73,7 +73,6 @@ public abstract class BaseJsonFile<TARGET> implements IJsonFile<TARGET> {
      * Если читаем один объект, то на выходе будет объект Map<String, Object>
      * </pre>
      */
-    @Override
     public Object read() {
         if (!Files.exists(Paths.get(filePath))) {
             return null;
@@ -86,8 +85,7 @@ public abstract class BaseJsonFile<TARGET> implements IJsonFile<TARGET> {
         return content;
     }
 
-    @Override
-    public TARGET readToTargetClass() {
+    public T readToTargetClass() {
         isNull(targetClass, "targetClass");
 
         if (!Files.exists(Paths.get(filePath))) {
@@ -101,8 +99,7 @@ public abstract class BaseJsonFile<TARGET> implements IJsonFile<TARGET> {
         }
     }
 
-    @Override
-    public void write(TARGET object) {
+    public void write(T object) {
         try {
             objectMapper.writeValue(new File(filePath), object);
         } catch (IOException ex) {
@@ -111,7 +108,6 @@ public abstract class BaseJsonFile<TARGET> implements IJsonFile<TARGET> {
         JsonUtil.saveToJson(object, filePath);
     }
 
-    @Override
     public void write() {
         FileUtil.writeFile(filePath, content.toString());
     }
@@ -132,7 +128,7 @@ public abstract class BaseJsonFile<TARGET> implements IJsonFile<TARGET> {
         this.content = content;
     }
 
-    public Class getTargetClass() {
+    public Class<T> getTargetClass() {
         return targetClass;
     }
 }

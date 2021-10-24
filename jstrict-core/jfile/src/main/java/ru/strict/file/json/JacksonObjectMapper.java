@@ -6,8 +6,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import ru.strict.util.StringUtil;
+import ru.strict.validate.CommonValidate;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collections;
 import java.util.List;
 
 public final class JacksonObjectMapper extends ObjectMapper {
@@ -22,6 +26,38 @@ public final class JacksonObjectMapper extends ObjectMapper {
         enable(SerializationFeature.INDENT_OUTPUT);
     }
 
+    /**
+     * Прочитать json-файл в ресурсах и преобразовать его в переданный объект
+     *
+     * @param resourceFilePath json файл в ресурсах
+     * @param castClass класс конвертации из json
+     */
+    public <T> T readFromResource(String resourceFilePath, Class<T> castClass) {
+        try (InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream(resourceFilePath);) {
+            String json = readToJson(inputStream);
+
+            return convertToObject(json, castClass);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    /**
+     * Прочитать json-файл в ресурсах и преобразовать его в список переданных объектов
+     *
+     * @param resourceFilePath json файл в ресурсах
+     * @param castClass класс конвертации из json
+     */
+    public <T> List<T> readListFromResource(String resourceFilePath, Class<T> castClass) {
+        try (InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream(resourceFilePath);) {
+            String json = readToJson(inputStream);
+
+            return convertToList(json, castClass);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
     public String convertToJson(Object object) {
         try {
             return writeValueAsString(object);
@@ -31,7 +67,7 @@ public final class JacksonObjectMapper extends ObjectMapper {
     }
 
     public <T> T convertToObject(String json, Class<T> castClass) {
-        if (StringUtil.isEmptyOrNull(json) || castClass == null) {
+        if (CommonValidate.isEmptyOrNull(json) || castClass == null) {
             return null;
         }
 
@@ -43,15 +79,25 @@ public final class JacksonObjectMapper extends ObjectMapper {
     }
 
     public <T> List<T> convertToList(String json, Class<T> castClass) {
-        if (StringUtil.isEmptyOrNull(json) || castClass == null) {
-            return null;
+        if (CommonValidate.isEmptyOrNull(json) || castClass == null) {
+            return Collections.emptyList();
         }
 
         TypeFactory typeFactory = TypeFactory.defaultInstance();
         try {
-            return (List<T>) readValue(json, typeFactory.constructCollectionType(List.class, castClass));
+            return readValue(json, typeFactory.constructCollectionType(List.class, castClass));
         } catch (JsonProcessingException ex) {
             throw new RuntimeException(ex);
+        }
+    }
+
+    private String readToJson(InputStream inputStream) throws IOException {
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[1024];
+            for (int length; (length = inputStream.read(buffer)) != -1; ) {
+                outputStream.write(buffer, 0, length);
+            }
+            return outputStream.toString("UTF-8");
         }
     }
 }

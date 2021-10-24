@@ -1,28 +1,18 @@
 package ru.strict.file.data;
 
+import lombok.Data;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Base64;
 
-// TODO: сделать builder
+@Data
 public class UnitFile {
     private String filePath;
     private String extension;
     private byte[] content;
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public String getExtension() {
-        return extension;
-    }
-
-    public byte[] getContent() throws IOException {
-        return content;
-    }
 
     public String getBase64Content() {
         if (content == null) {

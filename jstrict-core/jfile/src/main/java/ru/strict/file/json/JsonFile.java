@@ -2,6 +2,7 @@ package ru.strict.file.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@Deprecated
 public class JsonFile<TARGET> extends BaseJsonFile<TARGET> {
 
     public JsonFile(String filePath, ObjectMapper objectMapper) {

@@ -1,4 +1,4 @@
-package ru.strict.file.xls;
+package ru.strict.office.xls;
 
 import org.jxls.common.Context;
 import org.jxls.template.SimpleExporter;
