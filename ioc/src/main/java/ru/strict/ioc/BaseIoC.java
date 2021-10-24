@@ -1,13 +1,13 @@
 package ru.strict.ioc;
 
 import lombok.RequiredArgsConstructor;
-import ru.strict.exceptions.ValidateException;
+import ru.strict.exception.ValidateException;
 import ru.strict.ioc.annotation.*;
 import ru.strict.ioc.box.ComponentFactoryProcessor;
 import ru.strict.ioc.box.ComponentSupplier;
 import ru.strict.ioc.exception.*;
-import ru.strict.utils.ReflectionUtil;
-import ru.strict.utils.StringUtil;
+import ru.strict.util.ReflectionUtil;
+import ru.strict.util.StringUtil;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;

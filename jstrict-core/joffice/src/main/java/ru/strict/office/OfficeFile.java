@@ -1,6 +1,6 @@
 package ru.strict.office;
 
-import ru.strict.utils.FileUtil;
+import ru.strict.util.FileUtil;
 import ru.strict.validate.CommonValidate;
 
 public abstract class OfficeFile<SOURCE, FORMAT extends IOfficeFormat>

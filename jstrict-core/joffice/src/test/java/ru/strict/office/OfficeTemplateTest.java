@@ -3,7 +3,7 @@ package ru.strict.office;
 import org.junit.jupiter.api.Assertions;
 import ru.strict.office.template.OfficeTemplate;
 import ru.strict.office.template.TemplateConfiguration;
-import ru.strict.utils.ClassUtil;
+import ru.strict.util.ClassUtil;
 
 import java.io.File;
 import java.nio.file.Files;

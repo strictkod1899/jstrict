@@ -3,8 +3,8 @@ package ru.strict.office.template;
 import net.sf.jooreports.templates.DocumentTemplate;
 import net.sf.jooreports.templates.DocumentTemplateFactory;
 import org.jxls.util.JxlsHelper;
-import ru.strict.utils.FileUtil;
-import ru.strict.utils.ResourcesUtil;
+import ru.strict.util.FileUtil;
+import ru.strict.util.ResourcesUtil;
 
 import java.io.*;
 

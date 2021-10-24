@@ -1,13 +1,13 @@
 package ru.strict.neuralnetwork.networks;
 
-import ru.strict.template.IBuilder;
+public interface INeuralNetworkBuilder<RESULT extends NeuralNetworkHidden> {
+    INeuralNetworkBuilder<RESULT> addLayout(int countHiddenNeurons);
 
-public interface INeuralNetworkBuilder<RESULT extends NeuralNetworkHidden> extends IBuilder<RESULT> {
-    INeuralNetworkBuilder addLayout(int countHiddenNeurons);
+    INeuralNetworkBuilder<RESULT> addTrainingSet(Neuron[] inputSet, Neuron[] outputSet);
 
-    INeuralNetworkBuilder addTrainingSet(Neuron[] inputSet, Neuron[] outputSet);
+    INeuralNetworkBuilder<RESULT> addTestSet(Neuron[] inputSet, Neuron[] outputSet);
 
-    INeuralNetworkBuilder addTestSet(Neuron[] inputSet, Neuron[] outputSet);
+    INeuralNetworkBuilder<RESULT> useBias(boolean isUseBias);
 
-    INeuralNetworkBuilder useBias(boolean isUseBias);
+    RESULT build();
 }

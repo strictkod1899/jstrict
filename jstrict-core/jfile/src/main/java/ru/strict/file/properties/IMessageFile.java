@@ -1,7 +1,7 @@
 package ru.strict.file.properties;
 
-import ru.strict.components.IMessageCode;
+import ru.strict.model.Codeable;
 
 public interface IMessageFile {
-    String getMessage(IMessageCode messageCode);
+    String getMessage(Codeable<String> messageCode);
 }

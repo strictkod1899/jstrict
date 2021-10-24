@@ -1,7 +1,7 @@
 package ru.strict.ioc.annotation;
 
 import lombok.experimental.UtilityClass;
-import ru.strict.utils.ReflectionUtil;
+import ru.strict.util.ReflectionUtil;
 
 import javax.annotation.PostConstruct;
 

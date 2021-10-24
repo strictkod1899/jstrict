@@ -2,6 +2,8 @@ package ru.strict.i18n;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import ru.strict.json.LocalizedStringDeserializer;
 import ru.strict.json.LocalizedStringSerializer;
 import ru.strict.validate.Validator;
@@ -11,6 +13,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+@EqualsAndHashCode
+@ToString
 @JsonSerialize(using = LocalizedStringSerializer.class)
 @JsonDeserialize(using = LocalizedStringDeserializer.class)
 public class LocalizedString {
@@ -52,23 +56,6 @@ public class LocalizedString {
     public void setStrings(Map<String, String> strings) {
         Validator.isNull(strings, "strings");
         this.strings = strings;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        LocalizedString that = (LocalizedString) o;
-        return Objects.equals(strings, that.strings);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(strings);
     }
 
     public static Builder builder() {

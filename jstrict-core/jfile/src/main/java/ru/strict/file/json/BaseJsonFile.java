@@ -2,8 +2,8 @@ package ru.strict.file.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ru.strict.utils.ClassUtil;
-import ru.strict.utils.FileUtil;
+import ru.strict.util.ClassUtil;
+import ru.strict.util.FileUtil;
 
 import java.io.File;
 import java.io.IOException;

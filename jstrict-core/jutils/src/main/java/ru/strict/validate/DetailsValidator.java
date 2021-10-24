@@ -1,6 +1,6 @@
 package ru.strict.validate;
 
-import ru.strict.exceptions.ValidateException;
+import ru.strict.exception.ValidateException;
 
 import java.util.Collection;
 

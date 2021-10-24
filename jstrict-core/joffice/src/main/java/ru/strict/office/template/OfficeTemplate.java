@@ -3,8 +3,8 @@ package ru.strict.office.template;
 import com.itextpdf.text.*;
 import org.apache.commons.io.FilenameUtils;
 import org.jxls.common.Context;
-import ru.strict.utils.ClassUtil;
-import ru.strict.utils.ResourcesUtil;
+import ru.strict.util.ClassUtil;
+import ru.strict.util.ResourcesUtil;
 import ru.strict.validate.Validator;
 import ru.strict.office.template.TemplateConfiguration.*;
 

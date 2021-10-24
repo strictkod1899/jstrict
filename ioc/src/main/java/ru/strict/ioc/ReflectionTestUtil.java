@@ -1,6 +1,6 @@
 package ru.strict.ioc;
 
-import ru.strict.utils.ReflectionUtil;
+import ru.strict.util.ReflectionUtil;
 
 import java.util.Map;
 

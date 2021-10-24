@@ -2,7 +2,7 @@ package ru.strict.validate;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.strict.exceptions.ValidateException;
+import ru.strict.exception.ValidateException;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -4,7 +4,7 @@ import lombok.experimental.UtilityClass;
 import ru.strict.ioc.IoC;
 import ru.strict.ioc.exception.ManyMatchComponentAnnotationException;
 import ru.strict.ioc.exception.ManyMatchConstructorFieldsException;
-import ru.strict.utils.ReflectionUtil;
+import ru.strict.util.ReflectionUtil;
 import ru.strict.validate.CommonValidate;
 
 import java.lang.reflect.Constructor;

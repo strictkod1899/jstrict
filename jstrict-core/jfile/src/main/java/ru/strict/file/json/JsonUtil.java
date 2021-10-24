@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import ru.strict.utils.FileUtil;
+import ru.strict.util.FileUtil;
 
 import static ru.strict.validate.Validator.*;
 

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.strict.file.properties.PropertiesFile;
-import ru.strict.utils.ResourcesUtil;
+import ru.strict.util.ResourcesUtil;
 
 import java.io.IOException;
 import java.nio.file.Files;

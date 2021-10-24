@@ -3,10 +3,10 @@ package ru.strict.ioc.annotation;
 import lombok.experimental.UtilityClass;
 import ru.strict.ioc.exception.ComponentNotFoundException;
 import ru.strict.ioc.exception.IoCException;
-import ru.strict.utils.PropertiesUtil;
-import ru.strict.utils.ReflectionUtil;
-import ru.strict.utils.ResourcesUtil;
-import ru.strict.utils.StringUtil;
+import ru.strict.util.PropertiesUtil;
+import ru.strict.util.ReflectionUtil;
+import ru.strict.util.ResourcesUtil;
+import ru.strict.util.StringUtil;
 import ru.strict.validate.CommonValidate;
 
 import java.lang.reflect.Method;

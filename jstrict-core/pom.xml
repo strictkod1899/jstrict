@@ -16,7 +16,7 @@
     <modules>
         <module>jutils</module>
         <module>jfile</module>
-        <module>jtemplate</module>
+        <module>jview</module>
         <module>joffice</module>
     </modules>
 

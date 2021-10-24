@@ -2,7 +2,7 @@ package ru.strict.file.txt;
 
 import ru.strict.file.IFileReader;
 import ru.strict.file.IFileWriter;
-import ru.strict.utils.FileUtil;
+import ru.strict.util.FileUtil;
 import ru.strict.validate.Validator;
 
 import java.io.*;

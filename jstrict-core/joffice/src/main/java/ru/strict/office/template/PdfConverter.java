@@ -16,7 +16,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.*;
 import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
-import ru.strict.utils.FileUtil;
+import ru.strict.util.FileUtil;
 import ru.strict.office.template.TemplateConfiguration.*;
 import ru.strict.validate.Validator;
 

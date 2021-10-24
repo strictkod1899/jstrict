@@ -1,6 +1,6 @@
 package ru.strict.neuralnetwork.networks;
 
-import ru.strict.exceptions.ValidateException;
+import ru.strict.exception.ValidateException;
 import ru.strict.neuralnetwork.functions.IActivateFunction;
 import ru.strict.validate.Validator;
 

@@ -2,7 +2,7 @@ package ru.strict.ioc.box;
 
 import lombok.experimental.UtilityClass;
 import ru.strict.ioc.IoC;
-import ru.strict.utils.ReflectionUtil;
+import ru.strict.util.ReflectionUtil;
 
 import java.lang.reflect.ParameterizedType;
 

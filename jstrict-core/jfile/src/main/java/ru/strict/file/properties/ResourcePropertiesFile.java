@@ -1,6 +1,6 @@
 package ru.strict.file.properties;
 
-import ru.strict.utils.ResourcesUtil;
+import ru.strict.util.ResourcesUtil;
 import ru.strict.validate.CommonValidate;
 
 public abstract class ResourcePropertiesFile extends PropertiesFile {
@@ -70,5 +70,5 @@ public abstract class ResourcePropertiesFile extends PropertiesFile {
      * Стандартная реализация: this.getClass();
      * Необходимо для получения ресурса из jar-файла, с этим классом
      */
-    protected abstract Class getThisClass();
+    protected abstract Class<?> getThisClass();
 }

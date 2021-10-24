@@ -5,7 +5,7 @@ import net.sf.sevenzipjbinding.impl.RandomAccessFileInStream;
 import net.sf.sevenzipjbinding.simple.ISimpleInArchive;
 import net.sf.sevenzipjbinding.simple.ISimpleInArchiveItem;
 import ru.strict.file.IFileReader;
-import ru.strict.utils.FileUtil;
+import ru.strict.util.FileUtil;
 
 import java.io.*;
 import java.util.ArrayList;

@@ -2,7 +2,7 @@ package ru.strict.file.properties;
 
 import lombok.Getter;
 import lombok.Setter;
-import ru.strict.components.IMessageCode;
+import ru.strict.model.Codeable;
 
 @Getter
 @Setter
@@ -25,12 +25,12 @@ public class MessageFile extends ResourcePropertiesFile {
         super(FILE_PATH, lang, targetFilePath);
     }
 
-    public String getMessage(IMessageCode messageCode) {
+    public String getMessage(Codeable<String> messageCode) {
         return readValue(messageCode.getCode(), fileEncoding, targetEncoding);
     }
 
     @Override
-    protected Class getThisClass() {
+    protected Class<MessageFile> getThisClass() {
         return MessageFile.class;
     }
 }

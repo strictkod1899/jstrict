@@ -20,10 +20,6 @@
             <groupId>ru.strict</groupId>
             <artifactId>jutils</artifactId>
         </dependency>
-        <dependency>
-            <groupId>ru.strict</groupId>
-            <artifactId>jtemplate</artifactId>
-        </dependency>
 
         <!-- test -->
         <dependency>
