@@ -1,5 +1,7 @@
 package ru.strict.util;
 
+import lombok.experimental.UtilityClass;
+
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.SignStyle;
@@ -8,10 +10,8 @@ import java.util.Map;
 
 import static java.time.temporal.ChronoField.*;
 
-public final class DateFormatters {
-
-    private DateFormatters() {
-    }
+@UtilityClass
+public class DateFormatter {
 
     /**
      * Месяцы в родительном падеже для форматирования даты
@@ -48,19 +48,23 @@ public final class DateFormatters {
     /**
      * Форматирование даты в формате '01.02.2019'
      */
-    public static final DateTimeFormatter DATE_FORMATTER_1 = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public static final DateTimeFormatter DATE_FORMAT_DMY_BY_POINT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     /**
      * Форматирование даты в формате '01/02/2019'
      */
-    public static final DateTimeFormatter DATE_FORMATTER_2 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public static final DateTimeFormatter DATE_FORMAT_DMY_BY_SLASH = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     /**
-     * Форматирование даты в формате '01_02_2019'
+     * Форматирование даты в формате '2019-02-21'
      */
-    public static final DateTimeFormatter DATE_FORMATTER_3 = DateTimeFormatter.ofPattern("dd_MM_yyyy");
+    public static final DateTimeFormatter DATE_FORMAT_YMD_BY_DASH = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
     /**
      * Форматирование даты в формате '01.02.2019 17:01'
      */
     public static final DateTimeFormatter DATETIME_FORMAT_MM = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+
     /**
      * Форматирование даты в формате '01.02.2019 17:01:31'
      */

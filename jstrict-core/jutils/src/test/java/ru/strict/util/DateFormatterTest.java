@@ -5,22 +5,22 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-public class DateFormattersTest {
+public class DateFormatterTest {
 
     private static final LocalDate DATE = LocalDate.of(2019, 2, 23);
 
     @Test
     public void testNamedDateFormatter() {
-        Assertions.assertEquals("23 Февраля 2019", DATE.format(DateFormatters.NAMED_DATE_FORMATTER));
+        Assertions.assertEquals("23 Февраля 2019", DATE.format(DateFormatter.NAMED_DATE_FORMATTER));
     }
 
     @Test
     public void testDateFormatter1() {
-        Assertions.assertEquals("23.02.2019", DATE.format(DateFormatters.DATE_FORMATTER_1));
+        Assertions.assertEquals("23.02.2019", DATE.format(DateFormatter.DATE_FORMAT_DMY_BY_POINT));
     }
 
     @Test
     public void testDateFormatter2() {
-        Assertions.assertEquals("23/02/2019", DATE.format(DateFormatters.DATE_FORMATTER_2));
+        Assertions.assertEquals("23/02/2019", DATE.format(DateFormatter.DATE_FORMAT_DMY_BY_SLASH));
     }
 }
