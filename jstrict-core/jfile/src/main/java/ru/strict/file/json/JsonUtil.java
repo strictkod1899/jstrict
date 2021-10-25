@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import lombok.experimental.UtilityClass;
+import ru.strict.file.FileProcessingException;
 import ru.strict.util.FileUtil;
 
 import static ru.strict.validate.Validator.*;
@@ -14,40 +15,40 @@ public class JsonUtil {
 
     private static final JacksonObjectMapper OBJECT_MAPPER = new JacksonObjectMapper();
 
-    public static <O> void saveToJson(O object, String pathToJson) {
+    public <T> void saveToJson(T object, File file) {
         isNull(object, "object");
-        isEmptyOrNull(pathToJson, "pathToJson");
+        isNull(file, "file");
 
         try {
             if (object instanceof String) {
-                FileUtil.writeFile(pathToJson, object.toString());
+                FileUtil.writeFile(file, object.toString());
             } else {
-                OBJECT_MAPPER.writeValue(new File(pathToJson), object);
+                OBJECT_MAPPER.writeValue(file, object);
             }
         } catch (IOException ex) {
-            throw new JsonException(ex);
+            throw new FileProcessingException(file.getAbsolutePath(), ex);
         }
     }
 
-    public static <O> O loadFromJson(String pathToJson, Class<O> clazz) {
-        isNull(clazz, "clazz");
-        isEmptyOrNull(pathToJson, "pathToJson");
+    public <T> T loadFromJson(String filePath, Class<T> objectClass) {
+        isNull(objectClass, "objectClass");
+        isEmptyOrNull(filePath, "filePath");
 
         try {
-            return OBJECT_MAPPER.readValue(new File(pathToJson), clazz);
+            return OBJECT_MAPPER.readValue(new File(filePath), objectClass);
         } catch (IOException ex) {
-            throw new JsonException(ex);
+            throw new FileProcessingException(filePath, ex);
         }
     }
 
-    public static <O> O loadFromJson(InputStream stream, Class<O> clazz) {
-        isNull(clazz, "clazz");
-        isNull(stream, "stream");
+    public <T> T loadFromJson(InputStream inputStream, Class<T> objectClass) {
+        isNull(objectClass, "objectClass");
+        isNull(inputStream, "inputStream");
 
         try {
-            return OBJECT_MAPPER.readValue(stream, clazz);
+            return OBJECT_MAPPER.readValue(inputStream, objectClass);
         } catch (IOException ex) {
-            throw new JsonException(ex);
+            throw new FileProcessingException(inputStream.toString(), ex);
         }
     }
 }

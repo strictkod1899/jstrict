@@ -1,4 +1,4 @@
-package ru.strict.office.xls;
+package ru.strict.office.jxls;
 
 public class XlsReportException extends RuntimeException {
 

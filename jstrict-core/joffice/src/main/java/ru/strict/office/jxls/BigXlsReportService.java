@@ -1,4 +1,4 @@
-package ru.strict.office.xls;
+package ru.strict.office.jxls;
 
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.streaming.SXSSFFormulaEvaluator;

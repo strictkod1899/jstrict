@@ -6,6 +6,7 @@ import lombok.experimental.UtilityClass;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import ru.strict.file.FileProcessingException;
 import ru.strict.validate.CommonValidate;
 import ru.strict.validate.Validator;
 
@@ -14,7 +15,15 @@ import java.io.*;
 @UtilityClass
 public class HtmlUtil {
 
-    public static Elements selectByFileUTF8(String filePath, String selector) {
+    public Elements select(String source, String selector) {
+        if (source.startsWith("http") || source.startsWith("https")) {
+            return HtmlUtil.selectByGet(source, selector);
+        } else {
+            return HtmlUtil.selectByUTF8File(source, selector);
+        }
+    }
+
+    public static Elements selectByUTF8File(String filePath, String selector) {
         return selectByFile(filePath, selector, "UTF-8");
     }
 
@@ -29,7 +38,7 @@ public class HtmlUtil {
 
             return getTag(page, selector);
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            throw new FileProcessingException(filePath, ex);
         }
     }
 
@@ -37,10 +46,6 @@ public class HtmlUtil {
         Validator.isEmptyOrNull(content, "content");
 
         var page = Jsoup.parseBodyFragment(content);
-        if (page == null) {
-            throw new NullPointerException(String.format("Page by content [%s] not found", content));
-        }
-
         return getTag(page, selector);
     }
 
@@ -55,7 +60,7 @@ public class HtmlUtil {
 
             return getTag(page, selector);
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            throw new FileProcessingException(url, ex);
         }
     }
 
@@ -70,7 +75,7 @@ public class HtmlUtil {
 
             return getTag(page, selector);
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            throw new FileProcessingException(url, ex);
         }
     }
 
@@ -86,7 +91,7 @@ public class HtmlUtil {
             XMLWorkerHelper.getInstance().parseXHtml(writer, document, new FileInputStream(sourceHtmlFilePath));
             document.close();
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            throw new FileProcessingException(sourceHtmlFilePath, ex);
         }
     }
 

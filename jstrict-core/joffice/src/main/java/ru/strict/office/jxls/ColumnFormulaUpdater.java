@@ -1,4 +1,4 @@
-package ru.strict.office.xls;
+package ru.strict.office.jxls;
 
 import lombok.RequiredArgsConstructor;
 import org.jxls.command.CellDataUpdater;

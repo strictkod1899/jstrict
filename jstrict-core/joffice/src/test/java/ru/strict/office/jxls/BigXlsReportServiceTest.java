@@ -1,4 +1,4 @@
-package ru.strict.office.xls;
+package ru.strict.office.jxls;
 
 import lombok.Data;
 import org.junit.jupiter.api.Test;

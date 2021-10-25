@@ -14,11 +14,50 @@
     <version>${revision}</version>
     <packaging>pom</packaging>
 
+    <properties>
+    	<revision>1.0.0-SNAPSHOT</revision>
+    </properties>
+    
     <modules>
         <module>jstrict-core</module>
         <module>jneuralnetwork</module>
         <module>ioc</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jutils</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jfile</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>joffice</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jview</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>jneuralnetwork</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
+                <artifactId>ioc</artifactId>
+                <version>${revision}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
