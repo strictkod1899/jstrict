@@ -1,23 +1,15 @@
 package ru.strict.file.properties;
 
+import lombok.RequiredArgsConstructor;
 import ru.strict.model.Codeable;
 
-import java.io.InputStream;
-import java.util.function.Supplier;
+@RequiredArgsConstructor
+public class MessagePropertiesFile implements MessageFile {
 
-public class MessagePropertiesFile extends PropertiesFile implements MessageFile {
-
-    public MessagePropertiesFile(String filePath, String lang) {
-        super(filePath, lang);
-    }
-
-    private MessagePropertiesFile(Supplier<InputStream> inputStreamSupplier,
-            Supplier<InputStream> inputStreamWithSuffixSupplier) {
-        super(inputStreamSupplier, inputStreamWithSuffixSupplier);
-    }
+    private final PropertiesFile messagePropertiesFile;
 
     @Override
     public String getMessage(Codeable<String> messageCode) {
-        return readValue(messageCode.getCode());
+        return messagePropertiesFile.readValue(messageCode.getCode());
     }
 }
