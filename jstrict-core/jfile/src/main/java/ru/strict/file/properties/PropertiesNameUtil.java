@@ -9,13 +9,21 @@ import java.util.stream.Stream;
 public class PropertiesNameUtil {
 
     public String getFilePathWithSuffix(String filePath, String suffix) {
-        var separateLastIndex = getSeparateLastIndexOf(filePath);
-        var pathToDirectory = separateLastIndex < 0 ? "" : filePath.substring(0, separateLastIndex);
+        return getPathWithSuffix(filePath, suffix, File.separator);
+    }
+
+    public String getResourcePathWithSuffix(String filePath, String suffix) {
+        return getPathWithSuffix(filePath, suffix, "/");
+    }
+
+    public String getPathWithSuffix(String path, String suffix, String pathSeparator) {
+        var separateLastIndex = getSeparateLastIndexOf(path);
+        var pathToDirectory = separateLastIndex < 0 ? "" : path.substring(0, separateLastIndex);
         String fileName;
-        fileName = filePath.substring(separateLastIndex + 1);
+        fileName = path.substring(separateLastIndex + 1);
         fileName = fileName.substring(0, fileName.lastIndexOf(".properties"));
 
-        return createFilePathWithSuffix(pathToDirectory, fileName, suffix);
+        return createPathWithSuffix(pathToDirectory, fileName, suffix, pathSeparator);
     }
 
     private int getSeparateLastIndexOf(String filePath) {
@@ -28,8 +36,8 @@ public class PropertiesNameUtil {
                 .get();
     }
 
-    private String createFilePathWithSuffix(String pathToDirectory, String fileName, String suffix) {
-        return pathToDirectory + File.separator + createFileNameWithSuffix(fileName, suffix);
+    private String createPathWithSuffix(String pathToDirectory, String fileName, String suffix, String pathSeparator) {
+        return pathToDirectory + pathSeparator + createFileNameWithSuffix(fileName, suffix);
     }
 
     private String createFileNameWithSuffix(String fileName, String suffix) {
