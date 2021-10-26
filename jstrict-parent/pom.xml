@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jdk.version>11</jdk.version>
 
-        <lombok.version>1.18.20</lombok.version>
+        <lombok.version>1.18.22</lombok.version>
 
         <app.main-class>ru.strict.app.Main</app.main-class>
         <app.name>${project.name}-${project.version}</app.name>
@@ -27,7 +27,7 @@
 
         <launch4j.copyright>jstrict</launch4j.copyright>
         <launch4j.jdk.version>11</launch4j.jdk.version>
-        <launch4j.jar>target/${app.name}-jar-with-dependencies.jar</launch4j.jar>
+        <launch4j.jar>target/${app.name}.jar</launch4j.jar>
     </properties>
 
     <dependencyManagement>
@@ -44,7 +44,7 @@
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
-                <artifactId>jtemplate</artifactId>
+                <artifactId>jview</artifactId>
                 <version>${jstrict.version}</version>
             </dependency>
             <dependency>
@@ -80,22 +80,22 @@
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
-                <version>5.7.2</version>
+                <version>5.8.1</version>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-params</artifactId>
-                <version>5.7.0</version>
+                <version>5.8.1</version>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-junit-jupiter</artifactId>
-                <version>3.11.0</version>
+                <version>4.0.0</version>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
-                <version>3.11.0</version>
+                <version>4.0.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -106,7 +106,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.0</version>
+                    <version>3.8.1</version>
                     <configuration>
                         <encoding>${project.build.sourceEncoding}</encoding>
                         <source>${jdk.version}</source>
@@ -123,7 +123,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>3.2.0</version>
                     <configuration>
                         <outputDirectory>${project.build.directory}/libs/</outputDirectory>
                         <overWriteReleases>false</overWriteReleases>
@@ -143,7 +143,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>3.2.0</version>
                     <configuration>
                         <archive>
                             <addMavenDescriptor>false</addMavenDescriptor>
@@ -159,7 +159,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>3.3.0</version>
                     <executions>
                         <execution>
                             <phase>package</phase>
@@ -215,7 +215,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.22.1</version>
+                    <version>2.22.2</version>
                     <executions>
                         <execution>
                             <id>unit-tests</id>
@@ -236,7 +236,7 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.3</version>
+                    <version>0.8.7</version>
                     <executions>
                         <execution>
                             <goals>
@@ -278,7 +278,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.2.1</version>
                     <executions>
                         <execution>
                             <id>attach-sources</id>
@@ -292,17 +292,17 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>3.7.1</version>
+                    <version>3.9.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.sonarsource.scanner.maven</groupId>
                     <artifactId>sonar-maven-plugin</artifactId>
-                    <version>3.7.0.1746</version>
+                    <version>3.9.0.2155</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-pmd-plugin</artifactId>
-                    <version>3.12.0</version>
+                    <version>3.15.0</version>
                     <configuration>
                         <failOnViolation>true</failOnViolation>
                         <printFailingErrors>true</printFailingErrors>
@@ -325,7 +325,7 @@
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>3.1.11</version>
+                    <version>4.4.2.2</version>
                     <configuration>
                         <effort>Max</effort>
                         <failOnError>false</failOnError>
@@ -382,7 +382,7 @@
                 <plugin>
                     <groupId>com.akathist.maven.plugins.launch4j</groupId>
                     <artifactId>launch4j-maven-plugin</artifactId>
-                    <version>1.7.16</version>
+                    <version>2.1.2</version>
                     <executions>
                         <execution>
                             <id>launch4j-install</id>
