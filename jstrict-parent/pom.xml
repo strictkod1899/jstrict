@@ -5,7 +5,7 @@
 
     <groupId>ru.strict</groupId>
     <artifactId>jstrict-parent</artifactId>
-    <version>0.2.39</version>
+    <version>0.2.40</version>
     <packaging>pom</packaging>
     <name>jstrict-parent</name>
 
@@ -18,7 +18,7 @@
         <app.main-class>ru.strict.app.Main</app.main-class>
         <app.name>${project.name}-${project.version}</app.name>
         <app.icon>_sources/logo.ico</app.icon>
-        <jstrict.version>0.2.39</jstrict.version>
+        <jstrict.version>0.2.40</jstrict.version>
 
         <jacoco.coverage>0%</jacoco.coverage>
         <pmd.failure.priority>5</pmd.failure.priority>
