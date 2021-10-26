@@ -113,7 +113,7 @@ public class PropertiesFile {
     }
 
     public static PropertiesFile fromResource(String resourceFilePath, String suffix) {
-        var filePathWithSuffix = PropertiesNameUtil.getFilePathWithSuffix(resourceFilePath, suffix);
+        var filePathWithSuffix = PropertiesNameUtil.getResourcePathWithSuffix(resourceFilePath, suffix);
 
         return new PropertiesFile(() -> ResourcesUtil.getResourceStream(resourceFilePath),
                 () -> ResourcesUtil.getResourceStream(filePathWithSuffix));
