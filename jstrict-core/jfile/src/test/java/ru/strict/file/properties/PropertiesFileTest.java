@@ -1,12 +1,14 @@
 package ru.strict.file.properties;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import ru.strict.util.ResourcesUtil;
 
 class PropertiesFileTest {
 
     @Test
+    @Disabled
     void testReadValue_withoutSuffix_success() {
         var filePath = "test.properties";
         var expected1 = "hello";
@@ -19,6 +21,7 @@ class PropertiesFileTest {
     }
 
     @Test
+    @Disabled
     void testReadValue_withSuffix_success() {
         var filePath = "test.properties";
         var expected1 = "privet";
