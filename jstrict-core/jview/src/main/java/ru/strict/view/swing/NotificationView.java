@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class NotificationView {
+public class NotificationView implements Notification {
 
     @Getter
     private final String message;
@@ -37,16 +37,18 @@ public class NotificationView {
         initComponents();
     }
 
+    @Override
     public void show() {
         getFrame().setVisible(true);
     }
 
+    @Override
     public void hide() {
         getFrame().setVisible(false);
     }
 
     public void repaint() {
-        fillSettings();
+        applySettings();
         fillComponentSettings();
 
         getFrame().repaint();
@@ -96,10 +98,10 @@ public class NotificationView {
             frame.setUndecorated(true);
         }
 
-        fillSettings();
+        applySettings();
     }
 
-    private void fillSettings() {
+    private void applySettings() {
         var window = getFrame();
         window.setSize(settings.getSize());
         window.setPreferredSize(settings.getSize());
