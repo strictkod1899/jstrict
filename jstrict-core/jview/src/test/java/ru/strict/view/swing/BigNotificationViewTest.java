@@ -13,11 +13,25 @@ class BigNotificationViewTest {
 
     @Test
     void testView_longText_success() {
-        var notification = new BigNotificationView("TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
+        var notification = new BigNotificationView("TestTestTestTestTest TestTestTestTestTest TestTestTestTestTestTest" +
+                "TestTestTestTestTestTestTest TestTestTestTestTestTest TestTestTestTestTestTestTestTestTestTestTestTest" +
+                "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
+                "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
+                "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
+                "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
+                "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
+                "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
+                "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
+                "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
+                "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
+                "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
+                "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
+                "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
+                "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
+                "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
                 "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
                 "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest");
         notification.show();
-
         notification.hide();
     }
 }

@@ -12,10 +12,9 @@ class NotificationViewTest {
     }
 
     @Test
-    void testView_longText_success() throws InterruptedException {
+    void testView_longText_success() {
         var notification = new NotificationView("TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest");
         notification.show();
-
         notification.hide();
     }
 }
