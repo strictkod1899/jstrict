@@ -1,6 +1,6 @@
 package ru.strict.office;
 
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import ru.strict.office.template.OfficeTemplate;
 import ru.strict.office.template.TemplateConfiguration;
 import ru.strict.util.ClassUtil;
@@ -9,45 +9,46 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 
-public class OfficeTemplateTest {
+import static org.junit.jupiter.api.Assertions.*;
 
-    @org.junit.jupiter.api.Test
-    public void test() {
-        String templateXlsName = "template.xls";
-        String templateXlsxName = "template.xlsx";
+class OfficeTemplateTest {
 
-        String pdfName = "template.pdf";
+    @Test
+    void test() {
+        var templateXlsName = "template.xls";
+        var templateXlsxName = "template.xlsx";
 
-        String directoryPath = ClassUtil.getPathByClass(OfficeTemplateTest.class);
-        String templateXlsDirectoryPath = directoryPath + File.separator + "xls" + File.separator;
-        String templateXlsxDirectoryPath = directoryPath + File.separator + "xlsx" + File.separator;
+        var pdfName = "template.pdf";
 
-        String outputTemplateXlsPath = templateXlsDirectoryPath + templateXlsName;
-        String outputTemplateXlsxPath = templateXlsxDirectoryPath + templateXlsxName;
-        String outputXlsPdfPath = templateXlsDirectoryPath + pdfName;
-        String outputXlsxPdfPath = templateXlsxDirectoryPath + pdfName;
+        var directoryPath = ClassUtil.getPathByClass(OfficeTemplateTest.class);
+        var templateXlsDirectoryPath = directoryPath + File.separator + "xls" + File.separator;
+        var templateXlsxDirectoryPath = directoryPath + File.separator + "xlsx" + File.separator;
 
-        OfficeTemplate templateXls = new OfficeTemplate(templateXlsName, outputTemplateXlsPath, true);
-        OfficeTemplate templateXlsx = new OfficeTemplate(templateXlsxName, outputTemplateXlsxPath, true);
+        var outputTemplateXlsPath = templateXlsDirectoryPath + templateXlsName;
+        var outputTemplateXlsxPath = templateXlsxDirectoryPath + templateXlsxName;
+        var outputXlsPdfPath = templateXlsDirectoryPath + pdfName;
+        var outputXlsxPdfPath = templateXlsxDirectoryPath + pdfName;
+
+        var templateXls = new OfficeTemplate(templateXlsName, outputTemplateXlsPath, true);
+        var templateXlsx = new OfficeTemplate(templateXlsxName, outputTemplateXlsxPath, true);
         templateXls.getConfiguration().setBorderWidth(1);
         templateXls.getConfiguration().setBorderConfigType(TemplateConfiguration.BorderConfigType.FIX);
         templateXls.getConfiguration().setFontWeight(7);
 
-        List<TestModel> tests = new ArrayList<>();
-        tests.add(new TestModel("name1name1name1name1name1name1name1name1name1name1name1name1name1name1name1name1name1", 1, "description1"));
-        tests.add(new TestModel("name2", 2, "description2"));
-        tests.add(new TestModel("name3", 3, "description3"));
-        templateXls.addItem("tests", tests);
-        templateXlsx.addItem("tests", tests);
+        var testsModels = new ArrayList<>();
+        testsModels.add(new TestModel("name1name1name1name1name1name1name1name1name1name1name1name1name1name1name1name1name1", 1, "description1"));
+        testsModels.add(new TestModel("name2", 2, "description2"));
+        testsModels.add(new TestModel("name3", 3, "description3"));
+        templateXls.addItem("tests", testsModels);
+        templateXlsx.addItem("tests", testsModels);
 
         templateXls.toPdf();
         templateXlsx.toPdf();
 
-        Assertions.assertTrue(Files.exists(Paths.get(outputTemplateXlsPath)));
-        Assertions.assertTrue(Files.exists(Paths.get(outputXlsPdfPath)));
-        Assertions.assertTrue(Files.exists(Paths.get(outputTemplateXlsxPath)));
-        Assertions.assertTrue(Files.exists(Paths.get(outputXlsxPdfPath)));
+        assertTrue(Files.exists(Paths.get(outputTemplateXlsPath)));
+        assertTrue(Files.exists(Paths.get(outputXlsPdfPath)));
+        assertTrue(Files.exists(Paths.get(outputTemplateXlsxPath)));
+        assertTrue(Files.exists(Paths.get(outputXlsxPdfPath)));
     }
 }

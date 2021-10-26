@@ -1,27 +1,28 @@
 package ru.strict.validate;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class IsEmptyOrNullTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class IsEmptyOrNullTest {
 
     @Test
-    public void testIsEmptyOrNull_empty_success() {
-        Assertions.assertTrue(CommonValidate.isEmptyOrNull(""));
+    void testIsEmptyOrNull_empty_success() {
+        assertTrue(CommonValidate.isEmptyOrNull(""));
     }
 
     @Test
-    public void testIsEmptyOrNull_null_success() {
-        Assertions.assertTrue(CommonValidate.isEmptyOrNull((String) null));
+    void testIsEmptyOrNull_null_success() {
+        assertTrue(CommonValidate.isEmptyOrNull((String) null));
     }
 
     @Test
-    public void testIsEmptyOrNull_space_false() {
-        Assertions.assertFalse(CommonValidate.isEmptyOrNull(" "));
+    void testIsEmptyOrNull_space_false() {
+        assertFalse(CommonValidate.isEmptyOrNull(" "));
     }
 
     @Test
-    public void testIsEmptyOrNull_notEmpty_false() {
-        Assertions.assertFalse(CommonValidate.isEmptyOrNull("not empty"));
+    void testIsEmptyOrNull_notEmpty_false() {
+        assertFalse(CommonValidate.isEmptyOrNull("not empty"));
     }
 }
