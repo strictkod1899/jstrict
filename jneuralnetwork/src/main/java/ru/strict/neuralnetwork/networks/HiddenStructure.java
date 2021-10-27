@@ -45,7 +45,7 @@ class HiddenStructure extends NeuralNetworkStructure {
         super(countInputs, countOutputs);
 
         if (countHiddens < 1) {
-            throw ValidateException.byDetails("Neural Network structure do not should have hidden neurons count" +
+            throw new ValidateException("Neural Network structure do not should have hidden neurons count" +
                     "is negative. [Hidden neurons count < 1]");
         }
 
@@ -120,7 +120,7 @@ class HiddenStructure extends NeuralNetworkStructure {
      */
     public void addLayoutHidden(int countHiddenNeurons) {
         if (countHiddenNeurons < 1) {
-            throw ValidateException.byDetails("Neural Network structure do not should have hidden neurons count is " +
+            throw new ValidateException("Neural Network structure do not should have hidden neurons count is " +
                     "negative. [Hidden neurons count < 1]");
         }
 

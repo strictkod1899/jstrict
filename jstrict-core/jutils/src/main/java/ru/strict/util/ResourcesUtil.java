@@ -35,8 +35,8 @@ public class ResourcesUtil {
      * Если передать null, тогда будет использован системный ClassLoader
      */
     public static File getResourceAsFile(String resourcePath, String targetPath, Class<?> classThisJarFile) {
-        Validator.isEmptyOrNull(resourcePath, "resourcePath");
-        Validator.isEmptyOrNull(targetPath, "targetPath");
+        Validator.isNullOrEmpty(resourcePath, "resourcePath");
+        Validator.isNullOrEmpty(targetPath, "targetPath");
 
         File file = new File(targetPath);
 
@@ -66,7 +66,7 @@ public class ResourcesUtil {
     }
 
     public static File getResourceAsTempFile(String resourcePath, Class<?> classThisJarFile) {
-        Validator.isEmptyOrNull(resourcePath, "resourcePath");
+        Validator.isNullOrEmpty(resourcePath, "resourcePath");
 
         ClassLoader classLoader = classThisJarFile == null
                 ? ClassLoader.getSystemClassLoader()
@@ -125,7 +125,7 @@ public class ResourcesUtil {
      * @return Файл-ресурс
      */
     public static File getResource(String resourcePath, Class<?> classThisJarFile) {
-        Validator.isEmptyOrNull(resourcePath, "resourcePath");
+        Validator.isNullOrEmpty(resourcePath, "resourcePath");
 
         ClassLoader classLoader = classThisJarFile == null
                 ? ClassLoader.getSystemClassLoader()
@@ -149,7 +149,7 @@ public class ResourcesUtil {
      * @return Входной поток файла-ресурса
      */
     public static InputStream getResourceStream(String resourcePath, Class<?> classThisJarFile) {
-        Validator.isEmptyOrNull(resourcePath, "resourcePath");
+        Validator.isNullOrEmpty(resourcePath, "resourcePath");
 
         ClassLoader classLoader = classThisJarFile == null
                 ? ClassLoader.getSystemClassLoader()

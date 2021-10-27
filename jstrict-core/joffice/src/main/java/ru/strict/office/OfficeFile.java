@@ -12,7 +12,7 @@ public abstract class OfficeFile<SOURCE, FORMAT extends IOfficeFormat>
     private FORMAT format;
 
     public OfficeFile(String filePath) {
-        if(CommonValidate.isEmptyOrNull(filePath)){
+        if(CommonValidate.isNullOrEmpty(filePath)){
             throw new IllegalArgumentException("filePath is NULL");
         }
         format = getFormatByCaption(FileUtil.getFileExtension(filePath));
@@ -24,7 +24,7 @@ public abstract class OfficeFile<SOURCE, FORMAT extends IOfficeFormat>
     }
 
     public OfficeFile(String filePath, FORMAT format) {
-        if(CommonValidate.isEmptyOrNull(filePath)){
+        if(CommonValidate.isNullOrEmpty(filePath)){
             throw new IllegalArgumentException("filePath is NULL");
         }
         if(format == null){

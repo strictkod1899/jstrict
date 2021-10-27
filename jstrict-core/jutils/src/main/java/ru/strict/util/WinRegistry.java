@@ -9,10 +9,10 @@ import java.io.StringWriter;
 public class WinRegistry {
 
     public static String readRegKey(String location, String key) {
-        if (CommonValidate.isEmptyOrNull(location)) {
+        if (CommonValidate.isNullOrEmpty(location)) {
             throw new IllegalArgumentException("location is NULL");
         }
-        if (CommonValidate.isEmptyOrNull(key)) {
+        if (CommonValidate.isNullOrEmpty(key)) {
             throw new IllegalArgumentException("key is NULL");
         }
 

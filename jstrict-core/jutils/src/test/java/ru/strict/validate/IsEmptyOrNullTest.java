@@ -8,21 +8,21 @@ class IsEmptyOrNullTest {
 
     @Test
     void testIsEmptyOrNull_empty_success() {
-        assertTrue(CommonValidate.isEmptyOrNull(""));
+        assertTrue(CommonValidate.isNullOrEmpty(""));
     }
 
     @Test
     void testIsEmptyOrNull_null_success() {
-        assertTrue(CommonValidate.isEmptyOrNull((String) null));
+        assertTrue(CommonValidate.isNullOrEmpty((String) null));
     }
 
     @Test
     void testIsEmptyOrNull_space_false() {
-        assertFalse(CommonValidate.isEmptyOrNull(" "));
+        assertFalse(CommonValidate.isNullOrEmpty(" "));
     }
 
     @Test
     void testIsEmptyOrNull_notEmpty_false() {
-        assertFalse(CommonValidate.isEmptyOrNull("not empty"));
+        assertFalse(CommonValidate.isNullOrEmpty("not empty"));
     }
 }

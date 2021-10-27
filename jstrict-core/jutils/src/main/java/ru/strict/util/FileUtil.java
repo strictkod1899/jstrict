@@ -14,7 +14,7 @@ import java.util.Collection;
 public class FileUtil {
 
     public void writeFile(String filepath, String fileContent) {
-        Validator.isEmptyOrNull(filepath, "filepath");
+        Validator.isNullOrEmpty(filepath, "filepath");
 
         writeFile(new File(filepath), fileContent);
     }
@@ -38,7 +38,7 @@ public class FileUtil {
     }
 
     public void writeFile(String filepath, byte[] fileBytes) throws IOException {
-        Validator.isEmptyOrNull(filepath, "filepath");
+        Validator.isNullOrEmpty(filepath, "filepath");
 
         writeFile(new File(filepath), fileBytes);
     }
@@ -79,7 +79,7 @@ public class FileUtil {
     }
 
     public void recreateFile(String filePath) {
-        Validator.isEmptyOrNull(filePath, "filePath");
+        Validator.isNullOrEmpty(filePath, "filePath");
 
         recreateFile(new File(filePath));
     }
@@ -97,7 +97,7 @@ public class FileUtil {
     }
 
     public void createFileIfNotExists(String filePath) {
-        Validator.isEmptyOrNull(filePath, "filePath");
+        Validator.isNullOrEmpty(filePath, "filePath");
 
         createFileIfNotExists(new File(filePath));
     }
@@ -164,7 +164,7 @@ public class FileUtil {
      * Найти любой файл в папке по указанной части наименования
      */
     public File getFileByPartName(String folderPath, String fileNamePart) {
-        Validator.isEmptyOrNull(folderPath, "folderPath");
+        Validator.isNullOrEmpty(folderPath, "folderPath");
         Validator.isNull(fileNamePart, "fileNamePart");
 
         File result = null;
@@ -192,7 +192,7 @@ public class FileUtil {
      * Найти все файлы в папке по указанной части наименования
      */
     public Collection<File> getFilesByPartName(String folderPath, String fileNamePart) {
-        Validator.isEmptyOrNull(folderPath, "folderPath");
+        Validator.isNullOrEmpty(folderPath, "folderPath");
         Validator.isNull(fileNamePart, "fileNamePart");
 
         Collection<File> result = new ArrayList<>();

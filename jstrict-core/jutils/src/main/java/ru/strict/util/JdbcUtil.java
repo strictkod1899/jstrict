@@ -27,7 +27,7 @@ public class JdbcUtil {
             String fileContent = Files.readString(sqlFile.toPath());
             Stream.of(fileContent.split(";"))
                     .map(String::trim)
-                    .filter(not(CommonValidate::isEmptyOrNull))
+                    .filter(not(CommonValidate::isNullOrEmpty))
                     .forEach(sql -> executeSql(sql, dataSource));
         } catch (IOException ex) {
             throw new RuntimeException(ex);

@@ -1,7 +1,6 @@
 package ru.strict.validate;
 
 import org.junit.jupiter.api.Test;
-import ru.strict.exception.ValidateException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ class ValidatorTest {
     void testIsNull_null_ex() {
         Object value = null;
 
-        assertThrows(ValidateException.class, () -> Validator.isNull(value, "value"));
+        assertThrows(ItemValidateException.class, () -> Validator.isNull(value, "value"));
     }
 
     @Test
@@ -28,42 +27,42 @@ class ValidatorTest {
     void testIsEmptyOrNull_null_ex() {
         String value = null;
 
-        assertThrows(ValidateException.class, () -> Validator.isEmptyOrNull(value, "value"));
+        assertThrows(ItemValidateException.class, () -> Validator.isNullOrEmpty(value, "value"));
     }
 
     @Test
     void testIsEmptyOrNull_empty_ex() {
         String value = "";
 
-        assertThrows(ValidateException.class, () -> Validator.isEmptyOrNull(value, "value"));
+        assertThrows(ItemValidateException.class, () -> Validator.isNullOrEmpty(value, "value"));
     }
 
     @Test
     void testIsEmptyOrNull_notEmpty_success() {
         String value = "123";
 
-        Validator.isEmptyOrNull(value, "value");
+        Validator.isNullOrEmpty(value, "value");
     }
 
     @Test
     void testIsEmptySpaceOrNull_null_ex() {
         String value = null;
 
-        assertThrows(ValidateException.class, () -> Validator.isEmptySpaceOrNull(value, "value"));
+        assertThrows(ItemValidateException.class, () -> Validator.isEmptySpaceOrNull(value, "value"));
     }
 
     @Test
     void testIsEmptySpaceOrNull_empty_success() {
         String value = "";
 
-        assertThrows(ValidateException.class, () -> Validator.isEmptySpaceOrNull(value, "value"));
+        assertThrows(ItemValidateException.class, () -> Validator.isEmptySpaceOrNull(value, "value"));
     }
 
     @Test
     void testIsEmptySpaceOrNull_space_ex() {
         String value = "     ";
 
-        assertThrows(ValidateException.class, () -> Validator.isEmptySpaceOrNull(value, "value"));
+        assertThrows(ItemValidateException.class, () -> Validator.isEmptySpaceOrNull(value, "value"));
     }
 
     @Test
@@ -77,14 +76,14 @@ class ValidatorTest {
     void testIsEmptyOrNullCollection_null_ex() {
         List<?> collection = null;
 
-        assertThrows(ValidateException.class, () -> Validator.isEmptyOrNull(collection, "value"));
+        assertThrows(ItemValidateException.class, () -> Validator.isNullOrEmpty(collection, "value"));
     }
 
     @Test
     void testIsEmptyOrNullCollection_empty_ex() {
         List<?> collection = new ArrayList<>(1);
 
-        assertThrows(ValidateException.class, () -> Validator.isEmptyOrNull(collection, "value"));
+        assertThrows(ItemValidateException.class, () -> Validator.isNullOrEmpty(collection, "value"));
     }
 
     @Test
@@ -92,21 +91,21 @@ class ValidatorTest {
         List<Object> collection = new ArrayList<>(1);
         collection.add("123");
 
-        Validator.isEmptyOrNull(collection, "value");
+        Validator.isNullOrEmpty(collection, "value");
     }
 
     @Test
     void testIsEmptyOrNullArray_null_ex() {
         Object[] array = null;
 
-        assertThrows(ValidateException.class, () -> Validator.isEmptyOrNull(array, "value"));
+        assertThrows(ItemValidateException.class, () -> Validator.isNullOrEmpty(array, "value"));
     }
 
     @Test
     void testIsEmptyOrNullArray_empty_ex() {
         Object[] array = new Object[1];
 
-        assertThrows(ValidateException.class, () -> Validator.isEmptyOrNull(array, "value"));
+        assertThrows(ItemValidateException.class, () -> Validator.isNullOrEmpty(array, "value"));
     }
 
     @Test
@@ -114,7 +113,7 @@ class ValidatorTest {
         Object[] array = new Object[1];
         array [0] = "123";
 
-        Validator.isEmptyOrNull(array, "value");
+        Validator.isNullOrEmpty(array, "value");
     }
 
     @Test
@@ -122,7 +121,7 @@ class ValidatorTest {
         String details = "Details message";
         try {
             Validator.byDetails(details).isNull(null, "value");
-        } catch (ValidateException ex) {
+        } catch (ItemValidateException ex) {
             assertEquals(details, ex.getDetails());
         }
     }
@@ -137,7 +136,7 @@ class ValidatorTest {
 
         try {
             Validator.byDetails(details, args).isNull(null, "value");
-        } catch (ValidateException ex) {
+        } catch (ItemValidateException ex) {
             assertEquals(expectedDetails, ex.getDetails());
         }
     }

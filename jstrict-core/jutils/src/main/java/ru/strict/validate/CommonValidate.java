@@ -15,7 +15,7 @@ public class CommonValidate {
      * @param str Проверяемая строка
      * @return Если строка не содержит пустых символов и является корректной, то возвращается true, иначе false
      */
-    public static boolean isEmptyOrNull(String str) {
+    public static boolean isNullOrEmpty(String str) {
         return str == null || str.length() == 0;
     }
 
@@ -30,14 +30,14 @@ public class CommonValidate {
             return true;
         }
 
-        return isEmptyOrNull(str.trim());
+        return isNullOrEmpty(str.trim());
     }
 
-    public static boolean isEmptyOrNull(Collection<?> collection) {
+    public static boolean isNullOrEmpty(Collection<?> collection) {
         return collection == null || collection.isEmpty();
     }
 
-    public static boolean isEmptyOrNull(Object[] array) {
+    public static boolean isNullOrEmpty(Object[] array) {
         boolean result;
         if (array == null || array.length == 0) {
             result = true;

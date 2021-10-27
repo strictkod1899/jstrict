@@ -7,6 +7,6 @@ import ru.strict.util.ReflectionUtil;
 public class ConfigurationHandler {
 
     public static void invokeVoidConfigurationMethods(Object instance) {
-        ReflectionUtil.invokeVoidMethodsByAnnotation(instance, Configuration.class);
+        ReflectionUtil.invokeMethodsByAnnotation(instance, Configuration.class);
     }
 }

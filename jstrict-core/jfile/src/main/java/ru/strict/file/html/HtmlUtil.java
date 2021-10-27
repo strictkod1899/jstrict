@@ -28,7 +28,7 @@ public class HtmlUtil {
     }
 
     public static Elements selectByFile(String filePath, String selector, String encoding) {
-        Validator.isEmptyOrNull(filePath, "filePath");
+        Validator.isNullOrEmpty(filePath, "filePath");
 
         try {
             var page = Jsoup.parse(new File(filePath), encoding);
@@ -43,14 +43,14 @@ public class HtmlUtil {
     }
 
     public static Elements selectByContent(String content, String selector) {
-        Validator.isEmptyOrNull(content, "content");
+        Validator.isNullOrEmpty(content, "content");
 
         var page = Jsoup.parseBodyFragment(content);
         return getTag(page, selector);
     }
 
     public static Elements selectByGet(String url, String selector) {
-        Validator.isEmptyOrNull(url, "url");
+        Validator.isNullOrEmpty(url, "url");
 
         try {
             var page = Jsoup.connect(url).get();
@@ -65,7 +65,7 @@ public class HtmlUtil {
     }
 
     public static Elements selectByPost(String url, String selector) {
-        Validator.isEmptyOrNull(url, "url");
+        Validator.isNullOrEmpty(url, "url");
 
         try {
             var page = Jsoup.connect(url).post();
@@ -104,7 +104,7 @@ public class HtmlUtil {
 
     private static Elements getTag(Document page, String selector) {
         Elements tags;
-        if (CommonValidate.isEmptyOrNull(selector)) {
+        if (CommonValidate.isNullOrEmpty(selector)) {
             tags = page.getAllElements();
         } else {
             tags = page.select(selector);

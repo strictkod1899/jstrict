@@ -67,7 +67,7 @@ public final class JacksonObjectMapper extends ObjectMapper {
     }
 
     public <T> T convertToObject(String json, Class<T> castClass) {
-        if (CommonValidate.isEmptyOrNull(json) || castClass == null) {
+        if (CommonValidate.isNullOrEmpty(json) || castClass == null) {
             return null;
         }
 
@@ -79,7 +79,7 @@ public final class JacksonObjectMapper extends ObjectMapper {
     }
 
     public <T> List<T> convertToList(String json, Class<T> castClass) {
-        if (CommonValidate.isEmptyOrNull(json) || castClass == null) {
+        if (CommonValidate.isNullOrEmpty(json) || castClass == null) {
             return Collections.emptyList();
         }
 

@@ -1,11 +1,12 @@
 package ru.strict.util;
 
+import ru.strict.exception.ValidateException;
 import ru.strict.validate.CommonValidate;
 import ru.strict.validate.Validator;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 public final class StringUtil {
@@ -18,37 +19,33 @@ public final class StringUtil {
     private StringUtil() {
     }
 
-    public static String convertStringToUTF8(String value) {
-        return convertStringToEncode(value, null, "UTF-8");
+    public static String convertToUTF8(String value) {
+        return convertToEncode(value, null, "UTF-8");
     }
 
-    public static String convertStringFromISOToUTF8(String value) {
-        return convertStringToEncode(value, "iso-8859-1", "UTF-8");
+    public static String convertToUTF8(String value, String defaultEncode) {
+        return convertToEncode(value, defaultEncode, "UTF-8");
     }
 
-    public static String convertStringFromEncodeToUTF8(String value, String defaultEncode) {
-        return convertStringToEncode(value, defaultEncode, "UTF-8");
-    }
+    public static String convertToEncode(String text, String defaultEncoding, String outputEncoding) {
+        Validator.isNull(text, "text");
 
-    public static String convertStringToEncode(String value, String defaultEncoding, String encodingOutput) {
-        Validator.isNull(value, "value");
-
-        String result;
+        String convertedString;
         try {
-            if (CommonValidate.isEmptyOrNull(encodingOutput)) {
-                result = value;
+            if (CommonValidate.isNullOrEmpty(outputEncoding)) {
+                convertedString = text;
             } else {
-                if (!CommonValidate.isEmptyOrNull(defaultEncoding)) {
-                    result = new String(value.getBytes(defaultEncoding), encodingOutput);
+                if (!CommonValidate.isNullOrEmpty(defaultEncoding)) {
+                    convertedString = new String(text.getBytes(defaultEncoding), outputEncoding);
                 } else {
-                    result = new String(value.getBytes(), encodingOutput);
+                    convertedString = new String(text.getBytes(), outputEncoding);
                 }
             }
         } catch (UnsupportedEncodingException ex) {
-            throw new RuntimeException(ex);
+            throw new ValidateException(ex);
         }
 
-        return result;
+        return convertedString;
     }
 
     /**
@@ -66,7 +63,7 @@ public final class StringUtil {
      * strings может быть null
      */
     public static String safeJoin(String separator, Collection<Object> strings) {
-        return join(separator, Optional.ofNullable(strings).orElse(Collections.EMPTY_LIST));
+        return join(separator, strings == null ? List.of() : strings);
     }
 
     /**
@@ -77,18 +74,18 @@ public final class StringUtil {
         Validator.isNull(separator, "separator");
         Validator.isNull(strings, "strings elements for join");
 
-        StringBuilder result = new StringBuilder();
+        var joinedString = new StringBuilder();
         strings.forEach(item -> {
             if (item != null && item.toString().length() > 0) {
-                if (result.length() > 0) {
-                    result.append(separator);
+                if (joinedString.length() > 0) {
+                    joinedString.append(separator);
                 }
 
-                result.append(item);
+                joinedString.append(item);
             }
         });
 
-        return result.toString();
+        return joinedString.toString();
     }
 
     /**
@@ -99,29 +96,26 @@ public final class StringUtil {
         Validator.isNull(separator, "separator");
         Validator.isNull(strings, "strings elements for join");
 
-        StringBuilder result = new StringBuilder();
-        for (Object item : strings) {
+        var joinedString = new StringBuilder();
+        for (var item : strings) {
             if (item != null && item.toString().length() > 0) {
-                if (result.length() > 0) {
-                    result.append(separator);
+                if (joinedString.length() > 0) {
+                    joinedString.append(separator);
                 }
 
-                result.append(item);
+                joinedString.append(item);
             }
         }
 
-        return result.toString();
+        return joinedString.toString();
     }
 
-    public static boolean isEmptyOrNull(String str) {
-        return CommonValidate.isEmptyOrNull(str);
+    public static boolean isNullOrEmpty(String str) {
+        return CommonValidate.isNullOrEmpty(str);
     }
 
     /**
      * Если строка равна null, тогда вернется пустая строка
-     *
-     * @param str
-     * @return
      */
     public static String nullToEmpty(String str) {
         return str == null ? "" : str;
@@ -129,12 +123,9 @@ public final class StringUtil {
 
     /**
      * Если строка пустая, тогда вернется null
-     *
-     * @param str
-     * @return
      */
     public static String emptyToNull(String str) {
-        return CommonValidate.isEmptyOrNull(str) ? null : str;
+        return CommonValidate.isNullOrEmpty(str) ? null : str;
     }
 
     /**
