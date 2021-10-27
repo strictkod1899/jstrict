@@ -77,7 +77,7 @@ public class NetUtil {
                     .toArray(String[]::new);
             String parametersLine = StringUtil.join("&", stringParameters);
 
-            if (!CommonValidate.isEmptyOrNull(parametersLine)) {
+            if (!CommonValidate.isNullOrEmpty(parametersLine)) {
                 url += "?" + parametersLine;
             }
         }
@@ -92,7 +92,7 @@ public class NetUtil {
 
         String result = null;
         if (responseCode == 200) {
-            if (CommonValidate.isEmptyOrNull(encode)) {
+            if (CommonValidate.isNullOrEmpty(encode)) {
                 encode = "UTF-8";
             }
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), encode));
@@ -134,7 +134,7 @@ public class NetUtil {
      * @throws IOException
      */
     public static String sendPostRequest(String url, Map<String, String> parameters, String encode) throws IOException {
-        if (CommonValidate.isEmptyOrNull(encode)) {
+        if (CommonValidate.isNullOrEmpty(encode)) {
             encode = "UTF-8";
         }
 

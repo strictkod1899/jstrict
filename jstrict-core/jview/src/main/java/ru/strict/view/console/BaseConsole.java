@@ -101,7 +101,7 @@ public class BaseConsole {
         }
 
         String result = null;
-        if (!CommonValidate.isEmptyOrNull(command)) {
+        if (!CommonValidate.isNullOrEmpty(command)) {
             result = command;
         }
         return result;

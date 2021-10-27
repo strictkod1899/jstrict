@@ -3,6 +3,7 @@ package ru.strict.util;
 import lombok.experimental.UtilityClass;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
@@ -11,9 +12,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @UtilityClass
 public class EncodingUtil {
 
-    private static final Charset CP866_CHARSET = Charset.forName("Cp866");
-    private static final Charset CP1251_CHARSET = Charset.forName("Cp1251");
-    private static final Charset CP1252_CHARSET = Charset.forName("Cp1252");
+    public static final Charset CP866_CHARSET = Charset.forName("Cp866");
+    public static final Charset CP1251_CHARSET = Charset.forName("Cp1251");
+    public static final Charset CP1252_CHARSET = Charset.forName("Cp1252");
 
     public String fromCp866(String text) {
         return new String(text.getBytes(CP866_CHARSET)).intern();

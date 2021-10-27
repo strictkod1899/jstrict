@@ -1,42 +1,43 @@
 package ru.strict.validate;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class IsDateYearTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class IsDateYearTest {
 
     @Test
-    public void testIsDateStartYear_common_success() {
-        Assertions.assertTrue(CommonValidate.isDateStartYear("2000-01-01", '-'));
+    void testIsDateStartYear_common_success() {
+        assertTrue(CommonValidate.isDateStartYear("2000-01-01", '-'));
     }
 
     @Test
-    public void testIsDateStartYear_slash_success() {
-        Assertions.assertTrue(CommonValidate.isDateStartYear("0000/12/31", '/'));
+    void testIsDateStartYear_slash_success() {
+        assertTrue(CommonValidate.isDateStartYear("0000/12/31", '/'));
     }
 
     @Test
-    public void testIsDateStartYear_common_false() {
-        Assertions.assertFalse(CommonValidate.isDateStartYear("-0001-01-01", '-'));
+    void testIsDateStartYear_common_false() {
+        assertFalse(CommonValidate.isDateStartYear("-0001-01-01", '-'));
     }
 
     @Test
-    public void testIsDateStartYear_notValidMonth_false() {
-        Assertions.assertFalse(CommonValidate.isDateStartYear("2000-13-01", '-'));
+    void testIsDateStartYear_notValidMonth_false() {
+        assertFalse(CommonValidate.isDateStartYear("2000-13-01", '-'));
     }
 
     @Test
-    public void testIsDateStartYear_notValidDay_false() {
-        Assertions.assertFalse(CommonValidate.isDateStartYear("2000-12-32", '-'));
+    void testIsDateStartYear_notValidDay_false() {
+        assertFalse(CommonValidate.isDateStartYear("2000-12-32", '-'));
     }
 
     @Test
-    public void testIsDateStartYear_empty_false() {
-        Assertions.assertFalse(CommonValidate.isDateStartYear("", '-'));
+    void testIsDateStartYear_empty_false() {
+        assertFalse(CommonValidate.isDateStartYear("", '-'));
     }
 
     @Test
-    public void testIsDateStartYear_null_false() {
-        Assertions.assertFalse(CommonValidate.isDateStartYear(null, '-'));
+    void testIsDateStartYear_null_false() {
+        assertFalse(CommonValidate.isDateStartYear(null, '-'));
     }
 }

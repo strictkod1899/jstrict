@@ -36,7 +36,7 @@ public class FromPropertyHandler {
 
     private static Properties getConfigValues(FromProperties fromPropertiesAnnotation) {
         var fileName = fromPropertiesAnnotation.file();
-        fileName = CommonValidate.isEmptyOrNull(fileName) ? APP_FILE_NAME : fileName;
+        fileName = CommonValidate.isNullOrEmpty(fileName) ? APP_FILE_NAME : fileName;
 
         var propertiesInputStream = ResourcesUtil.getResourceStream(fileName);
         if (propertiesInputStream == null) {
@@ -115,7 +115,7 @@ public class FromPropertyHandler {
     }
 
     private String cropPrefix(String propertyName, String prefix) {
-        return CommonValidate.isEmptyOrNull(prefix) ? propertyName : propertyName.substring(prefix.length() + 1);
+        return CommonValidate.isNullOrEmpty(prefix) ? propertyName : propertyName.substring(prefix.length() + 1);
     }
 
     private Object convertValueToTargetType(String value, Class<?> type) {

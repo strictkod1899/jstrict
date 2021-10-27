@@ -32,7 +32,7 @@ public class JsonUtil {
 
     public <T> T loadFromJson(String filePath, Class<T> objectClass) {
         isNull(objectClass, "objectClass");
-        isEmptyOrNull(filePath, "filePath");
+        isNullOrEmpty(filePath, "filePath");
 
         try {
             return OBJECT_MAPPER.readValue(new File(filePath), objectClass);

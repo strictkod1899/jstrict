@@ -58,7 +58,7 @@ public class ComponentHandler {
 
             String componentName;
             Component componentAnnotation = method.getAnnotation(Component.class);
-            if (CommonValidate.isEmptyOrNull(componentAnnotation.value())) {
+            if (CommonValidate.isNullOrEmpty(componentAnnotation.value())) {
                 componentName = method.getName();
             } else {
                 componentName = componentAnnotation.value();

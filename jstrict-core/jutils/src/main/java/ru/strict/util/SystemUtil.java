@@ -36,7 +36,7 @@ public class SystemUtil {
     }
 
     public static void openFile(String filePath) throws IOException {
-        if (CommonValidate.isEmptyOrNull(filePath)) {
+        if (CommonValidate.isNullOrEmpty(filePath)) {
             throw new IllegalArgumentException("filePath is NULL");
         }
 

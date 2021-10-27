@@ -30,7 +30,7 @@ public class PropertiesFile {
         this.inputStreamSupplier = null;
         this.inputStreamWithSuffixSupplier = null;
 
-        Validator.isEmptyOrNull(filePath, "filePath");
+        Validator.isNullOrEmpty(filePath, "filePath");
 
         this.file = new File(filePath);
         this.path = Paths.get(file.getAbsolutePath());
@@ -82,7 +82,7 @@ public class PropertiesFile {
         if (inputStreamWithSuffixSupplier != null) {
             value = readValueByInputStream(inputStreamWithSuffixSupplier, key, fileEncoding, targetEncoding);
         }
-        if (CommonValidate.isEmptyOrNull(value)) {
+        if (CommonValidate.isNullOrEmpty(value)) {
             value = readValueByInputStream(inputStreamSupplier, key, fileEncoding, targetEncoding);
         }
 
@@ -105,7 +105,7 @@ public class PropertiesFile {
         if (fileWithSuffix != null && Files.exists(pathWithSuffix)) {
             value = PropertiesUtil.getValue(fileWithSuffix.getAbsolutePath(), key, fileEncoding, targetEncoding);
         }
-        if (CommonValidate.isEmptyOrNull(value) && Files.exists(path)) {
+        if (CommonValidate.isNullOrEmpty(value) && Files.exists(path)) {
             value = PropertiesUtil.getValue(file.getAbsolutePath(), key, fileEncoding, targetEncoding);
         }
 

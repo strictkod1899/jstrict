@@ -6,17 +6,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LocalizedStringTest {
 
-    private static final LocalizedString LOCALIZED_STRING = LocalizedString.builder()
-            .item("rus", "item1")
-            .build();
-
     @Test
-    void testBuild() {
-        LocalizedString localizedString = LocalizedString.builder()
+    void testBuilder_equals_success() {
+        var localizedString1 = LocalizedString.builder()
                 .item("rus", "item1")
                 .build();
 
-        assertEquals(LOCALIZED_STRING, localizedString);
-        assertEquals(LOCALIZED_STRING.hashCode(), localizedString.hashCode());
+        var localizedString2 = LocalizedString.builder()
+                .item("rus", "item1")
+                .build();
+
+        assertEquals(localizedString1, localizedString2);
+        assertEquals(localizedString1.hashCode(), localizedString2.hashCode());
     }
 }

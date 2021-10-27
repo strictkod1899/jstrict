@@ -33,16 +33,16 @@ public class JWTTokenUtil {
         if (issuedAt != null) {
             builder.setIssuedAt(issuedAt);
         }
-        if (!CommonValidate.isEmptyOrNull(issuer)) {
+        if (!CommonValidate.isNullOrEmpty(issuer)) {
             builder.setIssuer(issuer);
         }
-        if (!CommonValidate.isEmptyOrNull(subject)) {
+        if (!CommonValidate.isNullOrEmpty(subject)) {
             builder.setSubject(subject);
         }
         if (notBefore != null) {
             builder.setNotBefore(notBefore);
         }
-        if (!CommonValidate.isEmptyOrNull(audience)) {
+        if (!CommonValidate.isNullOrEmpty(audience)) {
             builder.setAudience(audience);
         }
 

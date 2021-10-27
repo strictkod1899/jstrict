@@ -1,7 +1,9 @@
 package ru.strict.util;
 
+import lombok.experimental.UtilityClass;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
+import ru.strict.exception.ValidateException;
 import ru.strict.validate.Validator;
 
 import java.lang.annotation.Annotation;
@@ -9,16 +11,15 @@ import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Управление Reflection API
- */
+@UtilityClass
 public class ReflectionUtil {
 
-    public static <INSTANCE> INSTANCE createInstance(Class<INSTANCE> instanceClass,
+    public <INSTANCE> INSTANCE createInstance(Class<INSTANCE> instanceClass,
             Object... userConstructorParameters) {
         return createInstance(instanceClass, true, userConstructorParameters);
     }
@@ -28,11 +29,11 @@ public class ReflectionUtil {
      *
      * @param clazzInstance Класс объект, которого надо создать
      */
-    public static <INSTANCE> INSTANCE createInstance(Class<INSTANCE> clazzInstance,
+    public <INSTANCE> INSTANCE createInstance(Class<INSTANCE> clazzInstance,
             boolean classAsArgument,
             Object... userConstructorParameters) {
         INSTANCE result = null;
-        Constructor targetConstructor =
+        var targetConstructor =
                 findConstructor(clazzInstance.getConstructors(), userConstructorParameters, classAsArgument);
 
         if (targetConstructor != null) {
@@ -46,7 +47,7 @@ public class ReflectionUtil {
         return result;
     }
 
-    public static <INSTANCE> INSTANCE createDeclaredInstance(Class<INSTANCE> clazzInstance,
+    public <INSTANCE> INSTANCE createDeclaredInstance(Class<INSTANCE> clazzInstance,
             Object... userConstructorParameters) {
         return createDeclaredInstance(clazzInstance, true, userConstructorParameters);
     }
@@ -57,16 +58,16 @@ public class ReflectionUtil {
      *
      * @param clazzInstance Класс объект, которого надо создать
      */
-    public static <INSTANCE> INSTANCE createDeclaredInstance(Class<INSTANCE> clazzInstance,
+    public <INSTANCE> INSTANCE createDeclaredInstance(Class<INSTANCE> clazzInstance,
             boolean classAsArgument,
             Object... userConstructorParameters) {
         INSTANCE result = null;
-        Constructor targetConstructor =
+        var targetConstructor =
                 findConstructor(clazzInstance.getDeclaredConstructors(), userConstructorParameters, classAsArgument);
 
         if (targetConstructor != null) {
             try {
-                boolean isAccessible = targetConstructor.isAccessible();
+                var isAccessible = targetConstructor.isAccessible();
                 targetConstructor.setAccessible(true);
                 result = (INSTANCE) targetConstructor.newInstance(userConstructorParameters);
                 targetConstructor.setAccessible(isAccessible);
@@ -78,31 +79,31 @@ public class ReflectionUtil {
         return result;
     }
 
-    public static Constructor findConstructor(Constructor[] constructors, Object[] userConstructorParameters) {
+    public Constructor<?> findConstructor(Constructor<?>[] constructors, Object[] userConstructorParameters) {
         return findConstructor(constructors, userConstructorParameters, true);
     }
 
-    public static Constructor findConstructor(Constructor[] constructors,
+    public Constructor<?> findConstructor(Constructor<?>[] constructors,
             Object[] userConstructorParameters,
             boolean classAsArgument) {
-        Constructor targetConstructor = null;
+        Constructor<?> targetConstructor = null;
 
         // Если были переданы параметры конструктора
         if (userConstructorParameters != null && userConstructorParameters.length != 0) {
-            for (Constructor constructor : constructors) {
+            for (var constructor : constructors) {
                 int constructorParametersCount = constructor.getParameterCount();
 
                 if (constructorParametersCount == userConstructorParameters.length) {
-                    Class[] constructorParameters = constructor.getParameterTypes();
+                    var constructorParameters = constructor.getParameterTypes();
                     for (int i = 0; i < constructorParametersCount; i++) {
-                        Class constructorParameter = constructorParameters[i];
-                        Class userConstructorParameter =
+                        var constructorParameter = constructorParameters[i];
+                        var userConstructorParameter =
                                 userConstructorParameters[i] instanceof Class && !classAsArgument
-                                        ? (Class) userConstructorParameters[i]
+                                        ? (Class<?>) userConstructorParameters[i]
                                         : userConstructorParameters[i].getClass();
                         if (constructorParameter != userConstructorParameter &&
                                 !isPrimitive(userConstructorParameter, constructorParameter)) {
-                            boolean checkBySuperClass = isSuperClass(constructorParameter, userConstructorParameter);
+                            var checkBySuperClass = isSuperClass(constructorParameter, userConstructorParameter);
                             if (!checkBySuperClass) {
                                 break;
                             }
@@ -116,7 +117,7 @@ public class ReflectionUtil {
             }
         } else {
             // Если требуется вызывать пустой конструктор
-            for (Constructor constructor : constructors) {
+            for (var constructor : constructors) {
                 if (constructor.getParameterCount() == 0) {
                     targetConstructor = constructor;
                 }
@@ -126,81 +127,75 @@ public class ReflectionUtil {
         return targetConstructor;
     }
 
-    public static Class<?>[] getInterfaces(Class<?> clazz) {
+    public List<Class<?>> getInterfaces(Class<?> clazz) {
         if (clazz == null) {
             return null;
         }
 
-        List<Class<?>> interfaces = new ArrayList<>();
-        Arrays.asList(clazz.getInterfaces()).forEach(interfaces::add);
-        Class<?> superClass = clazz.getSuperclass();
+        var interfaces = new ArrayList<Class<?>>(Arrays.asList(clazz.getInterfaces()));
+        var superClass = clazz.getSuperclass();
         if (superClass != null) {
-            Arrays.asList(getInterfaces(superClass)).forEach(interfaces::add);
+            interfaces.addAll(getInterfaces(superClass));
         }
 
-        return interfaces.toArray(new Class<?>[0]);
+        return Collections.unmodifiableList(interfaces);
     }
 
     /**
-     * Проверить, является ли класс экземпляром другого класса
-     *
-     * @param checkClass (Неизвестный класс) Проверяемый класс
-     * @param startClass (Требуемый класс) Класс, относительно которого проверяем принадлежность к экземпляру
-     * @return
+     * Проверить, является ли {@param expectedInstanceClass} экземпляром (или родителем) для класса {@param checkedClass}
      */
-    public static boolean isInstanceOf(Class checkClass, Class startClass) {
-        boolean result = false;
-        if (checkClass == startClass) {
-            result = true;
-        } else {
-            result = isSuperClass(checkClass, startClass);
-        }
-
-        return result;
+    public boolean isInstanceOf(Class<?> expectedInstanceClass, Class<?> checkedClass) {
+        return expectedInstanceClass == checkedClass || isSuperClass(expectedInstanceClass, checkedClass);
     }
 
-    public static boolean isSuperClass(Class checkClass, Class startClass) {
-        boolean result = false;
+    /**
+     * Определить, является ли {@param expectedSuperClass} базовым классом или интерфейсом для {@param checkedClass}
+     */
+    public boolean isSuperClass(Class<?> expectedSuperClass, Class<?> checkedClass) {
+        var result = false;
 
-        Class superClass = startClass.getSuperclass();
+        var superClass = checkedClass.getSuperclass();
 
         if (superClass != null) {
             if (superClass != Object.class) {
-                if (checkClass == superClass) {
+                if (expectedSuperClass == superClass) {
                     result = true;
                 } else {
-                    result = isSuperClass(checkClass, superClass);
+                    result = isSuperClass(expectedSuperClass, superClass);
 
                     if (!result) {
-                        result = isInterface(checkClass, superClass);
+                        result = isInterface(expectedSuperClass, superClass);
                     }
                 }
             }
 
             if (superClass == Object.class || !result) {
-                result = isInterface(checkClass, startClass);
+                result = isInterface(expectedSuperClass, checkedClass);
             }
         } else {
-            result = isInterface(checkClass, startClass);
+            result = isInterface(expectedSuperClass, checkedClass);
         }
 
         return result;
     }
 
-    public static boolean isInterface(Class checkClass, Class startClass) {
+    /**
+     * Определить, является ли {@param expectedInterfaceClass} базовым классом или интерфейсом для {@param checkedClass}
+     */
+    public boolean isInterface(Class<?> expectedInterfaceClass, Class<?> checkedClass) {
         boolean result = false;
 
-        Class[] interfaces = startClass.getInterfaces();
-        for (Class interfaceItem : interfaces) {
+        var interfaces = checkedClass.getInterfaces();
+        for (var interfaceItem : interfaces) {
             if (result) {
                 return true;
             }
 
             if (interfaceItem != Object.class) {
-                if (checkClass == interfaceItem) {
+                if (expectedInterfaceClass == interfaceItem) {
                     result = true;
                 } else {
-                    result = isInterface(checkClass, interfaceItem);
+                    result = isInterface(expectedInterfaceClass, interfaceItem);
                 }
             } else {
                 result = false;
@@ -209,26 +204,24 @@ public class ReflectionUtil {
         return result;
     }
 
-    public static boolean isPrimitive(Class checkClass, Class startClass) {
-        boolean result = false;
-        if (checkClass.getName().equals("java.lang.Byte") && startClass.getName().equals("byte")) {
-            result = true;
-        } else if (checkClass.getName().equals("java.lang.Short") && startClass.getName().equals("short")) {
-            result = true;
-        } else if (checkClass.getName().equals("java.lang.Integer") && startClass.getName().equals("int")) {
-            result = true;
-        } else if (checkClass.getName().equals("java.lang.Long") && startClass.getName().equals("long")) {
-            result = true;
-        } else if (checkClass.getName().equals("java.lang.Float") && startClass.getName().equals("float")) {
-            result = true;
-        } else if (checkClass.getName().equals("java.lang.Double") && startClass.getName().equals("double")) {
-            result = true;
-        } else if (checkClass.getName().equals("java.lang.Character") && startClass.getName().equals("char")) {
-            result = true;
-        } else if (checkClass.getName().equals("java.lang.Boolean") && startClass.getName().equals("boolean")) {
-            result = true;
+    public boolean isPrimitive(Class<?> expectedClass, Class<?> checkedClass) {
+        if (expectedClass.getName().equals("java.lang.Byte") && checkedClass.getName().equals("byte")) {
+            return true;
+        } else if (expectedClass.getName().equals("java.lang.Short") && checkedClass.getName().equals("short")) {
+            return true;
+        } else if (expectedClass.getName().equals("java.lang.Integer") && checkedClass.getName().equals("int")) {
+            return true;
+        } else if (expectedClass.getName().equals("java.lang.Long") && checkedClass.getName().equals("long")) {
+            return true;
+        } else if (expectedClass.getName().equals("java.lang.Float") && checkedClass.getName().equals("float")) {
+            return true;
+        } else if (expectedClass.getName().equals("java.lang.Double") && checkedClass.getName().equals("double")) {
+            return true;
+        } else if (expectedClass.getName().equals("java.lang.Character") && checkedClass.getName().equals("char")) {
+            return true;
+        } else {
+            return expectedClass.getName().equals("java.lang.Boolean") && checkedClass.getName().equals("boolean");
         }
-        return result;
     }
 
     /**
@@ -239,26 +232,25 @@ public class ReflectionUtil {
      * @param annotationClass Класс аннотации
      * @param <A> Тип аннотации
      */
-    public static <A extends Annotation> Object invokeMethodByAnnotation(Object source,
+    public <A extends Annotation> Object invokeMethodByAnnotation(Object source,
             Class<A> annotationClass,
             Object... args) {
         Validator.isNull(source, "source");
         Validator.isNull(annotationClass, "annotationClass");
 
-        int argsCount = Optional.ofNullable(args)
+        var argsCount = Optional.ofNullable(args)
                 .map(a -> a.length)
                 .orElse(0);
 
-        Class<?> sourceClass = source.getClass();
-        Method[] methods = sourceClass.getDeclaredMethods();
+        var sourceClass = source.getClass();
+        var methods = sourceClass.getDeclaredMethods();
 
         Method foundedMethod = null;
-        for (Method method : methods) {
+        for (var method : methods) {
             A annotation = method.getAnnotation(annotationClass);
             if (annotation != null) {
                 if (foundedMethod != null) {
-                    throw new IllegalArgumentException(String.format("By annotation [%s] founded several methods",
-                            annotationClass));
+                    throw new ValidateException("By annotation [%s] founded several methods", annotationClass);
                 }
                 foundedMethod = method;
             }
@@ -286,7 +278,7 @@ public class ReflectionUtil {
      * @param annotationClass Класс аннотации
      * @param <A> Тип аннотации
      */
-    public static <A extends Annotation> void invokeVoidMethodsByAnnotation(Object source,
+    public <A extends Annotation> void invokeMethodsByAnnotation(Object source,
             Class<A> annotationClass,
             Object... args) {
         Validator.isNull(source, "source");
@@ -296,18 +288,18 @@ public class ReflectionUtil {
                 .map(a -> a.length)
                 .orElse(0);
 
-        Class<?> sourceClass = source.getClass();
-        Method[] methods = sourceClass.getDeclaredMethods();
+        var sourceClass = source.getClass();
+        var methods = sourceClass.getDeclaredMethods();
 
-        List<Method> foundedMethods = new LinkedList<>();
-        for (Method method : methods) {
+        var foundedMethods = new LinkedList<Method>();
+        for (var method : methods) {
             A annotation = method.getAnnotation(annotationClass);
             if (annotation != null) {
                 foundedMethods.add(method);
             }
         }
 
-        for (Method foundedMethod : foundedMethods) {
+        for (var foundedMethod : foundedMethods) {
             try {
                 if (foundedMethod.getParameterCount() == argsCount) {
                     foundedMethod.invoke(source, args);
@@ -321,39 +313,42 @@ public class ReflectionUtil {
     /**
      * Создать прокси, если есть интерфейсы (используется обычный java proxy)
      */
-    public static <T> T createInterfaceProxy(Class<?> instanceClass, InvocationHandler handler) {
-        Class<?>[] instanceInterfaces = ReflectionUtil.getInterfaces(instanceClass);
+    public <T> T createInterfaceProxy(Class<?> instanceClass, InvocationHandler handler) {
+        var instanceInterfaces = ReflectionUtil.getInterfaces(instanceClass);
 
         return (T) Proxy.newProxyInstance(
                 instanceClass.getClassLoader(),
-                instanceInterfaces,
+                instanceInterfaces.toArray(Class<?>[]::new),
                 handler);
     }
 
     /**
      * Создать прокси, с помощью библиотеки cglib
      */
-    public static <T> T createCglibProxy(Class<?> instanceClass,
+    public <T> T createCglibProxy(Class<?> instanceClass,
             MethodInterceptor handler,
             Constructor<?> instanceConstructor,
             Object... constructorArgs) {
-        Enhancer enhancer = new Enhancer();
+        var enhancer = new Enhancer();
         enhancer.setSuperclass(instanceClass);
         enhancer.setCallbackType(handler.getClass());
         enhancer.setCallback(handler);
         enhancer.setUseCache(true);
         enhancer.setAttemptLoad(true);
 
-        Class<?>[] argumentTypes = instanceConstructor.getParameterTypes();
+        var argumentTypes = instanceConstructor.getParameterTypes();
         return (T) enhancer.create(argumentTypes, constructorArgs);
     }
 
-    public static Collection<Field> getAllFields(Class instanceClass) {
-        List<Field> fields = new ArrayList<>();
+    /**
+     * Получить все поля класса, включая приватные
+     */
+    public Collection<Field> getAllFields(Class<?> instanceClass) {
+        var fields = new ArrayList<Field>();
 
-        Field[] classFields = instanceClass.getDeclaredFields();
+        var classFields = instanceClass.getDeclaredFields();
         fields.addAll(Arrays.asList(classFields));
-        Class superClass = instanceClass.getSuperclass();
+        var superClass = instanceClass.getSuperclass();
         if (superClass != null && superClass != Object.class) {
             fields.addAll(getAllFields(superClass));
         }
@@ -361,8 +356,11 @@ public class ReflectionUtil {
         return fields;
     }
 
-    public static Field getField(Class objectClass, String fieldName) {
-        Collection<Field> fields = getAllFields(objectClass);
+    /**
+     * Получить указанное поле класса, даже, если оно приватное
+     */
+    public Field getField(Class<?> objectClass, String fieldName) {
+        var fields = getAllFields(objectClass);
 
         return fields.stream()
                 .filter(field -> field.getName().equals(fieldName))
@@ -370,13 +368,16 @@ public class ReflectionUtil {
                 .orElse(null);
     }
 
-    public static <T> T getFieldValue(Object object, String fieldName) {
+    /**
+     * Получить значение указанного поля класса, даже, если оно приватное
+     */
+    public <T> T getFieldValue(Object object, String fieldName) {
         try {
-            Field targetField = getField(object.getClass(), fieldName);
+            var targetField = getField(object.getClass(), fieldName);
 
             T result = null;
             if (targetField != null) {
-                boolean isAccessible = targetField.isAccessible();
+                var isAccessible = targetField.isAccessible();
                 targetField.setAccessible(true);
 
                 result = (T) targetField.get(object);
@@ -390,14 +391,17 @@ public class ReflectionUtil {
         }
     }
 
-    public static void setField(Object object, String fieldName, Object field) {
+    /**
+     * Установить значение в указанное поле класса, даже, если оно приватное
+     */
+    public void setField(Object object, String fieldName, Object field) {
         try {
-            Field targetField = getField(object.getClass(), fieldName);
+            var targetField = getField(object.getClass(), fieldName);
 
             if (targetField == null) {
                 throw new NoSuchFieldException(String.format("No such field [%s] into [%s]", fieldName, object.getClass()));
             } else {
-                boolean isAccessible = targetField.isAccessible();
+                var isAccessible = targetField.isAccessible();
                 targetField.setAccessible(true);
 
                 targetField.set(object, field);

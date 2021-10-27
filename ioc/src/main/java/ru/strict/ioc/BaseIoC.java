@@ -78,7 +78,7 @@ public abstract class BaseIoC implements IoC {
             InstanceType type,
             Object... constructorArguments) {
         if (name == null || componentClass == null) {
-            throw ValidateException.byDetails(
+            throw new ValidateException(
                     "IoC exception. Fail add component to IoC because any is null: caption = %s," +
                             "componentClass = %s",
                     name,
@@ -207,7 +207,7 @@ public abstract class BaseIoC implements IoC {
 
     private void addSingleton(String caption, Class<?> keyClass, IoCData ioCData) {
         if (caption == null || keyClass == null) {
-            throw ValidateException.byDetails(
+            throw new ValidateException(
                     "IoC exception. Fail add component to IoC because any is null: caption = %s," +
                             "keyClass = %s",
                     caption,
@@ -289,7 +289,7 @@ public abstract class BaseIoC implements IoC {
             Object[] constructorArguments,
             boolean skipComponentHandler) {
         if (instanceClass == null || constructorArguments == null) {
-            throw ValidateException.byDetails(
+            throw new ValidateException(
                     "IoC exception. Fail add component to IoC because any is null:" +
                             "clazzInstance = [%s], constructorArguments = [%s]",
                     instanceClass,
