@@ -243,4 +243,12 @@ public class FileUtil {
             throw new RuntimeException(ex);
         }
     }
+
+    public byte[] getBytes(File file) {
+        try {
+            return Files.readAllBytes(file.toPath());
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 }
