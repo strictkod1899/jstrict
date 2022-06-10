@@ -5,20 +5,20 @@
 
     <groupId>ru.strict</groupId>
     <artifactId>jstrict-parent</artifactId>
-    <version>1.2.0</version>
+    <version>2.0.0</version>
     <packaging>pom</packaging>
     <name>jstrict-parent</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jdk.version>11</jdk.version>
+        <jdk.version>17</jdk.version>
 
         <lombok.version>1.18.22</lombok.version>
 
         <app.main-class>ru.strict.app.Main</app.main-class>
         <app.name>${project.name}-${project.version}</app.name>
         <app.icon>_sources/logo.ico</app.icon>
-        <jstrict.version>1.2.0</jstrict.version>
+        <jstrict.version>2.0.0</jstrict.version>
 
         <jacoco.coverage>0%</jacoco.coverage>
         <pmd.failure.priority>5</pmd.failure.priority>
@@ -26,7 +26,7 @@
         <pmd.ruleset.url>/pmd-ruleset.xml</pmd.ruleset.url>
 
         <launch4j.copyright>jstrict</launch4j.copyright>
-        <launch4j.jdk.version>11</launch4j.jdk.version>
+        <launch4j.jdk.version>17</launch4j.jdk.version>
         <launch4j.jar>target/${app.name}.jar</launch4j.jar>
     </properties>
 
