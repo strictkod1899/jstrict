@@ -1,11 +1,10 @@
-package ru.strict.view.console;
+package ru.strict.view.boundary;
 
 import javax.annotation.Nonnull;
 
 /**
  * View в стиле MVC.
- * Принимает модель, которая хранит текущее состояние системы и при вызове метода refresh
- * обновляет view
+ * Принимает модель, которая хранит текущее состояние системы и при вызове метода refresh обновляет view
  * @param <S> state (состояние), которое хранит model для взаимодействия с view
  * @param <M> модель mvc
  */

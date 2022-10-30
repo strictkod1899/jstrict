@@ -2,6 +2,7 @@ package ru.strict.view.console;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import ru.strict.view.boundary.View;
 
 import javax.annotation.Nonnull;
 

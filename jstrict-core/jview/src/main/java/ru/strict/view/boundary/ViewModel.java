@@ -1,4 +1,4 @@
-package ru.strict.view.console;
+package ru.strict.view.boundary;
 
 import javax.annotation.Nonnull;
 

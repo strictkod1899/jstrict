@@ -2,6 +2,7 @@ package ru.strict.view.swing;
 
 import lombok.Data;
 import lombok.Getter;
+import ru.strict.view.boundary.Notification;
 
 import javax.swing.*;
 import java.awt.*;

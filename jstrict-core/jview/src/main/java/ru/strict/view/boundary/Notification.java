@@ -1,4 +1,4 @@
-package ru.strict.view.swing;
+package ru.strict.view.boundary;
 
 public interface Notification {
     void show();
