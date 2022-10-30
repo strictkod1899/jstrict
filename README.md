@@ -10,3 +10,8 @@
 - joffice - взаимодействие с ms office (excel, word)
 - ioc - DI (IoC) контейнер (аля самописный spring)
 - jneuralnetwork - реализация нейронной сети (перцептрон)
+
+Сборка проекта:
+```
+Правила сборки описан в ./deploy/README.txt
+```
