@@ -14,7 +14,7 @@ param(
 )
 
 Write-Host ""
-Write-Host "            - [START] - INCREMENT VERSION ${version}"
+Write-Host "            - [START] - INCREMENT VERSION"
 Write-Host ""
 
 if ($version -eq $null -Or $version -eq '') {
@@ -55,6 +55,6 @@ $newVersionValue = "${leftPartVersion}${versionForUpdate}"
 Write-Host "[INFO]: newVersion = ${newVersionValue}"
 
 Write-Host ""
-Write-Host "            - [FINISH] - INCREMENT VERSION ${version}"
+Write-Host "            - [FINISH] - INCREMENT VERSION"
 Write-Host ""
 return $newVersionValue

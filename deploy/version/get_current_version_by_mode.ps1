@@ -40,7 +40,7 @@ try {
 	} elseif ($mode -eq $devMode) {
 		$devVersion = &"./deploy/other/read_from_properties.ps1" -filePath $versionsFile -itemName $devMode | Select-Object -Last 1
 
-		$buildVersion = "$prodVersion-SNAPSHOT-$devVersion"
+		$buildVersion = "$prodVersion-DEV-$devVersion"
 	} elseif ($mode -eq $featureMode) {
 		$featureVersion = &"./deploy/other/read_from_properties.ps1" -filePath $versionsFile -itemName $featureMode | Select-Object -Last 1
 

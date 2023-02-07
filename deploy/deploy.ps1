@@ -61,7 +61,7 @@ if ($mode -cne $null -And $mode -cne '') {
 	}
 }
 
-# create new version
+# increment version
 if ($skipUpdateVersion -eq $True) {
 	Write-Warning ""
 	Write-Warning "[WARN]: PROJECT BUILD WITHOUT UPDATE VERSION"

@@ -26,7 +26,7 @@
         <pmd.ruleset.url>/pmd-ruleset.xml</pmd.ruleset.url>
 
         <launch4j.copyright>jstrict</launch4j.copyright>
-        <launch4j.jdk.version>17</launch4j.jdk.version>
+        <launch4j.jdk.version>11</launch4j.jdk.version>
         <launch4j.jar>target/${app.name}.jar</launch4j.jar>
     </properties>
 
