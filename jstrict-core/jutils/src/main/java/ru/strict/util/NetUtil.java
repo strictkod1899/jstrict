@@ -8,7 +8,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import ru.strict.validate.CommonValidate;
+import ru.strict.validate.CommonValidator;
 
 import java.io.*;
 import java.net.*;
@@ -77,7 +77,7 @@ public class NetUtil {
                     .toArray(String[]::new);
             String parametersLine = StringUtil.join("&", stringParameters);
 
-            if (!CommonValidate.isNullOrEmpty(parametersLine)) {
+            if (!CommonValidator.isNullOrEmpty(parametersLine)) {
                 url += "?" + parametersLine;
             }
         }
@@ -92,7 +92,7 @@ public class NetUtil {
 
         String result = null;
         if (responseCode == 200) {
-            if (CommonValidate.isNullOrEmpty(encode)) {
+            if (CommonValidator.isNullOrEmpty(encode)) {
                 encode = "UTF-8";
             }
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), encode));
@@ -134,7 +134,7 @@ public class NetUtil {
      * @throws IOException
      */
     public static String sendPostRequest(String url, Map<String, String> parameters, String encode) throws IOException {
-        if (CommonValidate.isNullOrEmpty(encode)) {
+        if (CommonValidator.isNullOrEmpty(encode)) {
             encode = "UTF-8";
         }
 

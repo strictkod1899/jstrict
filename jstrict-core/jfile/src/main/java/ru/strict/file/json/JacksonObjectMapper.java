@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import ru.strict.validate.CommonValidate;
+import ru.strict.validate.CommonValidator;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -67,7 +67,7 @@ public final class JacksonObjectMapper extends ObjectMapper {
     }
 
     public <T> T convertToObject(String json, Class<T> castClass) {
-        if (CommonValidate.isNullOrEmpty(json) || castClass == null) {
+        if (CommonValidator.isNullOrEmpty(json) || castClass == null) {
             return null;
         }
 
@@ -79,7 +79,7 @@ public final class JacksonObjectMapper extends ObjectMapper {
     }
 
     public <T> List<T> convertToList(String json, Class<T> castClass) {
-        if (CommonValidate.isNullOrEmpty(json) || castClass == null) {
+        if (CommonValidator.isNullOrEmpty(json) || castClass == null) {
             return Collections.emptyList();
         }
 

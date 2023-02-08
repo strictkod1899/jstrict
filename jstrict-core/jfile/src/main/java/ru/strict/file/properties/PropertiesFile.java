@@ -3,7 +3,7 @@ package ru.strict.file.properties;
 import ru.strict.file.FileProcessingException;
 import ru.strict.util.PropertiesUtil;
 import ru.strict.util.ResourcesUtil;
-import ru.strict.validate.CommonValidate;
+import ru.strict.validate.CommonValidator;
 import ru.strict.validate.Validator;
 
 import java.io.File;
@@ -12,7 +12,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.function.Supplier;
-import java.util.stream.Stream;
 
 public class PropertiesFile {
     private final File file;
@@ -82,7 +81,7 @@ public class PropertiesFile {
         if (inputStreamWithSuffixSupplier != null) {
             value = readValueByInputStream(inputStreamWithSuffixSupplier, key, fileEncoding, targetEncoding);
         }
-        if (CommonValidate.isNullOrEmpty(value)) {
+        if (CommonValidator.isNullOrEmpty(value)) {
             value = readValueByInputStream(inputStreamSupplier, key, fileEncoding, targetEncoding);
         }
 
@@ -105,7 +104,7 @@ public class PropertiesFile {
         if (fileWithSuffix != null && Files.exists(pathWithSuffix)) {
             value = PropertiesUtil.getValue(fileWithSuffix.getAbsolutePath(), key, fileEncoding, targetEncoding);
         }
-        if (CommonValidate.isNullOrEmpty(value) && Files.exists(path)) {
+        if (CommonValidator.isNullOrEmpty(value) && Files.exists(path)) {
             value = PropertiesUtil.getValue(file.getAbsolutePath(), key, fileEncoding, targetEncoding);
         }
 

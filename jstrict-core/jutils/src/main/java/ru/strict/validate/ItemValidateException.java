@@ -2,6 +2,9 @@ package ru.strict.validate;
 
 import lombok.Getter;
 
+/**
+ * @deprecated use CodeableException
+ */
 @Getter
 public class ItemValidateException extends RuntimeException {
     private String itemName;

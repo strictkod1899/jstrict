@@ -1,7 +1,7 @@
 package ru.strict.util;
 
 import ru.strict.component.OSType;
-import ru.strict.validate.CommonValidate;
+import ru.strict.validate.CommonValidator;
 
 import java.io.*;
 import java.util.Locale;
@@ -36,7 +36,7 @@ public class SystemUtil {
     }
 
     public static void openFile(String filePath) throws IOException {
-        if (CommonValidate.isNullOrEmpty(filePath)) {
+        if (CommonValidator.isNullOrEmpty(filePath)) {
             throw new IllegalArgumentException("filePath is NULL");
         }
 

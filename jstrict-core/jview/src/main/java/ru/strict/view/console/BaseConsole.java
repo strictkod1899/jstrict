@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.strict.component.AnsiColor;
 import ru.strict.util.AnsiConsoleUtil;
-import ru.strict.validate.CommonValidate;
+import ru.strict.validate.CommonValidator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -84,7 +84,7 @@ public class BaseConsole {
         }
 
         Integer result = null;
-        if (CommonValidate.isInteger(command)) {
+        if (CommonValidator.isInteger(command)) {
             result = Integer.parseInt(command);
         }
         return result;
@@ -101,7 +101,7 @@ public class BaseConsole {
         }
 
         String result = null;
-        if (!CommonValidate.isNullOrEmpty(command)) {
+        if (!CommonValidator.isNullOrEmpty(command)) {
             result = command;
         }
         return result;
@@ -136,7 +136,7 @@ public class BaseConsole {
             }
 
             if (inputType == Integer.class) {
-                if (CommonValidate.isInteger(String.valueOf(inputtedCommand))) {
+                if (CommonValidator.isInteger(String.valueOf(inputtedCommand))) {
                     inputtedCommand = Integer.valueOf(String.valueOf(inputtedCommand));
                 }
             }

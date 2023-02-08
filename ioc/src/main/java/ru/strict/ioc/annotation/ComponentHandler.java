@@ -5,7 +5,7 @@ import ru.strict.ioc.IoC;
 import ru.strict.ioc.exception.ManyMatchComponentAnnotationException;
 import ru.strict.ioc.exception.ManyMatchConstructorFieldsException;
 import ru.strict.util.ReflectionUtil;
-import ru.strict.validate.CommonValidate;
+import ru.strict.validate.CommonValidator;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -58,7 +58,7 @@ public class ComponentHandler {
 
             String componentName;
             Component componentAnnotation = method.getAnnotation(Component.class);
-            if (CommonValidate.isNullOrEmpty(componentAnnotation.value())) {
+            if (CommonValidator.isNullOrEmpty(componentAnnotation.value())) {
                 componentName = method.getName();
             } else {
                 componentName = componentAnnotation.value();

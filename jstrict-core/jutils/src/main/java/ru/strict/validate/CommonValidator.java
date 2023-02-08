@@ -4,27 +4,12 @@ import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Проверка валидности значений стандартных типов (строка, целые числа, дробные числа и т.д.)
- */
-public class CommonValidate {
+public class CommonValidator {
 
-    /**
-     * Проверка строки, чтобы она была не пустой и не равна нулю
-     *
-     * @param str Проверяемая строка
-     * @return Если строка не содержит пустых символов и является корректной, то возвращается true, иначе false
-     */
     public static boolean isNullOrEmpty(String str) {
         return str == null || str.length() == 0;
     }
 
-    /**
-     * Проверка строки, чтобы она была не пустой, не равна нулю и не содержала одних пробелов
-     *
-     * @param str Проверяемая строка
-     * @return Если строка не содержит пустых символов и является корректной, то возвращается true, иначе false
-     */
     public static boolean isEmptySpaceOrNull(String str) {
         if (str == null) {
             return true;
@@ -38,19 +23,17 @@ public class CommonValidate {
     }
 
     public static boolean isNullOrEmpty(Object[] array) {
-        boolean result;
         if (array == null || array.length == 0) {
-            result = true;
-        } else {
-            result = true;
-            for (Object item : array) {
-                if (item != null) {
-                    result = false;
-                    break;
-                }
-            }
+            return true;
         }
 
+        var result = true;
+        for (var item : array) {
+            if (item != null) {
+                result = false;
+                break;
+            }
+        }
         return result;
     }
 
@@ -74,35 +57,23 @@ public class CommonValidate {
         return number > minValue && number < maxValue;
     }
 
-    /**
-     * Проверка корректности приведения строки к целочисленному типу
-     *
-     * @param str Проверяемая строка
-     * @return Если текстовое поле содержит корректные данные, то возвращается true, иначе false
-     */
     public static boolean isInteger(String str) {
         if (str == null) {
             return false;
         }
 
-        Pattern pattern = Pattern.compile("[+-]?\\d+");
-        Matcher match = pattern.matcher(str);
+        var pattern = Pattern.compile("[+-]?\\d+");
+        var match = pattern.matcher(str);
         return match.matches();
     }
 
-    /**
-     * Проверка корректности приведения строки к дробному числовому типу
-     *
-     * @param str Проверяемая строка
-     * @return Если текстовое поле содержит корректные данные, то возвращается true, иначе false
-     */
     public static boolean isDouble(String str) {
         if (str == null) {
             return false;
         }
 
-        Pattern pattern = Pattern.compile("([+-]?\\d+\\.?\\d*)");
-        Matcher match = pattern.matcher(str);
+        var pattern = Pattern.compile("([+-]?\\d+\\.?\\d*)");
+        var match = pattern.matcher(str);
         return match.matches();
     }
 
@@ -117,9 +88,9 @@ public class CommonValidate {
             return false;
         }
 
-        Pattern pattern = Pattern.compile(
+        var pattern = Pattern.compile(
                 "[0-9]{4}[" + splitSymbol + "](0[1-9]|1[012])[" + splitSymbol + "](0[1-9]|[12][0-9]|3[01])");
-        Matcher match = pattern.matcher(str);
+        var match = pattern.matcher(str);
         return match.matches();
     }
 
@@ -134,9 +105,9 @@ public class CommonValidate {
             return false;
         }
 
-        Pattern pattern = Pattern.compile(
+        var pattern = Pattern.compile(
                 "(0[1-9]|[12][0-9]|3[01])[" + splitSymbol + "](0[1-9]|1[012])[" + splitSymbol + "][0-9]{4}");
-        Matcher match = pattern.matcher(str);
+        var match = pattern.matcher(str);
         return match.matches();
     }
 
@@ -151,8 +122,8 @@ public class CommonValidate {
             return false;
         }
 
-        Pattern pattern = Pattern.compile("^([0-1]\\d|2[0-3])(" + splitSymbol + "[0-5]\\d){2}$");
-        Matcher match = pattern.matcher(str);
+        var pattern = Pattern.compile("^([0-1]\\d|2[0-3])(" + splitSymbol + "[0-5]\\d){2}$");
+        var match = pattern.matcher(str);
         return match.matches();
     }
 }

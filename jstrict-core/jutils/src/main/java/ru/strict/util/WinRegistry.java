@@ -1,6 +1,6 @@
 package ru.strict.util;
 
-import ru.strict.validate.CommonValidate;
+import ru.strict.validate.CommonValidator;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,10 +9,10 @@ import java.io.StringWriter;
 public class WinRegistry {
 
     public static String readRegKey(String location, String key) {
-        if (CommonValidate.isNullOrEmpty(location)) {
+        if (CommonValidator.isNullOrEmpty(location)) {
             throw new IllegalArgumentException("location is NULL");
         }
-        if (CommonValidate.isNullOrEmpty(key)) {
+        if (CommonValidator.isNullOrEmpty(key)) {
             throw new IllegalArgumentException("key is NULL");
         }
 
@@ -28,7 +28,7 @@ public class WinRegistry {
 
             // Output has the following format:
             // \n<Version information>\n\n<key>\t<registry type>\t<value>
-            if (CommonValidate.isEmptySpaceOrNull(output)) {
+            if (CommonValidator.isEmptySpaceOrNull(output)) {
                 return null;
             }
 

@@ -3,15 +3,11 @@ package ru.strict.validate;
 import java.util.Collection;
 
 /**
- * Валидатор. При валидации выбрасывается ValidateException
+ * @deprecated use CommonValidator
  */
 public final class Validator {
 
     private Validator() {
-    }
-
-    public static DetailsValidator byDetails(String details, Object... args) {
-        return new DetailsValidator(details, args);
     }
 
     public static void isNull(Object value, String caption) {
@@ -21,25 +17,25 @@ public final class Validator {
     }
 
     public static void isNullOrEmpty(String value, String caption) {
-        if (CommonValidate.isNullOrEmpty(value)) {
+        if (CommonValidator.isNullOrEmpty(value)) {
             throw new ItemValidateException(caption, "value is EMPTY or NULL");
         }
     }
 
     public static void isEmptySpaceOrNull(String value, String caption) {
-        if (CommonValidate.isEmptySpaceOrNull(value)) {
+        if (CommonValidator.isEmptySpaceOrNull(value)) {
             throw new ItemValidateException(caption, "value is EMPTY SPACE or NULL");
         }
     }
 
     public static void isNullOrEmpty(Collection<?> collection, String caption) {
-        if (CommonValidate.isNullOrEmpty(collection)) {
+        if (CommonValidator.isNullOrEmpty(collection)) {
             throw new ItemValidateException(caption, "collection is EMPTY or NULL");
         }
     }
 
     public static void isNullOrEmpty(Object[] array, String caption) {
-        if (CommonValidate.isNullOrEmpty(array)) {
+        if (CommonValidator.isNullOrEmpty(array)) {
             throw new ItemValidateException(caption, "array is EMPTY or NULL");
         }
     }
@@ -93,7 +89,7 @@ public final class Validator {
     }
 
     public static void isRange(long number, String caption, long minValue, long maxValue) {
-        if (CommonValidate.isRange(number, minValue, maxValue)) {
+        if (CommonValidator.isRange(number, minValue, maxValue)) {
             throw new ItemValidateException(caption, String.format("number (%s) is in range (%s...%s)",
                     number,
                     minValue,
@@ -103,7 +99,7 @@ public final class Validator {
     }
 
     public static void isNotRange(long number, String caption, long minValue, long maxValue) {
-        if (!CommonValidate.isRange(number, minValue, maxValue)) {
+        if (!CommonValidator.isRange(number, minValue, maxValue)) {
             throw new ItemValidateException(caption, String.format("number (%s) isn't in range (%s...%s)",
                     number,
                     minValue,

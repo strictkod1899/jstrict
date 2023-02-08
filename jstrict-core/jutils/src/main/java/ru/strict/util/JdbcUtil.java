@@ -1,7 +1,7 @@
 package ru.strict.util;
 
 import lombok.experimental.UtilityClass;
-import ru.strict.validate.CommonValidate;
+import ru.strict.validate.CommonValidator;
 
 import javax.sql.DataSource;
 import java.io.File;
@@ -27,7 +27,7 @@ public class JdbcUtil {
             String fileContent = Files.readString(sqlFile.toPath());
             Stream.of(fileContent.split(";"))
                     .map(String::trim)
-                    .filter(not(CommonValidate::isNullOrEmpty))
+                    .filter(not(CommonValidator::isNullOrEmpty))
                     .forEach(sql -> executeSql(sql, dataSource));
         } catch (IOException ex) {
             throw new RuntimeException(ex);

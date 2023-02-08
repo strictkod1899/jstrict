@@ -7,7 +7,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import ru.strict.file.FileProcessingException;
-import ru.strict.validate.CommonValidate;
+import ru.strict.validate.CommonValidator;
 import ru.strict.validate.Validator;
 
 import java.io.*;
@@ -104,7 +104,7 @@ public class HtmlUtil {
 
     private static Elements getTag(Document page, String selector) {
         Elements tags;
-        if (CommonValidate.isNullOrEmpty(selector)) {
+        if (CommonValidator.isNullOrEmpty(selector)) {
             tags = page.getAllElements();
         } else {
             tags = page.select(selector);

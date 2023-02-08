@@ -7,7 +7,7 @@ import ru.strict.util.PropertiesUtil;
 import ru.strict.util.ReflectionUtil;
 import ru.strict.util.ResourcesUtil;
 import ru.strict.util.StringUtil;
-import ru.strict.validate.CommonValidate;
+import ru.strict.validate.CommonValidator;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -36,7 +36,7 @@ public class FromPropertyHandler {
 
     private static Properties getConfigValues(FromProperties fromPropertiesAnnotation) {
         var fileName = fromPropertiesAnnotation.file();
-        fileName = CommonValidate.isNullOrEmpty(fileName) ? APP_FILE_NAME : fileName;
+        fileName = CommonValidator.isNullOrEmpty(fileName) ? APP_FILE_NAME : fileName;
 
         var propertiesInputStream = ResourcesUtil.getResourceStream(fileName);
         if (propertiesInputStream == null) {
@@ -115,7 +115,7 @@ public class FromPropertyHandler {
     }
 
     private String cropPrefix(String propertyName, String prefix) {
-        return CommonValidate.isNullOrEmpty(prefix) ? propertyName : propertyName.substring(prefix.length() + 1);
+        return CommonValidator.isNullOrEmpty(prefix) ? propertyName : propertyName.substring(prefix.length() + 1);
     }
 
     private Object convertValueToTargetType(String value, Class<?> type) {
