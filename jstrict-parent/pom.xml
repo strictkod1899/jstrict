@@ -39,6 +39,11 @@
             </dependency>
             <dependency>
                 <groupId>ru.strict</groupId>
+                <artifactId>domain-primitive</artifactId>
+                <version>${jstrict.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.strict</groupId>
                 <artifactId>jfile</artifactId>
                 <version>${jstrict.version}</version>
             </dependency>

@@ -15,6 +15,7 @@
 
     <modules>
         <module>jutils</module>
+        <module>domain-primitive</module>
         <module>jfile</module>
         <module>jview</module>
         <module>joffice</module>
