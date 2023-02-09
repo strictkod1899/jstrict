@@ -13,7 +13,7 @@ class TitleTest {
     @Test
     void testFrom_StringIsNull_ThrowError() {
         try {
-            new Title(null);
+            Title.from(null);
         } catch (CodeableException ex) {
             assertTrue(CodeableException.equalsByCode(ex, TitleError.titleIsEmptyErrorCode));
             return;
@@ -25,7 +25,7 @@ class TitleTest {
     @Test
     void testFrom_StringIsEmpty_ThrowError() {
         try {
-            new Title("");
+            Title.from("");
         } catch (CodeableException ex) {
             assertTrue(CodeableException.equalsByCode(ex, TitleError.titleIsEmptyErrorCode));
             return;
@@ -37,7 +37,7 @@ class TitleTest {
     @Test
     void testFrom_StringIsTooLong_ThrowError() {
         try {
-            new Title("testtitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitle");
+            Title.from("testtitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitle");
         } catch (CodeableException ex) {
             assertTrue(CodeableException.equalsByCode(ex, TitleError.titleTooLongErrorCode));
             return;
@@ -50,8 +50,8 @@ class TitleTest {
     void tesFrom_ValidParam_NoError() {
         var expectedTitleStr = RandomUtil.generateDefaultStr();
 
-        var title1 = new Title(expectedTitleStr);
-        var title2 = new Title(expectedTitleStr);
+        var title1 = Title.from(expectedTitleStr);
+        var title2 = Title.from(expectedTitleStr);
 
         assertEquals(title1, title2);
         assertEquals(title1.toString(), title2.toString());

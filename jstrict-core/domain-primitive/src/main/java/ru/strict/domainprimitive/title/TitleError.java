@@ -1,5 +1,7 @@
 package ru.strict.domainprimitive.title;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import lombok.experimental.UtilityClass;
 import ru.strict.exception.CodeableException;
 
@@ -8,11 +10,11 @@ public class TitleError {
     public final String titleIsEmptyErrorCode = "55420974-001";
     public final String titleTooLongErrorCode = "55420974-002";
 
-    public CodeableException TitleIsEmpty() {
+    public CodeableException errTitleIsEmpty() {
         return new CodeableException(titleIsEmptyErrorCode, "Title is empty");
     }
 
-    public CodeableException TitleTooLong() {
+    public CodeableException errTitleTooLong() {
         return new CodeableException(titleTooLongErrorCode, "Title is too long");
     }
 }

@@ -10,6 +10,10 @@ public class Errors {
         this.errors = new ArrayList<>();
     }
 
+    public void addError(CodeableException ex) {
+        this.errors.add(ex);
+    }
+
     public boolean isEmpty() {
         return errors.size() == 0;
     }

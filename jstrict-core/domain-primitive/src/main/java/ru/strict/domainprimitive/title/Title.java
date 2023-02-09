@@ -9,12 +9,16 @@ public final class Title {
 
     private final String value;
 
-    public Title(String value) {
+    public static Title from(String value) {
+        return new Title(value);
+    }
+
+    private Title(String value) {
         if (CommonValidator.isNullOrEmpty(value)) {
-            throw TitleError.TitleIsEmpty();
+            throw TitleError.errTitleIsEmpty();
         }
         if (value.length() > TITLE_MAX_LENGTH) {
-            throw TitleError.TitleTooLong();
+            throw TitleError.errTitleTooLong();
         }
 
         this.value = value;
@@ -36,6 +40,6 @@ public final class Title {
 
     @Override
     public String toString() {
-        return value.toString();
+        return value;
     }
 }
