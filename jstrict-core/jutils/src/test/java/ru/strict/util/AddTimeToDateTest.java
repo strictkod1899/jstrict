@@ -2,7 +2,6 @@ package ru.strict.util;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import static org.junit.jupiter.api.Assertions.*;

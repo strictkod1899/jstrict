@@ -1,9 +1,11 @@
 package ru.strict.domainprimitive.title;
 
+import lombok.EqualsAndHashCode;
 import ru.strict.validate.CommonValidator;
 
 import java.util.Objects;
 
+@EqualsAndHashCode
 public final class Title {
     private static final int TITLE_MAX_LENGTH = 140;
 
@@ -22,20 +24,6 @@ public final class Title {
         }
 
         this.value = value;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        var other = (Title) o;
-        return Objects.equals(this.value, other.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(value);
     }
 
     @Override

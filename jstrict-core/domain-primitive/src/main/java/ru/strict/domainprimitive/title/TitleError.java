@@ -1,7 +1,5 @@
 package ru.strict.domainprimitive.title;
 
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import lombok.experimental.UtilityClass;
 import ru.strict.exception.CodeableException;
 

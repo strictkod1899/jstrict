@@ -1,10 +1,12 @@
 package ru.strict.domainprimitive.id;
 
+import lombok.EqualsAndHashCode;
 import ru.strict.validate.CommonValidator;
 
 import java.util.Objects;
 import java.util.UUID;
 
+@EqualsAndHashCode
 public class EntityId {
     private final UUID id;
 
@@ -22,20 +24,6 @@ public class EntityId {
         } catch (Exception e) {
             throw EntityIdError.errInvalidIdFormat(e);
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        var other = (EntityId) o;
-        return Objects.equals(this.id, other.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 
     @Override
