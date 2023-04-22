@@ -1,15 +1,18 @@
 package ru.strict.domainprimitive.title;
 
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.FieldDefaults;
 import ru.strict.validate.CommonValidator;
 
 import java.util.Objects;
 
 @EqualsAndHashCode
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public final class Title {
     private static final int TITLE_MAX_LENGTH = 140;
 
-    private final String value;
+    String value;
 
     public static Title from(String value) {
         return new Title(value);

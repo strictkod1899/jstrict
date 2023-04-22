@@ -4,6 +4,7 @@ import lombok.experimental.UtilityClass;
 import ru.strict.exception.CodeableException;
 import ru.strict.exception.Errors;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -21,8 +22,8 @@ public class AssertUtil {
 
         assertEquals(expectedCodes.size(), actualExceptions.size());
 
-        var actualExceptionsMap = actualExceptions.stream().
-                collect(Collectors.toMap(CodeableException::getCode, Function.identity()));
+        var actualExceptionsMap = new HashMap<String, CodeableException>();
+        actualExceptions.forEach(actualEx -> actualExceptionsMap.put(actualEx.getCode(), actualEx));
 
         for (var expectedCode : expectedCodes) {
             assertTrue(actualExceptionsMap.containsKey(expectedCode));

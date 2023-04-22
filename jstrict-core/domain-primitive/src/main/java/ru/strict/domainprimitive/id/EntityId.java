@@ -1,14 +1,17 @@
 package ru.strict.domainprimitive.id;
 
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.FieldDefaults;
 import ru.strict.validate.CommonValidator;
 
 import java.util.Objects;
 import java.util.UUID;
 
 @EqualsAndHashCode
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class EntityId {
-    private final UUID id;
+    UUID id;
 
     public EntityId() {
         this.id = UUID.randomUUID();
