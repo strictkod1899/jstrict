@@ -2,7 +2,6 @@ package ru.strict.domainprimitive.id;
 
 import org.junit.jupiter.api.Test;
 import ru.strict.exception.CodeableException;
-import ru.strict.test.FailTestException;
 
 import java.util.UUID;
 
@@ -20,38 +19,23 @@ class EntityIdTest {
 
     @Test
     void tesIdFrom_StringIsNull_ThrowError() {
-        try {
-            new EntityId(null);
-        } catch (CodeableException ex) {
-            assertTrue(CodeableException.equalsByCode(ex, EntityIdError.idIsEmptyErrorCode));
-            return;
-        }
+        var actualEx = assertThrows(CodeableException.class, () -> new EntityId(null));
 
-        throw new FailTestException();
+        assertTrue(actualEx.equalsByCode(EntityIdError.idIsEmptyErrorCode));
     }
 
     @Test
     void tesIdFrom_EmptyString_ThrowError() {
-        try {
-            new EntityId("");
-        } catch (CodeableException ex) {
-            assertTrue(CodeableException.equalsByCode(ex, EntityIdError.idIsEmptyErrorCode));
-            return;
-        }
+        var actualEx = assertThrows(CodeableException.class, () -> new EntityId(""));
 
-        throw new FailTestException();
+        assertTrue(actualEx.equalsByCode(EntityIdError.idIsEmptyErrorCode));
     }
 
     @Test
     void tesIdFrom_NotUUID_ThrowError() {
-        try {
-            new EntityId("123");
-        } catch (CodeableException ex) {
-            assertTrue(CodeableException.equalsByCode(ex, EntityIdError.invalidIdFormatErrorCode));
-            return;
-        }
+        var actualEx = assertThrows(CodeableException.class, () -> new EntityId("123"));
 
-        throw new FailTestException();
+        assertTrue(actualEx.equalsByCode(EntityIdError.invalidIdFormatErrorCode));
     }
 
     @Test

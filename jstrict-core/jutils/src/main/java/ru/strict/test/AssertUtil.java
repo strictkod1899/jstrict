@@ -2,12 +2,11 @@ package ru.strict.test;
 
 import lombok.experimental.UtilityClass;
 import ru.strict.exception.CodeableException;
-import ru.strict.exception.Errors;
+import ru.strict.exception.ErrorsException;
+import ru.strict.util.ReflectionUtil;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,9 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AssertUtil {
 
     public static void assertExceptionByCodes(RuntimeException ex, List<String> expectedCodes) {
-        assertInstanceOf(Errors.ErrorsException.class, ex);
+        assertInstanceOf(ErrorsException.class, ex);
 
-        var errorsException = (Errors.ErrorsException) ex;
+        var errorsException = (ErrorsException) ex;
         var actualExceptions = errorsException.toList();
 
         assertEquals(expectedCodes.size(), actualExceptions.size());
@@ -28,5 +27,14 @@ public class AssertUtil {
         for (var expectedCode : expectedCodes) {
             assertTrue(actualExceptionsMap.containsKey(expectedCode));
         }
+    }
+
+    public static <T> void assertFieldsNotNull(T obj) {
+        var reflectFields = ReflectionUtil.getAllFields(obj.getClass());
+
+        reflectFields.forEach(reflectField -> {
+            var fieldValue = ReflectionUtil.getFieldValue(obj, reflectField.getName());
+            assertNotNull(fieldValue, String.format("Field '%s' is null", reflectField.getName()));
+        });
     }
 }

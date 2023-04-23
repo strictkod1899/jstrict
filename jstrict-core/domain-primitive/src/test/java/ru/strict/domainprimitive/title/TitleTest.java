@@ -2,48 +2,35 @@ package ru.strict.domainprimitive.title;
 
 import org.junit.jupiter.api.Test;
 import ru.strict.exception.CodeableException;
-import ru.strict.test.FailTestException;
 import ru.strict.test.RandomUtil;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TitleTest {
 
     @Test
     void testFrom_StringIsNull_ThrowError() {
-        try {
-            Title.from(null);
-        } catch (CodeableException ex) {
-            assertTrue(CodeableException.equalsByCode(ex, TitleError.titleIsEmptyErrorCode));
-            return;
-        }
+        var actualEx = assertThrows(CodeableException.class, () -> Title.from(null));
 
-        throw new FailTestException();
+        assertTrue(actualEx.equalsByCode(TitleError.titleIsEmptyErrorCode));
     }
 
     @Test
     void testFrom_StringIsEmpty_ThrowError() {
-        try {
-            Title.from("");
-        } catch (CodeableException ex) {
-            assertTrue(CodeableException.equalsByCode(ex, TitleError.titleIsEmptyErrorCode));
-            return;
-        }
+        var actualEx = assertThrows(CodeableException.class, () -> Title.from(""));
 
-        throw new FailTestException();
+        assertTrue(actualEx.equalsByCode(TitleError.titleIsEmptyErrorCode));
     }
 
     @Test
     void testFrom_StringIsTooLong_ThrowError() {
-        try {
-            Title.from("testtitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitletesttitle");
-        } catch (CodeableException ex) {
-            assertTrue(CodeableException.equalsByCode(ex, TitleError.titleTooLongErrorCode));
-            return;
-        }
+        var longTitle = RandomUtil.generateStr(Title.MAX_TITLE_LENGTH +1);
 
-        throw new FailTestException();
+        var actualEx = assertThrows(CodeableException.class, () -> Title.from(longTitle));
+
+        assertTrue(actualEx.equalsByCode(TitleError.titleTooLongErrorCode));
     }
 
     @Test

@@ -5,12 +5,10 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
 import ru.strict.validate.CommonValidator;
 
-import java.util.Objects;
-
 @EqualsAndHashCode
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public final class Title {
-    private static final int TITLE_MAX_LENGTH = 140;
+    public static final int MAX_TITLE_LENGTH = 240;
 
     String value;
 
@@ -22,7 +20,7 @@ public final class Title {
         if (CommonValidator.isNullOrEmpty(value)) {
             throw TitleError.errTitleIsEmpty();
         }
-        if (value.length() > TITLE_MAX_LENGTH) {
+        if (value.length() > MAX_TITLE_LENGTH) {
             throw TitleError.errTitleTooLong();
         }
 
