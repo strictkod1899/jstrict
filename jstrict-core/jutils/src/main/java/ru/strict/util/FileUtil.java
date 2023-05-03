@@ -19,12 +19,6 @@ public class FileUtil {
         writeFile(new File(filepath), fileContent);
     }
 
-    /**
-     * Создать файл в файловой системе. Если файл существует, то он будет перезаписан
-     *
-     * @param file Файл, который будет создан
-     * @param fileContent Стркоове содержимое файла
-     */
     public void writeFile(File file, String fileContent) {
         Validator.isNull(file, "file");
         Validator.isNull(fileContent, "fileContent");
@@ -43,23 +37,14 @@ public class FileUtil {
         writeFile(new File(filepath), fileBytes);
     }
 
-    /**
-     * Создать файл в файловой системе. Если файл существует, то он будет перезаписан
-     *
-     * @param file Файл, который будет создан
-     * @param fileBytes Байты, которые записываются в файл
-     */
     public void writeFile(File file, byte[] fileBytes) throws IOException {
         Validator.isNull(file, "file");
         Validator.isNull(fileBytes, "fileBytes");
 
         recreateFile(file);
-        try (FileOutputStream output = new FileOutputStream(file)) {
-            output.write(fileBytes);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        writeBytesIntoFile(file, fileBytes);
     }
+
 
     public void writeFile(File file, InputStream in) {
         Validator.isNull(file, "file");
@@ -84,9 +69,6 @@ public class FileUtil {
         recreateFile(new File(filePath));
     }
 
-    /**
-     * Создать файл. Если файл существует, то он будет перезаписан
-     */
     public void recreateFile(File file) {
         Validator.isNull(file, "file");
 
@@ -102,9 +84,12 @@ public class FileUtil {
         createFileIfNotExists(new File(filePath));
     }
 
-    /**
-     * Создать файл, если он не существует
-     */
+    public void createFileIfNotExists(String filePath, byte[] fileBytes) {
+        Validator.isNullOrEmpty(filePath, "filePath");
+
+        createFileIfNotExists(new File(filePath), fileBytes);
+    }
+
     public void createFileIfNotExists(File file) {
         Validator.isNull(file, "file");
 
@@ -114,6 +99,29 @@ public class FileUtil {
             if (!file.exists()) {
                 file.createNewFile();
             }
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public void createFileIfNotExists(File file, byte[] fileBytes) {
+        Validator.isNull(file, "file");
+
+        try {
+            createDirectoryByFile(file.getAbsolutePath());
+
+            if (!file.exists()) {
+                file.createNewFile();
+                writeBytesIntoFile(file, fileBytes);
+            }
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public void writeBytesIntoFile(File file, byte[] fileBytes) {
+        try (FileOutputStream output = new FileOutputStream(file)) {
+            output.write(fileBytes);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }

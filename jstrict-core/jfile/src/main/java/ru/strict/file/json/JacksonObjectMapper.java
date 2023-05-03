@@ -6,9 +6,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import ru.strict.file.FileProcessingException;
 import ru.strict.validate.CommonValidator;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
@@ -26,12 +28,22 @@ public final class JacksonObjectMapper extends ObjectMapper {
         enable(SerializationFeature.INDENT_OUTPUT);
     }
 
-    /**
-     * Прочитать json-файл в ресурсах и преобразовать его в переданный объект
-     *
-     * @param resourceFilePath json файл в ресурсах
-     * @param castClass класс конвертации из json
-     */
+    public <T> T readFromFile(String filePath, Class<T> castClass) {
+        try {
+            return this.readValue(new File(filePath), castClass);
+        } catch (IOException ex) {
+            throw new FileProcessingException(filePath, ex);
+        }
+    }
+
+    public void writeToFile(String filePath, Object objectJson) {
+        try {
+            this.writeValue(new File(filePath), objectJson);
+        } catch (IOException ex) {
+            throw new FileProcessingException(filePath, ex);
+        }
+    }
+
     public <T> T readFromResource(String resourceFilePath, Class<T> castClass) {
         try (InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream(resourceFilePath);) {
             String json = readToJson(inputStream);
@@ -42,12 +54,6 @@ public final class JacksonObjectMapper extends ObjectMapper {
         }
     }
 
-    /**
-     * Прочитать json-файл в ресурсах и преобразовать его в список переданных объектов
-     *
-     * @param resourceFilePath json файл в ресурсах
-     * @param castClass класс конвертации из json
-     */
     public <T> List<T> readListFromResource(String resourceFilePath, Class<T> castClass) {
         try (InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream(resourceFilePath);) {
             String json = readToJson(inputStream);
