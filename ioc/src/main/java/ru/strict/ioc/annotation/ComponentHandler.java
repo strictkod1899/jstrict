@@ -50,14 +50,14 @@ public class ComponentHandler {
         return mainConstructor;
     }
 
-    public static void fillIoCByConfiguration(Class<?> configurationClass, IoC ioc) {
+    public static void fillIoCFromConfiguration(Class<?> configurationClass, IoC ioc) {
         var methods = getReturnedComponentMethods(configurationClass);
 
-        for (Method method : methods) {
-            Class<?> returnClass = method.getReturnType();
+        for (var method : methods) {
+            var returnClass = method.getReturnType();
 
             String componentName;
-            Component componentAnnotation = method.getAnnotation(Component.class);
+            var componentAnnotation = method.getAnnotation(Component.class);
             if (CommonValidator.isNullOrEmpty(componentAnnotation.value())) {
                 componentName = method.getName();
             } else {

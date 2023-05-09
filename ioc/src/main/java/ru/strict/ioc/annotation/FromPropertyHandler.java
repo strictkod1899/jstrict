@@ -16,7 +16,7 @@ import java.util.Properties;
 @UtilityClass
 public class FromPropertyHandler {
 
-    private static final String APP_FILE_NAME = "app.properties";
+    private static final String DEFAULT_CONFIG_FILE_NAME = "app.properties";
 
     public static void fillFromProperties(Object instance) {
         var fromPropertyAnnotation = instance.getClass().getAnnotation(FromProperties.class);
@@ -36,7 +36,7 @@ public class FromPropertyHandler {
 
     private static Properties getConfigValues(FromProperties fromPropertiesAnnotation) {
         var fileName = fromPropertiesAnnotation.file();
-        fileName = CommonValidator.isNullOrEmpty(fileName) ? APP_FILE_NAME : fileName;
+        fileName = CommonValidator.isNullOrEmpty(fileName) ? DEFAULT_CONFIG_FILE_NAME : fileName;
 
         var propertiesInputStream = ResourcesUtil.getResourceStream(fileName);
         if (propertiesInputStream == null) {

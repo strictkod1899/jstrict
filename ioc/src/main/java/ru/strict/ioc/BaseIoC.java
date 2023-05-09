@@ -14,7 +14,6 @@ import java.lang.reflect.ParameterizedType;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import static ru.strict.ioc.IoCUtils.*;
 
@@ -48,11 +47,13 @@ import static ru.strict.ioc.IoCUtils.*;
 public abstract class BaseIoC implements IoC {
 
     private Map<IoCKey, IoCData> components;
+    private List<IoCKey> componentKeysForConfigure;
     //private Collection<Class<? extends LoggerBase>> defaultLoggingClasses;
     //private Class<? extends LoggerBase> defaultLoggerClass;
 
     public BaseIoC() {
         components = new HashMap<>();
+        componentKeysForConfigure = new ArrayList<>();
         //defaultLoggingClasses = new HashSet<>();
         init();
     }
@@ -85,7 +86,7 @@ public abstract class BaseIoC implements IoC {
                     componentClass);
         }
 
-        if (isExistsComponentCaption(name)) {
+        if (isExistsComponentByName(name)) {
             throw new ManyMatchComponentsException(name);
         }
 
@@ -153,13 +154,11 @@ public abstract class BaseIoC implements IoC {
         }
     }
 
-    /**
-     * @throws ManyMatchComponentsException
-     */
     private IoCKey getKey(Predicate<IoCKey> keyFilter, Supplier<RuntimeException> orThrow) {
-        List<IoCKey> foundKeys = components.keySet().stream()
-                .filter(keyFilter)
-                .collect(Collectors.toList());
+        List<IoCKey> foundKeys = components.keySet().
+                stream().
+                filter(keyFilter).
+                toList();
         if (foundKeys.size() > 1) {
             throw orThrow.get();
         }
@@ -173,52 +172,55 @@ public abstract class BaseIoC implements IoC {
 
         initConfigurations();
         initSingletons();
+        invokeConfigurationMethods();
     }
 
     private void fillFromConfigurations() {
-        Set<IoCKey> keys = components.keySet();
-
-        keys.stream()
+        components.keySet().stream()
                 .filter(key -> components.get(key).getType() == InstanceType.CONFIGURATION)
-                .collect(Collectors.toList())
-                .forEach(key -> ComponentHandler.fillIoCByConfiguration(key.getClazz(), this));
+                .toList()
+                .forEach(key -> ComponentHandler.fillIoCFromConfiguration(key.getClazz(), this));
     }
 
     private void initConfigurations() {
-        Set<IoCKey> keys = components.keySet();
-
-        keys.stream()
-                .filter(key -> components.get(key).getType() == InstanceType.CONFIGURATION)
-                .collect(Collectors.toList())
+        components.entrySet().stream()
+                .filter((entry) -> entry.getValue().getType() == InstanceType.CONFIGURATION)
+                .map(Map.Entry::getKey)
+                .toList()
                 .forEach(this::getInstance);
     }
 
     private void initSingletons() {
-        Set<IoCKey> keys = components.keySet();
-
-        keys.stream()
+        components.keySet().stream()
                 .filter(key -> {
-                    IoCData data = components.get(key);
-                    return data.getType() == InstanceType.SINGLETON && data.getComponentInstance() == null;
+                    var data = components.get(key);
+                    return data.getType() == InstanceType.SINGLETON && !data.isExistsComponentInstance();
                 })
-                .collect(Collectors.toList())
+                .toList()
                 .forEach(this::getInstance);
     }
 
-    private void addSingleton(String caption, Class<?> keyClass, IoCData ioCData) {
-        if (caption == null || keyClass == null) {
+    private void invokeConfigurationMethods() {
+        componentKeysForConfigure.forEach(key -> {
+            var componentInstance = getInstance(key);
+            ConfigurationHandler.invokeVoidConfigurationMethods(componentInstance);
+        });
+    }
+
+    private void addSingleton(String componentName, Class<?> keyClass, IoCData ioCData) {
+        if (componentName == null || keyClass == null) {
             throw new ValidateException(
                     "IoC exception. Fail add component to IoC because any is null: caption = %s," +
                             "keyClass = %s",
-                    caption,
+                    componentName,
                     keyClass);
         }
 
-        if (isExistsComponentCaption(caption)) {
-            throw new ManyMatchComponentsException(caption);
+        if (isExistsComponentByName(componentName)) {
+            throw new ManyMatchComponentsException(componentName);
         }
 
-        components.put(new IoCKey(caption, keyClass), ioCData);
+        components.put(new IoCKey(componentName, keyClass), ioCData);
     }
 
     /**
@@ -248,27 +250,32 @@ public abstract class BaseIoC implements IoC {
     private <T> T getInstance(IoCKey key) {
         T componentInstance = null;
 
-        IoCData instanceData = components.get(key);
+        var componentData = components.get(key);
 
         try {
-            switch (instanceData.getType()) {
+            switch (componentData.getType()) {
                 case REQUEST:
                     componentInstance =
-                            createInstance(instanceData.getInstanceClass(), instanceData.getConstructorArguments());
+                            createInstance(componentData.getInstanceClass(), componentData.getConstructorArguments());
                     componentInstance = postCreateProcess(componentInstance);
+                    ConfigurationHandler.invokeVoidConfigurationMethods(componentInstance);
                     break;
                 case SESSION:
                 case SINGLETON:
                 case CONFIGURATION:
-                    if (instanceData.getComponentInstance() != null) {
-                        componentInstance = instanceData.getComponentInstance();
+                    if (componentData.isExistsComponentInstance()) {
+                        componentInstance = componentData.getComponentInstance();
                     } else {
-                        componentInstance =
-                                createInstance(instanceData.getInstanceClass(), instanceData.getConstructorArguments());
-                        instanceData.setSourceInstance(componentInstance);
+                        if (componentData.withSupplier()) {
+                            componentInstance = componentData.getFromSupplier();
+                        } else {
+                            componentInstance = createInstance(componentData.getInstanceClass(), componentData.getConstructorArguments());
+                        }
+                        componentData.setSourceInstance(componentInstance);
 
                         componentInstance = postCreateProcess(componentInstance);
-                        instanceData.setComponentInstance(componentInstance);
+                        componentData.setComponentInstance(componentInstance);
+                        componentKeysForConfigure.add(key);
                     }
                     break;
             }
@@ -313,7 +320,6 @@ public abstract class BaseIoC implements IoC {
         //LoggerHandler.injectLogger(instance, this, defaultLoggerClass);
         FromPropertyHandler.fillFromProperties(instance);
         PostConstructHandler.invokePostConstructMethod(instance);
-        ConfigurationHandler.invokeVoidConfigurationMethods(instance);
         //instance = (RESULT)
         //        LoggingHandler.wrapLoggingProxy(instance, this, defaultLoggingClasses.toArray(new Class[0]));
         return instance;
@@ -378,8 +384,10 @@ public abstract class BaseIoC implements IoC {
         return component;
     }
 
-    private boolean isExistsComponentCaption(String componentCaption) {
-        return components.keySet().stream().anyMatch((k) -> componentCaption.equals(k.getName()));
+    private boolean isExistsComponentByName(String componentName) {
+        return components.keySet().
+                stream().
+                anyMatch(key -> componentName.equals(key.getName()));
     }
 
     private String getComponentName(Class<?> clazz) {
