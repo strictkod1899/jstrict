@@ -1,4 +1,4 @@
-package ru.strict.component;
+package ru.strict.util;
 
 /**
  * Функция нормализации значений

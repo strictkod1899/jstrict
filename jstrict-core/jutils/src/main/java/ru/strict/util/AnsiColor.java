@@ -1,4 +1,4 @@
-package ru.strict.component;
+package ru.strict.util;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

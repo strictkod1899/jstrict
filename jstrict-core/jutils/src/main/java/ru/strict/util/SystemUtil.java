@@ -1,6 +1,5 @@
 package ru.strict.util;
 
-import ru.strict.component.OSType;
 import ru.strict.validate.CommonValidator;
 
 import java.io.*;

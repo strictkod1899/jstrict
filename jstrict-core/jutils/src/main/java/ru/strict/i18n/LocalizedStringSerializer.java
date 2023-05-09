@@ -1,4 +1,4 @@
-package ru.strict.json;
+package ru.strict.i18n;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

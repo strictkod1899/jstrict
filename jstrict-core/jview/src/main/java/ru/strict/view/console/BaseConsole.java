@@ -3,7 +3,7 @@ package ru.strict.view.console;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import ru.strict.component.AnsiColor;
+import ru.strict.util.AnsiColor;
 import ru.strict.util.AnsiConsoleUtil;
 import ru.strict.validate.CommonValidator;
 

@@ -1,7 +1,6 @@
 package ru.strict.util;
 
 import org.fusesource.jansi.AnsiConsole;
-import ru.strict.component.AnsiColor;
 
 /**
  * Взаимодействие с конслью, воспринимающей ANSI-коды

@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import ru.strict.json.LocalizedStringDeserializer;
-import ru.strict.json.LocalizedStringSerializer;
 import ru.strict.validate.Validator;
 
 import java.util.HashMap;

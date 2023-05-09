@@ -2,7 +2,6 @@ package ru.strict.util;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import ru.strict.component.Token;
 import ru.strict.validate.CommonValidator;
 
 import java.security.Key;
