@@ -2,13 +2,13 @@ package ru.strict.view.swing;
 
 import javax.swing.*;
 
-public class NotificationView extends BaseNotification {
+public class NotificationWindow extends BaseNotification {
 
-    public NotificationView(String message) {
+    public NotificationWindow(String message) {
         super(message);
     }
 
-    public NotificationView(String message, boolean dialog) {
+    public NotificationWindow(String message, boolean dialog) {
         super(message, dialog);
     }
 

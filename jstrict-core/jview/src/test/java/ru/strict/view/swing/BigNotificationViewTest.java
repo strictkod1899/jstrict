@@ -6,14 +6,14 @@ class BigNotificationViewTest {
 
     @Test
     void testView_success() {
-        var notification = new BigNotificationView("Test");
+        var notification = new MultilineNotificationWindow("Test");
         notification.show();
         notification.hide();
     }
 
     @Test
     void testView_longText_success() {
-        var notification = new BigNotificationView("TestTestTestTestTest TestTestTestTestTest TestTestTestTestTestTest" +
+        var notification = new MultilineNotificationWindow("TestTestTestTestTest TestTestTestTestTest TestTestTestTestTestTest" +
                 "TestTestTestTestTestTestTest TestTestTestTestTestTest TestTestTestTestTestTestTestTestTestTestTestTest" +
                 "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
                 "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +

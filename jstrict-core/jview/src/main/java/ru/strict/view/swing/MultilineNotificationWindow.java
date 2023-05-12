@@ -3,13 +3,13 @@ package ru.strict.view.swing;
 import javax.swing.*;
 import java.awt.*;
 
-public class BigNotificationView extends BaseNotification {
+public class MultilineNotificationWindow extends BaseNotification {
 
-    public BigNotificationView(String message) {
+    public MultilineNotificationWindow(String message) {
         this(message, false);
     }
 
-    public BigNotificationView(String message, boolean dialog) {
+    public MultilineNotificationWindow(String message, boolean dialog) {
         super(message, dialog);
     }
 
