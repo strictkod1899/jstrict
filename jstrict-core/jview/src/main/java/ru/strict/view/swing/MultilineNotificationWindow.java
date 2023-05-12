@@ -11,6 +11,7 @@ public class MultilineNotificationWindow extends BaseNotification {
 
     public MultilineNotificationWindow(String message, boolean dialog) {
         super(message, dialog);
+        getParams().setSize(new Dimension(500, 240));
     }
 
     @Override
@@ -29,18 +30,10 @@ public class MultilineNotificationWindow extends BaseNotification {
         messageScroll.setOpaque(true);
         messageScroll.setBorder(BorderFactory.createEmptyBorder());
 
-        var scrollWidth = (int) getSettings().getSize().getWidth() - 60;
-        var scrollHeight = (int) getSettings().getSize().getHeight() - 60;
+        var scrollWidth = (int) getParams().getSize().getWidth() - 60;
+        var scrollHeight = (int) getParams().getSize().getHeight() - 60;
         messageScroll.setPreferredSize(new Dimension(scrollWidth, scrollHeight));
 
         return messageScroll;
-    }
-
-    @Override
-    Settings createSettings() {
-        var settings = super.createSettings();
-        settings.setSize(new Dimension(500, 240));
-
-        return settings;
     }
 }
