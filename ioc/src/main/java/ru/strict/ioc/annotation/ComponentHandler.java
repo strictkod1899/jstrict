@@ -73,13 +73,17 @@ public class ComponentHandler {
     private static Object createComponentFromMethod(Class<?> configurationClass, IoC ioc, Method method) {
         Object configurationInstance = ioc.getComponent(configurationClass);
         try {
-            var parameterClasses = method.getParameterTypes();
-            var args = new Object[parameterClasses.length];
+            var parameters = method.getParameters();
+            var args = new Object[parameters.length];
 
-            for (int i = 0; i < parameterClasses.length; i++) {
-                var parameterClass = parameterClasses[i];
-                var parameterInstance = ioc.getComponent(parameterClass);
-                args[i] = parameterInstance;
+            for (int i = 0; i < parameters.length; i++) {
+                var parameter = parameters[i];
+                if (parameter.isAnnotationPresent(Component.class)) {
+                    var componentAnnotation = parameter.getAnnotation(Component.class);
+                    args[i] = ioc.getComponent(componentAnnotation.value());
+                } else {
+                    args[i] = ioc.getComponent(parameter.getType());
+                }
             }
 
             Object instance = method.invoke(configurationInstance, args);
