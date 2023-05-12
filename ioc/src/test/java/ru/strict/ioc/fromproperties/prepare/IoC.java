@@ -17,5 +17,6 @@ public class IoC extends SingletonIoC {
 
         addComponent(TestConfig.class);
         addComponent(BoomConfig.class);
+        addComponent(TestConfig.SubConfig.class);
     }
 }

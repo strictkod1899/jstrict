@@ -1,16 +1,43 @@
 package ru.strict.validate;
 
+import lombok.experimental.UtilityClass;
+
 import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@UtilityClass
 public class CommonValidator {
+    
+    public void throwIfNull(Object value, String caption) {
+        if (value == null) {
+            throw new ItemValidateException(caption, "is null");
+        }
+    }
 
-    public static boolean isNullOrEmpty(String str) {
+    public void throwIfNullOrEmpty(String value, String caption) {
+        if (CommonValidator.isNullOrEmpty(value)) {
+            throw new ItemValidateException(caption, "is empty or null");
+        }
+    }
+
+    public void throwIfNullOrEmpty(Collection<?> collection, String caption) {
+        if (CommonValidator.isNullOrEmpty(collection)) {
+            throw new ItemValidateException(caption, "is empty or null");
+        }
+    }
+
+    public void throwIfNullOrEmpty(Object[] array, String caption) {
+        if (CommonValidator.isNullOrEmpty(array)) {
+            throw new ItemValidateException(caption, "is empty or null");
+        }
+    }
+    
+    public boolean isNullOrEmpty(String str) {
         return str == null || str.length() == 0;
     }
 
-    public static boolean isEmptySpaceOrNull(String str) {
+    public boolean isEmptySpaceOrNull(String str) {
         if (str == null) {
             return true;
         }
@@ -18,11 +45,11 @@ public class CommonValidator {
         return isNullOrEmpty(str.trim());
     }
 
-    public static boolean isNullOrEmpty(Collection<?> collection) {
+    public boolean isNullOrEmpty(Collection<?> collection) {
         return collection == null || collection.isEmpty();
     }
 
-    public static boolean isNullOrEmpty(Object[] array) {
+    public boolean isNullOrEmpty(Object[] array) {
         if (array == null || array.length == 0) {
             return true;
         }
@@ -37,27 +64,27 @@ public class CommonValidator {
         return result;
     }
 
-    public static boolean isMinLength(String str, int minLength) {
+    public boolean isMinLength(String str, int minLength) {
         return str != null && str.length() >= minLength;
     }
 
-    public static boolean isMaxLength(String str, int maxLength) {
+    public boolean isMaxLength(String str, int maxLength) {
         return str != null && str.length() <= maxLength;
     }
 
-    public static boolean isRangeLength(String str, int minLength, int maxLength) {
+    public boolean isRangeLength(String str, int minLength, int maxLength) {
         return str != null && str.length() >= minLength && str.length() <= maxLength;
     }
 
-    public static boolean isRange(int number, int minValue, int maxValue) {
+    public boolean isRange(int number, int minValue, int maxValue) {
         return number > minValue && number < maxValue;
     }
 
-    public static boolean isRange(long number, long minValue, long maxValue) {
+    public boolean isRange(long number, long minValue, long maxValue) {
         return number > minValue && number < maxValue;
     }
 
-    public static boolean isInteger(String str) {
+    public boolean isInteger(String str) {
         if (str == null) {
             return false;
         }
@@ -67,7 +94,7 @@ public class CommonValidator {
         return match.matches();
     }
 
-    public static boolean isDouble(String str) {
+    public boolean isDouble(String str) {
         if (str == null) {
             return false;
         }
@@ -83,7 +110,7 @@ public class CommonValidator {
      * @param str Проверяемая строка
      * @param splitSymbol Разделяемый символ (например YYYY-MM-DD, YYYY/MM/DD)
      */
-    public static boolean isDateStartYear(String str, char splitSymbol) {
+    public boolean isDateStartYear(String str, char splitSymbol) {
         if (str == null) {
             return false;
         }
@@ -100,7 +127,7 @@ public class CommonValidator {
      * @param str Проверяемая строка
      * @param splitSymbol Разделяемый символ (например DD/MM/YYYY, DD-MM-YYYY)
      */
-    public static boolean isDateStartDay(String str, char splitSymbol) {
+    public boolean isDateStartDay(String str, char splitSymbol) {
         if (str == null) {
             return false;
         }
@@ -117,7 +144,7 @@ public class CommonValidator {
      * @param str Проверяемая строка
      * @param splitSymbol Разделяемый символ (например HH:MM:SS, HH-MM-SS)
      */
-    public static boolean isTime(String str, char splitSymbol) {
+    public boolean isTime(String str, char splitSymbol) {
         if (str == null) {
             return false;
         }

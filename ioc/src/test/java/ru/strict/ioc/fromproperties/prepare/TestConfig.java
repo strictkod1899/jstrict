@@ -15,4 +15,8 @@ public class TestConfig {
     private String name;
     private Integer age;
     private Float sum;
+
+    public static class SubConfig {
+
+    }
 }

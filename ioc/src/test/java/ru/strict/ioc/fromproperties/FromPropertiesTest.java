@@ -20,6 +20,13 @@ public class FromPropertiesTest {
     }
 
     @Test
+    public void testGetSubConfig_NoError() {
+        var testConfig = IoC.instance().getComponent(TestConfig.SubConfig.class);
+
+        assertNotNull(testConfig);
+    }
+
+    @Test
     public void testFromProperties_boomConfig() {
         var expectedBoomConfig = new BoomConfig();
         expectedBoomConfig.setBoom1("boom-1");

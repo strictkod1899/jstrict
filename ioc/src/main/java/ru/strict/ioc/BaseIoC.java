@@ -65,7 +65,7 @@ public abstract class BaseIoC implements IoC {
 
     @Override
     public void addComponent(Class<?> componentClass, InstanceType type, Object... constructorArguments) {
-        addComponent(getComponentName(componentClass), componentClass, type, constructorArguments);
+        addComponent(getComponentNameByClass(componentClass), componentClass, type, constructorArguments);
     }
 
     @Override
@@ -95,7 +95,7 @@ public abstract class BaseIoC implements IoC {
 
     @Override
     public void addSingleton(Class<?> componentClass, ComponentSupplier<?> componentSupplier) {
-        addSingleton(getComponentName(componentClass), componentClass, componentSupplier);
+        addSingleton(getComponentNameByClass(componentClass), componentClass, componentSupplier);
     }
 
     @Override
@@ -105,7 +105,7 @@ public abstract class BaseIoC implements IoC {
 
     @Override
     public void addSingleton(Object component) {
-        addSingleton(getComponentName(component.getClass()), component);
+        addSingleton(getComponentNameByClass(component.getClass()), component);
     }
 
     @Override
@@ -117,7 +117,11 @@ public abstract class BaseIoC implements IoC {
     public <T> T getComponent(String name) {
         T component = null;
         if (name != null) {
-            IoCKey key = getKey(new FilterKeyByName(name), () -> new ManyMatchComponentsException(name));
+            var key = getKey(new FilterKeyByName(name), () -> new ManyMatchComponentsException(name));
+            if (key == null) {
+                throw new KeyNotFoundException(name);
+            }
+
             component = getInstance(key);
         }
 
@@ -128,8 +132,11 @@ public abstract class BaseIoC implements IoC {
     public <T> T getComponent(Class<T> componentClass) {
         T component = null;
         if (componentClass != null) {
-            IoCKey key = getKey(new FilterKeyByClass(componentClass),
+            var key = getKey(new FilterKeyByClass(componentClass),
                     () -> new ManyMatchComponentsException(componentClass));
+            if (key == null) {
+                throw new KeyNotFoundException(componentClass);
+            }
 
             component = getInstance(key);
         }
@@ -155,7 +162,7 @@ public abstract class BaseIoC implements IoC {
     }
 
     private IoCKey getKey(Predicate<IoCKey> keyFilter, Supplier<RuntimeException> orThrow) {
-        List<IoCKey> foundKeys = components.keySet().
+        var foundKeys = components.keySet().
                 stream().
                 filter(keyFilter).
                 toList();
@@ -170,8 +177,8 @@ public abstract class BaseIoC implements IoC {
         configure();
         fillFromConfigurations();
 
-        initConfigurations();
         initSingletons();
+        initConfigurations();
         invokeConfigurationMethods();
     }
 
@@ -269,7 +276,8 @@ public abstract class BaseIoC implements IoC {
                         if (componentData.withSupplier()) {
                             componentInstance = componentData.getFromSupplier();
                         } else {
-                            componentInstance = createInstance(componentData.getInstanceClass(), componentData.getConstructorArguments());
+                            componentInstance = createInstance(componentData.getInstanceClass(),
+                                    componentData.getConstructorArguments());
                         }
                         componentData.setSourceInstance(componentInstance);
 
@@ -390,7 +398,14 @@ public abstract class BaseIoC implements IoC {
                 anyMatch(key -> componentName.equals(key.getName()));
     }
 
-    private String getComponentName(Class<?> clazz) {
+    private String getComponentNameByClass(Class<?> clazz) {
+        if (clazz.getDeclaringClass() != null) {
+            var superClass = clazz.getDeclaringClass();
+            return String.format("%s.%s",
+                    StringUtil.toLowerFirstSymbol(superClass.getSimpleName()),
+                    StringUtil.toLowerFirstSymbol(clazz.getSimpleName()));
+        }
+
         return StringUtil.toLowerFirstSymbol(clazz.getSimpleName());
     }
 

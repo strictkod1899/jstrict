@@ -1,26 +1,18 @@
 package ru.strict.validate;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.experimental.FieldDefaults;
 
-/**
- * @deprecated use CodeableException
- */
 @Getter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ItemValidateException extends RuntimeException {
-    private String itemName;
-    private String reason;
-    private String details;
+    String itemName;
+    String reason;
 
     public ItemValidateException(String itemName, String reason) {
-        super(String.format("Value is not valid [%s]. Reason = [%s]", itemName, reason));
+        super(String.format("%s %s", itemName, reason));
         this.itemName = itemName;
         this.reason = reason;
-    }
-
-    public ItemValidateException(String itemName, String reason, String details) {
-        super(String.format("Value is not valid [%s]. Reason = [%s]. Details: %s", itemName, reason, details));
-        this.itemName = itemName;
-        this.reason = reason;
-        this.details = details;
     }
 }
