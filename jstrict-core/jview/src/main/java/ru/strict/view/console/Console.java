@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
-public class BaseConsole {
+public class Console {
 
     private static final String DEFAULT_CANCEL_VALUE = "--n";
 
@@ -31,11 +31,11 @@ public class BaseConsole {
     @Getter(AccessLevel.PROTECTED)
     private BufferedReader cmdInput;
 
-    public BaseConsole() {
+    public Console() {
         this(null);
     }
 
-    public BaseConsole(String cmdEncoding) {
+    public Console(String cmdEncoding) {
         try {
             this.cmdInput = new BufferedReader(new InputStreamReader(
                     System.in,

@@ -80,7 +80,6 @@ abstract class BaseNotification implements Notification {
         layoutConstraints.insets = new Insets(2,15,2,15);
         layoutConstraints.gridy = GridBagConstraints.RELATIVE;
         layoutConstraints.gridwidth = GridBagConstraints.REMAINDER;
-        layoutConstraints.fill = GridBagConstraints.CENTER;
 
         var messageComponent = createMessageComponent(message);
         var messageComponentWrapper = wrapMessageComponent(messageComponent);
@@ -106,7 +105,6 @@ abstract class BaseNotification implements Notification {
 
         var buttonsPanelLayoutConstraints = new GridBagConstraints();
         buttonsPanelLayoutConstraints.insets = new Insets(2,15,2,15);
-        buttonsPanelLayoutConstraints.fill = GridBagConstraints.CENTER;
 
         if (params.getButtonsAlignment() == ButtonsAlignment.HORIZONTAL) {
             buttonsPanelLayoutConstraints.gridx = GridBagConstraints.RELATIVE;
