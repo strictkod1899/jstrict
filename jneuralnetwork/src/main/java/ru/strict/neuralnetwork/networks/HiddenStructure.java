@@ -1,7 +1,6 @@
 package ru.strict.neuralnetwork.networks;
 
 import ru.strict.exception.ValidateException;
-import ru.strict.validate.Validator;
 
 import java.util.ArrayList;
 import java.util.List;

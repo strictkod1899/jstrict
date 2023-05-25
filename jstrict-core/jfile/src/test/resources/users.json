@@ -1,0 +1,17 @@
+{
+  "users": [
+    {
+      "name": "user1",
+      "attributes": {
+        "age": 17,
+        "weight": 65.4
+      }
+    },
+    {
+      "name": "user2",
+      "attributes": {
+        "age": 16
+      }
+    }
+  ]
+}

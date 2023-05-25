@@ -1,30 +1,33 @@
 package ru.strict.view.swing;
 
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Value;
+import lombok.experimental.FieldDefaults;
 import ru.strict.view.boundary.Notification;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
+@FieldDefaults(level = AccessLevel.PRIVATE)
 abstract class BaseNotification implements Notification {
 
     @Getter
-    private final String message;
+    final String message;
     @Getter
-    private final boolean dialog;
-    @Getter
-    private final Settings settings;
+    final Params params;
 
-    private JComponent messageComponent;
-    private JButton closeButton;
-    private MouseListener closeButtonMouseListener;
-
-    private JDialog dialogFrame;
-    private JFrame frame;
+    JDialog dialogFrame;
+    JFrame frame;
 
     public BaseNotification(String message) {
         this(message, false);
@@ -32,16 +35,14 @@ abstract class BaseNotification implements Notification {
 
     public BaseNotification(String message, boolean dialog) {
         this.message = message;
-        this.dialog = dialog;
-        this.settings = createSettings();
-
-        initFrame();
-        initSettings();
-        initComponents();
+        this.params = Params.createDefault(dialog);
     }
 
     @Override
     public void show() {
+        initFrame();
+        initComponents();
+
         getFrame().setVisible(true);
     }
 
@@ -50,23 +51,24 @@ abstract class BaseNotification implements Notification {
         getFrame().setVisible(false);
     }
 
-    public void repaint() {
-        applySettingsForFrame();
-        applySettingsForComponent();
+    private void initFrame() {
+        if (params.isDialog()) {
+            dialogFrame = new JDialog();
+            dialogFrame.setResizable(false);
+            dialogFrame.setUndecorated(true);
+            dialogFrame.getContentPane().setBackground(params.getBackground());
+        } else {
+            frame = new JFrame();
+            frame.setResizable(false);
+            frame.setUndecorated(true);
+            frame.getContentPane().setBackground(params.getBackground());
+        }
 
-        getFrame().repaint();
-    }
-
-    Settings createSettings() {
-        var settings = new Settings();
-        settings.setSize(new Dimension(300, 120));
-        settings.setBackground(new Color(19, 27, 42));
-        settings.setMessageColor(new Color(241, 225, 167));
-        settings.setButtonColor(new Color(175, 110, 117));
-        settings.setFocusedButtonColor(new Color(193, 73, 83));
-        settings.setPosition(WindowPosition.BOTTOM);
-
-        return settings;
+        var window = getFrame();
+        window.setAlwaysOnTop(true);
+        window.setSize(params.getSize());
+        window.setPreferredSize(params.getSize());
+        window.setLocation(getLocation());
     }
 
     private void initComponents() {
@@ -78,97 +80,76 @@ abstract class BaseNotification implements Notification {
         layoutConstraints.insets = new Insets(2,15,2,15);
         layoutConstraints.gridy = GridBagConstraints.RELATIVE;
         layoutConstraints.gridwidth = GridBagConstraints.REMAINDER;
-        layoutConstraints.fill = GridBagConstraints.CENTER;
 
-        messageComponent = createMessageComponent(message);
+        var messageComponent = createMessageComponent(message);
         var messageComponentWrapper = wrapMessageComponent(messageComponent);
 
-        Font originalFont = messageComponent.getFont();
-        Font newFont = new Font(originalFont.getName(), Font.PLAIN, originalFont.getSize());
+        var originalFont = messageComponent.getFont();
+        var newFont = new Font(originalFont.getName(), Font.PLAIN, originalFont.getSize());
         messageComponent.setFont(newFont);
+        messageComponent.setForeground(params.getMessageColor());
+        messageComponent.setBackground(params.getBackground());
+        messageComponent.setBorder(BorderFactory.createEmptyBorder());
+
         layout.setConstraints(messageComponentWrapper, layoutConstraints);
         window.add(messageComponentWrapper);
 
-        closeButton = new JButton();
-        closeButton.setText("Закрыть");
-        closeButton.setOpaque(false);
-        closeButton.setContentAreaFilled(false);
-        closeButton.setBorderPainted(false);
-        closeButton.setFocusPainted(false);
-        closeButton.addActionListener((event) -> hide());
+        var closeButtonActions = new ArrayList<ActionListener>();
+        closeButtonActions.add((event) -> hide());
+        closeButtonActions.addAll(params.getCustomCloseButtonActions());
 
-        layout.setConstraints(closeButton, layoutConstraints);
-        window.add(closeButton);
+        var buttonsPanel = new JPanel();
+        var buttonsPanelLayout = new GridBagLayout();
+        buttonsPanel.setLayout(buttonsPanelLayout);
+        buttonsPanel.setBackground(params.getBackground());
 
-        applySettingsForComponent();
-    }
+        var buttonsPanelLayoutConstraints = new GridBagConstraints();
+        buttonsPanelLayoutConstraints.insets = new Insets(2,15,2,15);
 
-    private void initSettings() {
-        var window = getFrame();
-        window.setAlwaysOnTop(true);
-
-        if (dialog) {
-            dialogFrame.setResizable(false);
-            dialogFrame.setUndecorated(true);
+        if (params.getButtonsAlignment() == ButtonsAlignment.HORIZONTAL) {
+            buttonsPanelLayoutConstraints.gridx = GridBagConstraints.RELATIVE;
+            buttonsPanelLayoutConstraints.gridheight = GridBagConstraints.REMAINDER;
         } else {
-            frame.setResizable(false);
-            frame.setUndecorated(true);
+            buttonsPanelLayoutConstraints.gridwidth = GridBagConstraints.REMAINDER;
+            buttonsPanelLayoutConstraints.gridy = GridBagConstraints.RELATIVE;
+        }
+        var closeButton = createButton("Закрыть", closeButtonActions);
+        buttonsPanelLayout.setConstraints(closeButton, buttonsPanelLayoutConstraints);
+        buttonsPanel.add(closeButton);
+
+        for (var customButtonParams : params.getCustomButtons()) {
+            var customButton = createButton(customButtonParams.getText(), customButtonParams.getActions());
+            buttonsPanelLayout.setConstraints(customButton, buttonsPanelLayoutConstraints);
+            buttonsPanel.add(customButton);
         }
 
-        applySettingsForFrame();
+        layout.setConstraints(buttonsPanel, layoutConstraints);
+        window.add(buttonsPanel);
     }
 
-    private void applySettingsForFrame() {
-        var window = getFrame();
-        window.setSize(settings.getSize());
-        window.setPreferredSize(settings.getSize());
-        window.setLocation(getLocation());
-
-        if (dialog) {
-            dialogFrame.getContentPane().setBackground(settings.getBackground());
-        } else {
-            frame.getContentPane().setBackground(settings.getBackground());
+    private JButton createButton(String text, List<ActionListener> actions) {
+        var button = new JButton();
+        button.setText(text);
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setForeground(params.getButtonColor());
+        button.addMouseListener(new FocusButtonMouseListener(button));
+        for (var action : actions) {
+            button.addActionListener(action);
         }
-    }
 
-    private void applySettingsForComponent() {
-        messageComponent.setForeground(settings.getMessageColor());
-        messageComponent.setBackground(settings.getBackground());
-        messageComponent.setBorder(BorderFactory.createEmptyBorder());
-
-        if (closeButtonMouseListener != null) {
-            closeButton.removeMouseListener(closeButtonMouseListener);
-        }
-        closeButton.setForeground(settings.getButtonColor());
-        closeButtonMouseListener = new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                closeButton.setForeground(settings.getFocusedButtonColor());
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                closeButton.setForeground(settings.getButtonColor());
-            }
-        };
-        closeButton.addMouseListener(closeButtonMouseListener);
-    }
-
-    private void initFrame() {
-        if (dialog) {
-            dialogFrame = new JDialog();
-        } else {
-            frame = new JFrame();
-        }
+        return button;
     }
 
     private Point getLocation() {
+        var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        var windowSize = params.getSize();
+
         int x;
         int y;
-
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Dimension windowSize = settings.getSize();
-        if (settings.getPosition() == WindowPosition.BOTTOM) {
+        if (params.getPosition() == WindowPosition.BOTTOM) {
             x = (int) ((screenSize.getWidth() / 2) - (windowSize.getWidth() / 2));
             y = (int) (screenSize.getHeight() - (windowSize.getHeight() + 60));
         } else {
@@ -180,7 +161,7 @@ abstract class BaseNotification implements Notification {
     }
 
     private Window getFrame() {
-        return dialog ? dialogFrame : frame;
+        return params.isDialog() ? dialogFrame : frame;
     }
 
     JComponent wrapMessageComponent(JComponent messageComponent) {
@@ -190,17 +171,78 @@ abstract class BaseNotification implements Notification {
     abstract JComponent createMessageComponent(String message);
 
     @Data
-    public static final class Settings {
-        private Dimension size;
-        private Color background;
-        private Color messageColor;
-        private Color buttonColor;
-        private Color focusedButtonColor;
-        private WindowPosition position;
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class Params {
+        final boolean dialog;
+        final List<ActionListener> customCloseButtonActions;
+        final List<CustomButtonParams> customButtons;
+        Dimension size;
+        Color background;
+        Color messageColor;
+        Color buttonColor;
+        Color focusedButtonColor;
+        WindowPosition position;
+        ButtonsAlignment buttonsAlignment;
+
+        private Params(boolean dialog) {
+            this.dialog = dialog;
+            this.customCloseButtonActions = new ArrayList<>();
+            this.customButtons = new ArrayList<>();
+        }
+
+        private static Params createDefault(boolean dialog) {
+            var params = new Params(dialog);
+
+            params.size = new Dimension(300, 120);
+            params.background = new Color(19, 27, 42);
+            params.messageColor = new Color(241, 225, 167);
+            params.buttonColor = new Color(175, 110, 117);
+            params.focusedButtonColor = new Color(193, 73, 83);
+            params.position = WindowPosition.BOTTOM;
+            params.buttonsAlignment = ButtonsAlignment.HORIZONTAL;
+
+            return params;
+        }
+
+        public void addCustomCloseButtonAction(ActionListener actionListener) {
+            customCloseButtonActions.add(actionListener);
+        }
+
+        public void addCustomButton(CustomButtonParams customButtonParams) {
+            customButtons.add(customButtonParams);
+        }
+    }
+
+    @Value
+    @Builder
+    public static class CustomButtonParams {
+        String text;
+        List<ActionListener> actions;
     }
 
     public enum WindowPosition {
         CENTER,
         BOTTOM
+    }
+
+    public enum ButtonsAlignment {
+        VERTICAL,
+        HORIZONTAL
+    }
+
+    @RequiredArgsConstructor
+    @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+    private class FocusButtonMouseListener extends MouseAdapter {
+        JButton button;
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            button.setForeground(params.getFocusedButtonColor());
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            button.setForeground(params.getButtonColor());
+        }
     }
 }

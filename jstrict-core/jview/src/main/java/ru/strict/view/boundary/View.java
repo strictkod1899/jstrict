@@ -9,7 +9,6 @@ import javax.annotation.Nonnull;
  * @param <M> модель mvc
  */
 public interface View<S, M extends ViewModel<S>> {
-    void refresh();
     void refresh(@Nonnull S state);
     @Nonnull M getModel();
 }

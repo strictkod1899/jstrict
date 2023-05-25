@@ -2,7 +2,6 @@ package ru.strict.i18n;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import ru.strict.model.Codeable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +11,7 @@ import java.util.Map;
  */
 @RequiredArgsConstructor
 @Getter
-public enum Currency implements Codeable<String> {
+public enum Currency {
     /**
      * Россия (Российский рубль)
      */

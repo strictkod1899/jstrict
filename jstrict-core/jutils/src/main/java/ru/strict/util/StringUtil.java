@@ -1,7 +1,7 @@
 package ru.strict.util;
 
 import ru.strict.exception.ValidateException;
-import ru.strict.validate.CommonValidate;
+import ru.strict.validate.CommonValidator;
 import ru.strict.validate.Validator;
 
 import java.io.UnsupportedEncodingException;
@@ -32,10 +32,10 @@ public final class StringUtil {
 
         String convertedString;
         try {
-            if (CommonValidate.isNullOrEmpty(outputEncoding)) {
+            if (CommonValidator.isNullOrEmpty(outputEncoding)) {
                 convertedString = text;
             } else {
-                if (!CommonValidate.isNullOrEmpty(defaultEncoding)) {
+                if (!CommonValidator.isNullOrEmpty(defaultEncoding)) {
                     convertedString = new String(text.getBytes(defaultEncoding), outputEncoding);
                 } else {
                     convertedString = new String(text.getBytes(), outputEncoding);
@@ -111,7 +111,7 @@ public final class StringUtil {
     }
 
     public static boolean isNullOrEmpty(String str) {
-        return CommonValidate.isNullOrEmpty(str);
+        return CommonValidator.isNullOrEmpty(str);
     }
 
     /**
@@ -125,7 +125,7 @@ public final class StringUtil {
      * Если строка пустая, тогда вернется null
      */
     public static String emptyToNull(String str) {
-        return CommonValidate.isNullOrEmpty(str) ? null : str;
+        return CommonValidator.isNullOrEmpty(str) ? null : str;
     }
 
     /**

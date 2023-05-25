@@ -8,26 +8,26 @@ class MinLengthTest {
 
     @Test
     void testIsMinLength_common_success() {
-        assertTrue(CommonValidate.isMinLength("123456", 6));
+        assertTrue(CommonValidator.isMinLength("123456", 6));
     }
 
     @Test
     void testIsMinLength_common_false() {
-        assertFalse(CommonValidate.isMinLength("123456", 7));
+        assertFalse(CommonValidator.isMinLength("123456", 7));
     }
 
     @Test
     void testIsMinLength_empty_false() {
-        assertFalse(CommonValidate.isMinLength("", 1));
+        assertFalse(CommonValidator.isMinLength("", 1));
     }
 
     @Test
     void testIsMinLength_space_success() {
-        assertTrue(CommonValidate.isMinLength(" ", 0));
+        assertTrue(CommonValidator.isMinLength(" ", 0));
     }
 
     @Test
     void testIsMinLength_null_false() {
-        assertFalse(CommonValidate.isMinLength(null, 0));
+        assertFalse(CommonValidator.isMinLength(null, 0));
     }
 }

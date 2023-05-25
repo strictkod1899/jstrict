@@ -18,6 +18,10 @@ public class CodeableException extends RuntimeException {
         this.code = code;
     }
 
+    public boolean equalsByCode(String expectedCode) {
+        return equalsByCode(this, expectedCode);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

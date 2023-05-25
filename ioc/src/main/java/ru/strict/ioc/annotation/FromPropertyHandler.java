@@ -7,7 +7,7 @@ import ru.strict.util.PropertiesUtil;
 import ru.strict.util.ReflectionUtil;
 import ru.strict.util.ResourcesUtil;
 import ru.strict.util.StringUtil;
-import ru.strict.validate.CommonValidate;
+import ru.strict.validate.CommonValidator;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import java.util.Properties;
 @UtilityClass
 public class FromPropertyHandler {
 
-    private static final String APP_FILE_NAME = "app.properties";
+    private static final String DEFAULT_CONFIG_FILE_NAME = "app.properties";
 
     public static void fillFromProperties(Object instance) {
         var fromPropertyAnnotation = instance.getClass().getAnnotation(FromProperties.class);
@@ -36,7 +36,7 @@ public class FromPropertyHandler {
 
     private static Properties getConfigValues(FromProperties fromPropertiesAnnotation) {
         var fileName = fromPropertiesAnnotation.file();
-        fileName = CommonValidate.isNullOrEmpty(fileName) ? APP_FILE_NAME : fileName;
+        fileName = CommonValidator.isNullOrEmpty(fileName) ? DEFAULT_CONFIG_FILE_NAME : fileName;
 
         var propertiesInputStream = ResourcesUtil.getResourceStream(fileName);
         if (propertiesInputStream == null) {
@@ -115,7 +115,7 @@ public class FromPropertyHandler {
     }
 
     private String cropPrefix(String propertyName, String prefix) {
-        return CommonValidate.isNullOrEmpty(prefix) ? propertyName : propertyName.substring(prefix.length() + 1);
+        return CommonValidator.isNullOrEmpty(prefix) ? propertyName : propertyName.substring(prefix.length() + 1);
     }
 
     private Object convertValueToTargetType(String value, Class<?> type) {

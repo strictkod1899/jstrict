@@ -1,7 +1,7 @@
 package ru.strict.office;
 
 import ru.strict.util.FileUtil;
-import ru.strict.validate.CommonValidate;
+import ru.strict.validate.CommonValidator;
 
 public abstract class OfficeFile<SOURCE, FORMAT extends IOfficeFormat>
         implements IOfficeFile<SOURCE>, AutoCloseable {
@@ -12,7 +12,7 @@ public abstract class OfficeFile<SOURCE, FORMAT extends IOfficeFormat>
     private FORMAT format;
 
     public OfficeFile(String filePath) {
-        if(CommonValidate.isNullOrEmpty(filePath)){
+        if(CommonValidator.isNullOrEmpty(filePath)){
             throw new IllegalArgumentException("filePath is NULL");
         }
         format = getFormatByCaption(FileUtil.getFileExtension(filePath));
@@ -24,7 +24,7 @@ public abstract class OfficeFile<SOURCE, FORMAT extends IOfficeFormat>
     }
 
     public OfficeFile(String filePath, FORMAT format) {
-        if(CommonValidate.isNullOrEmpty(filePath)){
+        if(CommonValidator.isNullOrEmpty(filePath)){
             throw new IllegalArgumentException("filePath is NULL");
         }
         if(format == null){

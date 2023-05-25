@@ -10,6 +10,10 @@ public class Errors {
         this.errors = new ArrayList<>();
     }
 
+    public void addError(CodeableException ex) {
+        this.errors.add(ex);
+    }
+
     public boolean isEmpty() {
         return errors.size() == 0;
     }
@@ -59,7 +63,7 @@ public class Errors {
     }
 
     public ErrorsException toException() {
-        return new ErrorsException(this.toString());
+        return new ErrorsException(this);
     }
 
     @Override
@@ -71,12 +75,5 @@ public class Errors {
         }
 
         return str.toString();
-    }
-
-    public static class ErrorsException extends RuntimeException {
-
-        private ErrorsException(String message) {
-            super(message);
-        }
     }
 }

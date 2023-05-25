@@ -5,7 +5,7 @@ import ru.strict.ioc.IoC;
 import ru.strict.ioc.exception.ManyMatchComponentAnnotationException;
 import ru.strict.ioc.exception.ManyMatchConstructorFieldsException;
 import ru.strict.util.ReflectionUtil;
-import ru.strict.validate.CommonValidate;
+import ru.strict.validate.CommonValidator;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -50,15 +50,15 @@ public class ComponentHandler {
         return mainConstructor;
     }
 
-    public static void fillIoCByConfiguration(Class<?> configurationClass, IoC ioc) {
+    public static void fillIoCFromConfiguration(Class<?> configurationClass, IoC ioc) {
         var methods = getReturnedComponentMethods(configurationClass);
 
-        for (Method method : methods) {
-            Class<?> returnClass = method.getReturnType();
+        for (var method : methods) {
+            var returnClass = method.getReturnType();
 
             String componentName;
-            Component componentAnnotation = method.getAnnotation(Component.class);
-            if (CommonValidate.isNullOrEmpty(componentAnnotation.value())) {
+            var componentAnnotation = method.getAnnotation(Component.class);
+            if (CommonValidator.isNullOrEmpty(componentAnnotation.value())) {
                 componentName = method.getName();
             } else {
                 componentName = componentAnnotation.value();
@@ -73,13 +73,17 @@ public class ComponentHandler {
     private static Object createComponentFromMethod(Class<?> configurationClass, IoC ioc, Method method) {
         Object configurationInstance = ioc.getComponent(configurationClass);
         try {
-            var parameterClasses = method.getParameterTypes();
-            var args = new Object[parameterClasses.length];
+            var parameters = method.getParameters();
+            var args = new Object[parameters.length];
 
-            for (int i = 0; i < parameterClasses.length; i++) {
-                var parameterClass = parameterClasses[i];
-                var parameterInstance = ioc.getComponent(parameterClass);
-                args[i] = parameterInstance;
+            for (int i = 0; i < parameters.length; i++) {
+                var parameter = parameters[i];
+                if (parameter.isAnnotationPresent(Component.class)) {
+                    var componentAnnotation = parameter.getAnnotation(Component.class);
+                    args[i] = ioc.getComponent(componentAnnotation.value());
+                } else {
+                    args[i] = ioc.getComponent(parameter.getType());
+                }
             }
 
             Object instance = method.invoke(configurationInstance, args);

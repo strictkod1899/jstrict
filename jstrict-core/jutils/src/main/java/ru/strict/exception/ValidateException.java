@@ -1,5 +1,8 @@
 package ru.strict.exception;
 
+/**
+ * @deprecated use CodeableException
+ */
 public class ValidateException extends RuntimeException {
 
     public ValidateException(String details, Object... args) {

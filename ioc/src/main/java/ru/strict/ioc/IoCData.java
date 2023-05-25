@@ -43,10 +43,11 @@ class IoCData {
         type = InstanceType.SINGLETON;
     }
 
+    public boolean isExistsComponentInstance() {
+        return componentInstance != null;
+    }
+
     public <T> T getComponentInstance() {
-        if (componentInstance == null && singletonSupplier != null) {
-            return (T) getFromSupplier();
-        }
         return (T) componentInstance;
     }
 
@@ -69,12 +70,11 @@ class IoCData {
         this.componentInstance = null;
     }
 
-    private Object getFromSupplier() {
-        Object singletonInstance = singletonSupplier.get();
+    public boolean withSupplier() {
+        return singletonSupplier != null;
+    }
 
-        this.componentInstance = singletonInstance;
-        this.sourceInstance = singletonInstance;
-
-        return singletonInstance;
+    public <T> T getFromSupplier() {
+         return (T) singletonSupplier.get();
     }
 }
