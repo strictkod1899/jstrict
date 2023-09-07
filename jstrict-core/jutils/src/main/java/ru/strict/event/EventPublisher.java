@@ -2,16 +2,22 @@ package ru.strict.event;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import ru.strict.validate.CommonValidator;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class EventPublisher<E> {
-    final EventBroker<E> eventBroker;
+public class EventPublisher {
+    final EventBroker eventBroker;
+    final Topic topic;
 
-    public EventPublisher(EventBroker<E> eventBroker) {
+    public EventPublisher(EventBroker eventBroker, Topic topic) {
+        CommonValidator.throwIfNull(eventBroker, "eventBroker");
+        CommonValidator.throwIfNull(topic, "topic");
+
         this.eventBroker = eventBroker;
+        this.topic = topic;
     }
 
-    public void publishEvent(E event) {
-        eventBroker.sendEvent(event);
+    public void publishEvent(Object event) {
+        eventBroker.sendEvent(topic, event);
     }
 }

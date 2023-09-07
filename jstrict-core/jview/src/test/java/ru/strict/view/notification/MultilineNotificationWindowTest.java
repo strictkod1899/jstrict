@@ -1,18 +1,25 @@
-package ru.strict.view.swing;
+package ru.strict.view.notification;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
-class BigNotificationViewTest {
+class MultilineNotificationWindowTest {
 
     @Test
     void testView_success() {
-        var notification = new MultilineNotificationWindow("Test");
+        var notificationController = Mockito.mock(NotificationListener.class);
+        var params = BaseNotification.Params.createDefault(false);
+
+        var notification = new MultilineNotificationWindow("Test", params, notificationController);
         notification.show();
         notification.hide();
     }
 
     @Test
     void testView_longText_success() {
+        var notificationController = Mockito.mock(NotificationListener.class);
+        var params = BaseNotification.Params.createDefault(false);
+
         var notification = new MultilineNotificationWindow("TestTestTestTestTest TestTestTestTestTest TestTestTestTestTestTest" +
                 "TestTestTestTestTestTestTest TestTestTestTestTestTest TestTestTestTestTestTestTestTestTestTestTestTest" +
                 "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
@@ -30,7 +37,7 @@ class BigNotificationViewTest {
                 "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
                 "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
                 "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest" +
-                "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest");
+                "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest", params, notificationController);
         notification.show();
         notification.hide();
     }

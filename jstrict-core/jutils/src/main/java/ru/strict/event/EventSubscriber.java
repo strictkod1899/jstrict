@@ -7,16 +7,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-class EventSubscriber<E> {
+class EventSubscriber {
     final ExecutorService executorService;
-    final EventListener<E> listener;
+    final EventListener listener;
 
-    EventSubscriber(EventListener<E> listener, int handlersPoolSize) {
+    EventSubscriber(EventListener listener, int handlersPoolSize) {
         this.listener = listener;
         this.executorService = Executors.newFixedThreadPool(handlersPoolSize);
     }
 
-    void addEventToQueueForProcess(E event) {
+    void addEventToQueueForProcess(Object event) {
         executorService.submit(() -> listener.processEvent(event));
     }
 }

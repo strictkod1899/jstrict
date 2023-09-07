@@ -1,15 +1,11 @@
-package ru.strict.view.swing;
+package ru.strict.view.notification;
 
 import javax.swing.*;
 
 public class NotificationWindow extends BaseNotification {
 
-    public NotificationWindow(String message) {
-        super(message);
-    }
-
-    public NotificationWindow(String message, boolean dialog) {
-        super(message, dialog);
+    public NotificationWindow(String message, Params params, NotificationListener listener) {
+        super(message, params, listener);
     }
 
     @Override

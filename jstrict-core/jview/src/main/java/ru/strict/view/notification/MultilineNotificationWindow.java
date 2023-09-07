@@ -1,17 +1,12 @@
-package ru.strict.view.swing;
+package ru.strict.view.notification;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MultilineNotificationWindow extends BaseNotification {
 
-    public MultilineNotificationWindow(String message) {
-        this(message, false);
-    }
-
-    public MultilineNotificationWindow(String message, boolean dialog) {
-        super(message, dialog);
-        getParams().setSize(new Dimension(500, 240));
+    public MultilineNotificationWindow(String message, Params params, NotificationListener listener) {
+        super(message, params, listener);
     }
 
     @Override
@@ -30,8 +25,8 @@ public class MultilineNotificationWindow extends BaseNotification {
         messageScroll.setOpaque(true);
         messageScroll.setBorder(BorderFactory.createEmptyBorder());
 
-        var scrollWidth = (int) getParams().getSize().getWidth() - 60;
-        var scrollHeight = (int) getParams().getSize().getHeight() - 60;
+        var scrollWidth = (int) params.getSize().getWidth() - 60;
+        var scrollHeight = (int) params.getSize().getHeight() - 60;
         messageScroll.setPreferredSize(new Dimension(scrollWidth, scrollHeight));
 
         return messageScroll;
