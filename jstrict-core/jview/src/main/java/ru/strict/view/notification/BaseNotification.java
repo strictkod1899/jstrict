@@ -1,41 +1,39 @@
-package ru.strict.view.swing;
+package ru.strict.view.notification;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import lombok.experimental.FieldDefaults;
-import ru.strict.view.boundary.Notification;
+import ru.strict.validate.CommonValidator;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 abstract class BaseNotification implements Notification {
+    protected final Params params;
 
-    @Getter
     final String message;
-    @Getter
-    final Params params;
+    final NotificationListener notificationListener;
 
     JDialog dialogFrame;
     JFrame frame;
 
-    public BaseNotification(String message) {
-        this(message, false);
-    }
+    public BaseNotification(String message, Params params, NotificationListener notificationListener) {
+        CommonValidator.throwIfNull(message, "message");
+        CommonValidator.throwIfNull(params, "params");
+        CommonValidator.throwIfNull(notificationListener, "notificationListener");
 
-    public BaseNotification(String message, boolean dialog) {
         this.message = message;
-        this.params = Params.createDefault(dialog);
+        this.params = params;
+        this.notificationListener = notificationListener;
     }
 
     @Override
@@ -96,7 +94,7 @@ abstract class BaseNotification implements Notification {
 
         var closeButtonActions = new ArrayList<ActionListener>();
         closeButtonActions.add((event) -> hide());
-        closeButtonActions.addAll(params.getCustomCloseButtonActions());
+        closeButtonActions.add((event) -> notificationListener.close());
 
         var buttonsPanel = new JPanel();
         var buttonsPanelLayout = new GridBagLayout();
@@ -174,7 +172,6 @@ abstract class BaseNotification implements Notification {
     @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class Params {
         final boolean dialog;
-        final List<ActionListener> customCloseButtonActions;
         final List<CustomButtonParams> customButtons;
         Dimension size;
         Color background;
@@ -186,11 +183,10 @@ abstract class BaseNotification implements Notification {
 
         private Params(boolean dialog) {
             this.dialog = dialog;
-            this.customCloseButtonActions = new ArrayList<>();
             this.customButtons = new ArrayList<>();
         }
 
-        private static Params createDefault(boolean dialog) {
+        public static Params createDefault(boolean dialog) {
             var params = new Params(dialog);
 
             params.size = new Dimension(300, 120);
@@ -202,10 +198,6 @@ abstract class BaseNotification implements Notification {
             params.buttonsAlignment = ButtonsAlignment.HORIZONTAL;
 
             return params;
-        }
-
-        public void addCustomCloseButtonAction(ActionListener actionListener) {
-            customCloseButtonActions.add(actionListener);
         }
 
         public void addCustomButton(CustomButtonParams customButtonParams) {

@@ -263,6 +263,8 @@ public class ReflectionUtil {
                 } else {
                     return null;
                 }
+            } catch (InvocationTargetException ex) {
+                throw new RuntimeException(ex.getTargetException());
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -304,6 +306,8 @@ public class ReflectionUtil {
                 if (foundedMethod.getParameterCount() == argsCount) {
                     foundedMethod.invoke(source, args);
                 }
+            } catch (InvocationTargetException ex) {
+                throw new RuntimeException(ex.getTargetException());
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
